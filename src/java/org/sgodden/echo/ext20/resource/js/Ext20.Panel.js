@@ -59,12 +59,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
         
         if (update.hasAddedChildren()) {
-            //alert("added children");
             // hide ourselves to prevent progressive rendering in slower browsers
             this.extComponent.getEl().dom.style.visibility = 'hidden';
-            //this.extComponent.hide();
-            
-            //alert("Hid it");
             
             // and add a server update complete listener if we haven't already
             if (this._serverUpdateCompleteRef == null) {
@@ -274,15 +270,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     _conditionalDoLayout: function(children) {
         
-        //if (this._parentElement != null) {
-        //    return;
-        //}
-        
         var done = false;
         for (var i = 0; i < children.length && !done; i++) {
             var layout = children[i].get("layout");
             if ( layout != null && layout instanceof EchoExt20.BorderLayout ) {
-                //alert("Calling doLayout on " + this.component.renderId);
                 this.extComponent.doLayout();
                 done = true;
             }
@@ -330,7 +321,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                   )
                   && !(child instanceof EchoExt20.Toolbar) // toolbars handled separately
                 ) {
-                EchoRender.renderComponentAdd(update, child, null); // null because ext components create the necessary extra divs themselves
+                EchoRender.renderComponentAdd(update, child, null); 
                 
                 // add the ext component created by the peer to the child items array
                 var childExtComponent = child.peer.extComponent;
