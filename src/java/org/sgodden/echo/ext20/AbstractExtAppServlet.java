@@ -16,7 +16,6 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import org.sgodden.echo.ext20.testapp.*;
 import java.util.ArrayList;
 import java.util.List;
 

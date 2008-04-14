@@ -14,7 +14,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
-EchoExt20.TabbedPane = Core.extend(EchoExt20.ExtComponent, {
+EchoExt20.TabbedPane = Core.extend(EchoExt20.Panel, {
     
     $load: function() {
         EchoApp.ComponentFactory.registerType("Ext20TabbedPane", this);
@@ -37,27 +37,34 @@ EchoExt20.TabbedPane = Core.extend(EchoExt20.ExtComponent, {
 /**
 * Sync peer for tabbed panes.
 */
-EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.ExtComponentSync, {
+EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
     
     $load: function() {
         EchoRender.registerPeer("Ext20TabbedPane", this);
     },
 	
+	hideWhenAddingChildren: false,
+	
 	_tabCount: 0,
-    
-    createExtComponent: function(update, options) {
-        options['activeTab'] = this.component.get("activeTabIndex");
-        options['buttons'] = this._createButtons(update);
+	
+	// used to prevent us notifying the server of a tab change they just told us about
+	_tabChangeNotificationSuspended: false,
+	
+	newExtComponentInstance: function(options) {
         
         var ret = new Ext.TabPanel(options);
         ret.on(
 			"beforetabchange", 
 			function(tabPanel, newTab, oldTab){
-				this.component.set(
-					"activeTabIndex",
-					newTab.echoComponent.tabIndex
-					);
-				this.component.doActiveTabChange();
+				if (!(this._tabChangeNotificationSuspended)) {
+					this.component.set(
+						"activeTabIndex",
+						newTab.echoComponent.childIndex
+						);
+					this.component.doActiveTabChange();
+				}
+				
+				this._tabChangeNotificationSuspended = false;
 			},
 			this
 		);
@@ -69,56 +76,27 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.ExtComponentSync, {
 			this
 		);
         
-        this._createChildItems(ret, update);
-        
         return ret;
-        
     },
     
-    _createButtons: function(update) {
-        var buttons = [];
-        for (var i = 0; i < this.component.getComponentCount(); ++i) {
-            var child = this.component.getComponent(i);
-            if (child instanceof EchoExt20.Button) {
-                EchoRender.renderComponentAdd(update, child, null);
-                var button = child.peer.extComponent;
-                if (button == null) {
-                    throw new Error("No child ext component was created during renderAdd for component type: " + child.componentType);
-                }
-                else {
-                    buttons.push(button)
-                }
-            }
-        }
-        return buttons;
+    createExtComponent: function(update, options) {
+        options['activeTab'] = this.component.get("activeTabIndex");
+        return EchoExt20.PanelSync.prototype.createExtComponent.call(
+             this, update, options);
     },
-    
-    _createChildItems: function(tabPanel, update) {
-        for (var i = 0; i < this.component.getComponentCount(); ++i) {
-            var child = this.component.getComponent(i);
-            if ( !(child instanceof EchoExt20.Button) ) {
-                EchoRender.renderComponentAdd(update, child, null);
-                
-                // add the ext component created by the peer to the child items array
-                var childExtComponent = child.peer.extComponent;
-				
-				// we need to be able to get back to the tab index later
-				
-                if (childExtComponent == null) {
-                    throw new Error("No child ext component was created during renderAdd for component type: " + child.componentType);
-                } 
-                else {
-                    tabPanel.add(childExtComponent);
-					
-					// we need to be able to get back to the tab index later
-					child.tabIndex = i; 
-					childExtComponent.echoComponent = child;
-                }
-            }
-        }    	
-    },
-    
-	// FIXME - adding tabs during an update
-    renderUpdate: function(){}
+	
+	renderUpdate: function(update) {
+		EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
+		
+		if (update.getUpdatedProperty("activeTabIndex") != null) {
+			var activeTabIndex = this.component.get("activeTabIndex");
+			var activeChild = this.component.getComponent(activeTabIndex);
+			var activeExtComponent = activeChild.peer.extComponent;
+		
+			this._tabChangeNotificationSuspended = true;
+		
+			this.extComponent.setActiveTab(activeExtComponent);
+		}
+	}
     
 });

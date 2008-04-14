@@ -41,6 +41,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     $virtual: {
+		
+		// whether the component should be hidden when adding children, to avoid
+		// noticeable progressive updates on slower rendering browsers such as FF.
+		hideWhenAddingChildren: true,
+		
         newExtComponentInstance: function(options) {
             return new Ext.Panel(options);
         }
@@ -60,13 +65,15 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         if (update.hasAddedChildren()) {
             // hide ourselves to prevent progressive rendering in slower browsers
-            this.extComponent.getEl().dom.style.visibility = 'hidden';
-            
-            // and add a server update complete listener if we haven't already
-            if (this._serverUpdateCompleteRef == null) {
-                this._serverUpdateCompleteRef = Core.method(this, this._serverUpdateComplete);
-                this.client.addServerUpdateCompleteListener(this._serverUpdateCompleteRef);
-            }
+			if (this.hideWhenAddingChildren) {
+	            this.extComponent.getEl().dom.style.visibility = 'hidden';
+	            
+	            // and add a server update complete listener to show ourselves again, if we haven't already
+	            if (this._serverUpdateCompleteRef == null) {
+	                this._serverUpdateCompleteRef = Core.method(this, this._serverUpdateComplete);
+	                this.client.addServerUpdateCompleteListener(this._serverUpdateCompleteRef);
+	            }
+			}
             
             this._createChildItems(update, update.getAddedChildren());
             this._conditionalDoLayout(update.getAddedChildren());
@@ -99,8 +106,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     _serverUpdateComplete: function() {
         this.extComponent.getEl().dom.style.visibility = 'visible';
-        //this.extComponent.show();
-        //this.extComponent.doLayout();
     },
     
     createExtComponent: function(update, options) {
@@ -176,10 +181,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 throw new Error("Unsupported layout");
             }
         }
-//        else {
-//            options['layout'] = 'table';
-//            options['layoutConfig'] = {columns: 1};
-//        }
         
         var children = this._createChildComponentArrayFromComponent();
         
@@ -329,10 +330,20 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                     throw new Error("No child ext component was created during renderAdd for component type: " + child.componentType);
                 } 
                 else {
+					// make sure we can get back to the echo component from the ext component
+					childExtComponent.echoComponent = child;
                     this.extComponent.add(childExtComponent);
                 }
             }
         }
+		
+		// now make sure that the child indexes are set, so that, for instance, when a certain
+		// tab is selected in a tabbed pane, it can work out what the index of the displayed component
+		// is.
+		for (var i = 0; i < this.component.getComponentCount(); i++) {
+			var child = this.component.getComponent(i);
+			child.childIndex = i;
+		}
     },
     
     _createWindow: function(update, child) {

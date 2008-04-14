@@ -154,6 +154,7 @@ public class ApplicationContentPane
      */
     private TabbedPane createTabbedPane() {
         TabbedPane ret = new TabbedPane();
+        ret.setRenderId("mainTabs");
 
         Panel centerPanel = new Panel();
         centerPanel.setHtml("<h1>Welcome</h1>" +
@@ -174,6 +175,8 @@ public class ApplicationContentPane
         ret.add(new WindowTest());
         
         ret.add(new PortalTest());
+        
+        ret.add(new TabbedPaneTest());
 
         return ret;
     }

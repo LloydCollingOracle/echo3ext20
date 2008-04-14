@@ -80,7 +80,6 @@ public class TabbedPane extends ExtComponent {
     @Override
     public void processInput(String inputName, Object inputValue) {
         if (ACTIVE_TAB_INDEX_PROPERTY.equals(inputName)) {
-        	log.info("Tab index changed to: " + inputValue);
             setActiveTabIndex((Integer)inputValue);
         }
         /* 

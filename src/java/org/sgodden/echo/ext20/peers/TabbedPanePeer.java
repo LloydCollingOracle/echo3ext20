@@ -47,6 +47,7 @@ extends ExtComponentPeer {
                 return ((TabbedPane) component).hasTabChangeListeners();
             }
         });
+        addOutputProperty(TabbedPane.ACTIVE_TAB_INDEX_PROPERTY);
 
     }
 
