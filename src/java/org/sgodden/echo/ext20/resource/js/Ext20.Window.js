@@ -63,8 +63,7 @@ EchoExt20.WindowSync = Core.extend(EchoExt20.PanelSync, {
     
     _handleWindowClosingEvent: function() {
     	this.component.doWindowClosing();
-        // ensure that the root component knows that this window is no longer displaying
-        EchoExt20.ExtComponentSync.currentWindow = null; // FIXME - multiple open windows not catered for
+		
         // we don't want ext to close the window - server-side code has to do it
         return false;
     }

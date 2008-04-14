@@ -69,8 +69,6 @@ EchoExt20.DateFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     renderDisplay: function(update) {
         this.extComponent.setValue(this.component.get("date"));
-    },
-    
-    renderUpdate: function(){}
+    }
     
 });

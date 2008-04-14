@@ -48,7 +48,7 @@ EchoExt20.ExtComponentSync = Core.extend(EchoRender.ComponentSync, {
     },
     
     $static: {
-        currentWindow: null
+        openWindows: []
     },
     
     /**
@@ -66,12 +66,40 @@ EchoExt20.ExtComponentSync = Core.extend(EchoRender.ComponentSync, {
      * DOM element we have been asked to render ourself into.
      */
     _parentElement: null,
+	
+	/**
+	 * Whether this panel is the root ext container of
+	 * the browser window, or an open window.
+	 */
+	_isRootContainer: false,
+
+	/**
+	 * Whether updates to child layouts occurred
+	 * on this server update.
+	 */
+	_childLayoutUpdatesOccurred: false,
     
     /**
      * If we are the root ext container, then we have to perform special
      * processing once all rendering has been done.
      */
     _rootServerUpdateCompleteRef: null,
+	
+	/**
+	 * Notifies the root container that layout changes
+	 * occurred, and that it therefore needs to redo its
+	 * layout.
+	 */
+	_notifyLayoutChanges: function() {
+		if (this._isRootContainer) {
+			this._childLayoutUpdatesOccurred = true;
+		}
+		else {
+			// not the root, tell the parent
+			this.component.parent.peer._notifyLayoutChanges();
+		}
+	},
+
     
     renderAdd: function(update, parentElement) {
         /*
@@ -87,6 +115,20 @@ EchoExt20.ExtComponentSync = Core.extend(EchoRender.ComponentSync, {
         render to a DOM element which has been added to the DOM tree,
         and this is only guaranteed to be true during renderDisplay.
         */
+		
+		/*
+		 * We need to know if we are the root container, so that we can
+		 * perform required layout opertaions on server update completion
+		 * if we or any of our children have had layout changes.
+		 */
+		if ( (this instanceof EchoExt20.WindowSync)
+			  || !(this.component.parent.peer.isExtComponent) 
+			) {
+			
+			this._isRootContainer = true;
+            this._rootServerUpdateCompleteRef = Core.method(this, this._rootServerUpdateComplete);
+            this.client.addServerUpdateCompleteListener(this._rootServerUpdateCompleteRef);
+		}
         
         if (this.component.parent.peer.isExtComponent) {
             options = {};
@@ -140,27 +182,24 @@ EchoExt20.ExtComponentSync = Core.extend(EchoRender.ComponentSync, {
             this._parentElement = null;
         }
         else {
-            this._parentElement = parentElement; // rendering will be deferred until renderDisplay
-            // this is the top-level container, so we want to be told about
-            // updates so that we can re-render ourselves properly.
-            this._rootServerUpdateCompleteRef = Core.method(this, this._rootServerUpdateComplete);
-            this.client.addServerUpdateCompleteListener(this._rootServerUpdateCompleteRef);
+            /*
+             * Our parent was not an ext container, so we need to just note
+             * the parent element here, and defer component creation until
+             * renderDisplay, when we are definitely in the DOM.
+             */
+            this._parentElement = parentElement; 
         }
     },
     
     /**
-     * Performs doLayout on the root component once the server update is complete.
-     * <p/>
-     * TODO - don't do this if there were no adds / removes in the server update
+     * Use by root containers to redo their layout if child
+     * layout updates occurred.
      */
     _rootServerUpdateComplete: function() {
-        if (EchoExt20.ExtComponentSync.currentWindow == null) {
-            this.extComponent.doLayout();
-        }
-        else {
-            EchoExt20.ExtComponentSync.currentWindow.doLayout();
-        }
-        
+        if (this._childLayoutUpdatesOccurred) {
+			this.extComponent.doLayout();
+			this._childLayoutUpdatesOccurred = false;
+		}
     },
         
     /**
@@ -247,6 +286,11 @@ EchoExt20.ExtComponentSync = Core.extend(EchoRender.ComponentSync, {
     },
     
     renderUpdate: function(update) {
+		
+		if (update.hasAddedChildren() || update.hasRemovedChildren()) {
+			this._notifyLayoutChanges();
+		}
+		
         if (update.hasUpdatedProperties()) {
             var alignToUpdate = update.getUpdatedProperty("alignTo");
             if (alignToUpdate != null) {

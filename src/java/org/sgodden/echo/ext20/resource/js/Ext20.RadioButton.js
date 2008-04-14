@@ -59,8 +59,6 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     _handleBlurEvent: function() {
         this.component.set("selected", this.extComponent.getValue());
-    },
-    
-    renderUpdate: function(){}
+    }
     
 });

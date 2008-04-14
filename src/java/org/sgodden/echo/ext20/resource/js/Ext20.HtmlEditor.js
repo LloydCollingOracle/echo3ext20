@@ -56,7 +56,7 @@ EchoExt20.HtmlEditorSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     renderUpdate: function(update){
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
-	this.extComponent.setValue(this.component.get("text"));
+		this.extComponent.setValue(this.component.get("text"));
     }
 
 });
