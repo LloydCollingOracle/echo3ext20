@@ -39,6 +39,7 @@ import org.sgodden.echo.ext20.grid.ColumnModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
+import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
 /**
@@ -54,21 +55,9 @@ public class UserListPanel
     private Object[][] data = makeData();
 
     public UserListPanel() {
-        super(new BorderLayout());
+        super(new FitLayout());
         setBorder(false);
         setRenderId("userList");
-
-        final Panel filterOptions = new Panel(new TableLayout(2));
-        filterOptions.setBorder(false);
-        filterOptions.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
-        add(filterOptions);
-
-        final TextField tf = new TextField();
-        tf.setEmptyText("Enter search text");
-        filterOptions.add(tf);
-
-        Button button = new Button("Search");
-        filterOptions.add(button);
 
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
         cols.add(new ColumnConfiguration("User ID", "userid"));
@@ -84,14 +73,11 @@ public class UserListPanel
         userGridPanel.setToolbar(makeToolbar());
         add(userGridPanel);
 
-        userGridPanel.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
-
         addKeyPressListener("enter", new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 log.info("Enter key was pressed");
             }
         });
-
 
     }
 
