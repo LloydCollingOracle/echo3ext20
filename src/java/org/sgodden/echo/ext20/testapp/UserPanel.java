@@ -36,8 +36,6 @@ public class UserPanel
     
     private static final transient Log log = LogFactory.getLog(UserPanel.class);
     
-    private boolean rendered = false;
-    
     public UserPanel(){
         super(new FitLayout());
         setTitle("Users");
@@ -48,10 +46,7 @@ public class UserPanel
      * @see org.sgodden.echo.ext20.DeferredUiCreate#createUI()
      */
 	public void createUI() {
-		if (!rendered) {
-    		rendered = true;
-    		switchToListPanel();
-		}
+   		switchToListPanel();
 	}
     
     /**

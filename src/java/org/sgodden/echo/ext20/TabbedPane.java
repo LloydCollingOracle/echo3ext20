@@ -17,6 +17,8 @@
 package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
+import java.util.HashSet;
+import java.util.Set;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
@@ -42,6 +44,7 @@ public class TabbedPane extends ExtComponent {
 	public static final String ACTIVE_TAB_CHANGE_EVENT = "activeTabChangeEvent";
 	public static final String TAB_CHANGE_LISTENERS_CHANGED_PROPERTY = "tabChangeListeners";
 	
+	private Set<String> initialisedChildIds = new HashSet<String>();
 	
 	public TabbedPane() {
 		super();
@@ -53,7 +56,11 @@ public class TabbedPane extends ExtComponent {
 				Component c = getComponent(getActiveTabIndex());
 				// if it's a deferred ui component, tell it to create it now
 				if (c instanceof DeferredUiCreate) {
-					((DeferredUiCreate)c).createUI();
+					// ensure we don't ask children to create their UI more than once.
+					if (!(initialisedChildIds.contains(c.getRenderId()))) {
+						((DeferredUiCreate)c).createUI();
+						initialisedChildIds.add(c.getRenderId());
+					}
 				}
 			}
 		});
@@ -128,6 +135,12 @@ public class TabbedPane extends ExtComponent {
             }
             ((ActionListener) listeners[i]).actionPerformed(e);
         }
+    }
+    
+    @Override
+    public void remove(Component c) {
+    	super.remove(c);
+    	initialisedChildIds.remove(c.getRenderId());
     }
 
 }

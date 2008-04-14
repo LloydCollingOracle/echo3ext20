@@ -24,54 +24,49 @@ import org.sgodden.echo.ext20.layout.ColumnLayoutData;
 
 /**
  * Adds a test for the portal component.
+ * 
  * @author sgodden
  */
-public class PortalTest 
-        extends Portal 
-        implements DeferredUiCreate {
-    
-	private boolean rendered = false;
-	
-    public PortalTest(){
-        super();
-        setTitle("Portal test");
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see org.sgodden.echo.ext20.DeferredUiCreate#createUI()
-     */
-    public void createUI() {
-    	if (!rendered) {
-        	rendered = true;
-            addComponents();
-    	}
-    }
-    
-    private void addComponents(){
-        PortalColumn col1 = new PortalColumn();
-        add(col1);
-        col1.setLayoutData(new ColumnLayoutData(.5));
-        col1.setPadding("5px 5px 0 5px");
-        
-        col1.add(makePortlet("Portlet 1", "Portlet 1"));
-        col1.add(makePortlet("Portlet 2", "Portlet 2"));
-        
-        PortalColumn col2 = new PortalColumn();
-        add(col2);
-        col2.setLayoutData(new ColumnLayoutData(.5));
-        col2.setPadding("5px 5px 0 0");
-        col2.add(makePortlet("Portlet 1", "Portlet 1"));
-        col2.add(makePortlet("Portlet 2", "Portlet 2"));
-    }
-    
-    private Portlet makePortlet(String title, String html) {
-        Portlet ret = new Portlet();
-        ret.setTitle(title);
-        ret.setHtml(html);
-        ret.setPadding("5px 5px 5px 5px");
-        
-        return ret;
-    }
+public class PortalTest extends Portal implements DeferredUiCreate {
+
+	public PortalTest() {
+		super();
+		setTitle("Portal test");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sgodden.echo.ext20.DeferredUiCreate#createUI()
+	 */
+	public void createUI() {
+		addComponents();
+	}
+
+	private void addComponents() {
+		PortalColumn col1 = new PortalColumn();
+		add(col1);
+		col1.setLayoutData(new ColumnLayoutData(.5));
+		col1.setPadding("5px 5px 0 5px");
+
+		col1.add(makePortlet("Portlet 1", "Portlet 1"));
+		col1.add(makePortlet("Portlet 2", "Portlet 2"));
+
+		PortalColumn col2 = new PortalColumn();
+		add(col2);
+		col2.setLayoutData(new ColumnLayoutData(.5));
+		col2.setPadding("5px 5px 0 0");
+		col2.add(makePortlet("Portlet 1", "Portlet 1"));
+		col2.add(makePortlet("Portlet 2", "Portlet 2"));
+	}
+
+	private Portlet makePortlet(String title, String html) {
+		Portlet ret = new Portlet();
+		ret.setTitle(title);
+		ret.setHtml(html);
+		ret.setPadding("5px 5px 5px 5px");
+
+		return ret;
+	}
 
 }

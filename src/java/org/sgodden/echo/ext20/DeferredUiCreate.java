@@ -13,7 +13,10 @@ package org.sgodden.echo.ext20;
 public interface DeferredUiCreate {
 	
 	/**
-	 * Instructs the component to create the UI (to add its inner components). 
+	 * Instructs the component to create the UI (to add its inner components).
+	 * <p/>
+	 * This method will only be called once.  It is the container's responsibility
+	 * to ensure this. 
 	 */
 	public void createUI();
 
