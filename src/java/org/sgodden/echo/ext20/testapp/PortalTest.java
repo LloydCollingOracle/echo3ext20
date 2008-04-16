@@ -22,14 +22,12 @@ import nextapp.echo.app.event.ActionListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.DeferredUiCreate;
-import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.Portal;
 import org.sgodden.echo.ext20.PortalColumn;
 import org.sgodden.echo.ext20.Portlet;
 import org.sgodden.echo.ext20.Tool;
 import org.sgodden.echo.ext20.Window;
 import org.sgodden.echo.ext20.layout.ColumnLayoutData;
-import org.sgodden.echo.ext20.layout.FitLayout;
 
 /**
  * Adds a test for the portal component.
