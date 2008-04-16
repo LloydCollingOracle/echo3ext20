@@ -26,6 +26,11 @@ import org.sgodden.echo.ext20.AbstractExtAppServlet;
  *
  */
 public class AppServlet extends AbstractExtAppServlet {
+	
+	public AppServlet(){
+		super();
+		addCssFileName("resources/local/localstyle.css");
+	}
 
     public ApplicationInstance newApplicationInstance() {
         return new AppInstance();

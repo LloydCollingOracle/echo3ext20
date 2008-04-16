@@ -166,6 +166,7 @@ public class UserListPanel
 
         MenuItem item1 = new MenuItem("Item 1");
         ret.add(item1);
+        item1.setIconClass("icon-folder-add");
 
         item1.addActionListener(new ActionListener() {
 

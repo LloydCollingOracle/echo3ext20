@@ -33,6 +33,7 @@ public abstract class AbstractButton
     public static final String ICON_URL_PROPERTY = "iconUrl";
     public static final String INPUT_ACTION = "action";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
+    public static final String ICON_CLASS_PROPERTY="iconClass";
     
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
 
@@ -82,6 +83,15 @@ public abstract class AbstractButton
      */
     public void setIconUrl(String iconUrl) {
         setProperty(ICON_URL_PROPERTY, iconUrl);
+    }
+    
+    /**
+     * Sets a css class to be used to provide the icon
+     * for the button.
+     * @param iconClass the css style to provide the icon for the button.
+     */
+    public void setIconClass(String iconClass) {
+    	setProperty(ICON_CLASS_PROPERTY, iconClass);
     }
     
     /**

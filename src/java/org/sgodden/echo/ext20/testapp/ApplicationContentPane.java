@@ -176,6 +176,8 @@ public class ApplicationContentPane
         ret.add(new PortalTest());
         
         ret.add(new TabbedPaneTest());
+        
+        ret.add(new RelativePositioningTest());
 
         return ret;
     }

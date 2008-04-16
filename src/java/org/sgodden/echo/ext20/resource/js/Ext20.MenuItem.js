@@ -54,7 +54,12 @@ EchoExt20.MenuItemSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     createExtComponent: function(update, options) {
-    
+        
+		if (this.component.get("iconClass") != null) {
+			alert(this.component.get("iconClass"));
+			options['iconCls'] = this.component.get("iconClass");
+		}
+
     	options['text'] = this.component.get("text");
     
     	var extComponent = this.newExtComponentInstance(options);
