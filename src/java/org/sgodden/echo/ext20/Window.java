@@ -22,12 +22,18 @@ import org.sgodden.echo.ext20.layout.Layout;
 
 /**
  * A floating window.
+ * <p/>
+ * <b>Important</b> - by default, if no window listeners are added to the window, it will invoke {@link #close()}
+ * when the user clicks the close icon.  However, if any external window listeners are added via
+ * the {@link #addWindowListener(WindowListener)} method, this default behaviour is removed,
+ * and it becomes the reponsibility of the external listeners to close the window.
  * 
- * @author goddens
+ * @author sgodden
  *
  */
 public class Window 
-        extends Panel {
+        extends Panel 
+        implements WindowListener {
 
     private static final long serialVersionUID = 20080102L;
     
@@ -53,6 +59,20 @@ public class Window
     }
     
     /**
+     * Closes the window, by removing it from its parent container.
+     */
+    public void close() {
+    	getParent().remove(this);
+    }
+    
+    @Override
+    public void init(){
+    	super.init();
+    	getEventListenerList().addListener(WindowListener.class, this);
+        firePropertyChange(WINDOW_LISTENERS_CHANGED_PROPERTY, null, this);
+    }
+    
+    /**
      * Sets whether the window is modal.
      * @param modal whether the window is modal.
      */
@@ -61,10 +81,13 @@ public class Window
     }
     
     /**
-     * Adds the specified window listener.
+     * Adds the specified window listener, removing the default window listener behaviour.
+     * <p/>
+     * <b>Note that it becomes your responsibility to close the window if you add any listeners</b>.
      * @param l the window listener to add.
      */
     public void addWindowListener(WindowListener l) {
+        getEventListenerList().removeListener(WindowListener.class, this);
         getEventListenerList().addListener(WindowListener.class, l);
         firePropertyChange(WINDOW_LISTENERS_CHANGED_PROPERTY, null, l);
     }
@@ -116,6 +139,11 @@ public class Window
         }
     }
 
-
+    /**
+     * Default window closing handler, which simply closes the window.
+     */
+	public void windowClosing(ActionEvent event) {
+		this.close();
+	}
     
 }

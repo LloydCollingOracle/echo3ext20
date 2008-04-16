@@ -57,9 +57,13 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     createExtComponent: function(update, options) {
     
 		if (this.component.get("iconClass") != null) {
-			options['iconClass'] = this.component.get("iconClass");
+			options['iconCls'] = this.component.get("iconClass");
 		}
     	options['text'] = this.component.get("text");
+		
+		if (this.component.get("tooltipText") != null) {
+			options['tooltip'] = this.component.get("tooltipText");
+		}
          
         // see if we have a menu child item
         if (this.component.getComponentCount() == 1) {

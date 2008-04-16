@@ -25,7 +25,11 @@ EchoExt20.Panel = Core.extend(EchoExt20.ExtComponent, {
     
     doKeyPress: function() {
         this.fireEvent({type: "keyPress", source: this});
-    }
+    },
+	
+	doToolClick: function() {
+		this.fireEvent({type: "toolClick", source: this});
+	}
     
 });
 
@@ -71,8 +75,14 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             for (var i = 0; i < removedChildren.length; i++) {
                 // all children have to be ext components anyway
                 var child = removedChildren[i];
-                var childExtComponent = child.peer.extComponent;
-                this.extComponent.remove(childExtComponent);
+				/*
+				 * Not if it is a window, because it was never
+				 * added to the parent ext container in the first place.
+				 */
+				if (!(child instanceof EchoExt20.Window)) {
+	                var childExtComponent = child.peer.extComponent;
+	                this.extComponent.remove(childExtComponent);
+				}
             }
         }
         
@@ -172,6 +182,47 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (width != null) {
             options['width'] = width;
         }
+		
+		/*
+		 * Tool ids are passed as a comma-separated string.
+		 * These are the little tool icons that appear in the title
+		 * bar of the panel.
+		 * For a list of allowed tool names, see the documentation
+		 * for Ext.Panel
+		 */
+		var toolIds = this.component.get("toolIds");
+		if (toolIds != null) {
+			
+			toolConfigs = [];
+			
+			var toolIdArray = [];
+			if (toolIds.indexOf(',') != -1) {
+				toolIdArray = toolIds.split(',');
+			}
+			else {
+				toolIdArray.push(toolIds);
+			}
+
+			for (var i = 0; i < toolIdArray.length; i++) {
+				var toolId = toolIdArray[i];
+				
+				var scopeHolder = new Object();
+				scopeHolder.component = this.component;
+				scopeHolder.toolId = toolId;
+				
+				var toolConfig = {
+					id: toolId,
+					handler: function() {
+						this.component.set("toolIdClicked", this.toolId);
+						this.component.doToolClick();
+					},
+					scope: scopeHolder
+				}
+				toolConfigs.push(toolConfig);
+			}
+			
+			options['tools'] = toolConfigs;
+		}
 
         // now handle the layout
         var layout = this.component.get("layout");

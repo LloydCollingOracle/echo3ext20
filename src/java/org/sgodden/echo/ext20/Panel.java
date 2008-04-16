@@ -25,6 +25,8 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.layout.Layout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
@@ -38,28 +40,36 @@ public class Panel extends ExtComponent {
 
     private static final long serialVersionUID = 20080102L;
     
-    public static final String PROPERTY_PADDING = "padding";
-    public static final String PROPERTY_BORDER = "border";
+    private static final transient Log log = LogFactory.getLog(Panel.class);
     
-    public static final String LAYOUT_PROPERTY = "layout";
-    public static final String TITLE_PROPERTY = "title";
-    public static final String SPLIT_PROPERTY = "split";
+    public static final String PROPERTY_BORDER = "border";
+    public static final String PROPERTY_PADDING = "padding";
+    
     public static final String COLLAPSIBLE_PROPERTY = "collapsible";
-    public static final String WIDTH_PROPERTY = "width";
     public static final String HEIGHT_PROPERTY = "height";
     public static final String HTML_PROPERTY = "html";
+    public static final String LAYOUT_PROPERTY = "layout";
+    public static final String SPLIT_PROPERTY = "split";
+    public static final String TITLE_PROPERTY = "title";
+    public static final String WIDTH_PROPERTY = "width";
+    public static final String TOOL_IDS_PROPERTY = "toolIds";
     
-    public static final String INPUT_KEYPRESS_ACTION = "keyPress";
-    public static final String KEYPRESS_LISTENERS_CHANGED_PROPERTY = "keyPressListeners";
     public static final String INPUT_KEY_PRESSED = "keyPressed";
+    public static final String INPUT_KEYPRESS_ACTION = "keyPress";
+    public static final String INPUT_TOOLCLICK_ACTION = "toolClick";
+    public static final String INPUT_TOOLID_CLICKED = "toolIdClicked";
+    public static final String KEYPRESS_LISTENERS_CHANGED_PROPERTY = "keyPressListeners";
     public static final String REGISTERED_KEY_PRESSES_PROPERTY="registeredKeyPresses";
+    public static final String TOOLCLICK_LISTENERS_CHANGED_PROPERTY = "toolclickListeners";
     
     private Map<String, Set<ActionListener>> keyPressListeners;
+    private Map<Tool, Set<ActionListener>> toolListeners;
     
     private Toolbar topToolbar;
     private Toolbar bottomToolbar;
     
     private String keyPressed;
+    private String toolIdClicked;
 
     public Panel() {
         this(null, null);
@@ -184,6 +194,41 @@ public class Panel extends ExtComponent {
     }
     
     /**
+     * Adds a listener to repond to the click event of the specified tool,
+     * also adding the tool to the panel if it does not already exist.
+     * <p/>
+     * Tools are small (8x8) icons added to the title bar of a panel.
+     * <p/>
+     * See the documentation for Ext.Panel.tools for further information.
+     * 
+     * @param tool the tool to add.
+     * @param listener the listener to respond to the click event.
+     */
+    public void addToolListener(Tool tool, ActionListener listener) {
+    	if (toolListeners == null) {
+    		toolListeners = new HashMap<Tool, Set<ActionListener>>();
+    	}
+    	
+    	Set<ActionListener> listeners = toolListeners.get(tool);
+    	if (listeners == null) {
+    		listeners = new HashSet<ActionListener>();
+    		toolListeners.put(tool, listeners);
+    	}
+    	
+    	listeners.add(listener);
+    	
+    	StringBuffer sb = new StringBuffer();
+    	for (Tool theTool : toolListeners.keySet()) {
+    		if (sb.length() > 0) {
+    			sb.append(',');
+    		}
+    		sb.append(theTool.toString().toLowerCase());
+    	}
+    	setProperty(TOOL_IDS_PROPERTY, sb.toString());
+    	firePropertyChange(TOOLCLICK_LISTENERS_CHANGED_PROPERTY, null, listener);
+    }
+    
+    /**
      * Sets the panel's top tool bar.
      * @param toolbar the tool bar to put at the top of the panel.
      */
@@ -218,8 +263,14 @@ public class Panel extends ExtComponent {
         if (INPUT_KEY_PRESSED.equals(inputName)) {
             this.keyPressed = (String) inputValue;
         }
+        else if (INPUT_TOOLID_CLICKED.equals(inputName)) {
+            this.toolIdClicked = (String) inputValue;
+        }
         else if (INPUT_KEYPRESS_ACTION.equals(inputName)) {
             fireKeyEvent();
+        }
+        else if (INPUT_TOOLCLICK_ACTION.equals(inputName)) {
+            fireToolClickEvent();
         }
         else {
             super.processInput(inputName, inputValue);
@@ -283,6 +334,30 @@ public class Panel extends ExtComponent {
      */
     public boolean hasKeyPressListeners() {
         return (keyPressListeners != null && keyPressListeners.size() > 0);
+    }
+    
+    /**
+     * Returns whether any key tool listeners are registered on this component.
+     * @return true if there are any listeners registered, false if not.
+     */
+    public boolean hasToolListeners() {
+    	return (toolListeners != null && toolListeners.size() > 0);
+    }
+
+    /**
+     * Fires tool click events to registered listeners.
+     */
+    private void fireToolClickEvent() {
+    	Tool tool = Tool.valueOf(toolIdClicked.toUpperCase());
+        if (!(toolListeners.containsKey(tool))) {
+            throw new IllegalStateException("Too click event fired when no listener registered: " + toolIdClicked);
+        }
+        
+        ActionEvent e = new ActionEvent(this, toolIdClicked);
+        
+        for (ActionListener listener : toolListeners.get(tool)) {
+            listener.actionPerformed(e);
+        }
     }
     
 }

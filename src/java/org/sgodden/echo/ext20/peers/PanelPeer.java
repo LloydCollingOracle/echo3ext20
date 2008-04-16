@@ -47,6 +47,16 @@ public class PanelPeer
                     return ((Panel) component).hasKeyPressListeners();
                 }
         });
+        
+        addEvent(
+            new AbstractComponentSynchronizePeer.EventPeer(
+                    Panel.INPUT_TOOLCLICK_ACTION, 
+                    Panel.TOOLCLICK_LISTENERS_CHANGED_PROPERTY) {
+                @Override
+                public boolean hasListeners(Context context, Component component) {
+                    return ((Panel) component).hasToolListeners();
+                }
+        });
 
     }
 
@@ -67,6 +77,9 @@ public class PanelPeer
         if (Panel.INPUT_KEY_PRESSED.equals(propertyName)) {
             return String.class;
         }
+        if (Panel.INPUT_TOOLID_CLICKED.equals(propertyName)) {
+            return String.class;
+        }
         return null;
     }
 
@@ -78,6 +91,10 @@ public class PanelPeer
         if (propertyName.equals(Panel.INPUT_KEY_PRESSED)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
             clientUpdateManager.setComponentProperty(component, Panel.INPUT_KEY_PRESSED, newValue);
+        }
+        if (propertyName.equals(Panel.INPUT_TOOLID_CLICKED)) {
+            ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
+            clientUpdateManager.setComponentProperty(component, Panel.INPUT_TOOLID_CLICKED, newValue);
         }
     }
 

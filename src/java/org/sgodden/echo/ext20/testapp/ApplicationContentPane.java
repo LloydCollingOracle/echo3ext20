@@ -140,10 +140,10 @@ public class ApplicationContentPane
         imagePanel.setBorder(false);
         ret.add(imagePanel);
         
-        Panel suppliersPanel = new Panel();
+        Panel navigationPanel = new Panel();
         
-        suppliersPanel.setHtml("Suppliers");
-        ret.add(suppliersPanel);
+        navigationPanel.setHtml("Navigation will go here");
+        ret.add(navigationPanel);
 
         return ret;
     }

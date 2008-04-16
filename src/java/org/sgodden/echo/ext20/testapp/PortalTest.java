@@ -16,11 +16,20 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.DeferredUiCreate;
+import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.Portal;
 import org.sgodden.echo.ext20.PortalColumn;
 import org.sgodden.echo.ext20.Portlet;
+import org.sgodden.echo.ext20.Tool;
+import org.sgodden.echo.ext20.Window;
 import org.sgodden.echo.ext20.layout.ColumnLayoutData;
+import org.sgodden.echo.ext20.layout.FitLayout;
 
 /**
  * Adds a test for the portal component.
@@ -28,6 +37,8 @@ import org.sgodden.echo.ext20.layout.ColumnLayoutData;
  * @author sgodden
  */
 public class PortalTest extends Portal implements DeferredUiCreate {
+	
+	private static final transient Log log = LogFactory.getLog(PortalTest.class);
 
 	public PortalTest() {
 		super();
@@ -61,10 +72,32 @@ public class PortalTest extends Portal implements DeferredUiCreate {
 	}
 
 	private Portlet makePortlet(String title, String html) {
-		Portlet ret = new Portlet();
+		final Portlet ret = new Portlet();
 		ret.setTitle(title);
 		ret.setHtml(html);
 		ret.setPadding("5px 5px 5px 5px");
+		
+		ret.addToolListener(Tool.GEAR, new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				Window window = new Window("Gear tool pressed");
+				window.setModal(true);
+				window.setWidth(200);
+				window.setHeight(50);
+				window.setHtml("The gear tool was pressed");
+				ret.add(window);
+			}
+		});
+		
+		ret.addToolListener(Tool.CLOSE, new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				Window window = new Window("Close tool pressed");
+				window.setModal(true);
+				window.setWidth(200);
+				window.setHeight(50);
+				window.setHtml("The close tool was pressed");
+				ret.add(window);
+			}
+		});
 
 		return ret;
 	}

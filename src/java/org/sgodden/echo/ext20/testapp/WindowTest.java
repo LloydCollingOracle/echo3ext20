@@ -18,12 +18,12 @@ package org.sgodden.echo.ext20.testapp;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.Window;
-import org.sgodden.echo.ext20.WindowListener;
 import org.sgodden.echo.ext20.layout.FitLayout;
 
 /**
@@ -66,27 +66,13 @@ public class WindowTest
     }
     
     private TestWindow makeTestWindow() {
-        final TestWindow ret = new TestWindow();
-        
-        ret.addWindowListener(new WindowListener() {
-            public void windowClosing(ActionEvent event) {
-                WindowTest.this.remove(ret);
-            }
-        });
-        
+        TestWindow ret = new TestWindow();
         return ret;
     }
     
     private TestWindow makeModalTestWindow() {
-        final TestWindow ret = new TestWindow();
+        TestWindow ret = new TestWindow();
         ret.setModal(true);
-        
-        ret.addWindowListener(new WindowListener() {
-            public void windowClosing(ActionEvent event) {
-                WindowTest.this.remove(ret);
-            }
-        });
-        
         return ret;
     }
 

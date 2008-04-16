@@ -1,10 +1,14 @@
 .icon-folder-add {
-	background-image: url(../images/fam/icons/folder_add.png);
+	background-image: url(../images/fam/icons/folder_add.png) !important;
 }
 
 .icon-tab-add {
-	background-image: url(../images/fam/icons/folder_add.png);
+	background-image: url(../images/fam/icons/tab_add.png) !important;
 }
 .icon-tab-remove {
-	background-image: url(../images/fam/icons/folder_add.png);
+	background-image: url(../images/fam/icons/tab_delete.png) !important;
+}
+
+.icon-settings {
+	background-image: url(../images/fam/icons/cog.png) !important;
 }

@@ -34,6 +34,7 @@ public abstract class AbstractButton
     public static final String INPUT_ACTION = "action";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String ICON_CLASS_PROPERTY="iconClass";
+    public static final String TOOLTIP_TEXT_PROPERTY = "tooltipText";
     
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
 
@@ -92,6 +93,14 @@ public abstract class AbstractButton
      */
     public void setIconClass(String iconClass) {
     	setProperty(ICON_CLASS_PROPERTY, iconClass);
+    }
+    
+    /**
+     * Sets the passed text as the tool tip for the component.
+     * @param tooltip
+     */
+    public void setTooltip(String tooltip) {
+    	setProperty(TOOLTIP_TEXT_PROPERTY, tooltip);
     }
     
     /**

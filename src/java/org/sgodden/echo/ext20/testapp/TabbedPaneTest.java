@@ -60,6 +60,7 @@ public class TabbedPaneTest extends Panel implements DeferredUiCreate {
 
 		Button newTabButton = new Button("Add new tab");
 		northPanel.add(newTabButton);
+		newTabButton.setIconClass("icon-tab-add");
 		newTabButton.addActionListener(new ActionListener() {
 			private int index = 2;
 
