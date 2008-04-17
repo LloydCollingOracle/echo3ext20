@@ -99,6 +99,28 @@
             </classpath>
         </java>
     </target>
+	
+	<target name="mvn-install"
+			depends="jar"
+			description="Installs the jar into the local maven repository">
+		<exec executable="mvn">
+			<arg value="install:install-file"/>
+			<arg value="-DgroupId=org.sgodden"/>
+			<arg value="-DartifactId=echo3ext20"/>
+			<arg value="-Dversion=1.0-SNAPSHOT"/>
+			<arg value="-Dpackaging=jar"/>
+			<arg value="-Dfile=build${file.separator}echo3ext20.jar"/>
+		</exec>
+	</target>
+	
+	<target name="mvn-install-win"
+			depends="jar"
+			description="Installs the jar into the local maven repository (windows environment)">
+		<exec executable="cmd">
+			<arg value="/c"/>
+			<arg value="mvn install:install-file -DgroupId=org.sgodden -DartifactId=echo3ext20 -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=build${file.separator}echo3ext20.jar"/>
+		</exec>
+	</target>
     
     
 </project>
