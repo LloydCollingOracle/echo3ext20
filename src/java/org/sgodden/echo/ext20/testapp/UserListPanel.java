@@ -56,6 +56,7 @@ public class UserListPanel
         super(new FitLayout());
         setBorder(false);
         setRenderId("userList");
+        setTitle("User list");
 
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
         cols.add(new ColumnConfiguration("User ID", "userid"));

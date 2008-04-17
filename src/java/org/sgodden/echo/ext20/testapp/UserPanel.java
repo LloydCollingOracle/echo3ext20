@@ -36,9 +36,11 @@ public class UserPanel
     
     private static final transient Log log = LogFactory.getLog(UserPanel.class);
     
-    public UserPanel(){
+    public UserPanel(boolean setTitle){
         super(new FitLayout());
-        setTitle("Users");
+        if (setTitle) {
+        	setTitle("Grid and form");
+        }
     }
 
     /*

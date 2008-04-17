@@ -55,6 +55,7 @@ public class UserEditPanel
         setBorder(false);
         setPadding("5px");
         setRenderId("userFormPanel");
+        setTitle("Edit user");
 
         final TextField codeField = new TextField((String)data[1], "Code");
         codeField.setBlankAllowed(false);

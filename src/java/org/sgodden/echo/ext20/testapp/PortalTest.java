@@ -40,7 +40,7 @@ public class PortalTest extends Portal implements DeferredUiCreate {
 
 	public PortalTest() {
 		super();
-		setTitle("Portal test");
+		setTitle("Portal");
 	}
 
 	/*

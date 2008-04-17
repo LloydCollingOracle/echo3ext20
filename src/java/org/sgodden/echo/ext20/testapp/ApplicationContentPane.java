@@ -82,12 +82,6 @@ public class ApplicationContentPane
         outer.add(main);
         main.setRenderId("main");
 
-        statusField = new TextField("Click the button and see what happens");
-        statusField.setEnabled(false);
-        statusField.setRenderId("southPanelTextField");
-        statusField.setLayoutData(new BorderLayoutData(BorderLayout.SOUTH));
-        main.add(statusField);
-
         main.add(createWestPanel());
         
         TabbedPane tabs = createTabbedPane();
@@ -156,20 +150,16 @@ public class ApplicationContentPane
         TabbedPane ret = new TabbedPane();
         ret.setRenderId("mainTabs");
 
-        Panel centerPanel = new Panel();
-        centerPanel.setHtml("<h1>Welcome</h1>" +
+        Panel welcomePanel = new Panel();
+        welcomePanel.setHtml("<h1><u>Welcome to the Echo3 / Ext20 test application</u></h1>" +
+                "<br/>" +
                 "<p>This test application is very rudimentary right now.</p>" +
-                "<p/>" +
-                "<p>I will put some details here about what it does soon</p>.");
-        centerPanel.setTitle("Welcome");
-        ret.add(centerPanel);
+                "<br/>" +
+                "<p>Each tab contains examples of a particular component type.</p>");
+        welcomePanel.setTitle("Welcome");
+        ret.add(welcomePanel);
 
-        Panel panel2 = new Panel();
-        panel2.setHtml("<h1>PANEL 2</h1><p><em>I am the second center panel</em></p>");
-        panel2.setTitle("Panel 2");
-        ret.add(panel2);
-
-        ret.add(new UserPanel());
+        ret.add(new UserPanel(true));
         
         ret.add(new WindowTest());
         

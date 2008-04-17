@@ -36,7 +36,7 @@ public class WindowTest
     private static final transient Log log = LogFactory.getLog(WindowTest.class);
     
     public WindowTest(){
-        super("Window test");
+        super("Window");
         add(makeWindowTestButton());
         add(makeModalWindowTestButton());
     }
@@ -78,10 +78,10 @@ public class WindowTest
 
     private static class TestWindow extends Window {
         private TestWindow(){
-            super(new FitLayout(), "Test window");
-            setWidth(350);
+            super(new FitLayout(), "Grid and form");
+            setWidth(400);
             setHeight(400);
-            UserPanel up = new UserPanel();
+            UserPanel up = new UserPanel(false);
             up.createUI();
             add(up);
         }
