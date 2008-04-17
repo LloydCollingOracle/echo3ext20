@@ -90,9 +90,15 @@ public class TimeField
     public void processInput(String inputName, Object inputValue) {
         if (TIME_CHANGED_PROPERTY.equals(inputName)) {
             String timeValue = (String) inputValue;
-            String[] strings = timeValue.split(":");
-            calendar.set(Calendar.HOUR_OF_DAY, Integer.valueOf(strings[0]));
-            calendar.set(Calendar.MINUTE, Integer.valueOf(strings[1]));
+            int hourOfDay = 0;
+            int minute = 0;
+            if (timeValue != null) {
+                String[] strings = timeValue.split(":");
+            	hourOfDay = Integer.valueOf(strings[0]);
+            	minute = Integer.valueOf(strings[1]);
+            }
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
         }
     }
 }
