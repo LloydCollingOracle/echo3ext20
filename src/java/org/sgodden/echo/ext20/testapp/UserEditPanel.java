@@ -16,7 +16,9 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.event.ActionEvent;
@@ -35,6 +37,7 @@ import org.sgodden.echo.ext20.RadioButton;
 import org.sgodden.echo.ext20.TextArea;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.TimeField;
+import org.sgodden.echo.ext20.Window;
 import org.sgodden.echo.ext20.data.SimpleStore;
 import org.sgodden.echo.ext20.layout.FormLayout;
 
@@ -49,6 +52,7 @@ public class UserEditPanel
     
     private Button cancelButton;
     private Button saveButton;
+    private List<ActionListener> saveListeners = new ArrayList<ActionListener>();
     
     public UserEditPanel(Object[] data){
         super(new FormLayout());
@@ -123,12 +127,26 @@ public class UserEditPanel
         addButton(saveButton);
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // print out field values to make sure they have transferred correctly
-                log.info("Save button pressed:");
-                log.info("  codeField: " + codeField.getValue());
-                log.info("  nameField: " + nameField.getValue());
-                log.info("  calendar: " + dateField.getCalendar());
-                log.info("  enabled: " + enabledField.getSelected());
+            	if (!(dateField.isClientInputValid())) {
+            		Window window = new Window("Correct form errors");
+            		window.setModal(true);
+            		window.setHtml("Please correct the form errors");
+            		window.setHeight(100);
+            		window.setWidth(200);
+            		window.setPadding("5px");
+            		add(window);
+            	} else {
+	                // print out field values to make sure they have transferred correctly
+	                log.info("Save button pressed:");
+	                log.info("  codeField: " + codeField.getValue());
+	                log.info("  nameField: " + nameField.getValue());
+	                log.info("  calendar: " + dateField.getCalendar());
+	                log.info("  enabled: " + enabledField.getSelected());
+	                
+	                for (ActionListener listener : saveListeners) {
+	                	listener.actionPerformed(e);
+	                }
+            	}
             }
         });
         
@@ -167,7 +185,7 @@ public class UserEditPanel
      * @param listener
      */
     public void addSaveListener(ActionListener listener) {
-        saveButton.addActionListener(listener);
+        saveListeners.add(listener);
     }
     
     /**

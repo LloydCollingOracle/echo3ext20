@@ -38,7 +38,7 @@ public class Toolbar
         }
     }
     
-    public static enum Position {
+    static enum Position {
         TOP,
         BOTTOM
     }
