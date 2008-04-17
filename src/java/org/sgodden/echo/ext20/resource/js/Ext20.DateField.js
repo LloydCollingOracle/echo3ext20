@@ -58,13 +58,18 @@ EchoExt20.DateFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
         
         var extComponent = new Ext.form.DateField(options);
-        extComponent.on('blur', this._handleBlurEventRef);
+        extComponent.on('valid', this._handleBlurEventRef);
+        extComponent.on('invalid', this._handleBlurEventRef);
         
         return extComponent;
     },
     
     _handleBlurEvent: function() {
-        this.component.set("date", this.extComponent.getValue());
+		var value = this.extComponent.getValue();
+		if (value == "") {
+			value = "null"; // prevent NPE in echo date peer
+		}
+        this.component.set("date", value);
     },
     
     renderDisplay: function(update) {

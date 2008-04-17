@@ -42,6 +42,8 @@ public class DateField
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
     
     private Calendar calendar;
+    
+    private boolean clientInputValid = true;
 
     public DateField() {
         super();
@@ -106,15 +108,30 @@ public class DateField
     @Override
     public void processInput(String inputName, Object inputValue) {
         if (DATE_CHANGED_PROPERTY.equals(inputName)) {
-            // retrieve the current hour and minute values so that we don't trample over them
-            int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-            int minutes = calendar.get(Calendar.MINUTE);
-            
-            calendar.setTime( (Date) inputValue );
-            
-            // re-set the hour and minutes values that were there before
-            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            calendar.set(Calendar.MINUTE, minutes);
+        	if (!(inputValue instanceof Date)
+        			|| inputValue == null) {
+        		// must have been an invalid date on the client side
+        		this.clientInputValid = false;
+        	} else {
+        		this.clientInputValid = true;
+	            // retrieve the current hour and minute values so that we don't trample over them
+	            int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+	            int minutes = calendar.get(Calendar.MINUTE);
+	            
+	            calendar.setTime( (Date) inputValue );
+	            
+	            // re-set the hour and minutes values that were there before
+	            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+	            calendar.set(Calendar.MINUTE, minutes);
+        	}
         }
+    }
+    
+    /**
+     * Returns whether the last received client input was valid.
+     * @return
+     */
+    public boolean isClientInputValid() {
+    	return clientInputValid;
     }
 }
