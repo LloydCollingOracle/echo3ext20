@@ -126,24 +126,10 @@ Index: src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtml
 ===================================================================
 --- src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	(revision 1124)
 +++ src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	(working copy)
-@@ -105,6 +105,35 @@
+@@ -105,6 +105,21 @@
          styleElement.setAttribute("type", "text/css");
          styleElement.appendChild(document.createTextNode(" "));
          headElement.appendChild(styleElement);
-+        
-+        Element extStyleElement = document.createElement("link");
-+        extStyleElement.setAttribute("href", "resources/ext/css/ext-all.css");
-+        extStyleElement.setAttribute("type", "text/css");
-+        extStyleElement.setAttribute("rel", "stylesheet");
-+        extStyleElement.appendChild(document.createTextNode(" "));
-+        headElement.appendChild(extStyleElement);
-+        
-+        Element extPortalStyleElement = document.createElement("link");
-+        extStyleElement.setAttribute("href", "resources/ext/css/portal.css");
-+        extStyleElement.setAttribute("type", "text/css");
-+        extStyleElement.setAttribute("rel", "stylesheet");
-+        extStyleElement.appendChild(document.createTextNode(" "));
-+        headElement.appendChild(extPortalStyleElement);
 +        
 +        WebContainerServlet servlet = conn.getServlet();
 +        
@@ -162,7 +148,7 @@ Index: src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtml
  
          Element scriptElement = document.createElement("script");
          Text textNode = document.createTextNode(" ");
-@@ -112,8 +141,8 @@
+@@ -112,8 +127,8 @@
          scriptElement.setAttribute("type", "text/javascript");
          scriptElement.setAttribute("src", userInstance.getServiceUri(BootService.SERVICE));
          headElement.appendChild(scriptElement);
@@ -185,3 +171,28 @@ Index: ant.properties
  servlet.lib.msg                         The environment variable SERVLET_LIB_JAR must contain the path to the Servlet 2.4 \
                                          specification JAR file (servlet.jar or servlet-api.jar).
  debug                                   yes
+Index: build.xml
+===================================================================
+--- build.xml	(revision 1124)
++++ build.xml	(working copy)
+@@ -421,6 +421,19 @@
+         <tar tarfile="${dir.release}/${tarfile.release}" basedir="${dir.build.server-java.release}" longfile="gnu"/>
+         <gzip src="${dir.release}/${tarfile.release}" zipfile="${dir.release}/${tgzfile.release}"/>
+         <delete file="${dir.release}/${tarfile.release}"/>
+-    </target>
++    </target>
++	
++	<target name="mvn-install-win"
++			depends="dist"
++			description="Installs the jars into the local maven repository (windows environment)">
++		<exec executable="cmd">
++			<arg value="/c"/>
++			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=dist${file.separator}lib${file.separator}Echo3_App.jar"/>
++		</exec>
++		<exec executable="cmd">
++			<arg value="/c"/>
++			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=dist${file.separator}lib${file.separator}Echo3_WebContainer.jar"/>
++		</exec>
++	</target>
+     
+ </project>
