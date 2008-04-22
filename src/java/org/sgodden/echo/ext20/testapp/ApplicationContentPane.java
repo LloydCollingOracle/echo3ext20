@@ -82,7 +82,7 @@ public class ApplicationContentPane
         outer.add(main);
         main.setRenderId("main");
 
-        main.add(createWestPanel());
+        main.add(createNorthPanel());
         
         TabbedPane tabs = createTabbedPane();
         tabs.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
@@ -96,20 +96,18 @@ public class ApplicationContentPane
     }
     
     private Panel createNorthPanel() {
-        Panel ret = new Panel(new ColumnLayout());
+        Panel ret = new Panel();
+        ret.setBorder(false);
+        ret.setTransparent(true);
         ret.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
         
         Panel imagePanel = new Panel();
-        
+        imagePanel.setTransparent(true);
+        imagePanel.setBorder(false);
         imagePanel.setHtml(
-                "<img style='float: left;' src='http://demo.nextapp.com/echo3csjs/image/Logo.png'></img>");
+                "<a href='http://echo.nextapp.com'><img style='float: left;' src='http://demo.nextapp.com/echo3csjs/image/Logo.png'></img></a>");
         imagePanel.setRenderId("northImagePanel");
         ret.add(imagePanel);
-
-        Panel titlePanel = new Panel();
-        titlePanel.setHtml("<h1>NORTH</h1>");
-        titlePanel.setRenderId("northTitlePanel");
-        ret.add(titlePanel);
         
         return ret;
     }
@@ -151,6 +149,7 @@ public class ApplicationContentPane
         ret.setRenderId("mainTabs");
 
         Panel welcomePanel = new Panel();
+        welcomePanel.setPadding("5px");
         welcomePanel.setHtml("<h1><u>Welcome to the Echo3 / Ext20 test application</u></h1>" +
                 "<br/>" +
                 "<p>This test application is very rudimentary right now.</p>" +
@@ -160,14 +159,11 @@ public class ApplicationContentPane
         ret.add(welcomePanel);
 
         ret.add(new UserPanel(true));
-        
         ret.add(new WindowTest());
-        
         ret.add(new PortalTest());
-        
         ret.add(new TabbedPaneTest());
-        
         ret.add(new RelativePositioningTest());
+        ret.add(new LayoutTest());
 
         return ret;
     }

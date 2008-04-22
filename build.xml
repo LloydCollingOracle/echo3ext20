@@ -7,8 +7,10 @@
     <property name="build.dir" value="build"/>
     <property name="jar.name" value="echo3ext20.jar"/>
     <property name="war.name" value="echo3ext20.war"/>
+	
+	<property name="ext.version" value="2.0.2"/>
     
-    <available file="contrib/ext-2.0.2" type="dir" property="ext-dir-exists"/>
+    <available file="contrib/ext-${ext.version}" type="dir" property="ext-dir-exists"/>
     
     <path id="compile.class.path">
         <fileset dir="src/webapp/WEB-INF/lib"/>
@@ -57,13 +59,13 @@
             <fileset dir="src/java" includes="**/*.js, META-INF/**/*"/>
             <zipfileset 
                 prefix = "ext" 
-                dir="contrib/ext-2.0.2" 
+                dir="contrib/ext-${ext.version}" 
                 includes="ext-all.js, ext-all-debug.js, adapter/ext/ext-base.js"/>
         </jar>
     </target>
     
     <target name="unpack-ext" unless="ext-dir-exists">
-        <unzip src="contrib/ext-2.0.2.zip" dest="contrib"/>
+        <unzip src="contrib/ext-${ext.version}.zip" dest="contrib"/>
     </target>
     
     <target name="war" depends="jar">
@@ -73,6 +75,10 @@
             basedir="src/webapp"
             webxml="src/webapp/WEB-INF/web.xml">
             <lib file="build/*jar"/>
+        	<zipfileset 
+        		prefix="resources/ext" 
+        		dir="contrib/ext-${ext.version}/resources"
+        		includes="**/*"/>
         </war>
     </target>
     

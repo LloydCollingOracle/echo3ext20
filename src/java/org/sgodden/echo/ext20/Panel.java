@@ -49,6 +49,7 @@ public class Panel extends ExtComponent {
     public static final String HEIGHT_PROPERTY = "height";
     public static final String HTML_PROPERTY = "html";
     public static final String LAYOUT_PROPERTY = "layout";
+    public static final String TRANSPARENT_PROPERTY = "transparent";
     public static final String SPLIT_PROPERTY = "split";
     public static final String TITLE_PROPERTY = "title";
     public static final String WIDTH_PROPERTY = "width";
@@ -123,6 +124,10 @@ public class Panel extends ExtComponent {
     
     public Layout getLayout() {
         return (Layout) getProperty(LAYOUT_PROPERTY);
+    }
+    
+    public void setTransparent(boolean transparent) {
+    	setProperty(TRANSPARENT_PROPERTY, transparent);
     }
     
     /**

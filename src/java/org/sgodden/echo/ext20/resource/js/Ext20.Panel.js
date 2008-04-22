@@ -147,11 +147,19 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     createExtComponent: function(update, options) {
 
-        // handle properties
+		// process basic properties
+
+		options['bodyStyle'] = "";
+		
         var padding = this.component.get("padding");
         if (padding != null) {
-            options['bodyStyle'] = "padding: " + padding;
+            options['bodyStyle'] = "padding: " + padding + ";";
         }
+		
+		var transparent = this.component.get("transparent");
+		if (transparent) {
+			options['bodyStyle'] += "background: transparent;";
+		} 
         
         var border = this.component.get("border");
         if (border != null) {
@@ -229,7 +237,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (layout != null) {
             if (layout instanceof EchoExt20.AccordionLayout) {
                 options['layout'] = 'accordion';
-                options['layoutConfig'] = {titleCollapse: true, animate: true};
+                //options['layoutConfig'] = {titleCollapse: true, animate: true};
             }
             else if (layout instanceof EchoExt20.BorderLayout) {
                 options['layout'] = 'border';
