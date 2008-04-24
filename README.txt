@@ -14,4 +14,8 @@ your tomcat deployment directoy.
 
 NOTES
 -----
-Need to add portal stuff, and remember to add portal css when do.
+In order to be able to add echo3 components to ext components:
+1) Create a generic ext component extension
+2) In onRender, call renderAdd on the echo component passing in the update and child component
+	bear in mind that the 'position' element might be null and have to be created?
+3) Remember to implement remove as well 
