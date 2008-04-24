@@ -26,9 +26,6 @@ EchoExt20.Button = Core.extend(EchoExt20.ExtComponent, {
     componentType: "Ext20Button",
     
     $virtual: {
-            /**
-             * Programatically performs a row click.
-             */
             doAction: function() {
                 this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
             }

@@ -19,10 +19,12 @@ package org.sgodden.echo.ext20.peers;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
+import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
+import org.sgodden.echo.ext20.AbstractButton;
 import org.sgodden.echo.ext20.CheckboxField;
 
 public class CheckboxFieldPeer
@@ -39,6 +41,14 @@ public class CheckboxFieldPeer
         super();
         addOutputProperty(CheckboxField.FIELD_LABEL_PROPERTY);
         addOutputProperty(CheckboxField.SELECTED_CHANGED_PROPERTY);
+        
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(AbstractButton.INPUT_ACTION, AbstractButton.ACTION_LISTENERS_CHANGED_PROPERTY) {
+            @Override
+            public boolean hasListeners(Context context, Component component) {
+                return ((CheckboxField) component).hasActionListeners();
+            }
+        });
+
     }
 
     public Class getComponentClass() {

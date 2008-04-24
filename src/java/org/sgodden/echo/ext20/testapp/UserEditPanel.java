@@ -39,6 +39,7 @@ import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.TimeField;
 import org.sgodden.echo.ext20.Window;
 import org.sgodden.echo.ext20.data.SimpleStore;
+import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.FormLayout;
 
 /**
@@ -97,6 +98,21 @@ public class UserEditPanel
         
         final CheckboxField enabledField = new CheckboxField(true, "Enabled");
         fieldSet.add(enabledField);
+        
+        enabledField.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				String text = "You " +
+					(enabledField.getSelected() ? "selected" : "unselected") +
+					" the check box";
+				Window window = new Window(text);
+				window.setPadding("5px");
+				window.setHeight(100);
+				window.setWidth(200);
+				window.setHtml(text);
+				window.setModal(true);
+				add(window);
+			}
+		});
         
         final RadioButton userRoleButton = new RadioButton(true, "User");
         userRoleButton.setName("role");

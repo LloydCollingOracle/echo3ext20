@@ -23,7 +23,11 @@ EchoExt20.CheckboxField = Core.extend(EchoExt20.ExtComponent, {
     
     focusable: true,
     
-    componentType: "Ext20CheckboxField"
+    componentType: "Ext20CheckboxField",
+	
+    doAction: function() {
+        this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+    }
     
 });
 
@@ -50,13 +54,17 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         var extComponent = new Ext.form.Checkbox(options);
         extComponent.setValue(selected);
-        extComponent.on('blur', this._handleBlurEventRef);
+        extComponent.on('check', this._handleBlurEventRef);
         
         return extComponent;
     },
     
     _handleBlurEvent: function() {
-        this.component.set("selected", this.extComponent.getValue());
+		var selected = this.extComponent.getValue();
+		if (selected != this.component.get("selected")) {
+	        this.component.set("selected", this.extComponent.getValue());
+			this.component.doAction();			
+		}
     }
     
 });

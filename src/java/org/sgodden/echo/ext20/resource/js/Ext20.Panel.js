@@ -435,6 +435,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     _createWindow: function(update, child) {
         EchoRender.renderComponentAdd(update, child, null);
         EchoExt20.ExtComponentSync.openWindows.push(child.peer.extComponent);
+        child.peer.extComponent.doLayout();
         child.peer.extComponent.show();
     }
     
