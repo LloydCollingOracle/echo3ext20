@@ -17,6 +17,7 @@
 package org.sgodden.echo.ext20.testapp;
 
 
+import nextapp.echo.app.Color;
 import nextapp.echo.app.ContentPane;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -34,6 +35,7 @@ import org.sgodden.echo.ext20.ToolbarButton;
 import org.sgodden.echo.ext20.ToolbarFill;
 import org.sgodden.echo.ext20.ToolbarSeparator;
 import org.sgodden.echo.ext20.ToolbarTextItem;
+import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.sgodden.echo.ext20.layout.ColumnLayout;
@@ -84,6 +86,8 @@ public class ApplicationContentPane
 
         main.add(createNorthPanel());
         
+        main.add(createWestPanel());
+        
         TabbedPane tabs = createTabbedPane();
         tabs.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
         main.add(tabs);
@@ -117,7 +121,7 @@ public class ApplicationContentPane
      * @return
      */
     private Panel createWestPanel() {
-        Panel ret = new Panel();
+        Panel ret = new Panel(new AccordionLayout());
         ret.setTitle("Navigation");
         ret.setWidth(143); // FIXME should not have to do this
         ret.setCollapsible(true);
@@ -125,17 +129,19 @@ public class ApplicationContentPane
         ret.setLayoutData(new BorderLayoutData(BorderLayout.WEST));
         ret.setRenderId("westPanel");
         
-        Panel imagePanel = new Panel();
-        imagePanel.setHtml(
-                "<img src='http://demo.nextapp.com/echo3csjs/image/Logo.png'></img>");
-        imagePanel.setRenderId("northImagePanel");
-        imagePanel.setBorder(false);
-        ret.add(imagePanel);
-        
-        Panel navigationPanel = new Panel();
-        
-        navigationPanel.setHtml("Navigation will go here");
+        final Panel navigationPanel = new Panel("Core Echo3");
         ret.add(navigationPanel);
+        
+        final nextapp.echo.app.Button button = new nextapp.echo.app.Button("Push me");
+        navigationPanel.add(button);
+        button.setBackground(Color.LIGHTGRAY);
+        
+        button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				navigationPanel.remove(button);
+			}
+		});
+        
 
         return ret;
     }

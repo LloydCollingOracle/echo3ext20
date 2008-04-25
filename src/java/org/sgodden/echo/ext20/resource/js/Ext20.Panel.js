@@ -398,7 +398,17 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     _createChildItems: function(update, children) {
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
-            if (child instanceof EchoExt20.Window) {
+			
+			/*
+			 *  if this is not an ext20 component, we need to wrap it
+			 *  so that it can operate within an ext container.
+			 */
+			if (! (child instanceof EchoExt20.ExtComponent) ) {
+				// we don't renderAdd here - ext does it lazily
+				var wrapper = new EchoExt20.Echo3SyncWrapper(update, child);
+				this.extComponent.add(wrapper);
+			}
+            else if (child instanceof EchoExt20.Window) {
                 this._createWindow(update, child);
             }
             else if ( 

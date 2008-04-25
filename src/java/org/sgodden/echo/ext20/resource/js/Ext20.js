@@ -14,18 +14,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
+/**
+ * @fileoverview
+ * Ext20 framework main module.
+ */
 
 /**
 * Ext initialisation.
 */
 Ext.QuickTips.init();
 
+
 /**
-* Simply defines the namespace.
-*/
+ * @namespace
+ * Namespace for application framework.
+ */
 EchoExt20 = {};
 
+/**
+ * Base class for all ext20 components.
+ */
 EchoExt20.ExtComponent = Core.extend(EchoApp.Component, {
+	
     /**
      * Fires a before render event.
      */
@@ -34,6 +44,38 @@ EchoExt20.ExtComponent = Core.extend(EchoApp.Component, {
     }
 });
 
+/**
+ * Provides a wrapper allowing echo3 sync peers to work within
+ * extjs.
+ * @constructor
+ */
+EchoExt20.Echo3SyncWrapper = function(update, wrapped) {
+	EchoExt20.Echo3SyncWrapper.superclass.constructor.call(this);
+	this.wrapped = wrapped;
+	this.update = update;
+}
+
+Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
+	/**
+	 * Invokes the echo3 sync peer lazily on render.
+	 * @param {Object} ct the container div.
+	 * @param {Object} position the child div to which we should render the echo3 component.
+	 */
+	onRender: function(ct, position) {
+		if (position == null) {
+			position = ct.createChild();
+		}
+		this.el = position;
+		EchoRender.renderComponentAdd(this.update, this.wrapped, position);
+		delete this.update;
+		
+		this.wrapped.peer.renderDispose = this.wrapped.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
+	},
+	
+	onRenderDispose: function(update) {
+		this.ownerCt.remove(this);
+	}
+});
 
 /**
 * Abstract base class for all Ext20 sync peers.
