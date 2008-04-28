@@ -126,6 +126,7 @@ public class ApplicationContentPane
      */
     private Panel createWestPanel() {
         Panel ret = new Panel(new AccordionLayout());
+        ret.setBackground(new Color(200, 200, 200));
         ret.setTitle("Navigation");
         ret.setWidth(143); // FIXME should not have to do this
         ret.setCollapsible(true);
@@ -134,6 +135,7 @@ public class ApplicationContentPane
         ret.setRenderId("westPanel");
         
         final Panel navigationPanel = new Panel("Core Echo3");
+        navigationPanel.setBackground(new Color(200, 200, 200));
         ret.add(navigationPanel);
         
         final Column col = new Column();
