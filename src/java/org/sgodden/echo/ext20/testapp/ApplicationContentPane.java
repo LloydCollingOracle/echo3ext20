@@ -106,8 +106,8 @@ public class ApplicationContentPane
     private Panel createNorthPanel() {
         Panel ret = new Panel();
         ret.setBorder(false);
-        ret.setTransparent(true);
         ret.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
+        ret.setBackground(new Color(84, 84, 84));
         
         Panel imagePanel = new Panel();
         imagePanel.setTransparent(true);
@@ -126,7 +126,7 @@ public class ApplicationContentPane
      */
     private Panel createWestPanel() {
         Panel ret = new Panel(new AccordionLayout());
-        ret.setBackground(new Color(200, 200, 200));
+        ret.setBackground(new Color(220, 220, 220));
         ret.setTitle("Navigation");
         ret.setWidth(143); // FIXME should not have to do this
         ret.setCollapsible(true);
@@ -135,11 +135,11 @@ public class ApplicationContentPane
         ret.setRenderId("westPanel");
         
         final Panel navigationPanel = new Panel("Core Echo3");
-        navigationPanel.setBackground(new Color(200, 200, 200));
+        navigationPanel.setBackground(new Color(220, 220, 220));
         ret.add(navigationPanel);
         
         final Column col = new Column();
-        col.setBackground(new Color(200, 200, 200));
+        col.setBackground(new Color(220, 220, 220));
         col.setInsets(new Insets(5));
         col.setCellSpacing(new Extent(5));
         navigationPanel.add(col);
