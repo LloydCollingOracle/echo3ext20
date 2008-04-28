@@ -17,8 +17,12 @@
 package org.sgodden.echo.ext20.testapp;
 
 
+import nextapp.echo.app.Border;
 import nextapp.echo.app.Color;
+import nextapp.echo.app.Column;
 import nextapp.echo.app.ContentPane;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.Insets;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
@@ -132,18 +136,34 @@ public class ApplicationContentPane
         final Panel navigationPanel = new Panel("Core Echo3");
         ret.add(navigationPanel);
         
-        final nextapp.echo.app.Button button = new nextapp.echo.app.Button("Push me");
-        navigationPanel.add(button);
+        final Column col = new Column();
+        col.setBackground(new Color(200, 200, 200));
+        col.setInsets(new Insets(5));
+        col.setCellSpacing(new Extent(5));
+        navigationPanel.add(col);
+        
+        final nextapp.echo.app.Button button = makeEchoButton("Push me");
+        col.add(button);
         button.setBackground(Color.LIGHTGRAY);
         
         button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				navigationPanel.remove(button);
+				col.remove(button);
 			}
 		});
         
+        final nextapp.echo.app.Button button2 = makeEchoButton("And me");
+        col.add(button2);
+        button2.setBackground(Color.LIGHTGRAY);
 
         return ret;
+    }
+    
+    private nextapp.echo.app.Button makeEchoButton(String text) {
+    	nextapp.echo.app.Button button = new nextapp.echo.app.Button(text);
+    	button.setInsets(new Insets(2));
+    	button.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
+    	return button;
     }
 
     /**
