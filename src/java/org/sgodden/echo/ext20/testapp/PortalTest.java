@@ -56,7 +56,7 @@ public class PortalTest extends Portal implements DeferredUiCreate {
 		PortalColumn col1 = new PortalColumn();
 		add(col1);
 		col1.setLayoutData(new ColumnLayoutData(.5));
-		col1.setPadding("5px 5px 0 5px");
+		col1.setPadding("10px 0 10px 10px");
 
 		col1.add(makePortlet("Portlet 1", "Portlet 1"));
 		col1.add(makePortlet("Portlet 2", "Portlet 2"));
@@ -64,7 +64,7 @@ public class PortalTest extends Portal implements DeferredUiCreate {
 		PortalColumn col2 = new PortalColumn();
 		add(col2);
 		col2.setLayoutData(new ColumnLayoutData(.5));
-		col2.setPadding("5px 5px 0 0");
+		col2.setPadding("10px");
 		col2.add(makePortlet("Portlet 1", "Portlet 1"));
 		col2.add(makePortlet("Portlet 2", "Portlet 2"));
 	}
@@ -73,7 +73,7 @@ public class PortalTest extends Portal implements DeferredUiCreate {
 		final Portlet ret = new Portlet();
 		ret.setTitle(title);
 		ret.setHtml(html);
-		ret.setPadding("5px 5px 5px 5px");
+		ret.setPadding("5px");
 		
 		ret.addToolListener(Tool.GEAR, new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
