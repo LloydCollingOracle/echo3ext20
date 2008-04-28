@@ -4,12 +4,12 @@
 	<classpathentry kind="lib" path="src/webapp/WEB-INF/lib/Echo3_App.jar" sourcepath="contrib/NextApp_Echo3/SourceCode/src/server-java/app"/>
 	<classpathentry kind="lib" path="src/webapp/WEB-INF/lib/Echo3_WebContainer.jar" sourcepath="contrib/NextApp_Echo3/SourceCode/src/server-java/webcontainer"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="var" path="SERVLET_API_JAR"/>
 	<classpathentry kind="lib" path="lib/portlet.jar"/>
 	<classpathentry kind="lib" path="lib/jetty-6.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/jetty-util-6.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.13.jar"/>
 	<classpathentry kind="lib" path="lib/jsontools-core-1.5.jar"/>
+	<classpathentry kind="lib" path="lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
