@@ -44,26 +44,50 @@ public class ColumnModel
 		this.columns = columns;
 	}
 
+	/**
+	 * Returns the column configurations.
+	 * @return the column configurations.
+	 */
 	public List<ColumnConfiguration> getColumns() {
 		return columns;
 	}
 
+	/**
+	 * Sets the column configurations.
+	 * @param columns the column configurations.
+	 */
 	public void setColumns(List<ColumnConfiguration> columns) {
 		this.columns = columns;
 	}
 
+	/**
+	 * Returns whether columns are sortable by default.
+	 * @return whether columns are sortable by default.
+	 */
 	public boolean isDefaultSortable() {
 		return defaultSortable;
 	}
 
+	/**
+	 * Sets whether columns are sortable by default.
+	 * @param defaultSortable whether columns are sortable by default.
+	 */
 	public void setDefaultSortable(boolean defaultSortable) {
 		this.defaultSortable = defaultSortable;
 	}
 
+	/**
+	 * Returns the default width of a column.
+	 * @return the default width of a column.
+	 */
 	public Integer getDefaultWidth() {
 		return defaultWidth;
 	}
 
+	/**
+	 * Sets the default width of a column.
+	 * @param defaultWidth the default width of a column.
+	 */
 	public void setDefaultWidth(Integer defaultWidth) {
 		this.defaultWidth = defaultWidth;
 	}

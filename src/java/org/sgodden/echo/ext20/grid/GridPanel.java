@@ -16,7 +16,9 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.grid;
 
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -32,6 +34,28 @@ import org.sgodden.echo.ext20.data.SimpleStore;
 
 /**
  * An ext GridPanel.
+ * <p/>
+ * Code example:
+ * <pre class="code">
+List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
+cols.add(new ColumnConfiguration("User ID", "userid"));
+cols.add(new ColumnConfiguration("Name", "name"));
+ColumnModel columnModel = new ColumnModel(cols);
+
+SimpleStore store = new SimpleStore(
+    data, // simple Object[][] of your data
+    0,
+    new String[]{"id", "userid", "name", "date"});
+
+gridPanel = new GridPanel(columnModel, store);
+
+gridPanel.addActionListener(new ActionListener(){
+    public void actionPerformed(ActionEvent e) {
+    	Object[] data = gridPanel.getSelectedRow();
+    	...
+    }
+});
+ * </pre>
  * 
  * @author sgodden
  *
@@ -50,6 +74,11 @@ public class GridPanel
     private ListSelectionModel selectionModel;
     private boolean suppressChangeNotifications;
 
+    /**
+     * Constructs a new grid panel.
+     * @param columnModel the column model.
+     * @param simpleStore the data store.
+     */
     public GridPanel(ColumnModel columnModel, SimpleStore simpleStore) {
         super();
         setColumnModel(columnModel);
@@ -57,14 +86,26 @@ public class GridPanel
         setSelectionModel(new DefaultListSelectionModel());
     }
 
+    /**
+     * Sets the column model for the table.
+     * @param columnModel the column model for the table.
+     */
     public void setColumnModel(ColumnModel columnModel) {
         setProperty(PROPERTY_COLUMN_MODEL, columnModel);
     }
 
+    /**
+     * Sest the data store for the table.
+     * @param simpleStore the data store for the table.
+     */
     public void setSimpleStore(SimpleStore simpleStore) {
         setProperty(PROPERTY_SIMPLE_STORE, simpleStore);
     }
 
+    /**
+     * Returns the data store for the table.
+     * @return the data store for the table.
+     */
     public SimpleStore getSimpleStore() {
         return (SimpleStore) getProperty(PROPERTY_SIMPLE_STORE);
     }

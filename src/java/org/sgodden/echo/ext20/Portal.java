@@ -20,12 +20,15 @@ import nextapp.echo.app.Component;
 import org.sgodden.echo.ext20.layout.ColumnLayout;
 
 /**
- * A portal page, which contains columns, which contain portlets.
+ * A portal page, which contains columns, which contain portlets that can be dragged around.
  * @author sgodden
  */
 public class Portal 
         extends Panel {
     
+	/**
+	 * Creates a new portal.
+	 */
     public Portal(){
         super(new ColumnLayout());
     }

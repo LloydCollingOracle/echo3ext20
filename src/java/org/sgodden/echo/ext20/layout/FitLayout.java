@@ -18,6 +18,12 @@ package org.sgodden.echo.ext20.layout;
 
 import java.io.Serializable;
 
+/**
+ * A layout which can contain only one child, and which expands
+ * to fill available space.
+ * @author sgodden
+ *
+ */
 public class FitLayout 
 		implements Layout, Serializable {
 

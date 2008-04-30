@@ -24,14 +24,26 @@ package org.sgodden.echo.ext20;
 public class TextArea 
         extends TextField {
 
+	/**
+	 * Creates a new text area.
+	 * @param text the text contents.
+	 * @param fieldLabel the field label to be used in a form.
+	 */
     public TextArea(String text, String fieldLabel) {
         super(text, fieldLabel);
     }
 
+    /**
+     * Creates a new text area.
+     * @param text the text contents.
+     */
     public TextArea(String text) {
         super(text);
     }
 
+    /**
+     * Creates a new empty text area.
+     */
     public TextArea() {
         super();
     }

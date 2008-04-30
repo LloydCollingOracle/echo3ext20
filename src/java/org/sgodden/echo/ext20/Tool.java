@@ -17,7 +17,7 @@
 package org.sgodden.echo.ext20;
 
 /**
- * An enumeration of valid tool identifiers.
+ * An enumeration of tool identifiers.
  * <p/>
  * Tools are small (8x8) icons that appear in the title bar of a panel.
  * @author sgodden

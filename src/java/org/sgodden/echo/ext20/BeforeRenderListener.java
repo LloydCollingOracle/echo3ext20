@@ -20,6 +20,11 @@ import nextapp.echo.app.event.ActionListener;
 
 /**
  * Listener to be notified before a component is rendered.
+ * <p>
+ * NOTE - this is likely to be deprecated, since it it will cause overlapping
+ * events to occur (i.e. event for component 2 will fire while event for
+ * component 1 is still being processed), and overlapping events are not allowed
+ * and get discarded.
  * @author sgodden
  */
 public interface BeforeRenderListener 

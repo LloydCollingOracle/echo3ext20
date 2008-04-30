@@ -31,7 +31,7 @@ public class ColumnConfiguration
 	
 	private String header;
 	private Integer width;
-	private Boolean sortable = true;
+	private boolean sortable = true;
 	private String dataIndex;
 	
 	/**
@@ -59,34 +59,68 @@ public class ColumnConfiguration
 		this(header, null, true, id);
 	}
 
+	/**
+	 * Returns the header text.
+	 * @return the header text.
+	 */
 	public String getHeader() {
 		return header;
 	}
 
+	/**
+	 * Sets the header text.
+	 * @param header the header text.
+	 */
 	public void setHeader(String header) {
 		this.header = header;
 	}
 
+	/**
+	 * Returns the width.
+	 * @return the width.
+	 */
 	public Integer getWidth() {
 		return width;
 	}
 
+	/**
+	 * Sets the width.
+	 * @param width the width.
+	 */
 	public void setWidth(Integer width) {
 		this.width = width;
 	}
 
-	public Boolean getSortable() {
+	/**
+	 * Returns whether this column is sortable. 
+	 * @return whether this column is sortable.
+	 */
+	public boolean getSortable() {
 		return sortable;
 	}
 
-	public void setSortable(Boolean sortable) {
+	/**
+	 * Sets whether this column is sortable.
+	 * @param sortable whether this column is sortable.
+	 */
+	public void setSortable(boolean sortable) {
 		this.sortable = sortable;
 	}
 
+	/**
+	 * Returns the index of the data column from which data
+	 * should be taken for this column.
+	 * @return the data column index.
+	 */
 	public String getDataIndex() {
 		return dataIndex;
 	}
 
+	/**
+	 * Sets the index of the data column from which data
+	 * should be taken for this column.
+	 * @param dataIndex the data column index.
+	 */
 	public void setDataIndex(String dataIndex) {
 		this.dataIndex = dataIndex;
 	}

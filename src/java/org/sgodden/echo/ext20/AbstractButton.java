@@ -128,9 +128,6 @@ public abstract class AbstractButton
     }
     
     
-    /**
-     * @see nextapp.echo.app.Component#processInput(java.lang.String, java.lang.Object)
-     */
     @Override
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);

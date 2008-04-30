@@ -17,7 +17,8 @@
 package org.sgodden.echo.ext20;
 
 /**
- * A portlet.
+ * A portlet, which is essentially a panel that can be added to a portal column, 
+ * and which can then be dragged around, collapsed, or closed.
  * 
  * @author sgodden
  * @see Portal

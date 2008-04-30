@@ -19,7 +19,9 @@ package org.sgodden.echo.ext20.data;
 import java.io.Serializable;
 
 /**
- * See the ext documentation for SimpleStore.
+ * A simple store implementation, whose data is taken from arrays.
+ * <p/>
+ * TODO - decide whether to scrap this, and work from echo table models instead.
  * 
  * @author sgodden
  *
@@ -114,6 +116,10 @@ public class SimpleStore
 		this.fields = fields;
 	}
 	
+	/**
+	 * Returns the number of rows of data.
+	 * @return the number of rows of data.
+	 */
 	public int getSize() {
 		return data.length;
 	}

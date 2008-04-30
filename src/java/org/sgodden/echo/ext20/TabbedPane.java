@@ -29,6 +29,14 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * A tabbed pane.
+ * <p/>
+ * Note that if a child is added to a tabbed pane, and it implemnets the
+ * {@link DeferredUiCreate} interface, then the tabbed pane will wait until
+ * that tab is selected before calling the {@link DeferredUiCreate#createUI()}
+ * method.
+ * <p/>
+ * This allows for more performant user interfaces, that render their contents
+ * lazily when required.
  * 
  * @author goddens
  *
@@ -46,6 +54,9 @@ public class TabbedPane extends ExtComponent {
 	
 	private Set<String> initialisedChildIds = new HashSet<String>();
 	
+	/**
+	 * Creates a new tabbed pane.
+	 */
 	public TabbedPane() {
 		super();
 		setActiveTabIndex(0);
@@ -68,7 +79,7 @@ public class TabbedPane extends ExtComponent {
 	
 	/**
 	 * Sets the index of the active tab.
-	 * @param tab the index of the active tab.
+	 * @param tabIndex the index of the active tab.
 	 */
 	public void setActiveTabIndex(int tabIndex) {
 		setProperty(ACTIVE_TAB_INDEX_PROPERTY, tabIndex);

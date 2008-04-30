@@ -40,21 +40,33 @@ public class Button
         setAddToButtonBar(false);
     }
 
+    /**
+     * Creates a button with the specific text and icon.
+     * @param text the text.
+     * @param iconUrl the url of the icon.
+     */
     public Button(String text, String iconUrl) {
         super(text, iconUrl);
     }
 
+    /**
+     * Creates a button with the specific text and icon.
+     * @param text the text.
+     */
     public Button(String text) {
         super(text);
     }
 
+    /**
+     * Creates a new button with no text or icon.
+     */
     public Button() {
         super();
     }
     
     /**
      * See {@link #ADD_TO_BUTTON_BAR_PROPERTY}.
-     * @param handleSpecial
+     * @param addToButtonBar whether to add this button to the button bar rather than the main panel body.
      */
     void setAddToButtonBar(boolean addToButtonBar) {
         setProperty(ADD_TO_BUTTON_BAR_PROPERTY, addToButtonBar);
@@ -62,7 +74,7 @@ public class Button
     
     /**
      * Sets a menu to be opened when this button is clicked.
-     * @param menu
+     * @param menu the menu to open.
      */        
     public void setMenu(Menu menu) {
         if (this.menu != null) {

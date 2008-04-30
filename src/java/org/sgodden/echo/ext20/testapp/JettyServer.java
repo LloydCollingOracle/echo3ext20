@@ -26,6 +26,11 @@ import org.mortbay.jetty.deployer.WebAppDeployer;
 import org.mortbay.jetty.handler.ContextHandlerCollection;
 import org.mortbay.jetty.handler.RequestLogHandler;
 
+/**
+ * An embedded Jetty server which can be used to start the test app.
+ * @author sgodden
+ *
+ */
 public class JettyServer {
 
     private static final Log log = LogFactory.getLog(JettyServer.class);

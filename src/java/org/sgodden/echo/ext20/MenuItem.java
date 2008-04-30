@@ -24,14 +24,26 @@ package org.sgodden.echo.ext20;
 public class MenuItem 
         extends BaseMenuItem {
 
+	/**
+	 * Creates an empty menu item.
+	 */
     public MenuItem() {
         super();
     }
 
+    /**
+     * Creates a menu item.
+     * @param text the text for the menu item.
+     */
     public MenuItem(String text) {
         super(text);
     }
 
+    /**
+     * Creates a menu item.
+     * @param text the text to display.
+     * @param iconUrl the URL of the icon to display.
+     */
     public MenuItem(String text, String iconUrl) {
         super(text, iconUrl);
     }

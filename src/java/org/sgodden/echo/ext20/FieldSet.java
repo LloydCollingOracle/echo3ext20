@@ -10,6 +10,14 @@ import org.sgodden.echo.ext20.layout.Layout;
 
 /**
  * A container used for grouping fields.
+ * <p/>
+ * Sample code:
+ * <pre class="code">
+ *   FieldSet fieldSet = new FieldSet();
+ *   fieldSet.setTitle("My field set");
+ *   fieldSet.add(new TextField("", "Name");
+ *   ...
+ * </pre>
  * 
  * @author sgodden
  */

@@ -22,13 +22,9 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 /**
- * A text field.
- * <p/>
- * TODO - listeners on value change
- * 
+ * A checkbox field.
  * 
  * @author simon
- *
  */
 public class CheckboxField
         extends ExtComponent {
@@ -41,29 +37,53 @@ public class CheckboxField
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
 
 
+    /**
+     * Creates a new, unselected checkbox.
+     */
     public CheckboxField() {
         super();
         setSelected(false);
     }
 
+    /**
+     * Creates a new checkbox.
+     * @param selected whether the checkbox should be initially selected.
+     */
     public CheckboxField(boolean selected) {
         this();
         setSelected(selected);
     }
 
+    /**
+     * Creates a new checkbox.
+     * @param selected whether the checkbox should be initially selected.
+     * @param fieldLabel the field label to be displayed in a form.
+     */
     public CheckboxField(boolean selected, String fieldLabel) {
         setSelected(selected);
         setFieldLabel(fieldLabel);
     }
 
+    /**
+     * Sets whether the checkbox is selected.
+     * @param selected whether the checkbox is selected.
+     */
     public void setSelected(boolean selected) {
         setProperty(SELECTED_CHANGED_PROPERTY, selected);
     }
 
+    /**
+     * Returns whether the checkbox is selected.
+     * @return whether the checkbox is selected.
+     */
     public boolean getSelected() {
         return (Boolean) getProperty(SELECTED_CHANGED_PROPERTY);
     }
 
+    /**
+     * Sets the field label to be displayed in a form.
+     * @param fieldLabel the field label.
+     */
     public void setFieldLabel(String fieldLabel) {
         setProperty(FIELD_LABEL_PROPERTY, fieldLabel);
     }
@@ -89,8 +109,8 @@ public class CheckboxField
     }
 
     /**
-     * Adds an <code>ActionListener</code> to the check box.
-     * <code>ActionListener</code>s will be invoked when component
+     * Adds an <code>ActionListener</code> to the checkbox.
+     * <code>ActionListener</code>s will be invoked when the checkbox
      * is checked or unchecked.
      * 
      * @param l the <code>ActionListener</code> to add

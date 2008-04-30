@@ -35,6 +35,10 @@ public class PortalColumn
         super.add(c);
     }
     
+    /**
+     * Sets the padding (in CSS style) of the column.
+     * @param padding the CSS padding of the column.
+     */
     public void setPadding(String padding) {
     	setProperty(PROPERTY_PADDING, padding);
     }

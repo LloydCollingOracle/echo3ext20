@@ -20,6 +20,9 @@ package org.sgodden.echo.ext20;
  * A html editor field.
  * <p/>
  * TODO - listeners on value change
+ * <p/>
+ * NOTE - this ext component does not seem to work too well across browsers.  Look at
+ * implementing a TinyMCE component instead.
  * 
  * @author simon
  *
@@ -29,27 +32,42 @@ public class HtmlEditor
 	
 	public static final String TEXT_CHANGED_PROPERTY = "text";
 	
+	/**
+	 * Creates a new empty html editor.
+	 */
 	public HtmlEditor() {
 		super();
 	}
 	
+	/**
+	 * Creates a new html editor with the passed HTML.
+	 * @param text the html content for the editor.
+	 */
 	public HtmlEditor(String text) {
 		setText(text);
 	}
 	
+	/**
+	 * Sets the HTML content.
+	 * @param text the html content.
+	 */
 	public void setText(String text) {
 		setProperty(TEXT_CHANGED_PROPERTY, text);
 	}
 	
+	/**
+	 * Returns the HTML content.
+	 * @return the HTML content.
+	 */
 	public String getText() {
 		return (String) getProperty(TEXT_CHANGED_PROPERTY);
 	}
 
+	@Override
     public void processInput(String inputName, Object inputValue) {    	
     	if (TEXT_CHANGED_PROPERTY.equals(inputName)) {
     		setText((String)inputValue);
     	}
     }
-
 
 }

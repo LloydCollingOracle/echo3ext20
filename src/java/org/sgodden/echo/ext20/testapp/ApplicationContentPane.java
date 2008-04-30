@@ -134,29 +134,34 @@ public class ApplicationContentPane
         ret.setLayoutData(new BorderLayoutData(BorderLayout.WEST));
         ret.setRenderId("westPanel");
         
-        final Panel navigationPanel = new Panel("Core Echo3");
-        navigationPanel.setBackground(new Color(220, 220, 220));
-        ret.add(navigationPanel);
+        final Panel coreEcho3Panel = new Panel("Core Echo3");
+        coreEcho3Panel.setTransparent(true);
+        ret.add(coreEcho3Panel);
         
         final Column col = new Column();
-        col.setBackground(new Color(220, 220, 220));
         col.setInsets(new Insets(5));
         col.setCellSpacing(new Extent(5));
-        navigationPanel.add(col);
+        coreEcho3Panel.add(col);
         
         final nextapp.echo.app.Button button = makeEchoButton("Push me");
         col.add(button);
-        button.setBackground(Color.LIGHTGRAY);
         
         button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				col.remove(button);
+				log.info("Echo button was pressed");
 			}
 		});
         
         final nextapp.echo.app.Button button2 = makeEchoButton("And me");
         col.add(button2);
-        button2.setBackground(Color.LIGHTGRAY);
+        
+        Panel extjsPanel = new Panel("ExtJS");
+        ret.add(extjsPanel);
+        extjsPanel.setTransparent(true);
+        Column col2 = new Column();
+        extjsPanel.add(col2);
+        col2.setInsets(new Insets(5));
+        col2.add(makeEchoButton("Another button"));
 
         return ret;
     }
@@ -164,6 +169,7 @@ public class ApplicationContentPane
     private nextapp.echo.app.Button makeEchoButton(String text) {
     	nextapp.echo.app.Button button = new nextapp.echo.app.Button(text);
     	button.setInsets(new Insets(2));
+    	button.setBackground(Color.LIGHTGRAY);
     	button.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
     	return button;
     }

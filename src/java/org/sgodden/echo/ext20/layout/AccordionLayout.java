@@ -18,6 +18,11 @@ package org.sgodden.echo.ext20.layout;
 
 import java.io.Serializable;
 
+/**
+ * A layout that contains multiple panels in an expandable accordion 
+ * style such that only one panel can be open at any given time.
+ * @author sgodden
+ */
 public class AccordionLayout 
 		implements Layout, Serializable {
 

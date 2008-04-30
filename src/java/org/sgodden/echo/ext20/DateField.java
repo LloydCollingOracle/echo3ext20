@@ -24,9 +24,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * A date field.
+ * A date field with built-in drop-down selector.
  * <p/>
- * TODO - listeners on value change
+ * TODO - listeners on value change.
+ * <p/>
+ * FIXME - implement proper locale processing.
  * 
  * @author sgodden
  *
@@ -45,34 +47,62 @@ public class DateField
     
     private boolean clientInputValid = true;
 
+    /**
+     * Creates a new date field.
+     */
     public DateField() {
         super();
         setLocale(ApplicationInstance.getActive().getLocale());
     }
 
+    /**
+     * Creates a new date field, which maintains the passed calendar.
+     * @param cal the calendar to maintain.
+     */
     public DateField(Calendar cal) {
         this();
         setCalendar(cal);
     }
 
+    /**
+     * Creates a new date field.
+     * @param cal the calendar to be maintained.
+     * @param fieldLabel the field label to be displayed in a form.
+     */
     public DateField(Calendar cal, String fieldLabel) {
         this();
         setCalendar(cal);
         setFieldLabel(fieldLabel);
     }
 
+    /**
+     * Sets the calendar whose value will be maintained by this field.
+     * @param cal the calendar to maintain.
+     */
     public void setCalendar(Calendar cal) {
         this.calendar = cal;
     }
 
+    /**
+     * Returns the calendar being maintained by this field.
+     * @return the calendar being maintained.
+     */
     public Calendar getCalendar() {
         return calendar;
     }
 
+    /**
+     * Sets the field label to display in forms.
+     * @param fieldLabel the field label.
+     */
     public void setFieldLabel(String fieldLabel) {
         setProperty(FIELD_LABEL_PROPERTY, fieldLabel);
     }
 
+    /**
+     * Sets whether a blank value is allowed.
+     * @param blankAllowed whether a blank value is allowed.
+     */
     public void setBlankAllowed(boolean blankAllowed) {
         setProperty(ALLOW_BLANK_PROPERTY, blankAllowed);
     }
@@ -129,7 +159,7 @@ public class DateField
     
     /**
      * Returns whether the last received client input was valid.
-     * @return
+     * @return whether the last received client input was valid.
      */
     public boolean isClientInputValid() {
     	return clientInputValid;

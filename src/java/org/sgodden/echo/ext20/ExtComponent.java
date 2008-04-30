@@ -44,7 +44,7 @@ public abstract class ExtComponent
     private int yAlignOffset;
     
     /**
-     * Aligns this component to another component, anchoring the source
+     * BROKEN - Aligns this component to another component, anchoring the source
      * alignment to the target alignment.
      * <p/>
      * For example, to position the bottom right corner of comp1 to the

@@ -42,18 +42,34 @@ public class Window
     
     public static final String MODAL_PROPERTY = "modal";
 
+    /**
+     * Creates a new window.
+     * @param layout the layout to use.
+     * @param title the window title.
+     */
     public Window(Layout layout, String title) {
         super(layout, title);
     }
 
+    /**
+     * Creates a new window.
+     * @param layout the layout to use.
+     */
     public Window(Layout layout) {
         super(layout);
     }
     
+    /**
+     * Creates a new window.
+     * @param title the window title.
+     */
     public Window(String title) {
         super(title);
     }
 
+    /**
+     * Creates a new window.
+     */
     public Window() {
         super();
     }

@@ -17,7 +17,7 @@
 package org.sgodden.echo.ext20;
 
 /**
- * A text field.
+ * A radio button.
  * <p/>
  * TODO - listeners on value change
  * 
@@ -32,37 +32,71 @@ public class RadioButton
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String NAME_PROPERTY = "name";
 
+    /**
+     * Creates a new unselected radion button.
+     */
     public RadioButton() {
         super();
         setSelected(false);
     }
 
+    /**
+     * Creates a new radio button.
+     * @param selected whether the button is initially selected.
+     */
     public RadioButton(boolean selected) {
         this();
         setSelected(selected);
     }
 
+    /**
+     * Creates a new radion button.
+     * @param selected whether the button is initially selected.
+     * @param fieldLabel the field label to be displayed in forms.
+     */
     public RadioButton(boolean selected, String fieldLabel) {
         setSelected(selected);
         setFieldLabel(fieldLabel);
     }
 
+    /**
+     * Sets whether the button is selected.
+     * @param selected whether the button is selected.
+     */
     public void setSelected(boolean selected) {
         setProperty(SELECTED_CHANGED_PROPERTY, selected);
     }
 
+    /**
+     * Returns whether the button is selected.
+     * @return whether the button is selected.
+     */
     public boolean getSelected() {
         return (Boolean) getProperty(SELECTED_CHANGED_PROPERTY);
     }
 
+    /**
+     * Sets the field label to be used in forms.
+     * @param fieldLabel the field label to be used in forms.
+     */
     public void setFieldLabel(String fieldLabel) {
         setProperty(FIELD_LABEL_PROPERTY, fieldLabel);
     }
     
+    /**
+     * Sets the name of the field being maintained, which effectively sets
+     * the group that this button belongs to.  All radion buttons with the same
+     * name are in the same button group.
+     * @param name the name.
+     */
     public void setName(String name) {
         setProperty(NAME_PROPERTY, name);
     }
     
+    /**
+     * Returns the name of the button group.
+     * @return the name of the button group.
+     */
     public String getName() {
         return (String) getProperty(NAME_PROPERTY);
     }

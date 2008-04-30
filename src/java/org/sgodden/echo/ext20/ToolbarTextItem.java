@@ -24,12 +24,20 @@ public class ToolbarTextItem
         extends ExtComponent {
     
     public static final String TEXT_PROPERTY = "text";
-    
+
+    /**
+     * Creates a new toolbar text item.
+     * @param text the text to display.
+     */
     public ToolbarTextItem(String text) {
         super();
         setText(text);
     }
     
+    /**
+     * Sets the text to display.
+     * @param text the text to disaplay.
+     */
     public void setText(String text) {
         setProperty(TEXT_PROPERTY, text);
     }

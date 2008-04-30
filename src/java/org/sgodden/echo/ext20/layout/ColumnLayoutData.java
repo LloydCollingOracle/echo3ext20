@@ -39,7 +39,11 @@ public class ColumnLayoutData
     public ColumnLayoutData(double columnWidth) {
         this.columnWidth = columnWidth;
     }
-    
+
+    /**
+     * Returns the column width.
+     * @return the column width.
+     */
     public double getColumnWidth() {
         return columnWidth;
     }

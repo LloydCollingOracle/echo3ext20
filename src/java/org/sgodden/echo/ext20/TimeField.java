@@ -40,21 +40,37 @@ public class TimeField
     
     private Calendar calendar;
 
+    /**
+     * Creates a new empty time field.
+     */
     public TimeField() {
         super();
         setFormat("H:i");
     }
 
+    /**
+     * Creates a new time field.
+     * @param cal the calendar whose time component should be maintained.
+     */
     public TimeField(Calendar cal) {
         this();
         setCalendar(cal);
     }
 
+    /**
+     * Creates a new time field.
+     * @param cal the calendar whose time component should be maintained.
+     * @param fieldLabel the field label to be displayed in forms.
+     */
     public TimeField(Calendar cal, String fieldLabel) {
         this(cal);
         setFieldLabel(fieldLabel);
     }
 
+    /**
+     * Sets the calendar whose time component should be maintained.
+     * @param cal the calendar whose time component should be maintained.
+     */
     public void setCalendar(Calendar cal) {
         this.calendar = cal;
         
@@ -65,14 +81,26 @@ public class TimeField
         setProperty(TIME_CHANGED_PROPERTY, hours + ":" + mins);
     }
 
+    /**
+     * Returns the calendar whose time component should be maintained.
+     * @return the calendar whose time component should be maintained.
+     */
     public Calendar getCalendar() {
         return this.calendar;
     }
 
+    /**
+     * Sets the field label to be displayed in forms.
+     * @param fieldLabel the field label to be displayed in forms.
+     */
     public void setFieldLabel(String fieldLabel) {
         setProperty(FIELD_LABEL_PROPERTY, fieldLabel);
     }
 
+    /**
+     * Sets whether a blank value is allowed.
+     * @param blankAllowed whether a blank value is allowed.
+     */
     public void setBlankAllowed(boolean blankAllowed) {
         setProperty(ALLOW_BLANK_PROPERTY, blankAllowed);
     }

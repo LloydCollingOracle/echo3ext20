@@ -40,16 +40,18 @@
             destdir="docs/api"
             author="true"
             use="true"
-            windowtitle="Echo3Ext20 API documentation"
+            windowtitle="Echo3Ext20 Public API documentation"
             classpathref="compile.class.path"
             stylesheetfile="${basedir}/resources/css/stylesheet.css">
                 
-            <packageset dir="src/java" defaultexcludes="yes">
+            <packageset 
+            	dir="src/java" 
+            	includes="org/sgodden/echo/ext20,org/sgodden/echo/ext20/data,org/sgodden/echo/ext20/grid,org/sgodden/echo/ext20/layout" 
+            	defaultexcludes="yes">
             </packageset>
-        	<group title="Public API" 
-        		packages="org.sgodden.echo.ext20:org.sgodden.echo.ext20.data:org.sgodden.echo.ext20.grid:org.sgodden.echo.ext20.layout"/>
-        	<group title="Private API" 
-        		packages="org.sgodden.echo.ext20.json:org.sgodden.echo.ext20.peers:org.sgodden.echo.ext20.peers.*:org.sgodden.echo.ext20.testapp:org.sgodden.echo.ext20.util"/>
+        	<link offline="true" 
+        		href="http://echo.nextapp.com/content/echo3/doc/3.0/api/public/"
+        		packageListLoc="${basedir}/echo3-package-list"/>
         </javadoc>
     </target>
     

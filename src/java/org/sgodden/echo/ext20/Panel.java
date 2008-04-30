@@ -31,7 +31,7 @@ import org.sgodden.echo.ext20.layout.Layout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
 /**
- * An ext panel.
+ * The main container component for Ext.
  * 
  * @author goddens
  *
@@ -72,24 +72,44 @@ public class Panel extends ExtComponent {
     private String keyPressed;
     private String toolIdClicked;
 
+    /**
+     * Creates a new empty panel with the default container layout.
+     */
     public Panel() {
         this(null, null);
     }
     
+    /**
+     * Creates a new panel.
+     * @param title the title for the panel.
+     */
     public Panel(String title) {
         this(null, title);
     }
 
+    /**
+     * Creates a new panel.
+     * @param layout the layout for the panel.
+     */
     public Panel(Layout layout) {
         this(layout, null);
     }
 
+    /**
+     * Creates a new panel.
+     * @param layout the layout for the panel.
+     * @param title the title for the panel.
+     */
     public Panel(Layout layout, String title) {
         super();
         setProperty(LAYOUT_PROPERTY, layout);
         setTitle(title);
     }
 
+    /**
+     * Sets the title of the panel.
+     * @param title the title of the panel.
+     */
     public void setTitle(String title) {
         setProperty(TITLE_PROPERTY, title);
     }
@@ -102,30 +122,63 @@ public class Panel extends ExtComponent {
         setProperty(PROPERTY_PADDING, padding);
     }
 
+    /**
+     * Sets whether the panel's border should be shown.
+     * <p/>
+     * (Ext panels have a default 1 pixel border).
+     * @param border
+     */
     public void setBorder(Boolean border) {
         setProperty(PROPERTY_BORDER, border);
     }
     
+    /**
+     * Sets the height of the panel in pixels.
+     * @param pixels the height of the panel in pixels.
+     */
     public void setHeight(int pixels) {
         setProperty(HEIGHT_PROPERTY, pixels);
     }
     
+    /**
+     * Specified some arbitrary HTML to show as the panel's contents.
+     * <p/>
+     * Note that this cannot be used in conjunction with the {@link #add(Component)} method.
+     * @param html the HTML to show as the panel's contents.
+     */
     public void setHtml(String html) {
         setProperty(HTML_PROPERTY, html);
     }
     
+    /**
+     * Sets the width of the panel in pixels.
+     * @param pixels the width of the panel in pixels.
+     */
     public void setWidth(int pixels) {
         setProperty(WIDTH_PROPERTY, pixels);
     }
     
+    /**
+     * Sets whether the panel should be collapsible.
+     * @param collapsible whether the panel should be collapsible.
+     */
     public void setCollapsible(boolean collapsible) {
         setProperty(COLLAPSIBLE_PROPERTY, collapsible);
     }
     
+    /**
+     * Returns the layout in use by this panel.
+     * @return the layout in use by this panel.
+     */
     public Layout getLayout() {
         return (Layout) getProperty(LAYOUT_PROPERTY);
     }
     
+    /**
+     * If set to <code>true</code>, renders the panel's background
+     * as transparent.
+     * @param transparent whether the panel's background should be transparent.
+     */
     public void setTransparent(boolean transparent) {
     	setProperty(TRANSPARENT_PROPERTY, transparent);
     }
@@ -287,7 +340,7 @@ public class Panel extends ExtComponent {
      * component either has the focus, or is the ancestor of the focused
      * component.
      * <p/>
-     * @TODO - document the keyPress format.
+     * TODO - document the keyPress format.
      * 
      * @param keyPress the key press the listener wants to be notified of.
      * @param listener the listener to notify.

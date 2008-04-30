@@ -23,6 +23,9 @@ package org.sgodden.echo.ext20;
 public class Toolbar 
         extends ExtComponent {
     
+	/**
+	 * The position (top or bottom) of the toolbar.
+	 */
     public static final String POSITION_PROPERTY = "position";
     
     void setPosition(Position position) {

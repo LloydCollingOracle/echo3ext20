@@ -16,6 +16,11 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.layout;
 
+/**
+ * A marker interface for all layouts.
+ * @author sgodden
+ *
+ */
 public interface Layout {
 
 }

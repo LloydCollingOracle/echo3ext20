@@ -20,7 +20,8 @@ package org.sgodden.echo.ext20;
  * A text field.
  * <p/>
  * TODO - listeners on value change
- * 
+ * <p/>
+ * TODO - specify the length
  * 
  * @author simon
  *
@@ -33,40 +34,68 @@ public class TextField
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
     public static final String EMPTY_TEXT_PROEPRTY = "emptyText";
 
+    /**
+     * Creates a new empty text field.
+     */
     public TextField() {
         super();
     }
 
+    /**
+     * Creates a new text field.
+     * @param text the text content of the field.
+     */
     public TextField(String text) {
         this();
         setValue(text);
     }
 
+    /**
+     * Creates a new text field.
+     * @param text the text content of the field.
+     * @param fieldLabel the field label to display in forms.
+     */
     public TextField(String text, String fieldLabel) {
         setValue(text);
         setFieldLabel(fieldLabel);
     }
 
+    /**
+     * Sets the value (text) of the field.
+     * @param value the value of the field.
+     */
     public void setValue(Object value) {
         setProperty(VALUE_CHANGED_PROPERTY, value);
     }
 
+    /**
+     * Returns the value (text) of the field. 
+     * @return the value of the field.
+     */
     public Object getValue() {
         return getProperty(VALUE_CHANGED_PROPERTY);
     }
-
-    public String getText() {
-        return (String) getProperty(VALUE_CHANGED_PROPERTY);
-    }
     
+    /**
+     * Sets the field label to be used in forms.
+     * @param fieldLabel the field label to be used in forms.
+     */
     public void setFieldLabel(String fieldLabel) {
         setProperty(FIELD_LABEL_PROPERTY, fieldLabel);
     }
 
+    /**
+     * Sets whether a blank value is allowed.
+     * @param blankAllowed whether a blank value is allowed.
+     */
     public void setBlankAllowed(boolean blankAllowed) {
         setProperty(ALLOW_BLANK_PROPERTY, blankAllowed);
     }
     
+    /**
+     * Sets text to be displayed when the user has entered no text themselves.
+     * @param emptyText text to be displayed when the user has entered no text themselves.
+     */
     public void setEmptyText(String emptyText) {
         setProperty(EMPTY_TEXT_PROEPRTY, emptyText);
     }
