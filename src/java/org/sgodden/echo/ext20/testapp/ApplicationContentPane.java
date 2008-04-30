@@ -128,7 +128,7 @@ public class ApplicationContentPane
         Panel ret = new Panel(new AccordionLayout());
         ret.setBackground(new Color(220, 220, 220));
         ret.setTitle("Navigation");
-        ret.setWidth(143); // FIXME should not have to do this
+        ret.setWidth(143); 
         ret.setCollapsible(true);
         ret.setBorder(true);
         ret.setLayoutData(new BorderLayoutData(BorderLayout.WEST));
