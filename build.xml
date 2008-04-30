@@ -49,7 +49,8 @@
             	includes="org/sgodden/echo/ext20,org/sgodden/echo/ext20/data,org/sgodden/echo/ext20/grid,org/sgodden/echo/ext20/layout" 
             	defaultexcludes="yes">
             </packageset>
-        	<link offline="true" 
+			<link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+        	<link offline="true"
         		href="http://echo.nextapp.com/content/echo3/doc/3.0/api/public/"
         		packageListLoc="${basedir}/echo3-package-list"/>
         </javadoc>
