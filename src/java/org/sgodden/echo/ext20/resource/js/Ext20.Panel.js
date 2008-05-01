@@ -251,9 +251,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 options['labelAlign'] = 'right'; // FIXME - configure the form layout properly
             }
             else if (layout instanceof EchoExt20.FitLayout) {
-                if (this.component.getComponentCount() > 1) {
-                    throw new Error("Only one child may be specified for layout 'fit'");
-                }
                 options['layout'] = 'fit';
             }
             else if (layout instanceof EchoExt20.ColumnLayout) {

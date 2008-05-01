@@ -84,6 +84,14 @@ public class WindowTest
             UserPanel up = new UserPanel(false);
             up.createUI();
             add(up);
+            
+            final Button closeButton = new Button("Close me");
+            addButton(closeButton);
+            closeButton.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent arg0) {
+					close();
+				}
+			});
         }
     }
 
