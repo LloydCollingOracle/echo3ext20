@@ -72,8 +72,8 @@ public class TextField
      * Returns the value (text) of the field. 
      * @return the value of the field.
      */
-    public Object getValue() {
-        return getProperty(VALUE_CHANGED_PROPERTY);
+    public String getValue() {
+        return (String) getProperty(VALUE_CHANGED_PROPERTY);
     }
     
     /**
