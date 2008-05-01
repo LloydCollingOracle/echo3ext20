@@ -64,6 +64,9 @@
                 prefix = "ext" 
                 dir="contrib/ext-${ext.version}" 
                 includes="ext-all.js, ext-all-debug.js, adapter/ext/ext-base.js"/>
+        	<zipfileset
+        		prefix="META-INF/maven/org.sgodden/echo3ext20"
+        		dir="maven"/>
         </jar>
     </target>
     
