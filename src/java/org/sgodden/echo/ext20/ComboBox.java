@@ -10,6 +10,26 @@ import org.sgodden.echo.ext20.data.SimpleStore;
 /**
  * A combo box control with support for autocomplete.
  * <p/>
+ * Code example:
+ * <pre class="code">
+Object[][] data = new Object[2][2];
+data[0] = new String[]{"admin", "Administrator"}; // id, description
+data[1] = new String[]{"user", "User"};
+
+SimpleStore store = new SimpleStore(
+  data,
+  0,
+  new String[]{"id", "description"});
+
+ComboBox combo = new ComboBox(store);
+combo.setFieldLabel("Role");
+combo.setDisplayField("description");
+combo.setValueField("id");
+combo.setTypeAhead(true);
+
+add(combo);
+ * </pre>
+ * <p/>
  * TODO - selection listener.
  * 
  * @author sgodden
