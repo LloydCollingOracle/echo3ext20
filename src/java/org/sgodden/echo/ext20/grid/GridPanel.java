@@ -73,6 +73,16 @@ public class GridPanel
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
     private ListSelectionModel selectionModel;
     private boolean suppressChangeNotifications;
+    
+    /**
+     * Constructs a new grid panel.
+     * @param columnModel the column model.
+     */
+    public GridPanel(ColumnModel columnModel) {
+    	super();
+        setColumnModel(columnModel);
+        setSelectionModel(new DefaultListSelectionModel());
+    }
 
     /**
      * Constructs a new grid panel.
@@ -80,10 +90,8 @@ public class GridPanel
      * @param simpleStore the data store.
      */
     public GridPanel(ColumnModel columnModel, SimpleStore simpleStore) {
-        super();
-        setColumnModel(columnModel);
+        this(columnModel);
         setSimpleStore(simpleStore);
-        setSelectionModel(new DefaultListSelectionModel());
     }
 
     /**

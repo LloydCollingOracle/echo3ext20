@@ -80,6 +80,17 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 
         return EchoExt20.PanelSync.prototype.createExtComponent.call(this, update, options);
     },
+	
+	renderUpdate: function(update) {
+		EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
+		
+		var updatedStore = update.getUpdatedProperty("store");
+		if (updatedStore != null) {
+			this.extComponent.reconfigure(
+				updatedStore,
+				this.extComponent.getColumnModel());
+		}
+	},
     
     _handleRowActivation: function() {
         this.component.doAction();

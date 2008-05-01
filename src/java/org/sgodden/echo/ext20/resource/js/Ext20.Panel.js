@@ -64,9 +64,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     renderUpdate: function(update){
-		if (this.component.renderId == "c_userPanel") {
-			alert("in renderUpdate");
-		}
 
 		EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
         
