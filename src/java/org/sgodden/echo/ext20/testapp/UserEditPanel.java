@@ -39,7 +39,7 @@ import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.TimeField;
 import org.sgodden.echo.ext20.Window;
 import org.sgodden.echo.ext20.data.DefaultSimpleStore;
-import org.sgodden.echo.ext20.layout.FitLayout;
+import org.sgodden.echo.ext20.data.SimpleStore;
 import org.sgodden.echo.ext20.layout.FormLayout;
 
 /**
@@ -62,7 +62,7 @@ public class UserEditPanel
         setRenderId("userFormPanel");
         setTitle("Edit user");
 
-        final TextField codeField = new TextField((String)data[1], "Code");
+        final TextField codeField = new TextField((String)data[0], "Code");
         codeField.setBlankAllowed(false);
         add(codeField);
 //        codeField.setFocusTraversalIndex(0);
@@ -70,7 +70,7 @@ public class UserEditPanel
 //        
 //        ApplicationInstance.getActive().setFocusedComponent(codeField);
 
-        final TextField nameField = new TextField((String)data[2], "Name");
+        final TextField nameField = new TextField((String)data[1], "Name");
         nameField.setBlankAllowed(false);
         add(nameField);
 //        nameField.setFocusTraversalIndex(1);
@@ -122,7 +122,7 @@ public class UserEditPanel
         adminRoleButton.setName("role");
         fieldSet.add(adminRoleButton);
         
-        DefaultSimpleStore roleStore = makeRoleStore();
+        SimpleStore roleStore = makeRoleStore();
         ComboBox roleCombo = makeRoleCombo(roleStore);
         fieldSet.add(roleCombo);
         
@@ -210,7 +210,7 @@ public class UserEditPanel
      * @param store the store.
      * @return the combo box.
      */
-    private ComboBox makeRoleCombo(DefaultSimpleStore store) {
+    private ComboBox makeRoleCombo(SimpleStore store) {
         ComboBox ret = new ComboBox(store);
         ret.setFieldLabel("Role");
         ret.setDisplayField("description");
@@ -223,7 +223,7 @@ public class UserEditPanel
      * Creates a dummy store for role data.
      * @return the store.
      */
-    private DefaultSimpleStore makeRoleStore() {
+    private SimpleStore makeRoleStore() {
         Object[][] data = new Object[2][2];
         data[0] = new String[]{"admin", "Administrator"};
         data[1] = new String[]{"user", "User"};

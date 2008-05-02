@@ -46,6 +46,8 @@ import org.sgodden.echo.ext20.layout.FitLayout;
  * This is an alternative application content pane
  * whch demonstrates combined use of echo3 components
  * and ext components.
+ * <p/>
+ * FIXME - this is not up to date and does not currently work.
  * 
  * @author sgodden
  */
@@ -172,16 +174,16 @@ public class ApplicationContentPane2
         cols.add(new ColumnConfiguration("Name", "name"));
         ColumnModel columnModel = new ColumnModel(cols);
 
-        DefaultSimpleStore store = new DefaultSimpleStore(
-                data,
-                0,
-                new String[]{"id", "userid", "name", "date"});
-
-        Panel panel = new Panel(new FitLayout());
-        ret.add(panel);
-        
-        userGridPanel = new GridPanel(columnModel, store);
-        panel.add(userGridPanel);
+//        DefaultSimpleStore store = new DefaultSimpleStore(
+//                data,
+//                0,
+//                new String[]{"id", "userid", "name", "date"});
+//
+//        Panel panel = new Panel(new FitLayout());
+//        ret.add(panel);
+//        
+//        userGridPanel = new GridPanel(columnModel, store);
+//        panel.add(userGridPanel);
         
         return ret;
     }

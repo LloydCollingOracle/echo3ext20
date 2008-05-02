@@ -17,8 +17,10 @@
 package org.sgodden.echo.ext20.testapp;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -68,7 +70,8 @@ public class UserListPanel
 
         data = makeData();
         
-        userGridPanel = new GridPanel(columnModel, makeSimpleStore());
+        userGridPanel = new GridPanel(columnModel);
+        userGridPanel.setTableModel(makeTableModel());
         userGridPanel.setToolbar(makeToolbar());
         add(userGridPanel);
 
@@ -84,17 +87,28 @@ public class UserListPanel
 
 			public void actionPerformed(ActionEvent arg0) {
 				startIndex += 10;
-				userGridPanel.setSimpleStore(makeSimpleStore());
+				userGridPanel.setTableModel(makeTableModel());
 			}});
 
     }
     
     private SimpleStore makeSimpleStore() {
-		DefaultSimpleStore store = new DefaultSimpleStore(makeData(), 0,
-				new String[] { "id", "userid", "name", "date" });
+		DefaultSimpleStore store = new DefaultSimpleStore(makeData(), 
+				makeColumnNames());
 
 		return store;
 	}
+    
+    private TableModel makeTableModel() {
+    	DefaultTableModel ret = new DefaultTableModel(
+    			makeData(),
+    			makeColumnNames());
+    	return ret;
+    }
+    
+    private String[] makeColumnNames() {
+    	return new String[] {"userid", "name"};
+    }
 
     /**
 	 * Adds a listener to be notifies when a row is actioned.
@@ -129,18 +143,16 @@ public class UserListPanel
     private Object[][] makeData() {
         int rows = 10;
 
-        Object[][] ret = new Object[rows][];
+        data = new Object[rows][];
 
-        for (int i = 0; i < ret.length; i++) {
-            Object[] row = new Object[4];
-            row[0] = String.valueOf(i);
-            row[1] = "User id  " + (startIndex + i);
-            row[2] = "Name " + (startIndex + i);
-            row[3] = new Date();
-            ret[i] = row;
+        for (int i = 0; i < data.length; i++) {
+            Object[] row = new Object[2];
+            row[0] = "User id  " + (startIndex + i);
+            row[1] = "Name " + (startIndex + i);
+            data[i] = row;
         }
 
-        return ret;
+        return data;
     }
 
     private Toolbar makeToolbar() {

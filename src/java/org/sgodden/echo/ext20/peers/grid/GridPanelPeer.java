@@ -23,6 +23,7 @@ public class GridPanelPeer
     public GridPanelPeer() {
     	super();
         addOutputProperty(PROPERTY_SELECTION);
+        addOutputProperty(GridPanel.SIMPLE_STORE_PROPERTY);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(GridPanel.INPUT_ACTION, GridPanel.ACTION_LISTENERS_CHANGED_PROPERTY) {
             public boolean hasListeners(Context context, Component component) {

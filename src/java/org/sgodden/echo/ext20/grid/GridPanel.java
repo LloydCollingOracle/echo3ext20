@@ -18,6 +18,8 @@ package org.sgodden.echo.ext20.grid;
 
 import java.util.EventListener;
 
+import javax.swing.table.TableModel;
+
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;
@@ -28,7 +30,9 @@ import nextapp.echo.app.list.ListSelectionModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.data.DefaultSimpleStore;
 import org.sgodden.echo.ext20.data.SimpleStore;
+import org.sgodden.echo.ext20.data.TableModelAdapter;
 
 /**
  * An ext GridPanel.
@@ -62,13 +66,15 @@ public class GridPanel
         extends Panel {
 
     private static final transient Log log = LogFactory.getLog(GridPanel.class);
-    public static final String PROPERTY_COLUMN_MODEL = "columnModel";
-    public static final String PROPERTY_SIMPLE_STORE = "simpleStore";
-    public static final String PROPERTY_ACTION_COMMAND = "actionCommand";
+    public static final String COLUMN_MODEL_PROPERTY = "columnModel";
+    public static final String SIMPLE_STORE_PROPERTY = "simpleStore";
+    public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String INPUT_ACTION = "action";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
+    
+    private TableModel tableModel;
     private ListSelectionModel selectionModel;
     private boolean suppressChangeNotifications;
     
@@ -85,11 +91,11 @@ public class GridPanel
     /**
      * Constructs a new grid panel.
      * @param columnModel the column model.
-     * @param simpleStore the data store.
+     * @param tableModel the table model.
      */
-    public GridPanel(ColumnModel columnModel, SimpleStore simpleStore) {
+    public GridPanel(ColumnModel columnModel, TableModel tableModel) {
         this(columnModel);
-        setSimpleStore(simpleStore);
+        setTableModel(tableModel);
     }
 
     /**
@@ -97,15 +103,7 @@ public class GridPanel
      * @param columnModel the column model for the table.
      */
     public void setColumnModel(ColumnModel columnModel) {
-        setProperty(PROPERTY_COLUMN_MODEL, columnModel);
-    }
-
-    /**
-     * Sest the data store for the table.
-     * @param simpleStore the data store for the table.
-     */
-    public void setSimpleStore(SimpleStore simpleStore) {
-        setProperty(PROPERTY_SIMPLE_STORE, simpleStore);
+        setProperty(COLUMN_MODEL_PROPERTY, columnModel);
     }
 
     /**
@@ -113,7 +111,26 @@ public class GridPanel
      * @return the data store for the table.
      */
     public SimpleStore getSimpleStore() {
-        return (SimpleStore) getProperty(PROPERTY_SIMPLE_STORE);
+        return (SimpleStore) getProperty(SIMPLE_STORE_PROPERTY);
+    }
+    
+    /**
+     * Sets the data store from a Swing {@link TableModel}.
+     * @param tableModel
+     */
+    public void setTableModel(TableModel tableModel) {
+    	this.tableModel = tableModel;
+    	TableModelAdapter tma = new TableModelAdapter(tableModel);
+    	SimpleStore ss = new DefaultSimpleStore(tma.getData(), tma.getFields());
+        setProperty(SIMPLE_STORE_PROPERTY, ss);
+    }
+    
+    /**
+     * Returns the grid's table model.
+     * @return the table model.
+     */
+    public TableModel getTableModel() {
+    	return tableModel;
     }
 
     /**
@@ -124,7 +141,7 @@ public class GridPanel
      * @return the action command
      */
     public String getActionCommand() {
-        return (String) getProperty(PROPERTY_ACTION_COMMAND);
+        return (String) getProperty(ACTION_COMMAND_PROPERTY);
     }
 
     /**
@@ -220,7 +237,7 @@ public class GridPanel
         ActionEvent e = null;
         for (int i = 0; i < listeners.length; ++i) {
             if (e == null) {
-                e = new ActionEvent(this, (String) getRenderProperty(PROPERTY_ACTION_COMMAND));
+                e = new ActionEvent(this, (String) getRenderProperty(ACTION_COMMAND_PROPERTY));
             }
             ((ActionListener) listeners[i]).actionPerformed(e);
         }
