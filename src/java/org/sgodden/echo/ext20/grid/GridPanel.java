@@ -18,6 +18,8 @@ package org.sgodden.echo.ext20.grid;
 
 import java.util.EventListener;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import nextapp.echo.app.event.ActionEvent;
@@ -63,7 +65,8 @@ gridPanel.addActionListener(new ActionListener(){
  *
  */
 public class GridPanel
-        extends Panel {
+        extends Panel 
+        implements TableModelListener {
 
     private static final transient Log log = LogFactory.getLog(GridPanel.class);
     public static final String COLUMN_MODEL_PROPERTY = "columnModel";
@@ -120,6 +123,16 @@ public class GridPanel
      */
     public void setTableModel(TableModel tableModel) {
     	this.tableModel = tableModel;
+    	updateTableModel();
+    	tableModel.removeTableModelListener(this); // just in case they set the same table model
+    	tableModel.addTableModelListener(this);
+    }
+    
+    /**
+     * Sets the property again, forcing a refresh of the table model
+     * on the client side.
+     */
+    private void updateTableModel() {
     	TableModelAdapter tma = new TableModelAdapter(tableModel);
     	SimpleStore ss = new DefaultSimpleStore(tma.getData(), tma.getFields());
         setProperty(SIMPLE_STORE_PROPERTY, ss);
@@ -259,4 +272,11 @@ public class GridPanel
             }
         }
     };
+
+    /**
+     * Forces a client-side refresh of the table when the table model changes.
+     */
+    public void tableChanged(TableModelEvent e) {
+		updateTableModel();
+	}
 }
