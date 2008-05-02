@@ -53,10 +53,10 @@ public class ColumnConfiguration
 	/**
 	 * Constructs a new column configuration.
 	 * @param header the header text.
-	 * @param id the id of the column in the store to which this column maps.
+	 * @param dataIndex the id of the column in the store to which this column maps.
 	 */
-	public ColumnConfiguration(String header, String id) {
-		this(header, null, true, id);
+	public ColumnConfiguration(String header, String dataIndex) {
+		this(header, null, true, dataIndex);
 	}
 
 	/**

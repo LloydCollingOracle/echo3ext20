@@ -16,9 +16,7 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.grid;
 
-import java.util.ArrayList;
 import java.util.EventListener;
-import java.util.List;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;

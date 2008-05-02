@@ -36,7 +36,7 @@ import nextapp.echo.app.event.ActionListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.data.SimpleStore;
+import org.sgodden.echo.ext20.data.DefaultSimpleStore;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
 import org.sgodden.echo.ext20.grid.ColumnModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
@@ -172,7 +172,7 @@ public class ApplicationContentPane2
         cols.add(new ColumnConfiguration("Name", "name"));
         ColumnModel columnModel = new ColumnModel(cols);
 
-        SimpleStore store = new SimpleStore(
+        DefaultSimpleStore store = new DefaultSimpleStore(
                 data,
                 0,
                 new String[]{"id", "userid", "name", "date"});

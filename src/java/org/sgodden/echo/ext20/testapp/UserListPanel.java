@@ -25,6 +25,7 @@ import nextapp.echo.app.event.ActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
@@ -34,6 +35,7 @@ import org.sgodden.echo.ext20.ToolbarButton;
 import org.sgodden.echo.ext20.ToolbarFill;
 import org.sgodden.echo.ext20.ToolbarSeparator;
 import org.sgodden.echo.ext20.ToolbarTextItem;
+import org.sgodden.echo.ext20.data.DefaultSimpleStore;
 import org.sgodden.echo.ext20.data.SimpleStore;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
 import org.sgodden.echo.ext20.grid.ColumnModel;
@@ -50,7 +52,8 @@ public class UserListPanel
 
     private static final transient Log log = LogFactory.getLog(UserListPanel.class);
     private GridPanel userGridPanel;
-    private Object[][] data = makeData();
+    private int startIndex = 1;
+    private Object[][] data;
 
     public UserListPanel() {
         super(new FitLayout());
@@ -59,16 +62,13 @@ public class UserListPanel
         setTitle("User list");
 
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
-        cols.add(new ColumnConfiguration("User ID", "userid"));
-        cols.add(new ColumnConfiguration("Name", "name"));
+        cols.add(new ColumnConfiguration("User ID", 200, true, "userid"));
+        cols.add(new ColumnConfiguration("Name", 200, true, "name"));
         ColumnModel columnModel = new ColumnModel(cols);
 
-        SimpleStore store = new SimpleStore(
-                data,
-                0,
-                new String[]{"id", "userid", "name", "date"});
-
-        userGridPanel = new GridPanel(columnModel, store);
+        data = makeData();
+        
+        userGridPanel = new GridPanel(columnModel, makeSimpleStore());
         userGridPanel.setToolbar(makeToolbar());
         add(userGridPanel);
 
@@ -77,13 +77,31 @@ public class UserListPanel
                 log.info("Enter key was pressed");
             }
         });
+        
+        Button changeButton = new Button("Change the data model");
+        addButton(changeButton);
+        changeButton.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				startIndex += 10;
+				userGridPanel.setSimpleStore(makeSimpleStore());
+			}});
 
     }
+    
+    private SimpleStore makeSimpleStore() {
+		DefaultSimpleStore store = new DefaultSimpleStore(makeData(), 0,
+				new String[] { "id", "userid", "name", "date" });
+
+		return store;
+	}
 
     /**
-     * Adds a listener to be notifies when a row is actioned.
-     * @param listener the listener to be added.
-     */
+	 * Adds a listener to be notifies when a row is actioned.
+	 * 
+	 * @param listener
+	 *            the listener to be added.
+	 */
     public void addActionListener(ActionListener listener) {
         userGridPanel.addActionListener(listener);
     }
@@ -105,6 +123,7 @@ public class UserListPanel
 
     /**
      * Makes dummy data for users.
+     * @param startIndex the start index for the number placed into the text.
      * @return the dummy data.
      */
     private Object[][] makeData() {
@@ -115,8 +134,8 @@ public class UserListPanel
         for (int i = 0; i < ret.length; i++) {
             Object[] row = new Object[4];
             row[0] = String.valueOf(i);
-            row[1] = "User id asdasdasdasdasd " + i;
-            row[2] = "Name asdasdasdasdasdasd " + i;
+            row[1] = "User id  " + (startIndex + i);
+            row[2] = "Name " + (startIndex + i);
             row[3] = new Date();
             ret[i] = row;
         }

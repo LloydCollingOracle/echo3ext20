@@ -21,7 +21,7 @@ import nextapp.echo.app.serial.SerialException;
 import nextapp.echo.app.serial.SerialPropertyPeer;
 import nextapp.echo.app.util.Context;
 
-import org.sgodden.echo.ext20.data.SimpleStore;
+import org.sgodden.echo.ext20.data.DefaultSimpleStore;
 import org.w3c.dom.Element;
 
 import com.sdicons.json.mapper.JSONMapper;
@@ -32,7 +32,7 @@ public class SimpleStorePeer implements SerialPropertyPeer {
     public void toXml(Context context, Class objectClass, Element propertyElement, Object propertyValue)
             throws SerialException {
         SerialContext serialContext = (SerialContext) context.get(SerialContext.class);
-        SimpleStore simpleStore = (SimpleStore) propertyValue;
+        DefaultSimpleStore simpleStore = (DefaultSimpleStore) propertyValue;
         propertyElement.setAttribute("t",
                 (serialContext.getFlags() & SerialContext.FLAG_RENDER_SHORT_NAMES) == 0 ? "Echo2SimpleStore" : "E2SS");
         try {

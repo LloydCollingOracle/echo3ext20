@@ -38,7 +38,7 @@ import org.sgodden.echo.ext20.TextArea;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.TimeField;
 import org.sgodden.echo.ext20.Window;
-import org.sgodden.echo.ext20.data.SimpleStore;
+import org.sgodden.echo.ext20.data.DefaultSimpleStore;
 import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.FormLayout;
 
@@ -122,7 +122,7 @@ public class UserEditPanel
         adminRoleButton.setName("role");
         fieldSet.add(adminRoleButton);
         
-        SimpleStore roleStore = makeRoleStore();
+        DefaultSimpleStore roleStore = makeRoleStore();
         ComboBox roleCombo = makeRoleCombo(roleStore);
         fieldSet.add(roleCombo);
         
@@ -210,7 +210,7 @@ public class UserEditPanel
      * @param store the store.
      * @return the combo box.
      */
-    private ComboBox makeRoleCombo(SimpleStore store) {
+    private ComboBox makeRoleCombo(DefaultSimpleStore store) {
         ComboBox ret = new ComboBox(store);
         ret.setFieldLabel("Role");
         ret.setDisplayField("description");
@@ -223,12 +223,12 @@ public class UserEditPanel
      * Creates a dummy store for role data.
      * @return the store.
      */
-    private SimpleStore makeRoleStore() {
+    private DefaultSimpleStore makeRoleStore() {
         Object[][] data = new Object[2][2];
         data[0] = new String[]{"admin", "Administrator"};
         data[1] = new String[]{"user", "User"};
         
-        SimpleStore store = new SimpleStore(
+        DefaultSimpleStore store = new DefaultSimpleStore(
                 data,
                 0,
                 new String[]{"id", "description"});
