@@ -37,7 +37,9 @@ import org.sgodden.echo.ext20.data.SimpleStore;
 import org.sgodden.echo.ext20.data.TableModelAdapter;
 
 /**
- * An ext GridPanel.
+ * An ext GridPanel.  It uses swing table models, since these provide a complete
+ * model API, and it is portable since it is shipped with the JVM.  An adapter takes
+ * care of converting these into ext stores.
  * <p/>
  * Code example:
  * <pre class="code">
@@ -46,12 +48,11 @@ cols.add(new ColumnConfiguration("User ID", "userid"));
 cols.add(new ColumnConfiguration("Name", "name"));
 ColumnModel columnModel = new ColumnModel(cols);
 
-SimpleStore store = new SimpleStore(
+TableModel model = new DefaultTableModel(
     data, // simple Object[][] of your data
-    0,
     new String[]{"id", "userid", "name", "date"});
 
-gridPanel = new GridPanel(columnModel, store);
+gridPanel = new GridPanel(columnModel, model);
 
 gridPanel.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e) {
@@ -277,6 +278,7 @@ public class GridPanel
      * Forces a client-side refresh of the table when the table model changes.
      */
     public void tableChanged(TableModelEvent e) {
+    	log.debug("Table model has changed, updating");
 		updateTableModel();
 	}
 }

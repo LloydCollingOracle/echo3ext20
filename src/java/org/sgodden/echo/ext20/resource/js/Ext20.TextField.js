@@ -62,9 +62,22 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     		options['disabled'] = true;
     	}
     
-    	var extComponent = this.newExtComponentInstance(options)
-    	extComponent.on('blur', this._handleBlurEventRef);
-    	
+    	var extComponent = this.newExtComponentInstance(options);
+	
+		/*
+		 * Ensure that we update the component's value on every keyup, so that
+		 * if there are key listeners on our ancestors, the correct value
+		 * gets transferred to the server.
+		 * 
+		 * I am assuming that the ext destroy processing removes these, need to prove that.
+		 */	
+		extComponent.on(
+			"render",
+			function(){
+				WebCore.EventProcessor.add(this.extComponent.getEl().dom, "keyup", this._handleBlurEventRef, false);
+			}, 
+			this);
+		
     	return extComponent;
     },
     
@@ -74,7 +87,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     renderUpdate: function(update){
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
-        this.extComponent.setValue(this.component.get("text"));
+        this.extComponent.setValue(this.component.get("value"));
     }
 
 });
