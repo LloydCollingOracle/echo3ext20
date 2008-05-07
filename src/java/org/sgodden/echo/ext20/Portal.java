@@ -21,6 +21,40 @@ import org.sgodden.echo.ext20.layout.ColumnLayout;
 
 /**
  * A portal page, which contains columns, which contain portlets that can be dragged around.
+ * <p/>
+ * Example code:
+<pre class="code">
+public class MyPortal extends Portal {
+
+  public MyPortal() {
+    initComponents();
+  }
+
+  private void initComponents() {
+    PortalColumn col1 = new PortalColumn();
+    add(col1);
+
+    Portlet portlet1 = new Portlet();
+    col1.add(portlet1);
+    portlet1.setTitle("Portlet 1");
+
+    ...
+    add some more portlets to column 1
+    ...
+
+    PortalColumn col2 = new PortalColumn();
+    add(col2);
+		
+    Portlet portlet5 = new Portlet();
+    col2.add(portlet5);
+    portlet5.setTitle("Portlet 5");
+
+    ...
+    etc.
+    ...
+  }
+}
+</pre>
  * @author sgodden
  */
 public class Portal 
