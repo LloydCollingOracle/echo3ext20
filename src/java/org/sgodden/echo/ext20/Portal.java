@@ -22,6 +22,9 @@ import org.sgodden.echo.ext20.layout.ColumnLayout;
 /**
  * A portal page, which contains columns, which contain portlets that can be dragged around.
  * <p/>
+ * Internally, a portal uses a {@link ColumnLayout}, so it's important to ensure that
+ * you set the column layout data on the {@link PortalColumn} instances that you add.
+ * <p/>
  * Example code:
 <pre class="code">
 public class MyPortal extends Portal {
@@ -33,6 +36,8 @@ public class MyPortal extends Portal {
   private void initComponents() {
     PortalColumn col1 = new PortalColumn();
     add(col1);
+    col1.setLayoutData(new ColumnLayoutData(.5));
+    col1.setPadding("10px 0 10px 10px");
 
     Portlet portlet1 = new Portlet();
     col1.add(portlet1);
@@ -44,6 +49,8 @@ public class MyPortal extends Portal {
 
     PortalColumn col2 = new PortalColumn();
     add(col2);
+    col2.setPadding("10px");
+    col2.setLayoutData(new ColumnLayoutData(.5));
 		
     Portlet portlet5 = new Portlet();
     col2.add(portlet5);
