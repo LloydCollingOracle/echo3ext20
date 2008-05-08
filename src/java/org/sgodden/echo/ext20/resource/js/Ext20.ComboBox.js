@@ -61,6 +61,12 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         
     	var ret = EchoExt20.TextFieldSync.prototype.createExtComponent.call(
              this, update, options);
+			 
+			 		
+		ret.on(
+			"select",
+			this._handleBlurEventRef
+		);
         
         return ret;
     },

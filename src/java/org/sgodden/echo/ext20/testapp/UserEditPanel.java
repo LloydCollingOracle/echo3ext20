@@ -123,7 +123,7 @@ public class UserEditPanel
         fieldSet.add(adminRoleButton);
         
         SimpleStore roleStore = makeRoleStore();
-        ComboBox roleCombo = makeRoleCombo(roleStore);
+        final ComboBox roleCombo = makeRoleCombo(roleStore);
         fieldSet.add(roleCombo);
         
 //        HtmlEditor editor = new HtmlEditor();
@@ -143,6 +143,7 @@ public class UserEditPanel
         addButton(saveButton);
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	log.info(roleCombo.getValue());
             	if (!(dateField.isClientInputValid())) {
             		Window window = new Window("Correct form errors");
             		window.setModal(true);
