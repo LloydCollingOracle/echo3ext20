@@ -175,6 +175,14 @@ public class Panel extends ExtComponent {
     }
     
     /**
+     * Sets the layout on the panel.
+     * @param layout the layout to use in the panel.
+     */
+    public void setLayout(Layout layout) {
+    	setProperty(LAYOUT_PROPERTY, layout);
+    }
+    
+    /**
      * If set to <code>true</code>, renders the panel's background
      * as transparent.
      * @param transparent whether the panel's background should be transparent.
