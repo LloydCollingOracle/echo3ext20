@@ -6,6 +6,7 @@
     <property name="classes.dir" value="bin"/>
     <property name="build.dir" value="build"/>
     <property name="jar.name" value="echo3ext20.jar"/>
+	<property name="sources.jar.name" value="echo3ext20-sources.jar"/>
     <property name="war.name" value="echo3ext20.war"/>
 	
 	<property name="ext.version" value="2.0.2"/>
@@ -67,6 +68,9 @@
         	<zipfileset
         		prefix="META-INF/maven/org.sgodden/echo3ext20"
         		dir="maven"/>
+        </jar>
+        <jar destfile="${build.dir}/${sources.jar.name}">
+            <fileset dir="src/java" includes="**/*.java"/>
         </jar>
     </target>
     
