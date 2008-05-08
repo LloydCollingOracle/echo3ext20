@@ -71,12 +71,13 @@ public class GridPanel
 
     private static final transient Log log = LogFactory.getLog(GridPanel.class);
     public static final String COLUMN_MODEL_PROPERTY = "columnModel";
-    public static final String SIMPLE_STORE_PROPERTY = "simpleStore";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String INPUT_ACTION = "action";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
+    
+    public static final String MODEL_CHANGED_PROPERTY="model";
     
     private TableModel tableModel;
     private ListSelectionModel selectionModel;
@@ -109,34 +110,23 @@ public class GridPanel
     public void setColumnModel(ColumnModel columnModel) {
         setProperty(COLUMN_MODEL_PROPERTY, columnModel);
     }
-
-    /**
-     * Returns the data store for the table.
-     * @return the data store for the table.
-     */
-    public SimpleStore getSimpleStore() {
-        return (SimpleStore) getProperty(SIMPLE_STORE_PROPERTY);
-    }
     
     /**
      * Sets the data store from a Swing {@link TableModel}.
      * @param tableModel
      */
     public void setTableModel(TableModel tableModel) {
+    	if (tableModel == null) {
+    		throw new IllegalArgumentException("table model may not be null");
+    	}
+    	
+    	TableModel oldValue = this.tableModel;
+    	
     	this.tableModel = tableModel;
-    	updateTableModel();
     	tableModel.removeTableModelListener(this); // just in case they set the same table model
     	tableModel.addTableModelListener(this);
-    }
-    
-    /**
-     * Sets the property again, forcing a refresh of the table model
-     * on the client side.
-     */
-    private void updateTableModel() {
-    	TableModelAdapter tma = new TableModelAdapter(tableModel);
-    	SimpleStore ss = new DefaultSimpleStore(tma.getData(), tma.getFields());
-        setProperty(SIMPLE_STORE_PROPERTY, ss);
+    	
+    	firePropertyChange(MODEL_CHANGED_PROPERTY, oldValue, tableModel);
     }
     
     /**
@@ -278,7 +268,7 @@ public class GridPanel
      * Forces a client-side refresh of the table when the table model changes.
      */
     public void tableChanged(TableModelEvent e) {
-    	log.debug("Table model has changed, updating");
-		updateTableModel();
+    	log.info("Table model has changed, updating");
+		firePropertyChange(MODEL_CHANGED_PROPERTY, tableModel, tableModel); // a bodge but we're not interested in the old and new values anyway
 	}
 }

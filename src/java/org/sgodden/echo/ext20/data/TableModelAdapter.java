@@ -69,6 +69,10 @@ public class TableModelAdapter
 	public Object[][] getData() {
 		return data;
 	}
+	
+	public void setData(Object[][] data) {
+		this.data = data;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -77,6 +81,10 @@ public class TableModelAdapter
 	public String[] getFields() {
 		return fields;
 	}
+	
+	public void setFields(String[] fields){
+		this.fields = fields;
+	}
 
 	/**
 	 * Returns null - it is up to the application to map selected rows
@@ -84,6 +92,10 @@ public class TableModelAdapter
 	 */
 	public Integer getId() {
 		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	/*

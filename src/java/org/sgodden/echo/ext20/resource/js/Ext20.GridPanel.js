@@ -61,7 +61,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     
     createExtComponent: function(update, options) {
 
-        options["store"] = this.component.get("simpleStore");
+        options["store"] = this.component.get("model");
         options["cm"] = this.component.get("columnModel");
         var sm = new Ext.grid.RowSelectionModel({singleSelect:true});
         sm.on("rowselect", this._handleRowSelectEventRef);
@@ -72,7 +72,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         
         options["bbar"] = new Ext.PagingToolbar({
             pageSize: 25,
-            store: this.component.get("simpleStore"),
+            store: this.component.get("model"),
             displayInfo: true,
             displayMsg: 'Displaying records {0} - {1} of {2}',
             emptyMsg: "No records to display"
@@ -84,10 +84,10 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 	renderUpdate: function(update) {
 		EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
 		
-		var updatedStore = update.getUpdatedProperty("simpleStore");
+		var updatedStore = update.getUpdatedProperty("model");
 		if (updatedStore != null) {
 			this.extComponent.reconfigure(
-				this.component.get("simpleStore"),
+				this.component.get("model"),
 				this.component.get("columnModel"));
 		}
 	},
