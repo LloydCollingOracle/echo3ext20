@@ -84,7 +84,6 @@ public class DateFieldPeer
      */
     @Override
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-    	log.info("date: '" + newValue + "'");
         if (propertyName.equals(DateField.DATE_CHANGED_PROPERTY)) {
         	if (newValue == null) {
         		newValue = ""; // prevent NPE in SimpleDateForm.parse
