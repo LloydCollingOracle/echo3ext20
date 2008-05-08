@@ -66,6 +66,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     renderUpdate: function(update){
 
 		EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
+		
+		// check for any property updates
+		if (update.getUpdatedProperty("title") != null) {
+			this.extComponent.setTitle(this.component.get("title"));
+		}
         
         if (update.hasRemovedChildren()) {
             var removedChildren = update.getRemovedChildren();

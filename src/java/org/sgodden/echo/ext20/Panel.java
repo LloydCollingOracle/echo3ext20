@@ -44,6 +44,7 @@ public class Panel extends ExtComponent {
     
     public static final String PROPERTY_BORDER = "border";
     public static final String PROPERTY_PADDING = "padding";
+    public static final String PROPERTY_TITLE = "title";
     
     public static final String COLLAPSIBLE_PROPERTY = "collapsible";
     public static final String HEIGHT_PROPERTY = "height";
@@ -51,7 +52,6 @@ public class Panel extends ExtComponent {
     public static final String LAYOUT_PROPERTY = "layout";
     public static final String TRANSPARENT_PROPERTY = "transparent";
     public static final String SPLIT_PROPERTY = "split";
-    public static final String TITLE_PROPERTY = "title";
     public static final String WIDTH_PROPERTY = "width";
     public static final String TOOL_IDS_PROPERTY = "toolIds";
     
@@ -111,7 +111,7 @@ public class Panel extends ExtComponent {
      * @param title the title of the panel.
      */
     public void setTitle(String title) {
-        setProperty(TITLE_PROPERTY, title);
+        setProperty(PROPERTY_TITLE, title);
     }
 
     /**
