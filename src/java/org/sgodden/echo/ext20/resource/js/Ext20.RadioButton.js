@@ -17,8 +17,8 @@
 EchoExt20.RadioButton = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20RadioButton", this);
-        EchoApp.ComponentFactory.registerType("E2RB", this);
+        Echo.ComponentFactory.registerType("Ext20RadioButton", this);
+        Echo.ComponentFactory.registerType("E2RB", this);
     },
 
     focusable: true,
@@ -30,7 +30,7 @@ EchoExt20.RadioButton = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20RadioButton", this);
+        Echo.Render.registerPeer("Ext20RadioButton", this);
     },
     
     _handleBlurEventRef: null,

@@ -17,8 +17,8 @@
 EchoExt20.SplitButton = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20SplitButton", this);
-        EchoApp.ComponentFactory.registerType("E2SB", this);
+        Echo.ComponentFactory.registerType("Ext20SplitButton", this);
+        Echo.ComponentFactory.registerType("E2SB", this);
     },
 
     componentType: "Ext20SplitButton"
@@ -28,7 +28,7 @@ EchoExt20.SplitButton = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.SplitButtonSync = Core.extend(EchoExt20.ButtonSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20SplitButton", this);
+        Echo.Render.registerPeer("Ext20SplitButton", this);
     },
     
     _handleClickEventRef: null,
@@ -51,7 +51,7 @@ EchoExt20.SplitButtonSync = Core.extend(EchoExt20.ButtonSync, {
         if (this.component.getComponentCount() == 1) {
             var child = this.component.getComponent(0);
             if (child instanceof EchoExt20.Menu) {
-                EchoRender.renderComponentAdd(update, child, null);
+                Echo.Render.renderComponentAdd(update, child, null);
                 var menu = child.peer.extComponent;
                 if (menu == null) {
                     throw new Error("Menu not created for button");

@@ -68,11 +68,9 @@ public class TextFieldPeer
         }
     }
 
-    /**
-     * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#init(Context)
-     */
-    public void init(Context context) {
-        super.init(context);
+    @Override
+    public void init(Context context, Component c) {
+        super.init(context, c);
     //ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
     //serverMessage.addLibrary(TEXT_FIELD_SERVICE.getId());
     }

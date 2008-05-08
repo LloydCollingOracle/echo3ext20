@@ -17,8 +17,8 @@
 EchoExt20.Portlet = Core.extend(EchoExt20.Panel, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20Portlet", this);
-        EchoApp.ComponentFactory.registerType("E2PTL", this);
+        Echo.ComponentFactory.registerType("Ext20Portlet", this);
+        Echo.ComponentFactory.registerType("E2PTL", this);
     },
     
     componentType: "Ext20Portlet"
@@ -27,7 +27,7 @@ EchoExt20.Portlet = Core.extend(EchoExt20.Panel, {
 EchoExt20.PortletSync = Core.extend(EchoExt20.PanelSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20Portlet", this);
+        Echo.Render.registerPeer("Ext20Portlet", this);
     },
     
     newExtComponentInstance: function(options) {

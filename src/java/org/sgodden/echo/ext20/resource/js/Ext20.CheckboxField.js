@@ -17,8 +17,8 @@
 EchoExt20.CheckboxField = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20CheckboxField", this);
-        EchoApp.ComponentFactory.registerType("E2CBF", this);
+        Echo.ComponentFactory.registerType("Ext20CheckboxField", this);
+        Echo.ComponentFactory.registerType("E2CBF", this);
     },
     
     focusable: true,
@@ -34,7 +34,7 @@ EchoExt20.CheckboxField = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20CheckboxField", this);
+        Echo.Render.registerPeer("Ext20CheckboxField", this);
     },
     
     _handleBlurEventRef: null,

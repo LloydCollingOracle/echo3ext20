@@ -16,6 +16,7 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.peers;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 import nextapp.echo.webcontainer.Service;
@@ -46,12 +47,9 @@ public class TextAreaPeer
         return shortType ? "E2TA" : "Ext20TextArea";
     }
 
-    /**
-     * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#init(Context)
-     */
     @Override
-    public void init(Context context) {
-        super.init(context);
+    public void init(Context context, Component c) {
+        super.init(context, c);
     //ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
     //serverMessage.addLibrary(TEXT_FIELD_SERVICE.getId());
     }

@@ -17,8 +17,8 @@
 EchoExt20.DateField = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20DateField", this);
-        EchoApp.ComponentFactory.registerType("E2DF", this);
+        Echo.ComponentFactory.registerType("Ext20DateField", this);
+        Echo.ComponentFactory.registerType("E2DF", this);
     },
 
     focusable: true,
@@ -30,7 +30,7 @@ EchoExt20.DateField = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.DateFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20DateField", this);
+        Echo.Render.registerPeer("Ext20DateField", this);
     },
     
     _handleBlurEventRef: null,

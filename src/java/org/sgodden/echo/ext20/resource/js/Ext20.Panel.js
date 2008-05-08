@@ -17,8 +17,8 @@
 EchoExt20.Panel = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20Panel", this);
-        EchoApp.ComponentFactory.registerType("E2P", this);
+        Echo.ComponentFactory.registerType("Ext20Panel", this);
+        Echo.ComponentFactory.registerType("E2P", this);
     },
     
     componentType: "Ext20Panel",
@@ -39,7 +39,7 @@ EchoExt20.Panel = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20Panel", this);
+        Echo.Render.registerPeer("Ext20Panel", this);
     },
 	
 	/**
@@ -328,7 +328,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 var childPosition = children[i].get("position");
                 if (childPosition == position) {
                     // create the child
-                    EchoRender.renderComponentAdd(update, children[i], null);
+                    Echo.Render.renderComponentAdd(update, children[i], null);
                     var tbar = children[i].peer.extComponent;
                     if (tbar == null) {
                         throw new Error("No toobar ext component was created during renderAdd");
@@ -380,7 +380,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             var child = children[i];
             if (child instanceof EchoExt20.Button
                     && child.get("addToButtonBar") == true) {
-                EchoRender.renderComponentAdd(update, child, null);
+                Echo.Render.renderComponentAdd(update, child, null);
                 var button = child.peer.extComponent;
                 if (button == null) {
                     throw new Error("No child ext component was created during renderAdd for component type: " + child.componentType);
@@ -416,7 +416,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                   )
                   && !(child instanceof EchoExt20.Toolbar) // toolbars handled separately
                 ) {
-                EchoRender.renderComponentAdd(update, child, null); 
+                Echo.Render.renderComponentAdd(update, child, null); 
                 
                 // add the ext component created by the peer to the child items array
                 var childExtComponent = child.peer.extComponent;
@@ -441,7 +441,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     _createWindow: function(update, child) {
-        EchoRender.renderComponentAdd(update, child, null);
+        Echo.Render.renderComponentAdd(update, child, null);
         EchoExt20.ExtComponentSync.openWindows.push(child.peer.extComponent);
         child.peer.extComponent.doLayout();
         child.peer.extComponent.show();

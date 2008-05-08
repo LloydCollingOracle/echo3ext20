@@ -17,8 +17,8 @@
 EchoExt20.ToolbarSeparator = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20ToolbarSeparator", this);
-        EchoApp.ComponentFactory.registerType("E2TS", this);
+        Echo.ComponentFactory.registerType("Ext20ToolbarSeparator", this);
+        Echo.ComponentFactory.registerType("E2TS", this);
     },
     
     componentType: "Ext20ToolbarSeparator"
@@ -28,7 +28,7 @@ EchoExt20.ToolbarSeparator = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.ToolbarSeparatorSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20ToolbarSeparator", this);
+        Echo.Render.registerPeer("Ext20ToolbarSeparator", this);
     },
     
     createExtComponent: function(update, options) {

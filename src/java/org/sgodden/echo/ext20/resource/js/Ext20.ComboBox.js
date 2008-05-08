@@ -17,8 +17,8 @@
 EchoExt20.ComboBox = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20ComboBox", this);
-        EchoApp.ComponentFactory.registerType("E2CB", this);
+        Echo.ComponentFactory.registerType("Ext20ComboBox", this);
+        Echo.ComponentFactory.registerType("E2CB", this);
     },
 
     focusable: true,
@@ -30,7 +30,7 @@ EchoExt20.ComboBox = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20ComboBox", this);
+        Echo.Render.registerPeer("Ext20ComboBox", this);
     },
     
     /**

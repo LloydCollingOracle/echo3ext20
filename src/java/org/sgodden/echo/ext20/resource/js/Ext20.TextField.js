@@ -17,8 +17,8 @@
 EchoExt20.TextField = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20TextField", this);
-        EchoApp.ComponentFactory.registerType("E2TF", this);
+        Echo.ComponentFactory.registerType("Ext20TextField", this);
+        Echo.ComponentFactory.registerType("E2TF", this);
     },
 
     focusable: true,
@@ -30,7 +30,7 @@ EchoExt20.TextField = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20TextField", this);
+        Echo.Render.registerPeer("Ext20TextField", this);
     },
 
     $virtual: {
@@ -74,7 +74,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
 		extComponent.on(
 			"render",
 			function(){
-				WebCore.EventProcessor.add(this.extComponent.getEl().dom, "keyup", this._handleBlurEventRef, false);
+				Core.Web.Event.add(this.extComponent.getEl().dom, "keyup", this._handleBlurEventRef, false);
 			}, 
 			this);
 		

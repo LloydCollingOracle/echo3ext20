@@ -17,8 +17,8 @@
 EchoExt20.ToolbarTextItem = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20ToolbarTextItem", this);
-        EchoApp.ComponentFactory.registerType("E2TTX", this);
+        Echo.ComponentFactory.registerType("Ext20ToolbarTextItem", this);
+        Echo.ComponentFactory.registerType("E2TTX", this);
     },
     
     componentType: "Ext20ToolbarTextItem"
@@ -28,7 +28,7 @@ EchoExt20.ToolbarTextItem = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.ToolbarTextItemSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20ToolbarTextItem", this);
+        Echo.Render.registerPeer("Ext20ToolbarTextItem", this);
     },
     
     createExtComponent: function(update, options) {

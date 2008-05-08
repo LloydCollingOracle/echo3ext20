@@ -18,8 +18,8 @@
 EchoExt20.MenuItem = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20MenuItem", this);
-        EchoApp.ComponentFactory.registerType("E2MI", this);
+        Echo.ComponentFactory.registerType("Ext20MenuItem", this);
+        Echo.ComponentFactory.registerType("E2MI", this);
     },
 
     componentType: "Ext20MenuItem",
@@ -38,7 +38,7 @@ EchoExt20.MenuItem = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.MenuItemSync = Core.extend(EchoExt20.ExtComponentSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20MenuItem", this);
+        Echo.Render.registerPeer("Ext20MenuItem", this);
     },
     
     _handleClickEventRef: null,

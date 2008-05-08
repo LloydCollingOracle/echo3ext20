@@ -34,7 +34,7 @@ EchoExt20 = {};
 /**
  * Base class for all ext20 components.
  */
-EchoExt20.ExtComponent = Core.extend(EchoApp.Component, {
+EchoExt20.ExtComponent = Core.extend(Echo.Component, {
 	
     /**
      * Fires a before render event.
@@ -66,7 +66,7 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
 			position = ct.createChild();
 		}
 		this.el = position;
-		EchoRender.renderComponentAdd(this.update, this.wrapped, position);
+		Echo.Render.renderComponentAdd(this.update, this.wrapped, position);
 		delete this.update;
 		
 		this.wrapped.peer.renderDispose = this.wrapped.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
@@ -80,7 +80,7 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
 /**
 * Abstract base class for all Ext20 sync peers.
 */
-EchoExt20.ExtComponentSync = Core.extend(EchoRender.ComponentSync, {
+EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     
     $abstract: {
         /**
@@ -392,8 +392,8 @@ EchoExt20.PropertyTranslator.AccordionLayout = {
     }
 }
 
-EchoSerial.addPropertyTranslator("Ext20AccordionLayout", EchoExt20.PropertyTranslator.AccordionLayout);
-EchoSerial.addPropertyTranslator("E2AL", EchoExt20.PropertyTranslator.AccordionLayout);
+Echo.Serial.addPropertyTranslator("Ext20AccordionLayout", EchoExt20.PropertyTranslator.AccordionLayout);
+Echo.Serial.addPropertyTranslator("E2AL", EchoExt20.PropertyTranslator.AccordionLayout);
 
 EchoExt20.BorderLayout = Core.extend({
 });
@@ -404,8 +404,8 @@ EchoExt20.PropertyTranslator.BorderLayout = {
     }
 }
 
-EchoSerial.addPropertyTranslator("Ext20BorderLayout", EchoExt20.PropertyTranslator.BorderLayout);
-EchoSerial.addPropertyTranslator("E2BL", EchoExt20.PropertyTranslator.BorderLayout);
+Echo.Serial.addPropertyTranslator("Ext20BorderLayout", EchoExt20.PropertyTranslator.BorderLayout);
+Echo.Serial.addPropertyTranslator("E2BL", EchoExt20.PropertyTranslator.BorderLayout);
 
 EchoExt20.FitLayout = Core.extend({
 });
@@ -416,8 +416,8 @@ EchoExt20.PropertyTranslator.FitLayout = {
     }
 }
 
-EchoSerial.addPropertyTranslator("Ext20FitLayout", EchoExt20.PropertyTranslator.FitLayout);
-EchoSerial.addPropertyTranslator("E2FL", EchoExt20.PropertyTranslator.FitLayout);
+Echo.Serial.addPropertyTranslator("Ext20FitLayout", EchoExt20.PropertyTranslator.FitLayout);
+Echo.Serial.addPropertyTranslator("E2FL", EchoExt20.PropertyTranslator.FitLayout);
 
 EchoExt20.ColumnLayout = Core.extend({
 });
@@ -428,8 +428,8 @@ EchoExt20.PropertyTranslator.ColumnLayout = {
     }
 }
 
-EchoSerial.addPropertyTranslator("Ext20ColumnLayout", EchoExt20.PropertyTranslator.ColumnLayout);
-EchoSerial.addPropertyTranslator("E2CL", EchoExt20.PropertyTranslator.ColumnLayout);
+Echo.Serial.addPropertyTranslator("Ext20ColumnLayout", EchoExt20.PropertyTranslator.ColumnLayout);
+Echo.Serial.addPropertyTranslator("E2CL", EchoExt20.PropertyTranslator.ColumnLayout);
 
 EchoExt20.FormLayout = Core.extend({
 });
@@ -440,8 +440,8 @@ EchoExt20.PropertyTranslator.FormLayout = {
     }
 }
 
-EchoSerial.addPropertyTranslator("Ext20FormLayout", EchoExt20.PropertyTranslator.FormLayout);
-EchoSerial.addPropertyTranslator("E2FML", EchoExt20.PropertyTranslator.FormLayout);
+Echo.Serial.addPropertyTranslator("Ext20FormLayout", EchoExt20.PropertyTranslator.FormLayout);
+Echo.Serial.addPropertyTranslator("E2FML", EchoExt20.PropertyTranslator.FormLayout);
 
 EchoExt20.TableLayout = Core.extend({
     columns: 0,
@@ -471,8 +471,8 @@ EchoExt20.PropertyTranslator.TableLayout = {
     }
 }
 
-EchoSerial.addPropertyTranslator("Ext20TableLayout", EchoExt20.PropertyTranslator.TableLayout);
-EchoSerial.addPropertyTranslator("E2TL", EchoExt20.PropertyTranslator.TableLayout);
+Echo.Serial.addPropertyTranslator("Ext20TableLayout", EchoExt20.PropertyTranslator.TableLayout);
+Echo.Serial.addPropertyTranslator("E2TL", EchoExt20.PropertyTranslator.TableLayout);
 
 
 EchoExt20.PropertyTranslator.SimpleStore = {
@@ -486,8 +486,8 @@ EchoExt20.PropertyTranslator.SimpleStore = {
     }
 };
 
-EchoSerial.addPropertyTranslator("Ext20SimpleStore", EchoExt20.PropertyTranslator.SimpleStore);
-EchoSerial.addPropertyTranslator("E2SS", EchoExt20.PropertyTranslator.SimpleStore);
+Echo.Serial.addPropertyTranslator("Ext20SimpleStore", EchoExt20.PropertyTranslator.SimpleStore);
+Echo.Serial.addPropertyTranslator("E2SS", EchoExt20.PropertyTranslator.SimpleStore);
 
 EchoExt20.PropertyTranslator.ColumnModel = {
     toProperty: function(client, propertyElement) {
@@ -496,5 +496,5 @@ EchoExt20.PropertyTranslator.ColumnModel = {
     }
 };
 
-EchoSerial.addPropertyTranslator("Ext20ColumnModel", EchoExt20.PropertyTranslator.ColumnModel);
-EchoSerial.addPropertyTranslator("E2CM", EchoExt20.PropertyTranslator.ColumnModel);
+Echo.Serial.addPropertyTranslator("Ext20ColumnModel", EchoExt20.PropertyTranslator.ColumnModel);
+Echo.Serial.addPropertyTranslator("E2CM", EchoExt20.PropertyTranslator.ColumnModel);

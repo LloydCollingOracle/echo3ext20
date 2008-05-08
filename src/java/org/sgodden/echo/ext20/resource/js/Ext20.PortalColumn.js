@@ -17,8 +17,8 @@
 EchoExt20.PortalColumn = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20PortalColumn", this);
-        EchoApp.ComponentFactory.registerType("E2PC", this);
+        Echo.ComponentFactory.registerType("Ext20PortalColumn", this);
+        Echo.ComponentFactory.registerType("E2PC", this);
     },
 
     componentType: "Ext20PortalColumn"
@@ -28,7 +28,7 @@ EchoExt20.PortalColumn = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.PortalColumnSync = Core.extend(EchoExt20.ExtComponentSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20PortalColumn", this);
+        Echo.Render.registerPeer("Ext20PortalColumn", this);
     },
     
     createExtComponent: function(update, options) {
@@ -47,7 +47,7 @@ EchoExt20.PortalColumnSync = Core.extend(EchoExt20.ExtComponentSync, {
     _createChildItems: function(column, update) {
         for (var i = 0; i < this.component.getComponentCount(); ++i) {
             var child = this.component.getComponent(i);
-            EchoRender.renderComponentAdd(update, child, null); // null because ext components create the necessary extra divs themselves
+            Echo.Render.renderComponentAdd(update, child, null); // null because ext components create the necessary extra divs themselves
 
             // add the ext component created by the peer to the child items array
             var childExtComponent = child.peer.extComponent;

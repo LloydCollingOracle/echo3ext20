@@ -17,8 +17,8 @@
 EchoExt20.ToolbarSpacer = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20ToolbarSpacer", this);
-        EchoApp.ComponentFactory.registerType("E2TBS", this);
+        Echo.ComponentFactory.registerType("Ext20ToolbarSpacer", this);
+        Echo.ComponentFactory.registerType("E2TBS", this);
     },
     
     componentType: "Ext20ToolbarSpacer"
@@ -28,7 +28,7 @@ EchoExt20.ToolbarSpacer = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.ToolbarSeparatorSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20ToolbarSpacer", this);
+        Echo.Render.registerPeer("Ext20ToolbarSpacer", this);
     },
     
     createExtComponent: function(update, options) {

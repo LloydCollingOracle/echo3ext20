@@ -17,8 +17,8 @@
 EchoExt20.Window = Core.extend(EchoExt20.Panel, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20Window", this);
-        EchoApp.ComponentFactory.registerType("E2W", this);
+        Echo.ComponentFactory.registerType("Ext20Window", this);
+        Echo.ComponentFactory.registerType("E2W", this);
     },
 
     componentType: "Ext20Window",
@@ -37,7 +37,7 @@ EchoExt20.Window = Core.extend(EchoExt20.Panel, {
 EchoExt20.WindowSync = Core.extend(EchoExt20.PanelSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20Window", this);
+        Echo.Render.registerPeer("Ext20Window", this);
     },
     
     _handleWindowClosingEventRef: null,

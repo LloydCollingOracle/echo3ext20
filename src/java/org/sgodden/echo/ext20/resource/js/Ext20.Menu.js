@@ -17,8 +17,8 @@
 EchoExt20.Menu = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20Menu", this);
-        EchoApp.ComponentFactory.registerType("E2M", this);
+        Echo.ComponentFactory.registerType("Ext20Menu", this);
+        Echo.ComponentFactory.registerType("E2M", this);
     },
 
     componentType: "Ext20Menu"
@@ -27,7 +27,7 @@ EchoExt20.Menu = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.ToolbarSync = Core.extend(EchoExt20.ExtComponentSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20Menu", this);
+        Echo.Render.registerPeer("Ext20Menu", this);
     },
     
     createExtComponent: function(update, options) {
@@ -42,7 +42,7 @@ EchoExt20.ToolbarSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         for (var i = 0; i < this.component.getComponentCount(); i++) {
             var child = this.component.getComponent(i);
-            EchoRender.renderComponentAdd(update, child, null); // null because ext components create the necessary extra divs themselves
+            Echo.Render.renderComponentAdd(update, child, null); // null because ext components create the necessary extra divs themselves
 
             // add the ext component created by the peer to the child items array
             var childExtComponent = child.peer.extComponent;

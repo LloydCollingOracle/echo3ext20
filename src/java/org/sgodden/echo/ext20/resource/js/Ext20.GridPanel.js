@@ -17,8 +17,8 @@
 EchoExt20.GridPanel = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20GridPanel", this);
-        EchoApp.ComponentFactory.registerType("E2GP", this);
+        Echo.ComponentFactory.registerType("Ext20GridPanel", this);
+        Echo.ComponentFactory.registerType("E2GP", this);
     },
 
     componentType: "Ext20GridPanel",
@@ -38,7 +38,7 @@ EchoExt20.GridPanel = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20GridPanel", this);
+        Echo.Render.registerPeer("Ext20GridPanel", this);
     },
 
 	_selectedRows: {},

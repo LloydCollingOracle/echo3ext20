@@ -17,8 +17,8 @@
 EchoExt20.TextArea = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20TextArea", this);
-        EchoApp.ComponentFactory.registerType("E2TA", this);
+        Echo.ComponentFactory.registerType("Ext20TextArea", this);
+        Echo.ComponentFactory.registerType("E2TA", this);
     },
 
     componentType: "Ext20TextArea"
@@ -28,7 +28,7 @@ EchoExt20.TextArea = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.TextAreaSync = Core.extend(EchoExt20.TextFieldSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20TextArea", this);
+        Echo.Render.registerPeer("Ext20TextArea", this);
     },
 
     newExtComponentInstance: function(options) {

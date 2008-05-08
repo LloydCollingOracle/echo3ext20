@@ -17,8 +17,8 @@
 EchoExt20.TimeField = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20TimeField", this);
-        EchoApp.ComponentFactory.registerType("E2TMF", this);
+        Echo.ComponentFactory.registerType("Ext20TimeField", this);
+        Echo.ComponentFactory.registerType("E2TMF", this);
     },
 
     focusable: true,
@@ -30,7 +30,7 @@ EchoExt20.TimeField = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.TimeFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20TimeField", this);
+        Echo.Render.registerPeer("Ext20TimeField", this);
     },
     
     _handleBlurEventRef: null,

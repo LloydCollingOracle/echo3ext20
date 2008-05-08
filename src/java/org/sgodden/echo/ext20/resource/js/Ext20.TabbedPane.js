@@ -17,8 +17,8 @@
 EchoExt20.TabbedPane = Core.extend(EchoExt20.Panel, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20TabbedPane", this);
-        EchoApp.ComponentFactory.registerType("E2TP", this);
+        Echo.ComponentFactory.registerType("Ext20TabbedPane", this);
+        Echo.ComponentFactory.registerType("E2TP", this);
     },
 
     focusable: true,
@@ -40,7 +40,7 @@ EchoExt20.TabbedPane = Core.extend(EchoExt20.Panel, {
 EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20TabbedPane", this);
+        Echo.Render.registerPeer("Ext20TabbedPane", this);
     },
 	
 	hideWhenAddingChildren: false,

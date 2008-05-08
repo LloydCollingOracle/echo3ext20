@@ -17,8 +17,8 @@
 EchoExt20.FieldSet = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20FieldSet", this);
-        EchoApp.ComponentFactory.registerType("E2FS", this);
+        Echo.ComponentFactory.registerType("Ext20FieldSet", this);
+        Echo.ComponentFactory.registerType("E2FS", this);
     },
 
     componentType: "Ext20FieldSet"
@@ -28,7 +28,7 @@ EchoExt20.FieldSet = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.FieldSetSync = Core.extend(EchoExt20.PanelSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20FieldSet", this);
+        Echo.Render.registerPeer("Ext20FieldSet", this);
     },
     
     /**

@@ -72,8 +72,8 @@ public class WindowPeer extends PanelPeer {
      * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#init(Context)
      */
     @Override
-    public void init(Context context) {
-        super.init(context);
+    public void init(Context context, Component c) {
+        super.init(context, c);
         //ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
         //serverMessage.addLibrary(WINDOW_SERVICE.getId());
     }

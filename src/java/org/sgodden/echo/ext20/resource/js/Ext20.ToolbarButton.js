@@ -18,8 +18,8 @@
 EchoExt20.ToolbarButton = Core.extend(EchoExt20.Button, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20ToolbarButton", this);
-        EchoApp.ComponentFactory.registerType("E2TB", this);
+        Echo.ComponentFactory.registerType("Ext20ToolbarButton", this);
+        Echo.ComponentFactory.registerType("E2TB", this);
     },
 
     componentType: "Ext20ToolbarButton"
@@ -29,7 +29,7 @@ EchoExt20.ToolbarButton = Core.extend(EchoExt20.Button, {
 EchoExt20.ToolbarButtonSync = Core.extend(EchoExt20.ButtonSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20ToolbarButton", this);
+        Echo.Render.registerPeer("Ext20ToolbarButton", this);
     },
     
     newExtComponentInstance: function(options) {

@@ -17,8 +17,8 @@
 EchoExt20.Button = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20Button", this);
-        EchoApp.ComponentFactory.registerType("E2B", this);
+        Echo.ComponentFactory.registerType("Ext20Button", this);
+        Echo.ComponentFactory.registerType("E2B", this);
     },
     
     focusable: true,
@@ -36,7 +36,7 @@ EchoExt20.Button = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20Button", this);
+        Echo.Render.registerPeer("Ext20Button", this);
     },
     
     _handleClickEventRef: null,
@@ -66,7 +66,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (this.component.getComponentCount() == 1) {
             var child = this.component.getComponent(0);
             if (child instanceof EchoExt20.Menu) {
-                EchoRender.renderComponentAdd(update, child, null);
+                Echo.Render.renderComponentAdd(update, child, null);
                 var menu = child.peer.extComponent;
                 if (menu == null) {
                     throw new Error("Menu not created for button");

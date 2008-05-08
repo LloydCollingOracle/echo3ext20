@@ -17,8 +17,8 @@
 EchoExt20.HtmlEditor = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20HtmlEditor", this);
-        EchoApp.ComponentFactory.registerType("E2HE", this);
+        Echo.ComponentFactory.registerType("Ext20HtmlEditor", this);
+        Echo.ComponentFactory.registerType("E2HE", this);
     },
 
     focusable: true,
@@ -30,7 +30,7 @@ EchoExt20.HtmlEditor = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.HtmlEditorSync = Core.extend(EchoExt20.ExtComponentSync, {
 
     $load: function() {
-        EchoRender.registerPeer("Ext20HtmlEditor", this);
+        Echo.Render.registerPeer("Ext20HtmlEditor", this);
     },
     
     _handleSyncEventRef: null,

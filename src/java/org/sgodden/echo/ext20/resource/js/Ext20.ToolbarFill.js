@@ -17,8 +17,8 @@
 EchoExt20.ToolbarFill = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
-        EchoApp.ComponentFactory.registerType("Ext20ToolbarFill", this);
-        EchoApp.ComponentFactory.registerType("E2TBF", this);
+        Echo.ComponentFactory.registerType("Ext20ToolbarFill", this);
+        Echo.ComponentFactory.registerType("E2TBF", this);
     },
     
     componentType: "Ext20ToolbarFill"
@@ -28,7 +28,7 @@ EchoExt20.ToolbarFill = Core.extend(EchoExt20.ExtComponent, {
 EchoExt20.ToolbarFillSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
-        EchoRender.registerPeer("Ext20ToolbarFill", this);
+        Echo.Render.registerPeer("Ext20ToolbarFill", this);
     },
     
     createExtComponent: function(update, options) {
