@@ -32,9 +32,6 @@ import nextapp.echo.app.list.ListSelectionModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.data.DefaultSimpleStore;
-import org.sgodden.echo.ext20.data.SimpleStore;
-import org.sgodden.echo.ext20.data.TableModelAdapter;
 
 /**
  * An ext GridPanel.  It uses swing table models, since these provide a complete
