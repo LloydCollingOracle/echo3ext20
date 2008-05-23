@@ -31,7 +31,7 @@ import org.sgodden.echo.ext20.ExtComponent;
 public class ButtonPeer extends AbstractButtonPeer {
     
     protected static final Service BUTTON_SERVICE = JavaScriptService.forResource("EchoExt20.Button", 
-            "/org/sgodden/echo/ext20/resource/js/Ext20.Button.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.Button.js");
     
     static {
         WebContainerServlet.getServiceRegistry().add(BUTTON_SERVICE);

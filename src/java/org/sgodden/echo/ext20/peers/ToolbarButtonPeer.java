@@ -30,7 +30,7 @@ import org.sgodden.echo.ext20.ToolbarButton;
 public class ToolbarButtonPeer extends ButtonPeer {
     
     protected static final Service TOOLBAR_BUTTON_SERVICE = JavaScriptService.forResource("EchoExt20.ToolbarButton", 
-            "/org/sgodden/echo/ext20/resource/js/Ext20.ToolbarButton.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.ToolbarButton.js");
     
     static {
         WebContainerServlet.getServiceRegistry().add(TOOLBAR_BUTTON_SERVICE);

@@ -40,11 +40,11 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
 
     static {
         List resourceList = new ArrayList();
-        resourceList.add("/ext/adapter/ext/ext-base.js");
-        resourceList.add("/ext/ext-all-debug.js");
-        resourceList.add("/ext/portal/Portal.js");
-        resourceList.add("/ext/portal/PortalColumn.js");
-        resourceList.add("/ext/portal/Portlet.js");
+        resourceList.add("ext/adapter/ext/ext-base.js");
+        resourceList.add("ext/ext-all-debug.js");
+        resourceList.add("ext/portal/Portal.js");
+        resourceList.add("ext/portal/PortalColumn.js");
+        resourceList.add("ext/portal/Portlet.js");
 
         String[] resources = new String[resourceList.size()];
         resourceList.toArray(resources);
@@ -60,33 +60,33 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
          */
         resourceList = new ArrayList();
         // ORDER IS IMPORTANT FOR INHERITANCE!
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.Panel.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.Button.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.TextField.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.TextArea.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.ComboBox.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.CheckboxField.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.DateField.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.FieldSet.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.GridPanel.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.HtmlEditor.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.Menu.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.MenuItem.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.Portal.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.PortalColumn.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.Portlet.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.RadioButton.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.TabbedPane.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.TimeField.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.Toolbar.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.ToolbarButton.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.ToolbarFill.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSeparator.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSpacer.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.ToolbarTextItem.js");
-        resourceList.add("/org/sgodden/echo/ext20/resource/js/Ext20.Window.js");
-        resourceList.add("/json2.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Panel.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Button.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.TextField.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.TextArea.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ComboBox.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.CheckboxField.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.DateField.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.FieldSet.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.GridPanel.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.HtmlEditor.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Menu.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.MenuItem.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Portal.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.PortalColumn.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Portlet.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.RadioButton.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.TabbedPane.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.TimeField.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Toolbar.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarButton.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarFill.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSeparator.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSpacer.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarTextItem.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Window.js");
+        resourceList.add("json2.js");
 
         resources = new String[resourceList.size()];
         resourceList.toArray(resources);

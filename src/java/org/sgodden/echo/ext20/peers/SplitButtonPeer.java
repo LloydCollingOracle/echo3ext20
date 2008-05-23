@@ -30,7 +30,7 @@ import org.sgodden.echo.ext20.SplitButton;
 public class SplitButtonPeer extends AbstractButtonPeer {
     
     protected static final Service SPLIT_BUTTON_SERVICE = JavaScriptService.forResource("EchoExt20.SplitButton", 
-            "/org/sgodden/echo/ext20/resource/js/Ext20.SplitButton.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.SplitButton.js");
     
     static {
         WebContainerServlet.getServiceRegistry().add(SPLIT_BUTTON_SERVICE);

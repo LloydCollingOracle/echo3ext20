@@ -29,7 +29,7 @@ public class TextAreaPeer
         extends ExtComponentPeer {
 
     protected static final Service TEXT_AREA_SERVICE = JavaScriptService.forResource("EchoExt20.TextArea",
-            "/org/sgodden/echo/ext20/resource/js/Ext20.TextArea.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.TextArea.js");
 
     static {
         WebContainerServlet.getServiceRegistry().add(TEXT_AREA_SERVICE);

@@ -29,7 +29,7 @@ public class ToolbarFillPeer
         extends AbstractComponentSynchronizePeer {
 
     protected static final Service TOOLBAR_FILL_SERVICE = JavaScriptService.forResource("EchoExt20.ToolbarFill",
-            "/org/sgodden/echo/ext20/resource/js/Ext20.ToolbarFill.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.ToolbarFill.js");
 
     static {
         WebContainerServlet.getServiceRegistry().add(TOOLBAR_FILL_SERVICE);

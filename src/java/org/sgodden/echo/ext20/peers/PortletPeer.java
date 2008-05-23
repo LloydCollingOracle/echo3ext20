@@ -28,7 +28,7 @@ public class PortletPeer
         extends PanelPeer {
 
     protected static final Service PORTLET_SERVICE = JavaScriptService.forResource("EchoExt20.Portlet",
-            "/org/sgodden/echo/ext20/resource/js/Ext20.Portlet.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.Portlet.js");
 
     static {
         WebContainerServlet.getServiceRegistry().add(PORTLET_SERVICE);

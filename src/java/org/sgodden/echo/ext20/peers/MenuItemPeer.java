@@ -30,7 +30,7 @@ import org.sgodden.echo.ext20.MenuItem;
 public class MenuItemPeer extends AbstractButtonPeer {
     
     protected static final Service MENU_ITEM_SERVICE = JavaScriptService.forResource("EchoExt20.MenuItem", 
-            "/org/sgodden/echo/ext20/resource/js/Ext20.MenuItem.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.MenuItem.js");
     
     static {
         WebContainerServlet.getServiceRegistry().add(MENU_ITEM_SERVICE);

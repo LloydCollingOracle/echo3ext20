@@ -29,7 +29,7 @@ public class ToolbarSpacerPeer
         extends AbstractComponentSynchronizePeer {
 
     protected static final Service TOOLBAR_SPACER_SERVICE = JavaScriptService.forResource("EchoExt20.ToolbarSpacer",
-            "/org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSpacer.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSpacer.js");
 
     static {
         WebContainerServlet.getServiceRegistry().add(TOOLBAR_SPACER_SERVICE);

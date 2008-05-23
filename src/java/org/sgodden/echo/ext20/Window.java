@@ -73,6 +73,7 @@ public class Window
     public static final String INPUT_WINDOW_CLOSING = "windowClosing";
     
     public static final String MODAL_PROPERTY = "modal";
+    public static final String CLOSABLE_PROPERTY = "closable";
 
     /**
      * Creates a new window.
@@ -121,11 +122,19 @@ public class Window
     }
     
     /**
-     * Sets whether the window is modal.
+     * Sets whether the window is modal (false by default).
      * @param modal whether the window is modal.
      */
     public void setModal(boolean modal) {
         setProperty(MODAL_PROPERTY, modal);
+    }
+    
+    /**
+     * Sets whether the window is closable (true by default).
+     * @param closable whether the window is closable.
+     */
+    public void setClosable(boolean closable) {
+    	setProperty(CLOSABLE_PROPERTY, closable);
     }
     
     /**

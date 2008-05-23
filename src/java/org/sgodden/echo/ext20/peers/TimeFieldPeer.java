@@ -29,7 +29,7 @@ public class TimeFieldPeer
         extends ExtComponentPeer {
 
     protected static final Service TIME_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.TimeField",
-            "/org/sgodden/echo/ext20/resource/js/Ext20.TimeField.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.TimeField.js");
 
     static {
         WebContainerServlet.getServiceRegistry().add(TIME_FIELD_SERVICE);

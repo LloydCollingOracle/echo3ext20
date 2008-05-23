@@ -30,7 +30,7 @@ public class TabbedPanePeer
 extends ExtComponentPeer {
     
     protected static final Service TABBED_PANE_SERVICE = JavaScriptService.forResource("EchoExt20.TabbedPane", 
-            "/org/sgodden/echo/ext20/resource/js/Ext20.TabbedPane.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.TabbedPane.js");
     
     static {
         WebContainerServlet.getServiceRegistry().add(TABBED_PANE_SERVICE);

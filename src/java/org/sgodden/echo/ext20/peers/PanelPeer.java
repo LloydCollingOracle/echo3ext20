@@ -30,7 +30,7 @@ public class PanelPeer
         extends ExtComponentPeer {
 
     protected static final Service PANEL_SERVICE = JavaScriptService.forResource("EchoExt20.Panel",
-            "/org/sgodden/echo/ext20/resource/js/Ext20.Panel.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.Panel.js");
 
     static {
         WebContainerServlet.getServiceRegistry().add(PANEL_SERVICE);

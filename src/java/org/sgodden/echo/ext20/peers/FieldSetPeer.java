@@ -28,7 +28,7 @@ public class FieldSetPeer
         extends PanelPeer {
 
     protected static final Service FIELDSET_SERVICE = JavaScriptService.forResource("EchoExt20.FieldSet",
-            "/org/sgodden/echo/ext20/resource/js/Ext20.FieldSet.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.FieldSet.js");
 
     static {
         WebContainerServlet.getServiceRegistry().add(PANEL_SERVICE);

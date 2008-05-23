@@ -31,7 +31,7 @@ public class CheckboxFieldPeer
         extends ExtComponentPeer {
 
     protected static final Service TEXT_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.CheckboxField",
-            "/org/sgodden/echo/ext20/resource/js/Ext20.CheckboxField.js");
+            "org/sgodden/echo/ext20/resource/js/Ext20.CheckboxField.js");
 
     static {
         WebContainerServlet.getServiceRegistry().add(TEXT_FIELD_SERVICE);

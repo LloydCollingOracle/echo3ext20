@@ -54,6 +54,10 @@ EchoExt20.WindowSync = Core.extend(EchoExt20.PanelSync, {
             options['modal'] = this.component.get("modal");
         }
         
+        if (this.component.get("closable") != null) {
+            options['closable'] = this.component.get("closable");
+        }
+        
     	var extComponent = new Ext.Window(options);
          
         extComponent.on("beforeClose", this._handleWindowClosingEventRef);

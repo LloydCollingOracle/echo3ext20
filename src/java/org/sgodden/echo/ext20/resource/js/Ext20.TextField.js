@@ -75,6 +75,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
 			"render",
 			function(){
 				Core.Web.Event.add(this.extComponent.getEl().dom, "keyup", this._handleBlurEventRef, false);
+				extComponent.validate();
 			}, 
 			this);
 		
