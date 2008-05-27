@@ -113,6 +113,14 @@ public class Panel extends ExtComponent {
     public void setTitle(String title) {
         setProperty(PROPERTY_TITLE, title);
     }
+    
+    /**
+     * Returns the panel's title.
+     * @return the panel's title.
+     */
+    public String getTitle() {
+        return (String) getProperty(PROPERTY_TITLE);
+    }
 
     /**
      * Sets the padding, in CSS style.
