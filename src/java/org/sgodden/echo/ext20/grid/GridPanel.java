@@ -265,7 +265,6 @@ public class GridPanel
      * Forces a client-side refresh of the table when the table model changes.
      */
     public void tableChanged(TableModelEvent e) {
-    	log.info("Table model has changed, updating");
 		firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge but we're not interested in the old and new values anyway
 	}
 }
