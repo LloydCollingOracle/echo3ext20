@@ -477,12 +477,14 @@ Echo.Serial.addPropertyTranslator("E2TL", EchoExt20.PropertyTranslator.TableLayo
 
 EchoExt20.PropertyTranslator.SimpleStore = {
     toProperty: function(client, propertyElement) {
-        var obj = EchoExt20.PropertyTranslator.toJsObject(client, propertyElement);
+        return EchoExt20.PropertyTranslator.toJsObject(client, propertyElement);
+		/*
         return new Ext.data.SimpleStore({
             fields: obj.fields,
             id: obj.id,
             data: obj.data
         });
+        */
     }
 };
 

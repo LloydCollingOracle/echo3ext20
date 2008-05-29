@@ -74,6 +74,10 @@ public class GridPanel
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
     
+    public static final String SORT_FIELD_NAME_PROPERTY = "sortFieldName";
+    public static final String SORT_DIRECTION_PROPERTY = "sortDirection"; 
+    public static final String SORT_ACTION = "sortAction";
+    
     public static final String MODEL_CHANGED_PROPERTY="model";
     
     private TableModel tableModel;
@@ -110,20 +114,18 @@ public class GridPanel
     
     /**
      * Sets the data store from a Swing {@link TableModel}.
-     * @param tableModel
+     * @param tableModel the table model.
      */
     public void setTableModel(TableModel tableModel) {
     	if (tableModel == null) {
     		throw new IllegalArgumentException("table model may not be null");
     	}
     	
-    	TableModel oldValue = this.tableModel;
-    	
     	this.tableModel = tableModel;
     	tableModel.removeTableModelListener(this); // just in case they set the same table model
     	tableModel.addTableModelListener(this);
     	
-    	firePropertyChange(MODEL_CHANGED_PROPERTY, oldValue, tableModel);
+    	firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always force change
     }
     
     /**
@@ -204,8 +206,12 @@ public class GridPanel
         super.processInput(inputName, inputValue);
         if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
             setSelectedIndices((int[]) inputValue);
-        } else if (INPUT_ACTION.equals(inputName)) {
+        } 
+        else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
+        }
+        else if (SORT_FIELD_NAME_PROPERTY.equals(inputName)) {
+            
         }
     }
 
