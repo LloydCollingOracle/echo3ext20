@@ -37,6 +37,8 @@ public abstract class AbstractButton
     public static final String TOOLTIP_TEXT_PROPERTY = "tooltipText";
     
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
+    
+    private String actionCommand;
 
     /**
      * Creates a button with no text or icon.
@@ -143,6 +145,10 @@ public abstract class AbstractButton
         fireActionEvent();
     }
     
+    public void setActionCommand(String actionCommand) {
+        this.actionCommand = actionCommand;
+    }
+    
     
     /**
      * Fires an action event to all listeners.
@@ -155,7 +161,7 @@ public abstract class AbstractButton
         ActionEvent e = null;
         for (int i = 0; i < listeners.length; ++i) {
             if (e == null) {
-                e = new ActionEvent(this, (String) getRenderProperty(ACTION_COMMAND_PROPERTY));
+                e = new ActionEvent(this, actionCommand);
             }
             ((ActionListener) listeners[i]).actionPerformed(e);
         }
