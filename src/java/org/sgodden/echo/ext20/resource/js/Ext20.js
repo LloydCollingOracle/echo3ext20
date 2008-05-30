@@ -74,6 +74,10 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
 	
 	onRenderDispose: function(update) {
 		this.ownerCt.remove(this);
+	},
+	
+	setSize: function() {
+		// do nothing for now, but needs implementing
 	}
 });
 
@@ -203,6 +207,13 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                     // layout data is NOT mandatory for column layout
                     if (layoutData != null) {
                         options['columnWidth'] = parseFloat(layoutData.columnWidth);
+                    }
+                }
+				else if (layout instanceof EchoExt20.FormLayout) {
+                    var layoutData = this.component.get("layoutData");
+                    // layout data is NOT mandatory for column layout
+                    if (layoutData != null) {
+                        options['anchor'] = layoutData.anchor;
                     }
                 }
                 // other layouts (form layout, fit layout, table layout) do not require layout data on their children
