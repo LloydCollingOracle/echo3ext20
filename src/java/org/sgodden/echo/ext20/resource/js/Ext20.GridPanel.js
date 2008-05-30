@@ -98,7 +98,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 		var store = new Ext.data.Store({
 			reader: reader,
 			proxy: proxy,
-			remoteSort: true
+			remoteSort: false
 		});
 		
 		store.load();
@@ -112,7 +112,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         options["sm"] = sm;
         
         options["border"] = true;
-        
+    
+	    /* should be done server side (?)
         options["bbar"] = new Ext.PagingToolbar({
             pageSize: 25,
             store: store,
@@ -120,6 +121,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             displayMsg: 'Displaying records {0} - {1} of {2}',
             emptyMsg: "No records to display"
         });
+        */
 
         return EchoExt20.PanelSync.prototype.createExtComponent.call(this, update, options);
     },
@@ -171,7 +173,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
     
     doSort: function(fieldName, sortDirection) {
-        alert("sort was changed: " + fieldName + ", " + sortDirection + ", " + this.component.renderId);
+        //alert("sort was changed: " + fieldName + ", " + sortDirection + ", " + this.component.renderId);
     }
 
 });
