@@ -99,6 +99,5 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
         addStartupScript(echoExtService);
         addCssFileName("resources/ext/css/ext-all.css");
         addCssFileName("resources/ext/css/portal.css");
-        addCssFileName("resources/ext/css/xtheme-slate.css");
     }
 }

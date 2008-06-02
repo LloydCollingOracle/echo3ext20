@@ -29,6 +29,7 @@ public class AppServlet extends AbstractExtAppServlet {
 	
 	public AppServlet(){
 		super();
+        addCssFileName("resources/ext/css/xtheme-slate.css");
 		addCssFileName("resources/local/localstyle.css");
 	}
 
