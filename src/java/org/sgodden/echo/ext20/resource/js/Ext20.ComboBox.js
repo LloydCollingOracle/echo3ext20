@@ -49,7 +49,13 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
              options["forceSelection"] = this.component.get("forceSelection");
         }
     	if (this.component.get("store") != null) {
-             options["store"] = this.component.get("store");
+    	     var store = this.component.get("store");
+    	     var simpleStore = new Ext.data.SimpleStore({
+                 fields: store.fields,
+                 id: store.id,
+                 data: store.data
+             });
+             options["store"] = simpleStore;
         }
     	if (this.component.get("typeAhead") != null) {
              options["typeAhead"] = this.component.get("typeAhead");
