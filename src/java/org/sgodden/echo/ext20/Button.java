@@ -73,6 +73,14 @@ public class Button
     }
     
     /**
+     * See {@link #ADD_TO_BUTTON_BAR_PROPERTY}.
+     * @return whether this button is added to the button bar rather than the main panel body.
+     */
+    boolean isAddToButtonBar() {
+        return (Boolean) getProperty(ADD_TO_BUTTON_BAR_PROPERTY);
+    }
+    
+    /**
      * Sets a menu to be opened when this button is clicked.
      * @param menu the menu to open.
      */        
