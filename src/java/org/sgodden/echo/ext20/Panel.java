@@ -27,6 +27,7 @@ import nextapp.echo.app.event.ActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.Layout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
@@ -71,6 +72,8 @@ public class Panel extends ExtComponent {
     
     private String keyPressed;
     private String toolIdClicked;
+    
+    private int nonButtonBarChildCount = 0;
 
     /**
      * Creates a new empty panel with the default container layout.
@@ -102,6 +105,7 @@ public class Panel extends ExtComponent {
      */
     public Panel(Layout layout, String title) {
         super();
+        setBorder(false);
         setProperty(LAYOUT_PROPERTY, layout);
         setTitle(title);
     }
@@ -216,8 +220,13 @@ public class Panel extends ExtComponent {
             super.add(panel);
             panel.addNoWrapCheck(comp);
         }
+        else if (getLayout() instanceof FitLayout
+                && nonButtonBarChildCount > 0) {
+           throw new Error("Only one non-button component is allowed for fit layout");
+        }
         else {
             super.add(comp);
+            nonButtonBarChildCount++;
         }
     }
     
@@ -242,10 +251,23 @@ public class Panel extends ExtComponent {
                 }
             }
         }
+        else if ( !(comp instanceof Button)
+                || (comp instanceof Button && !((Button)comp).isAddToButtonBar()) ) {
+            nonButtonBarChildCount--;
+            super.remove(comp);
+        }
         else {
             super.remove(comp);
         }
-        
+    }
+    
+    /**
+     * See {@link Component#removeAll()}.
+     */
+    @Override
+    public void removeAll() {
+        nonButtonBarChildCount = 0;
+        super.removeAll();
     }
     
     /**
@@ -264,7 +286,7 @@ public class Panel extends ExtComponent {
      */
     public void addButton(Button button) {
         button.setAddToButtonBar(true);
-        add(button);
+        super.add(button);
     }
     
     /**
@@ -433,5 +455,7 @@ public class Panel extends ExtComponent {
             listener.actionPerformed(e);
         }
     }
+    
+    
     
 }
