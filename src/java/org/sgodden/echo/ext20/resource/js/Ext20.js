@@ -113,41 +113,47 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
      */
     _parentElement: null,
 	
-	/**
-	 * Whether this panel is the root ext container of
-	 * the browser window, or an open window.
-	 */
-	_isRootContainer: false,
+    /**
+     * Whether this panel is the root ext container of
+     * the browser window, or an open window.
+     */
+    _isRootContainer: false,
 
-	/**
-	 * Whether updates to child layouts occurred
-	 * on this server update.
-	 */
-	_childLayoutUpdatesOccurred: false,
+    /**
+     * Whether updates to child layouts occurred
+     * on this server update.
+     */
+    _childLayoutUpdatesOccurred: false,
     
     /**
      * If we are the root ext container, then we have to perform special
      * processing once all rendering has been done.
      */
-    _rootServerUpdateCompleteRef: null,
-	
-	/**
-	 * Notifies the root container that layout changes
-	 * occurred, and that it therefore needs to redo its
-	 * layout.
-	 */
-	_notifyLayoutChanges: function() {
-		if (this._isRootContainer) {
-			this._childLayoutUpdatesOccurred = true;
-		}
-		else {
-			// not the root, tell the parent
-			this.component.parent.peer._notifyLayoutChanges();
-		}
-	},
+    renderDisplayCompleteRef: null,
+
+    /**
+     * The last server update for the component.
+     */
+    _update: null,
+    
+    /**
+     * Notifies the root container that layout changes
+     * occurred, and that it therefore needs to redo its
+     * layout.
+     */
+    _notifyLayoutChanges: function() {
+            if (this._isRootContainer) {
+                    this._childLayoutUpdatesOccurred = true;
+            }
+            else {
+                    // not the root, tell the parent
+                    this.component.parent.peer._notifyLayoutChanges();
+            }
+    },
 
     
     renderAdd: function(update, parentElement) {
+        this._update = update;
         /*
         If the component's parent's peer indicates that it is
         an ext component, then we need to create the ext component
@@ -161,21 +167,25 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         render to a DOM element which has been added to the DOM tree,
         and this is only guaranteed to be true during renderDisplay.
         */
-		
-		/*
-		 * We need to know if we are the root container, so that we can
-		 * perform required layout opertaions on server update completion
-		 * if we or any of our children have had layout changes.
-		 */
-		if ( (this instanceof EchoExt20.WindowSync)
-			  || !(this.component.parent.peer.isExtComponent) 
-			) {
-			
-			this._isRootContainer = true;
-            this._rootServerUpdateCompleteRef = Core.method(this, this._rootServerUpdateComplete);
-            this.client.addServerUpdateCompleteListener(this._rootServerUpdateCompleteRef);
-		}
-        
+            
+        /*
+         * We need to know if we are a root container, so that we can
+         * perform required layout opertaions on server update completion
+         * if we or any of our children have had layout changes.
+         */
+        if ( (this instanceof EchoExt20.WindowSync)
+                  || !(this.component.parent.peer.isExtComponent) 
+                ) {
+                
+            this._isRootContainer = true;
+            this.renderDisplayCompleteRef = Core.method(this, this._rootRenderDisplayComplete);
+            Echo.Render.addRenderDisplayCompleteListener(this.renderDisplayCompleteRef);
+        }
+       
+        /*
+         * If the parent is an ext component then we are
+         * safe to create here.
+         */
         if (this.component.parent.peer.isExtComponent) {
             options = {};
             options['id'] = this.component.renderId;
@@ -246,13 +256,39 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     
     /**
      * Use by root containers to redo their layout if child
-     * layout updates occurred.
+     * layout updates occurred, after the render display
+     * phase is complete.
      */
-    _rootServerUpdateComplete: function() {
+    _rootRenderDisplayComplete: function() {
+
+        this._maybeCreateComponent();
+
         if (this._childLayoutUpdatesOccurred) {
 			this.extComponent.doLayout();
 			this._childLayoutUpdatesOccurred = false;
 		}
+    },
+
+    _maybeCreateComponent: function() {
+        // if the parent is not an ext component, then we must be being added to a
+        // regular div, which has to happen here, when we can guarantee that the div
+        // is in the DOM tree
+        if (this.extComponent == null) {
+            // we need the parent div to have overflow visible, or we get 
+            // rendering bugs in IE
+            this._parentElement.style.overflow = "visible";
+            this._parentElement.parentNode.style.overflow = "visible";
+
+            var options = {
+                id: this.component.renderId,
+                renderTo: this._parentElement
+            };
+            this.extComponent = this.createExtComponent(
+                this._update,
+                options
+            );
+            this._addBeforeRenderListener();
+        }
     },
         
     /**
@@ -297,25 +333,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     },
     
     renderDisplay: function(update) {
-        // if the parent is not an ext component, then we must be being added to a
-        // regular div, which has to happen here, when we can guarantee that the div
-        // is in the DOM tree
-        if (this.extComponent == null) {
-            // we need the parent div to have overflow visible, or we get 
-            // rendering bugs in IE
-            this._parentElement.style.overflow = "visible";
-            this._parentElement.parentNode.style.overflow = "visible";
-
-            var options = {
-                id: this.component.renderId,
-                renderTo: this._parentElement
-            };
-            this.extComponent = this.createExtComponent(
-                update,
-                options
-            );
-            this._addBeforeRenderListener();
-        }
+        this._maybeCreateComponent();
     },
     
     _addBeforeRenderListener: function() {
@@ -333,7 +351,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         if (this._parentElement != null) {
             // we are the top level container, so remove the
             // update listener we added earlier
-            this.client.removeServerUpdateCompleteListener(this._rootServerUpdateCompleteRef);
+            Echo.Render.removeRenderDisplayCompleteListener(this.renderDisplayCompleteRef);
         }
         this.extComponent.destroy();
     },
