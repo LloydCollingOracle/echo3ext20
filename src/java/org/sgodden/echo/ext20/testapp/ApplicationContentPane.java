@@ -16,53 +16,41 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
-
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
+import nextapp.echo.app.Component;
 import nextapp.echo.app.ContentPane;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.sgodden.echo.ext20.Button;
-import org.sgodden.echo.ext20.Menu;
-import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.TabbedPane;
-import org.sgodden.echo.ext20.TextField;
-import org.sgodden.echo.ext20.Toolbar;
-import org.sgodden.echo.ext20.ToolbarButton;
-import org.sgodden.echo.ext20.ToolbarFill;
-import org.sgodden.echo.ext20.ToolbarSeparator;
-import org.sgodden.echo.ext20.ToolbarTextItem;
 import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
-import org.sgodden.echo.ext20.layout.ColumnLayout;
 import org.sgodden.echo.ext20.layout.FitLayout;
+import org.sgodden.echo.ext20.testapp.regression.RemoveEchoFromExtTest;
 
 /**
  * Application content pane for the test application.
  * 
  * @author sgodden
  */
+@SuppressWarnings("serial")
 public class ApplicationContentPane
-        extends ContentPane implements ActionListener {
+        extends ContentPane {
 
-    private static final long serialVersionUID = 20080103L;
-    private static final Log log = LogFactory.getLog(ApplicationContentPane.class);
+    //private static final Log log = LogFactory.getLog(ApplicationContentPane.class);
     /**
-     * Disabled text field used for status feedback.
+     * The component being displayed in the centre.
      */
-    private TextField statusField;
+    private Component centreComponent;
     /**
-     * Number of button clicks performed.
+     * The container for the centre component.
      */
-    private int buttonClicks = 0;
+    private Panel centreContainer;
 
     public ApplicationContentPane() {
         super();
@@ -84,23 +72,19 @@ public class ApplicationContentPane
         outer.setRenderId("viewport");
         add(outer);
 
-        Panel main = new Panel(new BorderLayout());
-        outer.add(main);
-        main.setRenderId("main");
+        Panel mainPanel = new Panel(new BorderLayout());
+        outer.add(mainPanel);
+        mainPanel.setRenderId("main");
 
-        main.add(createNorthPanel());
+        mainPanel.add(createNorthPanel());
         
-        main.add(createWestPanel());
+        mainPanel.add(createWestPanel());
         
-        TabbedPane tabs = createTabbedPane();
-        tabs.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
-        main.add(tabs);
-
-        Button button = new Button("Press me!");
-        button.setRenderId("button");
-
-        button.addActionListener(this);
-
+        centreContainer = new Panel(new FitLayout());
+        centreContainer.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
+        mainPanel.add(centreContainer);
+        
+        showCentreComponent(new MainTestSuite());
     }
     
     private Panel createNorthPanel() {
@@ -134,7 +118,7 @@ public class ApplicationContentPane
         ret.setLayoutData(new BorderLayoutData(BorderLayout.WEST));
         ret.setRenderId("westPanel");
         
-        final Panel coreEcho3Panel = new Panel("Core Echo3");
+        final Panel coreEcho3Panel = new Panel("Test suites");
         coreEcho3Panel.setTransparent(true);
         ret.add(coreEcho3Panel);
         
@@ -143,27 +127,39 @@ public class ApplicationContentPane
         col.setCellSpacing(new Extent(5));
         coreEcho3Panel.add(col);
         
-        final nextapp.echo.app.Button button = makeEchoButton("Push me");
+        final nextapp.echo.app.Button button = makeEchoButton("Bloated test suite");
         col.add(button);
         
         button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				log.info("Echo button was pressed");
+				showCentreComponent(new MainTestSuite());
 			}
 		});
         
-        final nextapp.echo.app.Button button2 = makeEchoButton("And me");
-        col.add(button2);
+        Panel regressionPanel = new Panel("Regression tests");
+        ret.add(regressionPanel);
+        regressionPanel.setTransparent(true);
         
-        Panel extjsPanel = new Panel("ExtJS");
-        ret.add(extjsPanel);
-        extjsPanel.setTransparent(true);
         Column col2 = new Column();
-        extjsPanel.add(col2);
+        regressionPanel.add(col2);
         col2.setInsets(new Insets(5));
-        col2.add(makeEchoButton("Another button"));
+        
+        final nextapp.echo.app.Button button2 = makeEchoButton("Removal bug 1");
+        col2.add(button2);
+        button2.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                showCentreComponent(new RemoveEchoFromExtTest());
+            }});
 
         return ret;
+    }
+    
+    private void showCentreComponent(Component c) {
+        if (centreComponent != null) {
+            centreContainer.remove(centreComponent);
+        }
+        centreComponent = c;
+        centreContainer.add(c);
     }
     
     private nextapp.echo.app.Button makeEchoButton(String text) {
@@ -172,53 +168,5 @@ public class ApplicationContentPane
     	button.setBackground(Color.LIGHTGRAY);
     	button.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
     	return button;
-    }
-
-    /**
-     * Creates the tabs that go in the centre region.
-     * @return
-     */
-    private TabbedPane createTabbedPane() {
-        TabbedPane ret = new TabbedPane();
-        ret.setRenderId("mainTabs");
-
-        Panel welcomePanel = new Panel();
-        welcomePanel.setPadding("5px");
-        welcomePanel.setHtml("<h1><u>Welcome to the Echo3 / Ext20 test application</u></h1>" +
-                "<br/>" +
-                "<p>This test application is very rudimentary right now.</p>" +
-                "<br/>" +
-                "<p>Each tab contains examples of a particular component type.</p>");
-        welcomePanel.setTitle("Welcome");
-        ret.add(welcomePanel);
-
-        ret.add(new UserPanel(true));
-        ret.add(new WindowTest());
-        ret.add(new PortalTest());
-        ret.add(new TabbedPaneTest());
-        ret.add(new RelativePositioningTest());
-        ret.add(new LayoutTest());
-
-        return ret;
-    }
-    
-    private Menu makeMenu(){
-        Menu ret = new Menu();
-        
-        MenuItem item1 = new MenuItem("Item 1");
-        ret.add(item1);
-        
-        item1.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent arg0) {
-                log.info("Menu item was clicked");
-            }
-        });
-        
-        return ret;
-    }
-
-    public void actionPerformed(ActionEvent arg0) {
-        statusField.setValue("You clicked the button " + ++buttonClicks + " times.");
     }
 }
