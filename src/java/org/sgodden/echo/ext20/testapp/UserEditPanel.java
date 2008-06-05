@@ -44,6 +44,9 @@ import org.sgodden.echo.ext20.layout.FormLayout;
 
 /**
  * A panel which allows edit of a single user.
+ * <p>
+ * FIXME - use echo list models instead of simple store.
+ * </p>
  * @author sgodden
  */
 public class UserEditPanel 
