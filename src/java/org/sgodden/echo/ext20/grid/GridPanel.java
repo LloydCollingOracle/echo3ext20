@@ -32,6 +32,7 @@ import nextapp.echo.app.list.ListSelectionModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.SortOrder;
 
 /**
  * An ext GridPanel.  It uses swing table models, since these provide a complete
@@ -69,13 +70,14 @@ public class GridPanel
     private static final transient Log log = LogFactory.getLog(GridPanel.class);
     public static final String COLUMN_MODEL_PROPERTY = "columnModel";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
+    public static final String GROUP_FIELD_PROPERTY="groupField";
     public static final String INPUT_ACTION = "action";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
     
-    public static final String SORT_FIELD_NAME_PROPERTY = "sortFieldName";
-    public static final String SORT_DIRECTION_PROPERTY = "sortDirection"; 
+    public static final String SORT_FIELD_PROPERTY = "sortField";
+    public static final String SORT_ORDER_PROPERTY = "sortDirection"; 
     public static final String SORT_ACTION = "sortAction";
     
     public static final String MODEL_CHANGED_PROPERTY="model";
@@ -210,9 +212,18 @@ public class GridPanel
         else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
         }
-        else if (SORT_FIELD_NAME_PROPERTY.equals(inputName)) {
+        else if (SORT_FIELD_PROPERTY.equals(inputName)) {
             
         }
+    }
+    
+    /**
+     * Sets the name of the column in the data model by which to
+     * group the table.
+     * @param groupField the name of the column by which to group.
+     */
+    public void setGroupField(String groupField) {
+        setProperty(GROUP_FIELD_PROPERTY, groupField);
     }
 
     /**
@@ -231,6 +242,35 @@ public class GridPanel
         // End temporary suppression.
         suppressChangeNotifications = false;
         firePropertyChange(SELECTION_CHANGED_PROPERTY, null, selectedIndices);
+    }
+    
+    /**
+     * Sets the field by which the data will be sorted.
+     * <p>
+     * FIXME - this is a bodge and needs to be replaced with sortable models.
+     * </p>
+     * @param sortField the name of the field to sort by.
+     */
+    public void setSortField(String sortField) {
+        setProperty(SORT_FIELD_PROPERTY, sortField);
+    }
+    
+    /**
+     * Sets the order by which the field specified in
+     * {@link #setSortField(java.lang.String)} should be sorted.
+     * @param sortOrder the sort order.
+     */
+    public void setSortOrder(SortOrder sortOrder) {
+        switch (sortOrder) {
+            case ASCENDING:
+                setProperty(SORT_ORDER_PROPERTY, "ASC");
+                break;
+            case DESCENDING:
+                setProperty(SORT_ORDER_PROPERTY, "DESC");
+                break;
+            default:
+                throw new Error("Invalid sort order: " + sortOrder);
+        }
     }
 
     /**
@@ -273,4 +313,5 @@ public class GridPanel
     public void tableChanged(TableModelEvent e) {
 		firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge but we're not interested in the old and new values anyway
 	}
+
 }

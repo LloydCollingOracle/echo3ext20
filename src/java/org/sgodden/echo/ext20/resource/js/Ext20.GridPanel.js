@@ -25,12 +25,12 @@ EchoExt20.GridPanel = Core.extend(EchoExt20.ExtComponent, {
     focusable: true,
 
     $virtual: {
-            /**
-             * Programatically performs a row click.
-             */
-            doAction: function() {
-                this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
-            }
+        /**
+         * Programatically performs a row click.
+         */
+        doAction: function() {
+            this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+        }
     }
     
 });
@@ -81,29 +81,69 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
          * Create an ArrayReader using the fields
          * provided in the model.
          */
-		var recordMappings = [];
-		for (var i = 0; i < model.fields.length; i++) {
-			recordMappings.push({
-				name: model.fields[i],
-				mapping: i
-			});
-		}
-		
-		var record = Ext.data.Record.create(recordMappings);
-		
-		var reader = new Ext.data.ArrayReader({}, record);
-		
-		var proxy = new EchoExt20.GridPanelDataProxy(model.data, this);
-		
-		var store = new Ext.data.Store({
-			reader: reader,
-			proxy: proxy,
-			remoteSort: false
-		});
-		
-		store.load();
-		
-		options["store"] = store;
+        var recordMappings = [];
+        for (var i = 0; i < model.fields.length; i++) {
+                recordMappings.push({
+                        name: model.fields[i],
+                        mapping: i
+                });
+        }
+        
+        var record = Ext.data.Record.create(recordMappings);
+        
+        var reader = new Ext.data.ArrayReader({}, record);
+        
+        var proxy = new EchoExt20.GridPanelDataProxy(model.data, this);
+
+        var store;
+        var view;
+
+        /*
+         * TODO - defensive checks on sort field name and
+         * group field name.
+         */
+
+        var sortInfo = null;
+        var sortField = this.component.get("sortField");
+        if (sortField) {
+            var sortDirection = this.component.get("sortDirection");
+            if (sortDirection == null) {
+                sortDirection = "ASC";
+            }
+            sortInfo = {
+                field: sortField,
+                direction: "ASC"
+            }
+        }
+
+        var groupField = this.component.get("groupField");
+        if (groupField) {
+            store = new Ext.data.GroupingStore({
+                groupField: groupField,
+                proxy: proxy,
+                reader: reader,
+                sortInfo: sortInfo
+            });
+            view = new Ext.grid.GroupingView({
+                groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
+            });
+        }
+        else {
+            store = new Ext.data.Store({
+                reader: reader,
+                proxy: proxy,
+                sortInfo: sortInfo,
+                remoteSort: false
+            });
+        }
+
+        store.load();
+        
+        options["store"] = store;
+
+        if (view) {
+            options["view"] = view;
+        }
 		
         options["cm"] = this.component.get("columnModel");
         var sm = new Ext.grid.RowSelectionModel({singleSelect:true});

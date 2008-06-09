@@ -31,6 +31,7 @@ import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.SortOrder;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.echo.ext20.ToolbarButton;
@@ -64,8 +65,9 @@ public class UserListPanel
         setTitle("User list");
 
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
-        cols.add(new ColumnConfiguration("User ID", 200, true, "userid"));
-        cols.add(new ColumnConfiguration("Name", 200, true, "name"));
+        cols.add(new ColumnConfiguration("User ID", 200, true, "userid", false));
+        cols.add(new ColumnConfiguration("Name", 200, true, "name", false));
+        cols.add(new ColumnConfiguration("Role", 200, true, "role", true));
         ColumnModel columnModel = new ColumnModel(cols);
 
         data = makeData();
@@ -73,6 +75,9 @@ public class UserListPanel
         userGridPanel = new GridPanel(columnModel);
         userGridPanel.setTableModel(makeTableModel());
         userGridPanel.setToolbar(makeToolbar());
+        userGridPanel.setGroupField("role");
+        userGridPanel.setSortField("userid");
+        userGridPanel.setSortOrder(SortOrder.ASCENDING);
         add(userGridPanel);
 
         addKeyPressListener("enter", new ActionListener() {
@@ -107,7 +112,7 @@ public class UserListPanel
     }
     
     private String[] makeColumnNames() {
-    	return new String[] {"userid", "name"};
+    	return new String[] {"userid", "name", "role"};
     }
 
     /**
@@ -146,9 +151,10 @@ public class UserListPanel
         data = new Object[rows][];
 
         for (int i = 0; i < data.length; i++) {
-            Object[] row = new Object[2];
+            Object[] row = new Object[3];
             row[0] = "User id  " + (startIndex + i);
             row[1] = "Name " + (startIndex + i);
+            row[2] = "Role" + (i % 2 == 0 ? "User" : "Admin");
             data[i] = row;
         }
 
