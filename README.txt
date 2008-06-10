@@ -14,6 +14,11 @@ your tomcat deployment directoy.
 
 NOTES
 -----
+
+Integration between echo and ext is broken because we are not creating all the children during renderAdd.
+We need to ensure that children are created in the renderAdd phase, but that creation of ext components
+is deferred to renderDisplay.
+
 What happens when server update is received:
 RemoteClient#_processSyncResponse
   create new Echo.RemoteClient.ServerMessage
