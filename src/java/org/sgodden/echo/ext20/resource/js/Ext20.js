@@ -282,10 +282,16 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         // regular div, which has to happen here, when we can guarantee that the div
         // is in the DOM tree
         if (this.extComponent == null) {
-            // we need the parent div to have overflow visible, or we get 
-            // rendering bugs in IE
-            this._parentElement.style.overflow = "visible";
-            this._parentElement.parentNode.style.overflow = "visible";
+            /*
+             * For IE only, we need to set the overflow of the main content pane
+             * to 'visible', or we get bugs whereby the background disappears when
+             * floating content over the top (for instance when you drop down a combo
+             * box
+             */
+            if (Core.Web.Env.BROWSER_INTERNET_EXPLORER) {
+                var contentPaneEl = document.getElementById("approot").firstChild;
+                contentPaneEl.style.overflow = "visible";
+            }
 
             var options = {
                 id: this.component.renderId,
