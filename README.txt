@@ -14,8 +14,43 @@ your tomcat deployment directoy.
 
 NOTES
 -----
-In order to be able to add echo3 components to ext components:
-1) Create a generic ext component extension
-2) In onRender, call renderAdd on the echo component passing in the update and child component
-	bear in mind that the 'position' element might be null and have to be created?
-3) Remember to implement remove as well 
+What happens when server update is received:
+RemoteClient#_processSyncResponse
+  create new Echo.RemoteClient.ServerMessage
+  tell it to process
+
+RemoteClient.ServerMessage#process
+  doLibs
+  _processPostLibraryLoad
+    for each group, create processor and tell it to process
+
+Processors are all added down the bottom of RemoteClient.js
+'CSyncUp' is processor Echo.RemoteClient.ComponentSyncUpdateProcessor
+
+CSUP#process(element)
+_processUpdate(element)
+  creates new children using Echo.Serial#loadComponent
+    which uses Echo.ComponentFactory#newInstance
+  adds children to relevant component (causing app to be notified?)
+
+Component#add
+  register app on the component
+  this.application#notifyComponentUpdate(this, "children")
+
+Component#register
+  this.application#_registerComponent(this)
+
+Application#notifyComponentUpdate
+  Echo.Update.Manager#_processComponentUpdate
+
+Echo.Update.Manager#_processComponentUpdate
+  this._processComponentAdd(parent, newChild)
+Echo.Update.Manger#_processComponentAdd
+  this._createComponentUpdate
+Echo.Update.Manager#_createComponentUpdate
+  add new Echo.Update.ComponentUpdate(this, parent)
+
+----
+
+In Echo.Render.processUpdates(client)
+ if (updates[i].renderContext.displayRequired)
