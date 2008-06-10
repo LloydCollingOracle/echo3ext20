@@ -50,35 +50,35 @@ EchoExt20.ExtComponent = Core.extend(Echo.Component, {
  * @constructor
  */
 EchoExt20.Echo3SyncWrapper = function(update, wrapped) {
-	EchoExt20.Echo3SyncWrapper.superclass.constructor.call(this);
-	this.wrapped = wrapped;
-	this.update = update;
+    EchoExt20.Echo3SyncWrapper.superclass.constructor.call(this);
+    this.wrapped = wrapped;
+    this.update = update;
 }
 
 Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
-	/**
-	 * Invokes the echo3 sync peer lazily on render.
-	 * @param {Object} ct the container div.
-	 * @param {Object} position the child div to which we should render the echo3 component.
-	 */
-	onRender: function(ct, position) {
-		if (position == null) {
-			position = ct.createChild();
-		}
-		this.el = position;
-		Echo.Render.renderComponentAdd(this.update, this.wrapped, position);
-		delete this.update;
-		
-		this.wrapped.peer.renderDispose = this.wrapped.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
-	},
-	
-	onRenderDispose: function(update) {
-		this.ownerCt.remove(this);
-	},
-	
-	setSize: function() {
-		// do nothing for now, but needs implementing
-	}
+    /**
+     * Invokes the echo3 sync peer lazily on render.
+     * @param {Object} ct the container div.
+     * @param {Object} position the child div to which we should render the echo3 component.
+     */
+    onRender: function(ct, position) {
+        if (position == null) {
+                position = ct.createChild();
+        }
+        this.el = position;
+        Echo.Render.renderComponentAdd(this.update, this.wrapped, position);
+        delete this.update;
+        
+        this.wrapped.peer.renderDispose = this.wrapped.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
+    },
+    
+    onRenderDispose: function(update) {
+        this.ownerCt.remove(this);
+    },
+    
+    setSize: function() {
+        // do nothing for now, but needs implementing
+    }
 });
 
 /**
@@ -142,18 +142,19 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
      * layout.
      */
     _notifyLayoutChanges: function() {
-            if (this._isRootContainer) {
-                    this._childLayoutUpdatesOccurred = true;
-            }
-            else {
-                    // not the root, tell the parent
-                    this.component.parent.peer._notifyLayoutChanges();
-            }
+        if (this._isRootContainer) {
+                this._childLayoutUpdatesOccurred = true;
+        }
+        else {
+                // not the root, tell the parent
+                this.component.parent.peer._notifyLayoutChanges();
+        }
     },
 
     
     renderAdd: function(update, parentElement) {
         this._update = update;
+
         /*
         If the component's parent's peer indicates that it is
         an ext component, then we need to create the ext component
@@ -166,6 +167,11 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         be rendering it direct to a DOM element, and ext can only
         render to a DOM element which has been added to the DOM tree,
         and this is only guaranteed to be true during renderDisplay.
+
+        However, in either case, we must create our children, since
+        renderAdd needs to be called on the peers of all components
+        in this phase so that internal processing within the echo
+        client framework takes place.
         */
             
         /*
@@ -180,6 +186,8 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             this._isRootContainer = true;
             this.renderDisplayCompleteRef = Core.method(this, this._rootRenderDisplayComplete);
             Echo.Render.addRenderDisplayCompleteListener(this.renderDisplayCompleteRef);
+            //update.renderContext.displayRequired = [];
+            //update.renderContext.displayRequired.push(this.component);
         }
        
         /*
@@ -264,9 +272,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         this._maybeCreateComponent();
 
         if (this._childLayoutUpdatesOccurred) {
-			this.extComponent.doLayout();
-			this._childLayoutUpdatesOccurred = false;
-		}
+            this.extComponent.doLayout();
+            this._childLayoutUpdatesOccurred = false;
+        }
     },
 
     _maybeCreateComponent: function() {
@@ -358,9 +366,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     
     renderUpdate: function(update) {
 		
-		if (update.hasAddedChildren() || update.hasRemovedChildren()) {
-			this._notifyLayoutChanges();
-		}
+        if (update.hasAddedChildren() || update.hasRemovedChildren()) {
+                this._notifyLayoutChanges();
+        }
 		
         if (update.hasUpdatedProperties()) {
             var alignToUpdate = update.getUpdatedProperty("alignTo");
