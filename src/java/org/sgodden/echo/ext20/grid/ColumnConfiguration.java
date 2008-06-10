@@ -25,104 +25,139 @@ import java.io.Serializable;
  *
  */
 public class ColumnConfiguration 
-		implements Serializable {
+        implements Serializable {
 
-	private static final long serialVersionUID = 20080310L;
+    private static final long serialVersionUID = 20080310L;
 	
-	private String header;
-	private Integer width;
-	private boolean sortable = true;
-	private String dataIndex;
+    private String header;
+    private Integer width;
+    private boolean sortable = true;
+    private String dataIndex;
+    private boolean hidden = false;
+
+    /**
+     * Constructs a new column configuration.
+     * @param header the header text.
+     * @param width a specific width for the column.
+     * @param sortable whether the column is sortable.
+     * @param dataIndex the id of the column in the store to which this column maps.
+     */
+    public ColumnConfiguration(String header, Integer width, Boolean sortable,
+                    String dataIndex) {
+        super();
+        this.header = header;
+        this.width = width;
+        this.sortable = sortable;
+        this.dataIndex = dataIndex;
+    }
 	
-	/**
-	 * Constructs a new column configuration.
-	 * @param header the header text.
-	 * @param width a specific width for the column.
-	 * @param sortable whether the column is sortable.
-	 * @param dataIndex the id of the column in the store to which this column maps.
-	 */
-	public ColumnConfiguration(String header, Integer width, Boolean sortable,
-			String dataIndex) {
-		super();
-		this.header = header;
-		this.width = width;
-		this.sortable = sortable;
-		this.dataIndex = dataIndex;
-	}
+    /**
+     * Constructs a new column configuration.
+     * @param header the header text.
+     * @param width a specific width for the column.
+     * @param sortable whether the column is sortable.
+     * @param dataIndex the id of the column in the store to which this column maps.
+     * @param hidden whether the column is hidden.
+     */
+    public ColumnConfiguration(String header, Integer width, Boolean sortable,
+                    String dataIndex, boolean hidden) {
+        super();
+        this.header = header;
+        this.width = width;
+        this.sortable = sortable;
+        this.dataIndex = dataIndex;
+        this.hidden = hidden;
+    }
 	
-	/**
-	 * Constructs a new column configuration.
-	 * @param header the header text.
-	 * @param dataIndex the id of the column in the store to which this column maps.
-	 */
-	public ColumnConfiguration(String header, String dataIndex) {
-		this(header, null, true, dataIndex);
-	}
+    /**
+     * Constructs a new column configuration.
+     * @param header the header text.
+     * @param dataIndex the id of the column in the store to which this column maps.
+     */
+    public ColumnConfiguration(String header, String dataIndex) {
+        this(header, null, true, dataIndex);
+    }
 
-	/**
-	 * Returns the header text.
-	 * @return the header text.
-	 */
-	public String getHeader() {
-		return header;
-	}
+    /**
+     * Returns the header text.
+     * @return the header text.
+     */
+    public String getHeader() {
+        return header;
+    }
 
-	/**
-	 * Sets the header text.
-	 * @param header the header text.
-	 */
-	public void setHeader(String header) {
-		this.header = header;
-	}
+    /**
+     * Sets the header text.
+     * @param header the header text.
+     */
+    public void setHeader(String header) {
+        this.header = header;
+    }
 
-	/**
-	 * Returns the width.
-	 * @return the width.
-	 */
-	public Integer getWidth() {
-		return width;
-	}
+    /**
+     * Returns the width.
+     * @return the width.
+     */
+    public Integer getWidth() {
+        return width;
+    }
 
-	/**
-	 * Sets the width.
-	 * @param width the width.
-	 */
-	public void setWidth(Integer width) {
-		this.width = width;
-	}
+    /**
+     * Sets the width.
+     * @param width the width.
+     */
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
 
-	/**
-	 * Returns whether this column is sortable. 
-	 * @return whether this column is sortable.
-	 */
-	public boolean getSortable() {
-		return sortable;
-	}
+    /**
+     * Returns whether this column is sortable. 
+     * @return whether this column is sortable.
+     */
+    public boolean getSortable() {
+        return sortable;
+    }
 
-	/**
-	 * Sets whether this column is sortable.
-	 * @param sortable whether this column is sortable.
-	 */
-	public void setSortable(boolean sortable) {
-		this.sortable = sortable;
-	}
+    /**
+     * Sets whether this column is sortable.
+     * @param sortable whether this column is sortable.
+     */
+    public void setSortable(boolean sortable) {
+        this.sortable = sortable;
+    }
 
-	/**
-	 * Returns the index of the data column from which data
-	 * should be taken for this column.
-	 * @return the data column index.
-	 */
-	public String getDataIndex() {
-		return dataIndex;
-	}
+    /**
+     * Returns the index of the data column from which data
+     * should be taken for this column.
+     * @return the data column index.
+     */
+    public String getDataIndex() {
+        return dataIndex;
+    }
 
-	/**
-	 * Sets the index of the data column from which data
-	 * should be taken for this column.
-	 * @param dataIndex the data column index.
-	 */
-	public void setDataIndex(String dataIndex) {
-		this.dataIndex = dataIndex;
-	}
+    /**
+     * Sets the index of the data column from which data
+     * should be taken for this column.
+     * @param dataIndex the data column index.
+     */
+    public void setDataIndex(String dataIndex) {
+        this.dataIndex = dataIndex;
+    }
+
+    /**
+     * Returns whether this column should be hidden.
+     * @return whether this column should be hidden.
+     */
+    public boolean getHidden() {
+        return hidden;
+    }
+
+    /**
+     * Sets whether this column should be hidden.
+     * @param hidden whether this column should be hidden.
+     */
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
 
 }
