@@ -92,6 +92,7 @@ public class GridPanel
      */
     public GridPanel(ColumnModel columnModel) {
     	super();
+    	setBorder(true);
         setColumnModel(columnModel);
         setSelectionModel(new DefaultListSelectionModel());
     }
@@ -311,7 +312,7 @@ public class GridPanel
      * Forces a client-side refresh of the table when the table model changes.
      */
     public void tableChanged(TableModelEvent e) {
-		firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge but we're not interested in the old and new values anyway
-	}
+        firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge but we're not interested in the old and new values anyway
+    }
 
 }
