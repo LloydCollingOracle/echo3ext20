@@ -26,10 +26,10 @@ EchoExt20.Panel = Core.extend(EchoExt20.ExtComponent, {
     doKeyPress: function() {
         this.fireEvent({type: "keyPress", source: this});
     },
-	
-	doToolClick: function() {
-		this.fireEvent({type: "toolClick", source: this});
-	}
+
+    doToolClick: function() {
+            this.fireEvent({type: "toolClick", source: this});
+    }
     
 });
 
@@ -42,77 +42,77 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         Echo.Render.registerPeer("Ext20Panel", this);
     },
 	
-	/**
-	 * Reference to a method to invoke when the server
-	 * update is complete.
-	 */
+    /**
+     * Reference to a method to invoke when the server
+     * update is complete.
+     */
     _serverUpdateCompleteRef: null,
     
     $virtual: {
 		
-		// whether the component should be hidden when adding children, to avoid
-		// noticeable progressive updates on slower rendering browsers such as FF.
-		hideWhenAddingChildren: true,
+        // whether the component should be hidden when adding children, to avoid
+        // noticeable progressive updates on slower rendering browsers such as FF.
+        hideWhenAddingChildren: true,
 		
         newExtComponentInstance: function(options) {
             return new Ext.Panel(options);
         },
 		
-		notifyChildLayoutUpdate: function() {
-			this._childLayoutUpdatesOccurred = true;
-		}
+        notifyChildLayoutUpdate: function() {
+            this._childLayoutUpdatesOccurred = true;
+        }
     },
     
     renderUpdate: function(update){
 
-		EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
-		
-		// check for any property updates
-		if (update.getUpdatedProperty("title") != null) {
-			this.extComponent.setTitle(this.component.get("title"));
-		}
+        EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
+
+        // check for any property updates
+        if (update.getUpdatedProperty("title") != null) {
+                this.extComponent.setTitle(this.component.get("title"));
+        }
         
         if (update.hasRemovedChildren()) {
             var removedChildren = update.getRemovedChildren();
             for (var i = 0; i < removedChildren.length; i++) {
                 // all children have to be ext components anyway
                 var child = removedChildren[i];
-				/*
-				 * Not if it is a window, because it was never
-				 * added to the parent ext container in the first place.
-				 */
-				if (!(child instanceof EchoExt20.Window)) {
-	                var childExtComponent = child.peer.extComponent;
-	                this.extComponent.remove(childExtComponent);
-				}
+                /*
+                 * Not if it is a window, because it was never
+                 * added to the parent ext container in the first place.
+                 */
+                if (!(child instanceof EchoExt20.Window)) {
+                    var childExtComponent = child.peer.extComponent;
+                    this.extComponent.remove(childExtComponent);
+                }
             }
         }
         
         if (update.hasAddedChildren()) {
             // hide ourselves to prevent progressive rendering in slower browsers
-			if (this.hideWhenAddingChildren) {
-				/*
-				 * If the only children added were windows, then there's no need to hide
-				 * ourselves, since it does not involve changes to our own div.
-				 */
-				var doHide = false;
-				var addedChildren = update.getAddedChildren();
-				for (var i = 0; i < addedChildren.length && !doHide; i++) {
-					var componentType = addedChildren[i].componentType;
-					if ( !(componentType == "Ext20Window") ) {
-						doHide = true;
-					}
-				}
-				if (doHide) {
-		            this.extComponent.getEl().dom.style.visibility = 'hidden';
-		            
-		            // and add a server update complete listener to show ourselves again, if we haven't already
-		            if (this._serverUpdateCompleteRef == null) {
-		                this._serverUpdateCompleteRef = Core.method(this, this._serverUpdateComplete);
-		                this.client.addServerUpdateCompleteListener(this._serverUpdateCompleteRef);
-		            }
-				}
-			}
+            if (this.hideWhenAddingChildren) {
+                /*
+                 * If the only children added were windows, then there's no need to hide
+                 * ourselves, since it does not involve changes to our own div.
+                 */
+                var doHide = false;
+                var addedChildren = update.getAddedChildren();
+                for (var i = 0; i < addedChildren.length && !doHide; i++) {
+                    var componentType = addedChildren[i].componentType;
+                    if ( !(componentType == "Ext20Window") ) {
+                        doHide = true;
+                    }
+                }
+                if (doHide) {
+                    this.extComponent.getEl().dom.style.visibility = 'hidden';
+
+                    // and add a server update complete listener to show ourselves again, if we haven't already
+                    if (this._serverUpdateCompleteRef == null) {
+                        this._serverUpdateCompleteRef = Core.method(this, this._serverUpdateComplete);
+                        this.client.addServerUpdateCompleteListener(this._serverUpdateCompleteRef);
+                    }
+                }
+	    }
             
             this._createChildItems(update, update.getAddedChildren());
             this._conditionalDoLayout(update.getAddedChildren());
@@ -148,24 +148,22 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     createExtComponent: function(update, options) {
-
-		// process basic properties
-
-		options['bodyStyle'] = "";
+	// process basic properties
+	options['bodyStyle'] = "";
 		
         var padding = this.component.get("padding");
         if (padding != null) {
             options['bodyStyle'] = "padding: " + padding + ";";
         }
 		
-		if (this.component.get("background")) {
-			options['bodyStyle'] += "background: " + this.component.get("background") + ";";
-		}
+	if (this.component.get("background")) {
+	    options['bodyStyle'] += "background: " + this.component.get("background") + ";";
+	}
 		
-		var transparent = this.component.get("transparent");
-		if (transparent) {
-			options['bodyStyle'] += "background: transparent;";
-		} 
+	var transparent = this.component.get("transparent");
+	if (transparent) {
+	    options['bodyStyle'] += "background: transparent;";
+	} 
         
         var border = this.component.get("border");
         if (border != null) {
@@ -197,46 +195,46 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['width'] = width;
         }
 		
-		/*
-		 * Tool ids are passed as a comma-separated string.
-		 * These are the little tool icons that appear in the title
-		 * bar of the panel.
-		 * For a list of allowed tool names, see the documentation
-		 * for Ext.Panel
-		 */
-		var toolIds = this.component.get("toolIds");
-		if (toolIds != null) {
-			
-			toolConfigs = [];
-			
-			var toolIdArray = [];
-			if (toolIds.indexOf(',') != -1) {
-				toolIdArray = toolIds.split(',');
-			}
-			else {
-				toolIdArray.push(toolIds);
-			}
+        /*
+         * Tool ids are passed as a comma-separated string.
+         * These are the little tool icons that appear in the title
+         * bar of the panel.
+         * For a list of allowed tool names, see the documentation
+         * for Ext.Panel
+         */
+        var toolIds = this.component.get("toolIds");
+        if (toolIds != null) {
+                
+            toolConfigs = [];
+            
+            var toolIdArray = [];
+            if (toolIds.indexOf(',') != -1) {
+                    toolIdArray = toolIds.split(',');
+            }
+            else {
+                    toolIdArray.push(toolIds);
+            }
 
-			for (var i = 0; i < toolIdArray.length; i++) {
-				var toolId = toolIdArray[i];
-				
-				var scopeHolder = new Object();
-				scopeHolder.component = this.component;
-				scopeHolder.toolId = toolId;
-				
-				var toolConfig = {
-					id: toolId,
-					handler: function() {
-						this.component.set("toolIdClicked", this.toolId);
-						this.component.doToolClick();
-					},
-					scope: scopeHolder
-				}
-				toolConfigs.push(toolConfig);
-			}
-			
-			options['tools'] = toolConfigs;
-		}
+            for (var i = 0; i < toolIdArray.length; i++) {
+                    var toolId = toolIdArray[i];
+                    
+                    var scopeHolder = new Object();
+                    scopeHolder.component = this.component;
+                    scopeHolder.toolId = toolId;
+                    
+                    var toolConfig = {
+                            id: toolId,
+                            handler: function() {
+                                    this.component.set("toolIdClicked", this.toolId);
+                                    this.component.doToolClick();
+                            },
+                            scope: scopeHolder
+                    }
+                    toolConfigs.push(toolConfig);
+            }
+            
+            options['tools'] = toolConfigs;
+        }
 
         // now handle the layout
         var layout = this.component.get("layout");
@@ -359,7 +357,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      * wrongly).
      */
     _conditionalDoLayout: function(children) {
-        
         var done = false;
         for (var i = 0; i < children.length && !done; i++) {
             var layout = children[i].get("layout");
@@ -401,16 +398,15 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     _createChildItems: function(update, children) {
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
-			
-			/*
-			 *  if this is not an ext20 component, we need to wrap it
-			 *  so that it can operate within an ext container.
-			 */
-			if (! (child instanceof EchoExt20.ExtComponent) ) {
-				// we don't renderAdd here - ext does it lazily
-				var wrapper = new EchoExt20.Echo3SyncWrapper(update, child);
-				this.extComponent.add(wrapper);
-			}
+            /*
+             *  if this is not an ext20 component, we need to wrap it
+             *  so that it can operate within an ext container.
+             */
+            if (! (child instanceof EchoExt20.ExtComponent) ) {
+                    // we don't renderAdd here - ext does it lazily
+                    var wrapper = new EchoExt20.Echo3SyncWrapper(update, child);
+                    this.extComponent.add(wrapper);
+            }
             else if (child instanceof EchoExt20.Window) {
                 this._createWindow(update, child);
             }
@@ -436,13 +432,13 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
         }
 		
-		// now make sure that the child indexes are set, so that, for instance, when a certain
-		// tab is selected in a tabbed pane, it can work out what the index of the displayed component
-		// is.
-		for (var i = 0; i < this.component.getComponentCount(); i++) {
-			var child = this.component.getComponent(i);
-			child.childIndex = i;
-		}
+        // now make sure that the child indexes are set, so that, for instance, when a certain
+        // tab is selected in a tabbed pane, it can work out what the index of the displayed component
+        // is.
+        for (var i = 0; i < this.component.getComponentCount(); i++) {
+                var child = this.component.getComponent(i);
+                child.childIndex = i;
+        }
     },
     
     _createWindow: function(update, child) {
