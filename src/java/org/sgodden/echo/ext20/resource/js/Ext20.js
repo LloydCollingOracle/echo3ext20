@@ -32,27 +32,21 @@ Ext.QuickTips.init();
 EchoExt20 = {};
 
 /**
- * Base class for all ext20 components.
- */
-EchoExt20.ExtComponent = Core.extend(Echo.Component, {
-	
-    /**
-     * Fires a before render event.
-     */
-    doBeforeRender: function() {
-        this.fireEvent({type: "beforeRender", source: this});
-    }
-});
-
-/**
  * Provides a wrapper allowing echo3 sync peers to work within
  * extjs.
  * @constructor
  */
-EchoExt20.Echo3SyncWrapper = function(update, wrapped) {
+EchoExt20.Echo3SyncWrapper = function(update, wrappedComponent) {
     EchoExt20.Echo3SyncWrapper.superclass.constructor.call(this);
-    this.wrapped = wrapped;
-    this.update = update;
+
+    this.wrappedComponent = wrappedComponent;
+    this.wrappedRootElement = document.createElement("div");
+
+    /*
+     * We need to call render add immediately, but defer
+     * adding it until this wrapper is rendered.
+     */
+    Echo.Render.renderComponentAdd(update, this.wrappedComponent, this.wrappedRootElement);
 }
 
 Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
@@ -62,14 +56,19 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
      * @param {Object} position the child div to which we should render the echo3 component.
      */
     onRender: function(ct, position) {
-        if (position == null) {
-                position = ct.createChild();
+        if (position != null) {
+            position.appendChild(this.wrappedRootElement);
         }
-        this.el = position;
-        Echo.Render.renderComponentAdd(this.update, this.wrapped, position);
-        delete this.update;
-        
-        this.wrapped.peer.renderDispose = this.wrapped.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
+        else {
+            ct.appendChild(this.wrappedRootElement);
+        }
+        // necessary for ext internal processing
+        this.el = new Ext.Element(this.wrappedRootElement);
+       
+        /*
+         * Intercept the wrapped component's peer's renderDispose to ensure that this wrapper is disposed.
+         */
+        this.wrappedComponent.peer.renderDispose = this.wrappedComponent.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
     },
     
     onRenderDispose: function(update) {
@@ -77,7 +76,20 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
     },
     
     setSize: function() {
-        // do nothing for now, but needs implementing
+        // FIXME - implement setSize
+    }
+});
+
+/**
+ * Base class for all ext20 components.
+ */
+EchoExt20.ExtComponent = Core.extend(Echo.Component, {
+	
+    /**
+     * Fires a before render event.
+     */
+    doBeforeRender: function() {
+        this.fireEvent({type: "beforeRender", source: this});
     }
 });
 
