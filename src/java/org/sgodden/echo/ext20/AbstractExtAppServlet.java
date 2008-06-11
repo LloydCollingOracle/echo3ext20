@@ -32,6 +32,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
  * @author goddens
  *
  */
+@SuppressWarnings("unchecked")
 public abstract class AbstractExtAppServlet extends WebContainerServlet {
 
     private static final long serialVersionUID = 20080107L;
