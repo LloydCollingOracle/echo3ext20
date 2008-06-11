@@ -48,11 +48,12 @@ public class DateField
     private boolean clientInputValid = true;
 
     /**
-     * Creates a new date field.
+     * Creates a new date field, with the date set to today.
      */
     public DateField() {
         super();
         setLocale(ApplicationInstance.getActive().getLocale());
+        setCalendar(Calendar.getInstance(getLocale()));
     }
 
     /**
