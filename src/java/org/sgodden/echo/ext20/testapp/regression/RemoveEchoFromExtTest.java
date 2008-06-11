@@ -22,6 +22,7 @@ import org.sgodden.echo.ext20.layout.FitLayout;
 public class RemoveEchoFromExtTest extends Panel {
     
     private int clicks;
+    private Column column;
     
     public RemoveEchoFromExtTest() {
         super(new FitLayout());
@@ -32,7 +33,7 @@ public class RemoveEchoFromExtTest extends Panel {
         button.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 clicks++;
-                removeAll();
+                remove(column);
                 add(makeColumn());
             }});
         
@@ -40,11 +41,11 @@ public class RemoveEchoFromExtTest extends Panel {
     }
     
     private Column makeColumn() {
-        Column ret = new Column();
-        ret.add(new Label("Click the button bottom right - if the numbers" +
+        column = new Column();
+        column.add(new Label("Click the button bottom right - if the numbers" +
         " just keep incrementing, then all is working"));
-        ret.add(makeGrid());
-        return ret;
+        column.add(makeGrid());
+        return column;
     }
     
     private Grid makeGrid() {
