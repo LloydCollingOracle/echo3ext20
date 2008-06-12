@@ -1,5 +1,7 @@
 package org.sgodden.echo.ext20.testapp.regression;
 
+import java.util.Calendar;
+
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Grid;
 import nextapp.echo.app.Label;
@@ -8,6 +10,7 @@ import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.DateField;
+import org.sgodden.echo.ext20.TimeField;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.layout.FitLayout;
@@ -61,6 +64,9 @@ public class RemoveEchoFromExtTest extends Panel {
         
         ret.add(new Label("Date field"));
         ret.add(new DateField());
+
+        ret.add(new Label("Time field"));
+        ret.add(new TimeField(Calendar.getInstance()));
         
         return ret;
     }

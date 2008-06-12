@@ -290,9 +290,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     },
 
     _maybeCreateComponent: function() {
-        // if the parent is not an ext component, then we must be being added to a
-        // regular div, which has to happen here, when we can guarantee that the div
-        // is in the DOM tree
+
         if (this.extComponent == null) {
             /*
              * For IE only, we need to set the overflow of the main content pane
@@ -300,10 +298,27 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
              * floating content over the top (for instance when you drop down a combo
              * box
              */
-            if (Core.Web.Env.BROWSER_INTERNET_EXPLORER) {
-                var contentPaneEl = document.getElementById("approot").firstChild;
-                contentPaneEl.style.overflow = "visible";
-            }
+                //var contentPaneEl = document.getElementById("approot").firstChild;
+
+                /*
+                 * Ensure that all divs right back up to the app root have overflow
+                 * visible.
+                 */
+                /*
+                var tempNode = this._parentElement;
+                do {
+                    tempNode.style.overflow = "visible";
+                    if (tempNode.id == "approot") {
+                        tempNode.parentNode.style.overflow = "visible";
+                        tempNode = null;
+                    }
+                    else {
+                        tempNode = tempNode.parentNode;
+                    }
+                }
+                while (tempNode != null);
+                */
+                //this._parentElement.style.zoom = 1;
 
             var options = {
                 id: this.component.renderId,
@@ -313,6 +328,12 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 this._update,
                 options
             );
+            if (Core.Web.Env.BROWSER_INTERNET_EXPLORER
+                && (this instanceof EchoExt20.PanelSync) ) {
+                //this.extComponent.getEl().dom.style.zoom = 1;
+                    this._parentElement.style.overflow = "visible";
+                    this._parentElement.parentNode.style.overflow = "visible";
+            }
             this._addBeforeRenderListener();
         }
     },
