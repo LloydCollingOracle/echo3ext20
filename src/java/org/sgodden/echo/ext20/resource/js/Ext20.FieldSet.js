@@ -36,7 +36,7 @@ EchoExt20.FieldSetSync = Core.extend(EchoExt20.PanelSync, {
      */
     createExtComponent: function(update, options) {
     
-		options['autoHeight'] = true; // seems to be necessary to sort out various rendering problems
+	options['autoHeight'] = true; // seems to be necessary to sort out various rendering problems
 		
         // add our special option
     	if (this.component.get("checkboxToggle") != null) {
