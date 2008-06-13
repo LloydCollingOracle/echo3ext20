@@ -31,6 +31,7 @@ public class FieldSet
      */
     public FieldSet() {
         super(new FormLayout());
+        setBorder(true);
     }
     
     /**
@@ -39,6 +40,7 @@ public class FieldSet
      */
     public FieldSet(Layout layout) {
         super(layout);
+        setBorder(true);
     }
     
     /**
