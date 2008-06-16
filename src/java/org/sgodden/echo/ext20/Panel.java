@@ -455,7 +455,5 @@ public class Panel extends ExtComponent {
             listener.actionPerformed(e);
         }
     }
-    
-    
-    
+
 }

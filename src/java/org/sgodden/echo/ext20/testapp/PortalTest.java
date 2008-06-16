@@ -19,8 +19,6 @@ package org.sgodden.echo.ext20.testapp;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Portal;
 import org.sgodden.echo.ext20.PortalColumn;
@@ -28,15 +26,18 @@ import org.sgodden.echo.ext20.Portlet;
 import org.sgodden.echo.ext20.Tool;
 import org.sgodden.echo.ext20.Window;
 import org.sgodden.echo.ext20.layout.ColumnLayoutData;
+import org.sgodden.echo.ext20.layout.FitLayout;
+import org.sgodden.echo.ext20.testapp.regression.RemoveEchoFromExtTest;
 
 /**
  * Adds a test for the portal component.
  * 
  * @author sgodden
  */
+@SuppressWarnings("serial")
 public class PortalTest extends Portal implements DeferredUiCreate {
 	
-	private static final transient Log log = LogFactory.getLog(PortalTest.class);
+	//private static final transient Log log = LogFactory.getLog(PortalTest.class);
 
 	public PortalTest() {
 		super();
@@ -60,6 +61,7 @@ public class PortalTest extends Portal implements DeferredUiCreate {
 
 		col1.add(makePortlet("Portlet 1", "Portlet 1"));
 		col1.add(makePortlet("Portlet 2", "Portlet 2"));
+		col1.add(makeLayoutTestPortlet());
 
 		PortalColumn col2 = new PortalColumn();
 		add(col2);
@@ -98,6 +100,15 @@ public class PortalTest extends Portal implements DeferredUiCreate {
 		});
 
 		return ret;
+	}
+	
+	private Portlet makeLayoutTestPortlet() {
+	    Portlet ret = new Portlet();
+	    ret.setTitle("Layout test");
+	    ret.setLayout(new FitLayout());
+	    ret.add(new RemoveEchoFromExtTest());
+	    ret.setHeight(200);
+	    return ret;
 	}
 
 }

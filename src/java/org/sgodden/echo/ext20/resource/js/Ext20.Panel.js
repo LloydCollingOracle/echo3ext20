@@ -44,9 +44,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
 	
     /**
      * Reference to a method to invoke when the server
-     * update is complete.
+     * update is complete, to make the component visible again.
      */
-    _serverUpdateCompleteRef: null,
+    _makeVisibleRef: null,
     
     $virtual: {
 		
@@ -107,9 +107,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                     this.extComponent.getEl().dom.style.visibility = 'hidden';
 
                     // and add a server update complete listener to show ourselves again, if we haven't already
-                    if (this._serverUpdateCompleteRef == null) {
-                        this._serverUpdateCompleteRef = Core.method(this, this._serverUpdateComplete);
-                        this.client.addServerUpdateCompleteListener(this._serverUpdateCompleteRef);
+                    if (this._makeVisibleRef == null) {
+                        this._makeVisibleRef = Core.method(this, this._makeVisible);
+                        this.client.addServerUpdateCompleteListener(this._makeVisibleRef);
                     }
                 }
 	    }
@@ -128,8 +128,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     renderDispose: function(update) {
         EchoExt20.ExtComponentSync.prototype.renderDispose.call(this, update);
-        if (this._serverUpdateCompleteRef != null) {
-            this.client.removeServerUpdateCompleteListener(this._serverUpdateCompleteRef);
+        if (this._makeVisibleRef != null) {
+            this.client.removeServerUpdateCompleteListener(this._makeVisibleRef);
         }
     },
     
@@ -143,7 +143,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     /**
      * Re-shows the component after being hidden during an update
      */
-    _serverUpdateComplete: function() {
+    _makeVisible: function() {
         this.extComponent.getEl().dom.style.visibility = 'visible';
     },
     

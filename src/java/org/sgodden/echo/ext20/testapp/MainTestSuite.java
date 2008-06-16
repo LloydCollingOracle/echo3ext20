@@ -30,7 +30,6 @@ public class MainTestSuite extends TabbedPane {
         add(new WindowTest());
         add(new PortalTest());
         add(new TabbedPaneTest());
-        add(new RelativePositioningTest());
         add(new LayoutTest());
 
     }

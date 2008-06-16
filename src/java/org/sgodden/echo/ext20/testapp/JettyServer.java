@@ -46,7 +46,7 @@ public class JettyServer {
         l.setLevel(Level.DEBUG);
 
 
-        final Server server = new Server(8080);
+        final Server server = new Server(8081);
         server.setStopAtShutdown(true);
 
         server.addHandler(new RequestLogHandler());

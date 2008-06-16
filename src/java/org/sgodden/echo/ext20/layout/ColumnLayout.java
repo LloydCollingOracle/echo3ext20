@@ -21,8 +21,9 @@ import java.io.Serializable;
 /**
  * A layout where the width of each column can be specified 
  * as a percentage or fixed width, but the height is 
- * allowed to vary based on the content
+ * allowed to vary based on the content.
  * @author sgodden
+ * @see ColumnLayoutData
  */
 public class ColumnLayout 
 		implements Layout, Serializable {

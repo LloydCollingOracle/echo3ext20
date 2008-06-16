@@ -24,6 +24,7 @@ import nextapp.echo.app.LayoutData;
  * @author goddens
  *
  */
+@SuppressWarnings("serial")
 public class ColumnLayoutData
         implements LayoutData {
 
