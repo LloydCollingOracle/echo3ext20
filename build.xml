@@ -6,10 +6,10 @@
     <property name="classes.dir" value="bin"/>
     <property name="build.dir" value="build"/>
     <property name="jar.name" value="echo3ext20.jar"/>
-	<property name="sources.jar.name" value="echo3ext20-sources.jar"/>
+    <property name="sources.jar.name" value="echo3ext20-sources.jar"/>
     <property name="war.name" value="echo3ext20.war"/>
 	
-	<property name="ext.version" value="2.0.2"/>
+    <property name="ext.version" value="2.0.2"/>
     
     <available file="contrib/ext-${ext.version}" type="dir" property="ext-dir-exists"/>
     
@@ -37,7 +37,7 @@
     
     <target name="doc">
         <javadoc
-        	access="protected"
+            access="protected"
             destdir="docs/api"
             author="true"
             use="true"
@@ -50,10 +50,10 @@
             	includes="org/sgodden/echo/ext20,org/sgodden/echo/ext20/data,org/sgodden/echo/ext20/grid,org/sgodden/echo/ext20/layout" 
             	defaultexcludes="yes">
             </packageset>
-			<link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
-        	<link offline="true"
-        		href="http://echo.nextapp.com/content/echo3/doc/3.0/api/public/"
-        		packageListLoc="${basedir}/echo3-package-list"/>
+            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+            <link offline="true"
+                href="http://echo.nextapp.com/content/echo3/doc/3.0/api/public/"
+                packageListLoc="${basedir}/echo3-package-list"/>
         </javadoc>
     </target>
     
@@ -65,9 +65,9 @@
                 prefix = "ext" 
                 dir="contrib/ext-${ext.version}" 
                 includes="ext-all.js, ext-all-debug.js, adapter/ext/ext-base.js"/>
-        	<zipfileset
-        		prefix="META-INF/maven/org.sgodden/echo3ext20"
-        		dir="maven"/>
+            <zipfileset
+                prefix="META-INF/maven/org.sgodden/echo3ext20"
+                dir="maven"/>
         </jar>
         <jar destfile="${build.dir}/${sources.jar.name}">
             <fileset dir="src/java" includes="**/*.java"/>
@@ -85,10 +85,11 @@
             basedir="src/webapp"
             webxml="src/webapp/WEB-INF/web.xml">
             <lib file="build/*jar"/>
-        	<zipfileset 
-        		prefix="resources/ext" 
-        		dir="contrib/ext-${ext.version}/resources"
-        		includes="**/*"/>
+            <lib dir="lib"/>
+            <zipfileset 
+                prefix="resources/ext" 
+                dir="contrib/ext-${ext.version}/resources"
+                includes="**/*"/>
         </war>
     </target>
     
@@ -131,44 +132,44 @@
             </classpath>
         </java>
     </target>
-	
-	<target name="mvn-install"
-			depends="os-detect, jar"
-			description="Builds and installs into the local maven repository">
-		<antcall target="mvn-install-unix"/>
-		<antcall target="mvn-install-windows"/>
-	</target>
-	
-	
-	<target name="mvn-install-unix"
-			if="is-unix"
-			description="Installs the jar into the local maven repository">
-		<exec executable="mvn">
-			<arg value="install:install-file"/>
-			<arg value="-DgroupId=org.sgodden"/>
-			<arg value="-DartifactId=echo3ext20"/>
-			<arg value="-Dversion=1.0-SNAPSHOT"/>
-			<arg value="-Dpackaging=jar"/>
-			<arg value="-Dfile=build${file.separator}echo3ext20.jar"/>
-		</exec>
-	</target>
-	
-	<target name="mvn-install-windows"
-			if="is-windows"
-			description="Installs the jar into the local maven repository (windows environment)">
-		<exec executable="cmd">
-			<arg value="/c"/>
-			<arg value="mvn install:install-file -DgroupId=org.sgodden -DartifactId=echo3ext20 -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=build${file.separator}echo3ext20.jar"/>
-		</exec>
-	</target>
-	
-	<target name="os-detect">
-	  	<condition property="is-unix" value="true">
-	  	     <os family="unix"/>
-	  	</condition>
-	  	<condition property="is-windows" value="true">
-	  		<os family="windows"/>
-	  	</condition>
+    
+    <target name="mvn-install"
+            depends="os-detect, jar"
+            description="Builds and installs into the local maven repository">
+        <antcall target="mvn-install-unix"/>
+        <antcall target="mvn-install-windows"/>
+    </target>
+    
+    
+    <target name="mvn-install-unix"
+            if="is-unix"
+            description="Installs the jar into the local maven repository">
+        <exec executable="mvn">
+                <arg value="install:install-file"/>
+                <arg value="-DgroupId=org.sgodden"/>
+                <arg value="-DartifactId=echo3ext20"/>
+                <arg value="-Dversion=1.0-SNAPSHOT"/>
+                <arg value="-Dpackaging=jar"/>
+                <arg value="-Dfile=build${file.separator}echo3ext20.jar"/>
+        </exec>
+    </target>
+    
+    <target name="mvn-install-windows"
+            if="is-windows"
+            description="Installs the jar into the local maven repository (windows environment)">
+        <exec executable="cmd">
+            <arg value="/c"/>
+            <arg value="mvn install:install-file -DgroupId=org.sgodden -DartifactId=echo3ext20 -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=build${file.separator}echo3ext20.jar"/>
+        </exec>
+    </target>
+    
+    <target name="os-detect">
+        <condition property="is-unix" value="true">
+             <os family="unix"/>
+        </condition>
+        <condition property="is-windows" value="true">
+                <os family="windows"/>
+        </condition>
     </target>
     
     
