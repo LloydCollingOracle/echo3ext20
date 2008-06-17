@@ -159,7 +159,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
 	if (this.component.get("background")) {
 	    options['bodyStyle'] += "background: " + this.component.get("background") + ";";
 	}
-		
+
 	var transparent = this.component.get("transparent");
 	if (transparent) {
 	    options['bodyStyle'] += "background: transparent;";
@@ -193,6 +193,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         var width = this.component.get("width");
         if (width != null) {
             options['width'] = width;
+        }
+
+        if (this.component.get("autoScroll")) {
+            options.autoScroll = this.component.get("autoScroll");
         }
 		
         /*

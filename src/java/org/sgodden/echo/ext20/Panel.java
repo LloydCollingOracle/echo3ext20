@@ -43,6 +43,8 @@ public class Panel extends ExtComponent {
     
     private static final transient Log log = LogFactory.getLog(Panel.class);
     
+    public static final String AUTOSCROLL_PROPERTY = "autoScroll";
+    
     public static final String PROPERTY_BORDER = "border";
     public static final String PROPERTY_PADDING = "padding";
     public static final String PROPERTY_TITLE = "title";
@@ -168,6 +170,17 @@ public class Panel extends ExtComponent {
      */
     public void setWidth(int pixels) {
         setProperty(WIDTH_PROPERTY, pixels);
+    }
+    
+    /**
+     * Sets whether to use overflow:'auto' on the panel's body element 
+     * and show scroll bars automatically when necessary (true), or
+     * whether  
+     * to clip any overflowing content (false) - default to false.
+     * @param autoScroll whether to scroll the contents of the panel.
+     */
+    public void setAutoScroll(boolean autoScroll) {
+        setProperty(AUTOSCROLL_PROPERTY, autoScroll);
     }
     
     /**
