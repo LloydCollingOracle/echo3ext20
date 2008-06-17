@@ -1,24 +1,31 @@
 package org.sgodden.echo.ext20.layout;
 
-import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-import nextapp.echo.app.Table;
+import nextapp.echo.app.layout.GridLayoutData;
 
 /**
  * A layout which uses an HTML table.
  * <p/>
- * N.B. - this layout seems problematic in terms of manipulating layout data
- * for each row and cell.  You may be better advised to use an echo3 {@link Table}
- * instead.
+ * When adding components to a panel with this layout, use
+ * instances of echo {@link GridLayoutData} to provide their
+ * layout data.  This is confusing, apologies.
  * @author sgodden
  *
  */
+@SuppressWarnings({"serial","unchecked"})
 public class TableLayout
-        implements Layout, Serializable {
+        implements Layout {
 
-    private static final long serialVersionUID = 20080213L;
-    private int columns;
+    private Integer columns;
     private int defaultPadding = 5;
+    
+    /**
+     * The map of css styles to be applied to
+     * the table cell.
+     */
+    private Map tableCssStyle = new HashMap();
 
     /**
      * Creates a table layout.
@@ -26,6 +33,13 @@ public class TableLayout
      */
     public TableLayout(int columns) {
         this.columns = columns;
+    }
+    
+    /**
+     * Creates a new table layout, where all components
+     * will be rendered in a single row.
+     */
+    public TableLayout() {
     }
 
     /**
@@ -42,7 +56,7 @@ public class TableLayout
      * Returns the number of columns in the table.
      * @return the number of columns in the table.
      */
-    public int getColumns() {
+    public Integer getColumns() {
         return columns;
     }
 
@@ -53,4 +67,33 @@ public class TableLayout
     public int getDefaultPadding() {
         return defaultPadding;
     }
+    
+    /**
+     * Sets the default padding for each cell.
+     * @param defaultPadding the default paddinf for each cell.
+     */
+    public void setDefaultPadding(int defaultPadding) {
+        this.defaultPadding = defaultPadding;
+    }
+    
+    
+    /**
+     * Returns the map of css styles to be applied
+     * the table cell.
+     * @return the map of css styles.
+     */
+    public Map getTableCssStyles() {
+        return tableCssStyle;
+    }
+    
+    /**
+     * Sets the specified css property, to be applied to
+     * the <code>table</code> element.
+     * @param propertyName the css property name.
+     * @param value the value.
+     */
+    public void setCssStyle(String propertyName, String value) {
+        tableCssStyle.put(propertyName, value);
+    }
+
 }

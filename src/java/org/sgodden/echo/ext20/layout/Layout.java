@@ -16,11 +16,13 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.layout;
 
+import java.io.Serializable;
+
 /**
  * A marker interface for all layouts.
  * @author sgodden
  *
  */
-public interface Layout {
+public interface Layout extends Serializable {
 
 }

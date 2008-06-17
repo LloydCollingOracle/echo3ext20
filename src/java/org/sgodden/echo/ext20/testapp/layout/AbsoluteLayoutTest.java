@@ -3,12 +3,12 @@ package org.sgodden.echo.ext20.testapp.layout;
 import nextapp.echo.app.Label;
 
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.layout.FitLayout;
 
 /**
  * Test playing around with CSS absolute positioning.
  * @author sgodden
  */
+@SuppressWarnings("serial")
 public class AbsoluteLayoutTest 
     extends Panel {
     
@@ -18,9 +18,11 @@ public class AbsoluteLayoutTest
         Panel topLeft = new Panel();
         add(topLeft);
         
+        topLeft.setRenderId("resizePanel");
         topLeft.setBorder(true);
         topLeft.setCssStyle("position", "absolute");
         topLeft.setCssStyle("left", "0px");
+        topLeft.setCssStyle("bottom", "0px");
         topLeft.setCssStyle("top", "0px");
         topLeft.add(new Label("This should be top left"));
         

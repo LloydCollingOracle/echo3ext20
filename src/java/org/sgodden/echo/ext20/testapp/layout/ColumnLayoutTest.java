@@ -2,7 +2,6 @@ package org.sgodden.echo.ext20.testapp.layout;
 
 import nextapp.echo.app.Label;
 
-import org.sgodden.echo.ext20.DateField;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.layout.ColumnLayout;
 import org.sgodden.echo.ext20.layout.ColumnLayoutData;
@@ -26,7 +25,10 @@ public class ColumnLayoutTest
         
         Panel right = new Panel();
         add(right);
-        right.add(new Label("Right-hand side"));
+        
+        right.setLayoutData(new ColumnLayoutData(.5));
+        right.setCssStyle("textAlign", "right");
+        right.add(new Label("Right-hand side (right-aligned)"));
     }
     
 }

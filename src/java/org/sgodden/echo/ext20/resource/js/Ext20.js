@@ -260,9 +260,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             // and now handle the layout data
             var layout = this.component.parent.get("layout");
             if (layout != null) {
+                var layoutData = this.component.get("layoutData");
                 // border layout
                 if (layout instanceof EchoExt20.BorderLayout) {
-                    var layoutData = this.component.get("layoutData");
                     // layout data mandatory for a border layout
                     if (layoutData == null) {
                         throw new Error("No layout data provided for component in a border layout");
@@ -280,17 +280,27 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                     
                 }
                 else if (layout instanceof EchoExt20.ColumnLayout) {
-                    var layoutData = this.component.get("layoutData");
-                    // layout data is NOT mandatory for column layout
                     if (layoutData != null) {
                         options['columnWidth'] = parseFloat(layoutData.columnWidth);
                     }
                 }
                 else if (layout instanceof EchoExt20.FormLayout) {
-                    var layoutData = this.component.get("layoutData");
-                    // layout data is NOT mandatory for column layout
                     if (layoutData != null) {
                         options['anchor'] = layoutData.anchor;
+                    }
+                }
+                else if (layout instanceof EchoExt20.TableLayout) {
+                    options['autoWidth'] = true;
+                    if (layoutData != null) {
+                        if (layoutData.cellStyle != null) {
+                            options['cellStyle'] = layoutData.cellStyle;
+                        }
+                        if (layoutData.cellAlign) {
+                            options.cellAlign = layoutData.cellAlign;
+                        }
+                        if (layoutData.cellVAlign) {
+                            options.cellVAlign = layoutData.cellVAlign;
+                        }
                     }
                 }
                 // other layouts (form layout, fit layout, table layout) do not require layout data on their children
@@ -418,6 +428,14 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     
     renderDisplay: function(update) {
         this._maybeCreateComponent();
+
+        // FIXME - only do this if necessary
+        if (this.component.renderId == "c_resizePanel") {
+            if (this.extComponent.getEl()) {
+                Core.Web.VirtualPosition._init();
+                Core.Web.VirtualPosition.redraw(this.extComponent.getEl().dom);
+            }
+        }
     },
     
     _addBeforeRenderListener: function() {
@@ -572,6 +590,8 @@ EchoExt20.TableLayout = Core.extend({
 
 EchoExt20.PropertyTranslator.TableLayout = {
     toProperty: function(client, propertyElement) {
+
+        // process properties passed as attributes
         var columns = propertyElement.getAttribute('c');
         if (columns == null) {
             columns = '1';
@@ -580,10 +600,25 @@ EchoExt20.PropertyTranslator.TableLayout = {
         if (defaultPadding == null) {
             defaultPadding = '';
         }
-        return new EchoExt20.TableLayout(
+        var ret = new EchoExt20.TableLayout(
             parseInt(columns),
             defaultPadding
         );
+
+        // process properties passed child elements (such as the table styles)
+        var element = propertyElement.firstChild;
+        while (element) {
+            if (element.nodeType == 1) {
+                switch (element.nodeName) {
+                case "p":
+                    Echo.Serial.loadProperty(client, element, null, ret);
+                    break;
+                }
+            }
+            element = element.nextSibling;
+        }
+
+        return ret;
     }
 }
 

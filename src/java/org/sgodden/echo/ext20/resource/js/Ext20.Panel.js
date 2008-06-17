@@ -258,10 +258,18 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
             else if (layout instanceof EchoExt20.TableLayout) {
                 options['layout'] = 'table';
-                options['layoutConfig'] = {columns: layout.columns};
-                var defaultPadding = layout.defaultPadding;
-                if (defaultPadding != null) {
+                options['layoutConfig'] = {};
+
+                if (layout.columns) {
+                    options.layoutConfig.columns = layout.columns;
+                }
+
+                if (layout.defaultPadding) {
                     options['defaults'] = {bodyStyle: 'padding:' + layout.defaultPadding};
+                }
+
+                if (layout.tableStyle) {
+                    options.layoutConfig.tableStyle = layout.tableStyle;
                 }
             }
             else {

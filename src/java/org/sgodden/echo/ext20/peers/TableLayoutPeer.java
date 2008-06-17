@@ -19,11 +19,14 @@ package org.sgodden.echo.ext20.peers;
 import nextapp.echo.app.serial.SerialContext;
 import nextapp.echo.app.serial.SerialException;
 import nextapp.echo.app.serial.SerialPropertyPeer;
+import nextapp.echo.app.serial.SerialUtil;
 import nextapp.echo.app.util.Context;
 
+import org.sgodden.echo.ext20.layout.ColumnLayoutData;
 import org.sgodden.echo.ext20.layout.TableLayout;
 import org.w3c.dom.Element;
 
+@SuppressWarnings("unchecked")
 public class TableLayoutPeer 
 implements SerialPropertyPeer {
 
@@ -40,6 +43,7 @@ implements SerialPropertyPeer {
         
         propertyElement.setAttribute("c", String.valueOf(layout.getColumns()));
         propertyElement.setAttribute("dp", String.valueOf(layout.getDefaultPadding() + "px"));
+        SerialUtil.toXml(context, ColumnLayoutData.class, propertyElement, "tableStyle", layout.getTableCssStyles());
 
 	}
 
