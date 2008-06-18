@@ -2,6 +2,7 @@ package org.sgodden.echo.ext20.testapp.layout;
 
 import nextapp.echo.app.Button;
 import nextapp.echo.app.Color;
+import nextapp.echo.app.Component;
 import nextapp.echo.app.Label;
 
 import org.sgodden.echo.ext20.Panel;
@@ -20,51 +21,61 @@ public class TableLayoutTest
         super("Table");
         
         TableLayout layout = new TableLayout(3);
+        // set 100% width
         layout.setCssStyle("width", "100%");
-        //layout.setCssStyle("height", "100%");
-        layout.setBorder(true); // to visually 'debug' the layout
+        // renders the table border to help us "debug" the table
+        layout.setBorder(true);
         setLayout(layout);
         
-        // row 1
-        add(makeLabelPanel("Row 1 Column 1"));
-        add(makeLabelPanel("Row 1 Column 2"));
+        /*
+         * Create components for the first row.
+         */
+        add(new Label("Row 1 Column 1"));
+        add(new Label("Row 1 Column 2"));
         
-        Panel p = makeTablePanel();
-        add(p);
+        Component c = makeTablePanel();
+        add(c);
         
         TableLayoutData tld = new TableLayoutData();
+        // align this last cell to the right and bottom
         tld.setCellAlign("right");
         tld.setCellVAlign("bottom");
-        p.setLayoutData(tld);
+        c.setLayoutData(tld);
         
-        // row 2 - try out colspan
-        p = makeLabelPanel("Row 2 columns 1 and 2");
-        add(p);
+        /*
+         * Create components for the second row.
+         */
+        c = new Label("Row 2 columns 1 and 2");
+        add(c);
         tld = new TableLayoutData();
+        // set this first cell to colspan 2
         tld.setColSpan(2);
-        p.setLayoutData(tld);
+        c.setLayoutData(tld);
         
         add(makePanel2());
         
-        // row 3 - try out rowspan
-        p = makeLabelPanel("Rows 3 and 4 columns 1 and 2");
-        add(p);
+        /*
+         * Create components for third row.
+         */
+        c = new Label("Rows 3 and 4 columns 1 and 2");
+        add(c);
         tld = new TableLayoutData();
+        // this cell will span 2 columns and 2 rows.
         tld.setColSpan(2);
         tld.setRowSpan(2);
-        p.setLayoutData(tld);
+        c.setLayoutData(tld);
         
-        add(makeLabelPanel("Row 3 column 3"));
+        add(new Label("Row 3 column 3"));
         
-        // row 4 (cols 1 and 2 already taken up by the panel above)
-        add(makeLabelPanel("Row 4 column 3"));
+        /*
+         * Create row 4 (cols 1 and 2 already taken up by the panel above)
+         */
+        c = new Label("Row 4 column 3");
+        tld = new TableLayoutData();
+        tld.setCellAlign("right");
+        c.setLayoutData(tld);
+        add(c);
         
-    }
-    
-    private Panel makeLabelPanel(String labelText) {
-        Panel ret = new Panel();
-        ret.add(new Label(labelText));
-        return ret;
     }
     
     private Panel makeTablePanel() {
@@ -82,7 +93,6 @@ public class TableLayoutTest
     
     private Panel makePanel2() {
         Panel ret = new Panel();
-        ret.setRenderId("setBackgroundPanel");
         ret.setBorder(true);
         ret.setHeight(100);
         ret.setBackground(Color.LIGHTGRAY);

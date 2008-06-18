@@ -60,7 +60,8 @@ public class TableLayoutData
  
     /**
      * Sets the cell alignment.
-     * @param cellAlign the cell alignment.
+     * @param cellAlign the cell alignment - one of "left", "center", "right",
+     * "justify" or "char".
      */
     public void setCellAlign(String cellAlign) {
         this.cellAlign = cellAlign;
@@ -76,7 +77,8 @@ public class TableLayoutData
     
     /**
      * Sets the cell vertical alignment.
-     * @param cellVAlign the cell vertical alignment.
+     * @param cellVAlign the cell vertical alignment - one of "top", "middle",
+     * "bottom" or "baseline".
      */
     public void setCellVAlign(String cellVAlign) {
         this.cellVAlign = cellVAlign;

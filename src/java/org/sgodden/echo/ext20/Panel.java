@@ -227,13 +227,7 @@ public class Panel extends ExtComponent {
      */
     @Override
     public void add(Component comp) {
-        if (getLayout() instanceof TableLayout && !(comp instanceof Panel)) {
-            Panel panel = new Panel();
-            panel.setBorder(false);
-            super.add(panel);
-            panel.addNoWrapCheck(comp);
-        }
-        else if (getLayout() instanceof FitLayout
+        if (getLayout() instanceof FitLayout
                 && nonButtonBarChildCount > 0) {
            throw new Error("Only one non-button component is allowed for fit layout");
         }
@@ -281,15 +275,6 @@ public class Panel extends ExtComponent {
     public void removeAll() {
         nonButtonBarChildCount = 0;
         super.removeAll();
-    }
-    
-    /**
-     * Adds a component without checking whether it needs to be
-     * wrapped in an outer panel.
-     * @param comp
-     */
-    private void addNoWrapCheck(Component comp) {
-        super.add(comp);
     }
     
     /**

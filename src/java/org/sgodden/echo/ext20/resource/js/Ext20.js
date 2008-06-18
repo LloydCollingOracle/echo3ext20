@@ -43,10 +43,22 @@ EchoExt20.Echo3SyncWrapper = function(update, wrappedComponent) {
     this.wrappedRootElement = document.createElement("div");
 
     /*
+     * Add the necessary layout options.
+     */
+    var options = {};
+    EchoExt20.LayoutProcessor.addLayoutOptions(options, wrappedComponent);
+    Ext.apply(this, options);
+
+    /*
      * We need to call render add immediately, but defer
      * adding it until this wrapper is rendered.
      */
     Echo.Render.renderComponentAdd(update, this.wrappedComponent, this.wrappedRootElement);
+   
+    /*
+     * Intercept the wrapped component's peer's renderDispose to ensure that this wrapper is disposed.
+     */
+    this.wrappedComponent.peer.renderDispose = this.wrappedComponent.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
 }
 
 Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
@@ -56,7 +68,7 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
      * @param {Object} position the child div to which we should render the echo3 component.
      */
     onRender: function(ct, position) {
-        // necessary for ext internal processing
+
         this.el = new Ext.Element(this.wrappedRootElement);
 
         if (position != null) {
@@ -65,11 +77,6 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
         else {
             ct.appendChild(this.el);
         }
-       
-        /*
-         * Intercept the wrapped component's peer's renderDispose to ensure that this wrapper is disposed.
-         */
-        this.wrappedComponent.peer.renderDispose = this.wrappedComponent.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
     },
 
     onRenderDispose: function(update) {
@@ -256,61 +263,11 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             if (this.component.get("cssStyles") != null) {
                 options['style'] = this.component.get("cssStyles");
             }
-            
-            // and now handle the layout data
-            var layout = this.component.parent.get("layout");
-            if (layout != null) {
-                var layoutData = this.component.get("layoutData");
-                // border layout
-                if (layout instanceof EchoExt20.BorderLayout) {
-                    // layout data mandatory for a border layout
-                    if (layoutData == null) {
-                        throw new Error("No layout data provided for component in a border layout");
-                    }
-                    var region = this._convertToExtRegion(layoutData.region);
-                    options['region'] = region;
-                    // if we are in the north, and have no height set, then we need autoHeight true.
-                    // fixme - how about handling width in west and east, and height in south?
-                    if (region == 'north') {
-                        var height = this.component.get("height");
-                        if (height == null) {
-                            options['autoHeight'] = true;
-                        }
-                    }
-                    
-                }
-                else if (layout instanceof EchoExt20.ColumnLayout) {
-                    if (layoutData != null) {
-                        options['columnWidth'] = parseFloat(layoutData.columnWidth);
-                    }
-                }
-                else if (layout instanceof EchoExt20.FormLayout) {
-                    if (layoutData != null) {
-                        options['anchor'] = layoutData.anchor;
-                    }
-                }
-                else if (layout instanceof EchoExt20.TableLayout) {
-                    options['autoWidth'] = true;
-                    if (layoutData != null) {
-                        if (layoutData.cellStyle != null) {
-                            options['cellStyle'] = layoutData.cellStyle;
-                        }
-                        if (layoutData.cellAlign) {
-                            options.cellAlign = layoutData.cellAlign;
-                        }
-                        if (layoutData.cellVAlign) {
-                            options.cellVAlign = layoutData.cellVAlign;
-                        }
-                        if (layoutData.colSpan) {
-                            options.colspan = layoutData.colSpan;
-                        }
-                        if (layoutData.rowSpan) {
-                            options.rowspan = layoutData.rowSpan;
-                        }
-                    }
-                }
-                // other layouts (form layout, fit layout, table layout) do not require layout data on their children
-            }
+           
+            /*
+             * Add the necessary layout options.
+             */
+            EchoExt20.LayoutProcessor.addLayoutOptions(options, this.component);
             
             this.extComponent = this.createExtComponent(
                 update,
@@ -389,36 +346,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
 
             this._addBeforeRenderListener();
         }
-    },
-        
-    /**
-     * Convenience method to turn a single character region into an
-     * ext region equivalent.
-     */
-    _convertToExtRegion: function(shortRegion) {
-        var ret = null;
-        
-        if (shortRegion == 'n') {
-            ret = 'north';
-        }
-        else if (shortRegion == 'e') {
-            ret = 'east';
-        }
-        else if (shortRegion == 's') {
-            ret = 'south';
-        }
-        else if (shortRegion == 'w') {
-            ret = 'west';
-        }
-        else if (shortRegion == 'c') {
-            ret = 'center';
-        }
-        
-        if (ret == null) {
-            throw new Error("Unknown short region code: " + shortRegion);
-        }
-        
-        return ret;
     },
     
     /**
@@ -507,6 +434,106 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     }
     
 });
+
+/**
+ * Static object / namespace which handles layout processing.
+ * Do not instantiate.
+ * @class
+ */
+EchoExt20.LayoutProcessor = {
+    /**
+     * Looks at the parent's layout, and adds
+     * appropriate entries to the passed dictionary of options
+     * based on the child's layout data.
+     * @param options an existing dictionary into which to add the new options.
+     * @param child the child component which has the layout data on it.
+     */
+    addLayoutOptions: function(options, child) {
+        // and now handle the layout data
+        var layout = child.parent.get("layout");
+        if (layout != null) {
+            var layoutData = child.get("layoutData");
+            // border layout
+            if (layout instanceof EchoExt20.BorderLayout) {
+                // layout data mandatory for a border layout
+                if (layoutData == null) {
+                    throw new Error("No layout data provided for component in a border layout");
+                }
+                var region = EchoExt20.LayoutProcessor._convertToExtRegion(layoutData.region);
+                options['region'] = region;
+                // if we are in the north, and have no height set, then we need autoHeight true.
+                // fixme - how about handling width in west and east, and height in south?
+                if (region == 'north') {
+                    var height = child.get("height");
+                    if (height == null) {
+                        options['autoHeight'] = true;
+                    }
+                }
+                
+            }
+            else if (layout instanceof EchoExt20.ColumnLayout) {
+                if (layoutData != null) {
+                    options['columnWidth'] = parseFloat(layoutData.columnWidth);
+                }
+            }
+            else if (layout instanceof EchoExt20.FormLayout) {
+                if (layoutData != null) {
+                    options['anchor'] = layoutData.anchor;
+                }
+            }
+            else if (layout instanceof EchoExt20.TableLayout) {
+                if (layoutData != null) {
+                    if (layoutData.cellStyle != null) {
+                        options['cellStyle'] = layoutData.cellStyle;
+                    }
+                    if (layoutData.cellAlign) {
+                        options.cellAlign = layoutData.cellAlign;
+                    }
+                    if (layoutData.cellVAlign) {
+                        options.cellVAlign = layoutData.cellVAlign;
+                    }
+                    if (layoutData.colSpan) {
+                        options.colspan = layoutData.colSpan;
+                    }
+                    if (layoutData.rowSpan) {
+                        options.rowspan = layoutData.rowSpan;
+                    }
+                }
+            }
+            // other layouts (form layout, fit layout, table layout) do not require layout data on their children
+        }
+    },
+
+    /**
+     * Convenience method to turn a single character region into an
+     * ext region equivalent.
+     */
+    _convertToExtRegion: function(shortRegion) {
+        var ret = null;
+        
+        if (shortRegion == 'n') {
+            ret = 'north';
+        }
+        else if (shortRegion == 'e') {
+            ret = 'east';
+        }
+        else if (shortRegion == 's') {
+            ret = 'south';
+        }
+        else if (shortRegion == 'w') {
+            ret = 'west';
+        }
+        else if (shortRegion == 'c') {
+            ret = 'center';
+        }
+        
+        if (ret == null) {
+            throw new Error("Unknown short region code: " + shortRegion);
+        }
+        
+        return ret;
+    },
+}
 
 // Abstract component classes and sync peers
 
