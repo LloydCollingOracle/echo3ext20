@@ -172,7 +172,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         var height = this.component.render("height");
         if (height != null) {
-            alert(height);
             options['height'] = height;
         }
         
