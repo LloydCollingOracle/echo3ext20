@@ -82,6 +82,7 @@ public class TableLayoutTest
     
     private Panel makePanel2() {
         Panel ret = new Panel();
+        ret.setRenderId("setBackgroundPanel");
         ret.setBorder(true);
         ret.setHeight(100);
         ret.setBackground(Color.LIGHTGRAY);

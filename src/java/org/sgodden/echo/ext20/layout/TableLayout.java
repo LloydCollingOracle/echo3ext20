@@ -24,11 +24,6 @@ public class TableLayout
      */
     private Integer columns;
     /**
-     * The default padding for cells.
-     * FIXME - by specifying this on layout data, does it mean we can't set it in stylesheets?
-     */
-    private int defaultPadding = 5;
-    /**
      * Whether this table should show a border - useful for debugging layout problems.
      */
     private boolean border;
@@ -55,39 +50,12 @@ public class TableLayout
     }
 
     /**
-     * Creates a table layout.
-     * @param columns the number of columns for the table.
-     * @param defaultPadding the default padding for table cells.
-     */
-    public TableLayout(int columns, int defaultPadding) {
-        this.columns = columns;
-        this.defaultPadding = defaultPadding;
-    }
-
-    /**
      * Returns the number of columns in the table.
      * @return the number of columns in the table.
      */
     public Integer getColumns() {
         return columns;
     }
-
-    /**
-     * Returns the default padding for each cell.
-     * @return the default padding for each cell.
-     */
-    public int getDefaultPadding() {
-        return defaultPadding;
-    }
-    
-    /**
-     * Sets the default padding for each cell.
-     * @param defaultPadding the default paddinf for each cell.
-     */
-    public void setDefaultPadding(int defaultPadding) {
-        this.defaultPadding = defaultPadding;
-    }
-    
     
     /**
      * Returns the map of css styles to be applied

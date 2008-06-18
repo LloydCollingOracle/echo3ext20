@@ -424,7 +424,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     /**
      * Convenience method to debug out a set of options.
      */
-    debugOptions: function(prefix, options) {
+    _debugOptions: function(prefix, options) {
         var out = prefix += "\n";
         for (var key in options) {
             out += key + ": " + options[key] + "\n";
@@ -587,9 +587,8 @@ EchoExt20.TableLayout = Core.extend({
     columns: 0,
     defaultPadding: '',
     
-    $construct: function(columns, defaultPadding) {
+    $construct: function(columns) {
         this.columns = columns;
-        this.defaultPadding = defaultPadding;
     }
     
 });
@@ -602,15 +601,9 @@ EchoExt20.PropertyTranslator.TableLayout = {
         if (columns == null) {
             columns = '1';
         }
-        var defaultPadding = propertyElement.getAttribute('dp');
-        if (defaultPadding == null) {
-            defaultPadding = '';
-        }
         var ret = new EchoExt20.TableLayout(
-            parseInt(columns),
-            defaultPadding
+            parseInt(columns)
         );
-
         // process properties passed child elements (such as the table styles)
         var element = propertyElement.firstChild;
         while (element) {

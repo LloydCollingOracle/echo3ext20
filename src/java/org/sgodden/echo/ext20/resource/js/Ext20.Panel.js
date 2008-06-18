@@ -156,7 +156,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
 		
     	if (this.component.get("background")) {
-    	    options.bodyStyle.background =  this.component.get("background");
+    	    options.bodyStyle.backgroundColor =  this.component.get("background");
     	}
     
     	if (this.component.get("transparent")) {
