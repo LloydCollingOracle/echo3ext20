@@ -48,6 +48,10 @@ public class TableLayoutDataPeer extends LayoutDataPeer {
                 "cellAlign", layoutData.getCellAlign());
         SerialUtil.toXml(context, TableLayoutData.class, propertyElement,
                 "cellVAlign", layoutData.getCellVAlign());
+        SerialUtil.toXml(context, TableLayoutData.class, propertyElement,
+                "colSpan", layoutData.getColSpan());
+        SerialUtil.toXml(context, TableLayoutData.class, propertyElement,
+                "rowSpan", layoutData.getRowSpan());
     }
 
 }

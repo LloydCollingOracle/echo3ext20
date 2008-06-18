@@ -44,6 +44,7 @@ implements SerialPropertyPeer {
         propertyElement.setAttribute("c", String.valueOf(layout.getColumns()));
         propertyElement.setAttribute("dp", String.valueOf(layout.getDefaultPadding() + "px"));
         SerialUtil.toXml(context, ColumnLayoutData.class, propertyElement, "tableStyle", layout.getTableCssStyles());
+        SerialUtil.toXml(context, ColumnLayoutData.class, propertyElement, "border", layout.getBorder());
 
 	}
 

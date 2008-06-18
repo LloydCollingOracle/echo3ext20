@@ -148,22 +148,20 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     createExtComponent: function(update, options) {
-	// process basic properties
-	options['bodyStyle'] = "";
+    	// process basic properties
+    	options.bodyStyle = {};
 		
-        var padding = this.component.get("padding");
-        if (padding != null) {
-            options['bodyStyle'] = "padding: " + padding + ";";
+        if (this.component.get("padding")) {
+            options.bodyStyle.padding = this.component.get("padding");
         }
 		
-	if (this.component.get("background")) {
-	    options['bodyStyle'] += "background: " + this.component.get("background") + ";";
-	}
-
-	var transparent = this.component.get("transparent");
-	if (transparent) {
-	    options['bodyStyle'] += "background: transparent;";
-	} 
+    	if (this.component.get("background")) {
+    	    options.bodyStyle.background =  this.component.get("background");
+    	}
+    
+    	if (this.component.get("transparent")) {
+    	    options.bodyStyle.background = "transparent";
+    	} 
         
         var border = this.component.get("border");
         if (border != null) {
@@ -263,17 +261,17 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             else if (layout instanceof EchoExt20.TableLayout) {
                 options['layout'] = 'table';
                 options['layoutConfig'] = {};
-
                 if (layout.columns) {
                     options.layoutConfig.columns = layout.columns;
                 }
-
                 if (layout.defaultPadding) {
                     options['defaults'] = {bodyStyle: 'padding:' + layout.defaultPadding};
                 }
-
                 if (layout.tableStyle) {
                     options.layoutConfig.tableStyle = layout.tableStyle;
+                }
+                if (layout.border) {
+                    options.layoutConfig.tableBorder = layout.border;
                 }
             }
             else {

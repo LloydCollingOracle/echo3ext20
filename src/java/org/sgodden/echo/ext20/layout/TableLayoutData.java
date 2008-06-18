@@ -30,6 +30,16 @@ public class TableLayoutData
     private String cellVAlign;
     
     /**
+     * The column span of the cell.
+     */
+    private int colSpan;
+    
+    /**
+     * The row span of the cell.
+     */
+    private int rowSpan;
+    
+    /**
      * Returns the map of css styles to be applied
      * the table cell.
      * @return the map of css styles.
@@ -78,6 +88,38 @@ public class TableLayoutData
      */
     public String getCellVAlign() {
         return cellVAlign;
+    }
+    
+    /**
+     * Sets the colSpan of the cell.
+     * @param colSpan the colSpan of the cell.
+     */
+    public void setColSpan(int colSpan) {
+        this.colSpan = colSpan;
+    }
+    
+    /**
+     * Returns the colSpan of the cell.
+     * @return the colSpan of the cell.
+     */
+    public int getColSpan() {
+        return colSpan;
+    }
+    
+    /**
+     * Sets the rowSpan of the cell.
+     * @param rowSpan the rowSpan of the cell.
+     */
+    public void setRowSpan(int rowSpan) {
+        this.rowSpan = rowSpan;
+    }
+
+    /**
+     * Returns the rowSpan of the cell.
+     * @return the rowSpan of the cell.
+     */
+    public int getRowSpan() {
+        return rowSpan;
     }
 
 }

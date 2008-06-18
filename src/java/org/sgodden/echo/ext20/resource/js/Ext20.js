@@ -301,6 +301,12 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                         if (layoutData.cellVAlign) {
                             options.cellVAlign = layoutData.cellVAlign;
                         }
+                        if (layoutData.colSpan) {
+                            options.colspan = layoutData.colSpan;
+                        }
+                        if (layoutData.rowSpan) {
+                            options.rowspan = layoutData.rowSpan;
+                        }
                     }
                 }
                 // other layouts (form layout, fit layout, table layout) do not require layout data on their children

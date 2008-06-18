@@ -3,14 +3,14 @@ package org.sgodden.echo.ext20.layout;
 import java.util.HashMap;
 import java.util.Map;
 
-import nextapp.echo.app.layout.GridLayoutData;
-
 /**
- * A layout which uses an HTML table.
+ * A layout which uses an HTML table.  Note that if you do not
+ * specify a number of columns, then this layout lays out its
+ * children in a single row.
  * <p/>
  * When adding components to a panel with this layout, use
- * instances of echo {@link GridLayoutData} to provide their
- * layout data.  This is confusing, apologies.
+ * instances of echo {@link TableLayoutData} to provide their
+ * layout data.
  * @author sgodden
  *
  */
@@ -18,8 +18,20 @@ import nextapp.echo.app.layout.GridLayoutData;
 public class TableLayout
         implements Layout {
 
+    /**
+     * The number of columns.  If not specified, then all
+     * children will be laid out in a single row.
+     */
     private Integer columns;
+    /**
+     * The default padding for cells.
+     * FIXME - by specifying this on layout data, does it mean we can't set it in stylesheets?
+     */
     private int defaultPadding = 5;
+    /**
+     * Whether this table should show a border - useful for debugging layout problems.
+     */
+    private boolean border;
     
     /**
      * The map of css styles to be applied to
@@ -94,6 +106,24 @@ public class TableLayout
      */
     public void setCssStyle(String propertyName, String value) {
         tableCssStyle.put(propertyName, value);
+    }
+    
+    /**
+     * Sets whether the table should show a border for all cells (useful
+     * for debugging layout problems).
+     * @param border whether the table should show a border for all cells.
+     */
+    public void setBorder(boolean border) {
+        this.border = border;
+    }
+    
+    /**
+     * Sets whether the table should show a border for all cells (useful
+     * for debugging layout problems).
+     * @return whether the table should show a border for all cells.
+     */
+    public boolean getBorder() {
+        return border;
     }
 
 }
