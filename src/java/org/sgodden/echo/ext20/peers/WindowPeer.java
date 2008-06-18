@@ -57,7 +57,7 @@ public class WindowPeer extends PanelPeer {
 
     @Override
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2W" : "Echo20Window";
+        return shortType ? "E2W" : "Ext20Window";
     }
     
     /**

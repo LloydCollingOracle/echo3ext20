@@ -17,7 +17,10 @@
 package org.sgodden.echo.ext20.testapp;
 
 import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.StyleSheet;
 import nextapp.echo.app.Window;
+import nextapp.echo.app.serial.SerialException;
+import nextapp.echo.app.serial.StyleSheetLoader;
 
 /**
  * The application instance for the test application.
@@ -25,11 +28,26 @@ import nextapp.echo.app.Window;
  * @author goddens
  *
  */
+@SuppressWarnings("serial")
 public class AppInstance extends ApplicationInstance {
 
-    private static final long serialVersionUID = 20080103L;
+    private static final StyleSheet DEFAULT_STYLE_SHEET;
+    static {
+        try {
 
+            DEFAULT_STYLE_SHEET = StyleSheetLoader.load(
+                    "default-stylesheet.xml", Thread
+                            .currentThread().getContextClassLoader());
+
+        }
+        catch (SerialException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
     public Window init() {
+        setStyleSheet(DEFAULT_STYLE_SHEET);
+        
         Window ret = new Window();
 
         ret.setTitle("Echo3 and Ext2.0 test application");

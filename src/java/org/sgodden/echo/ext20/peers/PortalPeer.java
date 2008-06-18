@@ -46,7 +46,7 @@ public class PortalPeer
 
     @Override
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2PT" : "Ext2Portal";
+        return shortType ? "E2PT" : "Ext20Portal";
     }
     
 

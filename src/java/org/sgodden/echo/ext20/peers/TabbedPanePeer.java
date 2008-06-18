@@ -57,7 +57,7 @@ extends ExtComponentPeer {
 	}
 
 	public String getClientComponentType(boolean shortType) {
-		return shortType ? "E2TP" : "Ext2TabbedPane";
+		return shortType ? "E2TP" : "Ext20TabbedPane";
 	}
 
     /**

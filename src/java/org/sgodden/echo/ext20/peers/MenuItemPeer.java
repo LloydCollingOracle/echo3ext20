@@ -45,7 +45,7 @@ public class MenuItemPeer extends AbstractButtonPeer {
     }
     
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2MI" : "Echo20MenuItem";
+        return shortType ? "E2MI" : "Ext20MenuItem";
     }
     
     /**

@@ -40,7 +40,7 @@ public class MenuPeer
     }
 
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2M" : "Ext2Menu";
+        return shortType ? "E2M" : "Ext20Menu";
     }
 
     /**

@@ -46,7 +46,7 @@ public class PortletPeer
 
     @Override
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2PTL" : "Ext2Portlet";
+        return shortType ? "E2PTL" : "Ext20Portlet";
     }
     
 

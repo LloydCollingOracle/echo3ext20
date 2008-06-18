@@ -45,7 +45,7 @@ public class PortalColumnPeer
     }
 
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2PC" : "Ext2PortalColumn";
+        return shortType ? "E2PC" : "Ext20PortalColumn";
     }
     
 

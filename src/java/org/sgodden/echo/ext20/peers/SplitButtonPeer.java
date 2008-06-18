@@ -45,7 +45,7 @@ public class SplitButtonPeer extends AbstractButtonPeer {
     }
     
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2SB" : "Echo20SplitButton";
+        return shortType ? "E2SB" : "Ext20SplitButton";
     }
     
     /**

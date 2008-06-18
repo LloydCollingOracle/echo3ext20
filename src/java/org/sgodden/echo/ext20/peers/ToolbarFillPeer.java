@@ -41,7 +41,7 @@ public class ToolbarFillPeer
     }
 
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2TBF" : "Ext2ToolbarFill";
+        return shortType ? "E2TBF" : "Ext20ToolbarFill";
     }
 
     /**

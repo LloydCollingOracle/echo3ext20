@@ -60,7 +60,7 @@
     <target name="jar" depends="compile, unpack-ext">
         <jar destfile="${build.dir}/${jar.name}">
             <fileset dir="${classes.dir}"/>
-            <fileset dir="src/java" includes="**/*.js, META-INF/**/*"/>
+            <fileset dir="src/java" includes="**/*.xml, **/*.js, META-INF/**/*"/>
             <zipfileset 
                 prefix = "ext" 
                 dir="contrib/ext-${ext.version}" 

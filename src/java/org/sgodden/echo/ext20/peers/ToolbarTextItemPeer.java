@@ -40,7 +40,7 @@ public class ToolbarTextItemPeer
     }
 
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2TTX" : "Ext2ToolbarTextItem";
+        return shortType ? "E2TTX" : "Ext20ToolbarTextItem";
     }
 
     /**

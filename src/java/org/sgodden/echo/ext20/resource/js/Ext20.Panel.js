@@ -151,30 +151,28 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     	// process basic properties
     	options.bodyStyle = {};
 		
-        if (this.component.get("padding")) {
-            options.bodyStyle.padding = this.component.get("padding");
+        if (this.component.render("padding")) {
+            options.bodyStyle.padding = this.component.render("padding");
         }
 		
-    	if (this.component.get("background")) {
-    	    options.bodyStyle.backgroundColor =  this.component.get("background");
+    	if (this.component.render("background")) {
+    	    options.bodyStyle.backgroundColor =  this.component.render("background");
     	}
     
-    	if (this.component.get("transparent")) {
+    	if (this.component.render("transparent")) {
     	    options.bodyStyle.background = "transparent";
     	} 
         
-        var border = this.component.get("border");
-        if (border != null) {
-            options['border'] = border;
-        }
+        options['border'] = this.component.render("border", false);
         
         var collapsible = this.component.get("collapsible");
         if (collapsible != null) {
             options['collapsible'] = collapsible;
         }
         
-        var height = this.component.get("height");
+        var height = this.component.render("height");
         if (height != null) {
+            alert(height);
             options['height'] = height;
         }
         
@@ -188,13 +186,13 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['title'] = title;
         }
         
-        var width = this.component.get("width");
+        var width = this.component.render("width");
         if (width != null) {
             options['width'] = width;
         }
 
-        if (this.component.get("autoScroll")) {
-            options.autoScroll = this.component.get("autoScroll");
+        if (this.component.render("autoScroll")) {
+            options.autoScroll = this.component.render("autoScroll");
         }
 		
         /*

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ss>
+
+<s n="testStyle" t="org.sgodden.echo.ext20.Panel">
+    <p n="background">#dddddd</p>
+    <p n="border">true</p>
+    <p n="height">100</p>
+</s>
+
+</ss>

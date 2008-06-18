@@ -105,7 +105,6 @@ public class Panel extends ExtComponent {
      */
     public Panel(Layout layout, String title) {
         super();
-        setBorder(false);
         setProperty(LAYOUT_PROPERTY, layout);
         setTitle(title);
     }

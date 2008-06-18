@@ -41,7 +41,7 @@ public class FieldSetPeer
     }
 
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2FS" : "Ext2FieldSet";
+        return shortType ? "E2FS" : "Ext20FieldSet";
     }
 
     @Override

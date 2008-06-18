@@ -66,7 +66,7 @@ public class PanelPeer
     }
 
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2P" : "Ext2Panel";
+        return shortType ? "E2P" : "Ext20Panel";
     }
     
     

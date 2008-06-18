@@ -41,7 +41,7 @@ public class ToolbarSpacerPeer
     }
 
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2TS" : "Ext2ToolbarSeparator";
+        return shortType ? "E2TS" : "Ext20ToolbarSeparator";
     }
 
     /**

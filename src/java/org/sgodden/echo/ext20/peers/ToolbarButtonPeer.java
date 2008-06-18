@@ -46,7 +46,7 @@ public class ToolbarButtonPeer extends ButtonPeer {
     
     @Override
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2TB" : "Echo20ToolbarButton";
+        return shortType ? "E2TB" : "Ext20ToolbarButton";
     }
     
     /**

@@ -40,7 +40,7 @@ public class ToolbarPeer
     }
 
     public String getClientComponentType(boolean shortType) {
-        return shortType ? "E2T" : "Ext2Toolbar";
+        return shortType ? "E2T" : "Ext20Toolbar";
     }
 
     /**
