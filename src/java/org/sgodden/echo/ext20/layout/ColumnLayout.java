@@ -25,6 +25,7 @@ import java.io.Serializable;
  * @author sgodden
  * @see ColumnLayoutData
  */
+@SuppressWarnings({"serial"})
 public class ColumnLayout 
 		implements Layout, Serializable {
 

@@ -3,13 +3,6 @@ package org.sgodden.echo.ext20.layout;
 import java.util.HashMap;
 import java.util.Map;
 
-import nextapp.echo.app.Button;
-import nextapp.echo.app.Color;
-import nextapp.echo.app.Component;
-import nextapp.echo.app.Label;
-
-import org.sgodden.echo.ext20.Panel;
-
 /**
  * A layout which uses an HTML table.  Note that if you do not
  * specify a number of columns, then this layout lays out its

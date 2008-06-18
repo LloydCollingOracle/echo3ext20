@@ -19,8 +19,6 @@ package org.sgodden.echo.ext20.testapp;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.Window;
@@ -30,10 +28,11 @@ import org.sgodden.echo.ext20.layout.FitLayout;
  * Tests windows.
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class WindowTest 
         extends Panel {
     
-    private static final transient Log log = LogFactory.getLog(WindowTest.class);
+    //private static final transient Log log = LogFactory.getLog(WindowTest.class);
     
     public WindowTest(){
         super("Window");

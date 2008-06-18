@@ -25,6 +25,7 @@ import org.sgodden.echo.ext20.AbstractExtAppServlet;
  * @author goddens
  *
  */
+@SuppressWarnings({"serial"})
 public class AppServlet extends AbstractExtAppServlet {
 	
 	public AppServlet(){

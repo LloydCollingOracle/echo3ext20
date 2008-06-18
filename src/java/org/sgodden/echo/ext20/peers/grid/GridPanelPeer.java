@@ -1,22 +1,18 @@
 package org.sgodden.echo.ext20.peers.grid;
 
-import java.util.Iterator;
-
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Table;
 import nextapp.echo.app.update.ClientUpdateManager;
-import nextapp.echo.app.update.ServerComponentUpdate;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.service.JavaScriptService;
-import nextapp.echo.webcontainer.util.ArrayIterator;
-import nextapp.echo.webcontainer.util.MultiIterator;
 
 import org.sgodden.echo.ext20.data.TableModelAdapter;
 import org.sgodden.echo.ext20.grid.GridPanel;
 import org.sgodden.echo.ext20.util.ListSelectionUtil;
 
+@SuppressWarnings({"serial","unchecked"})
 public class GridPanelPeer 
 		extends AbstractComponentSynchronizePeer {
     

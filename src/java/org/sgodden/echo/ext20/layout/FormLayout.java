@@ -9,6 +9,7 @@ import java.io.Serializable;
  * @author sgodden
  *
  */
+@SuppressWarnings({"serial"})
 public class FormLayout 
 		implements Layout, Serializable {
 

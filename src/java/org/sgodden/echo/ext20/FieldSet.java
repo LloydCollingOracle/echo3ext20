@@ -21,6 +21,7 @@ import org.sgodden.echo.ext20.layout.Layout;
  * 
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class FieldSet 
         extends Panel {
     

@@ -26,6 +26,7 @@ import nextapp.echo.app.event.ActionListener;
  * 
  * @author simon
  */
+@SuppressWarnings("serial")
 public class CheckboxField
         extends ExtComponent {
 

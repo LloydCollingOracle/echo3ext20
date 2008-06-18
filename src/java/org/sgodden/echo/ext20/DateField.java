@@ -19,9 +19,8 @@ package org.sgodden.echo.ext20;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
 import nextapp.echo.app.ApplicationInstance;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * A date field with built-in drop-down selector.
@@ -33,10 +32,11 @@ import org.apache.commons.logging.LogFactory;
  * @author sgodden
  *
  */
+@SuppressWarnings({"serial","unchecked"})
 public class DateField
         extends ExtComponent {
     
-    private static final transient Log log = LogFactory.getLog(DateField.class);
+    //private static final transient Log log = LogFactory.getLog(DateField.class);
 
     public static final String DATE_FORMAT_PROPERTY = "dateFormat";
     public static final String DATE_CHANGED_PROPERTY = "date";

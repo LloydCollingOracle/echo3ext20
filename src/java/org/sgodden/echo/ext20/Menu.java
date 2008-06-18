@@ -20,6 +20,7 @@ package org.sgodden.echo.ext20;
  * A menu.
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class Menu 
         extends ExtComponent {
 

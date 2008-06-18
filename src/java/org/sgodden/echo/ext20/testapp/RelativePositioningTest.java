@@ -1,11 +1,7 @@
 package org.sgodden.echo.ext20.testapp;
 
-import org.sgodden.echo.ext20.Alignment;
-import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.layout.FitLayout;
-import org.sgodden.echo.ext20.layout.TableLayout;
 
 /**
  * Tests out positioning relative to other components.
@@ -13,6 +9,7 @@ import org.sgodden.echo.ext20.layout.TableLayout;
  * @author sgodden
  *
  */
+@SuppressWarnings({"serial"})
 public class RelativePositioningTest 
 		extends Panel
 		implements DeferredUiCreate {

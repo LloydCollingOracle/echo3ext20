@@ -36,6 +36,7 @@ import org.sgodden.echo.ext20.layout.TableLayout;
  * @author sgodden
  * 
  */
+@SuppressWarnings({"serial","unchecked"})
 public class TabbedPaneTest extends Panel implements DeferredUiCreate {
 
 	private static final transient Log log = LogFactory
@@ -62,8 +63,6 @@ public class TabbedPaneTest extends Panel implements DeferredUiCreate {
 		northPanel.add(newTabButton);
 		newTabButton.setIconClass("icon-tab-add");
 		newTabButton.addActionListener(new ActionListener() {
-			private int index = 2;
-
 			public void actionPerformed(ActionEvent arg0) {
 				addPanel(tabs);
 			}

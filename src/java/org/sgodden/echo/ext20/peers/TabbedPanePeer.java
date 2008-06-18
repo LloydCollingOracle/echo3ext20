@@ -26,6 +26,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.TabbedPane;
 
+@SuppressWarnings({"serial","unchecked"})
 public class TabbedPanePeer 
 extends ExtComponentPeer {
     

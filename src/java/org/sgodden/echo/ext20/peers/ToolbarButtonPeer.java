@@ -27,6 +27,7 @@ import org.sgodden.echo.ext20.ToolbarButton;
 /**
  * Synchronization peer for {@link ToolbarButton}.
  */
+@SuppressWarnings({"serial","unchecked"})
 public class ToolbarButtonPeer extends ButtonPeer {
     
     protected static final Service TOOLBAR_BUTTON_SERVICE = JavaScriptService.forResource("EchoExt20.ToolbarButton", 

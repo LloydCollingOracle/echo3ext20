@@ -17,6 +17,7 @@ import org.sgodden.echo.ext20.testapp.layout.TableLayoutTest;
  * @author sgodden
  *
  */
+@SuppressWarnings({"serial"})
 public class LayoutTest 
 		extends Panel
 		implements DeferredUiCreate {

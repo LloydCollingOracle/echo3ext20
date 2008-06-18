@@ -20,6 +20,7 @@ package org.sgodden.echo.ext20;
  * A separator element for a toolbar.
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class ToolbarSeparator 
         extends ExtComponent {
 

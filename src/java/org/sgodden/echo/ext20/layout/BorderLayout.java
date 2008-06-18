@@ -16,7 +16,6 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.layout;
 
-import java.io.Serializable;
 
 /**
  * A layout which provides north, east, south, west and center regions.
@@ -24,8 +23,9 @@ import java.io.Serializable;
  * @author simon
  *
  */
+@SuppressWarnings({"serial"})
 public class BorderLayout 
-		implements Layout, Serializable {
+		implements Layout {
 	
 	public static final int NORTH = 1;
 	public static final int EAST = 2;

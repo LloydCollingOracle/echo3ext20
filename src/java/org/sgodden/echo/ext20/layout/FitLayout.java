@@ -24,6 +24,7 @@ import java.io.Serializable;
  * @author sgodden
  *
  */
+@SuppressWarnings({"serial"})
 public class FitLayout 
 		implements Layout, Serializable {
 

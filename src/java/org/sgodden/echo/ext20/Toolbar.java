@@ -20,6 +20,7 @@ package org.sgodden.echo.ext20;
  * A toolbar.
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class Toolbar 
         extends ExtComponent {
     

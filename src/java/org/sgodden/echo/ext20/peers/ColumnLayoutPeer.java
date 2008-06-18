@@ -23,6 +23,7 @@ import nextapp.echo.app.util.Context;
 
 import org.w3c.dom.Element;
 
+@SuppressWarnings({"serial","unchecked"})
 public class ColumnLayoutPeer 
 implements SerialPropertyPeer {
 

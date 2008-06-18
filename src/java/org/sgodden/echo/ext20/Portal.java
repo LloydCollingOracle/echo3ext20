@@ -64,6 +64,7 @@ public class MyPortal extends Portal {
 </pre>
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class Portal 
         extends Panel {
     

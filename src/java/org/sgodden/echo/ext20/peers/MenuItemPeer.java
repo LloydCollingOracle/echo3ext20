@@ -27,6 +27,7 @@ import org.sgodden.echo.ext20.MenuItem;
 /**
  * Synchronization peer for {@link MenuItem}.
  */
+@SuppressWarnings({"serial","unchecked"})
 public class MenuItemPeer extends AbstractButtonPeer {
     
     protected static final Service MENU_ITEM_SERVICE = JavaScriptService.forResource("EchoExt20.MenuItem", 

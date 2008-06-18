@@ -24,6 +24,7 @@ package org.sgodden.echo.ext20;
  * @see Portal
  * @see PortalColumn
  */
+@SuppressWarnings({"serial"})
 public class Portlet 
         extends Panel {
 	

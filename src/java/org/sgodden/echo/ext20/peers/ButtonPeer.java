@@ -28,6 +28,7 @@ import org.sgodden.echo.ext20.ExtComponent;
 /**
  * Synchronization peer for {@link Button}.
  */
+@SuppressWarnings({"serial","unchecked"})
 public class ButtonPeer extends AbstractButtonPeer {
     
     protected static final Service BUTTON_SERVICE = JavaScriptService.forResource("EchoExt20.Button", 

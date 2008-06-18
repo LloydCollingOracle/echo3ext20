@@ -17,6 +17,7 @@
 package org.sgodden.echo.ext20.peers;
 
 import java.util.Date;
+
 import nextapp.echo.app.Component;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
@@ -24,14 +25,13 @@ import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.DateField;
 
+@SuppressWarnings({"serial","unchecked"})
 public class DateFieldPeer
         extends ExtComponentPeer {
 
-	private static final transient Log log = LogFactory.getLog(DateFieldPeer.class);
+	//private static final transient Log log = LogFactory.getLog(DateFieldPeer.class);
 	
     protected static final Service DATE_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.DateField",
             "org/sgodden/echo/ext20/resource/js/Ext20.DateField.js");

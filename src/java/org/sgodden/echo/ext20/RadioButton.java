@@ -25,6 +25,7 @@ package org.sgodden.echo.ext20;
  * @author simon
  *
  */
+@SuppressWarnings({"serial"})
 public class RadioButton
         extends ExtComponent {
 

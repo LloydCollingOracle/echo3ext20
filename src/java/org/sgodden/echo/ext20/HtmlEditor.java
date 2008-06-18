@@ -27,6 +27,7 @@ package org.sgodden.echo.ext20;
  * @author simon
  *
  */
+@SuppressWarnings({"serial"})
 public class HtmlEditor 
 		extends ExtComponent {
 	

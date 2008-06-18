@@ -24,9 +24,6 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * A tabbed pane.
  * <p/>
@@ -41,11 +38,12 @@ import org.apache.commons.logging.LogFactory;
  * @author goddens
  *
  */
+@SuppressWarnings({"serial"})
 public class TabbedPane extends ExtComponent {
 
 	private static final long serialVersionUID = 20080102L;
 	
-	private static final transient Log log = LogFactory.getLog(TabbedPane.class);
+	//private static final transient Log log = LogFactory.getLog(TabbedPane.class);
 	
 	public static final String ACTIVE_TAB_INDEX_PROPERTY = "activeTabIndex";
 

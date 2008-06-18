@@ -34,6 +34,7 @@ add(combo);
  * 
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class ComboBox 
         extends TextField {
     

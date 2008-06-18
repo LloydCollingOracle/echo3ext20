@@ -26,6 +26,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 import org.sgodden.echo.ext20.HtmlEditor;
 import org.sgodden.echo.ext20.TextField;
 
+@SuppressWarnings({"serial","unchecked"})
 public class HtmlEditorPeer 
 extends ExtComponentPeer {
     

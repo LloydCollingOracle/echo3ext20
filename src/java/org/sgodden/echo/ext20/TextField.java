@@ -26,6 +26,7 @@ package org.sgodden.echo.ext20;
  * @author simon
  *
  */
+@SuppressWarnings({"serial"})
 public class TextField
         extends ExtComponent {
 

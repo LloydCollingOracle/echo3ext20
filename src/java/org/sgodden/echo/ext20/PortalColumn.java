@@ -22,6 +22,7 @@ import nextapp.echo.app.Component;
  * A column of portlets within a portal.
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class PortalColumn 
         extends ExtComponent {
 	

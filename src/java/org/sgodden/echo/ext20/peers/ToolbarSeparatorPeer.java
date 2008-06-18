@@ -25,6 +25,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.ToolbarSeparator;
 
+@SuppressWarnings({"serial","unchecked"})
 public class ToolbarSeparatorPeer
         extends AbstractComponentSynchronizePeer {
 

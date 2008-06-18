@@ -25,8 +25,6 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.Layout;
 import org.sgodden.echo.ext20.layout.TableLayout;
@@ -41,7 +39,7 @@ public class Panel extends ExtComponent {
 
     private static final long serialVersionUID = 20080102L;
     
-    private static final transient Log log = LogFactory.getLog(Panel.class);
+    //private static final transient Log log = LogFactory.getLog(Panel.class);
     
     public static final String AUTOSCROLL_PROPERTY = "autoScroll";
     

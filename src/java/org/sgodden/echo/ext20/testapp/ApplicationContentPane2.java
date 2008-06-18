@@ -16,9 +16,7 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import nextapp.echo.app.Button;
 import nextapp.echo.app.CheckBox;
@@ -36,11 +34,7 @@ import nextapp.echo.app.event.ActionListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.data.DefaultSimpleStore;
-import org.sgodden.echo.ext20.grid.ColumnConfiguration;
-import org.sgodden.echo.ext20.grid.ColumnModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
-import org.sgodden.echo.ext20.layout.FitLayout;
 
 /**
  * This is an alternative application content pane
@@ -51,6 +45,7 @@ import org.sgodden.echo.ext20.layout.FitLayout;
  * 
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class ApplicationContentPane2
         extends ContentPane implements ActionListener {
 
@@ -169,10 +164,10 @@ public class ApplicationContentPane2
             }
         });
         
-        List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
-        cols.add(new ColumnConfiguration("User ID", "userid"));
-        cols.add(new ColumnConfiguration("Name", "name"));
-        ColumnModel columnModel = new ColumnModel(cols);
+//        List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
+//        cols.add(new ColumnConfiguration("User ID", "userid"));
+//        cols.add(new ColumnConfiguration("Name", "name"));
+//        ColumnModel columnModel = new ColumnModel(cols);
 
 //        DefaultSimpleStore store = new DefaultSimpleStore(
 //                data,

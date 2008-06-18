@@ -28,7 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.sdicons.json.mapper.JSONMapper;
-
+@SuppressWarnings({"serial"})
 public class JsonServlet 
 	extends HttpServlet {
 	

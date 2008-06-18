@@ -29,8 +29,6 @@ import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.list.DefaultListSelectionModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SortOrder;
 
@@ -63,11 +61,12 @@ gridPanel.addActionListener(new ActionListener(){
  * @author sgodden
  *
  */
+@SuppressWarnings({"serial","unchecked"})
 public class GridPanel
         extends Panel 
         implements TableModelListener {
 
-    private static final transient Log log = LogFactory.getLog(GridPanel.class);
+    //private static final transient Log log = LogFactory.getLog(GridPanel.class);
     public static final String COLUMN_MODEL_PROPERTY = "columnModel";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String GROUP_FIELD_PROPERTY="groupField";

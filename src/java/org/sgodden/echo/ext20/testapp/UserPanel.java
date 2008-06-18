@@ -19,8 +19,6 @@ package org.sgodden.echo.ext20.testapp;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.layout.FitLayout;
@@ -30,11 +28,12 @@ import org.sgodden.echo.ext20.layout.FitLayout;
  * for the individual user.
  * @author sgodden
  */
+@SuppressWarnings({"serial","unchecked"})
 public class UserPanel 
         extends Panel
         implements DeferredUiCreate {
     
-    private static final transient Log log = LogFactory.getLog(UserPanel.class);
+    //private static final transient Log log = LogFactory.getLog(UserPanel.class);
     
     public UserPanel(boolean setTitle){
         super(new FitLayout());

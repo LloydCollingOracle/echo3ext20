@@ -25,6 +25,7 @@ import nextapp.echo.app.LayoutData;
  * @author goddens
  *
  */
+@SuppressWarnings({"serial"})
 public class BorderLayoutData
         implements LayoutData {
 

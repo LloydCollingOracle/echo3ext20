@@ -25,6 +25,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.TimeField;
 
+@SuppressWarnings({"serial","unchecked"})
 public class TimeFieldPeer
         extends ExtComponentPeer {
 

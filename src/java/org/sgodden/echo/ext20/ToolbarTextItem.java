@@ -20,6 +20,7 @@ package org.sgodden.echo.ext20;
  * Renders text directly into a toolbar.
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class ToolbarTextItem 
         extends ExtComponent {
     

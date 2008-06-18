@@ -25,6 +25,7 @@ import nextapp.echo.app.util.Context;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.w3c.dom.Element;
 
+@SuppressWarnings({"serial","unchecked"})
 public class BorderLayoutDataPeer extends LayoutDataPeer {
 	
     public void toXml(Context context, Class objectClass, Element propertyElement, Object propertyValue) 

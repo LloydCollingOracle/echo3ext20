@@ -21,6 +21,7 @@ package org.sgodden.echo.ext20;
  * 
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class ToolbarSplitButton 
         extends SplitButton {
 

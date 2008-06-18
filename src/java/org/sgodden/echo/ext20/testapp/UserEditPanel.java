@@ -49,6 +49,7 @@ import org.sgodden.echo.ext20.layout.FormLayout;
  * </p>
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class UserEditPanel 
         extends Panel {
     

@@ -27,6 +27,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 import org.sgodden.echo.ext20.AbstractButton;
 import org.sgodden.echo.ext20.CheckboxField;
 
+@SuppressWarnings({"serial","unchecked"})
 public class CheckboxFieldPeer
         extends ExtComponentPeer {
 

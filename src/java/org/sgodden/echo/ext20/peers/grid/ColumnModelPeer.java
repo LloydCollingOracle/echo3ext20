@@ -11,6 +11,7 @@ import org.w3c.dom.Element;
 import com.sdicons.json.mapper.JSONMapper;
 import com.sdicons.json.mapper.MapperException;
 
+@SuppressWarnings({"serial","unchecked"})
 public class ColumnModelPeer implements SerialPropertyPeer {
 
 	public Object toProperty(Context context, Class objectClass,

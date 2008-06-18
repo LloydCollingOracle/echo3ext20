@@ -38,8 +38,6 @@ import org.sgodden.echo.ext20.ToolbarButton;
 import org.sgodden.echo.ext20.ToolbarFill;
 import org.sgodden.echo.ext20.ToolbarSeparator;
 import org.sgodden.echo.ext20.ToolbarTextItem;
-import org.sgodden.echo.ext20.data.DefaultSimpleStore;
-import org.sgodden.echo.ext20.data.SimpleStore;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
 import org.sgodden.echo.ext20.grid.ColumnModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
@@ -50,6 +48,7 @@ import org.sgodden.echo.ext20.layout.FitLayout;
  * 
  * @author sgodden
  */
+@SuppressWarnings({"serial"})
 public class UserListPanel
         extends Panel {
 
@@ -96,13 +95,6 @@ public class UserListPanel
 			}});
 
     }
-    
-    private SimpleStore makeSimpleStore() {
-		DefaultSimpleStore store = new DefaultSimpleStore(makeData(), 
-				makeColumnNames());
-
-		return store;
-	}
     
     private TableModel makeTableModel() {
     	DefaultTableModel ret = new DefaultTableModel(

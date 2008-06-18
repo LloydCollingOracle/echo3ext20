@@ -27,6 +27,7 @@ import org.sgodden.echo.ext20.SplitButton;
 /**
  * Synchronization peer for {@link SplitButton}.
  */
+@SuppressWarnings({"serial","unchecked"})
 public class SplitButtonPeer extends AbstractButtonPeer {
     
     protected static final Service SPLIT_BUTTON_SERVICE = JavaScriptService.forResource("EchoExt20.SplitButton", 

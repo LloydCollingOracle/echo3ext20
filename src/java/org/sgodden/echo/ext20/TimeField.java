@@ -17,8 +17,6 @@
 package org.sgodden.echo.ext20;
 
 import java.util.Calendar;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * A time field.
@@ -28,10 +26,11 @@ import org.apache.commons.logging.LogFactory;
  * @author sgodden
  *
  */
+@SuppressWarnings({"serial","unchecked"})
 public class TimeField
         extends ExtComponent {
     
-    private static final transient Log log = LogFactory.getLog(TimeField.class);
+    //private static final transient Log log = LogFactory.getLog(TimeField.class);
 
     public static final String TIME_FORMAT_PROPERTY = "timeFormat";
     public static final String TIME_CHANGED_PROPERTY = "time";
