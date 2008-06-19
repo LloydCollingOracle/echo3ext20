@@ -149,21 +149,31 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     createExtComponent: function(update, options) {
     	// process basic properties
+        options.style = {};
     	options.bodyStyle = {};
-		
+
         if (this.component.render("padding")) {
-            options.bodyStyle.padding = this.component.render("padding");
+            options.style.padding = this.component.render("padding");
         }
-		
+
+        if (this.component.render("bodyPadding")) {
+            options.bodyStyle.padding = this.component.render("bodyPadding");
+        }
+
     	if (this.component.render("background")) {
-    	    options.bodyStyle.backgroundColor =  this.component.render("background");
+    	    options.style.backgroundColor =  this.component.render("background");
+    	}
+
+    	if (this.component.render("bodyBackground")) {
+    	    options.bodyStyle.backgroundColor =  this.component.render("bodyBackground");
     	}
     
-    	if (this.component.render("transparent")) {
+    	if (this.component.render("bodyTransparent")) {
     	    options.bodyStyle.background = "transparent";
     	} 
         
-        options['border'] = this.component.render("border", false);
+        options.border = this.component.render("border", false);
+        options.bodyBorder = this.component.render("bodyBorder", false);
         
         var collapsible = this.component.get("collapsible");
         if (collapsible != null) {
@@ -301,7 +311,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['keys'] = [];
             
             var keyString = this.component.get("registeredKeyPresses");
-            //alert(keyString);
             if (keyString == "enter") {
                 options['keys'].push({
                     key: Ext.EventObject.ENTER,

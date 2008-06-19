@@ -462,9 +462,9 @@ EchoExt20.LayoutProcessor = {
                 var region = EchoExt20.LayoutProcessor._convertToExtRegion(layoutData.region);
                 options['region'] = region;
                 // if we are in the north, and have no height set, then we need autoHeight true.
-                // fixme - how about handling width in west and east, and height in south?
+                // FIXME - how about handling width in west and east, and height in south?
                 if (region == 'north') {
-                    var height = child.get("height");
+                    var height = child.render("height");
                     if (height == null) {
                         options['autoHeight'] = true;
                     }

@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import nextapp.echo.app.Color;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -40,20 +41,76 @@ public class Panel extends ExtComponent {
     private static final long serialVersionUID = 20080102L;
     
     //private static final transient Log log = LogFactory.getLog(Panel.class);
+
+    /**
+     * Whether the panel show scroll its contents to handle overflow,
+     * or clip overflowing contents (defaults to false, to clip).
+     */
+    public static final String PROPERTY_AUTOSCROLL = "autoScroll";
     
-    public static final String AUTOSCROLL_PROPERTY = "autoScroll";
-    
+    /**
+     * Whether to render a border around the whole panel.
+     * <p>
+     * Type: Boolean.
+     * </p>
+     */
     public static final String PROPERTY_BORDER = "border";
+    /**
+     * Whether to render a border around the panel body.
+     * <p>
+     * Type: Boolean.
+     * </p>
+     */
+    public static final String PROPERTY_BODY_BORDER = "bodyBorder";
+    /**
+     * Padding for the overall panel.
+     * <p>
+     * Type: String in CSS padding specification style.
+     * </p>
+     */
     public static final String PROPERTY_PADDING = "padding";
+    /**
+     * The background color for the panel body.
+     * <p>
+     * Type: Color.
+     * </p>
+     */
+    public static final String PROPERTY_BODY_BACKGROUND = "bodyBackground";
+    /**
+     * Padding for the panel body.
+     * <p>
+     * Type: String in CSS padding specification style.
+     * </p>
+     */
+    public static final String PROPERTY_BODY_PADDING = "bodyPadding";
+    /**
+     * The height of the panel, in pixels.
+     * <p>
+     * Type: Integer.
+     * </p>
+     */
+    public static final String PROPERTY_HEIGHT = "height";
+    /**
+     * Whether the panel should have a transparent background.
+     * <p>
+     * Type: Boolean.
+     * </p>
+     */
+    public static final String PROPERTY_BODY_TRANSPARENT = "bodyTransparent";
+    /**
+     * The width of the panel, in pixels.
+     * <p>
+     * Type: Integer.
+     * </p>
+     */
+    public static final String PROPERTY_WIDTH = "width";
+    
     public static final String PROPERTY_TITLE = "title";
     
     public static final String COLLAPSIBLE_PROPERTY = "collapsible";
-    public static final String HEIGHT_PROPERTY = "height";
     public static final String HTML_PROPERTY = "html";
     public static final String LAYOUT_PROPERTY = "layout";
-    public static final String TRANSPARENT_PROPERTY = "transparent";
     public static final String SPLIT_PROPERTY = "split";
-    public static final String WIDTH_PROPERTY = "width";
     public static final String TOOL_IDS_PROPERTY = "toolIds";
     
     public static final String INPUT_KEY_PRESSED = "keyPressed";
@@ -126,21 +183,43 @@ public class Panel extends ExtComponent {
     }
 
     /**
-     * Sets the padding, in CSS style.
-     * @param padding
+     * Sets the padding of the overall panel, in CSS style.
+     * @param padding the padding of the overall panel, in CSS style.
      */
     public void setPadding(String padding) {
         setProperty(PROPERTY_PADDING, padding);
     }
 
     /**
+     * Sets the padding of the panel body, in CSS style.
+     * @param padding the padding of the panel body, in CSS style.
+     */
+    public void setBodyPadding(String padding) {
+        setProperty(PROPERTY_BODY_PADDING, padding);
+    }
+
+    /**
      * Sets whether the panel's border should be shown.
-     * <p/>
-     * (Ext panels have a default 1 pixel border).
-     * @param border
+     * @param border whether the panel's border should be shown.
      */
     public void setBorder(Boolean border) {
         setProperty(PROPERTY_BORDER, border);
+    }
+
+    /**
+     * Sets the background color of the panel body.
+     * @param color the background color of the panel body.
+     */
+    public void setBodyBackground(Color color) {
+        setProperty(PROPERTY_BODY_BACKGROUND, color);
+    }
+
+    /**
+     * Sets whether the panel's body border should be shown.
+     * @param border whether the panel's body border should be shown.
+     */
+    public void setBodyBorder(Boolean border) {
+        setProperty(PROPERTY_BODY_BORDER, border);
     }
     
     /**
@@ -148,7 +227,7 @@ public class Panel extends ExtComponent {
      * @param pixels the height of the panel in pixels.
      */
     public void setHeight(int pixels) {
-        setProperty(HEIGHT_PROPERTY, pixels);
+        setProperty(PROPERTY_HEIGHT, pixels);
     }
     
     /**
@@ -166,7 +245,7 @@ public class Panel extends ExtComponent {
      * @param pixels the width of the panel in pixels.
      */
     public void setWidth(int pixels) {
-        setProperty(WIDTH_PROPERTY, pixels);
+        setProperty(PROPERTY_WIDTH, pixels);
     }
     
     /**
@@ -177,7 +256,7 @@ public class Panel extends ExtComponent {
      * @param autoScroll whether to scroll the contents of the panel.
      */
     public void setAutoScroll(boolean autoScroll) {
-        setProperty(AUTOSCROLL_PROPERTY, autoScroll);
+        setProperty(PROPERTY_AUTOSCROLL, autoScroll);
     }
     
     /**
@@ -205,12 +284,12 @@ public class Panel extends ExtComponent {
     }
     
     /**
-     * If set to <code>true</code>, renders the panel's background
+     * If set to <code>true</code>, renders the panel body's background
      * as transparent.
-     * @param transparent whether the panel's background should be transparent.
+     * @param transparent whether the panel body's background should be transparent.
      */
-    public void setTransparent(boolean transparent) {
-    	setProperty(TRANSPARENT_PROPERTY, transparent);
+    public void setBodyTransparent(boolean transparent) {
+    	setProperty(PROPERTY_BODY_TRANSPARENT, transparent);
     }
     
     /**

@@ -23,7 +23,7 @@ public class StylesheetTest extends Panel {
         Panel heightTest = new Panel();
         add(heightTest);
         heightTest.setStyleName("testStyle");
-        heightTest.add(new Label("The height, background and border of this should have been set"));
+        heightTest.add(new Label("Various properties should have been set on this panel from the stylesheet"));
     }
 
 }

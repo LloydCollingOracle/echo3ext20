@@ -91,10 +91,10 @@ public class ApplicationContentPane
         Panel ret = new Panel();
         ret.setBorder(false);
         ret.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
-        ret.setBackground(new Color(84, 84, 84));
+        ret.setBodyBackground(new Color(84, 84, 84));
         
         Panel imagePanel = new Panel();
-        imagePanel.setTransparent(true);
+        imagePanel.setBodyTransparent(true);
         imagePanel.setBorder(false);
         imagePanel.setHtml(
                 "<a href='http://echo.nextapp.com'><img style='float: left;' src='http://demo.nextapp.com/echo3csjs/image/Logo.png'></img></a>");
@@ -110,7 +110,7 @@ public class ApplicationContentPane
      */
     private Panel createWestPanel() {
         Panel ret = new Panel(new AccordionLayout());
-        ret.setBackground(new Color(220, 220, 220));
+        ret.setBodyBackground(new Color(220, 220, 220));
         ret.setTitle("Navigation");
         ret.setWidth(143); 
         ret.setCollapsible(true);
@@ -119,7 +119,7 @@ public class ApplicationContentPane
         ret.setRenderId("westPanel");
         
         final Panel coreEcho3Panel = new Panel("Test suites");
-        coreEcho3Panel.setTransparent(true);
+        coreEcho3Panel.setBodyTransparent(true);
         ret.add(coreEcho3Panel);
         
         final Column col = new Column();
@@ -138,7 +138,7 @@ public class ApplicationContentPane
         
         Panel regressionPanel = new Panel("Regression tests");
         ret.add(regressionPanel);
-        regressionPanel.setTransparent(true);
+        regressionPanel.setBodyTransparent(true);
         
         Column col2 = new Column();
         regressionPanel.add(col2);

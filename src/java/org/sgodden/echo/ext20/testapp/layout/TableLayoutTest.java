@@ -95,7 +95,7 @@ public class TableLayoutTest
         Panel ret = new Panel();
         ret.setBorder(true);
         ret.setHeight(100);
-        ret.setBackground(Color.LIGHTGRAY);
+        ret.setBodyBackground(Color.LIGHTGRAY);
         ret.setTitle("A panel");
         
         ret.add(new Label("Row 2 column 3"));
