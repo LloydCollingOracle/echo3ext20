@@ -3,8 +3,12 @@
 
 <s n="testStyle" t="org.sgodden.echo.ext20.Panel">
     <p n="background">#dddddd</p>
+    <p n="bodyBackground">#eeeeee</p>
     <p n="border">true</p>
+    <p n="bodyBorder">true</p>
     <p n="height">100</p>
+    <p n="padding">10px</p>
+    <p n="bodyPadding">20px</p>
 </s>
 
 </ss>

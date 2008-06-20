@@ -21,9 +21,9 @@ public class TableLayoutTest
         super("Table");
         
         TableLayout layout = new TableLayout(3);
-        // set 100% width
-        layout.setCssStyle("width", "100%");
-        // renders the table border to help us "debug" the table
+        // try out most of the options
+        layout.setFullWidth(true);
+        layout.setCellPadding(10, 10, 0, 10);
         layout.setBorder(true);
         setLayout(layout);
         
@@ -80,6 +80,7 @@ public class TableLayoutTest
     
     private Panel makeTablePanel() {
         Panel ret = new Panel();
+        ret.setPadding("10px");
         
         TableLayout layout = new TableLayout();
         ret.setLayout(layout);

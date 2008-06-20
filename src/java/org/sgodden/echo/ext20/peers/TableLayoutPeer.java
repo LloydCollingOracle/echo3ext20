@@ -19,10 +19,8 @@ package org.sgodden.echo.ext20.peers;
 import nextapp.echo.app.serial.SerialContext;
 import nextapp.echo.app.serial.SerialException;
 import nextapp.echo.app.serial.SerialPropertyPeer;
-import nextapp.echo.app.serial.SerialUtil;
 import nextapp.echo.app.util.Context;
 
-import org.sgodden.echo.ext20.layout.ColumnLayoutData;
 import org.sgodden.echo.ext20.layout.TableLayout;
 import org.w3c.dom.Element;
 
@@ -42,9 +40,10 @@ implements SerialPropertyPeer {
         TableLayout layout = (TableLayout) propertyValue;
         
         propertyElement.setAttribute("c", String.valueOf(layout.getColumns()));
-        SerialUtil.toXml(context, ColumnLayoutData.class, propertyElement, "tableStyle", layout.getTableCssStyles());
-        SerialUtil.toXml(context, ColumnLayoutData.class, propertyElement, "border", layout.getBorder());
-
+        propertyElement.setAttribute("fw", layout.getFullWidth() ? "1" : "0");
+        propertyElement.setAttribute("fh", layout.getFullHeight() ? "1" : "0");
+        propertyElement.setAttribute("p", layout.getCellPadding());
+        propertyElement.setAttribute("b", layout.getBorder() ? "1" : "0");
 	}
 
 }

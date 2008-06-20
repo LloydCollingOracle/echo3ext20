@@ -46,6 +46,8 @@ EchoExt20.Echo3SyncWrapper = function(update, wrappedComponent) {
      * Add the necessary layout options.
      */
     var options = {};
+    options.style = {};
+    options.bodyStyle = {};
     EchoExt20.LayoutProcessor.addLayoutOptions(options, wrappedComponent);
     Ext.apply(this, options);
 
@@ -260,9 +262,8 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             options = {};
             options['id'] = this.component.renderId;
 
-            if (this.component.get("cssStyles") != null) {
-                options['style'] = this.component.get("cssStyles");
-            }
+            options.style = {};
+            options.bodyStyle = {};
            
             /*
              * Add the necessary layout options.
@@ -499,6 +500,12 @@ EchoExt20.LayoutProcessor = {
                         options.rowspan = layoutData.rowSpan;
                     }
                 }
+                if (layout.cellPadding) {
+                    var childPadding = child.render("padding", "");
+                    if (childPadding == "") {
+                        options.style.padding = layout.cellPadding;
+                    }
+                }
             }
             // other layouts (form layout, fit layout, table layout) do not require layout data on their children
         }
@@ -532,7 +539,7 @@ EchoExt20.LayoutProcessor = {
         }
         
         return ret;
-    },
+    }
 }
 
 // Abstract component classes and sync peers
@@ -612,10 +619,16 @@ Echo.Serial.addPropertyTranslator("E2FML", EchoExt20.PropertyTranslator.FormLayo
 
 EchoExt20.TableLayout = Core.extend({
     columns: 0,
-    defaultPadding: '',
+    cellPadding: "0px",
+    fullHeight: false,
+    fullWidth: false,
     
-    $construct: function(columns) {
+    $construct: function(columns, border, fullHeight, fullWidth, cellPadding) {
         this.columns = columns;
+        this.border = border;
+        this.fullHeight = fullHeight;
+        this.fullWidth = fullWidth;
+        this.cellPadding = cellPadding;
     }
     
 });
@@ -623,29 +636,24 @@ EchoExt20.TableLayout = Core.extend({
 EchoExt20.PropertyTranslator.TableLayout = {
     toProperty: function(client, propertyElement) {
 
-        // process properties passed as attributes
         var columns = propertyElement.getAttribute('c');
         if (columns == null) {
-            columns = '1';
+            columns = '0';
         }
+
+        var cellPadding = propertyElement.getAttribute('p');
+
+        var border = propertyElement.getAttribute('b') == "1" ? true : false;
+        var fullHeight = propertyElement.getAttribute('fh') == "1" ? true : false;
+        var fullWidth = propertyElement.getAttribute('fw') == "1" ? true : false;
+
         var ret = new EchoExt20.TableLayout(
-            parseInt(columns)
+            parseInt(columns), border, fullHeight, fullWidth, cellPadding
         );
-        // process properties passed child elements (such as the table styles)
-        var element = propertyElement.firstChild;
-        while (element) {
-            if (element.nodeType == 1) {
-                switch (element.nodeName) {
-                case "p":
-                    Echo.Serial.loadProperty(client, element, null, ret);
-                    break;
-                }
-            }
-            element = element.nextSibling;
-        }
 
         return ret;
     }
+
 }
 
 Echo.Serial.addPropertyTranslator("Ext20TableLayout", EchoExt20.PropertyTranslator.TableLayout);

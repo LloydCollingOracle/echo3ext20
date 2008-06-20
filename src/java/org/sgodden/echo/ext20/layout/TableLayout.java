@@ -1,7 +1,5 @@
 package org.sgodden.echo.ext20.layout;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A layout which uses an HTML table.  Note that if you do not
@@ -121,13 +119,21 @@ public class TableLayout
     /**
      * Whether this table should show a border - useful for debugging layout problems.
      */
-    private boolean border;
-    
+    private boolean border = false;
     /**
-     * The map of css styles to be applied to
-     * the table cell.
+     * Whether the table should take 100% of the available
+     * width of its container.
      */
-    private Map tableCssStyle = new HashMap();
+    private boolean fullWidth = false;
+    /**
+     * Whether the table should take 100% of the available
+     * height of its container.
+     */
+    private boolean fullHeight = false;
+    /**
+     * Padding for cells, in pixels.
+     */
+    private String cellPadding;
 
     /**
      * Creates a table layout.
@@ -153,22 +159,33 @@ public class TableLayout
     }
     
     /**
-     * Returns the map of css styles to be applied
-     * the table cell.
-     * @return the map of css styles.
+     * Sets whether the table should take 100% of the width of its container.
      */
-    public Map getTableCssStyles() {
-        return tableCssStyle;
+    public void setFullWidth(boolean fullWidth) {
+        this.fullWidth = fullWidth;
     }
     
     /**
-     * Sets the specified css property, to be applied to
-     * the <code>table</code> element.
-     * @param propertyName the css property name.
-     * @param value the value.
+     * Returns whether the table should take 100% of the width of its container.
+     * @return whether the table should take 100% of the width of its container.
      */
-    public void setCssStyle(String propertyName, String value) {
-        tableCssStyle.put(propertyName, value);
+    public boolean getFullWidth() {
+        return fullWidth;
+    }
+    
+    /**
+     * Sets whether the table should take 100% of the height of its container.
+     */
+    public void setFullHeight(boolean fullHeight) {
+        this.fullHeight = fullHeight;
+    }
+    
+    /**
+     * Returns whether the table should take 100% of the height of its container.
+     * @return whether the table should take 100% of the height of its container.
+     */
+    public boolean getFullHeight() {
+        return fullHeight;
     }
     
     /**
@@ -187,6 +204,42 @@ public class TableLayout
      */
     public boolean getBorder() {
         return border;
+    }
+
+    /**
+     * Returns the cell padding, in CSS format.
+     * @return the cell padding, in CSS format.
+     */
+    public String getCellPadding() {
+        return cellPadding;
+    }
+
+    /**
+     * Sets the cell padding on all four sides, in pixels.
+     * @param cellPadding the cell padding on all four sides, in pixels.
+     */
+    public void setCellPadding(int cellPadding) {
+        this.cellPadding = "" + cellPadding + "px";
+    }
+    
+    /**
+     * Sets the cell padding, in pixels.
+     * @param top the top padding.
+     * @param right the right padding.
+     * @param bottom the bottom padding.
+     * @param left the left padding.
+     */
+    public void setCellPadding(int top, int right, int bottom, int left) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(String.valueOf(top));
+        sb.append("px ");
+        sb.append(String.valueOf(right));
+        sb.append("px ");
+        sb.append(String.valueOf(bottom));
+        sb.append("px ");
+        sb.append(String.valueOf(left));
+        sb.append("px");
+        this.cellPadding = sb.toString();
     }
 
 }
