@@ -218,9 +218,9 @@ public class Panel extends ExtComponent {
      * Sets whether the panel's body border should be shown.
      * @param border whether the panel's body border should be shown.
      */
-    public void setBodyBorder(Boolean border) {
-        setProperty(PROPERTY_BODY_BORDER, border);
-    }
+    //public void setBodyBorder(Boolean border) {
+    //    setProperty(PROPERTY_BODY_BORDER, border);
+    //}
     
     /**
      * Sets the height of the panel in pixels.

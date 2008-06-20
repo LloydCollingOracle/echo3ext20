@@ -2,8 +2,8 @@ package org.sgodden.echo.ext20.testapp;
 
 import nextapp.echo.app.Label;
 
+import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.layout.TableLayout;
 
 /**
  * A simple test to ensure that the components
@@ -18,12 +18,13 @@ public class StylesheetTest extends Panel {
      */
     public StylesheetTest() {
         super("Stylesheets");
-        setLayout(new TableLayout());
         
         Panel heightTest = new Panel();
         add(heightTest);
+        heightTest.setRenderId("styleTest");
         heightTest.setStyleName("testStyle");
         heightTest.add(new Label("Various properties should have been set on this panel from the stylesheet"));
+        heightTest.addButton(new Button("A button"));
     }
 
 }

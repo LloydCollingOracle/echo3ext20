@@ -149,8 +149,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     createExtComponent: function(update, options) {
     	// process basic properties
-        options.style = {};
-    	options.bodyStyle = {};
 
         if (this.component.render("padding")) {
             options.style.padding = this.component.render("padding");
@@ -170,10 +168,14 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     	if (this.component.render("bodyTransparent")) {
     	    options.bodyStyle.background = "transparent";
-    	} 
+    	}
         
         options.border = this.component.render("border", false);
-        options.bodyBorder = this.component.render("bodyBorder", false);
+        
+        if (this.component.renderId == "c_westPanel"
+          || this.component.renderId == "c_styleTest") {
+            this._debugOptions("options:", options);
+        }
         
         var collapsible = this.component.get("collapsible");
         if (collapsible != null) {
@@ -266,19 +268,26 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 options['layout'] = 'column';
             }
             else if (layout instanceof EchoExt20.TableLayout) {
-                options['layout'] = 'table';
-                options['layoutConfig'] = {};
+                options.layout = 'table';
+                options.layoutConfig = {};
                 if (layout.columns) {
                     options.layoutConfig.columns = layout.columns;
                 }
-                if (layout.defaultPadding) {
-                    options['defaults'] = {bodyStyle: 'padding:' + layout.defaultPadding};
-                }
-                if (layout.tableStyle) {
-                    options.layoutConfig.tableStyle = layout.tableStyle;
-                }
                 if (layout.border) {
                     options.layoutConfig.tableBorder = layout.border;
+                }
+                if (layout.cellSpacing) {
+                    options.layoutConfig.cellSpacing = layout.cellSpacing;
+                }
+                if (layout.cellPadding) {
+                    options.layoutConfig.cellPadding = layout.cellPadding;
+                }
+                options.layoutConfig.tableStyle = {};
+                if (layout.fullWidth) {
+                    options.layoutConfig.tableStyle.width = "100%";
+                }
+                if (layout.fullHeight) {
+                    options.layoutConfig.tableStyle.height = "100%";
                 }
             }
             else {

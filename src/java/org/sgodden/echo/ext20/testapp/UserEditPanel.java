@@ -61,10 +61,11 @@ public class UserEditPanel
     
     public UserEditPanel(Object[] data){
         super(new FormLayout());
-        setBorder(false);
-        setPadding("5px");
         setRenderId("userFormPanel");
         setTitle("Edit user");
+        
+        setBodyPadding("5px");
+        setBorder(true);
 
         final TextField codeField = new TextField((String)data[0], "Code");
         codeField.setBlankAllowed(false);
