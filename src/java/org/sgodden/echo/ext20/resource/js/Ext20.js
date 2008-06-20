@@ -330,7 +330,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
 
             var options = {
                 id: this.component.renderId,
-                renderTo: this._parentElement
+                renderTo: this._parentElement,
+                style: {},
+                bodyStyle: {}
             };
 
             this.extComponent = this.createExtComponent(
