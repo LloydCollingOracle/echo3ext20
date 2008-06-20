@@ -172,11 +172,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         options.border = this.component.render("border", false);
         
-        if (this.component.renderId == "c_westPanel"
-          || this.component.renderId == "c_styleTest") {
-            this._debugOptions("options:", options);
-        }
-        
         var collapsible = this.component.get("collapsible");
         if (collapsible != null) {
             options['collapsible'] = collapsible;
