@@ -1,6 +1,6 @@
---- ext-2.0.2-orig/source/widgets/layout/TableLayout.js	2008-02-24 20:50:36.000000000 +0000
-+++ ext-2.0.2/source/widgets/layout/TableLayout.js	2008-06-17 13:53:20.000000000 +0100
-@@ -87,6 +87,10 @@
+--- ext-2.0.2-src/source/widgets/layout/TableLayout.js	2008-06-17 09:17:59.000000000 +0100
++++ /home/sgodden/products/ext-2.0.2/source/widgets/layout/TableLayout.js	2008-06-19 10:25:22.000000000 +0100
+@@ -87,6 +87,14 @@
              this.table = target.createChild(
                  {tag:'table', cls:'x-table-layout', cellspacing: 0, cn: {tag: 'tbody'}}, null, true);
  
@@ -8,16 +8,17 @@
 +                Ext.DomHelper.applyStyles(this.table, this.tableStyle);
 +            }
 +
++            if (this.tableBorder) {
++                this.table.border = "1";
++            }
++
              this.renderAll(ct, target);
          }
      },
-@@ -128,6 +132,15 @@
- 		if(c.rowspan){
- 			td.rowSpan = c.rowspan;
- 		}
-+                if (c.cellStyle) {
-+                        Ext.DomHelper.applyStyles(td, c.cellStyle);
-+                }
+@@ -131,6 +139,12 @@
+                 if (c.cellStyle) {
+                         Ext.DomHelper.applyStyles(td, c.cellStyle);
+                 }
 +                if (c.cellAlign) {
 +                        td.align = c.cellAlign;
 +                }
@@ -27,10 +28,3 @@
  		this.getRow(curRow).appendChild(td);
  		return td;
  	},
-@@ -164,4 +177,4 @@
-      */
- });
- 
--Ext.Container.LAYOUTS['table'] = Ext.layout.TableLayout;
-\ No newline at end of file
-+Ext.Container.LAYOUTS['table'] = Ext.layout.TableLayout;
