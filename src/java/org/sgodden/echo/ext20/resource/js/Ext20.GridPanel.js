@@ -24,13 +24,15 @@ EchoExt20.GridPanel = Core.extend(EchoExt20.ExtComponent, {
     componentType: "Ext20GridPanel",
     focusable: true,
 
-    $virtual: {
-        /**
-         * Programatically performs a row click.
-         */
-        doAction: function() {
-            this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
-        }
+    /**
+     * Programatically performs a row click.
+     */
+    doAction: function() {
+        this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+    },
+
+    doSort: function() {
+        this.fireEvent({type: "sort", source: this});
     }
     
 });
@@ -59,6 +61,15 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     
     _handleRowSelectEventRef: null,
     _handleRowDeselectEventRef: null,
+    
+    /*
+     * The server-side model is already correctly sorted when we are
+     * initially displayed, and we need to prevent a bogus trip back to
+     * the server to sort it.
+     * This will be set to true after the first sort event is received by
+     * the data proxy.
+     */
+    handleSortEvents: false,
      
     $construct: function() {
     	this._handleRowSelectEventRef = Core.method(this, this._handleRowSelectEvent);
@@ -122,7 +133,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 groupField: groupField,
                 proxy: proxy,
                 reader: reader,
-                sortInfo: sortInfo
+                sortInfo: sortInfo,
+                remoteSort: true
             });
             view = new Ext.grid.GroupingView({
                 groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
@@ -133,11 +145,16 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 reader: reader,
                 proxy: proxy,
                 sortInfo: sortInfo,
-                remoteSort: false
+                remoteSort: true
             });
         }
 
         store.load();
+        /*
+         * Now that the initial sort event has been ignored, ensure that
+         * we do something about future ones.
+         */
+        this.handleSortEvents = true;
         
         options["store"] = store;
 
@@ -176,10 +193,6 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             this.component.get("columnModel"));
         }
     },
-	
-    _createStore: function() {
-		
-    },
     
     _handleRowActivation: function() {
         this.component.doAction();
@@ -213,7 +226,10 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
     
     doSort: function(fieldName, sortDirection) {
-        //alert("sort was changed: " + fieldName + ", " + sortDirection + ", " + this.component.renderId);
+        //alert("Sort order changed: " + fieldName + ", " + sortDirection);
+        this.component.set("sortField", fieldName);
+        this.component.set("sortDirection", sortDirection);
+        this.component.doSort();
     }
 
 });
@@ -229,6 +245,12 @@ EchoExt20.GridPanelDataProxy = function(data, syncPeer) {
 }
 
 Ext.extend(EchoExt20.GridPanelDataProxy, Ext.data.DataProxy, {
+    
+    syncPeer: null,
+    
+    $construct: function(syncPeer) {
+        this.syncPeer = syncPeer;
+    },
 
     load : function(params, reader, callback, scope, arg){
         params = params || {};
@@ -238,7 +260,9 @@ Ext.extend(EchoExt20.GridPanelDataProxy, Ext.data.DataProxy, {
         if (params.sort) {
             var sortField = params.sort;
             var direction = params.dir;
-            this.syncPeer.doSort(sortField, direction);
+            if (this.syncPeer.handleSortEvents) {
+                this.syncPeer.doSort(sortField, direction);
+            }
         }
 		
         try {

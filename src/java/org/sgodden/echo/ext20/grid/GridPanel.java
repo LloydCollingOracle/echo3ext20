@@ -29,6 +29,8 @@ import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.list.DefaultListSelectionModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SortOrder;
 
@@ -66,7 +68,8 @@ public class GridPanel
         extends Panel 
         implements TableModelListener {
 
-    //private static final transient Log log = LogFactory.getLog(GridPanel.class);
+    private static final transient Log LOG = LogFactory.getLog(GridPanel.class);
+    
     public static final String COLUMN_MODEL_PROPERTY = "columnModel";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String GROUP_FIELD_PROPERTY="groupField";
@@ -77,7 +80,8 @@ public class GridPanel
     
     public static final String SORT_FIELD_PROPERTY = "sortField";
     public static final String SORT_ORDER_PROPERTY = "sortDirection"; 
-    public static final String SORT_ACTION = "sortAction";
+    public static final String SORT_ACTION = "sort";
+    public static final String SORT_LISTENERS_CHANGED_PROPERTY = "sortListeners";
     
     public static final String MODEL_CHANGED_PROPERTY="model";
     
@@ -162,6 +166,11 @@ public class GridPanel
         // existence of hasActionListeners() method. 
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
     }
+    
+    public void addSortListener(SortListener l) {
+        getEventListenerList().addListener(SortListener.class, l);
+        firePropertyChange(SORT_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
 
     /**
      * Returns the row selection model.
@@ -192,7 +201,7 @@ public class GridPanel
     }
 
     /**
-     * Determines the any <code>ActionListener</code>s are registered.
+     * Returns whether any <code>ActionListener</code>s are registered.
      * 
      * @return true if any action listeners are registered
      */
@@ -200,6 +209,14 @@ public class GridPanel
         return getEventListenerList().getListenerCount(ActionListener.class) != 0;
     }
 
+    /**
+     * Returns whether any <code>SortListener</code>s are registered.
+     * 
+     * @return true if any sort listeners are registered
+     */
+    public boolean hasSortListeners() {
+        return getEventListenerList().getListenerCount(SortListener.class) != 0;
+    }
     /**
      * @see nextapp.echo.app.Component#processInput(java.lang.String, java.lang.Object)
      */
@@ -213,7 +230,23 @@ public class GridPanel
             fireActionEvent();
         }
         else if (SORT_FIELD_PROPERTY.equals(inputName)) {
-            
+            setSortField((String)inputValue);
+        }
+        else if (SORT_ORDER_PROPERTY.equals(inputName)) {
+            String value = (String) inputValue;
+            if (value.equals("ASC")) {
+                setSortOrder(SortOrder.ASCENDING);
+            }
+            else if (value.equals("DESC")) {
+                setSortOrder(SortOrder.DESCENDING);
+            }
+            else {
+                throw new IllegalArgumentException("Unknown sort order: " 
+                        + value);
+            }
+        }
+        else if (SORT_ACTION.equals(inputName)) {
+            fireSortEvent();
         }
     }
     
@@ -245,14 +278,19 @@ public class GridPanel
     }
     
     /**
-     * Sets the field by which the data will be sorted.
-     * <p>
-     * FIXME - this is a bodge and needs to be replaced with sortable models.
-     * </p>
+     * Sets the name of the field by which the data will be sorted.
      * @param sortField the name of the field to sort by.
      */
     public void setSortField(String sortField) {
         setProperty(SORT_FIELD_PROPERTY, sortField);
+    }
+
+    /**
+     * Returns the name of the field by which the data should be sorted.
+     * @return the name of the field by which the data should be sorted.
+     */
+    public String getSortField() {
+        return (String) getProperty(SORT_FIELD_PROPERTY);
     }
     
     /**
@@ -272,6 +310,25 @@ public class GridPanel
                 throw new Error("Invalid sort order: " + sortOrder);
         }
     }
+    
+    /**
+     * Returns the order by which the field specified in
+     * {@link #setSortField(java.lang.String)} should be sorted.
+     * @return the sort order.
+     */
+    public SortOrder getSortOrder() {
+        SortOrder ret = null;
+        
+        String sortString = (String) getProperty(SORT_ORDER_PROPERTY);
+        if ("ASC".equals(sortString)) {
+            ret = SortOrder.ASCENDING;
+        }
+        else if ("DESC".equals(sortString)) {
+            ret = SortOrder.DESCENDING;
+        }
+        
+        return ret;
+    }
 
     /**
      * Fires an action event to all listeners.
@@ -289,6 +346,20 @@ public class GridPanel
             ((ActionListener) listeners[i]).actionPerformed(e);
         }
     }
+    
+    /**
+     * Fires a sort event to all listeners.
+     */
+    private void fireSortEvent() {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        EventListener[] listeners = getEventListenerList().getListeners(SortListener.class);
+        for (int i = 0; i < listeners.length; ++i) {
+            ((SortListener) listeners[i]).sortChanged(getSortField(), getSortOrder());
+        }
+    }
+    
     /**
      * Local handler for list selection events.
      */

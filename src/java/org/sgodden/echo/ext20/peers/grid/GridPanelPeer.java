@@ -29,8 +29,17 @@ public class GridPanelPeer
         addOutputProperty(PROPERTY_MODEL);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(GridPanel.INPUT_ACTION, GridPanel.ACTION_LISTENERS_CHANGED_PROPERTY) {
+            @Override
             public boolean hasListeners(Context context, Component component) {
                 return ((GridPanel) component).hasActionListeners();
+            }
+        });
+        
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(
+                GridPanel.SORT_ACTION, GridPanel.SORT_LISTENERS_CHANGED_PROPERTY) {
+            @Override
+            public boolean hasListeners(Context context, Component component) {
+                return ((GridPanel) component).hasSortListeners();
             }
         });
     }
@@ -61,6 +70,12 @@ public class GridPanelPeer
         if (PROPERTY_SELECTION.equals(propertyName)) {
             return String.class;
         }
+        if (GridPanel.SORT_FIELD_PROPERTY.equals(propertyName)) {
+            return String.class;
+        }
+        if (GridPanel.SORT_ORDER_PROPERTY.equals(propertyName)) {
+            return String.class;
+        }
         return super.getInputPropertyClass(propertyName);
     }
 
@@ -86,10 +101,16 @@ public class GridPanelPeer
      */
     @Override
     public void storeInputProperty(Context context, Component component, String propertyName, int index, Object newValue) {
+            ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
         if (PROPERTY_SELECTION.equals(propertyName)) {
             int[] selection = ListSelectionUtil.toIntArray((String) newValue);
-            ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
             clientUpdateManager.setComponentProperty(component, Table.SELECTION_CHANGED_PROPERTY, selection);
+        }
+        else if (GridPanel.SORT_FIELD_PROPERTY.equals(propertyName)) {
+            clientUpdateManager.setComponentProperty(component, GridPanel.SORT_FIELD_PROPERTY, (String)newValue);
+        }
+        else if (GridPanel.SORT_ORDER_PROPERTY.equals(propertyName)) {
+            clientUpdateManager.setComponentProperty(component, GridPanel.SORT_ORDER_PROPERTY, (String)newValue);
         }
     }
 

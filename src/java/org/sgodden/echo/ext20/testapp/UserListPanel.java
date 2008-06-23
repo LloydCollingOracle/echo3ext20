@@ -41,6 +41,7 @@ import org.sgodden.echo.ext20.ToolbarTextItem;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
 import org.sgodden.echo.ext20.grid.ColumnModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
+import org.sgodden.echo.ext20.grid.SortListener;
 import org.sgodden.echo.ext20.layout.FitLayout;
 
 /**
@@ -52,7 +53,7 @@ import org.sgodden.echo.ext20.layout.FitLayout;
 public class UserListPanel
         extends Panel {
 
-    private static final transient Log log = LogFactory.getLog(UserListPanel.class);
+    private static final transient Log LOG = LogFactory.getLog(UserListPanel.class);
     private GridPanel userGridPanel;
     private int startIndex = 1;
     private Object[][] data;
@@ -63,6 +64,26 @@ public class UserListPanel
         setRenderId("userList");
         setTitle("User list");
 
+        add(makeGridPanel());
+
+        addKeyPressListener("enter", new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                LOG.info("Enter key was pressed");
+            }
+        });
+        
+        Button changeButton = new Button("Change the data model");
+        addButton(changeButton);
+        changeButton.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				startIndex += 10;
+				userGridPanel.setTableModel(makeTableModel());
+			}});
+
+    }
+    
+    private GridPanel makeGridPanel() {
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
         cols.add(new ColumnConfiguration("User ID", 200, true, "userid", false));
         cols.add(new ColumnConfiguration("Name", 200, true, "name", false));
@@ -77,23 +98,17 @@ public class UserListPanel
         userGridPanel.setGroupField("role");
         userGridPanel.setSortField("userid");
         userGridPanel.setSortOrder(SortOrder.ASCENDING);
-        add(userGridPanel);
+        
+        userGridPanel.addSortListener(new SortListener(){
 
-        addKeyPressListener("enter", new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                log.info("Enter key was pressed");
+            public void sortChanged(String sortField, SortOrder sortOrder) {
+                LOG.info("Sort order changed: " + sortField + ", "
+                        + sortOrder);
             }
         });
         
-        Button changeButton = new Button("Change the data model");
-        addButton(changeButton);
-        changeButton.addActionListener(new ActionListener(){
-
-			public void actionPerformed(ActionEvent arg0) {
-				startIndex += 10;
-				userGridPanel.setTableModel(makeTableModel());
-			}});
-
+        return userGridPanel;
+        
     }
     
     private TableModel makeTableModel() {
@@ -162,7 +177,7 @@ public class UserListPanel
         button.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
-                log.info("Toolbar button was pressed");
+                LOG.info("Toolbar button was pressed");
             }
         });
 
@@ -172,7 +187,7 @@ public class UserListPanel
         button2.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
-                log.info("Button2 was pressed");
+                LOG.info("Button2 was pressed");
             }
         });
 
@@ -201,7 +216,7 @@ public class UserListPanel
         item1.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
-                log.info("Menu item was clicked");
+                LOG.info("Menu item was clicked");
             }
         });
 
