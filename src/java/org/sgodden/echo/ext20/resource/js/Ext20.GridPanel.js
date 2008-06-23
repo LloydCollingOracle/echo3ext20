@@ -36,26 +36,26 @@ EchoExt20.GridPanel = Core.extend(EchoExt20.ExtComponent, {
 });
 
 /*
-* TODO - write a custom proxy which handles all the load and sort 
-* operations, raising events to the server side when e.g. sort events
-* occur.
-* 
-* So, configure a Store with an ArrayReader, and a custom Proxy
-* which simply returns the array of current data, and which
-* passed back sort events to this sync peer, which raises
-* an event to the server side, which reconstructs the store
-* appropriately.
-* 
-* TODO - ensure that multiple selections across different
-* pages are handled and not lost.
-*/
+ * TODO - write a custom proxy which handles all the load and sort 
+ * operations, raising events to the server side when e.g. sort events
+ * occur.
+ * 
+ * So, configure a Store with an ArrayReader, and a custom Proxy
+ * which simply returns the array of current data, and which
+ * passed back sort events to this sync peer, which raises
+ * an event to the server side, which reconstructs the store
+ * appropriately.
+ * 
+ * TODO - ensure that multiple selections across different
+ * pages are handled and not lost.
+ */
 EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 
     $load: function() {
         Echo.Render.registerPeer("Ext20GridPanel", this);
     },
 
-	_selectedRows: {},
+    _selectedRows: {},
     
     _handleRowSelectEventRef: null,
     _handleRowDeselectEventRef: null,
@@ -83,10 +83,10 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
          */
         var recordMappings = [];
         for (var i = 0; i < model.fields.length; i++) {
-                recordMappings.push({
-                        name: model.fields[i],
-                        mapping: i
-                });
+            recordMappings.push({
+                name: model.fields[i],
+                mapping: i
+            });
         }
         
         var record = Ext.data.Record.create(recordMappings);
@@ -153,7 +153,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         
         options["border"] = true;
     
-	    /* should be done server side (?)
+        /* should be done server side (?)
         options["bbar"] = new Ext.PagingToolbar({
             pageSize: 25,
             store: store,
@@ -161,25 +161,25 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             displayMsg: 'Displaying records {0} - {1} of {2}',
             emptyMsg: "No records to display"
         });
-        */
+         */
 
         return EchoExt20.PanelSync.prototype.createExtComponent.call(this, update, options);
     },
 	
-	renderUpdate: function(update) {
-		EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
+    renderUpdate: function(update) {
+        EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
 		
-		var updatedStore = update.getUpdatedProperty("model");
-		if (updatedStore != null) {
-			this.extComponent.reconfigure(
-				this.component.get("model"),
-				this.component.get("columnModel"));
-		}
-	},
+        var updatedStore = update.getUpdatedProperty("model");
+        if (updatedStore != null) {
+            this.extComponent.reconfigure(
+            this.component.get("model"),
+            this.component.get("columnModel"));
+        }
+    },
 	
-	_createStore: function() {
+    _createStore: function() {
 		
-	},
+    },
     
     _handleRowActivation: function() {
         this.component.doAction();
@@ -194,22 +194,22 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         var first = true;
 
         for (var row in this._selectedRows) {
-                if (!first) {
-                        selectionString += ",";
-                }
-                first = false;
+            if (!first) {
+                selectionString += ",";
+            }
+            first = false;
 
-                selectionString += row;
+            selectionString += row;
         }
 
         this.component.set("selection", selectionString);
     },
     
     _handleRowDeselectEvent: function(selectionModel, rowIndex, record) {
-		// update the selection value
-		if (this._selectedRows[rowIndex] != null) {
-			delete this._selectedRows[rowIndex];
-		}
+        // update the selection value
+        if (this._selectedRows[rowIndex] != null) {
+            delete this._selectedRows[rowIndex];
+        }
     },
     
     doSort: function(fieldName, sortDirection) {
@@ -223,9 +223,9 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
  * the sync peer of sort change events.
  */
 EchoExt20.GridPanelDataProxy = function(data, syncPeer) {
-	Ext.data.MemoryProxy.superclass.constructor.call(this);
-	this.data = data;
-	this.syncPeer = syncPeer;
+    Ext.data.MemoryProxy.superclass.constructor.call(this);
+    this.data = data;
+    this.syncPeer = syncPeer;
 }
 
 Ext.extend(EchoExt20.GridPanelDataProxy, Ext.data.DataProxy, {
@@ -237,14 +237,14 @@ Ext.extend(EchoExt20.GridPanelDataProxy, Ext.data.DataProxy, {
 		
         if (params.sort) {
             var sortField = params.sort;
-			var direction = params.dir;
-			this.syncPeer.doSort(sortField, direction);
+            var direction = params.dir;
+            this.syncPeer.doSort(sortField, direction);
         }
 		
-		try {
+        try {
             result = reader.readRecords(this.data);
         }
-		catch(e) {
+        catch(e) {
             this.fireEvent("loadexception", this, arg, null, e);
             callback.call(scope, null, arg, false);
             return;
