@@ -19,21 +19,23 @@
  * Ext20 framework main module.
  */
 
-/**
-* Ext initialisation.
-*/
+// Ext initialisation
 Ext.QuickTips.init();
 
 
 /**
- * @namespace
  * Namespace for application framework.
+ * @namespace
  */
 EchoExt20 = {};
 
 /**
  * Provides a wrapper allowing echo3 sync peers to work within
  * extjs.
+ * <p>
+ * TODO - work out whether this should extend Ext.BoxCompoent
+ * rather than Ext.Component.
+ * <p/>
  * @constructor
  */
 EchoExt20.Echo3SyncWrapper = function(update, wrappedComponent) {
@@ -42,12 +44,13 @@ EchoExt20.Echo3SyncWrapper = function(update, wrappedComponent) {
     this.wrappedComponent = wrappedComponent;
     this.wrappedRootElement = document.createElement("div");
 
-    /*
-     * Add the necessary layout options.
-     */
     var options = {};
     options.style = {};
     options.bodyStyle = {};
+    
+    /*
+     * Add the necessary layout options.
+     */
     EchoExt20.LayoutProcessor.addLayoutOptions(options, wrappedComponent);
     Ext.apply(this, options);
 
@@ -81,14 +84,27 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
         }
     },
 
+    /**
+     * Removes the component from the ext container.
+     */
     onRenderDispose: function(update) {
         this.ownerCt.remove(this);
     },
     
+    /**
+     * Method from Ext.BoxComponent which should (but currently does not)
+     * size the component accordingly.
+     * <p>
+     * TODO - work out whether this is required.
+     * </p>
+     */
     setSize: function() {
-        // FIXME - implement setSize
     },
-    
+
+    /**
+     * Method from Ext.BoxComponent which returns the size of the
+     * element.
+     */
     getSize: function() {
         return this.el.getSize();
     }
@@ -117,10 +133,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
          * Called during renderAdd to actually create the ext component.
          */
         createExtComponent: function(update, options) {}
-    },
-    
-    $static: {
-        openWindows: []
     },
     
     /**
