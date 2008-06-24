@@ -57,7 +57,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         Echo.Render.registerPeer("Ext20GridPanel", this);
     },
 
-    _selectedRows: {},
+    _selectedRows: null,
     
     _handleRowSelectEventRef: null,
     _handleRowDeselectEventRef: null,
@@ -76,88 +76,20 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     	this._handleRowDeselectEventRef = Core.method(this, this._handleRowDeselectEvent);
     },
     
-    newExtComponentInstance: function(options) {
-        var ret = new Ext.grid.GridPanel(options);
-        
-        ret.on("rowdblclick", this._handleRowActivation, this);
-        
-        return ret;
-    },
-    
     createExtComponent: function(update, options) {
-
-        var model = this.component.get("model");
-
-        /*
-         * Create an ArrayReader using the fields
-         * provided in the model.
-         */
-        var recordMappings = [];
-        for (var i = 0; i < model.fields.length; i++) {
-            recordMappings.push({
-                name: model.fields[i],
-                mapping: i
-            });
-        }
         
-        var record = Ext.data.Record.create(recordMappings);
-        
-        var reader = new Ext.data.ArrayReader({}, record);
-        
-        var proxy = new EchoExt20.GridPanelDataProxy(model.data, this);
+        this._selectedRows = {};
 
-        var store;
+        this.handleSortEvents = false; // avoind infinite sort loop
+        options["store"] = this._makeStore();
+        this.handleSortEvents = true;
+        
         var view;
-
-        /*
-         * TODO - defensive checks on sort field name and
-         * group field name.
-         */
-
-        var sortInfo = null;
-        var sortField = this.component.get("sortField");
-        if (sortField) {
-            var sortDirection = this.component.get("sortDirection");
-            if (sortDirection == null) {
-                sortDirection = "ASC";
-            }
-            sortInfo = {
-                field: sortField,
-                direction: "ASC"
-            }
-        }
-
-        var groupField = this.component.get("groupField");
-        if (groupField) {
-            store = new Ext.data.GroupingStore({
-                groupField: groupField,
-                proxy: proxy,
-                reader: reader,
-                sortInfo: sortInfo,
-                remoteSort: true
-            });
+        if (this.component.get("groupField")) {
             view = new Ext.grid.GroupingView({
                 groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
             });
         }
-        else {
-            store = new Ext.data.Store({
-                reader: reader,
-                proxy: proxy,
-                sortInfo: sortInfo,
-                remoteSort: true
-            });
-        }
-
-        store.load();
-        /*
-         * Now that the initial sort event has been ignored, ensure that
-         * we do something about future ones.
-         */
-        this.handleSortEvents = true;
-        
-        options["store"] = store;
-
         if (view) {
             options["view"] = view;
         }
@@ -182,20 +114,22 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 
         return EchoExt20.PanelSync.prototype.createExtComponent.call(this, update, options);
     },
-	
-    renderUpdate: function(update) {
-        EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
-		
-        var updatedStore = update.getUpdatedProperty("model");
-        if (updatedStore != null) {
-            this.extComponent.reconfigure(
-            this.component.get("model"),
-            this.component.get("columnModel"));
-        }
+    
+    doSort: function(fieldName, sortDirection) {
+        this.component.set("sortField", fieldName);
+        this.component.set("sortDirection", sortDirection);
+        this.component.doSort();
     },
     
     _handleRowActivation: function() {
         this.component.doAction();
+    },
+    
+    _handleRowDeselectEvent: function(selectionModel, rowIndex, record) {
+        // update the selection value
+        if (this._selectedRows[rowIndex] != null) {
+            delete this._selectedRows[rowIndex];
+        }
     },
     
     _handleRowSelectEvent: function(selectionModel, rowIndex, record) {
@@ -218,18 +152,106 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         this.component.set("selection", selectionString);
     },
     
-    _handleRowDeselectEvent: function(selectionModel, rowIndex, record) {
-        // update the selection value
-        if (this._selectedRows[rowIndex] != null) {
-            delete this._selectedRows[rowIndex];
+    /**
+     * Creates an ext store from the component's model representation.
+     */
+    _makeStore: function() {
+        var model = this.component.get("model");
+
+        /*
+         * Create an ArrayReader using the fields
+         * provided in the model.
+         */
+        var recordMappings = [];
+        for (var i = 0; i < model.fields.length; i++) {
+            recordMappings.push({
+                name: model.fields[i],
+                mapping: i
+            });
+        }
+        var record = Ext.data.Record.create(recordMappings);
+        var reader = new Ext.data.ArrayReader({}, record);
+        var proxy = new EchoExt20.GridPanelDataProxy(model.data, this);
+
+        var store;
+
+        /*
+         * TODO - defensive checks on sort field name and
+         * group field name.
+         */
+        var sortInfo = null;
+        var sortField = this.component.get("sortField");
+        if (sortField) {
+            var sortDirection = this.component.get("sortDirection");
+            if (sortDirection == null) {
+                sortDirection = "ASC";
+            }
+            sortInfo = {
+                field: sortField,
+                direction: sortDirection
+            }
+        }
+
+        var groupField = this.component.get("groupField");
+        if (groupField) {
+            store = new Ext.data.GroupingStore({
+                groupField: groupField,
+                proxy: proxy,
+                reader: reader,
+                sortInfo: sortInfo,
+                remoteSort: true
+            });
+        }
+        else {
+            store = new Ext.data.Store({
+                reader: reader,
+                proxy: proxy,
+                sortInfo: sortInfo,
+                remoteSort: true
+            });
+        }
+
+        store.load();
+        
+        return store;
+    },
+    
+    newExtComponentInstance: function(options) {
+        var ret = new Ext.grid.GridPanel(options);
+        ret.on("rowdblclick", this._handleRowActivation, this);
+        return ret;
+    },
+	
+    renderUpdate: function(update) {
+        EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
+		
+        var updatedStore = update.getUpdatedProperty("model");
+        if (updatedStore != null) {
+            // avoid infinite loop on sorting
+            this.handleSortEvents = false;
+            this.extComponent.reconfigure(
+              this._makeStore(),
+              this.component.get("columnModel")
+            );
+            this.handleSortEvents = true;
         }
     },
     
-    doSort: function(fieldName, sortDirection) {
-        //alert("Sort order changed: " + fieldName + ", " + sortDirection);
-        this.component.set("sortField", fieldName);
-        this.component.set("sortDirection", sortDirection);
-        this.component.doSort();
+    /**
+     * Updates the selection string in the component based on 
+     */
+    updateSelection: function() {
+        var selection = "";
+        var selModel = this.extComponent.getSelectionModel();
+        for (var i = 0; i < this.component.get("model").data.length; i++) {
+            if (selModel.isSelected(i)) {
+                if (selection != "") {
+                    selection +=",";
+                }
+                selection += i;
+            }
+        }
+        this.component.set("selection", selection);
     }
 
 });

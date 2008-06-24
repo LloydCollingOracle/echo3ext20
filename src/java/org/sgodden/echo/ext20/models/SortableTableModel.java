@@ -1,4 +1,6 @@
-package org.sgodden.echo.ext20;
+package org.sgodden.echo.ext20.models;
+
+import org.sgodden.echo.ext20.SortOrder;
 
 /**
  * A table model which can be sorted by a particular column index.

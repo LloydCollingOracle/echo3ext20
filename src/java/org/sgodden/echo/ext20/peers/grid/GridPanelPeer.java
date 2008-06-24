@@ -36,10 +36,10 @@ public class GridPanelPeer
         });
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(
-                GridPanel.SORT_ACTION, GridPanel.SORT_LISTENERS_CHANGED_PROPERTY) {
+                GridPanel.SORT_ACTION, "sortListeners") {
             @Override
             public boolean hasListeners(Context context, Component component) {
-                return ((GridPanel) component).hasSortListeners();
+                return (((GridPanel) component).isModelSortable());
             }
         });
     }

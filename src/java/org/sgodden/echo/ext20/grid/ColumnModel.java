@@ -91,5 +91,28 @@ public class ColumnModel
 	public void setDefaultWidth(Integer defaultWidth) {
 		this.defaultWidth = defaultWidth;
 	}
+    
+    /**
+     * Returns the index of the column having the specified data
+     * index (column name).
+     * @param dataIndex the data index (column name) of the column.
+     * @return the index of the column having that header.
+     */
+    public int getIndexForDataIndex(String dataIndex) {
+        int ret = -1;
+        for (int i = 0; i < columns.size(); i++) {
+            ColumnConfiguration col = columns.get(i);
+            if (dataIndex.equals(col.getDataIndex())) {
+                ret = i;
+                break;
+            }
+        }
+        
+        if (ret == -1) {
+            throw new IllegalArgumentException("Unknown column: " + dataIndex);
+        }
+        
+        return ret;
+    }
 	
 }

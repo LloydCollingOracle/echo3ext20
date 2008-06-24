@@ -33,6 +33,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SortOrder;
+import org.sgodden.echo.ext20.models.SortableTableModel;
 
 /**
  * An ext GridPanel.  It uses swing table models, since these provide a complete
@@ -67,8 +68,6 @@ gridPanel.addActionListener(new ActionListener(){
 public class GridPanel
         extends Panel 
         implements TableModelListener {
-
-    private static final transient Log LOG = LogFactory.getLog(GridPanel.class);
     
     public static final String COLUMN_MODEL_PROPERTY = "columnModel";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
@@ -81,7 +80,7 @@ public class GridPanel
     public static final String SORT_FIELD_PROPERTY = "sortField";
     public static final String SORT_ORDER_PROPERTY = "sortDirection"; 
     public static final String SORT_ACTION = "sort";
-    public static final String SORT_LISTENERS_CHANGED_PROPERTY = "sortListeners";
+    public static final String SORT_LISTENERS_PROPERTY = "sort";
     
     public static final String MODEL_CHANGED_PROPERTY="model";
     
@@ -116,6 +115,14 @@ public class GridPanel
      */
     public void setColumnModel(ColumnModel columnModel) {
         setProperty(COLUMN_MODEL_PROPERTY, columnModel);
+    }
+    
+    /**
+     * Returns the column model for the table.
+     * @return the column model for the table.
+     */
+    public ColumnModel getColumnModel() {
+        return ((ColumnModel)getProperty(COLUMN_MODEL_PROPERTY));
     }
     
     /**
@@ -166,11 +173,6 @@ public class GridPanel
         // existence of hasActionListeners() method. 
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
     }
-    
-    public void addSortListener(SortListener l) {
-        getEventListenerList().addListener(SortListener.class, l);
-        firePropertyChange(SORT_LISTENERS_CHANGED_PROPERTY, null, l);
-    }
 
     /**
      * Returns the row selection model.
@@ -210,12 +212,12 @@ public class GridPanel
     }
 
     /**
-     * Returns whether any <code>SortListener</code>s are registered.
+     * Returns whether the model is sortable.
      * 
-     * @return true if any sort listeners are registered
+     * @return true if the model is sortable, false if not.
      */
-    public boolean hasSortListeners() {
-        return getEventListenerList().getListenerCount(SortListener.class) != 0;
+    public boolean isModelSortable() {
+        return (getTableModel() instanceof SortableTableModel);
     }
     /**
      * @see nextapp.echo.app.Component#processInput(java.lang.String, java.lang.Object)
@@ -246,7 +248,16 @@ public class GridPanel
             }
         }
         else if (SORT_ACTION.equals(inputName)) {
-            fireSortEvent();
+            if (getTableModel() instanceof SortableTableModel) {
+                int columnIndex = getColumnModel()
+                        .getIndexForDataIndex(getSortField());
+                ((SortableTableModel) getTableModel()).sort(
+                        columnIndex, getSortOrder());
+            }
+            else {
+                throw new IllegalStateException("Request to sort table made, " +
+                        "but model is not sortable");
+            }
         }
     }
     
@@ -344,19 +355,6 @@ public class GridPanel
                 e = new ActionEvent(this, (String) getRenderProperty(ACTION_COMMAND_PROPERTY));
             }
             ((ActionListener) listeners[i]).actionPerformed(e);
-        }
-    }
-    
-    /**
-     * Fires a sort event to all listeners.
-     */
-    private void fireSortEvent() {
-        if (!hasEventListenerList()) {
-            return;
-        }
-        EventListener[] listeners = getEventListenerList().getListeners(SortListener.class);
-        for (int i = 0; i < listeners.length; ++i) {
-            ((SortListener) listeners[i]).sortChanged(getSortField(), getSortOrder());
         }
     }
     

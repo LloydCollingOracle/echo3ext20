@@ -19,7 +19,6 @@ package org.sgodden.echo.ext20.testapp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import nextapp.echo.app.event.ActionEvent;
@@ -28,6 +27,7 @@ import nextapp.echo.app.event.ActionListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.models.DefaultSortableTableModel;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
@@ -41,7 +41,6 @@ import org.sgodden.echo.ext20.ToolbarTextItem;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
 import org.sgodden.echo.ext20.grid.ColumnModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
-import org.sgodden.echo.ext20.grid.SortListener;
 import org.sgodden.echo.ext20.layout.FitLayout;
 
 /**
@@ -56,7 +55,8 @@ public class UserListPanel
     private static final transient Log LOG = LogFactory.getLog(UserListPanel.class);
     private GridPanel userGridPanel;
     private int startIndex = 1;
-    private Object[][] data;
+    
+    private DefaultSortableTableModel tableModel;
 
     public UserListPanel() {
         super(new FitLayout());
@@ -89,33 +89,37 @@ public class UserListPanel
         cols.add(new ColumnConfiguration("Name", 200, true, "name", false));
         cols.add(new ColumnConfiguration("Role", 200, true, "role", true));
         ColumnModel columnModel = new ColumnModel(cols);
-
-        data = makeData();
         
         userGridPanel = new GridPanel(columnModel);
         userGridPanel.setTableModel(makeTableModel());
         userGridPanel.setToolbar(makeToolbar());
-        userGridPanel.setGroupField("role");
+        /*
+         * Don't bother with grouping for now since the models
+         * don't play properly with it, rendering it effectively useless
+         */
+        //userGridPanel.setGroupField("role");
         userGridPanel.setSortField("userid");
         userGridPanel.setSortOrder(SortOrder.ASCENDING);
-        
-        userGridPanel.addSortListener(new SortListener(){
-
-            public void sortChanged(String sortField, SortOrder sortOrder) {
-                LOG.info("Sort order changed: " + sortField + ", "
-                        + sortOrder);
-            }
-        });
         
         return userGridPanel;
         
     }
     
     private TableModel makeTableModel() {
-    	DefaultTableModel ret = new DefaultTableModel(
-    			makeData(),
-    			makeColumnNames());
-    	return ret;
+        /*
+         * This is a fairly stupid example, where the data itself
+         * is used as the backing data for each row.
+         * This is purely to prove that the backing object implementation
+         * is working.  In real life, the backing objects would most likely
+         * be the domain objects themselves, or their ids.
+         */
+        Object[][] data = makeData();
+    	tableModel = new DefaultSortableTableModel(
+    			data,
+    			makeColumnNames(),
+                data);
+        tableModel.sort(0, SortOrder.ASCENDING);
+    	return tableModel;
     }
     
     private String[] makeColumnNames() {
@@ -125,8 +129,7 @@ public class UserListPanel
     /**
 	 * Adds a listener to be notifies when a row is actioned.
 	 * 
-	 * @param listener
-	 *            the listener to be added.
+	 * @param listener the listener to be added.
 	 */
     public void addActionListener(ActionListener listener) {
         userGridPanel.addActionListener(listener);
@@ -144,7 +147,7 @@ public class UserListPanel
      * @return the selected row of data.
      */
     public Object[] getSelectedRow() {
-        return data[getSelectedIndex()];
+        return (Object[]) tableModel.getBackingObjectForRow(getSelectedIndex());
     }
 
     /**
@@ -155,7 +158,7 @@ public class UserListPanel
     private Object[][] makeData() {
         int rows = 10;
 
-        data = new Object[rows][];
+        Object[][] data = new Object[rows][];
 
         for (int i = 0; i < data.length; i++) {
             Object[] row = new Object[3];

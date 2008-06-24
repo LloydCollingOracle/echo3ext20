@@ -33,7 +33,10 @@ public class UserPanel
         extends Panel
         implements DeferredUiCreate {
     
-    //private static final transient Log log = LogFactory.getLog(UserPanel.class);
+    /**
+     * The list panel.
+     */
+    private UserListPanel listPanel;
     
     public UserPanel(boolean setTitle){
         super(new FitLayout());
@@ -58,7 +61,10 @@ public class UserPanel
             remove(0);
         }
         
-        final UserListPanel listPanel = new UserListPanel();
+        if (listPanel == null) {
+            listPanel = new UserListPanel();
+        }
+        
         add(listPanel);
         
         listPanel.addActionListener(new ActionListener(){
