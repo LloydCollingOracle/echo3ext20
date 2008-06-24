@@ -14,7 +14,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
-EchoExt20.SplitButton = Core.extend(EchoExt20.ExtComponent, {
+/**
+ * Component implementation for Ext.SplitButton.
+ */
+EchoExt20.SplitButton = Core.extend(EchoExt20.Button, {
 	
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20SplitButton", this);
@@ -25,52 +28,9 @@ EchoExt20.SplitButton = Core.extend(EchoExt20.ExtComponent, {
 	
 });
 
+/**
+ * Synchronisation peer for split button.  Currently incomplete, and does
+ * nothing in addition to the button sync peer.
+ */
 EchoExt20.SplitButtonSync = Core.extend(EchoExt20.ButtonSync, {
-
-    $load: function() {
-        Echo.Render.registerPeer("Ext20SplitButton", this);
-    },
-    
-    _handleClickEventRef: null,
-    
-    $construct: function() {
-    	this._handleClickEventRef = Core.method(this, this._handleClickEvent);
-    },
-
-    $virtual: {
-        newExtComponentInstance: function(options) {
-            return new Ext.Button(options);
-        }
-    },
-    
-    createExtComponent: function(update, options) {
-    
-    	options['text'] = this.component.get("text");
-         
-        // see if we have a menu child item
-        if (this.component.getComponentCount() == 1) {
-            var child = this.component.getComponent(0);
-            if (child instanceof EchoExt20.Menu) {
-                Echo.Render.renderComponentAdd(update, child, null);
-                var menu = child.peer.extComponent;
-                if (menu == null) {
-                    throw new Error("Menu not created for button");
-                }
-                options['menu'] = menu;
-            }
-            else {
-                throw new Error("Illegal child added to a button");
-            }
-        }
-    
-    	var extComponent = this.newExtComponentInstance(options);
-    	extComponent.on('click', this._handleClickEventRef);
-    	
-    	return extComponent;
-    },
-    
-    _handleClickEvent: function() {
-    	this.component.doAction();
-    }
-
 });

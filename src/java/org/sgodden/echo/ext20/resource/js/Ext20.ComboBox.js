@@ -14,6 +14,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
+/**
+ * Component implementation for Ext.form.ComboBox.
+ */
 EchoExt20.ComboBox = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
@@ -24,9 +27,11 @@ EchoExt20.ComboBox = Core.extend(EchoExt20.ExtComponent, {
     focusable: true,
 
     componentType: "Ext20ComboBox"
-	
 });
 
+/**
+ * Synchronisation peer for combo box.
+ */
 EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
 
     $load: function() {
@@ -34,11 +39,12 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     },
     
     /**
-     * Configures the options for the new ext component.
+     * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
     
-        // add our special options
+        // add our own specific options
+        
     	if (this.component.get("displayField") != null) {
              options["displayField"] = this.component.get("displayField");
         }
@@ -58,22 +64,28 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
              options["store"] = simpleStore;
         }
     	if (this.component.get("typeAhead") != null) {
-             options["typeAhead"] = this.component.get("typeAhead");
+            options["typeAhead"] = this.component.get("typeAhead");
         }
     	if (this.component.get("valueField") != null) {
-             options["valueField"] = this.component.get("valueField");
+            options["valueField"] = this.component.get("valueField");
         }
         options['mode'] = 'local';
         
+        // and then call the superclass method
     	var ret = EchoExt20.TextFieldSync.prototype.createExtComponent.call(
-             this, update, options);
-			 
-			 		
-		ret.on(
-			"select",
-			this._handleBlurEventRef
-		);
+            this, update, options);
         
+        /*
+         * The superclass ensured that we capture the value change
+         * when the key up event occurs, but we also need to ensure that
+         * it captures it when the user changes the selected value using
+         * the combo drop-down.
+         */
+        ret.on(
+            "select",
+            this._handleValueChangeEventRef
+        );
+
         return ret;
     },
     

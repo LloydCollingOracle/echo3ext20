@@ -14,6 +14,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
+/**
+ * Component implementation for Ext.form.Checkbox.
+ */
 EchoExt20.CheckboxField = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
@@ -31,20 +34,25 @@ EchoExt20.CheckboxField = Core.extend(EchoExt20.ExtComponent, {
     
 });
 
+/**
+ * Synchronisation peer for checkbox.
+ */
 EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
         Echo.Render.registerPeer("Ext20CheckboxField", this);
     },
     
-    _handleBlurEventRef: null,
+    _handleSelectionEventRef: null,
     
     $construct: function() {
-        this._handleBlurEventRef = Core.method(this, this._handleBlurEvent);
+        this._handleSelectionEventRef = Core.method(this, this._handleSelectionEvent);
     },
     
+    /**
+     * Called by the base class to create the ext component.
+     */
     createExtComponent: function(update, options) {
-        
         var selected = this.component.get("selected");
         
         options['fieldLabel'] = this.component.get("fieldLabel");
@@ -54,17 +62,22 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         var extComponent = new Ext.form.Checkbox(options);
         extComponent.setValue(selected);
-        extComponent.on('check', this._handleBlurEventRef);
+        extComponent.on('check', this._handleSelectionEventRef);
         
         return extComponent;
     },
     
-    _handleBlurEvent: function() {
-		var selected = this.extComponent.getValue();
-		if (selected != this.component.get("selected")) {
-	        this.component.set("selected", this.extComponent.getValue());
-			this.component.doAction();			
-		}
+    /**
+     * Handles (de)selection of the checkbox by updating the component
+     * selected value, and firing the event in case there are any
+     * listeners.
+     */
+    _handleSelectionEvent: function() {
+        var selected = this.extComponent.getValue();
+        if (selected != this.component.get("selected")) {
+        this.component.set("selected", this.extComponent.getValue());
+            this.component.doAction();			
+        }
     }
     
 });

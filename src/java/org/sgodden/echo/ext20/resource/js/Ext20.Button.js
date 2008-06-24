@@ -14,6 +14,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
+/**
+ * Component implementation for Ext.Button.
+ */
 EchoExt20.Button = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
@@ -26,13 +29,16 @@ EchoExt20.Button = Core.extend(EchoExt20.ExtComponent, {
     componentType: "Ext20Button",
     
     $virtual: {
-            doAction: function() {
-                this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
-            }
+        doAction: function() {
+            this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+        }
     }
 	
 });
 
+/**
+ * Synchronisation peer for the ext button component.
+ */
 EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
 
     $load: function() {
@@ -46,22 +52,30 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
 
     $virtual: {
+        /**
+         * An overridable method to actually create the correct type of button.
+         * Sub-classes will override this (to create split buttons or
+         * toolbar buttons for instance).
+         */
         newExtComponentInstance: function(options) {
             return new Ext.Button(options);
         }
     },
     
+    /**
+     * Called by the base class to create the ext component.
+     */
     createExtComponent: function(update, options) {
     
-		if (this.component.get("iconClass") != null) {
-			options['iconCls'] = this.component.get("iconClass");
-		}
+        if (this.component.get("iconClass") != null) {
+                options['iconCls'] = this.component.get("iconClass");
+        }
     	options['text'] = this.component.get("text");
-		
-		if (this.component.get("tooltipText") != null) {
-			options['tooltip'] = this.component.get("tooltipText");
-		}
-         
+
+        if (this.component.get("tooltipText") != null) {
+            options['tooltip'] = this.component.get("tooltipText");
+        }
+
         // see if we have a menu child item
         if (this.component.getComponentCount() == 1) {
             var child = this.component.getComponent(0);
@@ -83,7 +97,11 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     	
     	return extComponent;
     },
-    
+   
+    /**
+     * Handles the click event by requestint the component to fire
+     * its action event.
+     */
     _handleClickEvent: function() {
     	this.component.doAction();
     }

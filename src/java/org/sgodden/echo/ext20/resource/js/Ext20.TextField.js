@@ -14,6 +14,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
+/**
+ * Component implementation for Ext.form.TextField.
+ */
 EchoExt20.TextField = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
@@ -24,9 +27,11 @@ EchoExt20.TextField = Core.extend(EchoExt20.ExtComponent, {
     focusable: true,
 
     componentType: "Ext20TextField"
-	
 });
 
+/**
+ * Synchronisation peer for text field.
+ */
 EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
 
     $load: function() {
@@ -34,17 +39,27 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
 
     $virtual: {
+        /**
+         * Overridable method to actually create the correct type of
+         * text field.
+         */
         newExtComponentInstance: function(options) {
             return new Ext.form.TextField(options);
         }
     },
     
-    _handleBlurEventRef: null,
+    _handleValueChangeEventRef: null,
     
+    /**
+     * Creates a new instance of the sync peer.
+     */
     $construct: function() {
-    	this._handleBlurEventRef = Core.method(this, this._handleBlurEvent);
+    	this._handleValueChangeEventRef = Core.method(this, this._handleValueChangeEvent);
     },
     
+    /**
+     * Called by the base class to create the ext component.
+     */
     createExtComponent: function(update, options) {
         if (this.component.get('value') != null) {
             options['value'] = this.component.get("value");
@@ -53,39 +68,47 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['fieldLabel'] = this.component.get("fieldLabel");
         }
         if (this.component.get("allowBlank") != null) {
-                options['allowBlank'] = this.component.get("allowBlank");
+            options['allowBlank'] = this.component.get("allowBlank");
         }
         if (this.component.get("emptyText") != null) {
-                options['emptyText'] = this.component.get("emptyText");
+            options['emptyText'] = this.component.get("emptyText");
         }
     	if ( !(this.component.isEnabled()) ) {
-    		options['disabled'] = true;
+            options['disabled'] = true;
     	}
     
     	var extComponent = this.newExtComponentInstance(options);
-	
-		/*
-		 * Ensure that we update the component's value on every keyup, so that
-		 * if there are key listeners on our ancestors, the correct value
-		 * gets transferred to the server.
-		 * 
-		 * I am assuming that the ext destroy processing removes these, need to prove that.
-		 */	
-		extComponent.on(
-			"render",
-			function(){
-				Core.Web.Event.add(this.extComponent.getEl().dom, "keyup", this._handleBlurEventRef, false);
-				extComponent.validate();
-			}, 
-			this);
+
+        /*
+         * Ensure that we update the component's value on every keyup, so that
+         * if there are key listeners on our ancestors, the correct value
+         * gets transferred to the server.
+         * 
+         * I am assuming that the ext destroy processing removes these, need to prove that.
+         */	
+        extComponent.on(
+            "render",
+            function(){
+                Core.Web.Event.add(this.extComponent.getEl().dom, 
+                    "keyup", this._handleValueChangeEventRef, false);
+                // FIXME - it's probably wrong to validate at this point
+                extComponent.validate();
+            }, 
+            this);
 		
     	return extComponent;
     },
     
-    _handleBlurEvent: function() {
+    /**
+     * Update the component's value from the value in the ext text field.
+     */
+    _handleValueChangeEvent: function() {
     	this.component.set("value", this.extComponent.getValue());
     },
     
+    /**
+     * Handles a server update of the field value.
+     */
     renderUpdate: function(update){
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
         this.extComponent.setValue(this.component.get("value"));

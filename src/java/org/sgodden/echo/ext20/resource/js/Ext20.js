@@ -153,23 +153,30 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
 	
     /**
      * Whether this component is a root container in the page.
+     * <p>
      * A component is a root container if it is a) a container,
      * and b) its parent is not an ext container.
+     * </p>
+     * <p>
      * So if we had Ext container A containing Echo container B containing
      * Ext container C, then A and C are root containers, and will need
      * to have doLayout called on them at the end of the server update
-     * cycle.  
-     *
+     * cycle.
+     * </p>
+     * <p>
      * A is also the "root root" container (see below).
+     * </p>
      */
     _isARootContainer: false,
 
     /**
      * Whether this component is the root root container, that is, 
-     * whether it is the first ext container in the DOM.
+     * whether it is the very first ext container in the DOM.
+     * <p>
      * This container is responsible for calling doLayout on itself
      * and other root containers which had chilren added or removed
      * during a server update.
+     * <p/>
      */
     _isRootRootContainer: false,
 
@@ -216,12 +223,14 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             EchoExt20.rootRootContainer._containersRequiringLayout.push(this);
         }
         else {
-            // not the root, tell the parent
+            // not a root, tell the parent
             this.component.parent.peer._notifyLayoutChanges();
         }
     },
 
-    
+    /**
+     * Called upon initial creation of the component.
+     */
     renderAdd: function(update, parentElement) {
         this._update = update;
 
@@ -556,11 +565,16 @@ EchoExt20.LayoutProcessor = {
     }
 }
 
-// Abstract component classes and sync peers
-
-// Property translators
-
+/**
+ * Namespace for property translators.
+ * @namespace
+ */
 EchoExt20.PropertyTranslator = {
+    /**
+     * Evaluates the JSON character content of the passed xml element
+     * into a javascript object.  This caters for the fact that firefox
+     * splits long text documents into multiple child nodes (thanks Tod).
+     */
     toJsObject: function(client, propertyElement) {
         var jsonArray = new Array();
         for (i = 0; i < propertyElement.childNodes.length; i++) {
@@ -571,9 +585,15 @@ EchoExt20.PropertyTranslator = {
     }
 };
 
+/**
+ * An accordion layout (see Ext.layout.Accordion).
+ */
 EchoExt20.AccordionLayout = Core.extend({
 });
 
+/**
+ * Property translator for accordion layout.
+ */
 EchoExt20.PropertyTranslator.AccordionLayout = {
     toProperty: function(client, propertyElement) {
         return new EchoExt20.AccordionLayout();
@@ -583,9 +603,15 @@ EchoExt20.PropertyTranslator.AccordionLayout = {
 Echo.Serial.addPropertyTranslator("Ext20AccordionLayout", EchoExt20.PropertyTranslator.AccordionLayout);
 Echo.Serial.addPropertyTranslator("E2AL", EchoExt20.PropertyTranslator.AccordionLayout);
 
+/**
+ * A border layout (see Ext.layout.BorderLayout).
+ */
 EchoExt20.BorderLayout = Core.extend({
 });
 
+/**
+ * Property translator for border layout.
+ */
 EchoExt20.PropertyTranslator.BorderLayout = {
     toProperty: function(client, propertyElement) {
         return new EchoExt20.BorderLayout();
@@ -595,9 +621,15 @@ EchoExt20.PropertyTranslator.BorderLayout = {
 Echo.Serial.addPropertyTranslator("Ext20BorderLayout", EchoExt20.PropertyTranslator.BorderLayout);
 Echo.Serial.addPropertyTranslator("E2BL", EchoExt20.PropertyTranslator.BorderLayout);
 
+/**
+ * A fit layout (see Ext.layout.FitLayout).
+ */
 EchoExt20.FitLayout = Core.extend({
 });
 
+/**
+ * Property translator for fit layout.
+ */
 EchoExt20.PropertyTranslator.FitLayout = {
     toProperty: function(client, propertyElement) {
         return new EchoExt20.FitLayout();
@@ -607,9 +639,15 @@ EchoExt20.PropertyTranslator.FitLayout = {
 Echo.Serial.addPropertyTranslator("Ext20FitLayout", EchoExt20.PropertyTranslator.FitLayout);
 Echo.Serial.addPropertyTranslator("E2FL", EchoExt20.PropertyTranslator.FitLayout);
 
+/**
+ * A column layout (see Ext.layout.ColumnLayout).
+ */
 EchoExt20.ColumnLayout = Core.extend({
 });
 
+/**
+ * Property translator for column layout.
+ */
 EchoExt20.PropertyTranslator.ColumnLayout = {
     toProperty: function(client, propertyElement) {
         return new EchoExt20.ColumnLayout();
@@ -619,9 +657,15 @@ EchoExt20.PropertyTranslator.ColumnLayout = {
 Echo.Serial.addPropertyTranslator("Ext20ColumnLayout", EchoExt20.PropertyTranslator.ColumnLayout);
 Echo.Serial.addPropertyTranslator("E2CL", EchoExt20.PropertyTranslator.ColumnLayout);
 
+/**
+ * A form layout (see Ext.layout.FormLayout).
+ */
 EchoExt20.FormLayout = Core.extend({
 });
 
+/**
+ * Property translator for form layout.
+ */
 EchoExt20.PropertyTranslator.FormLayout = {
     toProperty: function(client, propertyElement) {
         return new EchoExt20.FormLayout();
@@ -631,6 +675,9 @@ EchoExt20.PropertyTranslator.FormLayout = {
 Echo.Serial.addPropertyTranslator("Ext20FormLayout", EchoExt20.PropertyTranslator.FormLayout);
 Echo.Serial.addPropertyTranslator("E2FML", EchoExt20.PropertyTranslator.FormLayout);
 
+/**
+ * A table layout (see Ext.layout.TableLayout).
+ */
 EchoExt20.TableLayout = Core.extend({
     columns: 0,
     cellPadding: "0px",
@@ -647,6 +694,9 @@ EchoExt20.TableLayout = Core.extend({
     
 });
 
+/**
+ * Property translator for table layout.
+ */
 EchoExt20.PropertyTranslator.TableLayout = {
     toProperty: function(client, propertyElement) {
 
@@ -673,23 +723,33 @@ EchoExt20.PropertyTranslator.TableLayout = {
 Echo.Serial.addPropertyTranslator("Ext20TableLayout", EchoExt20.PropertyTranslator.TableLayout);
 Echo.Serial.addPropertyTranslator("E2TL", EchoExt20.PropertyTranslator.TableLayout);
 
-
+/**
+ * Property translator for a simple store of data (a two-dimensional array), 
+ * and field names, from which an Ext store can be created.
+ * <p>
+ * The data is all JSON-encoded within the passed property element, which is
+ * a shortcut way to get the job done, but not very observable.
+ * </p>
+ * <p>
+ * This started life as a class which directly instantiated an Ext.SimpleStore,
+ * thus the name, which is now misleading.
+ * It became apparent that we needed more control over the store,
+ * so this now just returns a simple JS object.
+ * <p/>
+ */
 EchoExt20.PropertyTranslator.SimpleStore = {
     toProperty: function(client, propertyElement) {
         return EchoExt20.PropertyTranslator.toJsObject(client, propertyElement);
-		/*
-        return new Ext.data.SimpleStore({
-            fields: obj.fields,
-            id: obj.id,
-            data: obj.data
-        });
-        */
     }
 };
 
 Echo.Serial.addPropertyTranslator("Ext20SimpleStore", EchoExt20.PropertyTranslator.SimpleStore);
 Echo.Serial.addPropertyTranslator("E2SS", EchoExt20.PropertyTranslator.SimpleStore);
 
+/**
+ * Property translator which directly creates an Ext.grid.ColumnModel
+ * from the JSON-encoded data in the property element.
+ */
 EchoExt20.PropertyTranslator.ColumnModel = {
     toProperty: function(client, propertyElement) {
         var obj = EchoExt20.PropertyTranslator.toJsObject(client, propertyElement);

@@ -14,6 +14,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
+/**
+ * Component implementation for Ext.form.TextArea.
+ */
 EchoExt20.TextArea = Core.extend(EchoExt20.ExtComponent, {
 	
     $load: function() {
@@ -25,6 +28,9 @@ EchoExt20.TextArea = Core.extend(EchoExt20.ExtComponent, {
 	
 });
 
+/**
+ * Synchronisation peer for text area.
+ */
 EchoExt20.TextAreaSync = Core.extend(EchoExt20.TextFieldSync, {
 
     $load: function() {

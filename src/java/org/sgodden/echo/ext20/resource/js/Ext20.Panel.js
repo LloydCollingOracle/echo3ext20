@@ -14,19 +14,31 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
+/**
+ * Component implementation for Ext.Panel.
+ */
 EchoExt20.Panel = Core.extend(EchoExt20.ExtComponent, {
     
+    /**
+     * Registeres this component on initial load.
+     */
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20Panel", this);
         Echo.ComponentFactory.registerType("E2P", this);
     },
     
     componentType: "Ext20Panel",
-    
+
+    /**
+     * Fires a key-press event.
+     */
     doKeyPress: function() {
         this.fireEvent({type: "keyPress", source: this});
     },
 
+    /**
+     * Fires an event when one of the tools is clicked.
+     */
     doToolClick: function() {
             this.fireEvent({type: "toolClick", source: this});
     }
@@ -38,31 +50,50 @@ EchoExt20.Panel = Core.extend(EchoExt20.ExtComponent, {
 */
 EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     
+    /**
+     * Registers the sync peer on initial load.
+     */
     $load: function() {
         Echo.Render.registerPeer("Ext20Panel", this);
     },
 	
     /**
      * Reference to a method to invoke when the server
-     * update is complete, to make the component visible again.
+     * update is complete, to make the component visible again if it 
+     * had to be hidden to prevent progressive rendering flicker
+     * as children were added.
      */
     _makeVisibleRef: null,
     
     $virtual: {
 		
-        // whether the component should be hidden when adding children, to avoid
-        // noticeable progressive updates on slower rendering browsers such as FF.
+        /**
+         * whether the component should be hidden when adding children, to avoid
+         * noticeable progressive updates on slower rendering browsers such as FF.
+         */
         hideWhenAddingChildren: true,
-		
+        /**
+         * Actually creates the ext component instance.  Overriden by
+         * classes such as EchoExt20.GridPanelSync to create their
+         * relevant Ext subclass.
+         */
         newExtComponentInstance: function(options) {
             return new Ext.Panel(options);
         },
-		
+        /**
+         * Informs this panel that children had their layout update (by having
+         * components added to or removed from them).  This will trigger
+         * a call to doLayout once the rendering phase has finished.
+         */
         notifyChildLayoutUpdate: function() {
             this._childLayoutUpdatesOccurred = true;
         }
     },
     
+    /**
+     * Render update implementation.  Supports update of the panel title,
+     * and adding and removing children.
+     */
     renderUpdate: function(update){
 
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
@@ -121,11 +152,20 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         this.syncExtComponent(update);
     },
     
+    /**
+     * Render display implementation.  This is called when all rendering
+     * has finished.  The only thing this does is to synchronise the size
+     * of this panel to the containing div if the parent component is not
+     * an ext layout.
+     */
     renderDisplay: function(update) {
         EchoExt20.ExtComponentSync.prototype.renderDisplay.call(this, update);
         this.syncExtComponent();
     },
     
+    /**
+     * Render dispose implementation.
+     */
     renderDispose: function(update) {
         EchoExt20.ExtComponentSync.prototype.renderDispose.call(this, update);
         if (this._makeVisibleRef != null) {
@@ -133,6 +173,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
     },
     
+    /**
+     * Syncs the size of the ext panel to the size of the containing div,
+     * but only if the parent of this panel is not an ext container (because
+     * ext containers deal with that all themslves).
+     */
     syncExtComponent: function() {
         if (this._parentElement != null) {
             this.extComponent.setHeight(this._parentElement.offsetHeight);
@@ -141,12 +186,15 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     /**
-     * Re-shows the component after being hidden during an update
+     * Re-shows the component after being hidden during an update.
      */
     _makeVisible: function() {
         this.extComponent.getEl().dom.style.visibility = 'visible';
     },
     
+    /**
+     * Called by the base class to create the ext component.
+     */
     createExtComponent: function(update, options) {
     	// process basic properties
 
@@ -309,6 +357,13 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         return this.extComponent;
     },
     
+    /**
+     * Adds the necessary options to ensure that the requested key
+     * bindings are registered.
+     * <p>
+     * FIXME - this needs completing.
+     * </p>
+     */
     _registerKeyPresses: function(update, options) {
         if (this.component.get("registeredKeyPresses") != null) {
             // FIXME - implement this properly
@@ -332,6 +387,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
     },
     
+    /**
+     * Handles a particular key press by setting that key as pressed
+     * on the component, and asking the component to fire the key press
+     * event.
+     */
     _handleKeyPress: function(key, evt) {
         if (key == Ext.EventObject.ENTER) {
             this.component.set("keyPressed", "enter");
@@ -343,6 +403,16 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         this.component.doKeyPress();
     },
     
+    /**
+     * Creates the requested toolbar for the panel, if there is a
+     * child which is a toolbar requested be shown in that position.
+     * @param update the echo server update.
+     * @param children the children to search through to find the toolbar.
+     * @param position either 'top' or 'bottom', to say which toolbar
+     * to create.
+     * @param options the options to which we should add the toolbar should
+     * we find it.
+     */
     _makeToolbar: function(update, children, position, options) {
         var done = false;
         
@@ -369,12 +439,15 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     /**
-     * Calls doLayout on the ext component under the following
+     * Calls doLayout on the ext panel under the following
      * conditions:
      * 1) we are not the top container
      * 2) any of our children
      * has a border layout (since they can size their north regions
      * wrongly).
+     * <p>
+     * FIXME - this is confused.  Check it for purpose and correctness.
+     * <p/>
      */
     _conditionalDoLayout: function(children) {
         var done = false;
@@ -387,6 +460,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
     },
     
+    /**
+     * Creates an array of the children of the current component.
+     */
     _createChildComponentArrayFromComponent: function() {
         var componentCount = this.component.getComponentCount();
         var children = new Array(componentCount);
@@ -396,6 +472,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         return children;
     },
     
+    /**
+     * Creates and adds any buttons which are to be shown in the panel's
+     * button bar.
+     */
     _createButtons: function(update, children) {
         var buttons = [];
         for (var i = 0; i < children.length; i++) {
@@ -415,6 +495,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         return buttons;
     },
     
+    /**
+     * Creates the passed children and adds them to the ext panel.
+     */
     _createChildItems: function(update, children) {
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
@@ -423,9 +506,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
              *  so that it can operate within an ext container.
              */
             if (! (child instanceof EchoExt20.ExtComponent) ) {
-                    // we don't renderAdd here - ext does it lazily
-                    var wrapper = new EchoExt20.Echo3SyncWrapper(update, child);
-                    this.extComponent.add(wrapper);
+                // we don't renderAdd here - ext does it lazily
+                var wrapper = new EchoExt20.Echo3SyncWrapper(update, child);
+                this.extComponent.add(wrapper);
             }
             else if (child instanceof EchoExt20.Window) {
                 this._createWindow(update, child);
@@ -445,8 +528,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                     throw new Error("No child ext component was created during renderAdd for component type: " + child.componentType);
                 } 
                 else {
-					// make sure we can get back to the echo component from the ext component
-					childExtComponent.echoComponent = child;
+                    // make sure we can get back to the echo component from the ext component
+                    childExtComponent.echoComponent = child;
                     this.extComponent.add(childExtComponent);
                 }
             }
@@ -456,11 +539,14 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         // tab is selected in a tabbed pane, it can work out what the index of the displayed component
         // is.
         for (var i = 0; i < this.component.getComponentCount(); i++) {
-                var child = this.component.getComponent(i);
-                child.childIndex = i;
+            var child = this.component.getComponent(i);
+            child.childIndex = i;
         }
     },
     
+    /**
+     * Creates and shows a pop-up window.
+     */
     _createWindow: function(update, child) {
         Echo.Render.renderComponentAdd(update, child, null);
         child.peer.extComponent.doLayout();

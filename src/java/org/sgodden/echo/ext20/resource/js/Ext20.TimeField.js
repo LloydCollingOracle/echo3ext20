@@ -14,6 +14,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
+/**
+ * Component implementation for Ext.form.TimeField.
+ */
 EchoExt20.TimeField = Core.extend(EchoExt20.ExtComponent, {
     
     $load: function() {
@@ -27,6 +30,9 @@ EchoExt20.TimeField = Core.extend(EchoExt20.ExtComponent, {
     
 });
 
+/**
+ * Synchronisation peer for time field.
+ */
 EchoExt20.TimeFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     $load: function() {
@@ -39,6 +45,9 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         this._handleBlurEventRef = Core.method(this, this._handleBlurEvent);
     },
     
+    /**
+     * Called by the base class to create the ext component.
+     */
     createExtComponent: function(update, options) {
         
         var timeFormat = this.component.get("timeFormat");
@@ -67,16 +76,25 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         return extComponent;
     },
     
+    /**
+     * Handles the blur event by setting the value on the component.
+     * <p>
+     * FIXME - don't we need to handle the 'select' event too?
+     * </p>
+     */
     _handleBlurEvent: function() {
         var value = this.extComponent.getValue();
         this.component.set("time", value);
     },
     
+    /**
+     * Handles update of the time value.
+     */
     renderUpdate: function(update){
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
         var time = this.component.get("time");
         if (time != null) {
-            extComponent.setValue(time);
+            this.extComponent.setValue(time);
         }
     }
     
