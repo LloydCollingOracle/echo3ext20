@@ -229,6 +229,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         if (updatedStore != null) {
             // avoid infinite loop on sorting
             this.handleSortEvents = false;
+            // forget current selections
+            this._selectedRows = {};
             this.extComponent.reconfigure(
               this._makeStore(),
               this.component.get("columnModel")
