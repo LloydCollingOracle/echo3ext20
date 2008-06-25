@@ -47,7 +47,7 @@
                 
             <packageset 
             	dir="src/java" 
-            	includes="org/sgodden/echo/ext20,org/sgodden/echo/ext20/data,org/sgodden/echo/ext20/grid,org/sgodden/echo/ext20/layout" 
+            	includes="org/sgodden/echo/ext20,org/sgodden/echo/ext20/data,org/sgodden/echo/ext20/grid,org/sgodden/echo/ext20/layout,org/sgodden/echo/ext20/models" 
             	defaultexcludes="yes">
             </packageset>
             <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
