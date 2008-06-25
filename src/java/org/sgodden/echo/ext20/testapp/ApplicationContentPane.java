@@ -89,6 +89,7 @@ public class ApplicationContentPane
     
     private Panel createNorthPanel() {
         Panel ret = new Panel();
+        ret.setHeight(52);
         ret.setBorder(false);
         ret.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
         ret.setBodyBackground(new Color(84, 84, 84));

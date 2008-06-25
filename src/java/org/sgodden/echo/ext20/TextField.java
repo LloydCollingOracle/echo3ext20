@@ -33,6 +33,7 @@ public class TextField
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
     public static final String EMPTY_TEXT_PROEPRTY = "emptyText";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
+    public static final String REGEXP_FAILURETEXT_PROPERTY = "regExpFailureText";
     public static final String REGEXP_PROPERTY = "regExp";
     public static final String VALUE_CHANGED_PROPERTY = "value";
 
@@ -108,6 +109,14 @@ public class TextField
      */
     public void setRegExp(String regExp) {
         setProperty(REGEXP_PROPERTY, regExp);
+    }
+    
+    /**
+     * Sets the failure text for a regular expression failure.
+     * @param The failure text.
+     */
+    public void setRegexpFailureText(String regExpFailureText){
+        setProperty(REGEXP_FAILURETEXT_PROPERTY, regExpFailureText);
     }
 
     @Override
