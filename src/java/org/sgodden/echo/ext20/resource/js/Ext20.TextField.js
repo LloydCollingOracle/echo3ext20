@@ -76,6 +76,9 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     	if ( !(this.component.isEnabled()) ) {
             options['disabled'] = true;
     	}
+        if (this.component.get("regExp")) {
+            options.regex = new RegExp(this.component.get("regExp"));
+        }
     
     	var extComponent = this.newExtComponentInstance(options);
 

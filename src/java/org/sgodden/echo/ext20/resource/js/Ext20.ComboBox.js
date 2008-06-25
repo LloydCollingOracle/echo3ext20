@@ -83,7 +83,8 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
          */
         ret.on(
             "select",
-            this._handleValueChangeEventRef
+            this._handleValueChangeEvent,
+            this
         );
 
         return ret;

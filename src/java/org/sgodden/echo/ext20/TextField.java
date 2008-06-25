@@ -30,10 +30,11 @@ package org.sgodden.echo.ext20;
 public class TextField
         extends ExtComponent {
 
-    public static final String VALUE_CHANGED_PROPERTY = "value";
-    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
     public static final String EMPTY_TEXT_PROEPRTY = "emptyText";
+    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
+    public static final String REGEXP_PROPERTY = "regExp";
+    public static final String VALUE_CHANGED_PROPERTY = "value";
 
     /**
      * Creates a new empty text field.
@@ -65,7 +66,7 @@ public class TextField
      * Sets the value (text) of the field.
      * @param value the value of the field.
      */
-    public void setValue(Object value) {
+    public void setValue(String value) {
         setProperty(VALUE_CHANGED_PROPERTY, value);
     }
 
@@ -99,6 +100,14 @@ public class TextField
      */
     public void setEmptyText(String emptyText) {
         setProperty(EMPTY_TEXT_PROEPRTY, emptyText);
+    }
+    
+    /**
+     * Sets a regular expression to be used to validate the value.
+     * @param RegExp the regular expression.
+     */
+    public void setRegExp(String regExp) {
+        setProperty(REGEXP_PROPERTY, regExp);
     }
 
     @Override

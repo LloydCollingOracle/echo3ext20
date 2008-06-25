@@ -81,6 +81,11 @@ public class UserEditPanel
 //        nameField.setFocusTraversalIndex(1);
 //        nameField.setFocusTraversalParticipant(true);
         
+        TextField postcodeField = new TextField();
+        postcodeField.setFieldLabel("Post code");
+        postcodeField.setRegExp("blah");
+        add(postcodeField);
+        
         Calendar cal = Calendar.getInstance(
                 ApplicationInstance.getActive().getLocale());
 
