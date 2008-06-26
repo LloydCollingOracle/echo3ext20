@@ -16,6 +16,12 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import groovy.util.GroovyScriptEngine;
+import groovy.util.ResourceException;
+import groovy.util.ScriptException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.StyleSheet;
 import nextapp.echo.app.Window;
@@ -32,26 +38,56 @@ import nextapp.echo.app.serial.StyleSheetLoader;
 public class AppInstance extends ApplicationInstance {
 
     private static final StyleSheet DEFAULT_STYLE_SHEET;
+
+
     static {
         try {
 
             DEFAULT_STYLE_SHEET = StyleSheetLoader.load(
-                    "default-stylesheet.xml", Thread
-                            .currentThread().getContextClassLoader());
+                    "default-stylesheet.xml", Thread.currentThread().getContextClassLoader());
 
-        }
-        catch (SerialException ex) {
+        } catch (SerialException ex) {
             throw new RuntimeException(ex);
         }
     }
     
+    private static GroovyScriptEngine groovyScriptEngine;
+
+    static {
+        try {
+            groovyScriptEngine = new GroovyScriptEngine(
+                    new URL[]{new URL(System.getProperty("groovy.script.url"))});
+        } catch (Exception e) {
+            throw new Error("Error initialsing groovy script engine", e);
+        }
+    }
+
     public Window init() {
         setStyleSheet(DEFAULT_STYLE_SHEET);
-        
+
         Window ret = new Window();
 
         ret.setTitle("Echo3 and Ext2.0 test application");
         ret.setContent(new ApplicationContentPane());
+
+        return ret;
+    }
+
+    /**
+     * Returns a new instance of the class defined in the specified
+     * groovy script.
+     * @param scriptName the groovy script name.
+     * @return a new instance of the class defined in the script.
+     */
+    public Object getGroovyObjectInstance(String scriptName) {
+        Object ret = null;
+        try {
+            Class clazz = groovyScriptEngine.loadScriptByName(scriptName);
+            ret = clazz.newInstance();
+        } catch (Exception e) {
+            throw new Error("Error creating groovy object instance for" +
+                    " script name: " + scriptName, e);
+        }
 
         return ret;
     }

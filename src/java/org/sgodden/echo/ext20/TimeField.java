@@ -77,7 +77,7 @@ public class TimeField
         String hours = String.valueOf(cal.get(Calendar.HOUR_OF_DAY));
         String mins = String.valueOf(cal.get(Calendar.MINUTE));
         
-        setProperty(TIME_CHANGED_PROPERTY, hours + ":" + mins);
+        setComponentProperty(TIME_CHANGED_PROPERTY, hours + ":" + mins);
     }
 
     /**
@@ -93,7 +93,7 @@ public class TimeField
      * @param fieldLabel the field label to be displayed in forms.
      */
     public void setFieldLabel(String fieldLabel) {
-        setProperty(FIELD_LABEL_PROPERTY, fieldLabel);
+        setComponentProperty(FIELD_LABEL_PROPERTY, fieldLabel);
     }
 
     /**
@@ -101,7 +101,7 @@ public class TimeField
      * @param blankAllowed whether a blank value is allowed.
      */
     public void setBlankAllowed(boolean blankAllowed) {
-        setProperty(ALLOW_BLANK_PROPERTY, blankAllowed);
+        setComponentProperty(ALLOW_BLANK_PROPERTY, blankAllowed);
     }
     
     /**
@@ -110,7 +110,7 @@ public class TimeField
      * the ext documentation for Date.parseDate.
      */
     private void setFormat(String format) { // private because we are not handling different formats properly yet
-        setProperty(TIME_FORMAT_PROPERTY, format);
+        setComponentProperty(TIME_FORMAT_PROPERTY, format);
     }
 
     @Override

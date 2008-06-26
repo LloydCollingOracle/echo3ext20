@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import groovy.util.GroovyScriptEngine;
+import javax.servlet.ServletException;
 import nextapp.echo.app.ApplicationInstance;
 import org.sgodden.echo.ext20.AbstractExtAppServlet;
 

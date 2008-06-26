@@ -69,7 +69,7 @@ public class ComboBox
      * @param displayField the name of the store field to display.
      */
     public void setDisplayField(String displayField) {
-        setProperty(DISPLAY_FIELD_PROPERTY, displayField);
+        setComponentProperty(DISPLAY_FIELD_PROPERTY, displayField);
     }
     
     /**
@@ -77,7 +77,7 @@ public class ComboBox
      * @param editable whether the combo box is editable.
      */
     public void setEditable(boolean editable) {
-        setProperty(EDITABLE_PROPERTY, editable);
+        setComponentProperty(EDITABLE_PROPERTY, editable);
     }
     
     /**
@@ -85,7 +85,7 @@ public class ComboBox
      * @param forceSelection whether a selection is mandatory.
      */
     public void setForceSelection(boolean forceSelection) {
-        setProperty(FORCE_SELECTION_PROPERTY, forceSelection);
+        setComponentProperty(FORCE_SELECTION_PROPERTY, forceSelection);
     }
     
     /**
@@ -93,7 +93,7 @@ public class ComboBox
      * @param store the store.
      */
     public void setStore(SimpleStore store) {
-        setProperty(STORE_PROPERTY, store);
+        setComponentProperty(STORE_PROPERTY, store);
     }
     
     /**
@@ -101,7 +101,7 @@ public class ComboBox
      * @param typeAhead whether type ahead should be enabled.
      */
     public void setTypeAhead(boolean typeAhead) {
-        setProperty(TYPE_AHEAD_PROPERTY, typeAhead);
+        setComponentProperty(TYPE_AHEAD_PROPERTY, typeAhead);
     }
     
     /**
@@ -111,7 +111,7 @@ public class ComboBox
      * the selected value. 
      */
     public void setValueField(String valueField) {
-        setProperty(VALUE_FIELD_PROPERTY, valueField);
+        setComponentProperty(VALUE_FIELD_PROPERTY, valueField);
     }
 
 }

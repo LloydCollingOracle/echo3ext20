@@ -162,8 +162,35 @@ public class Panel extends ExtComponent {
      */
     public Panel(Layout layout, String title) {
         super();
-        setProperty(LAYOUT_PROPERTY, layout);
+        setComponentProperty(LAYOUT_PROPERTY, layout);
         setTitle(title);
+    }
+
+    /**
+     * Constructor taking a map of configuration options,
+     * to be groovy-friendly.
+     */
+//    public Panel(Map<String, Object> options) {
+//        super();
+//        setOptions(options);
+//    }
+
+    /**
+     * Sets the options for the component as a map.
+     * @param options
+     */
+    public void setOptions(Map<String, Object> options) {
+        for (String key : options.keySet()) {
+            if (key.equals(PROPERTY_TITLE)) {
+                setTitle((String)options.get(key));
+            }
+            else if (key.equals(HTML_PROPERTY)) {
+                setHtml((String)options.get(key));
+            }
+            else {
+                throw new IllegalArgumentException("Unknown property: " + key);
+            }
+        }
     }
 
     /**
@@ -171,7 +198,7 @@ public class Panel extends ExtComponent {
      * @param title the title of the panel.
      */
     public void setTitle(String title) {
-        setProperty(PROPERTY_TITLE, title);
+        setComponentProperty(PROPERTY_TITLE, title);
     }
     
     /**
@@ -179,7 +206,7 @@ public class Panel extends ExtComponent {
      * @return the panel's title.
      */
     public String getTitle() {
-        return (String) getProperty(PROPERTY_TITLE);
+        return (String) getComponentProperty(PROPERTY_TITLE);
     }
 
     /**
@@ -187,7 +214,7 @@ public class Panel extends ExtComponent {
      * @param padding the padding of the overall panel, in CSS style.
      */
     public void setPadding(String padding) {
-        setProperty(PROPERTY_PADDING, padding);
+        setComponentProperty(PROPERTY_PADDING, padding);
     }
 
     /**
@@ -195,7 +222,7 @@ public class Panel extends ExtComponent {
      * @param padding the padding of the panel body, in CSS style.
      */
     public void setBodyPadding(String padding) {
-        setProperty(PROPERTY_BODY_PADDING, padding);
+        setComponentProperty(PROPERTY_BODY_PADDING, padding);
     }
 
     /**
@@ -203,7 +230,7 @@ public class Panel extends ExtComponent {
      * @param border whether the panel's border should be shown.
      */
     public void setBorder(Boolean border) {
-        setProperty(PROPERTY_BORDER, border);
+        setComponentProperty(PROPERTY_BORDER, border);
     }
 
     /**
@@ -211,7 +238,7 @@ public class Panel extends ExtComponent {
      * @param color the background color of the panel body.
      */
     public void setBodyBackground(Color color) {
-        setProperty(PROPERTY_BODY_BACKGROUND, color);
+        setComponentProperty(PROPERTY_BODY_BACKGROUND, color);
     }
 
     /**
@@ -227,7 +254,7 @@ public class Panel extends ExtComponent {
      * @param pixels the height of the panel in pixels.
      */
     public void setHeight(int pixels) {
-        setProperty(PROPERTY_HEIGHT, pixels);
+        setComponentProperty(PROPERTY_HEIGHT, pixels);
     }
     
     /**
@@ -237,7 +264,7 @@ public class Panel extends ExtComponent {
      * @param html the HTML to show as the panel's contents.
      */
     public void setHtml(String html) {
-        setProperty(HTML_PROPERTY, html);
+        setComponentProperty(HTML_PROPERTY, html);
     }
     
     /**
@@ -245,7 +272,7 @@ public class Panel extends ExtComponent {
      * @param pixels the width of the panel in pixels.
      */
     public void setWidth(int pixels) {
-        setProperty(PROPERTY_WIDTH, pixels);
+        setComponentProperty(PROPERTY_WIDTH, pixels);
     }
     
     /**
@@ -256,7 +283,7 @@ public class Panel extends ExtComponent {
      * @param autoScroll whether to scroll the contents of the panel.
      */
     public void setAutoScroll(boolean autoScroll) {
-        setProperty(PROPERTY_AUTOSCROLL, autoScroll);
+        setComponentProperty(PROPERTY_AUTOSCROLL, autoScroll);
     }
     
     /**
@@ -264,7 +291,7 @@ public class Panel extends ExtComponent {
      * @param collapsible whether the panel should be collapsible.
      */
     public void setCollapsible(boolean collapsible) {
-        setProperty(COLLAPSIBLE_PROPERTY, collapsible);
+        setComponentProperty(COLLAPSIBLE_PROPERTY, collapsible);
     }
     
     /**
@@ -272,7 +299,7 @@ public class Panel extends ExtComponent {
      * @return the layout in use by this panel.
      */
     public Layout getLayout() {
-        return (Layout) getProperty(LAYOUT_PROPERTY);
+        return (Layout) getComponentProperty(LAYOUT_PROPERTY);
     }
     
     /**
@@ -280,7 +307,7 @@ public class Panel extends ExtComponent {
      * @param layout the layout to use in the panel.
      */
     public void setLayout(Layout layout) {
-    	setProperty(LAYOUT_PROPERTY, layout);
+    	setComponentProperty(LAYOUT_PROPERTY, layout);
     }
     
     /**
@@ -289,7 +316,7 @@ public class Panel extends ExtComponent {
      * @param transparent whether the panel body's background should be transparent.
      */
     public void setBodyTransparent(boolean transparent) {
-    	setProperty(PROPERTY_BODY_TRANSPARENT, transparent);
+    	setComponentProperty(PROPERTY_BODY_TRANSPARENT, transparent);
     }
     
     /**
@@ -394,7 +421,7 @@ public class Panel extends ExtComponent {
     		}
     		sb.append(theTool.toString().toLowerCase());
     	}
-    	setProperty(TOOL_IDS_PROPERTY, sb.toString());
+    	setComponentProperty(TOOL_IDS_PROPERTY, sb.toString());
     	firePropertyChange(TOOLCLICK_LISTENERS_CHANGED_PROPERTY, null, listener);
     }
     
@@ -483,7 +510,7 @@ public class Panel extends ExtComponent {
             sb.append(keyPress);
         }
         
-        setProperty(REGISTERED_KEY_PRESSES_PROPERTY, sb.toString());
+        setComponentProperty(REGISTERED_KEY_PRESSES_PROPERTY, sb.toString());
     }
 
     private void fireKeyEvent() {
@@ -512,6 +539,17 @@ public class Panel extends ExtComponent {
      */
     public boolean hasToolListeners() {
     	return (toolListeners != null && toolListeners.size() > 0);
+    }
+    
+    /**
+     * Sets the buttons for the button bar.  Note that this does NOT remove
+     * any existing buttons.
+     * @param buttons the buttons to add.
+     */
+    public void setButtons(Button[] buttons) {
+        for (Button button : buttons) {
+            addButton(button);
+        }
     }
 
     /**

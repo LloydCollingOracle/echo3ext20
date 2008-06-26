@@ -1,4 +1,4 @@
-/* =================================================================
+/* =================================================================0
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
@@ -72,7 +72,7 @@ public class TextField
      * @param value the value of the field.
      */
     public void setValue(String value) {
-        setProperty(VALUE_CHANGED_PROPERTY, value);
+        setComponentProperty(VALUE_CHANGED_PROPERTY, value);
     }
 
     /**
@@ -80,7 +80,7 @@ public class TextField
      * @return the value of the field.
      */
     public String getValue() {
-        return (String) getProperty(VALUE_CHANGED_PROPERTY);
+        return (String) getComponentProperty(VALUE_CHANGED_PROPERTY);
     }
 
     /**
@@ -88,7 +88,7 @@ public class TextField
      * @param fieldLabel the field label to be used in forms.
      */
     public void setFieldLabel(String fieldLabel) {
-        setProperty(FIELD_LABEL_PROPERTY, fieldLabel);
+        setComponentProperty(FIELD_LABEL_PROPERTY, fieldLabel);
     }
 
     /**
@@ -96,7 +96,7 @@ public class TextField
      * @param blankAllowed whether a blank value is allowed.
      */
     public void setBlankAllowed(boolean blankAllowed) {
-        setProperty(ALLOW_BLANK_PROPERTY, blankAllowed);
+        setComponentProperty(ALLOW_BLANK_PROPERTY, blankAllowed);
     }
 
     /**
@@ -104,7 +104,7 @@ public class TextField
      * @param emptyText text to be displayed when the user has entered no text themselves.
      */
     public void setEmptyText(String emptyText) {
-        setProperty(EMPTY_TEXT_PROEPRTY, emptyText);
+        setComponentProperty(EMPTY_TEXT_PROEPRTY, emptyText);
     }
 
     /**
@@ -112,7 +112,7 @@ public class TextField
      * @param isValid whether the field value is valid.
      */
     public void setIsValid(boolean isValid) {
-        setProperty(VALID_PROPERTY, isValid);
+        setComponentProperty(VALID_PROPERTY, isValid);
     }
 
     /**
@@ -120,7 +120,7 @@ public class TextField
      * @param invalidText the invalid text.
      */
     public void setInvalidText(String invalidText) {
-        setProperty(INVALID_TEXT_PROPERTY, invalidText);
+        setComponentProperty(INVALID_TEXT_PROPERTY, invalidText);
     }
 
     /**
@@ -128,7 +128,7 @@ public class TextField
      * @param RegExp the regular expression.
      */
     public void setRegExp(String regExp) {
-        setProperty(REGEXP_PROPERTY, regExp);
+        setComponentProperty(REGEXP_PROPERTY, regExp);
     }
 
     /**
@@ -136,7 +136,7 @@ public class TextField
      * @param The failure text.
      */
     public void setRegexpFailureText(String regExpFailureText) {
-        setProperty(REGEXP_FAILURETEXT_PROPERTY, regExpFailureText);
+        setComponentProperty(REGEXP_FAILURETEXT_PROPERTY, regExpFailureText);
     }
 
     @Override

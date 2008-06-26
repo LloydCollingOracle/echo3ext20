@@ -100,7 +100,7 @@
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>src/java</package-root>
-                <classpath mode="compile">lib/commons-logging-1.0.4.jar;lib/jetty-6.1.1.jar;lib/jetty-util-6.1.1.jar;lib/jsontools-core-1.5.jar;src/webapp/WEB-INF/lib/Echo3_App.jar;src/webapp/WEB-INF/lib/Echo3_WebContainer.jar;lib/servlet-api.jar;lib/log4j-1.2.13.jar</classpath>
+                <classpath mode="compile">lib/commons-logging-1.0.4.jar:lib/jetty-6.1.1.jar:lib/jetty-util-6.1.1.jar:lib/jsontools-core-1.5.jar:lib/servlet-api.jar:lib/log4j-1.2.13.jar:lib/groovy-all-1.5.6.jar:src/webapp/WEB-INF/lib/Echo3_App.jar:src/webapp/WEB-INF/lib/Echo3_WebContainer.jar</classpath>
                 <built-to>bin</built-to>
                 <source-level>1.5</source-level>
             </compilation-unit>

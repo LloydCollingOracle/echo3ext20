@@ -114,7 +114,7 @@ public class GridPanel
      * @param columnModel the column model for the table.
      */
     public void setColumnModel(ColumnModel columnModel) {
-        setProperty(COLUMN_MODEL_PROPERTY, columnModel);
+        setComponentProperty(COLUMN_MODEL_PROPERTY, columnModel);
     }
     
     /**
@@ -122,7 +122,7 @@ public class GridPanel
      * @return the column model for the table.
      */
     public ColumnModel getColumnModel() {
-        return ((ColumnModel)getProperty(COLUMN_MODEL_PROPERTY));
+        return ((ColumnModel)getComponentProperty(COLUMN_MODEL_PROPERTY));
     }
     
     /**
@@ -157,7 +157,7 @@ public class GridPanel
      * @return the action command
      */
     public String getActionCommand() {
-        return (String) getProperty(ACTION_COMMAND_PROPERTY);
+        return (String) getComponentProperty(ACTION_COMMAND_PROPERTY);
     }
 
     /**
@@ -267,7 +267,7 @@ public class GridPanel
      * @param groupField the name of the column by which to group.
      */
     public void setGroupField(String groupField) {
-        setProperty(GROUP_FIELD_PROPERTY, groupField);
+        setComponentProperty(GROUP_FIELD_PROPERTY, groupField);
     }
 
     /**
@@ -293,7 +293,7 @@ public class GridPanel
      * @param sortField the name of the field to sort by.
      */
     public void setSortField(String sortField) {
-        setProperty(SORT_FIELD_PROPERTY, sortField);
+        setComponentProperty(SORT_FIELD_PROPERTY, sortField);
     }
 
     /**
@@ -301,7 +301,7 @@ public class GridPanel
      * @return the name of the field by which the data should be sorted.
      */
     public String getSortField() {
-        return (String) getProperty(SORT_FIELD_PROPERTY);
+        return (String) getComponentProperty(SORT_FIELD_PROPERTY);
     }
     
     /**
@@ -312,10 +312,10 @@ public class GridPanel
     public void setSortOrder(SortOrder sortOrder) {
         switch (sortOrder) {
             case ASCENDING:
-                setProperty(SORT_ORDER_PROPERTY, "ASC");
+                setComponentProperty(SORT_ORDER_PROPERTY, "ASC");
                 break;
             case DESCENDING:
-                setProperty(SORT_ORDER_PROPERTY, "DESC");
+                setComponentProperty(SORT_ORDER_PROPERTY, "DESC");
                 break;
             default:
                 throw new Error("Invalid sort order: " + sortOrder);
@@ -330,7 +330,7 @@ public class GridPanel
     public SortOrder getSortOrder() {
         SortOrder ret = null;
         
-        String sortString = (String) getProperty(SORT_ORDER_PROPERTY);
+        String sortString = (String) getComponentProperty(SORT_ORDER_PROPERTY);
         if ("ASC".equals(sortString)) {
             ret = SortOrder.ASCENDING;
         }

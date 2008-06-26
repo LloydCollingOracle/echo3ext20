@@ -53,7 +53,7 @@ public class HtmlEditor
 	 * @param text the html content.
 	 */
 	public void setText(String text) {
-		setProperty(TEXT_CHANGED_PROPERTY, text);
+		setComponentProperty(TEXT_CHANGED_PROPERTY, text);
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class HtmlEditor
 	 * @return the HTML content.
 	 */
 	public String getText() {
-		return (String) getProperty(TEXT_CHANGED_PROPERTY);
+		return (String) getComponentProperty(TEXT_CHANGED_PROPERTY);
 	}
 
 	@Override

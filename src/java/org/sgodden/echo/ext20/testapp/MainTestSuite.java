@@ -1,5 +1,6 @@
 package org.sgodden.echo.ext20.testapp;
 
+
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TabbedPane;
 
@@ -11,11 +12,11 @@ import org.sgodden.echo.ext20.TabbedPane;
  */
 @SuppressWarnings("serial")
 public class MainTestSuite extends TabbedPane {
-    
+
     public MainTestSuite() {
         super();
         setRenderId("mainTabs");
-        
+
         Panel welcomePanel = new Panel();
         welcomePanel.setPadding("5px");
         welcomePanel.setHtml("<h1><u>Welcome to the Echo3 / Ext20 test application</u></h1>" +
@@ -32,7 +33,6 @@ public class MainTestSuite extends TabbedPane {
         add(new TabbedPaneTest());
         add(new LayoutTest());
         add(new StylesheetTest());
-
+        add(new GroovyTest());
     }
-
 }

@@ -17,8 +17,6 @@
 package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
-import java.util.HashMap;
-import java.util.Map;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;

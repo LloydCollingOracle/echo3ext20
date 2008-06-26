@@ -41,7 +41,7 @@ public class PortalColumn
      * @param padding the CSS padding of the column.
      */
     public void setPadding(String padding) {
-    	setProperty(PROPERTY_PADDING, padding);
+    	setComponentProperty(PROPERTY_PADDING, padding);
     }
 
 }

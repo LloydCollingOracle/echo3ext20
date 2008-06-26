@@ -126,7 +126,7 @@ public class Window
      * @param modal whether the window is modal.
      */
     public void setModal(boolean modal) {
-        setProperty(MODAL_PROPERTY, modal);
+        setComponentProperty(MODAL_PROPERTY, modal);
     }
     
     /**
@@ -134,7 +134,7 @@ public class Window
      * @param closable whether the window is closable.
      */
     public void setClosable(boolean closable) {
-    	setProperty(CLOSABLE_PROPERTY, closable);
+    	setComponentProperty(CLOSABLE_PROPERTY, closable);
     }
     
     /**

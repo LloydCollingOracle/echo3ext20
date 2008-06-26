@@ -73,7 +73,7 @@ public abstract class AbstractButton
      * @param text the text.
      */
     public void setText(String text) {
-        setProperty(TEXT_PROPERTY, text);
+        setComponentProperty(TEXT_PROPERTY, text);
     }
     
     /**
@@ -85,7 +85,7 @@ public abstract class AbstractButton
      * @param iconUrl the url of the icon for the button.
      */
     public void setIconUrl(String iconUrl) {
-        setProperty(ICON_URL_PROPERTY, iconUrl);
+        setComponentProperty(ICON_URL_PROPERTY, iconUrl);
     }
     
     /**
@@ -94,7 +94,7 @@ public abstract class AbstractButton
      * @param iconClass the css style to provide the icon for the button.
      */
     public void setIconClass(String iconClass) {
-    	setProperty(ICON_CLASS_PROPERTY, iconClass);
+    	setComponentProperty(ICON_CLASS_PROPERTY, iconClass);
     }
     
     /**
@@ -102,7 +102,7 @@ public abstract class AbstractButton
      * @param tooltip
      */
     public void setTooltip(String tooltip) {
-    	setProperty(TOOLTIP_TEXT_PROPERTY, tooltip);
+    	setComponentProperty(TOOLTIP_TEXT_PROPERTY, tooltip);
     }
     
     /**
@@ -127,6 +127,21 @@ public abstract class AbstractButton
         // Notification of action listener changes is provided due to 
         // existence of hasActionListeners() method. 
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
+
+    /**
+     * Removes the specified action listener.
+     * @param l the listener to remove.
+     */
+    public void removeActionListener(ActionListener l) {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        getEventListenerList().removeListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to 
+        // existence of hasActionListeners() method. 
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+
     }
     
     

@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.event.ActionListener;
+
 /**
  * An ext button.
  * 
@@ -69,7 +71,7 @@ public class Button
      * @param addToButtonBar whether to add this button to the button bar rather than the main panel body.
      */
     void setAddToButtonBar(boolean addToButtonBar) {
-        setProperty(ADD_TO_BUTTON_BAR_PROPERTY, addToButtonBar);
+        setComponentProperty(ADD_TO_BUTTON_BAR_PROPERTY, addToButtonBar);
     }
     
     /**
@@ -77,7 +79,7 @@ public class Button
      * @return whether this button is added to the button bar rather than the main panel body.
      */
     boolean isAddToButtonBar() {
-        return (Boolean) getProperty(ADD_TO_BUTTON_BAR_PROPERTY);
+        return (Boolean) getComponentProperty(ADD_TO_BUTTON_BAR_PROPERTY);
     }
     
     /**
@@ -93,4 +95,12 @@ public class Button
         
         this.menu = menu;
     }
+    
+//    public void addActionListener(ActionListener l) {
+//        
+//    }
+//    
+//    public void removeActionListener(ActionListener l) {
+//        
+//    }
 }

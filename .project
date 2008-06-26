@@ -3,6 +3,7 @@
 	<name>echo3ext20</name>
 	<comment></comment>
 	<projects>
+		<project>echo3</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -10,8 +11,14 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.codehaus.groovy.eclipse.groovyBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.codehaus.groovy.eclipse.groovyNature</nature>
 	</natures>
 </projectDescription>
