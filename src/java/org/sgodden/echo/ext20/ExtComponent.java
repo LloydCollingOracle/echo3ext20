@@ -38,9 +38,6 @@ public abstract class ExtComponent
     
     public static final String INPUT_BEFORE_RENDER_PROPERTY = "beforeRender";
     public static final String BEFORE_RENDER_LISTENERS_CHANGED_PROPERTY = "beforeRenderListeners";
-    
-    private static final String CSS_STYLES_PROPERTY = "cssStyles";
-
     private Component alignToOtherComponent;
     private Alignment sourceAlignment;
     private Alignment targetAlignment;
@@ -191,20 +188,5 @@ public abstract class ExtComponent
             }
             ((BeforeRenderListener) listeners[i]).actionPerformed(e);
         }
-    }
-    
-    /**
-     * Sets the specified css property to the specified value.
-     * @param propertyName the css property name.
-     * @param value the css property value.
-     */
-    public void setCssStyle(String propertyName, String value) {
-        Map cssStyleMap = (Map) getProperty(CSS_STYLES_PROPERTY);
-        if (cssStyleMap == null) {
-            cssStyleMap = new HashMap ();
-            setProperty(CSS_STYLES_PROPERTY, cssStyleMap);
-        }
-        cssStyleMap.put(propertyName, value);
-    }
-    
+    }   
 }

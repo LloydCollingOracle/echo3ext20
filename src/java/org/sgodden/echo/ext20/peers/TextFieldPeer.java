@@ -38,6 +38,8 @@ public class TextFieldPeer
 
     public TextFieldPeer() {
         super();
+        addOutputProperty(TextField.VALID_PROPERTY);
+        addOutputProperty(TextField.INVALID_TEXT_PROPERTY);
     }
 
     public Class getComponentClass() {

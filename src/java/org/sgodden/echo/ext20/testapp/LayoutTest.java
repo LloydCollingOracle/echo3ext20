@@ -7,7 +7,6 @@ import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.sgodden.echo.ext20.layout.FitLayout;
-import org.sgodden.echo.ext20.testapp.layout.AbsoluteLayoutTest;
 import org.sgodden.echo.ext20.testapp.layout.ColumnLayoutTest;
 import org.sgodden.echo.ext20.testapp.layout.TableLayoutTest;
 
@@ -42,7 +41,6 @@ public class LayoutTest
 		
 		tabs.add(new AccordionLayoutTest());
 		tabs.add(new ColumnLayoutTest());
-		tabs.add(new AbsoluteLayoutTest());
 		tabs.add(new TableLayoutTest());
 		
 	}

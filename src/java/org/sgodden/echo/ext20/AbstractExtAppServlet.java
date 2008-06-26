@@ -74,6 +74,7 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.HtmlEditor.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Menu.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.MenuItem.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.PasswordField.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Portal.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.PortalColumn.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Portlet.js");

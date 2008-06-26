@@ -27,7 +27,7 @@ public class ColumnLayoutTest
         add(right);
         
         right.setLayoutData(new ColumnLayoutData(.5));
-        right.setCssStyle("textAlign", "right");
+        //right.setCssStyle("textAlign", "right");
         right.add(new Label("Right-hand side (right-aligned)"));
     }
     

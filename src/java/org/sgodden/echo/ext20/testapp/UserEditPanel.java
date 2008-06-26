@@ -33,6 +33,7 @@ import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.DateField;
 import org.sgodden.echo.ext20.FieldSet;
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.PasswordField;
 import org.sgodden.echo.ext20.RadioButton;
 import org.sgodden.echo.ext20.TextArea;
 import org.sgodden.echo.ext20.TextField;
@@ -86,6 +87,15 @@ public class UserEditPanel
         postcodeField.setRegExp("^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$");
         postcodeField.setRegexpFailureText("Invalid Postcode");
         add(postcodeField);
+        
+        final TextField invalidField = new TextField();
+        invalidField.setFieldLabel("Invalid Field");
+        invalidField.setValue("Is this field is invalid for businnes reasons?");
+        add(invalidField);
+        
+        PasswordField passwordField = new PasswordField();
+        passwordField.setFieldLabel("Password Field");
+        add(passwordField);
         
         Calendar cal = Calendar.getInstance(
                 ApplicationInstance.getActive().getLocale());
@@ -155,7 +165,11 @@ public class UserEditPanel
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	log.info(roleCombo.getValue());
-            	if (!(dateField.isClientInputValid())) {
+                if(invalidField.getValue().length()>10){
+                    invalidField.setIsValid(false);
+                    invalidField.setInvalidText("Value cannot exceed 10 characters");
+                    
+                } else if (!(dateField.isClientInputValid())) {
             		Window window = new Window("Correct form errors");
             		window.setModal(true);
             		window.setHtml("Please correct the form errors");

@@ -33,15 +33,18 @@ public class TextField
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
     public static final String EMPTY_TEXT_PROEPRTY = "emptyText";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
+    public static final String INVALID_TEXT_PROPERTY = "invalidText";
     public static final String REGEXP_FAILURETEXT_PROPERTY = "regExpFailureText";
     public static final String REGEXP_PROPERTY = "regExp";
     public static final String VALUE_CHANGED_PROPERTY = "value";
+    public static final String VALID_PROPERTY = "isValid";
 
     /**
      * Creates a new empty text field.
      */
     public TextField() {
         super();
+        setIsValid(true);
     }
 
     /**
@@ -59,6 +62,7 @@ public class TextField
      * @param fieldLabel the field label to display in forms.
      */
     public TextField(String text, String fieldLabel) {
+        this();
         setValue(text);
         setFieldLabel(fieldLabel);
     }
@@ -78,7 +82,7 @@ public class TextField
     public String getValue() {
         return (String) getProperty(VALUE_CHANGED_PROPERTY);
     }
-    
+
     /**
      * Sets the field label to be used in forms.
      * @param fieldLabel the field label to be used in forms.
@@ -94,7 +98,7 @@ public class TextField
     public void setBlankAllowed(boolean blankAllowed) {
         setProperty(ALLOW_BLANK_PROPERTY, blankAllowed);
     }
-    
+
     /**
      * Sets text to be displayed when the user has entered no text themselves.
      * @param emptyText text to be displayed when the user has entered no text themselves.
@@ -102,7 +106,23 @@ public class TextField
     public void setEmptyText(String emptyText) {
         setProperty(EMPTY_TEXT_PROEPRTY, emptyText);
     }
-    
+
+    /**
+     * Sets whether the field value is valid.
+     * @param isValid whether the field value is valid.
+     */
+    public void setIsValid(boolean isValid) {
+        setProperty(VALID_PROPERTY, isValid);
+    }
+
+    /**
+     * Sets the invalid text property.
+     * @param invalidText the invalid text.
+     */
+    public void setInvalidText(String invalidText) {
+        setProperty(INVALID_TEXT_PROPERTY, invalidText);
+    }
+
     /**
      * Sets a regular expression to be used to validate the value.
      * @param RegExp the regular expression.
@@ -110,12 +130,12 @@ public class TextField
     public void setRegExp(String regExp) {
         setProperty(REGEXP_PROPERTY, regExp);
     }
-    
+
     /**
      * Sets the failure text for a regular expression failure.
      * @param The failure text.
      */
-    public void setRegexpFailureText(String regExpFailureText){
+    public void setRegexpFailureText(String regExpFailureText) {
         setProperty(REGEXP_FAILURETEXT_PROPERTY, regExpFailureText);
     }
 
