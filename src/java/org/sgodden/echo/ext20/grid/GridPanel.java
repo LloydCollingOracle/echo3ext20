@@ -87,16 +87,23 @@ public class GridPanel
     private TableModel tableModel;
     private ListSelectionModel selectionModel;
     private boolean suppressChangeNotifications;
+
+    /**
+     * Constructs a new grid panel.
+     */
+    public GridPanel() {
+        super();
+        setBorder(true);
+        setSelectionModel(new DefaultListSelectionModel());
+    }
     
     /**
      * Constructs a new grid panel.
      * @param columnModel the column model.
      */
     public GridPanel(ColumnModel columnModel) {
-    	super();
-    	setBorder(true);
+    	this();
         setColumnModel(columnModel);
-        setSelectionModel(new DefaultListSelectionModel());
     }
 
     /**
