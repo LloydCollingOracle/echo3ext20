@@ -18,6 +18,7 @@ package org.sgodden.echo.ext20.peers;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.util.Context;
+import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
@@ -37,6 +38,13 @@ public class ComboBoxPeer
 
     public ComboBoxPeer() {
         super();
+
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(ComboBox.INPUT_ACTION, ComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
+            @Override
+            public boolean hasListeners(Context context, Component component) {
+                return ((ComboBox) component).hasActionListeners();
+            }
+        });
     }
 
     @Override

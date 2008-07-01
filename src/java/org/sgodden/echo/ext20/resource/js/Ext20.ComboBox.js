@@ -26,7 +26,13 @@ EchoExt20.ComboBox = Core.extend(EchoExt20.ExtComponent, {
 
     focusable: true,
 
-    componentType: "Ext20ComboBox"
+    componentType: "Ext20ComboBox",
+
+    $virtual: {
+        doAction: function() {
+            this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+        }
+    }
 });
 
 /**
@@ -87,6 +93,12 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             this
         );
 
+        ret.on(
+            "select",
+            this._handleClickEvent,
+            this
+        );
+
         return ret;
     },
     
@@ -96,6 +108,14 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
      */
     newExtComponentInstance: function(options) {
         return new Ext.form.ComboBox(options);
+    },
+
+    /**
+     * Handles the click event by requestint the component to fire
+     * its action event.
+     */
+    _handleClickEvent: function() {
+    	this.component.doAction();
     }
 
 });

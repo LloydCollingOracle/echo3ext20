@@ -2,10 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.sgodden.echo.ext20;
 
+import java.util.EventListener;
+import nextapp.echo.app.event.ActionEvent;
 import org.sgodden.echo.ext20.data.SimpleStore;
+import nextapp.echo.app.event.ActionListener;
 
 /**
  * A combo box control with support for autocomplete.
@@ -17,9 +19,9 @@ data[0] = new String[]{"admin", "Administrator"}; // id, description
 data[1] = new String[]{"user", "User"};
 
 SimpleStore store = new SimpleStore(
-  data,
-  0,
-  new String[]{"id", "description"});
+data,
+0,
+new String[]{"id", "description"});
 
 ComboBox combo = new ComboBox(store);
 combo.setFieldLabel("Role");
@@ -35,12 +37,14 @@ add(combo);
  * @author sgodden
  */
 @SuppressWarnings({"serial"})
-public class ComboBox 
+public class ComboBox
         extends TextField {
-    
+
+    public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String DISPLAY_FIELD_PROPERTY = "displayField";
     public static final String EDITABLE_PROPERTY = "editable";
     public static final String FORCE_SELECTION_PROPERTY = "forceSelection";
+    public static final String INPUT_ACTION = "action";
     public static final String STORE_PROPERTY = "store";
     public static final String TYPE_AHEAD_PROPERTY = "typeAhead";
     public static final String VALUE_FIELD_PROPERTY = "valueField";
@@ -53,7 +57,7 @@ public class ComboBox
         super();
         setStore(store);
     }
-    
+
     /**
      * Creates a new combo box.
      * @param store the store from which to populate the entries.
@@ -62,7 +66,74 @@ public class ComboBox
     public ComboBox(SimpleStore store, String fieldLabel) {
         this(store);
     }
-    
+
+    /**
+     * Handles the process input event and fires any action events.
+     * @param inputName the inputName of the event.
+     * @param inputValue the associated value (irrelevant for ComboBox).
+     */
+    @Override
+    public void processInput(String inputName, Object inputValue) {
+        super.processInput(inputName, inputValue);
+        if (INPUT_ACTION.equals(inputName)) {
+            fireActionEvent();
+        }
+    }
+
+    /**
+     * Returns whether any <code>ActionListener</code>s are registered.
+     *
+     * @return true if any action listeners are registered
+     */
+    public boolean hasActionListeners() {
+        return getEventListenerList().getListenerCount(ActionListener.class) != 0;
+    }
+
+    /**
+     * Adds an <code>ActionListener</code> to the button.
+     * <code>ActionListener</code>s will be invoked when the combo box is selected.
+     *
+     * @param l the <code>ActionListener</code> to add
+     */
+    public void addActionListener(ActionListener l) {
+        getEventListenerList().addListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
+
+    /**
+     * Removes the specified action listener.
+     * @param l the listener to remove.
+     */
+    public void removeActionListener(ActionListener l) {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        getEventListenerList().removeListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+
+    }
+
+    /**
+     * Fires an action event to all listeners.
+     */
+    private void fireActionEvent() {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        EventListener[] listeners = getEventListenerList().getListeners(ActionListener.class);
+        ActionEvent e = null;
+        for (int i = 0; i < listeners.length; ++i) {
+            if (e == null) {
+                e = new ActionEvent(this, null);
+            }
+            ((ActionListener) listeners[i]).actionPerformed(e);
+        }
+    }
+
     /**
      * Sets the name of the field in the simple store whose
      * data should be displayed in the drop-down list.
@@ -71,7 +142,7 @@ public class ComboBox
     public void setDisplayField(String displayField) {
         setComponentProperty(DISPLAY_FIELD_PROPERTY, displayField);
     }
-    
+
     /**
      * Sets whether the combo box is editable.
      * @param editable whether the combo box is editable.
@@ -79,7 +150,7 @@ public class ComboBox
     public void setEditable(boolean editable) {
         setComponentProperty(EDITABLE_PROPERTY, editable);
     }
-    
+
     /**
      * Sets whether it is mandatory to select one of the entries.
      * @param forceSelection whether a selection is mandatory.
@@ -87,7 +158,7 @@ public class ComboBox
     public void setForceSelection(boolean forceSelection) {
         setComponentProperty(FORCE_SELECTION_PROPERTY, forceSelection);
     }
-    
+
     /**
      * Sets the store from which to populate the entries.
      * @param store the store.
@@ -95,7 +166,7 @@ public class ComboBox
     public void setStore(SimpleStore store) {
         setComponentProperty(STORE_PROPERTY, store);
     }
-    
+
     /**
      * Sets whether type ahead should be enabled (defaults to true).
      * @param typeAhead whether type ahead should be enabled.
@@ -103,7 +174,7 @@ public class ComboBox
     public void setTypeAhead(boolean typeAhead) {
         setComponentProperty(TYPE_AHEAD_PROPERTY, typeAhead);
     }
-    
+
     /**
      * Sets the name of the field from the store which should be returned as 
      * the selected value.
@@ -113,5 +184,4 @@ public class ComboBox
     public void setValueField(String valueField) {
         setComponentProperty(VALUE_FIELD_PROPERTY, valueField);
     }
-
 }

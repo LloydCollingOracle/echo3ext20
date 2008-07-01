@@ -51,24 +51,23 @@ import org.sgodden.echo.ext20.layout.FormLayout;
  * @author sgodden
  */
 @SuppressWarnings({"serial"})
-public class UserEditPanel 
+public class UserEditPanel
         extends Panel {
-    
+
     private static final transient Log log = LogFactory.getLog(UserEditPanel.class);
-    
     private Button cancelButton;
     private Button saveButton;
     private List<ActionListener> saveListeners = new ArrayList<ActionListener>();
-    
-    public UserEditPanel(Object[] data){
+
+    public UserEditPanel(Object[] data) {
         super(new FormLayout());
         setRenderId("userFormPanel");
         setTitle("Edit user");
-        
+
         setBodyPadding("5px");
         setBorder(true);
 
-        final TextField codeField = new TextField((String)data[0], "Code");
+        final TextField codeField = new TextField((String) data[0], "Code");
         codeField.setBlankAllowed(false);
         add(codeField);
 //        codeField.setFocusTraversalIndex(0);
@@ -76,27 +75,27 @@ public class UserEditPanel
 //        
 //        ApplicationInstance.getActive().setFocusedComponent(codeField);
 
-        final TextField nameField = new TextField((String)data[1], "Name");
+        final TextField nameField = new TextField((String) data[1], "Name");
         nameField.setBlankAllowed(false);
         add(nameField);
 //        nameField.setFocusTraversalIndex(1);
 //        nameField.setFocusTraversalParticipant(true);
-        
+
         TextField postcodeField = new TextField();
         postcodeField.setFieldLabel("Post code");
         postcodeField.setRegExp("^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$");
         postcodeField.setRegexpFailureText("Invalid Postcode");
         add(postcodeField);
-        
+
         final TextField invalidField = new TextField();
         invalidField.setFieldLabel("Invalid Field");
         invalidField.setValue("Is this field is invalid for businnes reasons?");
         add(invalidField);
-        
+
         PasswordField passwordField = new PasswordField();
         passwordField.setFieldLabel("Password Field");
         add(passwordField);
-        
+
         Calendar cal = Calendar.getInstance(
                 ApplicationInstance.getActive().getLocale());
 
@@ -107,7 +106,7 @@ public class UserEditPanel
         final TimeField timeField = new TimeField(cal, "Time");
         timeField.setBlankAllowed(false);
         add(timeField);
-        
+
         TextArea textArea = new TextArea("Some text in a text area", "Notes");
         add(textArea);
 
@@ -116,82 +115,85 @@ public class UserEditPanel
         fieldSet.setTitle("A field set");
         fieldSet.setCheckboxToggle(true);
         add(fieldSet);
-        
+
         final CheckboxField enabledField = new CheckboxField(true, "Enabled");
         fieldSet.add(enabledField);
-        
-        enabledField.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				String text = "You " +
-					(enabledField.getSelected() ? "selected" : "unselected") +
-					" the check box";
-				Window window = new Window(text);
-				window.setPadding("5px");
-				window.setHeight(100);
-				window.setWidth(200);
-				window.setHtml(text);
-				window.setModal(true);
-				add(window);
-			}
-		});
-        
+
+        enabledField.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent arg0) {
+                String text = "You " +
+                        (enabledField.getSelected() ? "selected" : "unselected") +
+                        " the check box";
+                Window window = new Window(text);
+                window.setPadding("5px");
+                window.setHeight(100);
+                window.setWidth(200);
+                window.setHtml(text);
+                window.setModal(true);
+                add(window);
+            }
+        });
+
         final RadioButton userRoleButton = new RadioButton(true, "User");
         userRoleButton.setName("role");
         fieldSet.add(userRoleButton);
-        
+
         final RadioButton adminRoleButton = new RadioButton(false, "Admin");
         adminRoleButton.setName("role");
         fieldSet.add(adminRoleButton);
-        
+
         SimpleStore roleStore = makeRoleStore();
         final ComboBox roleCombo = makeRoleCombo(roleStore);
         fieldSet.add(roleCombo);
         
-//        HtmlEditor editor = new HtmlEditor();
-//        userEditPanel.add(editor);
+                //        HtmlEditor editor = new HtmlEditor();
+                //        userEditPanel.add(editor);
 
         cancelButton = new Button("Cancel");
         cancelButton.setRenderId("cancelButton");
         addButton(cancelButton);
-        
+
         addKeyPressListener("esc", new ActionListener() {
+
             public void actionPerformed(ActionEvent arg0) {
                 cancelButton.doClick();
             }
         });
-        
+
         saveButton = new Button("Save");
         addButton(saveButton);
         saveButton.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
-            	log.info(roleCombo.getValue());
-                if(invalidField.getValue().length()>10){
+                log.info(roleCombo.getValue());
+                if (invalidField.getValue().length() > 10) {
                     invalidField.setIsValid(false);
                     invalidField.setInvalidText("Value cannot exceed 10 characters");
-                    
+
                 } else if (!(dateField.isClientInputValid())) {
-            		Window window = new Window("Correct form errors");
-            		window.setModal(true);
-            		window.setHtml("Please correct the form errors");
-            		window.setHeight(100);
-            		window.setWidth(200);
-            		window.setPadding("5px");
-            		add(window);
-            	} else {
-	                // print out field values to make sure they have transferred correctly
-	                log.info("Save button pressed:");
-	                log.info("  codeField: " + codeField.getValue());
-	                log.info("  nameField: " + nameField.getValue());
-	                log.info("  calendar: " + dateField.getCalendar());
-	                log.info("  enabled: " + enabledField.getSelected());
-	                
-	                for (ActionListener listener : saveListeners) {
-	                	listener.actionPerformed(e);
-	                }
-            	}
+                    Window window = new Window("Correct form errors");
+                    window.setModal(true);
+                    window.setHtml("Please correct the form errors");
+                    window.setHeight(100);
+                    window.setWidth(200);
+                    window.setPadding("5px");
+                    add(window);
+                } else {
+                    // print out field values to make sure they have transferred correctly
+                    log.info("Save button pressed:");
+                    log.info("  codeField: " + codeField.getValue());
+                    log.info("  nameField: " + nameField.getValue());
+                    log.info("  calendar: " + dateField.getCalendar());
+                    log.info("  enabled: " + enabledField.getSelected());
+
+                    for (ActionListener listener : saveListeners) {
+                        listener.actionPerformed(e);
+                    }
+                }
             }
         });
-        
+
         addButton(createAlignTestButton());
     }
 
@@ -200,18 +202,19 @@ public class UserEditPanel
      * using ext alignment.
      * @return the button.
      */
-    private Button createAlignTestButton(){
+    private Button createAlignTestButton() {
         Button ret = new Button("Alignment test");
-        
+
         ret.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent arg0) {
                 saveButton.alignTo(cancelButton, Alignment.BOTTOM, Alignment.TOP, 0, -10);
             }
         });
-        
+
         return ret;
     }
-    
+
     /**
      * Adds a listener to be notified when the cancel action
      * is taken.
@@ -221,7 +224,7 @@ public class UserEditPanel
     public void addCancelListener(ActionListener listener) {
         cancelButton.addActionListener(listener);
     }
-    
+
     /**
      * Adds a listener to be notified when the save action is taken.
      * @param listener
@@ -229,7 +232,7 @@ public class UserEditPanel
     public void addSaveListener(ActionListener listener) {
         saveListeners.add(listener);
     }
-    
+
     /**
      * Returns a combox box for selection of roles, based
      * on the passed store.
@@ -242,9 +245,23 @@ public class UserEditPanel
         ret.setDisplayField("description");
         ret.setValueField("id");
         ret.setTypeAhead(true);
+
+        ret.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                Window window = new Window("Combo Selected");
+                window.setModal(true);
+                window.setHtml("action listener fired");
+                window.setHeight(100);
+                window.setWidth(200);
+                window.setPadding("5px");
+                add(window);
+            }
+        }) ;
+
         return ret;
     }
-    
+
     /**
      * Creates a dummy store for role data.
      * @return the store.
@@ -253,14 +270,12 @@ public class UserEditPanel
         Object[][] data = new Object[2][2];
         data[0] = new String[]{"admin", "Administrator"};
         data[1] = new String[]{"user", "User"};
-        
+
         DefaultSimpleStore store = new DefaultSimpleStore(
                 data,
                 0,
                 new String[]{"id", "description"});
-        
+
         return store;
     }
-
-
 }
