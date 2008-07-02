@@ -17,11 +17,7 @@
 package org.sgodden.echo.ext20.testapp;
 
 import groovy.util.GroovyScriptEngine;
-import groovy.util.ResourceException;
-import groovy.util.ScriptException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.StyleSheet;
 import nextapp.echo.app.Window;
