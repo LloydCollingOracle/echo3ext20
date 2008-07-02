@@ -29,8 +29,6 @@ import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.list.DefaultListSelectionModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SortOrder;
 import org.sgodden.echo.ext20.models.SortableTableModel;
@@ -69,24 +67,40 @@ public class GridPanel
         extends Panel 
         implements TableModelListener {
     
-    public static final String COLUMN_MODEL_PROPERTY = "columnModel";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
+    public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
+    public static final String COLUMN_MODEL_PROPERTY = "columnModel";
     public static final String GROUP_FIELD_PROPERTY="groupField";
     public static final String INPUT_ACTION = "action";
-    public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
+    public static final String MODEL_CHANGED_PROPERTY="model";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
-    
-    public static final String SORT_FIELD_PROPERTY = "sortField";
-    public static final String SORT_ORDER_PROPERTY = "sortDirection"; 
     public static final String SORT_ACTION = "sort";
+    public static final String SORT_FIELD_PROPERTY = "sortField";
     public static final String SORT_LISTENERS_PROPERTY = "sort";
-    
-    public static final String MODEL_CHANGED_PROPERTY="model";
+    public static final String SORT_ORDER_PROPERTY = "sortDirection"; 
     
     private TableModel tableModel;
     private ListSelectionModel selectionModel;
     private boolean suppressChangeNotifications;
+
+    /**
+     * Local handler for list selection events.
+     */
+    private ChangeListener changeHandler = new ChangeListener() {
+
+        /** Serial Version UID. */
+        private static final long serialVersionUID = 20070101L;
+
+        /**
+         * @see nextapp.echo.app.event.ChangeListener#stateChanged(nextapp.echo.app.event.ChangeEvent)
+         */
+        public void stateChanged(ChangeEvent e) {
+            if (!suppressChangeNotifications) {
+                firePropertyChange(SELECTION_CHANGED_PROPERTY, null, null);
+            }
+        }
+    };
 
     /**
      * Constructs a new grid panel.
@@ -117,11 +131,45 @@ public class GridPanel
     }
 
     /**
-     * Sets the column model for the table.
-     * @param columnModel the column model for the table.
+     * Adds an <code>ActionListener</code> to the <code>Table</code>.
+     * <code>ActionListener</code>s will be invoked when the user
+     * selects a row.
+     *
+     * @param l the <code>ActionListener</code> to add
      */
-    public void setColumnModel(ColumnModel columnModel) {
-        setComponentProperty(COLUMN_MODEL_PROPERTY, columnModel);
+    public void addActionListener(ActionListener l) {
+        getEventListenerList().addListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
+
+    /**
+     * Fires an action event to all listeners.
+     */
+    private void fireActionEvent() {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        EventListener[] listeners = getEventListenerList().getListeners(ActionListener.class);
+        ActionEvent e = null;
+        for (int i = 0; i < listeners.length; ++i) {
+            if (e == null) {
+                e = new ActionEvent(this, (String) getRenderProperty(ACTION_COMMAND_PROPERTY));
+            }
+            ((ActionListener) listeners[i]).actionPerformed(e);
+        }
+    }
+
+    /**
+     * Returns the action command which will be provided in
+     * <code>ActionEvent</code>s fired by this
+     * <code>Table</code>.
+     *
+     * @return the action command
+     */
+    public String getActionCommand() {
+        return (String) getComponentProperty(ACTION_COMMAND_PROPERTY);
     }
     
     /**
@@ -130,6 +178,142 @@ public class GridPanel
      */
     public ColumnModel getColumnModel() {
         return ((ColumnModel)getComponentProperty(COLUMN_MODEL_PROPERTY));
+    }
+
+    /**
+     * Returns the row selection model.
+     *
+     * @return the selection model
+     */
+    public ListSelectionModel getSelectionModel() {
+        return selectionModel;
+    }
+
+    /**
+     * Returns the name of the field by which the data should be sorted.
+     * @return the name of the field by which the data should be sorted.
+     */
+    public String getSortField() {
+        return (String) getComponentProperty(SORT_FIELD_PROPERTY);
+    }
+
+    /**
+     * Returns the order by which the field specified in
+     * {@link #setSortField(java.lang.String)} should be sorted.
+     * @return the sort order.
+     */
+    public SortOrder getSortOrder() {
+        SortOrder ret = null;
+
+        String sortString = (String) getComponentProperty(SORT_ORDER_PROPERTY);
+        if ("ASC".equals(sortString)) {
+            ret = SortOrder.ASCENDING;
+        }
+        else if ("DESC".equals(sortString)) {
+            ret = SortOrder.DESCENDING;
+        }
+
+        return ret;
+    }
+    
+    /**
+     * Returns the grid's table model.
+     * @return the table model.
+     */
+    public TableModel getTableModel() {
+    	return tableModel;
+    }
+
+    /**
+     * Returns whether any <code>ActionListener</code>s are registered.
+     *
+     * @return true if any action listeners are registered
+     */
+    public boolean hasActionListeners() {
+        return getEventListenerList().getListenerCount(ActionListener.class) != 0;
+    }
+
+    /**
+     * Returns whether the model is sortable.
+     *
+     * @return true if the model is sortable, false if not.
+     */
+    public boolean isModelSortable() {
+        return (getTableModel() instanceof SortableTableModel);
+    }
+
+    /**
+     * @see nextapp.echo.app.Component#processInput(java.lang.String, java.lang.Object)
+     */
+    @Override
+    public void processInput(String inputName, Object inputValue) {
+        super.processInput(inputName, inputValue);
+        if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
+            setSelectedIndices((int[]) inputValue);
+        }
+        else if (INPUT_ACTION.equals(inputName)) {
+            fireActionEvent();
+        }
+        else if (SORT_FIELD_PROPERTY.equals(inputName)) {
+            setSortField((String)inputValue);
+        }
+        else if (SORT_ORDER_PROPERTY.equals(inputName)) {
+            String value = (String) inputValue;
+            if (value.equals("ASC")) {
+                setSortOrder(SortOrder.ASCENDING);
+            }
+            else if (value.equals("DESC")) {
+                setSortOrder(SortOrder.DESCENDING);
+            }
+            else {
+                throw new IllegalArgumentException("Unknown sort order: "
+                        + value);
+            }
+        }
+        else if (SORT_ACTION.equals(inputName)) {
+            if (getTableModel() instanceof SortableTableModel) {
+                int columnIndex = getColumnModel()
+                        .getIndexForDataIndex(getSortField());
+                ((SortableTableModel) getTableModel()).sort(
+                        columnIndex, getSortOrder());
+            }
+            else {
+                throw new IllegalStateException("Request to sort table made, " +
+                        "but model is not sortable");
+            }
+        }
+    }
+
+    /**
+     * Removes the specified action listener.
+     * @param l the listener to remove.
+     */
+    public void removeActionListener(ActionListener l) {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        getEventListenerList().removeListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+
+    }
+
+    /**
+     * Sets the column model for the table.
+     * @param columnModel the column model for the table.
+     */
+    public void setColumnModel(ColumnModel columnModel) {
+        setComponentProperty(COLUMN_MODEL_PROPERTY, columnModel);
+    }
+
+    /**
+     * Sets the name of the column in the data model by which to
+     * group the table.
+     * @param groupField the name of the column by which to group.
+     */
+    public void setGroupField(String groupField) {
+        setComponentProperty(GROUP_FIELD_PROPERTY, groupField);
     }
     
     /**
@@ -147,68 +331,29 @@ public class GridPanel
     	
     	firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always force change
     }
-    
-    /**
-     * Returns the grid's table model.
-     * @return the table model.
-     */
-    public TableModel getTableModel() {
-    	return tableModel;
-    }
+
 
     /**
-     * Returns the action command which will be provided in 
-     * <code>ActionEvent</code>s fired by this 
-     * <code>Table</code>.
+     * Selects only the specified row indices.
      * 
-     * @return the action command
+     * @param selectedIndices the indices to select
      */
-    public String getActionCommand() {
-        return (String) getComponentProperty(ACTION_COMMAND_PROPERTY);
-    }
-
-    /**
-     * Adds an <code>ActionListener</code> to the <code>Table</code>.
-     * <code>ActionListener</code>s will be invoked when the user
-     * selects a row.
-     * 
-     * @param l the <code>ActionListener</code> to add
-     */
-    public void addActionListener(ActionListener l) {
-        getEventListenerList().addListener(ActionListener.class, l);
-        // Notification of action listener changes is provided due to 
-        // existence of hasActionListeners() method. 
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
-    }
-
-    /**
-     * Removes the specified action listener.
-     * @param l the listener to remove.
-     */
-    public void removeActionListener(ActionListener l) {
-        if (!hasEventListenerList()) {
-            return;
+    private void setSelectedIndices(int[] selectedIndices) {
+        // Temporarily suppress the Tables selection event notifier.
+        suppressChangeNotifications = true;
+        selectionModel.clearSelection();
+        for (int i = 0; i < selectedIndices.length; ++i) {
+            selectionModel.setSelectedIndex(selectedIndices[i], true);
         }
-        getEventListenerList().removeListener(ActionListener.class, l);
-        // Notification of action listener changes is provided due to 
-        // existence of hasActionListeners() method. 
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
-
-    }
-    
-    /**
-     * Returns the row selection model.
-     * 
-     * @return the selection model
-     */
-    public ListSelectionModel getSelectionModel() {
-        return selectionModel;
+        // End temporary suppression.
+        suppressChangeNotifications = false;
+        firePropertyChange(SELECTION_CHANGED_PROPERTY, null, selectedIndices);
     }
 
     /**
      * Sets the row selection model.
      * The selection model may not be null.
-     * 
+     *
      * @param newValue the new selection model
      */
     public void setSelectionModel(ListSelectionModel newValue) {
@@ -223,107 +368,12 @@ public class GridPanel
         selectionModel = newValue;
         firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
     }
-
-    /**
-     * Returns whether any <code>ActionListener</code>s are registered.
-     * 
-     * @return true if any action listeners are registered
-     */
-    public boolean hasActionListeners() {
-        return getEventListenerList().getListenerCount(ActionListener.class) != 0;
-    }
-
-    /**
-     * Returns whether the model is sortable.
-     * 
-     * @return true if the model is sortable, false if not.
-     */
-    public boolean isModelSortable() {
-        return (getTableModel() instanceof SortableTableModel);
-    }
-    /**
-     * @see nextapp.echo.app.Component#processInput(java.lang.String, java.lang.Object)
-     */
-    @Override
-    public void processInput(String inputName, Object inputValue) {
-        super.processInput(inputName, inputValue);
-        if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
-            setSelectedIndices((int[]) inputValue);
-        } 
-        else if (INPUT_ACTION.equals(inputName)) {
-            fireActionEvent();
-        }
-        else if (SORT_FIELD_PROPERTY.equals(inputName)) {
-            setSortField((String)inputValue);
-        }
-        else if (SORT_ORDER_PROPERTY.equals(inputName)) {
-            String value = (String) inputValue;
-            if (value.equals("ASC")) {
-                setSortOrder(SortOrder.ASCENDING);
-            }
-            else if (value.equals("DESC")) {
-                setSortOrder(SortOrder.DESCENDING);
-            }
-            else {
-                throw new IllegalArgumentException("Unknown sort order: " 
-                        + value);
-            }
-        }
-        else if (SORT_ACTION.equals(inputName)) {
-            if (getTableModel() instanceof SortableTableModel) {
-                int columnIndex = getColumnModel()
-                        .getIndexForDataIndex(getSortField());
-                ((SortableTableModel) getTableModel()).sort(
-                        columnIndex, getSortOrder());
-            }
-            else {
-                throw new IllegalStateException("Request to sort table made, " +
-                        "but model is not sortable");
-            }
-        }
-    }
-    
-    /**
-     * Sets the name of the column in the data model by which to
-     * group the table.
-     * @param groupField the name of the column by which to group.
-     */
-    public void setGroupField(String groupField) {
-        setComponentProperty(GROUP_FIELD_PROPERTY, groupField);
-    }
-
-    /**
-     * Selects only the specified row indices.
-     * 
-     * @param selectedIndices the indices to select
-     */
-    private void setSelectedIndices(int[] selectedIndices) {
-        // Temporarily suppress the Tables selection event notifier.
-        suppressChangeNotifications = true;
-        ListSelectionModel selectionModel = getSelectionModel();
-        selectionModel.clearSelection();
-        for (int i = 0; i < selectedIndices.length; ++i) {
-            selectionModel.setSelectedIndex(selectedIndices[i], true);
-        }
-        // End temporary suppression.
-        suppressChangeNotifications = false;
-        firePropertyChange(SELECTION_CHANGED_PROPERTY, null, selectedIndices);
-    }
-    
     /**
      * Sets the name of the field by which the data will be sorted.
      * @param sortField the name of the field to sort by.
      */
     public void setSortField(String sortField) {
         setComponentProperty(SORT_FIELD_PROPERTY, sortField);
-    }
-
-    /**
-     * Returns the name of the field by which the data should be sorted.
-     * @return the name of the field by which the data should be sorted.
-     */
-    public String getSortField() {
-        return (String) getComponentProperty(SORT_FIELD_PROPERTY);
     }
     
     /**
@@ -343,60 +393,6 @@ public class GridPanel
                 throw new Error("Invalid sort order: " + sortOrder);
         }
     }
-    
-    /**
-     * Returns the order by which the field specified in
-     * {@link #setSortField(java.lang.String)} should be sorted.
-     * @return the sort order.
-     */
-    public SortOrder getSortOrder() {
-        SortOrder ret = null;
-        
-        String sortString = (String) getComponentProperty(SORT_ORDER_PROPERTY);
-        if ("ASC".equals(sortString)) {
-            ret = SortOrder.ASCENDING;
-        }
-        else if ("DESC".equals(sortString)) {
-            ret = SortOrder.DESCENDING;
-        }
-        
-        return ret;
-    }
-
-    /**
-     * Fires an action event to all listeners.
-     */
-    private void fireActionEvent() {
-        if (!hasEventListenerList()) {
-            return;
-        }
-        EventListener[] listeners = getEventListenerList().getListeners(ActionListener.class);
-        ActionEvent e = null;
-        for (int i = 0; i < listeners.length; ++i) {
-            if (e == null) {
-                e = new ActionEvent(this, (String) getRenderProperty(ACTION_COMMAND_PROPERTY));
-            }
-            ((ActionListener) listeners[i]).actionPerformed(e);
-        }
-    }
-    
-    /**
-     * Local handler for list selection events.
-     */
-    private ChangeListener changeHandler = new ChangeListener() {
-
-        /** Serial Version UID. */
-        private static final long serialVersionUID = 20070101L;
-
-        /**
-         * @see nextapp.echo.app.event.ChangeListener#stateChanged(nextapp.echo.app.event.ChangeEvent)
-         */
-        public void stateChanged(ChangeEvent e) {
-            if (!suppressChangeNotifications) {
-                firePropertyChange(SELECTION_CHANGED_PROPERTY, null, null);
-            }
-        }
-    };
 
     /**
      * Forces a client-side refresh of the table when the table model changes.
