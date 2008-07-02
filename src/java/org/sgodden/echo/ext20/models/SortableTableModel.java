@@ -19,9 +19,9 @@ import org.sgodden.echo.ext20.SortOrder;
 public interface SortableTableModel {
     
     /**
-     * Sorts the table model by the specified (one-indexed)
+     * Sorts the table model by the specified (zero-indexed)
      * column, and in the specified sort sequence.
-     * @param columnIndex the column index to sort by, one-indexed.
+     * @param columnIndex the column index to sort by, zero-indexed.
      * @param sortOrder the sorting sequence, either ascending
      * or descending.
      */
