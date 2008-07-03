@@ -59,23 +59,16 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 
     _ctrlKeyDown: false,
     _selectedRows: null,
-    
-    /*
-     * The server-side model is already correctly sorted when we are
-     * initially displayed, and we need to prevent a bogus trip back to
-     * the server to sort it.
-     * This will be set to true after the first sort event is received by
-     * the data proxy.
-     */
-    handleSortEvents: false,
+    _handleSelectionEvents: false,
+    _handleSortEvents: false,
     
     createExtComponent: function(update, options) {
+        this._handleSortEvents = false;
+        this._handleSelectionEvents = false;
         
         this._selectedRows = {};
 
-        this.handleSortEvents = false; // avoind infinite sort loop
         options["store"] = this._makeStore();
-        this.handleSortEvents = true;
         
         var view;
         if (this.component.get("groupField")) {
@@ -111,6 +104,9 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         Ext.Element.get("approot").on("keyup",
                 this._handleKeyUpEvent, this);
 
+        this._handleSortEvents = true;
+        this._handleSelectionEvents = true;
+
         return EchoExt20.PanelSync.prototype
                 .createExtComponent.call(this, update, options);
     },
@@ -137,22 +133,26 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
     
     _handleRowDeselectEvent: function(selectionModel, rowIndex, record) {
-        var pageOffset = this.component.get("pageOffset");
-        var index = pageOffset + rowIndex;
-        if (this._selectedRows[index] != null) {
-            delete this._selectedRows[index];
+        if (this._handleSelectionEvents) {
+            var pageOffset = this.component.get("pageOffset");
+            var index = pageOffset + rowIndex;
+            if (this._selectedRows[index] != null) {
+                delete this._selectedRows[index];
+            }
+            this._updateRowSelection();
         }
-        this._updateRowSelection();
     },
     
     _handleRowSelectEvent: function(selectionModel, rowIndex, record) {
-        var pageOffset = this.component.get("pageOffset");
-        var index = pageOffset + rowIndex;
-        if (!this._ctrlKeyDown) {
-            this._selectedRows = {};
+        if (this._handleSelectionEvents) {
+            var pageOffset = this.component.get("pageOffset");
+            var index = pageOffset + rowIndex;
+            if (!this._ctrlKeyDown) {
+                this._selectedRows = {};
+            }
+            this._selectedRows[index] = true;
+            this._updateRowSelection();
         }
-        this._selectedRows[index] = true;
-        this._updateRowSelection();
     },
     
     /**
@@ -235,17 +235,34 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 	
     renderUpdate: function(update) {
         EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
+
+        // suspend event handling while we are manipulating
+        this._handleSortEvents = false;
+        this._handleSelectionEvents = false;
 		
         var updatedStore = update.getUpdatedProperty("model");
         if (updatedStore != null) {
-            // avoid infinite loop on sorting
-            this.handleSortEvents = false;
             this.extComponent.reconfigure(
               this._makeStore(),
               this.component.get("columnModel")
             );
-            this.handleSortEvents = true;
         }
+
+        // don't respond to selectione events which the user has not triggered
+        // see if any of the rows were previously selected
+        var first = this.component.get("pageOffset");
+        var last = first + this.extComponent.getStore().getCount();
+        debugger;
+        for (var row in this._selectedRows) {
+            if (row >= first && row < last) {
+                this.extComponent.getSelectionModel().selectRow(
+                        row - first, true);
+            }
+        }
+
+        // resume event handling
+        this._handleSortEvents = true;
+        this._handleSelectionEvents = true;
     },
 
     _updateRowSelection: function() {
