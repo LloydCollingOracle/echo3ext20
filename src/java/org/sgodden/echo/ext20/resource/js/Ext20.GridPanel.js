@@ -107,8 +107,13 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         this._handleSortEvents = true;
         this._handleSelectionEvents = true;
 
-        return EchoExt20.PanelSync.prototype
+        var ret = EchoExt20.PanelSync.prototype
                 .createExtComponent.call(this, update, options);
+
+        ret.on("rowdblclick", this._handleRowActivation, this);
+        ret.on("render",this._handleServerSelections,this);
+
+        return ret;
     },
     
     doSort: function(fieldName, sortDirection) {
@@ -153,6 +158,28 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             this._selectedRows[index] = true;
             this._updateRowSelection();
         }
+    },
+
+    _handleServerSelections: function() {
+        this._selectedRows = {};
+        var selectionString = this.component.get("selection");
+        if (selectionString) {
+            var rows = selectionString.split(",");
+            for (var i = 0; i < rows.length; i++) {
+                var row = parseInt(rows[i]);
+                this._selectedRows[row] = true;
+            }
+        }
+
+        var first = this.component.get("pageOffset");
+        var last = first + this.extComponent.getStore().getCount();
+        for (var row in this._selectedRows) {
+            if (row >= first && row < last) {
+                this.extComponent.getSelectionModel().selectRow(
+                        row - first, true);
+            }
+        }
+
     },
     
     /**
@@ -221,7 +248,6 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     
     newExtComponentInstance: function(options) {
         var ret = new Ext.grid.GridPanel(options);
-        ret.on("rowdblclick", this._handleRowActivation, this);
         return ret;
     },
 
@@ -248,17 +274,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             );
         }
 
-        // don't respond to selectione events which the user has not triggered
-        // see if any of the rows were previously selected
-        var first = this.component.get("pageOffset");
-        var last = first + this.extComponent.getStore().getCount();
-        debugger;
-        for (var row in this._selectedRows) {
-            if (row >= first && row < last) {
-                this.extComponent.getSelectionModel().selectRow(
-                        row - first, true);
-            }
-        }
+        this._handleServerSelections();
 
         // resume event handling
         this._handleSortEvents = true;
