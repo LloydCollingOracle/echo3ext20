@@ -307,6 +307,7 @@ public class GridPanel
                         .getIndexForDataIndex(getSortField());
                 ((SortableTableModel) getTableModel()).sort(
                         columnIndex, getSortOrder());
+                getSelectionModel().clearSelection();
             }
             else {
                 throw new IllegalStateException("Request to sort table made, " +

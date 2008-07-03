@@ -307,7 +307,7 @@ Ext.extend(EchoExt20.GridPanelDataProxy, Ext.data.DataProxy, {
         if (params.sort) {
             var sortField = params.sort;
             var direction = params.dir;
-            if (this.syncPeer.handleSortEvents) {
+            if (this.syncPeer._handleSortEvents) {
                 this.syncPeer.doSort(sortField, direction);
             }
         }
