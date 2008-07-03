@@ -63,15 +63,16 @@ public class UserPanel
         
         if (listPanel == null) {
             listPanel = new UserListPanel();
+            listPanel.getGridPanel().addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent arg0) {
+                    switchToEditPanel(listPanel.getSelectedRow());
+                    listPanel.getGridPanel().getSelectionModel().clearSelection();
+                }
+            });
         }
         
         add(listPanel);
         
-        listPanel.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent arg0) {
-                switchToEditPanel(listPanel.getSelectedRow());
-            }
-        });
     }
     
     /**

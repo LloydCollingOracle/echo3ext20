@@ -84,6 +84,14 @@ public class UserListPanel
 			}});
 
     }
+
+    /**
+     * Returns the uderlying grid panel.
+     * @return
+     */
+    public GridPanel getGridPanel() {
+        return userGridPanel;
+    }
     
     private GridPanel makeGridPanel() {
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
@@ -131,7 +139,7 @@ public class UserListPanel
 
     /**
 	 * Adds a listener to be notifies when a row is actioned.
-	 * 
+	 *
 	 * @param listener the listener to be added.
 	 */
     public void addActionListener(ActionListener listener) {

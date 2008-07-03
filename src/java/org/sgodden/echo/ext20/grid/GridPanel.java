@@ -29,12 +29,11 @@ import javax.swing.table.TableModel;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
-import org.sgodden.echo.ext20.Button;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SortOrder;
 import org.sgodden.echo.ext20.Toolbar;
-import org.sgodden.echo.ext20.ToolbarSeparator;
-import org.sgodden.echo.ext20.ToolbarTextItem;
 import org.sgodden.echo.ext20.models.SortableTableModel;
 
 /**
@@ -70,7 +69,7 @@ gridPanel.addActionListener(new ActionListener(){
 public class GridPanel
         extends Panel 
         implements TableModelListener {
-    
+
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String COLUMN_MODEL_PROPERTY = "columnModel";
@@ -371,31 +370,6 @@ public class GridPanel
             addPagingToolbar();
         }
     }
-    
-    /**
-     * Sets the data store from a Swing {@link TableModel}.
-     * @param tableModel the table model.
-     */
-    public void setTableModel(TableModel tableModel) {
-    	if (tableModel == null) {
-    		throw new IllegalArgumentException("table model may not be null");
-    	}
-    	
-    	this.tableModel = tableModel;
-    	tableModel.removeTableModelListener(this); // just in case they set the same table model
-    	tableModel.addTableModelListener(this);
-
-        if (pageSize > 0) {
-            if (getBottomToolbar() == null) {
-                addPagingToolbar();
-            } else {
-                ((PagingToolbar) getBottomToolbar()).setTableModel(tableModel);
-            }
-        }
-
-    	firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always force change
-    }
-
 
     /**
      * Selects only the specified row indices.
@@ -412,7 +386,6 @@ public class GridPanel
         }
         // End temporary suppression.
         suppressChangeNotifications = false;
-        firePropertyChange(SELECTION_CHANGED_PROPERTY, null, selectedIndices);
     }
 
     /**
@@ -433,6 +406,7 @@ public class GridPanel
         selectionModel = newValue;
         firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
     }
+    
     /**
      * Sets the name of the field by which the data will be sorted.
      * @param sortField the name of the field to sort by.
@@ -457,6 +431,30 @@ public class GridPanel
             default:
                 throw new Error("Invalid sort order: " + sortOrder);
         }
+    }
+
+    /**
+     * Sets the data store from a Swing {@link TableModel}.
+     * @param tableModel the table model.
+     */
+    public void setTableModel(TableModel tableModel) {
+    	if (tableModel == null) {
+    		throw new IllegalArgumentException("table model may not be null");
+    	}
+
+    	this.tableModel = tableModel;
+    	tableModel.removeTableModelListener(this); // just in case they set the same table model
+    	tableModel.addTableModelListener(this);
+
+        if (pageSize > 0) {
+            if (getBottomToolbar() == null) {
+                addPagingToolbar();
+            } else {
+                ((PagingToolbar) getBottomToolbar()).setTableModel(tableModel);
+            }
+        }
+
+    	firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always force change
     }
 
     /**
