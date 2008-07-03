@@ -124,7 +124,8 @@ public class ApplicationContentPane2
                 // remove the list panel
                 mainSplitPane.remove(userListPanel);
                 // get the selected row of the data
-                int selectedRow = userGridPanel.getSelectionModel().getMinSelectedIndex(); // only one row can be selected
+                int selectedRow = userGridPanel.getSelectionModel()
+                        .getMinSelectionIndex(); // only one row can be selected
                 // create the form panel with that data
                 createUserEditPanel(data[selectedRow]);
                 mainSplitPane.add(userEditPanel);

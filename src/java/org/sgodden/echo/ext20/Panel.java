@@ -167,6 +167,14 @@ public class Panel extends ExtComponent {
     }
 
     /**
+     * Returns the panel's bottom toolbar.
+     * @return the bottom toolbar.
+     */
+    public Toolbar getBottomToolbar() {
+        return bottomToolbar;
+    }
+
+    /**
      * Constructor taking a map of configuration options,
      * to be groovy-friendly.
      */

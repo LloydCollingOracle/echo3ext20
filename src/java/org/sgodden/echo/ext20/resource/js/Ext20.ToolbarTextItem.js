@@ -35,6 +35,11 @@ EchoExt20.ToolbarTextItemSync = Core.extend(EchoExt20.ExtComponentSync, {
         return new Ext.Toolbar.TextItem({
             text: this.component.get("text")
         });
+    },
+
+    renderUpdate: function(update) {
+        EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
+        this.extComponent.getEl().innerHTML = this.component.get("text");
     }
     
 });

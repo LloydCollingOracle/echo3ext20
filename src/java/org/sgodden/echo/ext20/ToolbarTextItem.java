@@ -27,6 +27,13 @@ public class ToolbarTextItem
     public static final String TEXT_PROPERTY = "text";
 
     /**
+     * Creates a new toolbar text item with no text.
+     */
+    public ToolbarTextItem() {
+        super();
+    }
+
+    /**
      * Creates a new toolbar text item.
      * @param text the text to display.
      */

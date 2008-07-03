@@ -1,8 +1,7 @@
 package org.sgodden.echo.ext20.util;
 
 import java.util.StringTokenizer;
-
-import nextapp.echo.app.list.ListSelectionModel;
+import javax.swing.ListSelectionModel;
 
 /**
  * Utilities for serializing <code>ListSelectionModel</code> state between client and server.
@@ -20,15 +19,16 @@ public class ListSelectionUtil {
      * @return a selection string, e.g., "1,2,3,4", "5", or ""
      */
     public static String toString(ListSelectionModel selectionModel, int size) {
-        int minimumIndex = selectionModel.getMinSelectedIndex();
+        int minimumIndex = selectionModel.getMinSelectionIndex();
         
         if (minimumIndex == -1) {
             // Nothing selected: return empty String.
             return "";
         }
-        int maximumIndex = selectionModel.getMaxSelectedIndex();
+        int maximumIndex = selectionModel.getMaxSelectionIndex();
         
-        if (minimumIndex == maximumIndex || selectionModel.getSelectionMode() != ListSelectionModel.MULTIPLE_SELECTION) {
+        if (minimumIndex == maximumIndex || selectionModel.getSelectionMode()
+                == ListSelectionModel.SINGLE_SELECTION) {
             // Single selection mode or only one index selected: return it directly. 
             return Integer.toString(minimumIndex);
         }

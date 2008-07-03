@@ -55,6 +55,7 @@ public class UserListPanel
     private static final transient Log LOG = LogFactory.getLog(UserListPanel.class);
     private GridPanel userGridPanel;
     private int startIndex = 1;
+    private int rows = 35;
     
     private DefaultSortableTableModel tableModel;
 
@@ -78,6 +79,7 @@ public class UserListPanel
 
 			public void actionPerformed(ActionEvent arg0) {
 				startIndex += 10;
+                rows +=10;
 				userGridPanel.setTableModel(makeTableModel());
 			}});
 
@@ -91,6 +93,7 @@ public class UserListPanel
         ColumnModel columnModel = new ColumnModel(cols);
         
         userGridPanel = new GridPanel(columnModel);
+        userGridPanel.setPageSize(20);
         userGridPanel.setTableModel(makeTableModel());
         userGridPanel.setToolbar(makeToolbar());
         /*
@@ -139,7 +142,7 @@ public class UserListPanel
      * Returns the (only) selected row index of the grid.
      */
     public int getSelectedIndex() {
-        return userGridPanel.getSelectionModel().getMinSelectedIndex();
+        return userGridPanel.getSelectionModel().getMinSelectionIndex();
     }
 
     /**
@@ -156,8 +159,6 @@ public class UserListPanel
      * @return the dummy data.
      */
     private Object[][] makeData() {
-        int rows = 10;
-
         Object[][] data = new Object[rows][];
 
         for (int i = 0; i < data.length; i++) {

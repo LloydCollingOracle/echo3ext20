@@ -75,6 +75,10 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (this.component.get("tooltipText") != null) {
             options['tooltip'] = this.component.get("tooltipText");
         }
+        
+        if ( !(this.component.isEnabled()) ) {
+            options['disabled'] = true;
+    	}
 
         // see if we have a menu child item
         if (this.component.getComponentCount() == 1) {
@@ -104,6 +108,25 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     _handleClickEvent: function() {
     	this.component.doAction();
+    },
+
+    /**
+     * Handles a server update of the field value.
+     */
+    renderUpdate: function(update){
+        EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
+        
+        if (this.component.isEnabled()) {
+            if (this.extComponent.disabled) {
+                this.extComponent.enable();
+            }
+        }
+        else {
+            if (!this.extComponent.disabled) {
+                this.extComponent.disable();
+            }
+        }
     }
+
 
 });

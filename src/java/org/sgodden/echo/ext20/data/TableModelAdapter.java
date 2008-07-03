@@ -50,11 +50,34 @@ public class TableModelAdapter
 			}
 		}
 		
-		fields = new String[tableModel.getColumnCount()];
-		for (int i = 0; i < tableModel.getColumnCount(); i++) {
-			fields[i] = tableModel.getColumnName(i);
+		makeFields(tableModel);
+	}
+
+	/**
+	 * Constructs a new table model adapter, to return the indicated subset
+     * (page) of the passed table model.
+	 * @param tableModel the swing table model from which to take the data.
+     * @param offset the offset to the first row to read from the table model.
+     * @param limit the number of rows to read from the table model.
+	 */
+	public TableModelAdapter(
+            TableModel tableModel,
+            int offset,
+            int limit) {
+
+        int rows = offset + limit < tableModel.getRowCount()
+                ? limit : tableModel.getRowCount() - offset;
+
+		data = new Object[rows][tableModel.getColumnCount()];
+
+		for (int i = 0; i < rows; i++) {
+			Object[] row = data[i];
+			for (int j = 0; j < tableModel.getColumnCount(); j++) {
+				row[j] = tableModel.getValueAt(offset + i, j);
+			}
 		}
 
+        makeFields(tableModel);
 	}
 
 	/**
@@ -105,5 +128,16 @@ public class TableModelAdapter
 	public int getSize() {
 		return data.length;
 	}
+
+    /**
+     * Extracts the field (column) information from the passed table model.
+     * @param tableModel the table model.
+     */
+    private void makeFields(TableModel tableModel) {
+		fields = new String[tableModel.getColumnCount()];
+		for (int i = 0; i < tableModel.getColumnCount(); i++) {
+			fields[i] = tableModel.getColumnName(i);
+		}
+    }
 
 }

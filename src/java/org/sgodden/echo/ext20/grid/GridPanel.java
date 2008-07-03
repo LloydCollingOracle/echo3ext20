@@ -18,19 +18,23 @@ package org.sgodden.echo.ext20.grid;
 
 import java.util.EventListener;
 
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
-import nextapp.echo.app.event.ChangeEvent;
-import nextapp.echo.app.event.ChangeListener;
-import nextapp.echo.app.list.DefaultListSelectionModel;
-import nextapp.echo.app.list.ListSelectionModel;
 
+import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SortOrder;
+import org.sgodden.echo.ext20.Toolbar;
+import org.sgodden.echo.ext20.ToolbarSeparator;
+import org.sgodden.echo.ext20.ToolbarTextItem;
 import org.sgodden.echo.ext20.models.SortableTableModel;
 
 /**
@@ -73,6 +77,7 @@ public class GridPanel
     public static final String GROUP_FIELD_PROPERTY="groupField";
     public static final String INPUT_ACTION = "action";
     public static final String MODEL_CHANGED_PROPERTY="model";
+    public static final String PAGE_OFFSET_PROPERTY="pageOffset";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
     public static final String SORT_ACTION = "sort";
@@ -81,21 +86,15 @@ public class GridPanel
     public static final String SORT_ORDER_PROPERTY = "sortDirection"; 
     
     private TableModel tableModel;
+    private int pageSize;
     private ListSelectionModel selectionModel;
     private boolean suppressChangeNotifications;
 
     /**
      * Local handler for list selection events.
      */
-    private ChangeListener changeHandler = new ChangeListener() {
-
-        /** Serial Version UID. */
-        private static final long serialVersionUID = 20070101L;
-
-        /**
-         * @see nextapp.echo.app.event.ChangeListener#stateChanged(nextapp.echo.app.event.ChangeEvent)
-         */
-        public void stateChanged(ChangeEvent e) {
+    private ListSelectionListener listSelectionListener = new ListSelectionListener() {
+        public void valueChanged(ListSelectionEvent e) {
             if (!suppressChangeNotifications) {
                 firePropertyChange(SELECTION_CHANGED_PROPERTY, null, null);
             }
@@ -109,6 +108,7 @@ public class GridPanel
         super();
         setBorder(true);
         setSelectionModel(new DefaultListSelectionModel());
+        setPageOffset(0);
     }
     
     /**
@@ -142,6 +142,20 @@ public class GridPanel
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
+
+    private void addPagingToolbar() {
+        
+        Toolbar toolbar = new PagingToolbar(
+                getTableModel(),
+                pageSize,
+                new PagingToolbarClient() {
+
+            public void setPageOffset(int pageOffset) {
+                GridPanel.this.setPageOffset(pageOffset);
+            }
+        });
+        setBottomToolbar(toolbar);
     }
 
     /**
@@ -178,6 +192,23 @@ public class GridPanel
      */
     public ColumnModel getColumnModel() {
         return ((ColumnModel)getComponentProperty(COLUMN_MODEL_PROPERTY));
+    }
+
+    /**
+     * Returns the offset to the current page, in the case that the
+     * page size has been set.
+     * @return the offset to the current page.
+     */
+    public int getPageOffset() {
+        return (Integer) getComponentProperty(PAGE_OFFSET_PROPERTY);
+    }
+
+    /**
+     * Returns the page size, or 0 if the table is not paged.
+     * @return the page size, or 0 if the table is not paged.
+     */
+    public int getPageSize() {
+       return pageSize;
     }
 
     /**
@@ -315,6 +346,30 @@ public class GridPanel
     public void setGroupField(String groupField) {
         setComponentProperty(GROUP_FIELD_PROPERTY, groupField);
     }
+
+    /**
+     * Sets the offset to the first record in the model that is being shown
+     * in the grid view.
+     * @param pageOffset the offset to the first record in the model.
+     */
+    private void setPageOffset(int pageOffset) {
+        setComponentProperty(PAGE_OFFSET_PROPERTY, pageOffset);
+        tableChanged(null);
+    }
+
+    /**
+     * Sets the size of the page that should be displayed when not displaying
+     * the entire table model at once.  A size of 0 means that the table
+     * should not be paged.
+     * @param pageSize the size of the page, or 0 to not page.
+     */
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+
+        if (pageSize > 0 && getTableModel() != null) {
+            addPagingToolbar();
+        }
+    }
     
     /**
      * Sets the data store from a Swing {@link TableModel}.
@@ -328,7 +383,15 @@ public class GridPanel
     	this.tableModel = tableModel;
     	tableModel.removeTableModelListener(this); // just in case they set the same table model
     	tableModel.addTableModelListener(this);
-    	
+
+        if (pageSize > 0) {
+            if (getBottomToolbar() == null) {
+                addPagingToolbar();
+            } else {
+                ((PagingToolbar) getBottomToolbar()).setTableModel(tableModel);
+            }
+        }
+
     	firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always force change
     }
 
@@ -343,7 +406,8 @@ public class GridPanel
         suppressChangeNotifications = true;
         selectionModel.clearSelection();
         for (int i = 0; i < selectedIndices.length; ++i) {
-            selectionModel.setSelectedIndex(selectedIndices[i], true);
+            selectionModel.addSelectionInterval(selectedIndices[i],
+                    selectedIndices[i]);
         }
         // End temporary suppression.
         suppressChangeNotifications = false;
@@ -362,9 +426,9 @@ public class GridPanel
         }
         ListSelectionModel oldValue = selectionModel;
         if (oldValue != null) {
-            oldValue.removeChangeListener(changeHandler);
+            oldValue.removeListSelectionListener(listSelectionListener);
         }
-        newValue.addChangeListener(changeHandler);
+        newValue.addListSelectionListener(listSelectionListener);
         selectionModel = newValue;
         firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
     }

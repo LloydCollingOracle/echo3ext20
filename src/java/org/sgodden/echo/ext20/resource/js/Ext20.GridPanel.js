@@ -57,10 +57,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         Echo.Render.registerPeer("Ext20GridPanel", this);
     },
 
+    _ctrlKeyDown: false,
     _selectedRows: null,
-    
-    _handleRowSelectEventRef: null,
-    _handleRowDeselectEventRef: null,
     
     /*
      * The server-side model is already correctly sorted when we are
@@ -70,11 +68,6 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
      * the data proxy.
      */
     handleSortEvents: false,
-     
-    $construct: function() {
-    	this._handleRowSelectEventRef = Core.method(this, this._handleRowSelectEvent);
-    	this._handleRowDeselectEventRef = Core.method(this, this._handleRowDeselectEvent);
-    },
     
     createExtComponent: function(update, options) {
         
@@ -95,9 +88,10 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         }
 		
         options["cm"] = this.component.get("columnModel");
-        var sm = new Ext.grid.RowSelectionModel({singleSelect:true});
-        sm.on("rowselect", this._handleRowSelectEventRef);
-        sm.on("rowdeselect", this._handleRowDeselectEventRef);
+        // TODO - multi and single select
+        var sm = new Ext.grid.RowSelectionModel();
+        sm.on("rowselect", this._handleRowSelectEvent, this);
+        sm.on("rowdeselect", this._handleRowDeselectEvent, this);
         options["sm"] = sm;
         
         options["border"] = true;
@@ -111,8 +105,14 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             emptyMsg: "No records to display"
         });
          */
+        
+        Ext.Element.get("approot").on("keydown",
+                this._handleKeyDownEvent, this);
+        Ext.Element.get("approot").on("keyup",
+                this._handleKeyUpEvent, this);
 
-        return EchoExt20.PanelSync.prototype.createExtComponent.call(this, update, options);
+        return EchoExt20.PanelSync.prototype
+                .createExtComponent.call(this, update, options);
     },
     
     doSort: function(fieldName, sortDirection) {
@@ -120,36 +120,39 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         this.component.set("sortDirection", sortDirection);
         this.component.doSort();
     },
+
+    _handleKeyDownEvent: function(evt) {
+        if (evt.keyCode == 17) {
+            //alert("Control pressed");
+            this._ctrlKeyDown = true;
+        }
+    },
+
+    _handleKeyUpEvent: function(evt) {
+        this._ctrlKeyDown = false;
+    },
     
     _handleRowActivation: function() {
         this.component.doAction();
     },
     
     _handleRowDeselectEvent: function(selectionModel, rowIndex, record) {
-        // update the selection value
-        if (this._selectedRows[rowIndex] != null) {
-            delete this._selectedRows[rowIndex];
+        var pageOffset = this.component.get("pageOffset");
+        var index = pageOffset + rowIndex;
+        if (this._selectedRows[index] != null) {
+            delete this._selectedRows[index];
         }
+        this._updateRowSelection();
     },
     
     _handleRowSelectEvent: function(selectionModel, rowIndex, record) {
-        // update the selection value
-        this._selectedRows[rowIndex] = true;
-
-        // and now update the selection in the component
-        var selectionString = "";
-        var first = true;
-
-        for (var row in this._selectedRows) {
-            if (!first) {
-                selectionString += ",";
-            }
-            first = false;
-
-            selectionString += row;
+        var pageOffset = this.component.get("pageOffset");
+        var index = pageOffset + rowIndex;
+        if (!this._ctrlKeyDown) {
+            this._selectedRows = {};
         }
-
-        this.component.set("selection", selectionString);
+        this._selectedRows[index] = true;
+        this._updateRowSelection();
     },
     
     /**
@@ -221,6 +224,14 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         ret.on("rowdblclick", this._handleRowActivation, this);
         return ret;
     },
+
+    renderDispose: function(update) {
+        EchoExt20.PanelSync.prototype.renderDispose.call(this, update);
+        Ext.Element.get("approot").un("keydown",
+                this._handleKeyDownEvent);
+        Ext.Element.get("approot").un("keyup",
+                this._handleKeyUpEvent);
+    },
 	
     renderUpdate: function(update) {
         EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
@@ -229,8 +240,6 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         if (updatedStore != null) {
             // avoid infinite loop on sorting
             this.handleSortEvents = false;
-            // forget current selections
-            this._selectedRows = {};
             this.extComponent.reconfigure(
               this._makeStore(),
               this.component.get("columnModel")
@@ -238,22 +247,19 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             this.handleSortEvents = true;
         }
     },
-    
-    /**
-     * Updates the selection string in the component based on 
-     */
-    updateSelection: function() {
-        var selection = "";
-        var selModel = this.extComponent.getSelectionModel();
-        for (var i = 0; i < this.component.get("model").data.length; i++) {
-            if (selModel.isSelected(i)) {
-                if (selection != "") {
-                    selection +=",";
-                }
-                selection += i;
+
+    _updateRowSelection: function() {
+        var selectionString = "";
+        var first = true;
+        for (var row in this._selectedRows) {
+            if (!first) {
+                selectionString += ",";
             }
+            first = false;
+
+            selectionString += row;
         }
-        this.component.set("selection", selection);
+        this.component.set("selection", selectionString);
     }
 
 });

@@ -28,7 +28,29 @@ public class Toolbar
 	 * The position (top or bottom) of the toolbar.
 	 */
     public static final String POSITION_PROPERTY = "position";
-    
+
+    /**
+     * Adds a separator.
+     */
+    public void addSeparator() {
+        add(new ToolbarSeparator());
+    }
+
+    /**
+     * Adds and returns a toolbar text item with the specified text.
+     * @param text the text for the toolbar item.
+     * @return the newly created toolbar text item.
+     */
+    public ToolbarTextItem addTextItem(String text) {
+        ToolbarTextItem item = new ToolbarTextItem(text);
+        add(item);
+        return item;
+    }
+
+    /**
+     * Sets the toolbar's position (either top or bottom).
+     * @param position the position.
+     */
     void setPosition(Position position) {
         switch (position) {
             case TOP:
