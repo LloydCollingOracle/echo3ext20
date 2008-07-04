@@ -79,20 +79,25 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
 
         extComponent.on(
             "render",
-            function(){
-                extComponent.getEl().on(
-                    "keyup",
-                    this._handleValueChangeEvent,
-                    this);
-                extComponent.getEl().on(
-                    "click",
-                    this._handleClickEvent,
-                    this);
-            }, 
+            this._doOnRender,
             this);
 
-		
     	return extComponent;
+    },
+
+    _doOnRender: function() {
+        this.extComponent.getEl().on(
+            "keyup",
+            this._handleValueChangeEvent,
+            this);
+        this.extComponent.getEl().on(
+            "click",
+            this._handleClickEvent,
+            this);
+        if (this.component.get("size")) {
+            this.extComponent.getEl().dom.size =
+                this.component.get("size");
+        }
     },
 
     _handleClickEvent: function(evt) {

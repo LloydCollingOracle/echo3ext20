@@ -34,6 +34,7 @@ public class TextField
     public static final String EMPTY_TEXT_PROEPRTY = "emptyText";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String INVALID_TEXT_PROPERTY = "invalidText";
+    public static final String PROPERTY_SIZE = "size";
     public static final String REGEXP_FAILURETEXT_PROPERTY = "regExpFailureText";
     public static final String REGEXP_PROPERTY = "regExp";
     public static final String VALUE_CHANGED_PROPERTY = "value";
@@ -57,6 +58,15 @@ public class TextField
     }
 
     /**
+     * Creates a new text field of the specified size.
+     * @param size th size of the field in characters.
+     */
+    public TextField(int size) {
+        this();
+        setSize(size);
+    }
+
+    /**
      * Creates a new text field.
      * @param text the text content of the field.
      * @param fieldLabel the field label to display in forms.
@@ -68,19 +78,19 @@ public class TextField
     }
 
     /**
+     * Returns the value (text) of the field.
+     * @return the value of the field.
+     */
+    public String getValue() {
+        return (String) getComponentProperty(VALUE_CHANGED_PROPERTY);
+    }
+
+    /**
      * Sets the value (text) of the field.
      * @param value the value of the field.
      */
     public void setValue(String value) {
         setComponentProperty(VALUE_CHANGED_PROPERTY, value);
-    }
-
-    /**
-     * Returns the value (text) of the field. 
-     * @return the value of the field.
-     */
-    public String getValue() {
-        return (String) getComponentProperty(VALUE_CHANGED_PROPERTY);
     }
 
     /**
@@ -137,6 +147,14 @@ public class TextField
      */
     public void setRegexpFailureText(String regExpFailureText) {
         setComponentProperty(REGEXP_FAILURETEXT_PROPERTY, regExpFailureText);
+    }
+
+    /**
+     * Sets the size of the text field in characters.
+     * @param size the size of the text field in characters.
+     */
+    public void setSize(int size) {
+        setComponentProperty(PROPERTY_SIZE, size);
     }
 
     @Override
