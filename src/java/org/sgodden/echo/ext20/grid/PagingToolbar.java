@@ -4,6 +4,8 @@ import javax.swing.table.TableModel;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.echo.ext20.ToolbarTextItem;
 
@@ -17,7 +19,7 @@ public class PagingToolbar extends Toolbar {
     private Button previousButton;
     private Button nextButton;
     private Button lastButton;
-    private ToolbarTextItem currentPageTextItem;
+    private TextField currentPageTextField;
     private ToolbarTextItem totalPagesTextItem;
 
     private int pageOffset;
@@ -55,8 +57,16 @@ public class PagingToolbar extends Toolbar {
 
         addTextItem("Page");
 
-        currentPageTextItem = new ToolbarTextItem();
-        add(currentPageTextItem);
+        Panel p = new Panel();
+        add(p);
+
+        p.addKeyPressListener("enter", new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                setPage();
+            }
+        });
+        currentPageTextField = new TextField();
+        p.add(currentPageTextField);
 
         addTextItem(" of ");
         totalPagesTextItem = new ToolbarTextItem();
@@ -82,7 +92,7 @@ public class PagingToolbar extends Toolbar {
         firstButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 setPageOffset(0);
-                currentPageTextItem.setText("1");
+                currentPageTextField.setValue("1");
                 previousButton.setEnabled(false);
                 firstButton.setEnabled(false);
                 nextButton.setEnabled(true);
@@ -93,7 +103,7 @@ public class PagingToolbar extends Toolbar {
         previousButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 setPageOffset(pageOffset - pageSize);
-                currentPageTextItem.setText(
+                currentPageTextField.setValue(
                         String.valueOf((pageOffset / pageSize) + 1));
                 /*
                  * If we're on the first page, disable the previous
@@ -111,7 +121,7 @@ public class PagingToolbar extends Toolbar {
         nextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 setPageOffset(pageOffset + pageSize);
-                currentPageTextItem.setText(
+                currentPageTextField.setValue(
                         String.valueOf((pageOffset / pageSize) + 1));
                 int finalPageOffset = (
                         (model.getRowCount() -1) / pageSize)
@@ -134,7 +144,7 @@ public class PagingToolbar extends Toolbar {
                         ( (model.getRowCount() -1) / pageSize)
                         * pageSize
                     );
-                currentPageTextItem.setText(
+                currentPageTextField.setValue(
                         String.valueOf((pageOffset / pageSize) + 1));
                 nextButton.setEnabled(false);
                 lastButton.setEnabled(false);
@@ -142,6 +152,19 @@ public class PagingToolbar extends Toolbar {
                 firstButton.setEnabled(true);
             }
         });
+    }
+
+    private void setPage() {
+        int requestedPage = Integer.parseInt(currentPageTextField.getValue());
+        int requestedPageOffset = (requestedPage - 1) * pageSize;
+        int maxPageOffset = ( (model.getRowCount() -1) / pageSize)
+                        * pageSize;
+        if (requestedPageOffset > maxPageOffset) {
+            requestedPageOffset = maxPageOffset;
+            currentPageTextField.setValue(
+                    String.valueOf( (maxPageOffset / pageSize) + 1) ) ;
+        }
+        setPageOffset(requestedPageOffset);
     }
 
     private void setPageOffset(int pageOffset) {
@@ -158,7 +181,7 @@ public class PagingToolbar extends Toolbar {
         nextButton.setEnabled(true);
         lastButton.setEnabled(true);
 
-        currentPageTextItem.setText("1");
+        currentPageTextField.setValue("1");
 
         int totalPages = (model.getRowCount() / pageSize);
         if (model.getRowCount() % pageSize > 0) {

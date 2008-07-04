@@ -33,12 +33,6 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         Echo.Render.registerPeer("Ext20RadioButton", this);
     },
     
-    _handleBlurEventRef: null,
-    
-    $construct: function() {
-        this._handleBlurEventRef = Core.method(this, this._handleBlurEvent);
-    },
-    
     createExtComponent: function(update, options) {
         
         var selected = this.component.get("selected");
@@ -52,12 +46,27 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         var extComponent = new Ext.form.Radio(options);
         extComponent.setValue(selected);
-        extComponent.on('blur', this._handleBlurEventRef);
+        extComponent.on('check', this._handleCheckEvent, this);
+
+        extComponent.on(
+            "render",
+            function() {
+                extComponent.getEl().on(
+                    "click",
+                    function(){
+                        this.component.application.setFocusedComponent(
+                            this.component);
+                    },
+                    this
+                    );
+            },
+            this
+            );
         
         return extComponent;
     },
     
-    _handleBlurEvent: function() {
+    _handleCheckEvent: function() {
         this.component.set("selected", this.extComponent.getValue());
     }
     

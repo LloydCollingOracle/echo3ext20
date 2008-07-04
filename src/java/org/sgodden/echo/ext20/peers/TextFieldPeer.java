@@ -40,6 +40,7 @@ public class TextFieldPeer
         super();
         addOutputProperty(TextField.VALID_PROPERTY);
         addOutputProperty(TextField.INVALID_TEXT_PROPERTY);
+        addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);
     }
 
     public Class getComponentClass() {

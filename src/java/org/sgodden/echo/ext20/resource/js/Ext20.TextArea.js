@@ -17,7 +17,7 @@
 /**
  * Component implementation for Ext.form.TextArea.
  */
-EchoExt20.TextArea = Core.extend(EchoExt20.ExtComponent, {
+EchoExt20.TextArea = Core.extend(EchoExt20.TextField, {
 	
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20TextArea", this);

@@ -44,12 +44,6 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     $load: function() {
         Echo.Render.registerPeer("Ext20Button", this);
     },
-    
-    _handleClickEventRef: null,
-    
-    $construct: function() {
-    	this._handleClickEventRef = Core.method(this, this._handleClickEvent);
-    },
 
     $virtual: {
         /**
@@ -97,7 +91,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
     
     	var extComponent = this.newExtComponentInstance(options);
-    	extComponent.on('click', this._handleClickEventRef);
+    	extComponent.on('click', this._handleClickEvent, this);
     	
     	return extComponent;
     },
@@ -107,6 +101,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
      * its action event.
      */
     _handleClickEvent: function() {
+        this.component.application.setFocusedComponent(this.component);
     	this.component.doAction();
     },
 
@@ -127,6 +122,5 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
         }
     }
-
 
 });

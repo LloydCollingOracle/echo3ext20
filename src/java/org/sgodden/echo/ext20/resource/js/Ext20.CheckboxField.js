@@ -43,12 +43,6 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         Echo.Render.registerPeer("Ext20CheckboxField", this);
     },
     
-    _handleSelectionEventRef: null,
-    
-    $construct: function() {
-        this._handleSelectionEventRef = Core.method(this, this._handleSelectionEvent);
-    },
-    
     /**
      * Called by the base class to create the ext component.
      */
@@ -62,7 +56,23 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         var extComponent = new Ext.form.Checkbox(options);
         extComponent.setValue(selected);
-        extComponent.on('check', this._handleSelectionEventRef);
+        extComponent.on('check', this._handleCheckEvent, this);
+
+        extComponent.on(
+            "render",
+            function() {
+                extComponent.getEl().on(
+                    "click",
+                    function(){
+                        this.component.application.setFocusedComponent(
+                            this.component);
+                    },
+                    this
+                    );
+            },
+            this
+            );
+
         
         return extComponent;
     },
@@ -72,10 +82,10 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
      * selected value, and firing the event in case there are any
      * listeners.
      */
-    _handleSelectionEvent: function() {
+    _handleCheckEvent: function() {
         var selected = this.extComponent.getValue();
         if (selected != this.component.get("selected")) {
-        this.component.set("selected", this.extComponent.getValue());
+            this.component.set("selected", this.extComponent.getValue());
             this.component.doAction();			
         }
     }

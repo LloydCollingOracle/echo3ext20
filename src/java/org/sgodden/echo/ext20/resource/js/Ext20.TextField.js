@@ -48,15 +48,6 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
     },
     
-    _handleValueChangeEventRef: null,
-    
-    /**
-     * Creates a new instance of the sync peer.
-     */
-    $construct: function() {
-    	this._handleValueChangeEventRef = Core.method(this, this._handleValueChangeEvent);
-    },
-    
     /**
      * Called by the base class to create the ext component.
      */
@@ -82,27 +73,30 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (this.component.get("regExpFailureText")){
             options.regexText = this.component.get("regExpFailureText");
         }
+        options.selectOnFocus = true;
     
     	var extComponent = this.newExtComponentInstance(options);
 
-        /*
-         * Ensure that we update the component's value on every keyup, so that
-         * if there are key listeners on our ancestors, the correct value
-         * gets transferred to the server.
-         * 
-         * I am assuming that the ext destroy processing removes these, need to prove that.
-         */	
         extComponent.on(
             "render",
             function(){
-                Core.Web.Event.add(this.extComponent.getEl().dom, 
-                    "keyup", this._handleValueChangeEventRef, false);
-                // FIXME - it's probably wrong to validate at this point
-                extComponent.validate();
+                extComponent.getEl().on(
+                    "keyup",
+                    this._handleValueChangeEvent,
+                    this);
+                extComponent.getEl().on(
+                    "click",
+                    this._handleClickEvent,
+                    this);
             }, 
             this);
+
 		
     	return extComponent;
+    },
+
+    _handleClickEvent: function() {
+        this.component.application.setFocusedComponent(this.component);
     },
     
     /**

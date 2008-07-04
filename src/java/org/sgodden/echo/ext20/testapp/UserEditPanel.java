@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -87,9 +89,16 @@ public class UserEditPanel
         postcodeField.setRegexpFailureText("Invalid Postcode");
         add(postcodeField);
 
+        postcodeField.addPropertyChangeListener(
+            TextField.VALUE_CHANGED_PROPERTY, new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                log.info("The value in the postcode field changed");
+            }
+        });
+
         final TextField invalidField = new TextField();
         invalidField.setFieldLabel("Invalid Field");
-        invalidField.setValue("Is this field is invalid for businnes reasons?");
+        invalidField.setValue("Is this field is invalid for busines reasons?");
         add(invalidField);
 
         PasswordField passwordField = new PasswordField();

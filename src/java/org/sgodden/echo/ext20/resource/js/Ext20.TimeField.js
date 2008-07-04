@@ -39,12 +39,6 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         Echo.Render.registerPeer("Ext20TimeField", this);
     },
     
-    _handleBlurEventRef: null,
-    
-    $construct: function() {
-        this._handleBlurEventRef = Core.method(this, this._handleBlurEvent);
-    },
-    
     /**
      * Called by the base class to create the ext component.
      */
@@ -71,18 +65,35 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
             extComponent.setValue(time);
         }
         
-        extComponent.on('blur', this._handleBlurEventRef);
+        extComponent.on(
+            "render",
+            function(){
+                extComponent.getEl().on(
+                    "keyup",
+                    this._handleValueChangeEvent,
+                    this);
+                extComponent.getEl().on(
+                    "click",
+                    this._handleClickEvent,
+                    this);
+            },
+            this);
+
         
         return extComponent;
     },
-    
+
+    _handleClickEvent: function() {
+        this.component.application.setFocusedComponent(this.component);
+    },
+
     /**
      * Handles the blur event by setting the value on the component.
      * <p>
      * FIXME - don't we need to handle the 'select' event too?
      * </p>
      */
-    _handleBlurEvent: function() {
+    _handleValueChangeEvent: function() {
         var value = this.extComponent.getValue();
         this.component.set("time", value);
     },

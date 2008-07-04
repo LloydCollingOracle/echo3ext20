@@ -95,7 +95,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
 
         ret.on(
             "select",
-            this._handleClickEvent,
+            this._handleSelectEvent,
             this
         );
 
@@ -111,10 +111,10 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     },
 
     /**
-     * Handles the click event by requestint the component to fire
+     * Handles the select event by requestint the component to fire
      * its action event.
      */
-    _handleClickEvent: function() {
+    _handleSelectEvent: function() {
     	this.component.doAction();
     }
 
