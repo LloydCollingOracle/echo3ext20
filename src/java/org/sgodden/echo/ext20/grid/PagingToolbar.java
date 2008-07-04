@@ -11,6 +11,10 @@ import org.sgodden.echo.ext20.ToolbarTextItem;
 
 /**
  * A toolbar which contains paging controls for a grid.
+ * <p>
+ * This control contains various pieces of text, which default to
+ * english.  These can be overriden using the appropriate methods.
+ * </p>
  * @author sgodden
  */
 public class PagingToolbar extends Toolbar {
@@ -32,10 +36,26 @@ public class PagingToolbar extends Toolbar {
     private int maxPageOffset;
     private int pageSize;
 
+    private String pageText = "Page";
+    private String ofText = "of";
+    private String rowsPerPageText = "Rows per page";
+    private String displayingItemsText = "Displaying items";
+    private String toText = "to";
+
     private PagingToolbarClient client;
     private TableModel model;
 
-    PagingToolbar(
+    public PagingToolbar() { }
+
+    public PagingToolbar(
+            TableModel model,
+            int pageSize,
+            PagingToolbarClient client) {
+
+        initialise(model, pageSize, client);
+    }
+
+    public void initialise(
             TableModel model,
             int pageSize,
             PagingToolbarClient client) {
@@ -64,7 +84,7 @@ public class PagingToolbar extends Toolbar {
 
         addSeparator();
 
-        addTextItem("Page: ");
+        addTextItem(pageText + ":");
 
         Panel p = new Panel();
         add(p);
@@ -77,7 +97,7 @@ public class PagingToolbar extends Toolbar {
         currentPageTextField = new TextField(3);
         p.add(currentPageTextField);
 
-        addTextItem(" of ");
+        addTextItem(ofText);
         totalPagesTextItem = new ToolbarTextItem();
         add(totalPagesTextItem);
 
@@ -95,7 +115,7 @@ public class PagingToolbar extends Toolbar {
 
         addSeparator();
 
-        addTextItem("Rows per page: ");
+        addTextItem(rowsPerPageText + ":");
 
         p = new Panel();
         add(p);
@@ -112,13 +132,13 @@ public class PagingToolbar extends Toolbar {
         // add the "Displaying items..." information
         addSeparator();
 
-        addTextItem("Displaying items:"); // FIXME - i18n
+        addTextItem(displayingItemsText);
         firstDisplayItemIndex = new ToolbarTextItem();
         add(firstDisplayItemIndex);
-        addTextItem("to"); // FIXME - i18n
+        addTextItem(toText);
         lastDisplayItemIndex = new ToolbarTextItem();
         add(lastDisplayItemIndex);
-        addTextItem("of"); // FIXME - i18n
+        addTextItem(ofText);
         totalItems = new ToolbarTextItem();
         add(totalItems);
 
@@ -236,6 +256,46 @@ public class PagingToolbar extends Toolbar {
 
         totalPagesTextItem.setText(String.valueOf(totalPages));
         enableButtons();
+    }
+
+    /**
+     * Sets the text to be used in place of the english "Displaying items".
+     * @param displayingItemsString the text to use.
+     */
+    public void setDisplayingItemsText(String displayingItemsText) {
+        this.displayingItemsText = displayingItemsText;
+    }
+
+    /**
+     * Sets the text to be used in place of the english "to".
+     * @param ofString the text to use.
+     */
+    public void setOfText(String ofText) {
+        this.ofText = ofText;
+    }
+
+    /**
+     * Sets the text to be used in place of the english "Page".
+     * @param pageString the text to use.
+     */
+    public void setPageText(String pageText) {
+        this.pageText = pageText;
+    }
+
+    /**
+     * Sets the text to be used in place of the english "Rows per page".
+     * @param rowsPerPageString the text to use.
+     */
+    public void setRowsPerPageText(String rowsPerPageText) {
+        this.rowsPerPageText = rowsPerPageText;
+    }
+
+    /**
+     * Sets the text to be used in place of the english "to".
+     * @param toString the text to use.
+     */
+    public void setToText(String toText) {
+        this.toText = toText;
     }
 
 }

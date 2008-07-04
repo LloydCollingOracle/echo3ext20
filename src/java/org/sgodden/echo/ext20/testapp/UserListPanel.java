@@ -41,6 +41,7 @@ import org.sgodden.echo.ext20.ToolbarTextItem;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
 import org.sgodden.echo.ext20.grid.ColumnModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
+import org.sgodden.echo.ext20.grid.PagingToolbar;
 import org.sgodden.echo.ext20.layout.FitLayout;
 
 /**
@@ -104,6 +105,7 @@ public class UserListPanel
         userGridPanel.setPageSize(20);
         userGridPanel.setTableModel(makeTableModel());
         userGridPanel.setToolbar(makeToolbar());
+        userGridPanel.setBottomToolbar(new PagingToolbar());
         /*
          * Don't bother with grouping for now since the models
          * don't play properly with it, rendering it effectively useless

@@ -141,16 +141,6 @@ public class GridPanel
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
     }
 
-    private void addPagingToolbar() {
-        
-        Toolbar toolbar = new PagingToolbar(
-                getTableModel(),
-                pageSize,
-                this
-        );
-        setBottomToolbar(toolbar);
-    }
-
     /**
      * Fires an action event to all listeners.
      */
@@ -325,6 +315,25 @@ public class GridPanel
     }
 
     /**
+     * Sets the bottom toolbar, which must be an instance of
+     * {@link PagingToolbar}.
+     * @param toolbar
+     */
+    @Override
+    public void setBottomToolbar(Toolbar toolbar) {
+        if (!(toolbar instanceof PagingToolbar)) {
+            throw new IllegalArgumentException("Toolbar must be" +
+                " an instance of org.sgodden.echo.ext20.grid.PagingToolbar");
+        }
+        if (getTableModel() == null || pageSize ==0) {
+            throw new IllegalStateException("Initialise the model and" +
+                    " page size before setting the paging toolbar");
+        }
+        super.setBottomToolbar(toolbar);
+        ((PagingToolbar)toolbar).initialise(getTableModel(), pageSize, this);
+    }
+
+    /**
      * Sets the column model for the table.
      * @param columnModel the column model for the table.
      */
@@ -359,13 +368,6 @@ public class GridPanel
      */
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
-
-        if (pageSize > 0 
-                && getTableModel() != null
-                && getBottomToolbar() == null) {
-            addPagingToolbar();
-        }
-
         tableChanged(null);
     }
 
@@ -443,14 +445,6 @@ public class GridPanel
     	this.tableModel = tableModel;
     	tableModel.removeTableModelListener(this); // just in case they set the same table model
     	tableModel.addTableModelListener(this);
-
-        if (pageSize > 0) {
-            if (getBottomToolbar() == null) {
-                addPagingToolbar();
-            } else {
-                ((PagingToolbar) getBottomToolbar()).setTableModel(tableModel);
-            }
-        }
 
     	firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always force change
     }
