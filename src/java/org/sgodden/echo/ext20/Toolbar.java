@@ -30,6 +30,13 @@ public class Toolbar
     public static final String POSITION_PROPERTY = "position";
 
     /**
+     * Adds a greed (100% width) filler item.
+     */
+    public void addFill() {
+        add(new ToolbarFill());
+    }
+
+    /**
      * Adds a separator.
      */
     public void addSeparator() {

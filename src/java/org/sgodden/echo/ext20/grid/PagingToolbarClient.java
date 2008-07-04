@@ -11,4 +11,16 @@ public interface PagingToolbarClient {
      */
     public void setPageOffset(int pageOffset);
 
+    /**
+     * Returns the current page size.
+     * @return the current page size.
+     */
+    public int getPageSize();
+
+    /**
+     * Sets the new page size.
+     * @param pageSize the new page size.
+     */
+    public void setPageSize(int pageSize);
+
 }

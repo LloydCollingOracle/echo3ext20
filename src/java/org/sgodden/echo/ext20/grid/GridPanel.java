@@ -29,8 +29,6 @@ import javax.swing.table.TableModel;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SortOrder;
 import org.sgodden.echo.ext20.Toolbar;
@@ -68,7 +66,7 @@ gridPanel.addActionListener(new ActionListener(){
 @SuppressWarnings({"serial","unchecked"})
 public class GridPanel
         extends Panel 
-        implements TableModelListener {
+        implements TableModelListener, PagingToolbarClient {
 
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
@@ -148,12 +146,8 @@ public class GridPanel
         Toolbar toolbar = new PagingToolbar(
                 getTableModel(),
                 pageSize,
-                new PagingToolbarClient() {
-
-            public void setPageOffset(int pageOffset) {
-                GridPanel.this.setPageOffset(pageOffset);
-            }
-        });
+                this
+        );
         setBottomToolbar(toolbar);
     }
 
@@ -352,7 +346,7 @@ public class GridPanel
      * in the grid view.
      * @param pageOffset the offset to the first record in the model.
      */
-    private void setPageOffset(int pageOffset) {
+    public void setPageOffset(int pageOffset) {
         setComponentProperty(PAGE_OFFSET_PROPERTY, pageOffset);
         tableChanged(null);
     }
@@ -366,9 +360,13 @@ public class GridPanel
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
 
-        if (pageSize > 0 && getTableModel() != null) {
+        if (pageSize > 0 
+                && getTableModel() != null
+                && getBottomToolbar() == null) {
             addPagingToolbar();
         }
+
+        tableChanged(null);
     }
 
     /**
