@@ -95,8 +95,11 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     	return extComponent;
     },
 
-    _handleClickEvent: function() {
-        this.component.application.setFocusedComponent(this.component);
+    _handleClickEvent: function(evt) {
+        var focusedComponent = this.component.application.getFocusedComponent();
+        if (!(focusedComponent == this.component)) {
+            this.component.application.setFocusedComponent(this.component);
+        }
     },
     
     /**

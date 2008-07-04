@@ -204,6 +204,8 @@ public class UserEditPanel
         });
 
         addButton(createAlignTestButton());
+
+        ApplicationInstance.getActive().setFocusedComponent(codeField);
     }
 
     /**

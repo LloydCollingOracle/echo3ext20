@@ -350,8 +350,12 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         this.extComponent = this.newExtComponentInstance(options);
         
         if (children.length > 0) {
+            this.component.focusable = true;
             this._createChildItems(update, children);
             this._conditionalDoLayout(children);
+        }
+        else {
+            this.component.focusable = false;
         }
         
         return this.extComponent;

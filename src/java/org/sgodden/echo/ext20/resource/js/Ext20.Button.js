@@ -72,6 +72,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         if ( !(this.component.isEnabled()) ) {
             options['disabled'] = true;
+            this.component.focusable = false;
     	}
 
         // see if we have a menu child item
@@ -114,11 +115,13 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (this.component.isEnabled()) {
             if (this.extComponent.disabled) {
                 this.extComponent.enable();
+                this.component.focusable = true;
             }
         }
         else {
             if (!this.extComponent.disabled) {
                 this.extComponent.disable();
+                this.component.focusable = false;
             }
         }
     }

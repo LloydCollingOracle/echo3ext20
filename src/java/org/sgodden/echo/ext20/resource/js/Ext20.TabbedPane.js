@@ -20,8 +20,6 @@ EchoExt20.TabbedPane = Core.extend(EchoExt20.Panel, {
         Echo.ComponentFactory.registerType("Ext20TabbedPane", this);
         Echo.ComponentFactory.registerType("E2TP", this);
     },
-
-    focusable: true,
     
     componentType: "Ext20TabbedPane",
     

@@ -134,6 +134,28 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
          */
         createExtComponent: function(update, options) {}
     },
+
+    $virtual: {
+        renderFocus: function() {
+            if (this.extComponent.rendered) {
+                this.extComponent.focus();
+                if (this.extComponent.selectText) {
+                    this.extComponent.selectText();
+                }
+            }
+            else {
+                this.extComponent.on(
+                    "render",
+                    function(){ 
+                        this.extComponent.focus()
+                        if (this.extComponent.selectText) {
+                            this.extComponent.selectText();
+                        }
+                    },
+                    this)
+            }
+        }
+    },
     
     /**
      * Simple marker property to identify that this as an ext-related peer.
@@ -448,13 +470,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         var extEl = this.extComponent.getEl();
         extEl.dom.style.position = "absolute";
         extEl.alignTo(otherId, alignmentString, [offsetX,offsetY]);
-    },
-    
-    renderFocus: function() {
-//        this.extComponent.on("render", function(){
-//            this.extComponent.focus(true);
-//        }, this);
-        this.extComponent.focus();
     }
     
 });

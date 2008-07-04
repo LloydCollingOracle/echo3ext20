@@ -16,6 +16,7 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
@@ -97,6 +98,7 @@ public class UserPanel
                 switchToListPanel();
             }
         });
+
     }
     
 }
