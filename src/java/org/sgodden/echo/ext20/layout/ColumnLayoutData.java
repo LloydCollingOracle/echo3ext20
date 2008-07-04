@@ -31,6 +31,12 @@ public class ColumnLayoutData
     private double columnWidth;
 
     /**
+     * Creates a new Column layout data object.
+     */
+    public ColumnLayoutData(){
+    }
+
+    /**
      * Creates a new column layout data object, the specified column width.
      * <p/>
      * The total value of columnWidth for all children added to a column
