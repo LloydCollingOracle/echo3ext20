@@ -47,14 +47,12 @@ public class PagingToolbar extends Toolbar {
 
     public PagingToolbar() { }
 
-    public PagingToolbar(
-            TableModel model,
-            int pageSize,
-            PagingToolbarClient client) {
-
-        initialise(model, pageSize, client);
-    }
-
+    /**
+     * Must be called to initialise the toolbar before it is displayed.
+     * @param model the underlying table model.
+     * @param pageSize the page size.
+     * @param client the client which will handle callbacks.
+     */
     public void initialise(
             TableModel model,
             int pageSize,
