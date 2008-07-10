@@ -43,25 +43,29 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     $load: function() {
         Echo.Render.registerPeer("Ext20ComboBox", this);
     },
+
+    /**
+     * Whether event firing is suspended (to avoid infinite client-server
+     * event processing loops).
+     */
+    _suspendEvents: false,
     
     /**
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
-    
-        // add our own specific options
         
-    	if (this.component.get("displayField") != null) {
-             options["displayField"] = this.component.get("displayField");
-        }
+        options["displayField"] = "display";
+        options["valueField"] = "value";
+
     	if (this.component.get("editable") != null) {
              options["editable"] = this.component.get("editable");
         }
     	if (this.component.get("forceSelection") != null) {
              options["forceSelection"] = this.component.get("forceSelection");
         }
-    	if (this.component.get("store") != null) {
-    	     var store = this.component.get("store");
+    	if (this.component.get("model") != null) {
+    	     var store = this.component.get("model");
     	     var simpleStore = new Ext.data.SimpleStore({
                  fields: store.fields,
                  id: store.id,
@@ -72,27 +76,22 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     	if (this.component.get("typeAhead") != null) {
             options["typeAhead"] = this.component.get("typeAhead");
         }
-    	if (this.component.get("valueField") != null) {
-            options["valueField"] = this.component.get("valueField");
-        }
         options['mode'] = 'local';
         
         // and then call the superclass method
     	var ret = EchoExt20.TextFieldSync.prototype.createExtComponent.call(
             this, update, options);
-        
-        /*
-         * The superclass ensured that we capture the value change
-         * when the key up event occurs, but we also need to ensure that
-         * it captures it when the user changes the selected value using
-         * the combo drop-down.
-         */
+
+        ret.on(
+            "render",
+            this._setSelection,
+            this
+        );
         ret.on(
             "select",
             this._handleValueChangeEvent,
             this
         );
-
         ret.on(
             "select",
             this._handleSelectEvent,
@@ -100,6 +99,18 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         );
 
         return ret;
+    },
+
+    /**
+     * Handles the select event by requestint the component to fire
+     * its action event.
+     */
+    _handleSelectEvent: function() {
+        if (!_suspendEvents) {
+            var selectedIndex = this.extComponent.getValue();
+            this.component.set("selection", parseInt(selectedIndex));
+            this.component.doAction();
+        }
     },
     
     /**
@@ -110,12 +121,20 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         return new Ext.form.ComboBox(options);
     },
 
-    /**
-     * Handles the select event by requestint the component to fire
-     * its action event.
-     */
-    _handleSelectEvent: function() {
-    	this.component.doAction();
+    renderUpdate: function(update) {
+        EchoExt20.TextFieldSync.prototype.renderUpdate.call(this, update);
+        this._suspendEvents = true;
+        this._setSelection();
+        this._suspendEvents = false;
+    },
+
+    _setSelection: function() {
+        if (this.component.get("selection") > -1) {
+            this.extComponent.setValue(this.component.get("selection"));
+        }
+        else {
+            this.extComponent.clearValue();
+        }
     }
 
 });

@@ -5,9 +5,17 @@
 package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import nextapp.echo.app.event.ActionEvent;
-import org.sgodden.echo.ext20.data.SimpleStore;
 import nextapp.echo.app.event.ActionListener;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A combo box control with support for autocomplete.
@@ -38,55 +46,66 @@ add(combo);
  */
 @SuppressWarnings({"serial"})
 public class ComboBox
-        extends TextField {
+        extends ExtComponent {
 
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
-    public static final String DISPLAY_FIELD_PROPERTY = "displayField";
     public static final String EDITABLE_PROPERTY = "editable";
+    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String FORCE_SELECTION_PROPERTY = "forceSelection";
     public static final String INPUT_ACTION = "action";
+    public static final String MODEL_CHANGED_PROPERTY="model";
+    public static final String SELECTION_CHANGED_PROPERTY = "selection";
+    public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
     public static final String STORE_PROPERTY = "store";
     public static final String TYPE_AHEAD_PROPERTY = "typeAhead";
-    public static final String VALUE_FIELD_PROPERTY = "valueField";
+
+
+    private ListModel model;
+    private ListSelectionModel selectionModel;
+    /**
+     * Local handler for list data events.
+     */
+    private ListDataListener listDataListener = new ListDataListener(){
+        public void intervalAdded(ListDataEvent e) {
+            firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+        }
+        public void intervalRemoved(ListDataEvent e) {
+            firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+        }
+        public void contentsChanged(ListDataEvent e) {
+            firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+        }
+    };
+    /**
+     * Local handler for list selection events.
+     */
+    private ListSelectionListener listSelectionListener = new ListSelectionListener() {
+        public void valueChanged(ListSelectionEvent e) {
+            if (!suppressChangeNotifications) {
+                firePropertyChange(SELECTION_CHANGED_PROPERTY, null, null);
+            }
+        }
+    };
+    private boolean suppressChangeNotifications = false;
+
 
     /**
      * Creates a new combo box.
-     * @param store the store from which to populate the entries.
+     * @param model the combo box data model.
      */
-    public ComboBox(SimpleStore store) {
+    public ComboBox(ListModel model) {
         super();
-        setStore(store);
+        setModel(model);
+        setSelectionModel(new DefaultListSelectionModel());
     }
 
     /**
      * Creates a new combo box.
-     * @param store the store from which to populate the entries.
+     * @param model the combo box data model.
      * @param fieldLabel the field label to be displayed in a form.
      */
-    public ComboBox(SimpleStore store, String fieldLabel) {
-        this(store);
-    }
-
-    /**
-     * Handles the process input event and fires any action events.
-     * @param inputName the inputName of the event.
-     * @param inputValue the associated value (irrelevant for ComboBox).
-     */
-    @Override
-    public void processInput(String inputName, Object inputValue) {
-        super.processInput(inputName, inputValue);
-        if (INPUT_ACTION.equals(inputName)) {
-            fireActionEvent();
-        }
-    }
-
-    /**
-     * Returns whether any <code>ActionListener</code>s are registered.
-     *
-     * @return true if any action listeners are registered
-     */
-    public boolean hasActionListeners() {
-        return getEventListenerList().getListenerCount(ActionListener.class) != 0;
+    public ComboBox(ListModel model, String fieldLabel) {
+        this(model);
     }
 
     /**
@@ -100,21 +119,6 @@ public class ComboBox
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
-    }
-
-    /**
-     * Removes the specified action listener.
-     * @param l the listener to remove.
-     */
-    public void removeActionListener(ActionListener l) {
-        if (!hasEventListenerList()) {
-            return;
-        }
-        getEventListenerList().removeListener(ActionListener.class, l);
-        // Notification of action listener changes is provided due to
-        // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
-
     }
 
     /**
@@ -135,12 +139,79 @@ public class ComboBox
     }
 
     /**
-     * Sets the name of the field in the simple store whose
-     * data should be displayed in the drop-down list.
-     * @param displayField the name of the store field to display.
+     * Returns the field label.
+     * @return the field label.
      */
-    public void setDisplayField(String displayField) {
-        setComponentProperty(DISPLAY_FIELD_PROPERTY, displayField);
+    public String getFieldLabel() {
+        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+    }
+
+    /**
+     * Returns the selected item.
+     * @return the selected item, or <code>null</code> if no item is selected.
+     */
+    public Object getSelectedItem() {
+        Object ret = null;
+        if (selectionModel.getMinSelectionIndex() > -1) {
+            ret = model.getElementAt(selectionModel.getMinSelectionIndex());
+        }
+        return ret;
+    }
+
+
+    /**
+     * Returns the list model.
+     * @return the list model.
+     */
+    public ListModel getModel() {
+        return model;
+    }
+
+    /**
+     * Returns the selection model.
+     * @return the selection model.
+     */
+    public ListSelectionModel getSelectionModel() {
+        return selectionModel;
+    }
+
+    /**
+     * Returns whether any <code>ActionListener</code>s are registered.
+     *
+     * @return true if any action listeners are registered
+     */
+    public boolean hasActionListeners() {
+        return getEventListenerList().getListenerCount(ActionListener.class) != 0;
+    }
+    /**
+     * Handles the process input event and fires any action events.
+     * @param inputName the inputName of the event.
+     * @param inputValue the associated value (irrelevant for ComboBox).
+     */
+    @Override
+    public void processInput(String inputName, Object inputValue) {
+        super.processInput(inputName, inputValue);
+        if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
+            processSelectionInput((Integer) inputValue);
+        }
+        else if (INPUT_ACTION.equals(inputName)) {
+            fireActionEvent();
+        }
+    }
+
+    /**
+     * Removes the specified action listener.
+     * @param l the listener to remove.
+     */
+    public void removeActionListener(ActionListener l) {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        getEventListenerList().removeListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+
     }
 
     /**
@@ -152,6 +223,14 @@ public class ComboBox
     }
 
     /**
+     * Sets the field label.
+     * @param fieldLabel the field label.
+     */
+    public void setFieldLabel(String fieldLabel) {
+        setComponentProperty(FIELD_LABEL_PROPERTY, fieldLabel);
+    }
+
+    /**
      * Sets whether it is mandatory to select one of the entries.
      * @param forceSelection whether a selection is mandatory.
      */
@@ -159,12 +238,70 @@ public class ComboBox
         setComponentProperty(FORCE_SELECTION_PROPERTY, forceSelection);
     }
 
+    public void setModel(ListModel model) {
+        if (model == null) {
+            throw new IllegalArgumentException("Model may not be null");
+        }
+        this.model = model;
+        // just in case they set the same model...
+        model.removeListDataListener(listDataListener);
+        model.addListDataListener(listDataListener);
+        firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+    }
+
     /**
-     * Sets the store from which to populate the entries.
-     * @param store the store.
+     * Selects the specified index in the selection model.
+     *
+     * @param selectedIndex the index to select.
      */
-    public void setStore(SimpleStore store) {
-        setComponentProperty(STORE_PROPERTY, store);
+    private void processSelectionInput(int selectedIndex) {
+        // Temporarily suppress the Tables selection event notifier.
+        suppressChangeNotifications = true;
+        selectionModel.clearSelection();
+        selectionModel.addSelectionInterval(selectedIndex,
+                selectedIndex);
+        // End temporary suppression.
+        suppressChangeNotifications = false;
+    }
+
+    /**
+     * Sets the selected item, clearing the selection if a <code>null</code>
+     * value is passed.
+     * @param selectedItem the selected item, or <code>null</code> to clear
+     * the selection.
+     */
+    public void setSelectedItem(Object selectedItem) {
+        if (selectedItem == null) {
+            selectionModel.clearSelection();
+        }
+        else {
+            int size = model.getSize();
+            for (int i = 0; i < size; i++) {
+                if (model.getElementAt(i).equals(selectedItem)) {
+                    selectionModel.setSelectionInterval(i, i);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets the row selection model.
+     * The selection model may not be null.
+     *
+     * @param newValue the new selection model
+     */
+    public void setSelectionModel(ListSelectionModel newValue) {
+        if (newValue == null) {
+            throw new IllegalArgumentException("Selection model may not be null.");
+        }
+        ListSelectionModel oldValue = selectionModel;
+        if (oldValue != null) {
+            oldValue.removeListSelectionListener(listSelectionListener);
+        }
+        newValue.addListSelectionListener(listSelectionListener);
+        selectionModel = newValue;
+        firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
     }
 
     /**
@@ -175,13 +312,4 @@ public class ComboBox
         setComponentProperty(TYPE_AHEAD_PROPERTY, typeAhead);
     }
 
-    /**
-     * Sets the name of the field from the store which should be returned as 
-     * the selected value.
-     * @param valueField the the name of the field from the store which should be returned as 
-     * the selected value. 
-     */
-    public void setValueField(String valueField) {
-        setComponentProperty(VALUE_FIELD_PROPERTY, valueField);
-    }
 }

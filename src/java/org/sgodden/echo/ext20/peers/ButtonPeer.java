@@ -43,8 +43,6 @@ public class ButtonPeer extends AbstractButtonPeer {
      */
     public ButtonPeer() {
         super();
-        
-        addOutputProperty(Button.ALIGNTO_PROPERTY);
     }
     
     public String getClientComponentType(boolean shortType) {
@@ -57,25 +55,6 @@ public class ButtonPeer extends AbstractButtonPeer {
     public Class getComponentClass() {
         return Button.class;
     }
-    
-        
-    @Override
-    public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
-        Object ret = null;
-        
-        if (propertyName.equals(ExtComponent.ALIGNTO_PROPERTY)) {
-            return ((ExtComponent)component).getAlignToPropertyString();
-        }
-        else {
-            ret = super.getOutputProperty(context, component, propertyName, propertyIndex);
-        }
-        
-        return ret;
-    }
-    
-    
-
-    
 
     /**
      * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#init(Context)

@@ -22,13 +22,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.sgodden.echo.ext20.Alignment;
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.CheckboxField;
 import org.sgodden.echo.ext20.ComboBox;
@@ -41,8 +42,6 @@ import org.sgodden.echo.ext20.TextArea;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.TimeField;
 import org.sgodden.echo.ext20.Window;
-import org.sgodden.echo.ext20.data.DefaultSimpleStore;
-import org.sgodden.echo.ext20.data.SimpleStore;
 import org.sgodden.echo.ext20.layout.FormLayout;
 
 /**
@@ -61,6 +60,8 @@ public class UserEditPanel
     private Button saveButton;
     private List<ActionListener> saveListeners = new ArrayList<ActionListener>();
 
+    private ComboBox roleCombo;
+
     public UserEditPanel(Object[] data) {
         super(new FormLayout());
         setRenderId("userFormPanel");
@@ -72,16 +73,10 @@ public class UserEditPanel
         final TextField codeField = new TextField((String) data[0], "Code");
         codeField.setBlankAllowed(false);
         add(codeField);
-//        codeField.setFocusTraversalIndex(0);
-//        codeField.setFocusTraversalParticipant(true);
-//        
-//        ApplicationInstance.getActive().setFocusedComponent(codeField);
 
         final TextField nameField = new TextField((String) data[1], "Name");
         nameField.setBlankAllowed(false);
         add(nameField);
-//        nameField.setFocusTraversalIndex(1);
-//        nameField.setFocusTraversalParticipant(true);
 
         TextField postcodeField = new TextField();
         postcodeField.setFieldLabel("Post code");
@@ -129,18 +124,10 @@ public class UserEditPanel
         fieldSet.add(enabledField);
 
         enabledField.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent arg0) {
-                String text = "You " +
-                        (enabledField.getSelected() ? "selected" : "unselected") +
-                        " the check box";
-                Window window = new Window(text);
-                window.setPadding("5px");
-                window.setHeight(100);
-                window.setWidth(200);
-                window.setHtml(text);
-                window.setModal(true);
-                add(window);
+                log.info("Check box " +
+                        (enabledField.getSelected() ? "selected" : "unselected")
+                        );
             }
         });
 
@@ -152,19 +139,14 @@ public class UserEditPanel
         adminRoleButton.setName("role");
         fieldSet.add(adminRoleButton);
 
-        SimpleStore roleStore = makeRoleStore();
-        final ComboBox roleCombo = makeRoleCombo(roleStore);
+        roleCombo = makeRoleCombo(makeRoleModel());
         fieldSet.add(roleCombo);
         
-                //        HtmlEditor editor = new HtmlEditor();
-                //        userEditPanel.add(editor);
-
         cancelButton = new Button("Cancel");
         cancelButton.setRenderId("cancelButton");
         addButton(cancelButton);
 
         addKeyPressListener("esc", new ActionListener() {
-
             public void actionPerformed(ActionEvent arg0) {
                 cancelButton.doClick();
             }
@@ -175,7 +157,7 @@ public class UserEditPanel
         saveButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                log.info(roleCombo.getValue());
+                log.info(roleCombo.getSelectedItem());
                 if (invalidField.getValue().length() > 10) {
                     invalidField.setIsValid(false);
                     invalidField.setInvalidText("Value cannot exceed 10 characters");
@@ -203,27 +185,9 @@ public class UserEditPanel
             }
         });
 
-        addButton(createAlignTestButton());
+        addButton(makeChangeRoleButton());
 
         ApplicationInstance.getActive().setFocusedComponent(codeField);
-    }
-
-    /**
-     * Creates a button which moves the save button above the cancel button
-     * using ext alignment.
-     * @return the button.
-     */
-    private Button createAlignTestButton() {
-        Button ret = new Button("Alignment test");
-
-        ret.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent arg0) {
-                saveButton.alignTo(cancelButton, Alignment.BOTTOM, Alignment.TOP, 0, -10);
-            }
-        });
-
-        return ret;
     }
 
     /**
@@ -245,28 +209,45 @@ public class UserEditPanel
     }
 
     /**
+     * Returns a button which increments the selected item in the
+     * role combo.
+     * @return the button.
+     */
+    private Button makeChangeRoleButton() {
+        Button ret = new Button("Change selected role (server)");
+        ret.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                /*
+                 * Increase the selection index on the role combo, wrapping
+                 * it if it goes too far.
+                 */
+                int si = roleCombo.getSelectionModel().getMinSelectionIndex();
+                si++;
+                if (si == roleCombo.getModel().getSize()) {
+                    roleCombo.getSelectionModel().clearSelection();
+                } else {
+                    roleCombo.getSelectionModel().setSelectionInterval(si, si);
+                }
+            }
+        });
+        return ret;
+    }
+
+    /**
      * Returns a combox box for selection of roles, based
      * on the passed store.
      * @param store the store.
      * @return the combo box.
      */
-    private ComboBox makeRoleCombo(SimpleStore store) {
-        ComboBox ret = new ComboBox(store);
+    private ComboBox makeRoleCombo(ListModel store) {
+        final ComboBox ret = new ComboBox(store);
         ret.setFieldLabel("Role");
-        ret.setDisplayField("description");
-        ret.setValueField("id");
         ret.setTypeAhead(true);
 
         ret.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
-                Window window = new Window("Combo Selected");
-                window.setModal(true);
-                window.setHtml("action listener fired");
-                window.setHeight(100);
-                window.setWidth(200);
-                window.setPadding("5px");
-                add(window);
+                log.info("Action listener fired - selected item is: "
+                        + ret.getSelectedItem());
             }
         }) ;
 
@@ -277,16 +258,10 @@ public class UserEditPanel
      * Creates a dummy store for role data.
      * @return the store.
      */
-    private SimpleStore makeRoleStore() {
-        Object[][] data = new Object[2][2];
-        data[0] = new String[]{"admin", "Administrator"};
-        data[1] = new String[]{"user", "User"};
-
-        DefaultSimpleStore store = new DefaultSimpleStore(
-                data,
-                0,
-                new String[]{"id", "description"});
-
-        return store;
+    private ListModel makeRoleModel() {
+        DefaultListModel ret = new DefaultListModel();
+        ret.addElement("Administrator");
+        ret.addElement("User");
+        return ret;
     }
 }

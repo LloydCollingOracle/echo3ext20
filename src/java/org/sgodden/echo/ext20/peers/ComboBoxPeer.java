@@ -17,6 +17,7 @@
 package org.sgodden.echo.ext20.peers;
 
 import nextapp.echo.app.Component;
+import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 import nextapp.echo.webcontainer.Service;
@@ -24,6 +25,7 @@ import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.ComboBox;
+import org.sgodden.echo.ext20.data.ListModelAdapter;
 
 @SuppressWarnings({"serial","unchecked"})
 public class ComboBoxPeer
@@ -38,7 +40,8 @@ public class ComboBoxPeer
 
     public ComboBoxPeer() {
         super();
-
+        addOutputProperty(ComboBox.SELECTION_CHANGED_PROPERTY);
+        addOutputProperty(ComboBox.MODEL_CHANGED_PROPERTY);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(ComboBox.INPUT_ACTION, ComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {
@@ -57,6 +60,34 @@ public class ComboBoxPeer
         return shortType ? "E2CB" : "Ext20ComboBox";
     }
 
+	/*
+	 * (non-Javadoc)
+	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
+	 */
+	@Override
+    public Class getInputPropertyClass(String propertyName) {
+        if (ComboBox.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
+            return Integer.class;
+        }
+        return super.getInputPropertyClass(propertyName);
+    }
+
+	/*
+	 * (non-Javadoc)
+	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getOutputProperty(nextapp.echo.app.util.Context, nextapp.echo.app.Component, java.lang.String, int)
+	 */
+    @Override
+    public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
+        ComboBox gridPanel = (ComboBox)component;
+        if (ComboBox.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
+            return gridPanel.getSelectionModel().getMinSelectionIndex();
+        }
+        if (ComboBox.MODEL_CHANGED_PROPERTY.equals(propertyName)) {
+            return new ListModelAdapter(gridPanel.getModel());
+        }
+        return super.getOutputProperty(context, component, propertyName, propertyIndex);
+    }
+
     /**
      * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#init(Context)
      */
@@ -66,4 +97,19 @@ public class ComboBoxPeer
     //ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
     //serverMessage.addLibrary(TEXT_FIELD_SERVICE.getId());
     }
+
+
+    /*
+     * (non-Javadoc)
+     * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#storeInputProperty(nextapp.echo.app.util.Context, nextapp.echo.app.Component, java.lang.String, int, java.lang.Object)
+     */
+    @Override
+    public void storeInputProperty(Context context, Component component, String propertyName, int index, Object newValue) {
+            ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
+        super.storeInputProperty(context, component, propertyName, index, newValue);
+        if (ComboBox.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
+            clientUpdateManager.setComponentProperty(component, ComboBox.SELECTION_CHANGED_PROPERTY, newValue);
+        }
+    }
+
 }

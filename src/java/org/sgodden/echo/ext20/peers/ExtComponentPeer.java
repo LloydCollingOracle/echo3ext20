@@ -16,11 +16,7 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.peers;
 
-import nextapp.echo.app.Component;
-import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
-import org.sgodden.echo.ext20.ExtComponent;
-
 
 /**
  * Abstract sync peer for all ext components.
@@ -32,15 +28,6 @@ public abstract class ExtComponentPeer extends AbstractComponentSynchronizePeer 
      */
     public ExtComponentPeer() {
         super();
-        
-        addEvent(new AbstractComponentSynchronizePeer.EventPeer(
-                ExtComponent.INPUT_BEFORE_RENDER_PROPERTY, 
-                ExtComponent.BEFORE_RENDER_LISTENERS_CHANGED_PROPERTY) {
-            @Override
-            public boolean hasListeners(Context context, Component component) {
-                return ((ExtComponent) component).hasBeforeRenderListeners();
-            }
-        });
     }
 
 }
