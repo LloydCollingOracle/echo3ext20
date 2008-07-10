@@ -33,46 +33,50 @@ EchoExt20.TabbedPane = Core.extend(EchoExt20.Panel, {
 });
 
 /**
-* Sync peer for tabbed panes.
-*/
+ * Sync peer for tabbed panes.
+ */
 EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
     
     $load: function() {
         Echo.Render.registerPeer("Ext20TabbedPane", this);
     },
 	
-	hideWhenAddingChildren: false,
+    hideWhenAddingChildren: false,
 	
-	_tabCount: 0,
+    _tabCount: 0,
 	
-	// used to prevent us notifying the server of a tab change they just told us about
-	_tabChangeNotificationSuspended: false,
+    // used to prevent us notifying the server of a tab change they just told us about
+    _tabChangeNotificationSuspended: false,
 	
-	newExtComponentInstance: function(options) {
-        
+    newExtComponentInstance: function(options) {
+        // ignore the first tab change
+        this._tabChangeNotificationSuspended = true;
+
         var ret = new Ext.TabPanel(options);
+
         ret.on(
-			"beforetabchange", 
-			function(tabPanel, newTab, oldTab){
-				if (!(this._tabChangeNotificationSuspended)) {
-					this.component.set(
-						"activeTabIndex",
-						newTab.echoComponent.childIndex
-						);
-					this.component.doActiveTabChange();
-				}
-				
-				this._tabChangeNotificationSuspended = false;
-			},
-			this
-		);
+            "beforetabchange", 
+            function(tabPanel, newTab, oldTab){
+                if (!(this._tabChangeNotificationSuspended)) {
+                    this.component.set(
+                        "activeTabIndex",
+                        newTab.echoComponent.childIndex
+                    );
+                    this.component.doActiveTabChange();
+                }
+                                    
+                this._tabChangeNotificationSuspended = false;
+                },
+            this
+        );
+
         ret.on(
-			"tabchange", 
-			function(tabPanel, newTab, oldTab){
-				ret.doLayout();
-			},
-			this
-		);
+            "tabchange", 
+            function(tabPanel, newTab, oldTab){
+                ret.doLayout();
+            },
+            this
+        );
         
         return ret;
     },
@@ -81,21 +85,21 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
         options['activeTab'] = this.component.get("activeTabIndex");
         options.deferredRender = false;
         return EchoExt20.PanelSync.prototype.createExtComponent.call(
-             this, update, options);
+        this, update, options);
     },
 	
-	renderUpdate: function(update) {
-		EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
+    renderUpdate: function(update) {
+        EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
 		
-		if (update.getUpdatedProperty("activeTabIndex") != null) {
-			var activeTabIndex = this.component.get("activeTabIndex");
-			var activeChild = this.component.getComponent(activeTabIndex);
-			var activeExtComponent = activeChild.peer.extComponent;
+        if (update.getUpdatedProperty("activeTabIndex") != null) {
+            var activeTabIndex = this.component.get("activeTabIndex");
+            var activeChild = this.component.getComponent(activeTabIndex);
+            var activeExtComponent = activeChild.peer.extComponent;
 		
-			this._tabChangeNotificationSuspended = true;
+            this._tabChangeNotificationSuspended = true;
 		
-			this.extComponent.setActiveTab(activeExtComponent);
-		}
-	}
+            this.extComponent.setActiveTab(activeExtComponent);
+        }
+    }
     
 });
