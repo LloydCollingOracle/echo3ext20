@@ -140,5 +140,16 @@ public class CheckboxField
         }
     }
 
+    /**
+     * Removes the specified action listener.
+     * @param l the <code>ActionListener</code> to remove.
+     */
+    public void removeActionListener(ActionListener l) {
+        getEventListenerList().removeListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to 
+        // existence of hasActionListeners() method. 
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
+
 
 }

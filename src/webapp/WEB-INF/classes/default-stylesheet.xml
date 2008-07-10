@@ -15,4 +15,8 @@
     <p n="bodyPadding">20px</p>
 </s>
 
+<s t="org.sgodden.echo.ext20.testapp.groovy.UserEditPanel">
+    <p n="bodyPadding">5px</p>
+</s>
+
 </ss>

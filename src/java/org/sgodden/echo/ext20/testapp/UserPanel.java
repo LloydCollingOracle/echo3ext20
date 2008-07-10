@@ -16,10 +16,15 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
+import org.sgodden.echo.ext20.ActionListenable;
 import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.layout.FitLayout;
@@ -84,21 +89,22 @@ public class UserPanel
     private void switchToEditPanel(Object[] data) {
         remove(0);
         
-        UserEditPanel editPanel = new UserEditPanel(data);
+        AppInstance app = (AppInstance) ApplicationInstance.getActive();
+        Component editPanel = (Component) app.getGroovyObjectInstance(
+                "org.sgodden.echo.ext20.testapp.groovy.UserEditPanel");
         add(editPanel);
+        try {
+           Method m = editPanel.getClass().getMethod("setData", Object[].class);
+           m.invoke(editPanel, new Object[]{listPanel.getSelectedRow()});
+        } catch (Exception ex) {
+            throw new Error(ex);
+        }
         
-        editPanel.addCancelListener(new ActionListener() {
+        ((ActionListenable)editPanel).addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 switchToListPanel();
             }
         });
-        
-        editPanel.addSaveListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                switchToListPanel();
-            }
-        });
-
     }
     
 }

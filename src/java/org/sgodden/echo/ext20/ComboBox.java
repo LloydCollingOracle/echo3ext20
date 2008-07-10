@@ -88,15 +88,21 @@ public class ComboBox
     };
     private boolean suppressChangeNotifications = false;
 
+    /**
+     * Creates a new combo box.
+     */
+    public ComboBox(){
+        super();
+        setSelectionModel(new DefaultListSelectionModel());
+    }
 
     /**
      * Creates a new combo box.
      * @param model the combo box data model.
      */
     public ComboBox(ListModel model) {
-        super();
+        this();
         setModel(model);
-        setSelectionModel(new DefaultListSelectionModel());
     }
 
     /**
@@ -247,6 +253,7 @@ public class ComboBox
         model.removeListDataListener(listDataListener);
         model.addListDataListener(listDataListener);
         firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+        selectionModel.clearSelection();
     }
 
     /**
