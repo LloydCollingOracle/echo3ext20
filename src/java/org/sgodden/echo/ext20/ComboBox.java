@@ -16,6 +16,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.sgodden.ui.models.BackingObjectDataModel;
 
 /**
  * A combo box control with support for autocomplete.
@@ -150,6 +151,24 @@ public class ComboBox
      */
     public String getFieldLabel() {
         return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+    }
+    
+    /**
+     * Convenience method to return the selected backing object in the case
+     * that the model implements {@link BackingObjectDataModel}.
+     * @return
+     */
+    public Object getSelectedBackingObject() {
+        if (!(model instanceof BackingObjectDataModel)) {
+            throw new IllegalStateException("Backing object does not" +
+                    " implement BackingObjectDataModel");
+        }
+        Object ret = null;
+        if (selectionModel.getMinSelectionIndex() > -1) {
+            ret = ((BackingObjectDataModel)model).getBackingObjectForRow(
+                    selectionModel.getMinSelectionIndex());
+        }
+        return ret;
     }
 
     /**

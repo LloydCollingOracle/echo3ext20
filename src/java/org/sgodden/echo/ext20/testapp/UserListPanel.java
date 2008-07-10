@@ -27,11 +27,10 @@ import nextapp.echo.app.event.ActionListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
-import org.sgodden.echo.ext20.models.DefaultSortableTableModel;
+import org.sgodden.ui.models.DefaultSortableTableModel;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.SortOrder;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.echo.ext20.ToolbarButton;
@@ -112,7 +111,6 @@ public class UserListPanel
          */
         //userGridPanel.setGroupField("role");
         userGridPanel.setSortField("userid");
-        userGridPanel.setSortOrder(SortOrder.ASCENDING);
         
         return userGridPanel;
         
@@ -131,7 +129,7 @@ public class UserListPanel
     			data,
     			makeColumnNames(),
                 data);
-        tableModel.sort(0, SortOrder.ASCENDING);
+        tableModel.sort(0, true);
     	return tableModel;
     }
     

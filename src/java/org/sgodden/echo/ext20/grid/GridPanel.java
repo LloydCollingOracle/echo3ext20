@@ -30,9 +30,8 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.SortOrder;
 import org.sgodden.echo.ext20.Toolbar;
-import org.sgodden.echo.ext20.models.SortableTableModel;
+import org.sgodden.ui.models.SortableTableModel;
 
 /**
  * An ext GridPanel.  It uses swing table models, since these provide a complete
@@ -216,15 +215,15 @@ public class GridPanel
      * {@link #setSortField(java.lang.String)} should be sorted.
      * @return the sort order.
      */
-    public SortOrder getSortOrder() {
-        SortOrder ret = null;
+    public boolean getSortOrder() {
+        boolean ret = true;
 
         String sortString = (String) getComponentProperty(SORT_ORDER_PROPERTY);
         if ("ASC".equals(sortString)) {
-            ret = SortOrder.ASCENDING;
+            ret = true;
         }
         else if ("DESC".equals(sortString)) {
-            ret = SortOrder.DESCENDING;
+            ret = false;
         }
 
         return ret;
@@ -274,10 +273,10 @@ public class GridPanel
         else if (SORT_ORDER_PROPERTY.equals(inputName)) {
             String value = (String) inputValue;
             if (value.equals("ASC")) {
-                setSortOrder(SortOrder.ASCENDING);
+                setSortAscending(true);
             }
             else if (value.equals("DESC")) {
-                setSortOrder(SortOrder.DESCENDING);
+                setSortAscending(false);
             }
             else {
                 throw new IllegalArgumentException("Unknown sort order: "
@@ -408,28 +407,27 @@ public class GridPanel
     }
     
     /**
-     * Sets the name of the field by which the data will be sorted.
+     * Sets the name of the field by which the data will be sorted, and sets
+     * the sort sequence to ascending.
      * @param sortField the name of the field to sort by.
      */
     public void setSortField(String sortField) {
         setComponentProperty(SORT_FIELD_PROPERTY, sortField);
+        setSortAscending(true);
     }
     
     /**
-     * Sets the order by which the field specified in
-     * {@link #setSortField(java.lang.String)} should be sorted.
-     * @param sortOrder the sort order.
+     * Sets whether the field specified in
+     * {@link #setSortField(java.lang.String)} should be sorted
+     * ascending (true), or descending (false).
+     * @param ascending true to sort ascending, false to sort descending.
      */
-    public void setSortOrder(SortOrder sortOrder) {
-        switch (sortOrder) {
-            case ASCENDING:
-                setComponentProperty(SORT_ORDER_PROPERTY, "ASC");
-                break;
-            case DESCENDING:
-                setComponentProperty(SORT_ORDER_PROPERTY, "DESC");
-                break;
-            default:
-                throw new Error("Invalid sort order: " + sortOrder);
+    public void setSortAscending(boolean ascending) {
+        if (ascending) {
+            setComponentProperty(SORT_ORDER_PROPERTY, "ASC");
+        }
+        else {
+            setComponentProperty(SORT_ORDER_PROPERTY, "DESC");
         }
     }
 

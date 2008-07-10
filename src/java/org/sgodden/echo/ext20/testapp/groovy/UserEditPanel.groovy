@@ -27,6 +27,7 @@ import org.sgodden.echo.ext20.TextField
 import org.sgodden.echo.ext20.TimeField
 import org.sgodden.echo.ext20.Window
 import org.sgodden.echo.ext20.layout.FormLayout
+import org.sgodden.ui.models.DefaultBackingObjectListModel
 
 /**
  * A form for editing a user.
@@ -236,7 +237,9 @@ class UserEditPanel extends FormPanel implements ActionListenable {
             model: store,
             typeAhead: true,
             actionPerformed: {
-                log.info("Action listener fired - selected item is: ${roleCombo.selectedItem}")
+                log.info("""Action listener fired 
+                    : selected item is ${roleCombo.selectedItem}
+                    ; selected backing object is ${roleCombo.selectedBackingObject}""")
             }
         )
 
@@ -248,9 +251,9 @@ class UserEditPanel extends FormPanel implements ActionListenable {
      * @return the store.
      */
     private ListModel makeRoleModel() {
-        DefaultListModel ret = new DefaultListModel();
-        ret.addElement("Administrator");
-        ret.addElement("User");
+        DefaultBackingObjectListModel ret = new DefaultBackingObjectListModel();
+        ret.addElement("Administrator", new Integer(1));
+        ret.addElement("User", new Integer(2));
         return ret;
     }
 }
