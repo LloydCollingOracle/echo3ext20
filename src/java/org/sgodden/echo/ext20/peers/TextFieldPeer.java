@@ -38,6 +38,7 @@ public class TextFieldPeer
 
     public TextFieldPeer() {
         super();
+        addOutputProperty(TextField.BLANK_TEXT_PROPERTY);
         addOutputProperty(TextField.VALID_PROPERTY);
         addOutputProperty(TextField.INVALID_TEXT_PROPERTY);
         addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);

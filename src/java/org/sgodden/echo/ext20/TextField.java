@@ -31,6 +31,7 @@ public class TextField
         extends ExtComponent {
 
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
+    public static final String BLANK_TEXT_PROPERTY = "blankText";
     public static final String EMPTY_TEXT_PROEPRTY = "emptyText";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String INVALID_TEXT_PROPERTY = "invalidText";
@@ -83,6 +84,14 @@ public class TextField
      */
     public String getValue() {
         return (String) getComponentProperty(VALUE_CHANGED_PROPERTY);
+    }
+
+    /**
+     * Sets the text to be displayed when the isBlankAllowed test fails.
+     * @param value the value of the field.
+     */
+    public void setBlankText(String blankText) {
+        setComponentProperty(BLANK_TEXT_PROPERTY, blankText);
     }
 
     /**

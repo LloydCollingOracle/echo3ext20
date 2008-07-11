@@ -61,6 +61,9 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (this.component.get("allowBlank") != null) {
             options['allowBlank'] = this.component.get("allowBlank");
         }
+        if (this.component.get("blankText") != null) {
+            options['blankText'] = this.component.get("blankText");
+        }
         if (this.component.get("emptyText") != null) {
             options['emptyText'] = this.component.get("emptyText");
         }
