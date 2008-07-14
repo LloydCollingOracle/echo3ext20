@@ -39,7 +39,7 @@ import nextapp.echo.app.event.ActionListener;
  *
  */
 @SuppressWarnings({"serial"})
-public class TabbedPane extends ExtComponent {
+public class TabbedPane extends Panel {
 
 	private static final long serialVersionUID = 20080102L;
 	

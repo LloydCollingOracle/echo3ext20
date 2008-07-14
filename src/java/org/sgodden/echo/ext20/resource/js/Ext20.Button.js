@@ -92,7 +92,11 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
     
     	var extComponent = this.newExtComponentInstance(options);
+        
     	extComponent.on('click', this._handleClickEvent, this);
+        if (this.component.get("icon")) {
+            extComponent.on("render", this._onRender, this);
+        }
     	
     	return extComponent;
     },
@@ -104,6 +108,13 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     _handleClickEvent: function() {
         this.component.application.setFocusedComponent(this.component);
     	this.component.doAction();
+    },
+    
+    _onRender: function() {
+        var iconUrl = Echo.Sync.ImageReference.getUrl(
+            this.component.get("icon"));
+        this.extComponent.getEl().down("////button")
+            .dom.style.backgroundImage = "url(" + iconUrl + ")";
     },
 
     /**

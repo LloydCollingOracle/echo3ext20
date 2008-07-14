@@ -16,7 +16,7 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.ImageReference;
 
 /**
  * An ext button.
@@ -35,6 +35,8 @@ public class Button
      * added directly to its layout.
      */
     public static final String ADD_TO_BUTTON_BAR_PROPERTY = "addToButtonBar";
+    public static final String PROPERTY_ICON = "icon";
+
     
     private Menu menu;
     
@@ -65,6 +67,15 @@ public class Button
     public Button() {
         super();
     }
+
+    /**
+     * Returns the icon displayed in the button.
+     * 
+     * @return the icon
+     */
+    public ImageReference getIcon() {
+        return (ImageReference) getComponentProperty(PROPERTY_ICON);
+    }
     
     /**
      * See {@link #ADD_TO_BUTTON_BAR_PROPERTY}.
@@ -72,6 +83,15 @@ public class Button
      */
     void setAddToButtonBar(boolean addToButtonBar) {
         setComponentProperty(ADD_TO_BUTTON_BAR_PROPERTY, addToButtonBar);
+    }
+
+    /**
+     * Sets the icon displayed in the button.
+     * 
+     * @param newValue the new icon
+     */
+    public void setIcon(ImageReference newValue) {
+        setComponentProperty(PROPERTY_ICON, newValue);
     }
     
     /**
@@ -95,12 +115,4 @@ public class Button
         
         this.menu = menu;
     }
-    
-//    public void addActionListener(ActionListener l) {
-//        
-//    }
-//    
-//    public void removeActionListener(ActionListener l) {
-//        
-//    }
 }

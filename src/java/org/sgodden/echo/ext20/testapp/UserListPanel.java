@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.swing.table.TableModel;
 
+import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
@@ -184,10 +185,11 @@ public class UserListPanel
         Toolbar ret = new Toolbar();
 
         ToolbarButton button = new ToolbarButton();
-        button.setIconClass("icon-settings");
+        button.setIcon(new ResourceImageReference(
+                "/resources/images/fam/icons/cog.png"));
         button.setTooltip("Show configuration options");
+        
         button.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent arg0) {
                 LOG.info("Toolbar button was pressed");
             }

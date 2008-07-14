@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="src/webapp/WEB-INF/lib/Echo3_App.jar"/>
 	<classpathentry kind="lib" path="src/webapp/WEB-INF/lib/Echo3_WebContainer.jar"/>
 	<classpathentry exported="true" kind="con" path="GROOVY_SUPPORT"/>
+	<classpathentry kind="lib" path="lib/sgo-commons-1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

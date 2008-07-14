@@ -339,7 +339,8 @@ public class Panel extends ExtComponent {
     @Override
     public void add(Component comp) {
         if (getLayout() instanceof FitLayout
-                && nonButtonBarChildCount > 0) {
+                && nonButtonBarChildCount > 0
+                && !(comp instanceof Toolbar)) {
            throw new Error("Only one non-button component is allowed for fit layout");
         }
         else {
