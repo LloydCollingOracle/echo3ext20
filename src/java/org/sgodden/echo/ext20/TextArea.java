@@ -24,6 +24,9 @@ package org.sgodden.echo.ext20;
 @SuppressWarnings({"serial"})
 public class TextArea 
         extends TextField {
+	
+	public static final String PROPERTY_HEIGHT = "height";
+	public static final String PROPERTY_WIDTH = "width";
 
 	/**
 	 * Creates a new text area.
@@ -47,6 +50,16 @@ public class TextArea
      */
     public TextArea() {
         super();
+    }
+    
+    /**
+     * Sets the width and height of the text area.
+     * @param width
+     * @param height
+     */
+    public void setSize(int width, int height){
+    	setComponentProperty(PROPERTY_WIDTH, width);
+    	setComponentProperty(PROPERTY_HEIGHT, height);
     }
 
 }

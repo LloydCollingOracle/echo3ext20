@@ -37,6 +37,8 @@ public class TextAreaPeer
 
     public TextAreaPeer() {
         super();
+        addOutputProperty(TextArea.PROPERTY_HEIGHT);
+        addOutputProperty(TextArea.PROPERTY_WIDTH);
     }
 
     public Class getComponentClass() {

@@ -36,6 +36,22 @@ EchoExt20.TextAreaSync = Core.extend(EchoExt20.TextFieldSync, {
     $load: function() {
         Echo.Render.registerPeer("Ext20TextArea", this);
     },
+    
+    /**
+     * Called by the base class to create the ext component.
+     */
+    createExtComponent: function(update, options) {
+    	if (this.component.get("height")){
+            options['height'] = this.component.get("height");
+        }
+        if (this.component.get("width")){
+            options['width'] = this.component.get("width");
+        }
+        
+    	var extComponent = EchoExt20.TextFieldSync.prototype.createExtComponent.call(this,update,options);
+
+    	return extComponent;
+    },
 
     newExtComponentInstance: function(options) {
         return new Ext.form.TextArea(options);
