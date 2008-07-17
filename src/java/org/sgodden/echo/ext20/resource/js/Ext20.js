@@ -242,7 +242,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             if (EchoExt20.rootRootContainer._containersRequiringLayout == null) {
                 EchoExt20.rootRootContainer._containersRequiringLayout = [];
             }
-            EchoExt20.rootRootContainer._containersRequiringLayout.push(this);
+            if (EchoExt20.rootRootContainer._containersRequiringLayout.indexOf(this) == -1) {
+                EchoExt20.rootRootContainer._containersRequiringLayout.push(this);
+            }
         }
         else {
             // not a root, tell the parent

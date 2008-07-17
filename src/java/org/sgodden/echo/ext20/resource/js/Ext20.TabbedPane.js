@@ -73,7 +73,7 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
         ret.on(
             "tabchange", 
             function(tabPanel, newTab, oldTab){
-                ret.doLayout();
+            	this._notifyLayoutChanges();
             },
             this
         );
