@@ -77,17 +77,16 @@ public class UserListPanel
         Button changeButton = new Button("Change the data model");
         addButton(changeButton);
         changeButton.addActionListener(new ActionListener(){
-
 			public void actionPerformed(ActionEvent arg0) {
 				startIndex += 10;
                 rows +=10;
 				userGridPanel.setTableModel(makeTableModel());
 			}});
-
+        
     }
 
     /**
-     * Returns the uderlying grid panel.
+     * Returns the underlying grid panel.
      * @return
      */
     public GridPanel getGridPanel() {
@@ -216,6 +215,11 @@ public class UserListPanel
         TextField tf = new TextField();
         tf.setEmptyText("Enter search criteria");
         ret.add(tf);
+        
+        button = new ToolbarButton("Menu 2");
+        ret.add(button);
+        button.setMenu(makeMenu());
+        
 
         return ret;
     }
