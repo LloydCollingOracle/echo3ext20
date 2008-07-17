@@ -187,6 +187,7 @@ public class UserListPanel
         button.setIcon(new ResourceImageReference(
                 "/resources/images/fam/icons/cog.png"));
         button.setTooltip("Show configuration options");
+        button.setText("Configure");
         
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {

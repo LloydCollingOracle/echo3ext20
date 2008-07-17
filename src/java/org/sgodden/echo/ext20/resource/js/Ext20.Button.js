@@ -113,8 +113,17 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     _onRender: function() {
         var iconUrl = Echo.Sync.ImageReference.getUrl(
             this.component.get("icon"));
-        this.extComponent.getEl().down("////button")
-            .dom.style.backgroundImage = "url(" + iconUrl + ")";
+        var el = this.extComponent.getEl().down("////button");
+        if (this.component.get("text") != null) {
+        	var newWidth = el.dom.clientWidth + 17;
+            el.dom.style.width = "" + newWidth + "px";
+        }
+        else {
+            el.dom.style.width = "17px"; // TODO - allow this to be set?
+        }
+        el.dom.style.backgroundImage = "url(" + iconUrl + ")";
+        el.dom.style.backgroundRepeat = "no-repeat";
+        el.dom.style.textAlign = "right";
     },
 
     /**
