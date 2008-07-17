@@ -340,7 +340,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         var children = this._createChildComponentArrayFromComponent();
         
-        options['buttons'] = this._createButtons(update, children);
+        var buttons = this._createButtons(update, children);
+        if (buttons.length > 0) {
+            options['buttons'] = buttons;
+        }
         
         this._makeToolbar(update, children, "top", options);
         this._makeToolbar(update, children, "bottom", options);
