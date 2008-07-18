@@ -107,7 +107,7 @@ public class TableLayoutTest
  * @author sgodden
  *
  */
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"serial"})
 public class TableLayout
         implements Layout {
 
@@ -134,6 +134,10 @@ public class TableLayout
      * Padding for cells, in pixels.
      */
     private String cellPadding;
+    /**
+     * Spacing for table cells, in pixels.
+     */
+    private int cellSpacing;
 
     /**
      * Creates a table layout.
@@ -207,6 +211,14 @@ public class TableLayout
     }
 
     /**
+     * Returns the cell spacing, in pixels.
+     * @return the cell spacing, in pixels.
+     */
+    public int getCellSpacing() {
+        return cellSpacing;
+    }
+
+    /**
      * Returns the cell padding, in CSS format.
      * @return the cell padding, in CSS format.
      */
@@ -240,6 +252,14 @@ public class TableLayout
         sb.append(String.valueOf(left));
         sb.append("px");
         this.cellPadding = sb.toString();
+    }
+
+    /**
+     * Sets the cell spacing, in pixels.
+     * @param cellSpacing the cell spacing, in pixels.
+     */
+    public void setCellSpacing(int cellSpacing) {
+        this.cellSpacing = cellSpacing;
     }
 
 }

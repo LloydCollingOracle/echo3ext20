@@ -20,6 +20,7 @@ package org.sgodden.echo.ext20;
  * Abstract base class for menu items.
  * @author sgodden
  */
+@SuppressWarnings("serial")
 public abstract class BaseMenuItem 
         extends AbstractButton {
 

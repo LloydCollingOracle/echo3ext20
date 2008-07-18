@@ -540,12 +540,12 @@ EchoExt20.LayoutProcessor = {
                         options.rowspan = layoutData.rowSpan;
                     }
                 }
-                if (layout.cellPadding) {
-                    var childPadding = child.render("padding", "");
-                    if (childPadding == "") {
-                        options.style.padding = layout.cellPadding;
-                    }
-                }
+                //if (layout.cellPadding) {
+                //    var childPadding = child.render("padding", "");
+                //    if (childPadding == "") {
+                //        options.style.padding = layout.cellPadding;
+                //    }
+                //}
             }
             // other layouts (form layout, fit layout, table layout) do not require layout data on their children
         }
@@ -698,15 +698,17 @@ Echo.Serial.addPropertyTranslator("E2FML", EchoExt20.PropertyTranslator.FormLayo
 EchoExt20.TableLayout = Core.extend({
     columns: 0,
     cellPadding: "0px",
+    cellSpacing: 0,
     fullHeight: false,
     fullWidth: false,
     
-    $construct: function(columns, border, fullHeight, fullWidth, cellPadding) {
+    $construct: function(columns, border, fullHeight, fullWidth, cellPadding, cellSpacing) {
         this.columns = columns;
         this.border = border;
         this.fullHeight = fullHeight;
         this.fullWidth = fullWidth;
         this.cellPadding = cellPadding;
+        this.cellSpacing = cellSpacing;
     }
     
 });
@@ -722,6 +724,11 @@ EchoExt20.PropertyTranslator.TableLayout = {
             columns = '0';
         }
 
+        var cellSpacing = propertyElement.getAttribute('sp');
+        if (cellSpacing == null) {
+            cellSpacing = '0';
+        }
+
         var cellPadding = propertyElement.getAttribute('p');
 
         var border = propertyElement.getAttribute('b') == "1" ? true : false;
@@ -729,7 +736,7 @@ EchoExt20.PropertyTranslator.TableLayout = {
         var fullWidth = propertyElement.getAttribute('fw') == "1" ? true : false;
 
         var ret = new EchoExt20.TableLayout(
-            parseInt(columns), border, fullHeight, fullWidth, cellPadding
+            parseInt(columns), border, fullHeight, fullWidth, cellPadding, parseInt(cellSpacing)
         );
 
         return ret;

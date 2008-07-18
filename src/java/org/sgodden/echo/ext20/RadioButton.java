@@ -59,6 +59,14 @@ public class RadioButton
         setSelected(selected);
         setFieldLabel(fieldLabel);
     }
+    
+    /**
+     * Returns the field label.
+     * @return the field label.
+     */
+    public String getFieldLabel() {
+        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+    }
 
     /**
      * Sets whether the button is selected.

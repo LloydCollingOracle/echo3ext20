@@ -33,7 +33,7 @@ EchoExt20.TimeField = Core.extend(EchoExt20.ExtComponent, {
 /**
  * Synchronisation peer for time field.
  */
-EchoExt20.TimeFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
+EchoExt20.TimeFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     
     $load: function() {
         Echo.Render.registerPeer("Ext20TimeField", this);

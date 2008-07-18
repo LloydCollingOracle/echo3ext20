@@ -32,7 +32,7 @@ EchoExt20.TextField = Core.extend(EchoExt20.ExtComponent, {
 /**
  * Synchronisation peer for text field.
  */
-EchoExt20.TextFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
+EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
 
     $load: function() {
         Echo.Render.registerPeer("Ext20TextField", this);

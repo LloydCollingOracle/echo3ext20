@@ -2,7 +2,7 @@ package org.sgodden.echo.ext20.testapp.groovy
 
 import java.util.Calendar
 import java.util.List
-
+import nextapp.echo.app.Label
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
@@ -33,25 +33,30 @@ import org.sgodden.ui.models.DefaultBackingObjectListModel
  * A form for editing a user.
  * @author sgodden
  */
-class UserEditPanel extends FormPanel implements ActionListenable {
+class UserEditPanel extends Panel implements ActionListenable {
 
     private static final transient Log log = LogFactory.getLog(UserEditPanel.class);
 
-    def codeField;
-    def nameField;
-    def postcodeField;
-    def invalidField;
-    def passwordField;
-    def dateField;
-    def timeField;
-    def textAreaField;
-    def enabledField;
-    def userRoleButton;
-    def adminRoleButton;
-    def roleCombo;
+    def formPanel1
+    def codeField
+    def nameField
+    def postcodeField
+    def invalidField
+    def passwordField
+    def dateField
+    def timeField
+    def textAreaField
+    
+    def fieldSet
+    def enabledField
+    def userRoleButton
+    def adminRoleButton
+    def roleCombo
 
-    def cancelButton;
-    def saveButton;
+    def cancelButton
+    def saveButton
+    
+    def formPanel2
 
     public UserEditPanel() {
         super();
@@ -62,26 +67,11 @@ class UserEditPanel extends FormPanel implements ActionListenable {
         border = true
 
         initComponents();
-
+        
         components = [
-            codeField,
-            nameField,
-            postcodeField,
-            invalidField,
-            passwordField,
-            dateField,
-            timeField,
-            textAreaField,
-            new FieldSet(
-                title: "A field set",
-                checkboxToggle: true,
-                components: [
-                    enabledField,
-                    userRoleButton,
-                    adminRoleButton,
-                    roleCombo
-                ]
-            )
+            formPanel1,
+            fieldSet,
+            formPanel2
         ]
 
         buttons = [
@@ -108,59 +98,87 @@ class UserEditPanel extends FormPanel implements ActionListenable {
     }
 
     private void initComponents(Object[] data) {
-        codeField = new TextField(
-            fieldLabel: "Code"
-        )
-        nameField = new TextField(
-            fieldLabel: "Name"
-        )
+        formPanel1 = new FormPanel(2)
+        
+        codeField = new TextField()
+        formPanel1.add(codeField, "Code")
+        
+        nameField = new TextField()
+        formPanel1.add(nameField, "Name")
+        
         postcodeField = new TextField(
-            fieldLabel: "Postal code",
             regExp: "^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})\$",
             regexpFailureText: "Invalid postal code",
             propertyChange: { println "A property changed on the postcode field"  }
         )
+        formPanel1.add(postcodeField, "Postal code")
+        
         invalidField = new TextField(
-            fieldLabel: "Invalid field",
             value: "Is this field invalid for business reasons?"
         )
-        passwordField = new PasswordField(
-            fieldLabel: "Password"
-        )
+        formPanel1.add(invalidField, "Invalid field")
+        
+        passwordField = new PasswordField()
+        formPanel1.add(passwordField, "Password")
         
         Calendar cal = Calendar.getInstance(
-            ApplicationInstance.getActive().getLocale());
+            ApplicationInstance.getActive().getLocale())
 
         dateField = new DateField(
             blankAllowed: false,
-            calendar: cal,
-            fieldLabel: "Date"
+            calendar: cal
         )
+        formPanel1.add(dateField, "Date")
+        
+        formPanel1.add(new Label(""));
+        
         timeField = new TimeField(
             blankAllowed: false,
-            calendar: cal,
-            fieldLabel: "Time"
+            calendar: cal
         )
+        formPanel1.add(timeField, "Time")
+        
         textAreaField = new TextArea(
             fieldLabel: "Notes",
             value: "Some text in a text area"
         )
+        formPanel1.add(textAreaField, "notes")
+        
+        FormPanel fieldSetForm = new FormPanel()
+        
+        fieldSet = new FieldSet(
+            title: "A field set",
+            checkboxToggle: true,
+            components: [fieldSetForm]
+        )
+        
         enabledField = new CheckboxField(
             selected: true,
-            fieldLabel: "Enabled",
             actionPerformed: { println "Check box selected: ${enabledField.selected}"  }
         )
+        fieldSetForm.add(enabledField, "Enabled")
+        
         userRoleButton = new RadioButton(
-            fieldLabel: "User",
             name: "role",
             selected: true
         )
+        fieldSetForm.add(userRoleButton, "User")
+        
         adminRoleButton = new RadioButton(
-            fieldLabel: "Administrator",
             name: "role",
             selected: false
         )
+        fieldSetForm.add(adminRoleButton, "Administrator")
+        
         roleCombo = makeRoleCombo(makeRoleModel())
+        fieldSetForm.add(roleCombo, "Role combo");
+        
+        formPanel2 = new Panel(
+            layout: new FormLayout(),
+            components: [
+                new DateField()
+            ]
+        )
 
         cancelButton = new Button(
             actionCommand: "CANCEL",

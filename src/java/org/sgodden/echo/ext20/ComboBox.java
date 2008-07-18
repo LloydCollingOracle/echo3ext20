@@ -5,6 +5,7 @@
 package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
+
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -12,10 +13,10 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 import org.sgodden.ui.models.BackingObjectDataModel;
 
 /**

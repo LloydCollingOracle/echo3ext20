@@ -32,7 +32,7 @@ import nextapp.echo.app.ApplicationInstance;
  * @author sgodden
  *
  */
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"serial"})
 public class DateField
         extends ExtComponent {
     
@@ -74,6 +74,14 @@ public class DateField
         this();
         setCalendar(cal);
         setFieldLabel(fieldLabel);
+    }
+    
+    /**
+     * Returns the field label.
+     * @return the field label.
+     */
+    public String getFieldLabel() {
+        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
     }
 
     /**

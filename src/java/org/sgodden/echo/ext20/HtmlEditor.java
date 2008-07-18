@@ -31,6 +31,7 @@ package org.sgodden.echo.ext20;
 public class HtmlEditor 
 		extends ExtComponent {
 	
+    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
 	public static final String TEXT_CHANGED_PROPERTY = "text";
 	
 	/**
@@ -47,6 +48,22 @@ public class HtmlEditor
 	public HtmlEditor(String text) {
 		setText(text);
 	}
+    
+    /**
+     * Returns the field label.
+     * @return the field label.
+     */
+    public String getFieldLabel() {
+        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+    }
+
+    /**
+     * Sets the field label to be used in forms.
+     * @param fieldLabel the field label to be used in forms.
+     */
+    public void setFieldLabel(String fieldLabel) {
+        setComponentProperty(FIELD_LABEL_PROPERTY, fieldLabel);
+    }
 	
 	/**
 	 * Sets the HTML content.

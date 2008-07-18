@@ -26,7 +26,7 @@ import java.util.Calendar;
  * @author sgodden
  *
  */
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"serial"})
 public class TimeField
         extends ExtComponent {
     

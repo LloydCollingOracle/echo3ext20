@@ -31,7 +31,7 @@ public class FieldSet
      * Creates a new field set, using a form layout.
      */
     public FieldSet() {
-        super(new FormLayout());
+        super();
         setBorder(true);
     }
     

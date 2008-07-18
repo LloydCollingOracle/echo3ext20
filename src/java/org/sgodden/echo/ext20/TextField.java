@@ -77,6 +77,14 @@ public class TextField
         setValue(text);
         setFieldLabel(fieldLabel);
     }
+    
+    /**
+     * Returns the field label.
+     * @return the field label.
+     */
+    public String getFieldLabel() {
+        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+    }
 
     /**
      * Returns the value (text) of the field.

@@ -27,7 +27,7 @@ EchoExt20.DateField = Core.extend(EchoExt20.ExtComponent, {
     
 });
 
-EchoExt20.DateFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
+EchoExt20.DateFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     
     $load: function() {
         Echo.Render.registerPeer("Ext20DateField", this);
@@ -73,7 +73,7 @@ EchoExt20.DateFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     renderDisplay: function(update) {
-        EchoExt20.ExtComponentSync.prototype.renderDisplay.call(this, update);
+        EchoExt20.FormFieldSync.prototype.renderDisplay.call(this, update);
         this.extComponent.setValue(this.component.get("date"));
     }
     

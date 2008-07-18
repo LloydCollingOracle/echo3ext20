@@ -43,6 +43,7 @@ implements SerialPropertyPeer {
         propertyElement.setAttribute("fw", layout.getFullWidth() ? "1" : "0");
         propertyElement.setAttribute("fh", layout.getFullHeight() ? "1" : "0");
         propertyElement.setAttribute("p", layout.getCellPadding());
+        propertyElement.setAttribute("sp", String.valueOf(layout.getCellSpacing()));
         propertyElement.setAttribute("b", layout.getBorder() ? "1" : "0");
 	}
 

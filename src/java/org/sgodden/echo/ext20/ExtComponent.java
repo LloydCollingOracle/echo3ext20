@@ -24,7 +24,7 @@ import nextapp.echo.app.Component;
  * 
  * @author sgodden
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("serial")
 public abstract class ExtComponent 
         extends Component {
 

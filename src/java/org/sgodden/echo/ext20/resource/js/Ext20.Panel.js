@@ -323,9 +323,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 if (layout.cellSpacing) {
                     options.layoutConfig.cellSpacing = layout.cellSpacing;
                 }
-                if (layout.cellPadding) {
-                    options.layoutConfig.cellPadding = layout.cellPadding;
-                }
+                //if (layout.cellPadding) {
+                //    options.layoutConfig.cellPadding = layout.cellPadding;
+                //}
                 options.layoutConfig.tableStyle = {};
                 if (layout.fullWidth) {
                     options.layoutConfig.tableStyle.width = "100%";
