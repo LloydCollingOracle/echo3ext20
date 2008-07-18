@@ -26,11 +26,14 @@ import nextapp.echo.app.Insets;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
+import org.sgodden.echo.ext20.ApplicationWaitIndicator;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.sgodden.echo.ext20.layout.FitLayout;
+import org.sgodden.echo.ext20.layout.TableLayout;
+import org.sgodden.echo.ext20.layout.TableLayoutData;
 import org.sgodden.echo.ext20.testapp.regression.RemoveEchoFromExtTest;
 
 /**
@@ -91,16 +94,28 @@ public class ApplicationContentPane
         Panel ret = new Panel();
         ret.setHeight(52);
         ret.setBorder(false);
+        TableLayout layout = new TableLayout(2);
+        layout.setFullWidth(true);
+        ret.setLayout(layout);
         ret.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
         ret.setBodyBackground(new Color(84, 84, 84));
         
         Panel imagePanel = new Panel();
+        TableLayoutData tld = new TableLayoutData();
+        tld.setCellAlign("left");
+        imagePanel.setLayoutData(tld);
         imagePanel.setBodyTransparent(true);
         imagePanel.setBorder(false);
         imagePanel.setHtml(
                 "<a href='http://echo.nextapp.com'><img style='float: left;' src='http://demo.nextapp.com/echo3csjs/image/Logo.png'></img></a>");
         imagePanel.setRenderId("northImagePanel");
         ret.add(imagePanel);
+        
+        ApplicationWaitIndicator wait= new ApplicationWaitIndicator();
+        tld = new TableLayoutData();
+        tld.setCellAlign("right");
+        wait.setLayoutData(tld);
+        ret.add(wait);
         
         return ret;
     }

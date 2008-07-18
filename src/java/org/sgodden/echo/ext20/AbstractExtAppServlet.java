@@ -87,6 +87,7 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSeparator.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSpacer.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarTextItem.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.WaitIndicator.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Window.js");
         resourceList.add("json2.js");
 
