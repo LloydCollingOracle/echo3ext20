@@ -62,6 +62,7 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
         resourceList = new ArrayList();
         // ORDER IS IMPORTANT FOR INHERITANCE!
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.js");
+        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ApplicationWaitIndicator.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Panel.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Button.js");
         resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.TextField.js");

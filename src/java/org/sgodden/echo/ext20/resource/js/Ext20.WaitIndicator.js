@@ -8,18 +8,19 @@ EchoExt20.WaitIndicator = Core.extend(Echo.RemoteClient.WaitIndicator, {
         boot: function(client) {
             client.setWaitIndicator(new EchoExt20.WaitIndicator());
             client._preWaitIndicatorDelay = 5;
+            client._waitIndicatorRunnable = new Core.Web.Scheduler.MethodRunnable(Core.method(client, client._waitIndicatorActivate), 
+                client._preWaitIndicatorDelay, false);
         }
     },
     
     $load: function() {
-        EchoBoot.addInitMethod(this.boot);
+        Echo.Boot.addInitMethod(this.boot);
     },
     
     activate: function() {
-    	alert("activate");
         var waitEl = document.getElementById("c_applicationWaitIndicator");
     	if (waitEl != null) {
-    		waitEl.firstChild.src = waitEl.waitIconUrl;
+    		waitEl.firstChild.src = EchoExt20.waitIconUrl;
         	//waitEl.style.backgroundImage = "url(" + waitEl.waitIconUrl + ")";
     	}
 
@@ -28,7 +29,7 @@ EchoExt20.WaitIndicator = Core.extend(Echo.RemoteClient.WaitIndicator, {
     deactivate: function() {
         var waitEl = document.getElementById("c_applicationWaitIndicator");
     	if (waitEl != null) {
-    		waitEl.firstChild.src = waitEl.noWaitIconUrl;
+    		waitEl.firstChild.src = EchoExt20.noWaitIconUrl;
 	        //waitEl.style.backgroundImage = "url(" + waitEl.noWaitIconUrl + ")";
 	    }
     }

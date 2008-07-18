@@ -135,13 +135,13 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                     }
                 }
                 if (doHide) {
-                    this.extComponent.getEl().dom.style.visibility = 'hidden';
+                    //this.extComponent.getEl().dom.style.visibility = 'hidden';
 
                     // and add a server update complete listener to show ourselves again, if we haven't already
-                    if (this._makeVisibleRef == null) {
-                        this._makeVisibleRef = Core.method(this, this._makeVisible);
-                        this.client.addServerUpdateCompleteListener(this._makeVisibleRef);
-                    }
+                    //if (this._makeVisibleRef == null) {
+                    //    this._makeVisibleRef = Core.method(this, this._makeVisible);
+                    //    this.client.addServerUpdateCompleteListener(this._makeVisibleRef);
+                    //}
                 }
 	    }
             
@@ -206,7 +206,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             options.bodyStyle.padding = this.component.render("bodyPadding");
         }
 
-    	if (this.component.render("background")) {
+    	if (this.component.render("background") != null
+    	   && this.component.render("bodyTransparent") == null) {
     	    options.style.backgroundColor =  this.component.render("background");
     	}
 

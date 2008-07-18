@@ -94,7 +94,7 @@ public class ApplicationContentPane
         Panel ret = new Panel();
         ret.setHeight(52);
         ret.setBorder(false);
-        TableLayout layout = new TableLayout(2);
+        TableLayout layout = new TableLayout();
         layout.setFullWidth(true);
         ret.setLayout(layout);
         ret.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));

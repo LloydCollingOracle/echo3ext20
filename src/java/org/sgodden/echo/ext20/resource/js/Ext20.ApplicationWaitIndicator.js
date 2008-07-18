@@ -5,7 +5,7 @@ EchoExt20.ApplicationWaitIndicator = Core.extend(Echo.Label, {
         Echo.ComponentFactory.registerType("E2AWI", this);
     },
 
-    componentType: "Ext20ApplicationWaitIndicator",
+    componentType: "Ext20ApplicationWaitIndicator"
 });
 
 /**
@@ -28,7 +28,11 @@ EchoExt20.ApplicationWaitIndicatorSync = Core.extend(Echo.Sync.Label, {
         	this.component.get("noWaitIcon"));
 	
 	    // set them as attributes on the parent element
-	    parentElement.waitIconUrl = waitIconUrl;
-	    parentElement.noWaitIconUrl = noWaitIconUrl;
+	    EchoExt20.waitIconUrl = waitIconUrl;
+	    EchoExt20.noWaitIconUrl = noWaitIconUrl;
+	},
+	
+	renderDispose: function(update) {
+		Echo.Sync.Label.prototype.renderDispose.call(this, update, parentElement);
 	}
 });
