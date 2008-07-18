@@ -83,7 +83,7 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
     
     createExtComponent: function(update, options) {
         options['activeTab'] = this.component.get("activeTabIndex");
-        options.deferredRender = false;
+        options.deferredRender = true;
         return EchoExt20.PanelSync.prototype.createExtComponent.call(
         this, update, options);
     },
