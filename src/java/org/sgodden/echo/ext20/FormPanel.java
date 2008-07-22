@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.sgodden.echo.ext20;
+
+import java.util.List;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Label;
@@ -26,9 +23,7 @@ public class FormPanel extends Panel {
      */
     public FormPanel(){
         super();
-        TableLayout tl = new TableLayout(2);
-        tl.setCellSpacing(5);
-        setLayout(tl);
+        setColumns(1);
     }
     
     /**
@@ -38,9 +33,7 @@ public class FormPanel extends Panel {
      */
     public FormPanel(int cols) {
         super();
-        TableLayout tl = new TableLayout(cols * 2);
-        tl.setCellSpacing(5);
-        setLayout(tl);
+        setColumns(cols);
     }
     
     /**
@@ -76,7 +69,19 @@ public class FormPanel extends Panel {
     public void add(Component c) {
         add(c, null);
     }
-
+    
+    public void setFormComponents(FormField[] formFields) {
+        for (FormField field : formFields) {
+            add(field.getField(), field.getLabel());
+        }
+    }
+    
+    public void setColumns(int columns) {
+        TableLayout tl = new TableLayout(columns * 2);
+        tl.setCellSpacing(5);
+        setLayout(tl);
+    }
+    
     /**
      * Enumeration of field label positions in relation to
      * their components.

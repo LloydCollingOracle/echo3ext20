@@ -18,6 +18,7 @@ import org.sgodden.echo.ext20.ComboBox
 import org.sgodden.echo.ext20.CheckboxField
 import org.sgodden.echo.ext20.DateField
 import org.sgodden.echo.ext20.FieldSet
+import org.sgodden.echo.ext20.FormField
 import org.sgodden.echo.ext20.FormPanel
 import org.sgodden.echo.ext20.PasswordField
 import org.sgodden.echo.ext20.Panel
@@ -26,7 +27,6 @@ import org.sgodden.echo.ext20.TextArea
 import org.sgodden.echo.ext20.TextField
 import org.sgodden.echo.ext20.TimeField
 import org.sgodden.echo.ext20.Window
-import org.sgodden.echo.ext20.layout.FormLayout
 import org.sgodden.ui.models.DefaultBackingObjectListModel
 
 /**
@@ -173,10 +173,12 @@ class UserEditPanel extends Panel implements ActionListenable {
         roleCombo = makeRoleCombo(makeRoleModel())
         fieldSetForm.add(roleCombo, "Role combo");
         
-        formPanel2 = new Panel(
-            layout: new FormLayout(),
-            components: [
-                new DateField()
+        formPanel2 = new FormPanel(
+            formComponents: [
+                [
+                    field: new DateField(),
+                    label: "Date field"
+                ]
             ]
         )
 

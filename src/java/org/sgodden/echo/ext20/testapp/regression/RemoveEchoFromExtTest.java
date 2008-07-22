@@ -3,6 +3,7 @@ package org.sgodden.echo.ext20.testapp.regression;
 import java.util.Calendar;
 
 import nextapp.echo.app.Column;
+import nextapp.echo.app.Grid;
 import nextapp.echo.app.Label;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -13,7 +14,6 @@ import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.TimeField;
 import org.sgodden.echo.ext20.layout.FitLayout;
-import org.sgodden.echo.ext20.layout.FormLayout;
 
 /**
  * Tests the bug whereby removing a echo3 component
@@ -62,7 +62,7 @@ public class RemoveEchoFromExtTest extends Panel {
         
         Panel ct = new Panel(new FitLayout());
         
-        Panel ret = new Panel(new FormLayout());
+        Grid ret = new Grid(1);
         ct.add(ret);
         
         TextField tf = new TextField("Text field " + clicks);
