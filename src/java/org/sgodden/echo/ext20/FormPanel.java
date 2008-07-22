@@ -1,7 +1,5 @@
 package org.sgodden.echo.ext20;
 
-import java.util.List;
-
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Label;
 
@@ -70,12 +68,31 @@ public class FormPanel extends Panel {
         add(c, null);
     }
     
+    /**
+     * A convenience method to enable one-shot specification of
+     * form components, for example in a groovy script.
+     * <p/>
+     * You will normally want to use this method, rather than
+     * {@link #setComponents(Component[]), which would result in
+     * no field label for all of your form components.
+     * @param formFields the form fields.
+     */
     public void setFormComponents(FormField[] formFields) {
         for (FormField field : formFields) {
             add(field.getField(), field.getLabel());
         }
     }
-    
+
+    /**
+     * Sets the number of columns of form components that this form
+     * will have.  Note that this container uses a table layout
+     * internally, and handles multiplying the requested number of columns
+     * by 2 in order to have a label and field for each form component.
+     * <p/>
+     * Therefore, if you want two columns of form components, pass 2 as
+     * the argument to this method, not 4.
+     * @param columns the number of columns of form components.
+     */
     public void setColumns(int columns) {
         TableLayout tl = new TableLayout(columns * 2);
         tl.setCellSpacing(5);
