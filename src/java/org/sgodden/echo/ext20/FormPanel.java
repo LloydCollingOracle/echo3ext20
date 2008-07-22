@@ -95,6 +95,7 @@ public class FormPanel extends Panel {
      */
     public void setColumns(int columns) {
         TableLayout tl = new TableLayout(columns * 2);
+        tl.setFullWidth(true);
         tl.setCellSpacing(5);
         setLayout(tl);
     }
