@@ -75,6 +75,7 @@ public class AppInstance extends ApplicationInstance {
      * @param scriptName the groovy script name.
      * @return a new instance of the class defined in the script.
      */
+    @SuppressWarnings("unchecked")
     public Object getGroovyObjectInstance(String scriptName) {
         Object ret = null;
         try {

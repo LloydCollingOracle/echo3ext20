@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.swing.table.TableModel;
 
+import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -59,6 +60,13 @@ public class UserListPanel
     private int rows = 35;
     
     private DefaultSortableTableModel tableModel;
+    
+    private ToolbarButton tbButton;
+    private static ImageReference ref1 = new ResourceImageReference(
+        "/resources/images/fam/icons/cog.png");
+    private static ImageReference ref2 = new ResourceImageReference(
+        "/resources/images/fam/icons/cog_error.png");
+    private ImageReference currentImageRef;
 
     public UserListPanel() {
         super(new FitLayout());
@@ -83,6 +91,19 @@ public class UserListPanel
 				userGridPanel.setTableModel(makeTableModel());
 			}});
         
+        Button changeIconButton = new Button("Change the button icon");
+        addButton(changeIconButton);
+        changeIconButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                if (ref1 == currentImageRef) {
+                    tbButton.setIcon(ref2);
+                    currentImageRef = ref2;
+                }
+                else {
+                    tbButton.setIcon(ref1);
+                    currentImageRef = ref1;
+                }
+            }});
     }
 
     /**
@@ -183,19 +204,19 @@ public class UserListPanel
     private Toolbar makeToolbar() {
         Toolbar ret = new Toolbar();
 
-        ToolbarButton button = new ToolbarButton();
-        button.setIcon(new ResourceImageReference(
-                "/resources/images/fam/icons/cog.png"));
-        button.setTooltip("Show configuration options");
-        button.setText("Configure");
+        tbButton = new ToolbarButton();
+        tbButton.setIcon(ref1);
+        currentImageRef = ref1;
+        tbButton.setTooltip("Show configuration options");
+        tbButton.setText("Configure");
         
-        button.addActionListener(new ActionListener() {
+        tbButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 LOG.info("Toolbar button was pressed");
             }
         });
 
-        button.setMenu(makeMenu());
+        tbButton.setMenu(makeMenu());
 
         ToolbarButton button2 = new ToolbarButton("Button2");
         button2.addActionListener(new ActionListener() {
@@ -205,7 +226,7 @@ public class UserListPanel
             }
         });
 
-        ret.add(button);
+        ret.add(tbButton);
         ret.add(new ToolbarSeparator());
         ret.add(new ToolbarFill());
         ret.add(new ToolbarSeparator());
@@ -217,9 +238,9 @@ public class UserListPanel
         tf.setEmptyText("Enter search criteria");
         ret.add(tf);
         
-        button = new ToolbarButton("Menu 2");
-        ret.add(button);
-        button.setMenu(makeMenu());
+        ToolbarButton tbButton2 = new ToolbarButton("Menu 2");
+        ret.add(tbButton2);
+        tbButton2.setMenu(makeMenu());
         
 
         return ret;

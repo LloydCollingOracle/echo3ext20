@@ -15,6 +15,7 @@ import org.sgodden.echo.ext20.Panel;
  */
 public class GroovyTestMain {
 
+    @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         try {
             

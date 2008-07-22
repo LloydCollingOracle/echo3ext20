@@ -29,6 +29,7 @@ public class ApplicationWaitIndicatorPeer extends LabelPeer {
     /**
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getComponentClass()
      */
+    @SuppressWarnings("unchecked")
     public Class getComponentClass() {
         return ApplicationWaitIndicator.class;
     }

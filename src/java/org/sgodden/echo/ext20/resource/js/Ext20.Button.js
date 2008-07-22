@@ -111,19 +111,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     _onRender: function() {
-        var iconUrl = Echo.Sync.ImageReference.getUrl(
-            this.component.get("icon"));
-        var el = this.extComponent.getEl().down("////button");
-        if (this.component.get("text") != null) {
-        	var newWidth = el.dom.clientWidth + 17;
-            el.dom.style.width = "" + newWidth + "px";
-        }
-        else {
-            el.dom.style.width = "17px"; // TODO - allow this to be set?
-        }
-        el.dom.style.backgroundImage = "url(" + iconUrl + ")";
-        el.dom.style.backgroundRepeat = "no-repeat";
-        el.dom.style.textAlign = "right";
+    	this._setIconUrl();
     },
 
     /**
@@ -131,6 +119,8 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     renderUpdate: function(update){
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
+        
+        this._setIconUrl();
         
         if (this.component.isEnabled()) {
             if (this.extComponent.disabled) {
@@ -144,6 +134,17 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
                 this.component.focusable = false;
             }
         }
+    },
+    
+    _setIconUrl: function() {
+    	if (this.component.render("icon")) {
+	        var iconUrl = Echo.Sync.ImageReference.getUrl(
+	            this.component.get("icon"));
+	        var el = this.extComponent.getEl().down("////button"); // the left button td
+	        el.dom.style.backgroundImage = "url(" + iconUrl + ")";
+	        el = el.up("table");
+	        el.addClass("x-btn-text-icon");        
+    	}
     }
 
 });

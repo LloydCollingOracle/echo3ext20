@@ -17,8 +17,7 @@
 package org.sgodden.echo.ext20.testapp;
 
 import java.lang.reflect.Method;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
@@ -34,7 +33,7 @@ import org.sgodden.echo.ext20.layout.FitLayout;
  * for the individual user.
  * @author sgodden
  */
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"serial"})
 public class UserPanel 
         extends Panel
         implements DeferredUiCreate {

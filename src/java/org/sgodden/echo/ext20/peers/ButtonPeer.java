@@ -23,12 +23,11 @@ import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.Button;
-import org.sgodden.echo.ext20.ExtComponent;
 
 /**
  * Synchronization peer for {@link Button}.
  */
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class ButtonPeer extends AbstractButtonPeer {
     
     protected static final Service BUTTON_SERVICE = JavaScriptService.forResource("EchoExt20.Button", 
