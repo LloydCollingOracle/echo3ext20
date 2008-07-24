@@ -101,48 +101,65 @@ class UserEditPanel extends Panel implements ActionListenable {
         formPanel1 = new FormPanel(2)
         
         codeField = new TextField()
-        formPanel1.add(codeField, "Code")
-        
         nameField = new TextField()
-        formPanel1.add(nameField, "Name")
-        
         postcodeField = new TextField(
             regExp: "^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})\$",
             regexpFailureText: "Invalid postal code",
             propertyChange: { println "A property changed on the postcode field"  }
         )
-        formPanel1.add(postcodeField, "Postal code")
-        
         invalidField = new TextField(
             value: "Is this field invalid for business reasons?"
         )
-        formPanel1.add(invalidField, "Invalid field")
-        
         passwordField = new PasswordField()
-        formPanel1.add(passwordField, "Password")
-        
         Calendar cal = Calendar.getInstance(
             ApplicationInstance.getActive().getLocale())
-
         dateField = new DateField(
             blankAllowed: false,
             calendar: cal
         )
-        formPanel1.add(dateField, "Date")
-        
-        formPanel1.add(new Label(""));
-        
         timeField = new TimeField(
             blankAllowed: false,
             calendar: cal
         )
-        formPanel1.add(timeField, "Time")
-        
         textAreaField = new TextArea(
             fieldLabel: "Notes",
             value: "Some text in a text area"
         )
-        formPanel1.add(textAreaField, "notes")
+        
+        formPanel1.formComponents = [
+            [
+                field: codeField,
+                label: "Code"
+            ],
+            [
+                field: nameField,
+                label: "Name"
+            ],
+            [
+                field: postcodeField,
+                label: "Postal code"
+            ],
+            [
+                field: invalidField,
+                label: "Invalid field"
+            ],
+            [
+                field: passwordField,
+                label: "Password"
+            ],
+            [
+                field: dateField,
+                label: "Date"
+            ],
+            [
+                field: timeField,
+                label: "Time"
+            ],
+            [
+                field: textAreaField,
+                label: "Notes",
+            ]
+        ]
         
         FormPanel fieldSetForm = new FormPanel()
         

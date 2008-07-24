@@ -36,6 +36,11 @@ public class ColumnConfiguration
     private boolean hidden = false;
 
     /**
+     * Default constructor.
+     */
+    public ColumnConfiguration(){}
+    
+    /**
      * Constructs a new column configuration.
      * @param header the header text.
      * @param width a specific width for the column.

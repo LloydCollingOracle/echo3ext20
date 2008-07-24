@@ -124,7 +124,7 @@ public class GridPanel
      */
     public GridPanel(ColumnModel columnModel, TableModel tableModel) {
         this(columnModel);
-        setTableModel(tableModel);
+        setModel(tableModel);
     }
 
     /**
@@ -454,7 +454,7 @@ public class GridPanel
      * Sets the data store from a Swing {@link TableModel}.
      * @param tableModel the table model.
      */
-    public void setTableModel(TableModel tableModel) {
+    public void setModel(TableModel tableModel) {
     	if (tableModel == null) {
     		throw new IllegalArgumentException("table model may not be null");
     	}

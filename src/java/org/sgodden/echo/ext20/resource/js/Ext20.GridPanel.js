@@ -58,9 +58,10 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
 
     _ctrlKeyDown: false,
-    _selectedRows: null,
     _handleSelectionEvents: false,
     _handleSortEvents: false,
+    _reconfigureOnRender: false,
+    _selectedRows: null,
     
     createExtComponent: function(update, options) {
         this._handleSortEvents = false;
@@ -111,7 +112,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 .createExtComponent.call(this, update, options);
 
         ret.on("rowdblclick", this._handleRowActivation, this);
-        ret.on("render",this._handleServerSelections,this);
+        ret.on("render",this._handleOnRender,this);
 
         return ret;
     },
@@ -131,6 +132,16 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 
     _handleKeyUpEvent: function(evt) {
         this._ctrlKeyDown = false;
+    },
+    
+    _handleOnRender: function() {
+    	this._handleServerSelections();
+    	if (this._reconfigureOnRender) {
+	        this.extComponent.reconfigure(
+	          this._makeStore(),
+	          this.component.get("columnModel")
+	        );
+    	}
     },
     
     _handleRowActivation: function() {
@@ -268,10 +279,21 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 		
         var updatedStore = update.getUpdatedProperty("model");
         if (updatedStore != null) {
-            this.extComponent.reconfigure(
-              this._makeStore(),
-              this.component.get("columnModel")
-            );
+        	/*
+        	 * The grid can only reconfigure itself if it is rendered.
+        	 */
+        	if (this.extComponent.rendered) {
+	            this.extComponent.reconfigure(
+	              this._makeStore(),
+	              this.component.get("columnModel")
+	            );
+        	}
+        	else {
+        		/*
+        		 * Make a note to reconfigure when the grid is rendered.
+        		 */
+        		this._reconfigureOnRender = true;
+        	}
         }
 
         this._handleServerSelections();

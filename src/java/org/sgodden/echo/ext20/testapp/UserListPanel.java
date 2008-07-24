@@ -88,7 +88,7 @@ public class UserListPanel
 			public void actionPerformed(ActionEvent arg0) {
 				startIndex += 10;
                 rows +=10;
-				userGridPanel.setTableModel(makeTableModel());
+				userGridPanel.setModel(makeTableModel());
 			}});
         
         Button changeIconButton = new Button("Change the button icon");
@@ -123,7 +123,7 @@ public class UserListPanel
         
         userGridPanel = new GridPanel(columnModel);
         userGridPanel.setPageSize(20);
-        userGridPanel.setTableModel(makeTableModel());
+        userGridPanel.setModel(makeTableModel());
         userGridPanel.setToolbar(makeToolbar());
         userGridPanel.setBottomToolbar(new PagingToolbar());
         /*

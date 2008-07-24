@@ -352,6 +352,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         this._registerKeyPresses(update, options);
         
         this.extComponent = this.newExtComponentInstance(options);
+        this.extComponent.on("render", this._doOnExtRender, this);
         
         if (children.length > 0) {
             this.component.focusable = true;
@@ -363,6 +364,17 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
         
         return this.extComponent;
+    },
+    
+    _doOnExtRender: function() {
+    	/*
+    	 * If we have a table layout, check to see if we are are a form, i.e.
+    	 * the first component is a label and the second component is a form
+    	 * component.  If so, apply a relative 1 pixel offset to each label, since
+    	 * otherwise the labels and form fields do not align properly.  FIXME,
+    	 * do this on a bodge 'form' property instead.
+    	 */
+    	
     },
     
     /**

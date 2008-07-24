@@ -74,7 +74,6 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     },
     
     _handleTimeFieldOnRender: function() {
-        alert("time field");
         EchoExt20.FormFieldSync.prototype._handleOnRender.call(this);
         this.extComponent.getEl().on(
             "keyup",
@@ -84,24 +83,6 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             "click",
             this._handleClickEvent,
             this);
-        if (this.component.parent.get("layout") != null) {
-            if (this.component.parent.get("layout") instanceof EchoExt20.TableLayout) {
-                /*
-                 * For some reason, ext decides to set IE TDs to relative -1px which
-                 * screws up the positioning of form inputs in relation to their trigger
-                 * buttons.  If the parent is not a form layout, then we need to remove
-                 * this.
-                 */
-                this.extComponent.getEl().dom.style.top = "0px";
-            }
-       }
-       else {
-           /*
-            * The parent layout was null, so the width of this form wrapper
-            * will not have been set.  Set it to "auto".
-            */
-            this.extComponent.getEl().parent().dom.style.width = "auto";
-       }
     },
 
     _handleClickEvent: function() {

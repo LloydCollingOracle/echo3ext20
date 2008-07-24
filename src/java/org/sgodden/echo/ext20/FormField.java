@@ -25,7 +25,7 @@ import nextapp.echo.app.Component;
 public class FormField {
     private Component field;
     private String label;
-    
+
     /**
      * Returns the form field (the input component).
      * @return the form field.
@@ -54,4 +54,5 @@ public class FormField {
     public void setLabel(String label) {
         this.label = label;
     }
+
 }

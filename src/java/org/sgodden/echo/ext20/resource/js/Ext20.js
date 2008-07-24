@@ -370,28 +370,37 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     },
 
     _maybeCreateComponent: function() {
-
         if (this.extComponent == null) {
-
             var options = {
                 id: this.component.renderId,
-                renderTo: this._parentElement,
                 style: {},
                 bodyStyle: {}
             };
-
+            if (this instanceof EchoExt20.PanelSync) {
+                options.renderTo = this._parentElement;
+            }
             this.extComponent = this.createExtComponent(
                 this._update,
                 options
             );
-
+        	/*
+        	 * If this is not a panel, then we need to surround it
+        	 * with a panel, to ensure that child dimensions are set
+        	 * correctly.
+        	 */
+        	if (!(this instanceof EchoExt20.PanelSync)) {
+        		var container = new Ext.Panel({
+        		    //layout: 'fit',
+        		    border: false,
+                    renderTo: this._parentElement,
+                    items: [this.extComponent]
+        		});
+        	}
             if (Core.Web.Env.BROWSER_INTERNET_EXPLORER
                     && this._isRootRootContainer) {
-                
                 this._parentElement.style.overflow = "visible";
                 this._parentElement.parentNode.style.overflow = "visible";
             }
-
             this._addBeforeRenderListener();
         }
     },

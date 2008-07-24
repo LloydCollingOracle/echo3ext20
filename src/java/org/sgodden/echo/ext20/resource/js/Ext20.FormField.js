@@ -33,14 +33,16 @@ EchoExt20.FormFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
 	             */
 	            this.extComponent.getEl().dom.style.top = "0px";
             }
-       }
-       else {
+        }
+        else if (this.extComponent.width == NaN || this.extComponent.width == 0){
            /*
             * The parent layout was null, so the width of this form wrapper
-            * will not have been set.  Set it to "auto".
+            * will not have been set.  Set it to the sum of the two children's
+            * clientWidth.
             */
+            alert("Setting to auto (not currently supported!)");
             this.extComponent.getEl().parent().dom.style.width = "auto";
-       }
+        }
     },
     
     renderDisplay: function(update) {

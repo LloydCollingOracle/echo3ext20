@@ -16,6 +16,7 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
@@ -166,6 +167,14 @@ public class ApplicationContentPane
             public void actionPerformed(ActionEvent e) {
                 showCentreComponent(new RemoveEchoFromExtTest());
             }});
+        
+        final nextapp.echo.app.Button button3 = makeEchoButton("Lazy render bug 1");
+        col2.add(button3);
+        button3.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                showCentreComponent(makeGroovyComponent("org.sgodden.echo.ext20.testapp.regression.UpdatedNonRenderedGridTest"));
+            }});
+        
 
         return ret;
     }
@@ -184,5 +193,10 @@ public class ApplicationContentPane
     	button.setBackground(Color.LIGHTGRAY);
     	button.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
     	return button;
+    }
+    
+    private Component makeGroovyComponent(String className) {
+        AppInstance app = (AppInstance) ApplicationInstance.getActive();
+        return (Component) app.getGroovyObjectInstance(className);
     }
 }
