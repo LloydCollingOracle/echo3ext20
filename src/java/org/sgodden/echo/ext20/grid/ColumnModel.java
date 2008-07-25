@@ -17,6 +17,7 @@
 package org.sgodden.echo.ext20.grid;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +43,17 @@ public class ColumnModel
 	public ColumnModel(List<ColumnConfiguration> columns) {
 		super();
 		this.columns = columns;
+	}
+	
+	/**
+	 * Adds a column configuration.
+	 * @param column the column to add.
+	 */
+	public void addColumn(ColumnConfiguration column) {
+	    if (columns == null) {
+	        columns = new ArrayList < ColumnConfiguration >();
+	    }
+	    columns.add(column);
 	}
 
 	/**

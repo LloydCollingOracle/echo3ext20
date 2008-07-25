@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.ImageReference;
+
 /**
  * Abstract base class for menu items.
  * @author sgodden
@@ -24,30 +26,16 @@ package org.sgodden.echo.ext20;
 public abstract class BaseMenuItem 
         extends AbstractButton {
 
-	/**
-	 * Creates a new base menu item with the specified
-	 * text and icon url.
-	 * @param text the text for the menu item.
-	 * @param iconUrl the url of the icon to display to the left of the menu item.
-	 */
-    public BaseMenuItem(String text, String iconUrl) {
-        super(text, iconUrl);
-    }
-
-    /**
-	 * Creates a new base menu item with the specified
-	 * text.
-	 * @param text the text for the menu item.
-     */
-    public BaseMenuItem(String text) {
-        super(text);
-    }
-
-    /**
-     * Creates a new base menu item with no text or icon.
-     */
     public BaseMenuItem() {
         super();
+    }
+
+    public BaseMenuItem(String text, ImageReference icon) {
+        super(text, icon);
+    }
+
+    public BaseMenuItem(String text) {
+        super(text);
     }
 
 }

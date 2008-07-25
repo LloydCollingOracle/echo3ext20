@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.ImageReference;
+
 /**
  * A toolbar button.
  * 
@@ -25,28 +27,16 @@ package org.sgodden.echo.ext20;
 public class ToolbarButton 
         extends Button {
 
-	/**
-	 * Creates a new toolbar button.
-	 * @param text the text for the button.
-	 * @param iconUrl the url of the icon for the button.
-	 */
-    public ToolbarButton(String text, String iconUrl) {
-        super(text, iconUrl);
-    }
-
-    /**
-     * Creates a new toolbar button.
-	 * @param text the text for the button.
-     */
-    public ToolbarButton(String text) {
-        super(text);
-    }
-
-    /**
-     * Creates a new empty toolbar button.
-     */
     public ToolbarButton() {
         super();
+    }
+
+    public ToolbarButton(String text, ImageReference icon) {
+        super(text, icon);
+    }
+
+    public ToolbarButton(String text) {
+        super(text);
     }
 
 }

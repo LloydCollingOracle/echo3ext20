@@ -18,6 +18,7 @@ package org.sgodden.echo.ext20;
 
 import nextapp.echo.app.ImageReference;
 
+
 /**
  * An ext button.
  * 
@@ -35,63 +36,31 @@ public class Button
      * added directly to its layout.
      */
     public static final String ADD_TO_BUTTON_BAR_PROPERTY = "addToButtonBar";
-    public static final String PROPERTY_ICON = "icon";
-
     
     private Menu menu;
     
     {
         setAddToButtonBar(false);
     }
-
-    /**
-     * Creates a button with the specific text and icon.
-     * @param text the text.
-     * @param iconUrl the url of the icon.
-     */
-    public Button(String text, String iconUrl) {
-        super(text, iconUrl);
-    }
-
-    /**
-     * Creates a button with the specific text and icon.
-     * @param text the text.
-     */
-    public Button(String text) {
-        super(text);
-    }
-
-    /**
-     * Creates a new button with no text or icon.
-     */
+    
     public Button() {
         super();
     }
 
-    /**
-     * Returns the icon displayed in the button.
-     * 
-     * @return the icon
-     */
-    public ImageReference getIcon() {
-        return (ImageReference) getComponentProperty(PROPERTY_ICON);
+    public Button(String text, ImageReference icon) {
+        super(text, icon);
     }
-    
+
+    public Button(String text) {
+        super(text);
+    }
+
     /**
      * See {@link #ADD_TO_BUTTON_BAR_PROPERTY}.
      * @param addToButtonBar whether to add this button to the button bar rather than the main panel body.
      */
     void setAddToButtonBar(boolean addToButtonBar) {
         setComponentProperty(ADD_TO_BUTTON_BAR_PROPERTY, addToButtonBar);
-    }
-
-    /**
-     * Sets the icon displayed in the button.
-     * 
-     * @param newValue the new icon
-     */
-    public void setIcon(ImageReference newValue) {
-        setComponentProperty(PROPERTY_ICON, newValue);
     }
     
     /**

@@ -61,8 +61,8 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     createExtComponent: function(update, options) {
     
-        if (this.component.get("iconClass") != null) {
-                options['iconCls'] = this.component.get("iconClass");
+        if (this.component.render("iconClass") != null) {
+                options['iconCls'] = this.component.render("iconClass");
         }
     	options['text'] = this.component.get("text");
 
@@ -94,7 +94,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     	var extComponent = this.newExtComponentInstance(options);
         
     	extComponent.on('click', this._handleClickEvent, this);
-        if (this.component.get("icon")) {
+        if (this.component.render("icon")) {
             extComponent.on("render", this._onRender, this);
         }
     	
@@ -137,13 +137,25 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     _setIconUrl: function() {
-    	if (this.component.render("icon")) {
-	        var iconUrl = Echo.Sync.ImageReference.getUrl(
-	            this.component.get("icon"));
-	        var el = this.extComponent.getEl().down("////button"); // the left button td
-	        el.dom.style.backgroundImage = "url(" + iconUrl + ")";
-	        el = el.up("table");
-	        el.addClass("x-btn-text-icon");        
+    	var iconUrl = null;
+    	if (this.component.isEnabled()) {
+    		iconUrl = Echo.Sync.ImageReference.getUrl(
+                this.component.render("icon"));
+    	}
+    	else {
+    		iconUrl = Echo.Sync.ImageReference.getUrl(
+                this.component.render("disabledIcon"));
+    	}
+    	if (iconUrl != null) {
+            var el = this.extComponent.getEl().down("////button"); // the left button td
+            el.dom.style.backgroundImage = "url(" + iconUrl + ")";
+            el = el.up("table");
+            if (this.component.get("text")) {
+                el.addClass("x-btn-text-icon");        
+            }
+            else {
+                el.addClass("x-btn-icon");        
+            }
     	}
     }
 

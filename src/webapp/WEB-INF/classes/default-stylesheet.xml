@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <ss>
 
+<!-- Paging toolbar buttons -->
+<s n="FirstPageButton" t="org.sgodden.echo.ext20.Button">
+    <p n="icon" t="nextapp.echo.app.FillImage">
+        <fi t="r"><i r="resources/ext/images/slate/grid/page-first.gif"/></fi>
+    </p>
+    <p n="disabledIcon" t="nextapp.echo.app.FillImage">
+        <fi t="r"><i r="resources/ext/images/slate/grid/page-first-disabled.gif"/></fi>
+    </p>
+</s>
+<s n="NextPageButton" t="org.sgodden.echo.ext20.Button">
+    <p n="icon" t="nextapp.echo.app.FillImage">
+        <fi t="r"><i r="resources/ext/images/slate/grid/page-next.gif"/></fi>
+    </p>
+    <p n="disabledIcon" t="nextapp.echo.app.FillImage">
+        <fi t="r"><i r="resources/ext/images/slate/grid/page-next-disabled.gif"/></fi>
+    </p>
+</s>
+<s n="PreviousPageButton" t="org.sgodden.echo.ext20.Button">
+    <p n="icon" t="nextapp.echo.app.FillImage">
+        <fi t="r"><i r="resources/ext/images/slate/grid/page-prev.gif"/></fi>
+    </p>
+    <p n="disabledIcon" t="nextapp.echo.app.FillImage">
+        <fi t="r"><i r="resources/ext/images/slate/grid/page-prev-disabled.gif"/></fi>
+    </p>
+</s>
+<s n="LastPageButton" t="org.sgodden.echo.ext20.Button">
+    <p n="icon" t="nextapp.echo.app.FillImage">
+        <fi t="r"><i r="resources/ext/images/slate/grid/page-last.gif"/></fi>
+    </p>
+    <p n="disabledIcon" t="nextapp.echo.app.FillImage">
+        <fi t="r"><i r="resources/ext/images/slate/grid/page-last-disabled.gif"/></fi>
+    </p>
+</s>
+
 <s t="org.sgodden.echo.ext20.Panel">
     <p n="background">#dddddd</p>
     <p n="bodyBackground">#ffffff</p>

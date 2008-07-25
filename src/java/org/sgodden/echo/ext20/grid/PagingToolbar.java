@@ -1,13 +1,19 @@
 package org.sgodden.echo.ext20.grid;
 
 import javax.swing.table.TableModel;
+
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.echo.ext20.ToolbarTextItem;
+import org.sgodden.echo.ext20.buttons.FirstPageButton;
+import org.sgodden.echo.ext20.buttons.LastPageButton;
+import org.sgodden.echo.ext20.buttons.NextPageButton;
+import org.sgodden.echo.ext20.buttons.PreviousPageButton;
 
 /**
  * A toolbar which contains paging controls for a grid.
@@ -72,13 +78,11 @@ public class PagingToolbar extends Toolbar {
 
         // Add the paging controls
 
-        firstButton = new Button();
+        firstButton = new FirstPageButton();
         add(firstButton);
-        firstButton.setIconClass("x-tbar-page-first");
 
-        previousButton = new Button();
+        previousButton = new PreviousPageButton();
         add(previousButton);
-        previousButton.setIconClass("x-tbar-page-prev");
 
         addSeparator();
 
@@ -101,13 +105,11 @@ public class PagingToolbar extends Toolbar {
 
         addSeparator();
 
-        nextButton = new Button();
+        nextButton = new NextPageButton();
         add(nextButton);
-        nextButton.setIconClass("x-tbar-page-next");
 
-        lastButton = new Button();
+        lastButton = new LastPageButton();
         add(lastButton);
-        lastButton.setIconClass("x-tbar-page-last");
 
         // add the rows per page control
 
@@ -146,14 +148,13 @@ public class PagingToolbar extends Toolbar {
          */
         firstButton.setEnabled(false);
         previousButton.setEnabled(false);
-
-        firstButton.addActionListener(new ActionListener() {
+        
+        firstButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
                 setPageOffset(0);
                 currentPageTextField.setValue("1");
                 enableButtons();
-            }
-        });
+          }});
 
         previousButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -199,6 +200,9 @@ public class PagingToolbar extends Toolbar {
     }
 
     private void setPageSize() {
+        if (rowsPerPageTextField.getValue() == null) {
+            rowsPerPageTextField.setValue(String.valueOf(pageSize));
+        }
         pageSize = Integer.parseInt(rowsPerPageTextField.getValue());
         client.setPageSize(pageSize);
         // reset back to the start

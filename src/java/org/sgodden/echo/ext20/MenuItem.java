@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.ImageReference;
+
 /**
  * A basic menu item containing text and an optional icon.
  * 
@@ -25,28 +27,16 @@ package org.sgodden.echo.ext20;
 public class MenuItem 
         extends BaseMenuItem {
 
-	/**
-	 * Creates an empty menu item.
-	 */
     public MenuItem() {
         super();
     }
 
-    /**
-     * Creates a menu item.
-     * @param text the text for the menu item.
-     */
-    public MenuItem(String text) {
-        super(text);
+    public MenuItem(String text, ImageReference icon) {
+        super(text, icon);
     }
 
-    /**
-     * Creates a menu item.
-     * @param text the text to display.
-     * @param iconUrl the URL of the icon to display.
-     */
-    public MenuItem(String text, String iconUrl) {
-        super(text, iconUrl);
+    public MenuItem(String text) {
+        super(text);
     }
 
 }

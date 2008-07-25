@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.swing.table.TableModel;
 
+import nextapp.echo.app.HttpImageReference;
 import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.event.ActionEvent;
@@ -83,6 +84,7 @@ public class UserListPanel
         });
         
         Button changeButton = new Button("Change the data model");
+        changeButton.setIcon(new HttpImageReference("asd/wer"));
         addButton(changeButton);
         changeButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
@@ -251,7 +253,6 @@ public class UserListPanel
 
         MenuItem item1 = new MenuItem("Item 1");
         ret.add(item1);
-        item1.setIconClass("icon-folder-add");
 
         item1.addActionListener(new ActionListener() {
 

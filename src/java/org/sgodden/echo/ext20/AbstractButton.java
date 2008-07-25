@@ -17,6 +17,8 @@
 package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
+
+import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
@@ -25,15 +27,15 @@ import nextapp.echo.app.event.ActionListener;
  * 
  * @author sgodden
  */
+@SuppressWarnings("serial")
 public abstract class AbstractButton 
         extends ExtComponent {
     
-        
     public static final String TEXT_PROPERTY = "text";
-    public static final String ICON_URL_PROPERTY = "iconUrl";
+    public static final String PROPERTY_DISABLED_ICON = "disabledIcon";
+    public static final String PROPERTY_ENABLED_ICON = "icon";
     public static final String INPUT_ACTION = "action";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
-    public static final String ICON_CLASS_PROPERTY="iconClass";
     public static final String TOOLTIP_TEXT_PROPERTY = "tooltipText";
     
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
@@ -63,47 +65,30 @@ public abstract class AbstractButton
      * @param text the text to be displayed in the button
      * @param iconUrl the icon to be displayed in the button
      */
-    public AbstractButton(String text, String iconUrl) {
+    public AbstractButton(String text, ImageReference icon) {
         this(text);
-        setIconUrl(iconUrl);
+        setIcon(icon);
     }
     
     /**
-     * Sets the text to appear in the button.
-     * @param text the text.
-     */
-    public void setText(String text) {
-        setComponentProperty(TEXT_PROPERTY, text);
-    }
-    
-    /**
-     * Sets the url of the icon for the button.
-     * <p/>
-     * Note that if the url is not absolute, then the context path of
-     * the application will be prepended to it.
+     * Returns the icon displayed in the button
+     * when the button is disabled.
      * 
-     * @param iconUrl the url of the icon for the button.
+     * @return the icon
      */
-    public void setIconUrl(String iconUrl) {
-        setComponentProperty(ICON_URL_PROPERTY, iconUrl);
+    public ImageReference getDisabledIcon() {
+        return (ImageReference) getComponentProperty(PROPERTY_ENABLED_ICON);
     }
     
     /**
-     * Sets a css class to be used to provide the icon
-     * for the button.
-     * @param iconClass the css style to provide the icon for the button.
+     * Returns the icon displayed in the button.
+     * 
+     * @return the icon
      */
-    public void setIconClass(String iconClass) {
-    	setComponentProperty(ICON_CLASS_PROPERTY, iconClass);
+    public ImageReference getIcon() {
+        return (ImageReference) getComponentProperty(PROPERTY_ENABLED_ICON);
     }
-    
-    /**
-     * Sets the passed text as the tool tip for the component.
-     * @param tooltip
-     */
-    public void setTooltip(String tooltip) {
-    	setComponentProperty(TOOLTIP_TEXT_PROPERTY, tooltip);
-    }
+
     
     /**
      * Returns whether any <code>ActionListener</code>s are registered.
@@ -113,7 +98,6 @@ public abstract class AbstractButton
     public boolean hasActionListeners() {
         return getEventListenerList().getListenerCount(ActionListener.class) != 0;
     }
-
     
     /**
      * Adds an <code>ActionListener</code> to the button.
@@ -128,30 +112,7 @@ public abstract class AbstractButton
         // existence of hasActionListeners() method. 
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
     }
-
-    /**
-     * Removes the specified action listener.
-     * @param l the listener to remove.
-     */
-    public void removeActionListener(ActionListener l) {
-        if (!hasEventListenerList()) {
-            return;
-        }
-        getEventListenerList().removeListener(ActionListener.class, l);
-        // Notification of action listener changes is provided due to 
-        // existence of hasActionListeners() method. 
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
-
-    }
     
-    
-    @Override
-    public void processInput(String inputName, Object inputValue) {
-        super.processInput(inputName, inputValue);
-        if (INPUT_ACTION.equals(inputName)) {
-            fireActionEvent();
-        }
-    }
     
     /**
      * Perform a button click programatically.
@@ -159,11 +120,6 @@ public abstract class AbstractButton
     public void doClick() {
         fireActionEvent();
     }
-    
-    public void setActionCommand(String actionCommand) {
-        this.actionCommand = actionCommand;
-    }
-    
     
     /**
      * Fires an action event to all listeners.
@@ -181,5 +137,67 @@ public abstract class AbstractButton
             ((ActionListener) listeners[i]).actionPerformed(e);
         }
     }
+    
+    @Override
+    public void processInput(String inputName, Object inputValue) {
+        super.processInput(inputName, inputValue);
+        if (INPUT_ACTION.equals(inputName)) {
+            fireActionEvent();
+        }
+    }
+
+    /**
+     * Removes the specified action listener.
+     * @param l the listener to remove.
+     */
+    public void removeActionListener(ActionListener l) {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        getEventListenerList().removeListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to 
+        // existence of hasActionListeners() method. 
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+
+    }
+    
+    public void setActionCommand(String actionCommand) {
+        this.actionCommand = actionCommand;
+    }
+
+    /**
+     * Sets the icon displayed in the button.
+     * 
+     * @param newValue the new icon
+     */
+    public void setDisabledIcon(ImageReference newValue) {
+        setComponentProperty(PROPERTY_DISABLED_ICON, newValue);
+    }
+    
+    /**
+     * Sets the text to appear in the button.
+     * @param text the text.
+     */
+    public void setText(String text) {
+        setComponentProperty(TEXT_PROPERTY, text);
+    }
+
+    /**
+     * Sets the icon displayed in the button.
+     * 
+     * @param newValue the new icon
+     */
+    public void setIcon(ImageReference newValue) {
+        setComponentProperty(PROPERTY_ENABLED_ICON, newValue);
+    }
+    
+    /**
+     * Sets the passed text as the tool tip for the component.
+     * @param tooltip
+     */
+    public void setTooltip(String tooltip) {
+        setComponentProperty(TOOLTIP_TEXT_PROPERTY, tooltip);
+    }
+    
 
 }
