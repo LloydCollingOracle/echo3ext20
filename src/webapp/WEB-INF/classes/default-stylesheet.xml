@@ -4,34 +4,34 @@
 <!-- Paging toolbar buttons -->
 <s n="FirstPageButton" t="org.sgodden.echo.ext20.Button">
     <p n="icon" t="nextapp.echo.app.FillImage">
-        <fi t="r"><i r="resources/ext/images/slate/grid/page-first.gif"/></fi>
+        <fi t="r"><i r="resources/images/ext/slate/grid/page-first.gif"/></fi>
     </p>
     <p n="disabledIcon" t="nextapp.echo.app.FillImage">
-        <fi t="r"><i r="resources/ext/images/slate/grid/page-first-disabled.gif"/></fi>
+        <fi t="r"><i r="resources/images/ext/slate/grid/page-first-disabled.gif"/></fi>
     </p>
 </s>
 <s n="NextPageButton" t="org.sgodden.echo.ext20.Button">
     <p n="icon" t="nextapp.echo.app.FillImage">
-        <fi t="r"><i r="resources/ext/images/slate/grid/page-next.gif"/></fi>
+        <fi t="r"><i r="resources/images/ext/slate/grid/page-next.gif"/></fi>
     </p>
     <p n="disabledIcon" t="nextapp.echo.app.FillImage">
-        <fi t="r"><i r="resources/ext/images/slate/grid/page-next-disabled.gif"/></fi>
+        <fi t="r"><i r="resources/images/ext/slate/grid/page-next-disabled.gif"/></fi>
     </p>
 </s>
 <s n="PreviousPageButton" t="org.sgodden.echo.ext20.Button">
     <p n="icon" t="nextapp.echo.app.FillImage">
-        <fi t="r"><i r="resources/ext/images/slate/grid/page-prev.gif"/></fi>
+        <fi t="r"><i r="resources/images/ext/slate/grid/page-prev.gif"/></fi>
     </p>
     <p n="disabledIcon" t="nextapp.echo.app.FillImage">
-        <fi t="r"><i r="resources/ext/images/slate/grid/page-prev-disabled.gif"/></fi>
+        <fi t="r"><i r="resources/images/ext/slate/grid/page-prev-disabled.gif"/></fi>
     </p>
 </s>
 <s n="LastPageButton" t="org.sgodden.echo.ext20.Button">
     <p n="icon" t="nextapp.echo.app.FillImage">
-        <fi t="r"><i r="resources/ext/images/slate/grid/page-last.gif"/></fi>
+        <fi t="r"><i r="resources/images/ext/slate/grid/page-last.gif"/></fi>
     </p>
     <p n="disabledIcon" t="nextapp.echo.app.FillImage">
-        <fi t="r"><i r="resources/ext/images/slate/grid/page-last-disabled.gif"/></fi>
+        <fi t="r"><i r="resources/images/ext/slate/grid/page-last-disabled.gif"/></fi>
     </p>
 </s>
 
