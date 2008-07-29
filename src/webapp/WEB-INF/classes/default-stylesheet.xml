@@ -36,8 +36,6 @@
 </s>
 
 <s t="org.sgodden.echo.ext20.Panel">
-    <p n="background">#dddddd</p>
-    <p n="bodyBackground">#ffffff</p>
 </s>
 
 <!-- next class inherits from the previous one -->
