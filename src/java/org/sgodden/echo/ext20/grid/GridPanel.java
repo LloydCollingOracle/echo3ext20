@@ -64,7 +64,7 @@ gridPanel.addActionListener(new ActionListener(){
  * @author sgodden
  *
  */
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"serial"})
 public class GridPanel
         extends Panel 
         implements TableModelListener, PagingToolbarClient {
