@@ -14,7 +14,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 # ================================================================= */
-EchoExt20.FieldSet = Core.extend(EchoExt20.ExtComponent, {
+EchoExt20.FieldSet = Core.extend(EchoExt20.Panel, {
 	
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20FieldSet", this);
