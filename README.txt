@@ -41,6 +41,8 @@ to understand the ext layout pipeline enough to find the problem.
 So you can use echo3 layouts within ext layouts, to e.g. put a row of images within an ext panel, but you can't then
 put another ext layout inside that containing form components.  You will get all sorts of rendering issues.
 
-Part of the problem is that the rendering peer code is badly factored, and also that it creates children during the
-renderDisplay phase.  All the children should be created within the renderAdd phase, and then added to parents
-during the renderDisplay phase.
+TO DO
+=====
+Implement MultiSelect / ItemSelector extension from: http://extjs.com/forum/showthread.php?t=20071
+Implement TreePanel
+Implement arbitrary drag and drop

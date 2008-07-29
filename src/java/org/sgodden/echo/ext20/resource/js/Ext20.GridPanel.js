@@ -33,6 +33,10 @@ EchoExt20.GridPanel = Core.extend(EchoExt20.ExtComponent, {
 
     doSort: function() {
         this.fireEvent({type: "sort", source: this});
+    },
+
+    doSelect: function() {
+        this.fireEvent({type: "select", source: this});
     }
     
 });
@@ -82,23 +86,20 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         }
 		
         options["cm"] = this.component.get("columnModel");
-        // TODO - multi and single select
-        var sm = new Ext.grid.RowSelectionModel();
+        
+        // ext does not support multiple interval selection
+        var smode = this.component.get("selectionMode");
+        var ss = true;
+        if (smode != "S") {
+        	ss = false;
+        }
+        var sm = new Ext.grid.RowSelectionModel({singleSelect: ss});
+        
         sm.on("rowselect", this._handleRowSelectEvent, this);
         sm.on("rowdeselect", this._handleRowDeselectEvent, this);
         options["sm"] = sm;
         
         options["border"] = true;
-    
-        /* should be done server side (?)
-        options["bbar"] = new Ext.PagingToolbar({
-            pageSize: 25,
-            store: store,
-            displayInfo: true,
-            displayMsg: 'Displaying records {0} - {1} of {2}',
-            emptyMsg: "No records to display"
-        });
-         */
         
         Ext.Element.get("approot").on("keydown",
                 this._handleKeyDownEvent, this);
@@ -168,6 +169,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             }
             this._selectedRows[index] = true;
             this._updateRowSelection();
+            this.component.doSelect();
         }
     },
 

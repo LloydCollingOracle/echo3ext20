@@ -19,6 +19,8 @@ package org.sgodden.echo.ext20.testapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 
 import nextapp.echo.app.HttpImageReference;
@@ -34,6 +36,7 @@ import org.sgodden.ui.models.DefaultSortableTableModel;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.echo.ext20.ToolbarButton;
@@ -134,6 +137,17 @@ public class UserListPanel
          */
         //userGridPanel.setGroupField("role");
         userGridPanel.setSortField("userid");
+        // ensure list selections are notified immediately
+        userGridPanel.setNotifySelect(true);
+        // don't allow multiple row selection
+        userGridPanel.setSelectionMode(SelectionMode.SINGLE_SELECTION);
+        
+        userGridPanel.getSelectionModel().addListSelectionListener(
+                new ListSelectionListener(){
+                    public void valueChanged(ListSelectionEvent e) {
+                        LOG.info("A row was selected or deselected");
+                    }}
+        );
         
         return userGridPanel;
         

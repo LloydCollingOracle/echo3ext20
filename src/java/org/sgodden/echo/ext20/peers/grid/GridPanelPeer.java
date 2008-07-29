@@ -43,6 +43,14 @@ public class GridPanelPeer
                 return (((GridPanel) component).isModelSortable());
             }
         });
+        
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(
+                GridPanel.SELECT_ACTION, "selectListeners") {
+            @Override
+            public boolean hasListeners(Context context, Component component) {
+                return (((GridPanel) component).isNotifySelect());
+            }
+        });
     }
 
     /*

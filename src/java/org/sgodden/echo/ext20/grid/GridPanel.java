@@ -30,6 +30,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.ui.models.BackingObjectDataModel;
 import org.sgodden.ui.models.SortableTableModel;
@@ -75,7 +76,9 @@ public class GridPanel
     public static final String INPUT_ACTION = "action";
     public static final String MODEL_CHANGED_PROPERTY="model";
     public static final String PAGE_OFFSET_PROPERTY="pageOffset";
+    public static final String SELECT_ACTION = "select";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
+    public static final String SELECTION_MODE = "selectionMode";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
     public static final String SORT_ACTION = "sort";
     public static final String SORT_FIELD_PROPERTY = "sortField";
@@ -86,6 +89,8 @@ public class GridPanel
     private int pageSize;
     private ListSelectionModel selectionModel;
     private boolean suppressChangeNotifications;
+    private boolean notifySelect = false;
+    private int[] selectedIndices;
 
     /**
      * Local handler for list selection events.
@@ -104,6 +109,7 @@ public class GridPanel
     public GridPanel() {
         super();
         setBorder(true);
+        setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
         setSelectionModel(new DefaultListSelectionModel());
         setPageOffset(0);
     }
@@ -176,6 +182,15 @@ public class GridPanel
     public ColumnModel getColumnModel() {
         return ((ColumnModel)getComponentProperty(COLUMN_MODEL_PROPERTY));
     }
+    
+    /**
+     * Returns whether a server event should be generated
+     * immediately upon the user selecting a grid row.
+     * @return whether to generate a server event.
+     */
+    public boolean isNotifySelect() {
+        return this.notifySelect;
+    }
 
     /**
      * Returns the offset to the current page, in the case that the
@@ -192,6 +207,37 @@ public class GridPanel
      */
     public int getPageSize() {
        return pageSize;
+    }
+    
+    /**
+     * Returns the selected indices.
+     * @return the selected indices.
+     */
+    public int[] getSelectedIndices() {
+        return selectedIndices;
+    }
+    
+    /**
+     * Returns the selection mode.
+     * @return the selection mode.
+     */
+    public SelectionMode getSelectionMode() {
+        SelectionMode ret;
+        String mode = (String) getComponentProperty(SELECTION_MODE);
+        if (mode.equals("S")) {
+            ret = SelectionMode.SINGLE_SELECTION;
+        }
+        else if (mode.equals("SI")) {
+            ret = SelectionMode.SINGLE_INTERVAL_SELECTION;
+        }
+        else if (mode.equals("MI")) {
+            ret = SelectionMode.MULTIPLE_INTERVAL_SELECTION;
+        }
+        else {
+            throw new IllegalArgumentException("Unknown selection mode: " + mode);
+        }
+        return ret;
+        
     }
 
     /**
@@ -367,6 +413,16 @@ public class GridPanel
     public void setGroupField(String groupField) {
         setComponentProperty(GROUP_FIELD_PROPERTY, groupField);
     }
+    
+    /**
+     * Sets whether a server event should be generated immediately
+     * upon the user selecting a row.
+     * selects a row.
+     * @param notify whether to generate a server event.
+     */
+    public void setNotifySelect(boolean notify) {
+        this.notifySelect = notify;
+    }
 
     /**
      * Sets the offset to the first record in the model that is being shown
@@ -395,6 +451,7 @@ public class GridPanel
      * @param selectedIndices the indices to select
      */
     private void setSelectedIndices(int[] selectedIndices) {
+        this.selectedIndices = selectedIndices;
         // Temporarily suppress the Tables selection event notifier.
         suppressChangeNotifications = true;
         selectionModel.clearSelection();
@@ -404,6 +461,23 @@ public class GridPanel
         }
         // End temporary suppression.
         suppressChangeNotifications = false;
+    }
+    
+    /**
+     * Sets the selection mode for this grid.
+     * @param mode the selection mode.
+     */
+    public void setSelectionMode(SelectionMode mode) {
+        switch (mode) {
+        case SINGLE_SELECTION:
+            setComponentProperty(SELECTION_MODE, "S");
+            break;
+        case SINGLE_INTERVAL_SELECTION:
+            setComponentProperty(SELECTION_MODE, "SI");
+            break;
+        case MULTIPLE_INTERVAL_SELECTION:
+            setComponentProperty(SELECTION_MODE, "MI");
+        }
     }
 
     /**
