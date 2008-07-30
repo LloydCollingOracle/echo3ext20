@@ -19,7 +19,7 @@ import org.sgodden.echo.ext20.CheckboxField
 import org.sgodden.echo.ext20.DateField
 import org.sgodden.echo.ext20.FieldSet
 import org.sgodden.echo.ext20.FormField
-import org.sgodden.echo.ext20.FormPanel
+import org.sgodden.echo.ext20.FormGrid
 import org.sgodden.echo.ext20.PasswordField
 import org.sgodden.echo.ext20.Panel
 import org.sgodden.echo.ext20.RadioButton
@@ -37,7 +37,7 @@ class UserEditPanel extends Panel implements ActionListenable {
 
     private static final transient Log log = LogFactory.getLog(UserEditPanel.class);
 
-    def formPanel1
+    def FormGrid1
     def codeField
     def nameField
     def postcodeField
@@ -56,7 +56,7 @@ class UserEditPanel extends Panel implements ActionListenable {
     def cancelButton
     def saveButton
     
-    def formPanel2
+    def FormGrid2
 
     public UserEditPanel() {
         super();
@@ -69,9 +69,9 @@ class UserEditPanel extends Panel implements ActionListenable {
         initComponents()
         
         components = [
-            formPanel1,
+            FormGrid1,
             fieldSet,
-            formPanel2
+            FormGrid2
         ]
 
         buttons = [
@@ -100,7 +100,7 @@ class UserEditPanel extends Panel implements ActionListenable {
     }
 
     private void initComponents(Object[] data) {
-        formPanel1 = new FormPanel(2)
+        FormGrid1 = new FormGrid(2)
         
         codeField = new TextField()
         nameField = new TextField()
@@ -128,7 +128,7 @@ class UserEditPanel extends Panel implements ActionListenable {
             value: "Some text in a text area"
         )
         
-        formPanel1.formComponents = [
+        FormGrid1.formComponents = [
             [
                 field: codeField,
                 label: "Code"
@@ -163,7 +163,7 @@ class UserEditPanel extends Panel implements ActionListenable {
             ]
         ]
         
-        FormPanel fieldSetForm = new FormPanel()
+        FormGrid fieldSetForm = new FormGrid()
         
         fieldSet = new FieldSet(
             title: "A field set",
@@ -192,7 +192,7 @@ class UserEditPanel extends Panel implements ActionListenable {
         roleCombo = makeRoleCombo(makeRoleModel())
         fieldSetForm.add(roleCombo, "Role combo");
         
-        formPanel2 = new FormPanel(
+        FormGrid2 = new FormGrid(
             formComponents: [
                 [
                     field: new DateField(),
