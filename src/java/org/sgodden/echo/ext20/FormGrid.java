@@ -13,13 +13,13 @@ import org.sgodden.echo.ext20.layout.TableLayoutData;
  * @author sgodden
  */
 @SuppressWarnings("serial")
-public class FormPanel extends Panel {
+public class FormGrid extends Panel {
     
     /**
      * Creates a new form panel to hold a single column
      * of form fields.
      */
-    public FormPanel(){
+    public FormGrid(){
         super();
         setColumns(1);
     }
@@ -29,7 +29,7 @@ public class FormPanel extends Panel {
      * number of columns of form fields.
      * @param cols the number of columns of form fields.
      */
-    public FormPanel(int cols) {
+    public FormGrid(int cols) {
         super();
         setColumns(cols);
     }
