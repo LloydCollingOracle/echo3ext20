@@ -41,9 +41,7 @@ EchoExt20.Panel = Core.extend(EchoExt20.ExtComponent, {
      */
     doToolClick: function() {
             this.fireEvent({type: "toolClick", source: this});
-    },
-    
-    focusable: true
+    }
     
 });
 
@@ -89,18 +87,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
          */
         notifyChildLayoutUpdate: function() {
             this._childLayoutUpdatesOccurred = true;
-        },
-        renderFocus: function() {
-        	// we are a container, focus the first focusable child
-        	var index = 0;
-        	var component = this.component.getComponent(index);
-        	while (!component.focusable && index < this.component.getComponentCount()) {
-        		index ++;
-        		component = this.component.getComponent(index);
-        	}
-        	if (component.focusable) {
-        		this.component.application.setFocusedComponent(component);
-        	}
         }
     },
     
@@ -369,12 +355,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         this.extComponent.on("render", this._doOnExtRender, this);
         
         if (children.length > 0) {
-            this.component.focusable = true;
             this._createChildItems(update, children);
             this._conditionalDoLayout(children);
-        }
-        else {
-            this.component.focusable = false;
         }
         
         return this.extComponent;

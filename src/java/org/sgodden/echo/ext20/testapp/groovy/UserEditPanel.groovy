@@ -5,7 +5,7 @@ import java.util.List
 import nextapp.echo.app.Label
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
-
+import nextapp.echo.app.ApplicationInstance
 import nextapp.echo.app.ApplicationInstance
 import nextapp.echo.app.event.ActionEvent
 import nextapp.echo.app.event.ActionListener
@@ -66,7 +66,7 @@ class UserEditPanel extends Panel implements ActionListenable {
         bodyPadding = "5px"
         border = true
 
-        initComponents();
+        initComponents()
         
         components = [
             formPanel1,
@@ -79,6 +79,8 @@ class UserEditPanel extends Panel implements ActionListenable {
             saveButton,
             makeChangeRoleButton()
         ]
+        
+        ApplicationInstance.getActive().setFocusedComponent(codeField)
     }
 
     public void setData(Object[] data) {
