@@ -76,6 +76,12 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         if (this.component.get("regExpFailureText")){
             options.regexText = this.component.get("regExpFailureText");
         }
+        if (this.component.get("minLength")){
+            options["minLength"] = this.component.get("minLength");
+        }
+        if (this.component.get("maxLength")){
+            options["maxLength"] = this.component.get("maxLength");
+        }
 
         options.selectOnFocus = true;
     

@@ -38,6 +38,8 @@ public class TextField
     public static final String PROPERTY_SIZE = "size";
     public static final String REGEXP_FAILURETEXT_PROPERTY = "regExpFailureText";
     public static final String REGEXP_PROPERTY = "regExp";
+    public static final String MIN_LENGTH = "minLength";
+    public static final String MAX_LENGTH = "maxLength";
     public static final String VALUE_CHANGED_PROPERTY = "value";
     public static final String VALID_PROPERTY = "isValid";
 
@@ -156,6 +158,22 @@ public class TextField
      */
     public void setRegExp(String regExp) {
         setComponentProperty(REGEXP_PROPERTY, regExp);
+    }
+
+    /**
+     * Sets the minimum allowed length of the text field.
+     * @param minLength the minimum length of the text field.
+     */
+    public void setMinLength(int minLength) {
+        setComponentProperty(MIN_LENGTH, minLength);
+    }
+
+    /**
+     * Sets the maximum allowed length of the text field.
+     * @param maxLength the maximum length of the text field.
+     */
+    public void setMaxLength(int maxLength){
+        setComponentProperty(MAX_LENGTH, this);
     }
 
     /**

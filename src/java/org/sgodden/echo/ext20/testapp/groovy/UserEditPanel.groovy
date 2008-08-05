@@ -103,7 +103,9 @@ class UserEditPanel extends Panel implements ActionListenable {
         FormGrid1 = new FormGrid(2)
         
         codeField = new TextField()
-        nameField = new TextField()
+        nameField = new TextField(
+            minLength : 5
+        )
         postcodeField = new TextField(
             regExp: "^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})\$",
             regexpFailureText: "Invalid postal code",
@@ -135,7 +137,7 @@ class UserEditPanel extends Panel implements ActionListenable {
             ],
             [
                 field: nameField,
-                label: "Name"
+                label: "Name",
             ],
             [
                 field: postcodeField,
