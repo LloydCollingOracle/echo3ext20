@@ -11,8 +11,6 @@
 	
     <property name="ext.version" value="2.0.2"/>
     
-    <available file="contrib/ext-${ext.version}" type="dir" property="ext-dir-exists"/>
-    
     <path id="compile.class.path">
         <fileset dir="src/webapp/WEB-INF/lib"/>
         <fileset dir="lib"/>
@@ -23,6 +21,7 @@
         <delete dir="${classes.dir}"/>
         <delete dir="${build.dir}"/>
         <delete dir="doc"/>
+        <delete dir="contrib/ext-${ext.version}"/>
     </target>
     
     <target name="compile" depends="clean">
@@ -74,7 +73,7 @@
         </jar>
     </target>
     
-    <target name="unpack-ext" unless="ext-dir-exists">
+    <target name="unpack-ext">
         <unzip src="contrib/ext-${ext.version}.zip" dest="contrib"/>
     </target>
     
