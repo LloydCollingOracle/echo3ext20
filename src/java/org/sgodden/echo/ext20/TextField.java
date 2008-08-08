@@ -173,7 +173,11 @@ public class TextField
      * @param maxLength the maximum length of the text field.
      */
     public void setMaxLength(int maxLength){
-        setComponentProperty(MAX_LENGTH, this);
+        setComponentProperty(MAX_LENGTH, maxLength);
+    }
+
+    public String getMaxLength(){
+        return (String) getComponentProperty(MAX_LENGTH);
     }
 
     /**
