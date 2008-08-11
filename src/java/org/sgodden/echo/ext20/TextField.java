@@ -62,7 +62,7 @@ public class TextField
 
     /**
      * Creates a new text field of the specified size.
-     * @param size th size of the field in characters.
+     * @param size the size of the field in characters.
      */
     public TextField(int size) {
         this();

@@ -104,6 +104,10 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             "click",
             this._handleClickEvent,
             this);
+        this.extComponent.getEl().on(
+            "blur",
+            this._handleBlurEvent,
+            this);
         if (this.component.get("size")) {
             this.extComponent.getEl().dom.size =
                 this.component.get("size");
@@ -121,7 +125,26 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
      * Update the component's value from the value in the ext text field.
      */
     _handleValueChangeEvent: function() {
-    	this.component.set("value", this.extComponent.getValue());
+        this.component.set("value", this.extComponent.getValue());
+    },
+    
+    /**
+     * check for required transformations on blur.
+     */
+    _handleBlurEvent: function() {
+    	var newVal = this.extComponent.getValue();
+    	if (this.component.get("caseRestriction") != null){
+        	if (this.component.get("caseRestriction") == "UPPER"){
+        		newVal = this.extComponent.getValue().toUpperCase();
+        	}
+        	if (this.component.get("caseRestriction") == "LOWER"){
+        		newVal = this.extComponent.getValue().toLowerCase();
+        	}
+        	this.extComponent.setValue(newVal)
+        }
+        
+        this.component.set("value", newVal);
+    	
     },
     
     /**
