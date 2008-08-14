@@ -6,7 +6,6 @@ import nextapp.echo.app.Label
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 import nextapp.echo.app.ApplicationInstance
-import nextapp.echo.app.ApplicationInstance
 import nextapp.echo.app.event.ActionEvent
 import nextapp.echo.app.event.ActionListener
 
