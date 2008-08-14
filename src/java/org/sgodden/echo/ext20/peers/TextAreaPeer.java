@@ -26,7 +26,7 @@ import org.sgodden.echo.ext20.TextArea;
 
 @SuppressWarnings({"serial","unchecked"})
 public class TextAreaPeer
-        extends ExtComponentPeer {
+        extends TextFieldPeer {
 
     protected static final Service TEXT_AREA_SERVICE = JavaScriptService.forResource("EchoExt20.TextArea",
             "org/sgodden/echo/ext20/resource/js/Ext20.TextArea.js");
