@@ -14,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.ActionListenable
 import org.sgodden.echo.ext20.Button
+import org.sgodden.echo.ext20.CaseRestriction
 import org.sgodden.echo.ext20.ComboBox
 import org.sgodden.echo.ext20.CheckboxField
 import org.sgodden.echo.ext20.DateField
@@ -109,7 +110,8 @@ class UserEditPanel extends Panel implements ActionListenable {
         postcodeField = new TextField(
             regExp: "^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})\$",
             regexpFailureText: "Invalid postal code",
-            propertyChange: { println "A property changed on the postcode field"  }
+            propertyChange: { println "A property changed on the postcode field"  },
+            caseRestriction: CaseRestriction.LOWER
         )
         invalidField = new TextField(
             value: "Is this field invalid for business reasons?"

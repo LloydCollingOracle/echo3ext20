@@ -142,9 +142,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         	}
         	this.extComponent.setValue(newVal)
         }
-        
         this.component.set("value", newVal);
-    	
     },
     
     /**

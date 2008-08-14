@@ -32,6 +32,7 @@ public class TextField
 
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
     public static final String BLANK_TEXT_PROPERTY = "blankText";
+    public static final String CASE_RESTRICTION_PROPERTY = "caseRestriction";
     public static final String EMPTY_TEXT_PROEPRTY = "emptyText";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String INVALID_TEXT_PROPERTY = "invalidText";
@@ -78,6 +79,22 @@ public class TextField
         this();
         setValue(text);
         setFieldLabel(fieldLabel);
+    }
+    
+    /**
+     * Returns the case restriction.
+     * @return the case restriction.
+     */
+    public String getCaseRestriction(){
+    	return (String) getComponentProperty(CASE_RESTRICTION_PROPERTY);
+    }
+    
+    /**
+     * Sets the case restriction.
+     * @param enum the case restriction.
+     */
+    public void setCaseRestriction(CaseRestriction caseRestriction) {
+        setComponentProperty(CASE_RESTRICTION_PROPERTY, caseRestriction.toString());
     }
     
     /**
