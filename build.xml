@@ -179,6 +179,45 @@
         </exec>
     </target>
     
+    <target name="mvn-install-echo3"
+            depends="os-detect"
+            description="Builds and installs into the local maven repository">
+        <antcall target="mvn-install-echo3-unix"/>
+        <antcall target="mvn-install-echo3-windows"/>
+    </target>
+    
+    
+    <target name="mvn-install-echo3-unix"
+            if="is-unix"
+            description="Installs the echo3 jars into the local maven repository">
+        <exec executable="mvn">
+                <arg value="install:install-file"/>
+                <arg value="-DgroupId=com.nextapp"/>
+                <arg value="-DartifactId=echo3-app"/>
+                <arg value="-Dversion=1.0-SNAPSHOT"/>
+                <arg value="-Dpackaging=jar"/>
+                <arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_App.jar"/>
+        </exec>
+        <exec executable="mvn">
+                <arg value="install:install-file"/>
+                <arg value="-DgroupId=com.nextapp"/>
+                <arg value="-DartifactId=echo3-webcontainer"/>
+                <arg value="-Dversion=1.0-SNAPSHOT"/>
+                <arg value="-Dpackaging=jar"/>
+                <arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_WebContainer.jar"/>
+        </exec>
+    </target>
+    
+    <target name="mvn-install-echo3-windows"
+            if="is-windows"
+            description="Installs the echo3 jars into the local maven repository (windows environment)">
+        <exec executable="cmd">
+            <arg value="/c"/>
+            <arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_App.jar"/>
+            <arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_WebContainer.jar"/>
+        </exec>
+    </target>
+    
     <target name="os-detect">
         <condition property="is-unix" value="true">
              <os family="unix"/>
