@@ -328,28 +328,6 @@ public class Panel extends ExtComponent {
     }
     
     /**
-     * Adds a component to this container.
-     * <p/>
-     * Note that if this panel's layout is an instance of
-     * {@link org.sgodden.echo.ext20.layout.TableLayout}, and the component
-     * being added is not a panel, then it will be wrapped in a panel.  This
-     * is necessary in order for table layout padding defaults to take effect.
-     * @param comp the component to add.
-     */
-    @Override
-    public void add(Component comp) {
-        if (getLayout() instanceof FitLayout
-                && nonButtonBarChildCount > 0
-                && !(comp instanceof Toolbar)) {
-           throw new Error("Only one non-button component is allowed for fit layout");
-        }
-        else {
-            super.add(comp);
-            nonButtonBarChildCount++;
-        }
-    }
-    
-    /**
      * Removes the specified component from the container.
      * <p/>
      * Contains special processing in case this panel has a table layout
