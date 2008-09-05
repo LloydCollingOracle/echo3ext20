@@ -23,7 +23,7 @@ import nextapp.echo.app.util.Context;
 
 import org.w3c.dom.Element;
 
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class FormLayoutPeer 
 		implements SerialPropertyPeer {
 

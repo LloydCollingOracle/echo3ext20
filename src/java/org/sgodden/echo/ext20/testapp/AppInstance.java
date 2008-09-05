@@ -51,8 +51,12 @@ public class AppInstance extends ApplicationInstance {
 
     static {
         try {
-            groovyScriptEngine = new GroovyScriptEngine(
-                    new URL[]{new URL(System.getProperty("groovy.script.url"))});
+            String groovyScriptUrlString = System.getProperty("groovy.script.url");
+            if (groovyScriptUrlString != null) {
+                URL groovyScriptUrl = new URL(groovyScriptUrlString);
+                groovyScriptEngine = new GroovyScriptEngine(
+                        new URL[]{groovyScriptUrl});
+            }
         } catch (Exception e) {
             throw new Error("Error initialsing groovy script engine", e);
         }
@@ -79,7 +83,15 @@ public class AppInstance extends ApplicationInstance {
     public Object getGroovyObjectInstance(String scriptName) {
         Object ret = null;
         try {
-            Class clazz = groovyScriptEngine.loadScriptByName(scriptName);
+            Class clazz = null;
+            if (groovyScriptEngine != null) {
+                // operating in development mode
+                clazz = groovyScriptEngine.loadScriptByName(scriptName);
+            }
+            else {
+                // operating in production mode - classes must be precompiled
+                clazz = getClass().getClassLoader().loadClass(scriptName);
+            }
             ret = clazz.newInstance();
         } catch (Exception e) {
             throw new Error("Error creating groovy object instance for" +

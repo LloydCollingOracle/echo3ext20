@@ -24,7 +24,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.Portal;
 
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class PortalPeer
         extends PanelPeer {
 

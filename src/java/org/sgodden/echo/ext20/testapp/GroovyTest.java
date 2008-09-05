@@ -9,6 +9,7 @@ import org.sgodden.echo.ext20.Panel;
  * A simple test showing components created using groovy.
  * @author sgodden
  */
+@SuppressWarnings("serial")
 public class GroovyTest extends Panel {
 
     public GroovyTest() {

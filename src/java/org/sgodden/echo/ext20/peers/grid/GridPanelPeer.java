@@ -12,7 +12,7 @@ import org.sgodden.echo.ext20.data.TableModelAdapter;
 import org.sgodden.echo.ext20.grid.GridPanel;
 import org.sgodden.echo.ext20.util.ListSelectionUtil;
 
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class GridPanelPeer 
 		extends AbstractComponentSynchronizePeer {
     

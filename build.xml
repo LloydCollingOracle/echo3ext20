@@ -25,14 +25,22 @@
     </target>
     
     <target name="compile" depends="clean">
+        <taskdef name="groovyc"
+                 classname="org.codehaus.groovy.ant.Groovyc"
+                 classpathref="compile.class.path"/>
         <mkdir dir="${classes.dir}"/>
         <mkdir dir="${build.dir}"/>
-        <javac 
-            destdir="${classes.dir}" 
-            srcdir="src/java" 
-            debug="true"
-            classpathref="compile.class.path"/>
+    	<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
+        <javac />
+    	</groovyc>
     </target>
+	
+	<target name="compile-groovy">
+		<taskdef name="groovyc"
+		         classname="org.codehaus.groovy.ant.Groovyc"
+		         classpathref="compile.class.path"/>
+		<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path"/>
+	</target>
     
     <target name="doc">
         <javadoc
@@ -56,7 +64,7 @@
         </javadoc>
     </target>
     
-    <target name="jar" depends="compile, unpack-ext">
+    <target name="jar" depends="compile, compile-groovy, unpack-ext">
         <jar destfile="${build.dir}/${jar.name}">
             <fileset dir="${classes.dir}"/>
             <fileset dir="src/java" includes="**/*.xml, **/*.js, **/*.groovy, META-INF/**/*"/>

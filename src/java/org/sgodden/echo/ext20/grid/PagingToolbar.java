@@ -1,9 +1,8 @@
 package org.sgodden.echo.ext20.grid;
 
-import javax.swing.table.TableModel;
-
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.table.TableModel;
 
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Panel;
@@ -23,6 +22,7 @@ import org.sgodden.echo.ext20.buttons.PreviousPageButton;
  * </p>
  * @author sgodden
  */
+@SuppressWarnings("serial")
 public class PagingToolbar extends Toolbar {
 
     private Button firstButton;

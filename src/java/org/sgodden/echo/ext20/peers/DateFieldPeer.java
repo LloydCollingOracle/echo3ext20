@@ -27,7 +27,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.DateField;
 
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class DateFieldPeer
         extends ExtComponentPeer {
 
@@ -59,10 +59,6 @@ public class DateFieldPeer
         
         if (propertyName.equals(DateField.DATE_CHANGED_PROPERTY)) {
             DateField df = (DateField) component;
-            
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXX component is: " + component);
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXX df is: " + df);
-            
             return df.getCalendar().getTime();
         }
         else {

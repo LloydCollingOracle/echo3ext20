@@ -18,7 +18,7 @@ package org.sgodden.echo.ext20.data;
 
 import java.io.Serializable;
 
-import javax.swing.table.TableModel;
+import nextapp.echo.app.table.TableModel;
 
 /**
  * Adapts a swing {@link TableModel} to an ext {@link SimpleStore}.
@@ -73,7 +73,7 @@ public class TableModelAdapter
 		for (int i = 0; i < rows; i++) {
 			Object[] row = data[i];
 			for (int j = 0; j < tableModel.getColumnCount(); j++) {
-				row[j] = tableModel.getValueAt(offset + i, j);
+				row[j] = tableModel.getValueAt(j, offset + i);
 			}
 		}
 

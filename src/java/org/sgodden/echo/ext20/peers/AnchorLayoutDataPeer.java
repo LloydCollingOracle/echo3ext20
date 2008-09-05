@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
  * @author sgodden
  *
  */
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class AnchorLayoutDataPeer extends LayoutDataPeer {
 	
     /*

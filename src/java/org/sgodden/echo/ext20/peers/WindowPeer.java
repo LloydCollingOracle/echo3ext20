@@ -28,7 +28,7 @@ import org.sgodden.echo.ext20.Window;
 /**
  * Synchronization peer for {@link Window}.
  */
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class WindowPeer extends PanelPeer {
     
     protected static final Service WINDOW_SERVICE = JavaScriptService.forResource("EchoExt20.Window", 

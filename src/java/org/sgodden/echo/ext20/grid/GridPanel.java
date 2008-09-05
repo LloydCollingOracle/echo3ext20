@@ -18,16 +18,15 @@ package org.sgodden.echo.ext20.grid;
 
 import java.util.EventListener;
 
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
-
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.event.ChangeEvent;
+import nextapp.echo.app.event.ChangeListener;
+import nextapp.echo.app.event.TableModelEvent;
+import nextapp.echo.app.event.TableModelListener;
+import nextapp.echo.app.list.DefaultListSelectionModel;
+import nextapp.echo.app.list.ListSelectionModel;
+import nextapp.echo.app.table.TableModel;
 
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
@@ -95,8 +94,8 @@ public class GridPanel
     /**
      * Local handler for list selection events.
      */
-    private ListSelectionListener listSelectionListener = new ListSelectionListener() {
-        public void valueChanged(ListSelectionEvent e) {
+    private ChangeListener listSelectionListener = new ChangeListener() {
+        public void stateChanged(ChangeEvent e) {
             if (!suppressChangeNotifications) {
                 firePropertyChange(SELECTION_CHANGED_PROPERTY, null, null);
             }
@@ -260,9 +259,9 @@ public class GridPanel
                     " implement BackingObjectDataModel");
         }
         Object ret = null;
-        if (selectionModel.getMinSelectionIndex() > -1) {
+        if (selectionModel.getMinSelectedIndex() > -1) {
             ret = ((BackingObjectDataModel)tableModel).getBackingObjectForRow(
-                    selectionModel.getMinSelectionIndex());
+                    selectionModel.getMinSelectedIndex());
         }
         return ret;
     }
@@ -456,8 +455,8 @@ public class GridPanel
         suppressChangeNotifications = true;
         selectionModel.clearSelection();
         for (int i = 0; i < selectedIndices.length; ++i) {
-            selectionModel.addSelectionInterval(selectedIndices[i],
-                    selectedIndices[i]);
+            selectionModel.setSelectedIndex(selectedIndices[i],
+                    true);
         }
         // End temporary suppression.
         suppressChangeNotifications = false;
@@ -492,9 +491,9 @@ public class GridPanel
         }
         ListSelectionModel oldValue = selectionModel;
         if (oldValue != null) {
-            oldValue.removeListSelectionListener(listSelectionListener);
+            oldValue.removeChangeListener(listSelectionListener);
         }
-        newValue.addListSelectionListener(listSelectionListener);
+        newValue.addChangeListener(listSelectionListener);
         selectionModel = newValue;
         firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
     }

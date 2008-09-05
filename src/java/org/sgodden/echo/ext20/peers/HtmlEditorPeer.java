@@ -26,7 +26,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 import org.sgodden.echo.ext20.HtmlEditor;
 import org.sgodden.echo.ext20.TextField;
 
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class HtmlEditorPeer 
 extends ExtComponentPeer {
     
@@ -64,7 +64,6 @@ extends ExtComponentPeer {
      * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#storeInputProperty(Context, Component, String, int, Object)
      */
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-    	System.out.println("Text field peer - property '" + propertyName + "', value '" + newValue+ "'");
         if (propertyName.equals(TextField.VALUE_CHANGED_PROPERTY)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
             clientUpdateManager.setComponentProperty(component, TextField.VALUE_CHANGED_PROPERTY, newValue);

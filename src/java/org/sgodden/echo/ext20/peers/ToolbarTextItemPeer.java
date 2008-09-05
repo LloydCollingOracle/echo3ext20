@@ -25,7 +25,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 import org.sgodden.echo.ext20.ToolbarSpacer;
 import org.sgodden.echo.ext20.ToolbarTextItem;
 
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class ToolbarTextItemPeer
         extends ExtComponentPeer {
 

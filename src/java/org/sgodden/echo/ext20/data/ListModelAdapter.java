@@ -18,11 +18,10 @@ package org.sgodden.echo.ext20.data;
 
 import java.io.Serializable;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.ListModel;
+import nextapp.echo.app.list.ListModel;
 
 /**
- * Serializes a swing {@link ComboBoxModel} for
+ * Serializes an echo {@link ListModel} for
  * network transmission.
  * @author sgodden
  *
@@ -39,17 +38,17 @@ public class ListModelAdapter
 	public ListModelAdapter(){}
 	
 	/**
-	 * Constructs a new table model adapter.
-	 * @param tableModel the swing table model from which to take the data.
+	 * Constructs a new list model adapter.
+	 * @param model the model from which to take the data.
 	 */
-	public ListModelAdapter(ListModel tableModel) {
-        int rows = tableModel.getSize();
+	public ListModelAdapter(ListModel model) {
+        int rows = model.size();
 
 		data = new Object[rows][2];
 
 		for (int i = 0; i < rows; i++) {
 			Object[] row = data[i];
-    		row[0] = tableModel.getElementAt(i);
+    		row[0] = model.get(i);
             row[1] = i;
 		}
 		

@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
 import com.sdicons.json.mapper.JSONMapper;
 import com.sdicons.json.mapper.MapperException;
 
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class SimpleStorePeer implements SerialPropertyPeer {
 
     public void toXml(Context context, Class objectClass, Element propertyElement, Object propertyValue)

@@ -6,16 +6,15 @@ package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
 
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.event.ChangeEvent;
+import nextapp.echo.app.event.ChangeListener;
+import nextapp.echo.app.event.ListDataEvent;
+import nextapp.echo.app.event.ListDataListener;
+import nextapp.echo.app.list.DefaultListSelectionModel;
+import nextapp.echo.app.list.ListModel;
+import nextapp.echo.app.list.ListSelectionModel;
 
 import org.sgodden.ui.models.BackingObjectDataModel;
 
@@ -81,8 +80,8 @@ public class ComboBox
     /**
      * Local handler for list selection events.
      */
-    private ListSelectionListener listSelectionListener = new ListSelectionListener() {
-        public void valueChanged(ListSelectionEvent e) {
+    private ChangeListener listSelectionListener = new ChangeListener() {
+        public void stateChanged(ChangeEvent e) {
             if (!suppressChangeNotifications) {
                 firePropertyChange(SELECTION_CHANGED_PROPERTY, null, null);
             }
@@ -96,6 +95,7 @@ public class ComboBox
     public ComboBox(){
         super();
         setSelectionModel(new DefaultListSelectionModel());
+        setTypeAhead(false);
     }
 
     /**
@@ -165,9 +165,9 @@ public class ComboBox
                     " implement BackingObjectDataModel");
         }
         Object ret = null;
-        if (selectionModel.getMinSelectionIndex() > -1) {
+        if (selectionModel.getMinSelectedIndex() > -1) {
             ret = ((BackingObjectDataModel)model).getBackingObjectForRow(
-                    selectionModel.getMinSelectionIndex());
+                    selectionModel.getMinSelectedIndex());
         }
         return ret;
     }
@@ -178,8 +178,8 @@ public class ComboBox
      */
     public Object getSelectedItem() {
         Object ret = null;
-        if (selectionModel.getMinSelectionIndex() > -1) {
-            ret = model.getElementAt(selectionModel.getMinSelectionIndex());
+        if (selectionModel.getMinSelectedIndex() > -1) {
+            ret = model.get(selectionModel.getMinSelectedIndex());
         }
         return ret;
     }
@@ -285,8 +285,8 @@ public class ComboBox
         // Temporarily suppress the Tables selection event notifier.
         suppressChangeNotifications = true;
         selectionModel.clearSelection();
-        selectionModel.addSelectionInterval(selectedIndex,
-                selectedIndex);
+        selectionModel.setSelectedIndex(selectedIndex,
+                true);
         // End temporary suppression.
         suppressChangeNotifications = false;
     }
@@ -302,10 +302,10 @@ public class ComboBox
             selectionModel.clearSelection();
         }
         else {
-            int size = model.getSize();
+            int size = model.size();
             for (int i = 0; i < size; i++) {
-                if (model.getElementAt(i).equals(selectedItem)) {
-                    selectionModel.setSelectionInterval(i, i);
+                if (model.get(i).equals(selectedItem)) {
+                    selectionModel.setSelectedIndex(i, true);
                     break;
                 }
             }
@@ -324,15 +324,15 @@ public class ComboBox
         }
         ListSelectionModel oldValue = selectionModel;
         if (oldValue != null) {
-            oldValue.removeListSelectionListener(listSelectionListener);
+            oldValue.removeChangeListener(listSelectionListener);
         }
-        newValue.addListSelectionListener(listSelectionListener);
+        newValue.addChangeListener(listSelectionListener);
         selectionModel = newValue;
         firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
     }
 
     /**
-     * Sets whether type ahead should be enabled (defaults to true).
+     * Sets whether type ahead should be enabled (defaults to false).
      * @param typeAhead whether type ahead should be enabled.
      */
     public void setTypeAhead(boolean typeAhead) {

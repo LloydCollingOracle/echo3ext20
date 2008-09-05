@@ -15,7 +15,14 @@
 #
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp.regression
-import org.sgodden.echo.ext20.TabbedPaneimport org.sgodden.echo.ext20.Panelimport org.sgodden.echo.ext20.grid.GridPanelimport javax.swing.table.TableModelimport org.sgodden.ui.models.DefaultSortableTableModelimport org.sgodden.echo.ext20.grid.ColumnModelimport org.sgodden.echo.ext20.grid.ColumnConfiguration/**
+import org.sgodden.echo.ext20.TabbedPane
+import org.sgodden.echo.ext20.Panel
+import org.sgodden.echo.ext20.grid.GridPanel
+import nextapp.echo.app.table.TableModel
+import org.sgodden.ui.models.DefaultSortableTableModel
+import org.sgodden.echo.ext20.grid.ColumnModel
+import org.sgodden.echo.ext20.grid.ColumnConfiguration
+/**
  * Tests to ensure that a grid which is updated but not yet rendered does
  * not fall over and reconfigures itself on render.
  * @author sgodden

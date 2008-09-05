@@ -19,15 +19,14 @@ package org.sgodden.echo.ext20.testapp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableModel;
-
 import nextapp.echo.app.HttpImageReference;
 import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.event.ChangeEvent;
+import nextapp.echo.app.event.ChangeListener;
+import nextapp.echo.app.table.TableModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -142,9 +141,9 @@ public class UserListPanel
         // don't allow multiple row selection
         userGridPanel.setSelectionMode(SelectionMode.SINGLE_SELECTION);
         
-        userGridPanel.getSelectionModel().addListSelectionListener(
-                new ListSelectionListener(){
-                    public void valueChanged(ListSelectionEvent e) {
+        userGridPanel.getSelectionModel().addChangeListener(
+                new ChangeListener(){
+                    public void stateChanged(ChangeEvent e) {
                         LOG.info("A row was selected or deselected");
                     }}
         );
@@ -187,7 +186,7 @@ public class UserListPanel
      * Returns the (only) selected row index of the grid.
      */
     public int getSelectedIndex() {
-        return userGridPanel.getSelectionModel().getMinSelectionIndex();
+        return userGridPanel.getSelectionModel().getMinSelectedIndex();
     }
 
     /**

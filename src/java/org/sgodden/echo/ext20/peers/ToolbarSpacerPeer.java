@@ -25,7 +25,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.ToolbarSpacer;
 
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class ToolbarSpacerPeer
         extends AbstractComponentSynchronizePeer {
 

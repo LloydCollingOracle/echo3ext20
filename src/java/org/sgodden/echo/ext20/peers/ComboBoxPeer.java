@@ -27,7 +27,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.data.ListModelAdapter;
 
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({"unchecked"})
 public class ComboBoxPeer
         extends TextFieldPeer {
 
@@ -80,7 +80,7 @@ public class ComboBoxPeer
     public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
         ComboBox gridPanel = (ComboBox)component;
         if (ComboBox.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
-            return gridPanel.getSelectionModel().getMinSelectionIndex();
+            return gridPanel.getSelectionModel().getMinSelectedIndex();
         }
         if (ComboBox.MODEL_CHANGED_PROPERTY.equals(propertyName)) {
             return new ListModelAdapter(gridPanel.getModel());

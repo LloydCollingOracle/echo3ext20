@@ -3,8 +3,8 @@ package org.sgodden.echo.ext20.testapp.groovy
 import java.util.Calendar
 import java.util.List
 import nextapp.echo.app.Label
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
+import nextapp.echo.app.list.DefaultListModel;
+import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.ApplicationInstance
 import nextapp.echo.app.event.ActionEvent
 import nextapp.echo.app.event.ActionListener
@@ -255,12 +255,12 @@ class UserEditPanel extends Panel implements ActionListenable {
                  * Increase the selection index on the role combo, wrapping
                  * it if it goes too far.
                  */
-                def si = roleCombo.selectionModel.minSelectionIndex;
+                def si = roleCombo.selectionModel.minSelectedIndex;
                 si++;
                 if (si == roleCombo.model.size) {
                     roleCombo.selectionModel.clearSelection();
                 } else {
-                    roleCombo.selectionModel.setSelectionInterval(si, si);
+                    roleCombo.selectionModel.setSelectedIndex(si, true);
                 }
             }
         )
@@ -294,8 +294,8 @@ class UserEditPanel extends Panel implements ActionListenable {
      */
     private ListModel makeRoleModel() {
         DefaultBackingObjectListModel ret = new DefaultBackingObjectListModel();
-        ret.addElement("Administrator", new Integer(1));
-        ret.addElement("User", new Integer(2));
+        ret.add("Administrator", new Integer(1));
+        ret.add("User", new Integer(2));
         return ret;
     }
 }
