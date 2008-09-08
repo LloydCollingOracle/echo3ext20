@@ -70,7 +70,7 @@ public class CheckboxField
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+        return (String) get(FIELD_LABEL_PROPERTY);
     }
 
     /**
@@ -78,7 +78,7 @@ public class CheckboxField
      * @param selected whether the checkbox is selected.
      */
     public void setSelected(boolean selected) {
-        setComponentProperty(SELECTED_CHANGED_PROPERTY, selected);
+        set(SELECTED_CHANGED_PROPERTY, selected);
     }
 
     /**
@@ -86,7 +86,7 @@ public class CheckboxField
      * @return whether the checkbox is selected.
      */
     public boolean getSelected() {
-        return (Boolean) getComponentProperty(SELECTED_CHANGED_PROPERTY);
+        return (Boolean) get(SELECTED_CHANGED_PROPERTY);
     }
 
     /**
@@ -94,7 +94,7 @@ public class CheckboxField
      * @param fieldLabel the field label.
      */
     public void setFieldLabel(String fieldLabel) {
-        setComponentProperty(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(FIELD_LABEL_PROPERTY, fieldLabel);
     }
 
     @Override

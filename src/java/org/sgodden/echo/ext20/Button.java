@@ -60,7 +60,7 @@ public class Button
      * @param addToButtonBar whether to add this button to the button bar rather than the main panel body.
      */
     void setAddToButtonBar(boolean addToButtonBar) {
-        setComponentProperty(ADD_TO_BUTTON_BAR_PROPERTY, addToButtonBar);
+        set(ADD_TO_BUTTON_BAR_PROPERTY, addToButtonBar);
     }
     
     /**
@@ -68,7 +68,7 @@ public class Button
      * @return whether this button is added to the button bar rather than the main panel body.
      */
     boolean isAddToButtonBar() {
-        return (Boolean) getComponentProperty(ADD_TO_BUTTON_BAR_PROPERTY);
+        return (Boolean) get(ADD_TO_BUTTON_BAR_PROPERTY);
     }
     
     /**

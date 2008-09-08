@@ -21,19 +21,19 @@ public class ApplicationWaitIndicator extends Label{
 	}
 
 	public ImageReference getWaitIcon(){
-		return (ImageReference) getComponentProperty(PROPERTY_WAIT_ICON);
+		return (ImageReference) get(PROPERTY_WAIT_ICON);
 	}
 
 	public void setWaitIcon(ImageReference waitIcon){
-		setComponentProperty(PROPERTY_WAIT_ICON, waitIcon);
+		set(PROPERTY_WAIT_ICON, waitIcon);
 	}
 
 	public ImageReference getNoWaitIcon(){
-		return (ImageReference) getComponentProperty(PROPERTY_NO_WAIT_ICON);
+		return (ImageReference) get(PROPERTY_NO_WAIT_ICON);
 	}
 
 	public void setNoWaitIcon(ImageReference waitIcon){
-		setComponentProperty(PROPERTY_NO_WAIT_ICON, waitIcon);
+		set(PROPERTY_NO_WAIT_ICON, waitIcon);
 	}
 	
 }

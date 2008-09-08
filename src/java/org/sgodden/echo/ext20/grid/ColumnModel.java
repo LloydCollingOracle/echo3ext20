@@ -34,6 +34,11 @@ public class ColumnModel
 	private List<ColumnConfiguration> columns;
 	private boolean defaultSortable = true;
 	private Integer defaultWidth;
+	
+	/**
+	 * Constructs a new empty column model.
+	 */
+	public ColumnModel(){}
 
 	/**
 	 * Constructs a new column model using the specified

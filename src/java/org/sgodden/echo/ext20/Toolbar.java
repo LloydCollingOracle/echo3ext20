@@ -61,10 +61,10 @@ public class Toolbar
     void setPosition(Position position) {
         switch (position) {
             case TOP:
-                setComponentProperty(POSITION_PROPERTY, "top");
+                set(POSITION_PROPERTY, "top");
                 break;
             case BOTTOM:
-                setComponentProperty(POSITION_PROPERTY, "bottom");
+                set(POSITION_PROPERTY, "bottom");
                 break;                
             default:
                 throw new IllegalArgumentException("Unknown position: " + position);

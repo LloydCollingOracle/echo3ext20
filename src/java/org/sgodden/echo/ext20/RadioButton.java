@@ -65,7 +65,7 @@ public class RadioButton
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+        return (String) get(FIELD_LABEL_PROPERTY);
     }
 
     /**
@@ -73,7 +73,7 @@ public class RadioButton
      * @param selected whether the button is selected.
      */
     public void setSelected(boolean selected) {
-        setComponentProperty(SELECTED_CHANGED_PROPERTY, selected);
+        set(SELECTED_CHANGED_PROPERTY, selected);
     }
 
     /**
@@ -81,7 +81,7 @@ public class RadioButton
      * @return whether the button is selected.
      */
     public boolean getSelected() {
-        return (Boolean) getComponentProperty(SELECTED_CHANGED_PROPERTY);
+        return (Boolean) get(SELECTED_CHANGED_PROPERTY);
     }
 
     /**
@@ -89,7 +89,7 @@ public class RadioButton
      * @param fieldLabel the field label to be used in forms.
      */
     public void setFieldLabel(String fieldLabel) {
-        setComponentProperty(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(FIELD_LABEL_PROPERTY, fieldLabel);
     }
     
     /**
@@ -99,7 +99,7 @@ public class RadioButton
      * @param name the name.
      */
     public void setName(String name) {
-        setComponentProperty(NAME_PROPERTY, name);
+        set(NAME_PROPERTY, name);
     }
     
     /**
@@ -107,7 +107,7 @@ public class RadioButton
      * @return the name of the button group.
      */
     public String getName() {
-        return (String) getComponentProperty(NAME_PROPERTY);
+        return (String) get(NAME_PROPERTY);
     }
 
     @Override

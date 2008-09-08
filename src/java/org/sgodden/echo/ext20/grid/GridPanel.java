@@ -171,7 +171,7 @@ public class GridPanel
      * @return the action command
      */
     public String getActionCommand() {
-        return (String) getComponentProperty(ACTION_COMMAND_PROPERTY);
+        return (String) get(ACTION_COMMAND_PROPERTY);
     }
     
     /**
@@ -179,7 +179,7 @@ public class GridPanel
      * @return the column model for the table.
      */
     public ColumnModel getColumnModel() {
-        return ((ColumnModel)getComponentProperty(COLUMN_MODEL_PROPERTY));
+        return ((ColumnModel)get(COLUMN_MODEL_PROPERTY));
     }
     
     /**
@@ -197,7 +197,7 @@ public class GridPanel
      * @return the offset to the current page.
      */
     public int getPageOffset() {
-        return (Integer) getComponentProperty(PAGE_OFFSET_PROPERTY);
+        return (Integer) get(PAGE_OFFSET_PROPERTY);
     }
 
     /**
@@ -222,7 +222,7 @@ public class GridPanel
      */
     public SelectionMode getSelectionMode() {
         SelectionMode ret;
-        String mode = (String) getComponentProperty(SELECTION_MODE);
+        String mode = (String) get(SELECTION_MODE);
         if (mode.equals("S")) {
             ret = SelectionMode.SINGLE_SELECTION;
         }
@@ -271,7 +271,7 @@ public class GridPanel
      * @return the name of the field by which the data should be sorted.
      */
     public String getSortField() {
-        return (String) getComponentProperty(SORT_FIELD_PROPERTY);
+        return (String) get(SORT_FIELD_PROPERTY);
     }
 
     /**
@@ -282,7 +282,7 @@ public class GridPanel
     public boolean getSortOrder() {
         boolean ret = true;
 
-        String sortString = (String) getComponentProperty(SORT_ORDER_PROPERTY);
+        String sortString = (String) get(SORT_ORDER_PROPERTY);
         if ("ASC".equals(sortString)) {
             ret = true;
         }
@@ -401,7 +401,7 @@ public class GridPanel
      * @param columnModel the column model for the table.
      */
     public void setColumnModel(ColumnModel columnModel) {
-        setComponentProperty(COLUMN_MODEL_PROPERTY, columnModel);
+        set(COLUMN_MODEL_PROPERTY, columnModel);
     }
 
     /**
@@ -410,7 +410,7 @@ public class GridPanel
      * @param groupField the name of the column by which to group.
      */
     public void setGroupField(String groupField) {
-        setComponentProperty(GROUP_FIELD_PROPERTY, groupField);
+        set(GROUP_FIELD_PROPERTY, groupField);
     }
     
     /**
@@ -429,7 +429,7 @@ public class GridPanel
      * @param pageOffset the offset to the first record in the model.
      */
     public void setPageOffset(int pageOffset) {
-        setComponentProperty(PAGE_OFFSET_PROPERTY, pageOffset);
+        set(PAGE_OFFSET_PROPERTY, pageOffset);
         tableChanged(null);
     }
 
@@ -469,13 +469,13 @@ public class GridPanel
     public void setSelectionMode(SelectionMode mode) {
         switch (mode) {
         case SINGLE_SELECTION:
-            setComponentProperty(SELECTION_MODE, "S");
+            set(SELECTION_MODE, "S");
             break;
         case SINGLE_INTERVAL_SELECTION:
-            setComponentProperty(SELECTION_MODE, "SI");
+            set(SELECTION_MODE, "SI");
             break;
         case MULTIPLE_INTERVAL_SELECTION:
-            setComponentProperty(SELECTION_MODE, "MI");
+            set(SELECTION_MODE, "MI");
         }
     }
 
@@ -504,7 +504,7 @@ public class GridPanel
      * @param sortField the name of the field to sort by.
      */
     public void setSortField(String sortField) {
-        setComponentProperty(SORT_FIELD_PROPERTY, sortField);
+        set(SORT_FIELD_PROPERTY, sortField);
         setSortAscending(true);
     }
     
@@ -516,10 +516,10 @@ public class GridPanel
      */
     public void setSortAscending(boolean ascending) {
         if (ascending) {
-            setComponentProperty(SORT_ORDER_PROPERTY, "ASC");
+            set(SORT_ORDER_PROPERTY, "ASC");
         }
         else {
-            setComponentProperty(SORT_ORDER_PROPERTY, "DESC");
+            set(SORT_ORDER_PROPERTY, "DESC");
         }
     }
 

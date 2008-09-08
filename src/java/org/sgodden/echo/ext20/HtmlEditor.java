@@ -54,7 +54,7 @@ public class HtmlEditor
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+        return (String) get(FIELD_LABEL_PROPERTY);
     }
 
     /**
@@ -62,7 +62,7 @@ public class HtmlEditor
      * @param fieldLabel the field label to be used in forms.
      */
     public void setFieldLabel(String fieldLabel) {
-        setComponentProperty(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(FIELD_LABEL_PROPERTY, fieldLabel);
     }
 	
 	/**
@@ -70,7 +70,7 @@ public class HtmlEditor
 	 * @param text the html content.
 	 */
 	public void setText(String text) {
-		setComponentProperty(TEXT_CHANGED_PROPERTY, text);
+		set(TEXT_CHANGED_PROPERTY, text);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class HtmlEditor
 	 * @return the HTML content.
 	 */
 	public String getText() {
-		return (String) getComponentProperty(TEXT_CHANGED_PROPERTY);
+		return (String) get(TEXT_CHANGED_PROPERTY);
 	}
 
 	@Override

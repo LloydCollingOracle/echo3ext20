@@ -43,10 +43,10 @@ public class TableModelAdapter
 	public TableModelAdapter(TableModel tableModel) {
 		data = new Object[tableModel.getRowCount()][tableModel.getColumnCount()];
 		
-		for (int i = 0; i < tableModel.getRowCount(); i++) {
-			Object[] row = data[i];
-			for (int j = 0; j < tableModel.getColumnCount(); j++) {
-				row[j] = tableModel.getValueAt(i, j);
+		for (int rowIndex = 0; rowIndex < tableModel.getRowCount(); rowIndex++) {
+			Object[] row = data[rowIndex];
+			for (int colIndex = 0; colIndex < tableModel.getColumnCount(); colIndex++) {
+				row[colIndex] = tableModel.getValueAt(colIndex, rowIndex);
 			}
 		}
 		

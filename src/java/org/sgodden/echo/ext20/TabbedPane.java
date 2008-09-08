@@ -80,7 +80,7 @@ public class TabbedPane extends Panel {
 	 * @param tabIndex the index of the active tab.
 	 */
 	public void setActiveTabIndex(int tabIndex) {
-		setComponentProperty(ACTIVE_TAB_INDEX_PROPERTY, tabIndex);
+		set(ACTIVE_TAB_INDEX_PROPERTY, tabIndex);
 		fireTabChangeEvent();
 	}
 
@@ -89,7 +89,7 @@ public class TabbedPane extends Panel {
 	 * @return the index of the active tab.
 	 */
 	public int getActiveTabIndex() {
-		return (Integer) getComponentProperty(ACTIVE_TAB_INDEX_PROPERTY);
+		return (Integer) get(ACTIVE_TAB_INDEX_PROPERTY);
 	}
 	
 

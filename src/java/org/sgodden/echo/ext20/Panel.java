@@ -161,7 +161,7 @@ public class Panel extends ExtComponent {
      */
     public Panel(Layout layout, String title) {
         super();
-        setComponentProperty(LAYOUT_PROPERTY, layout);
+        set(LAYOUT_PROPERTY, layout);
         setTitle(title);
     }
 
@@ -205,7 +205,7 @@ public class Panel extends ExtComponent {
      * @param title the title of the panel.
      */
     public void setTitle(String title) {
-        setComponentProperty(PROPERTY_TITLE, title);
+        set(PROPERTY_TITLE, title);
     }
     
     /**
@@ -213,7 +213,7 @@ public class Panel extends ExtComponent {
      * @return the panel's title.
      */
     public String getTitle() {
-        return (String) getComponentProperty(PROPERTY_TITLE);
+        return (String) get(PROPERTY_TITLE);
     }
 
     /**
@@ -221,7 +221,7 @@ public class Panel extends ExtComponent {
      * @param padding the padding of the overall panel, in CSS style.
      */
     public void setPadding(String padding) {
-        setComponentProperty(PROPERTY_PADDING, padding);
+        set(PROPERTY_PADDING, padding);
     }
 
     /**
@@ -229,7 +229,7 @@ public class Panel extends ExtComponent {
      * @param padding the padding of the panel body, in CSS style.
      */
     public void setBodyPadding(String padding) {
-        setComponentProperty(PROPERTY_BODY_PADDING, padding);
+        set(PROPERTY_BODY_PADDING, padding);
     }
 
     /**
@@ -237,7 +237,7 @@ public class Panel extends ExtComponent {
      * @param border whether the panel's border should be shown.
      */
     public void setBorder(Boolean border) {
-        setComponentProperty(PROPERTY_BORDER, border);
+        set(PROPERTY_BORDER, border);
     }
 
     /**
@@ -245,7 +245,7 @@ public class Panel extends ExtComponent {
      * @param color the background color of the panel body.
      */
     public void setBodyBackground(Color color) {
-        setComponentProperty(PROPERTY_BODY_BACKGROUND, color);
+        set(PROPERTY_BODY_BACKGROUND, color);
     }
 
     /**
@@ -261,7 +261,7 @@ public class Panel extends ExtComponent {
      * @param pixels the height of the panel in pixels.
      */
     public void setHeight(int pixels) {
-        setComponentProperty(PROPERTY_HEIGHT, pixels);
+        set(PROPERTY_HEIGHT, pixels);
     }
     
     /**
@@ -271,7 +271,7 @@ public class Panel extends ExtComponent {
      * @param html the HTML to show as the panel's contents.
      */
     public void setHtml(String html) {
-        setComponentProperty(HTML_PROPERTY, html);
+        set(HTML_PROPERTY, html);
     }
     
     /**
@@ -279,7 +279,7 @@ public class Panel extends ExtComponent {
      * @param pixels the width of the panel in pixels.
      */
     public void setWidth(int pixels) {
-        setComponentProperty(PROPERTY_WIDTH, pixels);
+        set(PROPERTY_WIDTH, pixels);
     }
     
     /**
@@ -290,7 +290,7 @@ public class Panel extends ExtComponent {
      * @param autoScroll whether to scroll the contents of the panel.
      */
     public void setAutoScroll(boolean autoScroll) {
-        setComponentProperty(PROPERTY_AUTOSCROLL, autoScroll);
+        set(PROPERTY_AUTOSCROLL, autoScroll);
     }
     
     /**
@@ -298,7 +298,7 @@ public class Panel extends ExtComponent {
      * @param collapsible whether the panel should be collapsible.
      */
     public void setCollapsible(boolean collapsible) {
-        setComponentProperty(COLLAPSIBLE_PROPERTY, collapsible);
+        set(COLLAPSIBLE_PROPERTY, collapsible);
     }
     
     /**
@@ -306,7 +306,7 @@ public class Panel extends ExtComponent {
      * @return the layout in use by this panel.
      */
     public Layout getLayout() {
-        return (Layout) getComponentProperty(LAYOUT_PROPERTY);
+        return (Layout) get(LAYOUT_PROPERTY);
     }
     
     /**
@@ -314,7 +314,7 @@ public class Panel extends ExtComponent {
      * @param layout the layout to use in the panel.
      */
     public void setLayout(Layout layout) {
-    	setComponentProperty(LAYOUT_PROPERTY, layout);
+    	set(LAYOUT_PROPERTY, layout);
     }
     
     /**
@@ -323,7 +323,7 @@ public class Panel extends ExtComponent {
      * @param transparent whether the panel body's background should be transparent.
      */
     public void setBodyTransparent(boolean transparent) {
-    	setComponentProperty(PROPERTY_BODY_TRANSPARENT, transparent);
+    	set(PROPERTY_BODY_TRANSPARENT, transparent);
     }
     
     /**
@@ -407,7 +407,7 @@ public class Panel extends ExtComponent {
     		}
     		sb.append(theTool.toString().toLowerCase());
     	}
-    	setComponentProperty(TOOL_IDS_PROPERTY, sb.toString());
+    	set(TOOL_IDS_PROPERTY, sb.toString());
     	firePropertyChange(TOOLCLICK_LISTENERS_CHANGED_PROPERTY, null, listener);
     }
     
@@ -496,7 +496,7 @@ public class Panel extends ExtComponent {
             sb.append(keyPress);
         }
         
-        setComponentProperty(REGISTERED_KEY_PRESSES_PROPERTY, sb.toString());
+        set(REGISTERED_KEY_PRESSES_PROPERTY, sb.toString());
     }
 
     private void fireKeyEvent() {

@@ -58,8 +58,8 @@ public class TextArea
      * @param height
      */
     public void setSize(int width, int height){
-    	setComponentProperty(PROPERTY_WIDTH, width);
-    	setComponentProperty(PROPERTY_HEIGHT, height);
+    	set(PROPERTY_WIDTH, width);
+    	set(PROPERTY_HEIGHT, height);
     }
 
 }

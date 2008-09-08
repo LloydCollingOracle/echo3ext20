@@ -81,7 +81,7 @@ public class DateField
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+        return (String) get(FIELD_LABEL_PROPERTY);
     }
 
     /**
@@ -105,7 +105,7 @@ public class DateField
      * @param fieldLabel the field label.
      */
     public void setFieldLabel(String fieldLabel) {
-        setComponentProperty(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(FIELD_LABEL_PROPERTY, fieldLabel);
     }
 
     /**
@@ -113,7 +113,7 @@ public class DateField
      * @param blankAllowed whether a blank value is allowed.
      */
     public void setBlankAllowed(boolean blankAllowed) {
-        setComponentProperty(ALLOW_BLANK_PROPERTY, blankAllowed);
+        set(ALLOW_BLANK_PROPERTY, blankAllowed);
     }
 
     /**
@@ -128,10 +128,10 @@ public class DateField
         super.setLocale(locale);
         // FIXME - we need a robust way of calculating the ext date format
         if (locale.getCountry().equals("GB")) {
-            setComponentProperty(DATE_FORMAT_PROPERTY, "d/m/y");
+            set(DATE_FORMAT_PROPERTY, "d/m/y");
         }
         else {
-            setComponentProperty(DATE_FORMAT_PROPERTY, "m/d/y");
+            set(DATE_FORMAT_PROPERTY, "m/d/y");
         }
     }
     
@@ -141,7 +141,7 @@ public class DateField
      * @param format the date format string, such as 'm/d/y'.
      */
     public void setDateFormat(String format) {
-        setComponentProperty(DATE_FORMAT_PROPERTY, format);
+        set(DATE_FORMAT_PROPERTY, format);
     }
 
     @Override

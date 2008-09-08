@@ -86,7 +86,7 @@ public class TextField
      * @return the case restriction.
      */
     public String getCaseRestriction(){
-    	return (String) getComponentProperty(CASE_RESTRICTION_PROPERTY);
+    	return (String) get(CASE_RESTRICTION_PROPERTY);
     }
     
     /**
@@ -94,7 +94,7 @@ public class TextField
      * @param enum the case restriction.
      */
     public void setCaseRestriction(CaseRestriction caseRestriction) {
-        setComponentProperty(CASE_RESTRICTION_PROPERTY, caseRestriction.toString());
+        set(CASE_RESTRICTION_PROPERTY, caseRestriction.toString());
     }
     
     /**
@@ -102,7 +102,7 @@ public class TextField
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+        return (String) get(FIELD_LABEL_PROPERTY);
     }
 
     /**
@@ -110,7 +110,7 @@ public class TextField
      * @return the value of the field.
      */
     public String getValue() {
-        return (String) getComponentProperty(VALUE_CHANGED_PROPERTY);
+        return (String) get(VALUE_CHANGED_PROPERTY);
     }
 
     /**
@@ -118,7 +118,7 @@ public class TextField
      * @param value the value of the field.
      */
     public void setBlankText(String blankText) {
-        setComponentProperty(BLANK_TEXT_PROPERTY, blankText);
+        set(BLANK_TEXT_PROPERTY, blankText);
     }
 
     /**
@@ -126,7 +126,7 @@ public class TextField
      * @param value the value of the field.
      */
     public void setValue(String value) {
-        setComponentProperty(VALUE_CHANGED_PROPERTY, value);
+        set(VALUE_CHANGED_PROPERTY, value);
     }
 
     /**
@@ -134,7 +134,7 @@ public class TextField
      * @param fieldLabel the field label to be used in forms.
      */
     public void setFieldLabel(String fieldLabel) {
-        setComponentProperty(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(FIELD_LABEL_PROPERTY, fieldLabel);
     }
 
     /**
@@ -142,7 +142,7 @@ public class TextField
      * @param blankAllowed whether a blank value is allowed.
      */
     public void setBlankAllowed(boolean blankAllowed) {
-        setComponentProperty(ALLOW_BLANK_PROPERTY, blankAllowed);
+        set(ALLOW_BLANK_PROPERTY, blankAllowed);
     }
 
     /**
@@ -150,7 +150,7 @@ public class TextField
      * @param emptyText text to be displayed when the user has entered no text themselves.
      */
     public void setEmptyText(String emptyText) {
-        setComponentProperty(EMPTY_TEXT_PROEPRTY, emptyText);
+        set(EMPTY_TEXT_PROEPRTY, emptyText);
     }
 
     /**
@@ -158,7 +158,7 @@ public class TextField
      * @param isValid whether the field value is valid.
      */
     public void setIsValid(boolean isValid) {
-        setComponentProperty(VALID_PROPERTY, isValid);
+        set(VALID_PROPERTY, isValid);
     }
 
     /**
@@ -166,7 +166,7 @@ public class TextField
      * @param invalidText the invalid text.
      */
     public void setInvalidText(String invalidText) {
-        setComponentProperty(INVALID_TEXT_PROPERTY, invalidText);
+        set(INVALID_TEXT_PROPERTY, invalidText);
     }
 
     /**
@@ -174,7 +174,7 @@ public class TextField
      * @param RegExp the regular expression.
      */
     public void setRegExp(String regExp) {
-        setComponentProperty(REGEXP_PROPERTY, regExp);
+        set(REGEXP_PROPERTY, regExp);
     }
 
     /**
@@ -182,7 +182,7 @@ public class TextField
      * @param minLength the minimum length of the text field.
      */
     public void setMinLength(int minLength) {
-        setComponentProperty(MIN_LENGTH, minLength);
+        set(MIN_LENGTH, minLength);
     }
 
     /**
@@ -190,11 +190,11 @@ public class TextField
      * @param maxLength the maximum length of the text field.
      */
     public void setMaxLength(int maxLength){
-        setComponentProperty(MAX_LENGTH, maxLength);
+        set(MAX_LENGTH, maxLength);
     }
 
     public String getMaxLength(){
-        return (String) getComponentProperty(MAX_LENGTH);
+        return (String) get(MAX_LENGTH);
     }
 
     /**
@@ -202,7 +202,7 @@ public class TextField
      * @param The failure text.
      */
     public void setRegexpFailureText(String regExpFailureText) {
-        setComponentProperty(REGEXP_FAILURETEXT_PROPERTY, regExpFailureText);
+        set(REGEXP_FAILURETEXT_PROPERTY, regExpFailureText);
     }
 
     /**
@@ -210,7 +210,7 @@ public class TextField
      * @param size the size of the text field in characters.
      */
     public void setSize(int size) {
-        setComponentProperty(PROPERTY_SIZE, size);
+        set(PROPERTY_SIZE, size);
     }
 
     @Override

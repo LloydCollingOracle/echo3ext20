@@ -47,7 +47,7 @@ public class ToolbarTextItem
      * @param text the text to disaplay.
      */
     public void setText(String text) {
-        setComponentProperty(TEXT_PROPERTY, text);
+        set(TEXT_PROPERTY, text);
     }
 
 }

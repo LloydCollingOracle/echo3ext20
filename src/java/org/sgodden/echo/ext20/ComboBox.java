@@ -151,7 +151,7 @@ public class ComboBox
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) getComponentProperty(FIELD_LABEL_PROPERTY);
+        return (String) get(FIELD_LABEL_PROPERTY);
     }
     
     /**
@@ -245,7 +245,7 @@ public class ComboBox
      * @param editable whether the combo box is editable.
      */
     public void setEditable(boolean editable) {
-        setComponentProperty(EDITABLE_PROPERTY, editable);
+        set(EDITABLE_PROPERTY, editable);
     }
 
     /**
@@ -253,7 +253,7 @@ public class ComboBox
      * @param fieldLabel the field label.
      */
     public void setFieldLabel(String fieldLabel) {
-        setComponentProperty(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(FIELD_LABEL_PROPERTY, fieldLabel);
     }
 
     /**
@@ -261,7 +261,7 @@ public class ComboBox
      * @param forceSelection whether a selection is mandatory.
      */
     public void setForceSelection(boolean forceSelection) {
-        setComponentProperty(FORCE_SELECTION_PROPERTY, forceSelection);
+        set(FORCE_SELECTION_PROPERTY, forceSelection);
     }
 
     public void setModel(ListModel model) {
@@ -336,7 +336,7 @@ public class ComboBox
      * @param typeAhead whether type ahead should be enabled.
      */
     public void setTypeAhead(boolean typeAhead) {
-        setComponentProperty(TYPE_AHEAD_PROPERTY, typeAhead);
+        set(TYPE_AHEAD_PROPERTY, typeAhead);
     }
 
 }

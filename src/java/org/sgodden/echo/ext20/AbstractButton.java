@@ -77,7 +77,7 @@ public abstract class AbstractButton
      * @return the icon
      */
     public ImageReference getDisabledIcon() {
-        return (ImageReference) getComponentProperty(PROPERTY_ENABLED_ICON);
+        return (ImageReference) get(PROPERTY_ENABLED_ICON);
     }
     
     /**
@@ -86,7 +86,7 @@ public abstract class AbstractButton
      * @return the icon
      */
     public ImageReference getIcon() {
-        return (ImageReference) getComponentProperty(PROPERTY_ENABLED_ICON);
+        return (ImageReference) get(PROPERTY_ENABLED_ICON);
     }
 
     
@@ -171,7 +171,7 @@ public abstract class AbstractButton
      * @param newValue the new icon
      */
     public void setDisabledIcon(ImageReference newValue) {
-        setComponentProperty(PROPERTY_DISABLED_ICON, newValue);
+        set(PROPERTY_DISABLED_ICON, newValue);
     }
     
     /**
@@ -179,7 +179,7 @@ public abstract class AbstractButton
      * @param text the text.
      */
     public void setText(String text) {
-        setComponentProperty(TEXT_PROPERTY, text);
+        set(TEXT_PROPERTY, text);
     }
 
     /**
@@ -188,7 +188,7 @@ public abstract class AbstractButton
      * @param newValue the new icon
      */
     public void setIcon(ImageReference newValue) {
-        setComponentProperty(PROPERTY_ENABLED_ICON, newValue);
+        set(PROPERTY_ENABLED_ICON, newValue);
     }
     
     /**
@@ -196,7 +196,7 @@ public abstract class AbstractButton
      * @param tooltip
      */
     public void setTooltip(String tooltip) {
-        setComponentProperty(TOOLTIP_TEXT_PROPERTY, tooltip);
+        set(TOOLTIP_TEXT_PROPERTY, tooltip);
     }
     
 

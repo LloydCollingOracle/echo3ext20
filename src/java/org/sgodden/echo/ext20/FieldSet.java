@@ -49,7 +49,7 @@ public class FieldSet
      * @param toggle whether to add a checkbox.
      */
     public void setCheckboxToggle(boolean toggle) {
-        setComponentProperty(CHECKBOX_TOGGLE_PROPERTY, toggle);
+        set(CHECKBOX_TOGGLE_PROPERTY, toggle);
     }
 
 }
