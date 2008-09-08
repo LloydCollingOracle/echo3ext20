@@ -190,19 +190,6 @@ Index: src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java
          // Convert any hard references to weak references.
          if (hasHardReferences) {
              synchronized (idToReferenceMap) {
-Index: src/client/corejs/Core.js
-===================================================================
---- src/client/corejs/Core.js	(revision 1277)
-+++ src/client/corejs/Core.js	(working copy)
-@@ -99,7 +99,7 @@
-         var definition = arguments.length == 1 ? arguments[0] : arguments[1];
-         
-         // Perform argument error checking.
--        if (arguments.length == 2) {
-+        if (baseClass) {
-             if (typeof(baseClass) != "function") {
-                 throw new Error("Base class is not a function, cannot derive.");
-             }
 
 Property changes on: src/client/echo
 ___________________________________________________________________

@@ -2,6 +2,7 @@ package org.sgodden.echo.ext20.peers;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.util.Context;
+import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
@@ -40,8 +41,8 @@ public class ApplicationWaitIndicatorPeer extends LabelPeer {
     @Override
     public void init(Context context, Component c) {
         super.init(context, c);
-        //ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-        //serverMessage.addLibrary(JS_SERVICE.getId());
+        ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
+        serverMessage.addLibrary(JS_SERVICE.getId());
     }
 
 }
