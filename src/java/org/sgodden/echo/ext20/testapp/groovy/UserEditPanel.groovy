@@ -26,6 +26,7 @@ import org.sgodden.echo.ext20.RadioButton
 import org.sgodden.echo.ext20.TextArea
 import org.sgodden.echo.ext20.TextField
 import org.sgodden.echo.ext20.TimeField
+import org.sgodden.echo.ext20.TriggerField
 import org.sgodden.echo.ext20.Window
 import org.sgodden.ui.models.DefaultBackingObjectListModel
 
@@ -194,12 +195,29 @@ class UserEditPanel extends Panel implements ActionListenable {
         
         roleCombo = makeRoleCombo(makeRoleModel())
         fieldSetForm.add(roleCombo, "Role combo");
+
+        dateField = new DateField()
+        def triggerField = new TriggerField(
+			actionPerformed: {
+		        
+		        def triggerWindow = new Window();
+		        triggerWindow.setHeight(100);
+		        triggerWindow.setWidth(260);
+		        triggerWindow.setTitle("Trigger Window");
+
+		        this.add(triggerWindow);
+			}
+        )
         
         FormGrid2 = new FormGrid(
             formComponents: [
                 [
                     field: new DateField(),
                     label: "Date field"
+                ],
+                [
+                	field: triggerField,
+                	label: "Trigger Field"
                 ]
             ]
         )
