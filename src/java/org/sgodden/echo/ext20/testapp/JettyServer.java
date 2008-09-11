@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.deployer.WebAppDeployer;
 import org.mortbay.jetty.handler.ContextHandlerCollection;
@@ -37,13 +38,15 @@ public class JettyServer {
 
     public static void main(String[] args) {
 
-        BasicConfigurator.configure();
-        Logger l = Logger.getLogger("org.hibernate");
-        l.setLevel(Level.INFO);
-        l = Logger.getLogger("org.sgodden");
-        l.setLevel(Level.DEBUG);
-        l = Logger.getLogger("org.mortbay");
-        l.setLevel(Level.DEBUG);
+//        BasicConfigurator.configure();
+//        Logger l = Logger.getLogger("org.hibernate");
+//        l.setLevel(Level.INFO);
+//        l = Logger.getLogger("org.sgodden");
+//        l.setLevel(Level.DEBUG);
+//        l = Logger.getLogger("org.mortbay");
+//        l.setLevel(Level.DEBUG);
+    	
+    	DOMConfigurator.configure("src/webapp/WEB-INF/classes/log4j.xml"); // FIXME - configure log4j properly
 
 
         final Server server = new Server(8081);
