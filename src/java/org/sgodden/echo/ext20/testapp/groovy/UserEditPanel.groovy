@@ -198,15 +198,15 @@ class UserEditPanel extends Panel implements ActionListenable {
 
         dateField = new DateField()
         def triggerField = new TriggerField(
-			actionPerformed: {
+            actionPerformed: {
 		        
-		        def triggerWindow = new Window();
-		        triggerWindow.setHeight(100);
-		        triggerWindow.setWidth(260);
-		        triggerWindow.setTitle("Trigger Window");
-
-		        this.add(triggerWindow);
-			}
+                def triggerWindow = new Window();
+                triggerWindow.setHeight(100);
+                triggerWindow.setWidth(260);
+                triggerWindow.setTitle("Trigger Window");
+                
+                this.add(triggerWindow);
+            }
         )
         
         FormGrid2 = new FormGrid(
@@ -216,8 +216,8 @@ class UserEditPanel extends Panel implements ActionListenable {
                     label: "Date field"
                 ],
                 [
-                	field: triggerField,
-                	label: "Trigger Field"
+                    field: triggerField,
+                    label: "Trigger Field"
                 ]
             ]
         )
@@ -302,7 +302,6 @@ class UserEditPanel extends Panel implements ActionListenable {
                     ; selected backing object is ${roleCombo.selectedBackingObject}""")
             }
         )
-
         return roleCombo;
     }
 
@@ -317,4 +316,3 @@ class UserEditPanel extends Panel implements ActionListenable {
         return ret;
     }
 }
-

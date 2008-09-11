@@ -45,15 +45,15 @@ EchoExt20.TriggerFieldSync = Core.extend(EchoExt20.TextFieldSync, {
      */
     createExtComponent: function(update, options) {
 
-    	var extComponent = EchoExt20.TextFieldSync.prototype.createExtComponent.call(this,update,options);
+        var extComponent = EchoExt20.TextFieldSync.prototype.createExtComponent.call(this,update,options);
 
-		/**
-		* echoPeer is required because this.component looses
-		* its scope when we overide onTriggerClick.
-		*/
-		extComponent.echoPeer = this;
-		extComponent.onTriggerClick = this._handleOnTriggerClick;
-    	return extComponent;
+        /**
+        * echoPeer is required because this.component looses
+        * its scope when we overide onTriggerClick.
+        */
+        extComponent.echoPeer = this;
+        extComponent.onTriggerClick = this._handleOnTriggerClick;
+        return extComponent;
     },
 
      /**
@@ -62,7 +62,7 @@ EchoExt20.TriggerFieldSync = Core.extend(EchoExt20.TextFieldSync, {
      * to call doAction().
      */
     _handleOnTriggerClick: function() {
-            this.echoPeer.component.doAction();			
+        this.echoPeer.component.doAction();			
     },
 
     newExtComponentInstance: function(options) {
