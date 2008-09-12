@@ -32,7 +32,7 @@
         <mkdir dir="${classes.dir}"/>
         <mkdir dir="${build.dir}"/>
     	<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
-        <javac />
+        <javac debug="true"/>
     	</groovyc>
     </target>
 	
@@ -137,6 +137,7 @@
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=n"/>
             <classpath>
                 <pathelement location="${classes.dir}"/>
+                <pathelement location="src/webapp/WEB-INF/classes"/>
                 <pathelement location="${servlet.api.jar}"/>
                 <fileset dir="lib"/>
             </classpath>
