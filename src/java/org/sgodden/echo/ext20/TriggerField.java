@@ -89,20 +89,6 @@ public class TriggerField
     }
 
     /**
-     * Handles the process input event and fires any action events.
-     * @param inputName the inputName of the event.
-     * @param inputValue the associated value.
-     */
-    @Override
-    public void processInput(String inputName, Object inputValue) {
-        System.out.println("Trigger");
-        super.processInput(inputName, inputValue);
-        if (INPUT_ACTION.equals(inputName)) {
-            fireActionEvent();
-        }
-    }
-
-    /**
      * Fires an action event to all listeners.
      */
     private void fireActionEvent() {

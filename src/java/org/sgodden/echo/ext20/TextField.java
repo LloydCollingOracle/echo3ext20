@@ -256,7 +256,6 @@ public class TextField extends ExtComponent {
 		set(VALIDATION_DELAY, delay);
 	}
 	
-	
 	/**
 	 * Sets the value (text) of the field.
 	 * 
@@ -292,7 +291,6 @@ public class TextField extends ExtComponent {
 
 	@Override
 	public void processInput(String inputName, Object inputValue) {
-		log.debug("INPUT" + inputName);
 		super.processInput(inputName, inputValue);
 		if (VALUE_CHANGED_PROPERTY.equals(inputName)) {
 			setValue((String) inputValue);
