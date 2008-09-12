@@ -22,6 +22,7 @@
         <delete dir="${build.dir}"/>
         <delete dir="doc"/>
         <delete dir="contrib/ext-${ext.version}"/>
+        <delete dir="bin-groovy"/>
     </target>
     
     <target name="compile" depends="clean">
