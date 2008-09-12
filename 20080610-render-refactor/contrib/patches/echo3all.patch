@@ -1,0 +1,198 @@
+
+Property changes on: .
+___________________________________________________________________
+Name: svn:ignore
+   + .classpath
+.project
+.settings
+
+
+Index: src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js
+===================================================================
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	(revision 1124)
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	(working copy)
+@@ -31,6 +31,13 @@
+     },
+     
+     /**
++     * Listeners to be notified of remote client events.
++     * @private
++     * @type Core.ListenerList
++     */
++    _listenerList: null,
++    
++    /**
+      * The base server url.
+      * @type String
+      * @private
+@@ -129,6 +136,7 @@
+         EchoClient.call(this);
+         
+         this._serverUrl = serverUrl;
++        this._listenerList = new Core.ListenerList();
+         this._processClientUpdateRef = Core.method(this, this._processClientUpdate);
+         this._processClientEventRef = Core.method(this, this._processClientEvent);
+         this._urlMappings = {};
+@@ -155,6 +163,17 @@
+     },
+     
+     /**
++     * Adds a listener to be notified when a server update has been
++     * completely processed, that is, all component and rendering
++     * updates have been completed.
++     * 
++     * @param {Function} l the listener to add
++     */
++    addServerUpdateCompleteListener: function(l) {
++        this._listenerList.addListener("serverUpdateComplete", l);
++    },
++    
++    /**
+      * Decompresses a shorthand URL into a valid full-length URL.
+      * A shorthand URL is expressed as "!A!xxxx" where
+      * "A" is a key whose value contains the first portion of the URL
+@@ -354,6 +373,10 @@
+             this._waitIndicatorActive = false;
+             this._waitIndicator.deactivate();
+         }
++        
++        if (this._listenerList.hasListeners("serverUpdateComplete")) {
++            this._listenerList.fireEvent({type: "serverUpdateComplete"});
++        }
+     },
+     
+     /**
+@@ -417,8 +440,17 @@
+     removeComponentListener: function(component, eventType) {
+         component.removeListener(eventType, this._processClientEventRef);
+     },
+-    
++        
+     /**
++     * Removes a ServerUpdateCompleteListener.
++     * 
++     * @param {Function} l the listener to remove
++     */
++    removeServerUpdateCompleteListener: function(l) {
++        this._listenerList.removeListener("serverUpdateComplete", l);
++    },
++
++    /**
+      * Sets the wait indicator that will be displayed when a client-server action takes longer than
+      * a specified period of time.
+      * 
+Index: src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java
+===================================================================
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	(revision 1124)
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	(working copy)
+@@ -41,9 +41,11 @@
+ 
+ import java.io.IOException;
+ import java.util.ArrayList;
++import java.util.HashSet;
+ import java.util.Iterator;
+ import java.util.List;
+ 
++import java.util.Set;
+ import javax.servlet.ServletException;
+ import javax.servlet.http.HttpServlet;
+ import javax.servlet.http.HttpServletRequest;
+@@ -388,5 +390,22 @@
+             activeConnection.set(null);
+         }
+     }
++   
++    private Set cssFileNames = new HashSet();
+     
+-}
++    /**
++     * Adds a css file name to be added to the window html.
++     */
++    public void addCssFileName(String cssFileName) {
++        cssFileNames.add(cssFileName);
++    }
++    
++    /**
++     * Returns an iterator over the CSS file names.
++     * @return
++     */
++    public Iterator getCssFileNames() {
++        return cssFileNames.iterator();
++    }
++    
++}
+\ No newline at end of file
+Index: src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java
+===================================================================
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	(revision 1124)
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	(working copy)
+@@ -105,6 +105,21 @@
+         styleElement.setAttribute("type", "text/css");
+         styleElement.appendChild(document.createTextNode(" "));
+         headElement.appendChild(styleElement);
++        
++        WebContainerServlet servlet = conn.getServlet();
++        
++        Iterator cssIt = servlet.getCssFileNames();
++        if (cssIt != null) {
++            while(cssIt.hasNext()) {
++                String cssFileName = (String) cssIt.next();
++                Element additionalStyleElement = document.createElement("link");
++                additionalStyleElement.setAttribute("href", cssFileName);
++                additionalStyleElement.setAttribute("type", "text/css");
++                additionalStyleElement.setAttribute("rel", "stylesheet");
++                additionalStyleElement.appendChild(document.createTextNode(" "));
++                headElement.appendChild(additionalStyleElement);
++            }
++        }
+ 
+         Element scriptElement = document.createElement("script");
+         Text textNode = document.createTextNode(" ");
+@@ -112,8 +127,8 @@
+         scriptElement.setAttribute("type", "text/javascript");
+         scriptElement.setAttribute("src", userInstance.getServiceUri(BootService.SERVICE));
+         headElement.appendChild(scriptElement);
++
+         
+-        WebContainerServlet servlet = conn.getServlet();
+         Iterator scriptIt = servlet.getStartupScripts();
+         if (scriptIt != null) {
+             while (scriptIt.hasNext()) {
+Index: ant.properties
+===================================================================
+--- ant.properties	(revision 1124)
++++ ant.properties	(working copy)
+@@ -3,7 +3,7 @@
+ ant.build.javac.source 1.4
+ ant.build.javac.target 1.4
+ 
+-servlet.lib.jar                         ${env.SERVLET_LIB_JAR}
++servlet.lib.jar                         /Program Files/Apache Software Foundation/Apache Tomcat 6.0.14/lib/servlet-api.jar
+ servlet.lib.msg                         The environment variable SERVLET_LIB_JAR must contain the path to the Servlet 2.4 \
+                                         specification JAR file (servlet.jar or servlet-api.jar).
+ debug                                   yes
+Index: build.xml
+===================================================================
+--- build.xml	(revision 1124)
++++ build.xml	(working copy)
+@@ -421,6 +421,19 @@
+         <tar tarfile="${dir.release}/${tarfile.release}" basedir="${dir.build.server-java.release}" longfile="gnu"/>
+         <gzip src="${dir.release}/${tarfile.release}" zipfile="${dir.release}/${tgzfile.release}"/>
+         <delete file="${dir.release}/${tarfile.release}"/>
+-    </target>
++    </target>
++	
++	<target name="mvn-install-win"
++			depends="dist"
++			description="Installs the jars into the local maven repository (windows environment)">
++		<exec executable="cmd">
++			<arg value="/c"/>
++			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=dist${file.separator}lib${file.separator}Echo3_App.jar"/>
++		</exec>
++		<exec executable="cmd">
++			<arg value="/c"/>
++			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=dist${file.separator}lib${file.separator}Echo3_WebContainer.jar"/>
++		</exec>
++	</target>
+     
+ </project>
