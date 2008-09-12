@@ -1,7 +1,9 @@
 package org.sgodden.echo.ext20.testapp.groovy
 
+import java.beans.PropertyChangeListener
 import java.util.Calendar
 import java.util.List
+
 import nextapp.echo.app.Label
 import nextapp.echo.app.list.DefaultListModel;
 import nextapp.echo.app.list.ListModel;
@@ -198,8 +200,8 @@ class UserEditPanel extends Panel implements ActionListenable {
 
         dateField = new DateField()
         def triggerField = new TriggerField(
-            actionPerformed: {
-		        
+        		actionPerformed: {
+        		log.debug("TRIGGER FIELD PRESSED")
                 def triggerWindow = new Window();
                 triggerWindow.setHeight(100);
                 triggerWindow.setWidth(260);
@@ -208,6 +210,15 @@ class UserEditPanel extends Panel implements ActionListenable {
                 this.add(triggerWindow);
             }
         )
+        
+        def delayedActionField = new TextField(
+            notifyImmediately : true,
+            validationDelay : 500,       
+        )
+        
+        delayedActionField.addPropertyChangeListener(
+        		"value", 
+        		{evt -> println evt.newValue} as PropertyChangeListener) 
         
         FormGrid2 = new FormGrid(
             formComponents: [
@@ -218,6 +229,10 @@ class UserEditPanel extends Panel implements ActionListenable {
                 [
                     field: triggerField,
                     label: "Trigger Field"
+                ],
+                [
+                    field: delayedActionField,
+                    label: "Delayed Action Field"
                 ]
             ]
         )

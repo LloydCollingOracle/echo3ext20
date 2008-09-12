@@ -95,6 +95,7 @@ public class TriggerField
      */
     @Override
     public void processInput(String inputName, Object inputValue) {
+        System.out.println("Trigger");
         super.processInput(inputName, inputValue);
         if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();

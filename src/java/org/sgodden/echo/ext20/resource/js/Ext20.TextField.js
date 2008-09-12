@@ -25,8 +25,12 @@ EchoExt20.TextField = Core.extend(EchoExt20.ExtComponent, {
     },
 
     focusable: true,
-
-    componentType: "Ext20TextField"
+    
+    componentType: "Ext20TextField",
+    
+    doAction: function() {
+        this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+    }
 });
 
 /**
@@ -82,9 +86,12 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         if (this.component.get("maxLength")){
             options["maxLength"] = this.component.get("maxLength");
         }
-
-        options.selectOnFocus = true;
-    
+        if (this.component.get("validationDelay")){
+            options["validationDelay"] = this.component.get("validationDelay");
+        }
+        
+        options.selectOnFocus = true; 
+        
     	var extComponent = this.newExtComponentInstance(options);
 
         extComponent.on(
@@ -92,6 +99,16 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             this._doOnRender,
             this);
 
+        /**
+        * Sends the field value back to the server on key up
+        * with a given delay. Requires focus to be false
+        * or the user would overwrite the value after each
+        * delay.
+        */
+        if (this.component.get("notifyValueImmediate")){
+            extComponent.focus = false;
+            extComponent.on("valid", this._handleValidEvent, this);
+        }
     	return extComponent;
     },
 
@@ -107,11 +124,30 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         this.extComponent.getEl().on(
             "blur",
             this._handleBlurEvent,
-            this);
+            this);     
         if (this.component.get("size")) {
             this.extComponent.getEl().dom.size =
                 this.component.get("size");
         }
+    },
+    
+     /**
+     * check for required transformations on blur.
+     */
+    _handleBlurEvent: function() {
+        
+        var newVal = this.extComponent.getValue();
+        if (this.component.get("caseRestriction") != null){
+            
+            if (this.component.get("caseRestriction") == "UPPER"){
+                newVal = this.extComponent.getValue().toUpperCase();
+            }
+            if (this.component.get("caseRestriction") == "LOWER"){
+                newVal = this.extComponent.getValue().toLowerCase();
+            }
+            this.extComponent.setValue(newVal)
+        }
+        this.component.set("value", newVal);
     },
 
     _handleClickEvent: function(evt) {
@@ -129,24 +165,13 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     },
     
     /**
-     * check for required transformations on blur.
-     */
-    _handleBlurEvent: function() {
-    	
-    	var newVal = this.extComponent.getValue();
-    	if (this.component.get("caseRestriction") != null){
-    		
-        	if (this.component.get("caseRestriction") == "UPPER"){
-        		newVal = this.extComponent.getValue().toUpperCase();
-        	}
-        	if (this.component.get("caseRestriction") == "LOWER"){
-        		newVal = this.extComponent.getValue().toLowerCase();
-        	}
-        	this.extComponent.setValue(newVal)
-        }
-        this.component.set("value", newVal);
+    * Handle event required for immediate value
+    * notification. 
+    */
+    _handleValidEvent: function() {
+          this.component.doAction();
     },
-    
+
     /**
      * Handles a server update of the field value.
      */

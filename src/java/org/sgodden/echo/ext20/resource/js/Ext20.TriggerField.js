@@ -24,11 +24,8 @@ EchoExt20.TriggerField = Core.extend(EchoExt20.TextField, {
         Echo.ComponentFactory.registerType("E2TR", this);
     },
 
-    componentType: "Ext20TriggerField",
+    componentType: "Ext20TriggerField"
     
-    doAction: function() {
-       	this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
-   	}
 });
 
 /**
