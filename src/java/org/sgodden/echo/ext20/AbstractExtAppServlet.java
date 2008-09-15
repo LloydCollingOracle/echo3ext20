@@ -37,19 +37,28 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
 
     private static final long serialVersionUID = 20080107L;
     private static final Service extService;
+    private static final Service extExtensionsService;
     private static final Service echoExtService;
 
     static {
         List resourceList = new ArrayList();
         resourceList.add("ext/adapter/ext/ext-base.js");
         resourceList.add("ext/ext-all-debug.js");
-        resourceList.add("ext/portal/Portal.js");
-        resourceList.add("ext/portal/PortalColumn.js");
-        resourceList.add("ext/portal/Portlet.js");
 
         String[] resources = new String[resourceList.size()];
         resourceList.toArray(resources);
         extService = JavaScriptService.forResources("Ext20", resources);
+        
+        resourceList = new ArrayList();
+        resourceList.add("ext/portal/Portal.js");
+        resourceList.add("ext/portal/PortalColumn.js");
+        resourceList.add("ext/portal/Portlet.js");
+        resourceList.add("ext/multiselect/Multiselect.js");
+        resourceList.add("ext/multiselect/DDView.js");
+
+        resources = new String[resourceList.size()];
+        resourceList.toArray(resources);
+        extExtensionsService = JavaScriptService.forResources("Ext20Ext", resources);
 
         /*
          * Whilst we are in development mode, add all the scripts up
@@ -100,8 +109,10 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
     public AbstractExtAppServlet() {
         super();
         addStartupScript(extService);
+        addStartupScript(extExtensionsService);
         addStartupScript(echoExtService);
         addCssFileName("resources/ext/css/ext-all.css");
         addCssFileName("resources/ext/css/portal.css");
+        addCssFileName("resources/ext/css/Multiselect.css");
     }
 }

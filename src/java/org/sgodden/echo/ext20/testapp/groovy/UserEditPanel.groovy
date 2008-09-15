@@ -22,6 +22,7 @@ import org.sgodden.echo.ext20.DateField
 import org.sgodden.echo.ext20.FieldSet
 import org.sgodden.echo.ext20.FormField
 import org.sgodden.echo.ext20.FormGrid
+import org.sgodden.echo.ext20.MultiSelect
 import org.sgodden.echo.ext20.PasswordField
 import org.sgodden.echo.ext20.Panel
 import org.sgodden.echo.ext20.RadioButton
@@ -55,6 +56,7 @@ class UserEditPanel extends Panel implements ActionListenable {
     def userRoleButton
     def adminRoleButton
     def roleCombo
+    def roleMultiSelect
 
     def cancelButton
     def saveButton
@@ -220,6 +222,9 @@ class UserEditPanel extends Panel implements ActionListenable {
         		"value", 
         		{evt -> println evt.newValue} as PropertyChangeListener) 
         
+        roleMultiSelect = makeRoleMultiSelect(makeRoleModel())
+        fieldSetForm.add(roleMultiSelect, "Role multi select");
+        
         FormGrid2 = new FormGrid(
             formComponents: [
                 [
@@ -253,7 +258,6 @@ class UserEditPanel extends Panel implements ActionListenable {
         if (invalidField.value.length() > 10) {
             invalidField.isValid = false;
             invalidField.invalidText = "Value cannot exceed 10 characters";
-
         } 
         else if (!(dateField.isClientInputValid())) {
             Window window = new Window(
@@ -272,6 +276,9 @@ class UserEditPanel extends Panel implements ActionListenable {
             log.info("  nameField: " + nameField.value);
             log.info("  calendar: " + dateField.calendar);
             log.info("  enabled: " + enabledField.selected);
+            
+            log.info("  multi select max selected is now: " + roleMultiSelect.selectionModel.getMaxSelectedIndex());
+            
         }
     }
 
@@ -319,6 +326,30 @@ class UserEditPanel extends Panel implements ActionListenable {
         )
         return roleCombo;
     }
+    
+    /**
+     * Returns a multi select box for selection of roles, based
+     * on the passed store.
+     * @param store the store.
+     * @return the combo box.
+     */
+    private MultiSelect makeRoleMultiSelect(ListModel store) {
+        roleMultiSelect = new MultiSelect(
+            fieldLabel: "Role",
+            model: store,
+            complex: true,
+        )
+        Integer[] arr = new Integer[3];
+        arr[0] = 0;
+        arr[1] = 2;
+        arr[2] = 4;
+
+        roleMultiSelect.fromLegend = "Available";
+        roleMultiSelect.toLegend = "Selected";
+        roleMultiSelect.selectedIndices = arr;
+
+        return roleMultiSelect;
+    }
 
     /**
      * Creates a dummy store for role data.
@@ -328,6 +359,9 @@ class UserEditPanel extends Panel implements ActionListenable {
         DefaultBackingObjectListModel ret = new DefaultBackingObjectListModel();
         ret.add("Administrator", new Integer(1));
         ret.add("User", new Integer(2));
+        ret.add("Technical Manager", new Integer(3));
+        ret.add("Supplier", new Integer(4));
+        ret.add("Site", new Integer(5));
         return ret;
     }
 }
