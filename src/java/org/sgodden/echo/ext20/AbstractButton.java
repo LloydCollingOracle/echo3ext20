@@ -18,6 +18,7 @@ package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -29,7 +30,7 @@ import nextapp.echo.app.event.ActionListener;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractButton 
-        extends ExtComponent {
+        extends Component {
     
     public static final String TEXT_PROPERTY = "text";
     public static final String PROPERTY_DISABLED_ICON = "disabledIcon";

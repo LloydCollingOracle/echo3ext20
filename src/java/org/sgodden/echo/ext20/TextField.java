@@ -18,10 +18,11 @@ package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
 
-import org.apache.log4j.Logger;
-
+import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+
+import org.apache.log4j.Logger;
 
 /**
  * A text field. <p/> TODO - listeners on value change <p/> TODO - specify the
@@ -31,7 +32,7 @@ import nextapp.echo.app.event.ActionListener;
  * 
  */
 @SuppressWarnings( { "serial" })
-public class TextField extends ExtComponent {
+public class TextField extends Component {
 	
 	private static final Logger log = Logger.getLogger(TextField.class);
 

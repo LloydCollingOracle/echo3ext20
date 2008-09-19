@@ -35,7 +35,7 @@ import org.sgodden.echo.ext20.layout.TableLayout;
  * @author goddens
  *
  */
-public class Panel extends ExtComponent {
+public class Panel extends Component {
 
     private static final long serialVersionUID = 20080102L;
     

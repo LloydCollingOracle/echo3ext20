@@ -6,13 +6,16 @@ package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.event.ListDataEvent;
 import nextapp.echo.app.event.ListDataListener;
+import nextapp.echo.app.list.DefaultListCellRenderer;
 import nextapp.echo.app.list.DefaultListSelectionModel;
+import nextapp.echo.app.list.ListCellRenderer;
 import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
@@ -20,40 +23,19 @@ import org.sgodden.ui.models.BackingObjectDataModel;
 
 /**
  * A combo box control with support for autocomplete.
- * <p/>
- * Code example:
- * <pre class="code">
-Object[][] data = new Object[2][2];
-data[0] = new String[]{"admin", "Administrator"}; // id, description
-data[1] = new String[]{"user", "User"};
-
-SimpleStore store = new SimpleStore(
-data,
-0,
-new String[]{"id", "description"});
-
-ComboBox combo = new ComboBox(store);
-combo.setFieldLabel("Role");
-combo.setDisplayField("description");
-combo.setValueField("id");
-combo.setTypeAhead(true);
-
-add(combo);
- * </pre>
- * <p/>
- * TODO - selection listener.
  * 
  * @author sgodden
  */
 @SuppressWarnings({"serial"})
 public class ComboBox
-        extends ExtComponent {
+        extends Component {
 
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String EDITABLE_PROPERTY = "editable";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String FORCE_SELECTION_PROPERTY = "forceSelection";
     public static final String INPUT_ACTION = "action";
+    public static final String LIST_CELL_RENDERER_CHANGED_PROPERTY = "listCellRenderer";
     public static final String MODEL_CHANGED_PROPERTY="model";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
@@ -63,6 +45,10 @@ public class ComboBox
 
     private ListModel model;
     private ListSelectionModel selectionModel;
+    
+    public static final DefaultListCellRenderer DEFAULT_LIST_CELL_RENDERER = new DefaultListCellRenderer();
+    private ListCellRenderer listCellRenderer = DEFAULT_LIST_CELL_RENDERER;
+    
     /**
      * Local handler for list data events.
      */
@@ -144,6 +130,15 @@ public class ComboBox
             }
             ((ActionListener) listeners[i]).actionPerformed(e);
         }
+    }
+    
+    /**
+     * Returns the <code>ListCellRenderer</code> used to render items.
+     * 
+     * @return the renderer
+     */
+    public ListCellRenderer getCellRenderer() {
+        return listCellRenderer;
     }
 
     /**
@@ -238,6 +233,22 @@ public class ComboBox
         // existence of hasActionListeners() method.
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
 
+    }
+    
+    /**
+     * Sets the renderer for items.
+     * The renderer may not be null (use <code>DEFAULT_LIST_CELL_RENDERER</code>
+     * for default behavior).
+     * 
+     * @param newValue the new renderer
+     */
+    public void setCellRenderer(ListCellRenderer newValue) {
+        if (newValue == null) {
+            throw new IllegalArgumentException("Cell Renderer may not be null.");
+        }
+        ListCellRenderer oldValue = listCellRenderer;
+        listCellRenderer = newValue;
+        firePropertyChange(LIST_CELL_RENDERER_CHANGED_PROPERTY, oldValue, newValue);
     }
 
     /**

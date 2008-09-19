@@ -16,13 +16,15 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.Component;
+
 /**
  * Renders text directly into a toolbar.
  * @author sgodden
  */
 @SuppressWarnings({"serial"})
 public class ToolbarTextItem 
-        extends ExtComponent {
+        extends Component {
     
     public static final String TEXT_PROPERTY = "text";
 

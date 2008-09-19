@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Component;
 
 /**
  * A date field with built-in drop-down selector.
@@ -34,7 +35,7 @@ import nextapp.echo.app.ApplicationInstance;
  */
 @SuppressWarnings({"serial"})
 public class DateField
-        extends ExtComponent {
+        extends Component {
     
     //private static final transient Log log = LogFactory.getLog(DateField.class);
 

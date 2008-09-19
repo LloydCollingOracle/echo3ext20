@@ -16,12 +16,14 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.Component;
+
 /**
  * A menu.
  * @author sgodden
  */
 @SuppressWarnings({"serial"})
 public class Menu 
-        extends ExtComponent {
+        extends Component {
 
 }

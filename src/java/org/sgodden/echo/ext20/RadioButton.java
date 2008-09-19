@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.Component;
+
 /**
  * A radio button.
  * <p/>
@@ -27,7 +29,7 @@ package org.sgodden.echo.ext20;
  */
 @SuppressWarnings({"serial"})
 public class RadioButton
-        extends ExtComponent {
+        extends Component {
 
     public static final String SELECTED_CHANGED_PROPERTY = "selected";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";

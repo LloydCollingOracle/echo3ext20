@@ -17,6 +17,7 @@
 package org.sgodden.echo.ext20;
 
 import nextapp.echo.app.Component;
+
 import org.sgodden.echo.ext20.layout.ColumnLayout;
 
 /**

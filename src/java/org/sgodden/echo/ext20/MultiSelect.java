@@ -7,6 +7,7 @@ package org.sgodden.echo.ext20;
 import java.util.ArrayList;
 import java.util.List;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.event.ListDataEvent;
@@ -24,7 +25,7 @@ import org.sgodden.ui.models.BackingObjectDataModel;
  * @author bwoods
  */
 @SuppressWarnings( { "serial" })
-public class MultiSelect extends ExtComponent {
+public class MultiSelect extends Component {
 
 	public static final String COMPLEX_PROPERTY = "complex";
 	public static final String EDITABLE_PROPERTY = "editable";

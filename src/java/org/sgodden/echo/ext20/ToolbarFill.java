@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.Component;
+
 /**
  * A simple element that adds a greedy (100% width) horizontal space 
  * between items in a toolbar.
@@ -24,6 +26,6 @@ package org.sgodden.echo.ext20;
  */
 @SuppressWarnings({"serial"})
 public class ToolbarFill 
-        extends ExtComponent {
+        extends Component {
 
 }

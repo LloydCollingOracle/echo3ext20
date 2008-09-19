@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.Component;
+
 /**
  * A html editor field.
  * <p/>
@@ -29,7 +31,7 @@ package org.sgodden.echo.ext20;
  */
 @SuppressWarnings({"serial"})
 public class HtmlEditor 
-		extends ExtComponent {
+		extends Component {
 	
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
 	public static final String TEXT_CHANGED_PROPERTY = "text";

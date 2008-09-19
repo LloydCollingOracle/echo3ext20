@@ -1,0 +1,51 @@
+Switch to using echo models, since swing models are not clusterable.
+Tidy up warning suppressions.
+--This line, and those below, will be ignored--
+
+M    java/org/sgodden/echo/ext20/Panel.java
+M    java/org/sgodden/echo/ext20/ComboBox.java
+M    java/org/sgodden/echo/ext20/data/TableModelAdapter.java
+M    java/org/sgodden/echo/ext20/data/ListModelAdapter.java
+M    java/org/sgodden/echo/ext20/testapp/regression/UpdatedNonRenderedGridTest.groovy
+M    java/org/sgodden/echo/ext20/testapp/AppInstance.java
+M    java/org/sgodden/echo/ext20/testapp/groovy/UserEditPanel.groovy
+M    java/org/sgodden/echo/ext20/testapp/ApplicationContentPane2.java
+M    java/org/sgodden/echo/ext20/testapp/GroovyTest.java
+M    java/org/sgodden/echo/ext20/testapp/UserListPanel.java
+M    java/org/sgodden/echo/ext20/grid/GridPanel.java
+M    java/org/sgodden/echo/ext20/grid/PagingToolbar.java
+M    java/org/sgodden/echo/ext20/util/ListSelectionUtil.java
+M    java/org/sgodden/echo/ext20/peers/MenuItemPeer.java
+M    java/org/sgodden/echo/ext20/peers/SplitButtonPeer.java
+M    java/org/sgodden/echo/ext20/peers/ToolbarButtonPeer.java
+M    java/org/sgodden/echo/ext20/peers/FieldSetPeer.java
+M    java/org/sgodden/echo/ext20/peers/FormLayoutPeer.java
+M    java/org/sgodden/echo/ext20/peers/PortalPeer.java
+M    java/org/sgodden/echo/ext20/peers/AnchorLayoutDataPeer.java
+M    java/org/sgodden/echo/ext20/peers/MenuPeer.java
+M    java/org/sgodden/echo/ext20/peers/ToolbarFillPeer.java
+M    java/org/sgodden/echo/ext20/peers/data/SimpleStorePeer.java
+M    java/org/sgodden/echo/ext20/peers/TextAreaPeer.java
+M    java/org/sgodden/echo/ext20/peers/FitLayoutPeer.java
+M    java/org/sgodden/echo/ext20/peers/ToolbarSeparatorPeer.java
+M    java/org/sgodden/echo/ext20/peers/TabbedPanePeer.java
+M    java/org/sgodden/echo/ext20/peers/ColumnLayoutDataPeer.java
+M    java/org/sgodden/echo/ext20/peers/ToolbarTextItemPeer.java
+M    java/org/sgodden/echo/ext20/peers/TextFieldPeer.java
+M    java/org/sgodden/echo/ext20/peers/grid/GridPanelPeer.java
+M    java/org/sgodden/echo/ext20/peers/grid/ColumnModelPeer.java
+M    java/org/sgodden/echo/ext20/peers/PortletPeer.java
+M    java/org/sgodden/echo/ext20/peers/RadioButtonPeer.java
+M    java/org/sgodden/echo/ext20/peers/CheckboxFieldPeer.java
+M    java/org/sgodden/echo/ext20/peers/ColumnLayoutPeer.java
+M    java/org/sgodden/echo/ext20/peers/PanelPeer.java
+M    java/org/sgodden/echo/ext20/peers/ToolbarSpacerPeer.java
+M    java/org/sgodden/echo/ext20/peers/TimeFieldPeer.java
+M    java/org/sgodden/echo/ext20/peers/ToolbarPeer.java
+M    java/org/sgodden/echo/ext20/peers/BorderLayoutDataPeer.java
+M    java/org/sgodden/echo/ext20/peers/WindowPeer.java
+M    java/org/sgodden/echo/ext20/peers/ComboBoxPeer.java
+M    java/org/sgodden/echo/ext20/peers/HtmlEditorPeer.java
+M    java/org/sgodden/echo/ext20/peers/BorderLayoutPeer.java
+M    java/org/sgodden/echo/ext20/peers/PortalColumnPeer.java
+M    java/org/sgodden/echo/ext20/peers/DateFieldPeer.java

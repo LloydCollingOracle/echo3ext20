@@ -16,12 +16,14 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.Component;
+
 /**
  * A separator element for a toolbar.
  * @author sgodden
  */
 @SuppressWarnings({"serial"})
 public class ToolbarSeparator 
-        extends ExtComponent {
+        extends Component {
 
 }
