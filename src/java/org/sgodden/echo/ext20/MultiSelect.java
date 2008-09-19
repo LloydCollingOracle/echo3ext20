@@ -15,7 +15,6 @@ import nextapp.echo.app.list.DefaultListSelectionModel;
 import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
-import org.mortbay.log.Log;
 import org.sgodden.ui.models.BackingObjectDataModel;
 
 /**
@@ -131,15 +130,16 @@ public class MultiSelect extends ExtComponent {
 	public String getFieldLabel() {
 		return (String) get(FIELD_LABEL_PROPERTY);
 	}
-		
+
 	/**
 	 * Returns the from legend used by ItemSelector.
+	 * 
 	 * @return the from legend.
 	 */
 	public String getFromLegend() {
 		return (String) get(FROM_LEGEND_PROPERTY);
 	}
-	
+
 	/**
 	 * Convenience method to return the selected backing object in the case that
 	 * the model implements {@link BackingObjectDataModel}.
@@ -200,7 +200,7 @@ public class MultiSelect extends ExtComponent {
 				|| selectionModel.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
 			// Single selection mode or only one index selected: return it
 			// directly.
-			
+
 			return new Object[] { model.get(selectionModel
 					.getMinSelectedIndex()) };
 		}
@@ -213,9 +213,10 @@ public class MultiSelect extends ExtComponent {
 		}
 		return objs.toArray();
 	}
-	
+
 	/**
 	 * Returns the to legend used by ItemSelector.
+	 * 
 	 * @return the to legend.
 	 */
 	public String getToLegend() {
@@ -279,7 +280,7 @@ public class MultiSelect extends ExtComponent {
 	public void setForceSelection(boolean forceSelection) {
 		set(FORCE_SELECTION_PROPERTY, forceSelection);
 	}
-	
+
 	/**
 	 * Sets the from legend used by ItemSelector.
 	 * 
@@ -338,11 +339,29 @@ public class MultiSelect extends ExtComponent {
 		// Temporarily suppress the Tables selection event notifier.
 		suppressChangeNotifications = true;
 		selectionModel.clearSelection();
-		for (int i = 0; i < selectedIndices.length; ++i) {
-			selectionModel.setSelectedIndex(selectedIndices[i], true);
+		if (selectedIndices != null) {
+			for (int i = 0; i < selectedIndices.length; ++i) {
+				selectionModel.setSelectedIndex(selectedIndices[i], true);
+			}
 		}
 		// End temporary suppression.
 		suppressChangeNotifications = false;
+	}
+
+	public void setSelectedItems(Object[] selectedItems) {
+		if (selectedItems == null) {
+			selectionModel.clearSelection();
+		} else {
+			int size = model.size();
+			for (int i = 0; i < size; i++) {
+				for (Object selectedItem : selectedItems) {
+					if (model.get(i).equals(selectedItem)) {
+						selectionModel.setSelectedIndex(i, true);
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -365,7 +384,7 @@ public class MultiSelect extends ExtComponent {
 		selectionModel.setSelectionMode(ListSelectionModel.MULTIPLE_SELECTION);
 		firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
 	}
-	
+
 	/**
 	 * Sets the to legend used by ItemSelector.
 	 * 

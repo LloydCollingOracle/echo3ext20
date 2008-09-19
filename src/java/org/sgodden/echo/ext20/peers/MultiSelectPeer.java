@@ -112,7 +112,14 @@ public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
     public void storeInputProperty(Context context, Component component, String propertyName, int index, Object newValue) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
         if (MultiSelect.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
-        	int[] selection = ListSelectionUtil.toIntArray((String) newValue);
+        	int[] selection;
+        	if(newValue == null) {
+        		selection = null;
+        	}
+        	else{
+        		selection = ListSelectionUtil.toIntArray((String) newValue);	
+        	}
+        	
             clientUpdateManager.setComponentProperty(component, MultiSelect.SELECTION_CHANGED_PROPERTY, selection);
         }
     }

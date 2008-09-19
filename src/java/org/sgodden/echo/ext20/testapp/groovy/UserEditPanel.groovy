@@ -337,7 +337,7 @@ class UserEditPanel extends Panel implements ActionListenable {
         roleMultiSelect = new MultiSelect(
             fieldLabel: "Role",
             model: store,
-            complex: true,
+            complex: false,
         )
         Integer[] arr = new Integer[3];
         arr[0] = 0;

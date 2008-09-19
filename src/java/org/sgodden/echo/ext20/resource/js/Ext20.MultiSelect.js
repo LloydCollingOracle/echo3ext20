@@ -55,48 +55,46 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
-        _renderedComplex = false;
-        options["displayField"] = "display";
-        options["valueField"] = "value";
-        options["fromLegend"] = this.component.get("fromLegend");
-        options["toLegend"] = this.component.get("toLegend");
+      _renderedComplex = false;
+      options["displayField"] = "display";
+      options["valueField"] = "value";
+      options["fromLegend"] = this.component.get("fromLegend");
+      options["toLegend"] = this.component.get("toLegend");
 
-    	if (this.component.get("editable") != null) {
-             options["editable"] = this.component.get("editable");
-        }
+      if (this.component.get("editable") != null) {
+          options["editable"] = this.component.get("editable");
+      }
     	if (this.component.get("forceSelection") != null) {
-             options["forceSelection"] = this.component.get("forceSelection");
-        }
+          options["forceSelection"] = this.component.get("forceSelection");
+      }
     	if (this.component.get("model") != null) {
-    	     var store = this.component.get("model");
+    	    var store = this.component.get("model");
             
-           options.dataFields = store.fields; 
-            
-            if (this.component.get("complex")) {
-            	this._selectedRows = this.component.get("selection").split(",");
-            	var toData = [[]];
-            	var fromData = [[]];
+          options.dataFields = store.fields;
+          if (this.component.get("complex")) {
+              this._selectedRows = this.component.get("selection").split(",");
+              var toData = [[]];
+              var fromData = [[]];
             	for( var z=0 ; z<store.data.length; z++ ) {
-            		found = false;
-            		for( var x=0; x<this._selectedRows.length; x++ ) {
-            			if (this._selectedRows[x] == store.data[z][1]) {
-	            			toData.push(store.data[z]);
-	            			found = true;
-            				break;
-            			}
-            		}
-            		if (!found) {
-            			fromData.push(store.data[z]);
-            		}
-            		
-            	}
-            	options.fromData = fromData;
-            	options.toData = toData;
-            }
-            else {
-            	options.data = store.data
-            }
-        }
+            	    found = false;
+                  for( var x=0; x<this._selectedRows.length; x++ ) {
+            	        if (this._selectedRows[x].toString() == store.data[z][1].toString()) {
+	            	          toData.push(store.data[z]);
+	                        found = true;
+                          break;
+            	        }
+            	    }
+            	    if (!found) {
+            	        fromData.push(store.data[z]);
+                  }
+              }
+              options.fromData = fromData;
+              options.toData = toData;
+          }
+          else {
+              options.data = store.data
+          }
+      }
         
         var extComponent = this.newExtComponentInstance(options);
 
