@@ -66,6 +66,7 @@
         </javadoc>
     </target>
     
+	<!-- TODO - minification of the ext-all-debug.js into ext-all.js, and option to use it -->
     <target name="jar" depends="compile, compile-groovy, unpack-ext">
         <jar destfile="${build.dir}/${jar.name}">
             <fileset dir="${classes.dir}"/>
@@ -73,7 +74,11 @@
             <zipfileset 
                 prefix = "ext" 
                 dir="contrib/ext-${ext.version}" 
-                includes="ext-all.js, ext-all-debug.js, adapter/ext/ext-base.js"/>
+                includes="adapter/ext/ext-base.js"/>
+            <zipfileset 
+                prefix = "ext" 
+                dir="src/ext" 
+                includes="ext-all-debug.js"/>
             <zipfileset
                 prefix="META-INF/maven/org.sgodden/echo3ext20"
                 dir="maven"/>
