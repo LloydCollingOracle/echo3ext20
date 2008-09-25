@@ -23,6 +23,7 @@
         <delete dir="doc"/>
         <delete dir="contrib/ext-${ext.version}"/>
         <delete dir="bin-groovy"/>
+    	<available file="contrib/ext-${ext.version}/ext-all-debug.js" property="ext-exists"/>
     </target>
     
     <target name="compile" depends="clean">
@@ -82,7 +83,7 @@
         </jar>
     </target>
     
-    <target name="unpack-ext">
+    <target name="unpack-ext" unless="ext-exists">
         <unzip src="contrib/ext-${ext.version}.zip" dest="contrib"/>
     </target>
     
