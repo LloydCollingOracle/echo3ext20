@@ -96,7 +96,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     renderUpdate: function(update){
 
-        EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
+        //EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
 
         // check for any property updates
         if (update.getUpdatedProperty("title") != null) {
@@ -117,12 +117,57 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                     this.extComponent.remove(childExtComponent);
                 }
             }
+            this.extComponent.doLayout();
         }
         
         if (update.hasAddedChildren()) {
+        	/*
+        	 * Firefox has some particularly appalling issues
+        	 * with rendering additions using a table layout,
+        	 * so make the panel invisible whils rendering,
+        	 * and then make it visible again.
+        	 * We still get an unpleasant flash, but it's better
+        	 * than what happens otherwise :(
+        	 */
+        	var doHide = false;
+            if (Core.Web.Env.BROWSER_FIREFOX && this.component.get("layout") instanceof EchoExt20.TableLayout) {
+                /*
+                 * If the only children added were windows, then there's no need to hide
+                 * ourselves, since it does not involve changes to our own div.
+                 */
+                var addedChildren = update.getAddedChildren();
+                for (var i = 0; i < addedChildren.length && !doHide; i++) {
+                    var componentType = addedChildren[i].componentType;
+                    if ( !(componentType == "Ext20Window") ) {
+                        doHide = true;
+                    }
+                }
+                if (doHide) {
+                	var dom = this.extComponent.getEl().dom; 
+                    dom.style.visibility = 'hidden';
+
+                    // and add a server update complete listener to show ourselves again, if we haven't already
+                    if (this._makeVisibleRef == null) {
+                        this._makeVisibleRef = Core.method(this, this._makeVisible);
+                        this.client.addServerUpdateCompleteListener(this._makeVisibleRef);
+                    }
+                }
+            }
+            
             var addedChildren = update.getAddedChildren();
         	this._createChildItems(update, addedChildren);
             this._conditionalDoLayout(addedChildren);
+            /*
+             * If we determined that we need to hide the panel
+             * while adding, then we must defer the layout of
+             * the ext component until the ._makeVisible
+             * method is called below.
+             * Otherwise we will get the horrible firefox
+             * progressive rendering visible to the user.
+             */
+            if (!doHide) {
+	            this.extComponent.doLayout();
+            }
         }
         
         this.syncExtComponent(update);
@@ -165,6 +210,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Re-shows the component after being hidden during an update.
      */
     _makeVisible: function() {
+    	this.extComponent.doLayout();
         this.extComponent.getEl().dom.style.visibility = 'visible';
     },
     
