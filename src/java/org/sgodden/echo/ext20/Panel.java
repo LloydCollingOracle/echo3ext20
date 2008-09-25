@@ -335,19 +335,7 @@ public class Panel extends Component {
      */
     @Override
     public void remove(Component comp) {
-        
-        if (getLayout() instanceof TableLayout && !(comp instanceof Panel)) {
-            // Loop through the children.  If we find the passed component
-            // inside the child, remove the child.
-            for (Component child : getComponents()) {
-                if (child instanceof Panel) {
-                    if (child.getComponent(0) == comp) {
-                        super.remove(child);
-                    }
-                }
-            }
-        }
-        else if ( !(comp instanceof Button)
+    	if ( !(comp instanceof Button)
                 || (comp instanceof Button && !((Button)comp).isAddToButtonBar()) ) {
             nonButtonBarChildCount--;
             super.remove(comp);
