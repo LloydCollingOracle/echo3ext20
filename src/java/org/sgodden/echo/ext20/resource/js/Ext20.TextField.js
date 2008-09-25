@@ -71,9 +71,12 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         if (this.component.get("emptyText") != null) {
             options['emptyText'] = this.component.get("emptyText");
         }
-    	if ( !(this.component.isEnabled()) ) {
+    		if ( !(this.component.isEnabled()) ) {
             options['disabled'] = true;
-    	}  	
+    		}
+    		if (this.component.get("maskRe")) {
+            options.maskRe = new RegExp(this.component.get("maskRe"));
+        }  	
         if (this.component.get("regExp")) {
             options.regex = new RegExp(this.component.get("regExp"));
         }

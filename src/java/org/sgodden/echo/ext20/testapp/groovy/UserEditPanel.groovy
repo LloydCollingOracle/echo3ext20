@@ -3,7 +3,7 @@ package org.sgodden.echo.ext20.testapp.groovy
 import java.beans.PropertyChangeListener
 import java.util.Calendar
 import java.util.List
-
+import org.sgodden.echo.ext20.Menuimport org.sgodden.echo.ext20.MenuItemimport nextapp.echo.app.HttpImageReference
 import nextapp.echo.app.Label
 import nextapp.echo.app.list.DefaultListModel;
 import nextapp.echo.app.list.ListModel;
@@ -246,6 +246,7 @@ class UserEditPanel extends Panel implements ActionListenable {
             actionCommand: "CANCEL",
             text: "Cancel"
         )
+        
         saveButton = new Button(
             actionCommand: "SAVE",
             text: "Save",

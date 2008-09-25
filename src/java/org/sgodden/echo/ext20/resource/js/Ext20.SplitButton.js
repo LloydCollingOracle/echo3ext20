@@ -33,4 +33,34 @@ EchoExt20.SplitButton = Core.extend(EchoExt20.Button, {
  * nothing in addition to the button sync peer.
  */
 EchoExt20.SplitButtonSync = Core.extend(EchoExt20.ButtonSync, {
+	 $load: function() {
+        Echo.Render.registerPeer("Ext20SplitButton", this);
+    },
+    
+	newExtComponentInstance: function(options) {
+      return new Ext.SplitButton(options);
+  },
+  
+  _setIconUrl: function() {
+   		var iconUrl = null;
+   		if (this.component.isEnabled() || this.component.get("disabledIcon") == null) {
+	   		iconUrl = Echo.Sync.ImageReference.getUrl(
+               	this.component.render("icon"));
+    	}
+    	else {
+    		iconUrl = Echo.Sync.ImageReference.getUrl(
+               	this.component.render("disabledIcon"));
+   		}
+    	if (iconUrl != null) {
+           	var el = this.extComponent.getEl().down("///////button"); // the left button td
+           	el.dom.style.backgroundImage = "url(" + iconUrl + ")";
+           	el = el.up("table");
+           	if (this.component.get("text")) {
+               	el.addClass("x-btn-text-icon");        
+           }	
+            else {
+               	el.addClass("x-btn-icon");        
+           	}
+   		}
+    }
 });

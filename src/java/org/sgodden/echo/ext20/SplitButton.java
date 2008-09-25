@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.ImageReference;
+
 /**
  * A split button that provides a built-in dropdown arrow that can fire 
  * an event separately from the default click event of the button. 
@@ -30,4 +32,16 @@ package org.sgodden.echo.ext20;
 public class SplitButton 
         extends Button {
 
+	public SplitButton() {
+        super();
+    }
+
+    public SplitButton(String text, ImageReference icon) {
+        super(text, icon);
+    }
+
+    public SplitButton(String text) {
+        super(text);
+    }
+	
 }

@@ -43,6 +43,7 @@ public class TextField extends Component {
 	public static final String EMPTY_TEXT_PROEPRTY = "emptyText";
 	public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
 	public static final String INPUT_ACTION = "action";
+	public static final String INPUT_MASK = "maskRe";
 	public static final String INVALID_TEXT_PROPERTY = "invalidText";
 	public static final String PROPERTY_SIZE = "size";
 	public static final String REGEXP_FAILURETEXT_PROPERTY = "regExpFailureText";
@@ -187,6 +188,17 @@ public class TextField extends Component {
 		set(FIELD_LABEL_PROPERTY, fieldLabel);
 	}
 
+	/**
+	 * Sets the input mask to a regular expression
+	 * that matches invalid keystrokes.
+	 * 
+	 * @param inputMask
+	 *            the input mask regular expression.
+	 */
+	public void setInputMask(String inputMask) {
+		set(INPUT_MASK, inputMask);
+	}
+	
 	/**
 	 * Sets the invalid text property.
 	 * 

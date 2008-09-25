@@ -53,7 +53,29 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
          */
         newExtComponentInstance: function(options) {
             return new Ext.Button(options);
-        }
+        },
+        _setIconUrl: function() {
+    			var iconUrl = null;
+    			if (this.component.isEnabled() || this.component.get("disabledIcon") == null) {
+		    		iconUrl = Echo.Sync.ImageReference.getUrl(
+          	this.component.render("icon"));
+    			}
+    			else {
+		    		iconUrl = Echo.Sync.ImageReference.getUrl(
+          	this.component.render("disabledIcon"));
+    			}
+    			if (iconUrl != null) {
+           		var el = this.extComponent.getEl().down("////button"); // the left button td
+           		el.dom.style.backgroundImage = "url(" + iconUrl + ")";
+           		el = el.up("table");
+           		if (this.component.get("text")) {
+             		el.addClass("x-btn-text-icon");        
+            	}	
+		            else {
+             		el.addClass("x-btn-icon");        
+           		}
+    			}
+    	  }
     },
     
     /**
@@ -107,7 +129,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     _handleClickEvent: function() {
         this.component.application.setFocusedComponent(this.component);
-    	this.component.doAction();
+    	  this.component.doAction();
     },
     
     _onRender: function() {
@@ -134,29 +156,5 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
                 this.component.focusable = false;
             }
         }
-    },
-    
-    _setIconUrl: function() {
-    	var iconUrl = null;
-    	if (this.component.isEnabled()) {
-    		iconUrl = Echo.Sync.ImageReference.getUrl(
-                this.component.render("icon"));
-    	}
-    	else {
-    		iconUrl = Echo.Sync.ImageReference.getUrl(
-                this.component.render("disabledIcon"));
-    	}
-    	if (iconUrl != null) {
-            var el = this.extComponent.getEl().down("////button"); // the left button td
-            el.dom.style.backgroundImage = "url(" + iconUrl + ")";
-            el = el.up("table");
-            if (this.component.get("text")) {
-                el.addClass("x-btn-text-icon");        
-            }
-            else {
-                el.addClass("x-btn-icon");        
-            }
-    	}
     }
-
 });

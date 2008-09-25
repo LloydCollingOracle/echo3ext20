@@ -36,6 +36,7 @@ import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
+import org.sgodden.echo.ext20.SplitButton;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.echo.ext20.ToolbarButton;
@@ -85,8 +86,13 @@ public class UserListPanel
             }
         });
         
+        SplitButton sb = new SplitButton("test", new ResourceImageReference(
+                "/resources/images/fam/icons/cog.png"));
+        addButton(sb);
+        
         Button changeButton = new Button("Change the data model");
-        changeButton.setIcon(new HttpImageReference("asd/wer"));
+        changeButton.setIcon(new ResourceImageReference(
+                "/resources/images/fam/icons/cog.png"));
         addButton(changeButton);
         changeButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
