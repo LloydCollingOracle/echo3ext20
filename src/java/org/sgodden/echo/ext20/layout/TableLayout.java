@@ -10,6 +10,13 @@ package org.sgodden.echo.ext20.layout;
  * instances of {@link TableLayoutData} to provide their
  * layout data.
  * <p>
+ * <em>IMPORTANT</em> - Due to limitations with the
+ * ext layout that is used on the client side, once a panel with a table layout has
+ * been rendered, you may only remove and add components
+ * from / to the end of the panel.  This limitation will
+ * be removed in a future release.
+ * </p>
+ * <p>
  * Here's an example showing standard table tricks such as
  * aligning cells, and setting colspan and rowspan.
  * </p>
