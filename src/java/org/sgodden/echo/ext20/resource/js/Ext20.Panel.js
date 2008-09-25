@@ -120,33 +120,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
         
         if (update.hasAddedChildren()) {
-            // hide ourselves to prevent progressive rendering in slower browsers
-            if (this.hideWhenAddingChildren) {
-                /*
-                 * If the only children added were windows, then there's no need to hide
-                 * ourselves, since it does not involve changes to our own div.
-                 */
-                var doHide = false;
-                var addedChildren = update.getAddedChildren();
-                for (var i = 0; i < addedChildren.length && !doHide; i++) {
-                    var componentType = addedChildren[i].componentType;
-                    if ( !(componentType == "Ext20Window") ) {
-                        doHide = true;
-                    }
-                }
-                if (doHide) {
-                    //this.extComponent.getEl().dom.style.visibility = 'hidden';
-
-                    // and add a server update complete listener to show ourselves again, if we haven't already
-                    //if (this._makeVisibleRef == null) {
-                    //    this._makeVisibleRef = Core.method(this, this._makeVisible);
-                    //    this.client.addServerUpdateCompleteListener(this._makeVisibleRef);
-                    //}
-                }
-	    }
-            
-            this._createChildItems(update, update.getAddedChildren());
-            this._conditionalDoLayout(update.getAddedChildren());
+            var addedChildren = update.getAddedChildren();
+        	this._createChildItems(update, addedChildren);
+            this._conditionalDoLayout(addedChildren);
         }
         
         this.syncExtComponent(update);
