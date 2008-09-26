@@ -77,6 +77,11 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         return extComponent;
     },
     
+    renderUpdate: function(update) {
+    		var selected = this.component.get("selected");
+        this.extComponent.setValue(selected);
+    },
+    
     /**
      * Handles (de)selection of the checkbox by updating the component
      * selected value, and firing the event in case there are any

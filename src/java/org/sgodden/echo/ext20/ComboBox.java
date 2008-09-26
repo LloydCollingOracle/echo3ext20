@@ -36,11 +36,13 @@ public class ComboBox
     public static final String FORCE_SELECTION_PROPERTY = "forceSelection";
     public static final String INPUT_ACTION = "action";
     public static final String LIST_CELL_RENDERER_CHANGED_PROPERTY = "listCellRenderer";
+    public static final String LIST_WIDTH_PROPERTY = "listWidth";
     public static final String MODEL_CHANGED_PROPERTY="model";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
     public static final String STORE_PROPERTY = "store";
     public static final String TYPE_AHEAD_PROPERTY = "typeAhead";
+    public static final String WIDTH_PROPERTY = "width";
 
 
     private ListModel model;
@@ -274,6 +276,14 @@ public class ComboBox
     public void setForceSelection(boolean forceSelection) {
         set(FORCE_SELECTION_PROPERTY, forceSelection);
     }
+    
+    /**
+     * Sets the width of the dropped down list.
+     * @param listWidth the width.
+     */
+    public void setListWidth(int listWidth) {
+    	set(LIST_WIDTH_PROPERTY, listWidth);
+    }
 
     public void setModel(ListModel model) {
         if (model == null) {
@@ -348,6 +358,14 @@ public class ComboBox
      */
     public void setTypeAhead(boolean typeAhead) {
         set(TYPE_AHEAD_PROPERTY, typeAhead);
+    }
+    
+    /**
+     * Sets the width of the combo box.
+     * @param width the width.
+     */
+    public void setWidth(int width) {
+    	set(WIDTH_PROPERTY, width);
     }
 
 }

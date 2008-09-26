@@ -58,23 +58,29 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         options["displayField"] = "display";
         options["valueField"] = "value";
 
-    	if (this.component.get("editable") != null) {
+    		if (this.component.get("editable") != null) {
              options["editable"] = this.component.get("editable");
         }
-    	if (this.component.get("forceSelection") != null) {
+    		if (this.component.get("forceSelection") != null) {
              options["forceSelection"] = this.component.get("forceSelection");
         }
-    	if (this.component.get("model") != null) {
+    		if (this.component.get("model") != null) {
     	     var store = this.component.get("model");
     	     var simpleStore = new Ext.data.SimpleStore({
-                 fields: store.fields,
-                 id: store.id,
-                 data: store.data
-             });
-             options["store"] = simpleStore;
+             fields: store.fields,
+             id: store.id,
+             data: store.data
+           });
+           options["store"] = simpleStore;
         }
-    	if (this.component.get("typeAhead") != null) {
+    		if (this.component.get("typeAhead") != null) {
             options["typeAhead"] = this.component.get("typeAhead");
+        }
+        if (this.component.get("width") != null) {
+            options["width"] = this.component.get("width");
+        }
+        if (this.component.get("listWidth") != null) {
+            options["listWidth"] = this.component.get("listWidth");
         }
         options['mode'] = 'local';
         
