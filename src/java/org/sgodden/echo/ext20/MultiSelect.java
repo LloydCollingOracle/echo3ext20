@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.sgodden.echo.ext20;
 
 import java.util.ArrayList;
@@ -34,7 +30,6 @@ public class MultiSelect extends AbstractListComponent {
 	public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
 	public static final String TO_LEGEND_PROPERTY = "toLegend";
 
-	private ListModel model;
 	private ListSelectionModel selectionModel;
 	private int[] selectedIndices;
 	/**
@@ -165,7 +160,7 @@ public class MultiSelect extends AbstractListComponent {
 
 		for (int i = minimumIndex; i <= maximumIndex; ++i) {
 			if (selectionModel.isSelectedIndex(i)) {
-				objs.add(i);
+				objs.add(model.get(i));
 			}
 		}
 		return objs.toArray();
