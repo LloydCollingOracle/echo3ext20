@@ -18,6 +18,9 @@ package org.sgodden.echo.ext20.data;
 
 import java.io.Serializable;
 
+import org.sgodden.echo.ext20.AbstractListComponent;
+
+import nextapp.echo.app.list.ListCellRenderer;
 import nextapp.echo.app.list.ListModel;
 
 /**
@@ -41,14 +44,17 @@ public class ListModelAdapter
 	 * Constructs a new list model adapter.
 	 * @param model the model from which to take the data.
 	 */
-	public ListModelAdapter(ListModel model) {
+	public ListModelAdapter(AbstractListComponent component) {
+		ListModel model = component.getModel();
+		ListCellRenderer cellRenderer = component.getCellRenderer();
+		
         int rows = model.size();
 
 		data = new Object[rows][2];
 
 		for (int i = 0; i < rows; i++) {
 			Object[] row = data[i];
-    		row[0] = model.get(i);
+    		row[0] = cellRenderer.getListCellRendererComponent(component, model.get(i), i);
             row[1] = i;
 		}
 		

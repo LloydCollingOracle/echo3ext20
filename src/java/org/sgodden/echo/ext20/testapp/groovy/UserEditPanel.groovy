@@ -10,7 +10,7 @@ import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.ApplicationInstance
 import nextapp.echo.app.event.ActionEvent
 import nextapp.echo.app.event.ActionListener
-
+import org.sgodden.echo.ext20.testapp.Roleimport org.sgodden.echo.ext20.testapp.RoleListCellRenderer
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.ActionListenable
@@ -31,7 +31,6 @@ import org.sgodden.echo.ext20.TextField
 import org.sgodden.echo.ext20.TimeField
 import org.sgodden.echo.ext20.TriggerField
 import org.sgodden.echo.ext20.Window
-import org.sgodden.ui.models.DefaultBackingObjectListModel
 
 /**
  * A form for editing a user.
@@ -197,7 +196,7 @@ class UserEditPanel extends Panel implements ActionListenable {
         )
         fieldSetForm.add(adminRoleButton, "Administrator")
         
-        roleCombo = makeRoleCombo(makeRoleModel())
+        roleCombo = makeRoleCombo()
         fieldSetForm.add(roleCombo, "Role combo");
 
         dateField = new DateField()
@@ -222,7 +221,7 @@ class UserEditPanel extends Panel implements ActionListenable {
         		"value", 
         		{evt -> println evt.newValue} as PropertyChangeListener) 
         
-        roleMultiSelect = makeRoleMultiSelect(makeRoleModel())
+        roleMultiSelect = makeRoleMultiSelect()
         fieldSetForm.add(roleMultiSelect, "Role multi select");
         
         FormGrid2 = new FormGrid(
@@ -314,15 +313,17 @@ class UserEditPanel extends Panel implements ActionListenable {
      * @param store the store.
      * @return the combo box.
      */
-    private ComboBox makeRoleCombo(ListModel store) {
+    private ComboBox makeRoleCombo() {
+    	Role[] roles = Role.ROLES;
         roleCombo = new ComboBox(
             fieldLabel: "Role",
-            model: store,
+            model: new DefaultListModel(roles),
+            cellRenderer: new RoleListCellRenderer(),
             typeAhead: true,
+            selectedItem: roles[1],
             actionPerformed: {
                 log.info("""Action listener fired 
-                    : selected item is ${roleCombo.selectedItem}
-                    ; selected backing object is ${roleCombo.selectedBackingObject}""")
+                    : selected item is ${roleCombo.selectedItem}""")
             }
         )
         return roleCombo;
@@ -334,10 +335,11 @@ class UserEditPanel extends Panel implements ActionListenable {
      * @param store the store.
      * @return the combo box.
      */
-    private MultiSelect makeRoleMultiSelect(ListModel store) {
+    private MultiSelect makeRoleMultiSelect() {
         roleMultiSelect = new MultiSelect(
             fieldLabel: "Role",
-            model: store,
+            model: new DefaultListModel(Role.ROLES),
+            cellRenderer: new RoleListCellRenderer(),
             complex: false,
         )
         Integer[] arr = new Integer[3];
@@ -350,19 +352,5 @@ class UserEditPanel extends Panel implements ActionListenable {
         roleMultiSelect.selectedIndices = arr;
 
         return roleMultiSelect;
-    }
-
-    /**
-     * Creates a dummy store for role data.
-     * @return the store.
-     */
-    private ListModel makeRoleModel() {
-        DefaultBackingObjectListModel ret = new DefaultBackingObjectListModel();
-        ret.add("Administrator", new Integer(1));
-        ret.add("User", new Integer(2));
-        ret.add("Technical Manager", new Integer(3));
-        ret.add("Supplier", new Integer(4));
-        ret.add("Site", new Integer(5));
-        return ret;
     }
 }

@@ -7,7 +7,6 @@ package org.sgodden.echo.ext20;
 import java.util.ArrayList;
 import java.util.List;
 
-import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.event.ListDataEvent;
@@ -16,8 +15,6 @@ import nextapp.echo.app.list.DefaultListSelectionModel;
 import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
-import org.sgodden.ui.models.BackingObjectDataModel;
-
 /**
  * A multi select control with support for autocomplete. <p/> TODO - selection
  * listener.
@@ -25,7 +22,7 @@ import org.sgodden.ui.models.BackingObjectDataModel;
  * @author bwoods
  */
 @SuppressWarnings( { "serial" })
-public class MultiSelect extends Component {
+public class MultiSelect extends AbstractListComponent {
 
 	public static final String COMPLEX_PROPERTY = "complex";
 	public static final String EDITABLE_PROPERTY = "editable";
@@ -142,47 +139,6 @@ public class MultiSelect extends Component {
 	}
 
 	/**
-	 * Convenience method to return the selected backing object in the case that
-	 * the model implements {@link BackingObjectDataModel}.
-	 * 
-	 * @return
-	 */
-	public Object[] getSelectedBackingObjects() {
-		if (!(model instanceof BackingObjectDataModel)) {
-			throw new IllegalStateException("Backing object does not"
-					+ " implement BackingObjectDataModel");
-		}
-
-		int minimumIndex = selectionModel.getMinSelectedIndex();
-
-		if (minimumIndex == -1) {
-			// Nothing selected: return empty array.
-			return null;
-		}
-
-		int maximumIndex = selectionModel.getMaxSelectedIndex();
-
-		if (minimumIndex == maximumIndex
-				|| selectionModel.getSelectionMode() == ListSelectionModel.SINGLE_SELECTION) {
-			// Single selection mode or only one index selected: return it
-			// directly.
-			return new Object[] { ((BackingObjectDataModel) model)
-					.getBackingObjectForRow(selectionModel
-							.getMinSelectedIndex()) };
-		}
-
-		List<Object> objs = new ArrayList<Object>();
-
-		for (int i = minimumIndex; i <= maximumIndex; ++i) {
-			if (selectionModel.isSelectedIndex(i)) {
-				objs.add(((BackingObjectDataModel) model)
-						.getBackingObjectForRow(i));
-			}
-		}
-		return objs.toArray();
-	}
-
-	/**
 	 * Returns the selected item.
 	 * 
 	 * @return the selected item, or <code>null</code> if no item is selected.
@@ -222,15 +178,6 @@ public class MultiSelect extends Component {
 	 */
 	public String getToLegend() {
 		return (String) get(TO_LEGEND_PROPERTY);
-	}
-
-	/**
-	 * Returns the list model.
-	 * 
-	 * @return the list model.
-	 */
-	public ListModel getModel() {
-		return model;
 	}
 
 	/**
@@ -292,11 +239,12 @@ public class MultiSelect extends Component {
 		set(FROM_LEGEND_PROPERTY, fromLegend);
 	}
 
+	@Override
 	public void setModel(ListModel model) {
+		super.setModel(model);
 		if (model == null) {
 			throw new IllegalArgumentException("Model may not be null");
 		}
-		this.model = model;
 		// just in case they set the same model...
 		model.removeListDataListener(listDataListener);
 		model.addListDataListener(listDataListener);

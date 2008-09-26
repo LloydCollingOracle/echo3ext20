@@ -83,7 +83,7 @@ public class ComboBoxPeer
             return gridPanel.getSelectionModel().getMinSelectedIndex();
         }
         if (ComboBox.MODEL_CHANGED_PROPERTY.equals(propertyName)) {
-            return new ListModelAdapter(gridPanel.getModel());
+            return new ListModelAdapter(gridPanel);
         }
         return super.getOutputProperty(context, component, propertyName, propertyIndex);
     }

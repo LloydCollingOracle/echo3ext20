@@ -87,7 +87,7 @@ public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
 			return ListSelectionUtil.toString(multiSelect.getSelectionModel(), multiSelect.getModel().size());
 		}
 		if (MultiSelect.MODEL_CHANGED_PROPERTY.equals(propertyName)) {
-			return new ListModelAdapter(multiSelect.getModel());
+			return new ListModelAdapter(multiSelect);
 		}
 		return super.getOutputProperty(context, component, propertyName,
 				propertyIndex);
