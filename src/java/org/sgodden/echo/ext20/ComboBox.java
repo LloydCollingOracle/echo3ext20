@@ -30,6 +30,7 @@ public class ComboBox
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String FORCE_SELECTION_PROPERTY = "forceSelection";
     public static final String INPUT_ACTION = "action";
+    public static final String LIST_WIDTH_PROPERTY = "listWidth";
     public static final String MODEL_CHANGED_PROPERTY="model";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
