@@ -175,6 +175,13 @@ public class ApplicationContentPane
                 showCentreComponent(makeGroovyComponent("org.sgodden.echo.ext20.testapp.regression.UpdatedNonRenderedGridTest"));
             }});
         
+        final nextapp.echo.app.Button button4 = makeEchoButton("Combo box model update");
+        col2.add(button4);
+        button4.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+                showCentreComponent(makeGroovyComponent("org.sgodden.echo.ext20.testapp.regression.ComboBoxModelUpdatePanel"));
+			}});
+        
 
         return ret;
     }

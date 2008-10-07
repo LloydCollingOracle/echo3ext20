@@ -43,12 +43,23 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     $load: function() {
         Echo.Render.registerPeer("Ext20ComboBox", this);
     },
+    
+    /**
+     * The ext record object used to add and
+     * remove records from the store.
+     */
+    _record: null,
 
     /**
      * Whether event firing is suspended (to avoid infinite client-server
      * event processing loops).
      */
     _suspendEvents: false,
+    
+    /**
+     * The store used for the ext combo.
+     */
+    _store: null,
     
     /**
      * Called by the base class to create the ext component.
@@ -58,22 +69,35 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         options["displayField"] = "display";
         options["valueField"] = "value";
 
-    		if (this.component.get("editable") != null) {
-             options["editable"] = this.component.get("editable");
+    	if (this.component.get("editable") != null) {
+        	options["editable"] = this.component.get("editable");
         }
-    		if (this.component.get("forceSelection") != null) {
+    	if (this.component.get("forceSelection") != null) {
              options["forceSelection"] = this.component.get("forceSelection");
         }
-    		if (this.component.get("model") != null) {
-    	     var store = this.component.get("model");
-    	     var simpleStore = new Ext.data.SimpleStore({
-             fields: store.fields,
-             id: store.id,
-             data: store.data
-           });
-           options["store"] = simpleStore;
+        
+        /*
+         * Get the model.
+         */
+    	if (this.component.get("model") != null) {
+    	    var model = this.component.get("model");
+    	    // create the constructor of a record object to parse the model data
+    	    this._record = Ext.data.Record.create([
+    	    	{name:'display', mapping:'display'},
+    	    	{name:'value', mapping:'value'}
+    	    ]);
+    	    this._store = new Ext.data.SimpleStore({
+            	fields: ["display","value"],
+            	id: 1
+           	});
+           	this._updateStore(model);
+           	options["store"] = this._store;
         }
-    		if (this.component.get("typeAhead") != null) {
+        else {
+        	throw new Error("A combo box must have an initial model specified");
+        }
+        
+    	if (this.component.get("typeAhead") != null) {
             options["typeAhead"] = this.component.get("typeAhead");
         }
         if (this.component.get("width") != null) {
@@ -131,6 +155,9 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         EchoExt20.TextFieldSync.prototype.renderUpdate.call(this, update);
         this._suspendEvents = true;
         this._setSelection();
+        if (update.getUpdatedProperty("model")) {
+        	this._updateStore(this.component.get("model"))
+        }
         this._suspendEvents = false;
     },
 
@@ -140,6 +167,18 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         }
         else {
             this.extComponent.clearValue();
+        }
+    },
+    
+    _updateStore: function(model) {
+    	this._store.removeAll();
+    	for (var i = 0; i < model.data.length; i++) {
+    		var row = model.data[i];
+        	var newRecord = new this._record({
+        		display: row[0],
+        		value: row[1]
+        	});
+        	this._store.add(newRecord);
         }
     }
 
