@@ -19,7 +19,6 @@ package org.sgodden.echo.ext20.testapp;
 import java.util.ArrayList;
 import java.util.List;
 
-import nextapp.echo.app.HttpImageReference;
 import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.event.ActionEvent;
@@ -31,7 +30,6 @@ import nextapp.echo.app.table.TableModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
-import org.sgodden.ui.models.DefaultSortableTableModel;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
@@ -48,6 +46,7 @@ import org.sgodden.echo.ext20.grid.ColumnModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
 import org.sgodden.echo.ext20.grid.PagingToolbar;
 import org.sgodden.echo.ext20.layout.FitLayout;
+import org.sgodden.ui.models.DefaultSortableTableModel;
 
 /**
  * A panel which displays a list of users.
