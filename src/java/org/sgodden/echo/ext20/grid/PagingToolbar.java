@@ -1,7 +1,12 @@
 package org.sgodden.echo.ext20.grid;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.event.TableModelEvent;
+import nextapp.echo.app.event.TableModelListener;
 import nextapp.echo.app.table.TableModel;
 
 import org.sgodden.echo.ext20.Button;
@@ -50,6 +55,8 @@ public class PagingToolbar extends Toolbar {
 
     private PagingToolbarClient client;
     private TableModel model;
+    
+    public static final String MODEL_CHANGED_PROPERTY="model";
 
     public PagingToolbar() { }
 
@@ -236,8 +243,23 @@ public class PagingToolbar extends Toolbar {
         lastDisplayItemIndex.setText(String.valueOf(last));
     }
 
+    /**
+     * Sets the attributes of the paging toolbar according to the model.
+     * @param model
+     */
     public void setTableModel(TableModel model) {
         this.model = model;
+    
+        /**
+         * Adds this as a listener to the model change event and refreshes
+         * the toolbar attributes accordingly.
+         */
+        model.addTableModelListener(new TableModelListener(){
+			public void tableChanged(TableModelEvent arg0) {
+				refreshPagingToolBar();
+			}
+        });
+    	
         setPageOffset(0);
         maxPageOffset = ( (model.getRowCount() -1) / pageSize)
                         * pageSize;
@@ -261,6 +283,13 @@ public class PagingToolbar extends Toolbar {
     }
 
     /**
+     * Refreshes the paging toolbar.
+     */
+    protected void refreshPagingToolBar() {
+    	this.setTableModel(model);
+	}
+
+	/**
      * Sets the text to be used in place of the english "Displaying items".
      * @param displayingItemsString the text to use.
      */
