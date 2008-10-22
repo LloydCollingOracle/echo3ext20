@@ -40,6 +40,7 @@ public class TextField extends Component {
 	public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
 	public static final String BLANK_TEXT_PROPERTY = "blankText";
 	public static final String CASE_RESTRICTION_PROPERTY = "caseRestriction";
+	public static final String EDITABLE = "editable";
 	public static final String EMPTY_TEXT_PROEPRTY = "emptyText";
 	public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
 	public static final String INPUT_ACTION = "action";
@@ -110,6 +111,15 @@ public class TextField extends Component {
 	public String getCaseRestriction() {
 		return (String) get(CASE_RESTRICTION_PROPERTY);
 	}
+	
+	/**
+	 * Returns editable property 
+	 * 
+	 * @return the editable property
+	 */
+	public boolean getEditable() {
+		return (Boolean) get(EDITABLE);
+	}
 
 	/**
 	 * Returns the field label.
@@ -165,6 +175,17 @@ public class TextField extends Component {
 	 */
 	public void setCaseRestriction(CaseRestriction caseRestriction) {
 		set(CASE_RESTRICTION_PROPERTY, caseRestriction.toString());
+	}
+	
+	/**
+	 * Sets the editable property for the component. To save on 
+	 * bandwidth only pass the property if we are going to disable the field.
+	 * @param editable
+	 */
+	public void setEditable(boolean editable){
+		if (!editable){
+			set(EDITABLE, editable);
+		}
 	}
 	
 	/**

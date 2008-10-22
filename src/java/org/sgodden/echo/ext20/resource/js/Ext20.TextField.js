@@ -92,6 +92,15 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         if (this.component.get("validationDelay")){
             options["validationDelay"] = this.component.get("validationDelay");
         }
+        /**
+         * boolean logic has been reversed due to property in ext being readOnly rather than
+         * the more consistent property of editable.
+         */
+        if (this.component.get("editable") != null){
+        	if(!this.component.get("editable")){	
+        		options['readOnly'] = "true";
+        	}
+        }
         
         options.selectOnFocus = true; 
         

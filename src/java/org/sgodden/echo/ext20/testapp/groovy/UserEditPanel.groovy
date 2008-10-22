@@ -108,7 +108,8 @@ class UserEditPanel extends Panel implements ActionListenable {
         
         codeField = new TextField()
         nameField = new TextField(
-            minLength : 5
+            minLength : 5,
+            editable : false
         )
         postcodeField = new TextField(
             regExp: "^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})\$",
