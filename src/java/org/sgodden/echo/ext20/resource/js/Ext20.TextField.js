@@ -86,8 +86,14 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         if (this.component.get("minLength")){
             options["minLength"] = this.component.get("minLength");
         }
+        if (this.component.get("minLengthText")){
+            options["minLengthText"] = this.component.get("minLengthText");
+        }
         if (this.component.get("maxLength")){
             options["maxLength"] = this.component.get("maxLength");
+        }
+        if (this.component.get("maxLengthText")){
+            options["maxLengthText"] = this.component.get("maxLengthText");
         }
         if (this.component.get("validationDelay")){
             options["validationDelay"] = this.component.get("validationDelay");

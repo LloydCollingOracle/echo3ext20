@@ -50,7 +50,9 @@ public class TextField extends Component {
 	public static final String REGEXP_FAILURETEXT_PROPERTY = "regExpFailureText";
 	public static final String REGEXP_PROPERTY = "regExp";
 	public static final String MIN_LENGTH = "minLength";
+	public static final String MIN_LENGTH_TEXT = "minLengthText";
 	public static final String MAX_LENGTH = "maxLength";
+	public static final String MAX_LENGTH_TEXT = "maxLengthText";
 	public static final String NOTIFY_VALUE_IMMEDIATE_PROPERTY = "notifyValueImmediate";
 	public static final String VALIDATION_DELAY = "validationDelay";
 	public static final String VALUE_CHANGED_PROPERTY = "value";
@@ -251,6 +253,15 @@ public class TextField extends Component {
 	}
 	
 	/**
+	 * Sets the error text if the max length of the field is exceeded.
+	 * 
+	 * @param maxLenthText
+	 */
+	public void setMaxLengthText(String maxLengthText){
+		set(MAX_LENGTH_TEXT, maxLengthText);
+	}
+	
+	/**
 	 * Sets the minimum allowed length of the text field.
 	 * 
 	 * @param minLength
@@ -258,6 +269,15 @@ public class TextField extends Component {
 	 */
 	public void setMinLength(int minLength) {
 		set(MIN_LENGTH, minLength);
+	}
+	
+	/**
+	 * Sets the error text if the min length of the field is not satisfied.
+	 * 
+	 * @param minLenthText
+	 */
+	public void setMinLengthText(String minLengthText){
+		set(MIN_LENGTH_TEXT, minLengthText);
 	}
 
 	/**

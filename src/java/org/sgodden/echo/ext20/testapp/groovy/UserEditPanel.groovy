@@ -108,7 +108,6 @@ class UserEditPanel extends Panel implements ActionListenable {
         
         codeField = new TextField()
         nameField = new TextField(
-            minLength : 5,
             editable : false
         )
         postcodeField = new TextField(
@@ -118,7 +117,11 @@ class UserEditPanel extends Panel implements ActionListenable {
             caseRestriction: CaseRestriction.LOWER
         )
         invalidField = new TextField(
-            value: "Is this field invalid for business reasons?"
+            value: "Is this field invalid for business reasons?",
+            minLength : 5,
+            minLengthText : "Minimum length text test.",
+            maxLength : 10,
+            maxLengthText : "Maximum length text test",
         )
         passwordField = new PasswordField()
         Calendar cal = Calendar.getInstance(
