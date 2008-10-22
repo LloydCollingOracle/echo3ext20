@@ -133,18 +133,33 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             this._handleExpandEvent,
             this
         );
-
+        ret.on(
+        	"collapse",
+        	this._handleCollapseEvent,
+        	this
+        );
         return ret;
     },
+    
+    /**
+     * Handles the collapse event which fires a select event
+     * if the selected value is not null.
+     */
+    _handleCollapseEvent: function() {
+    	if(this.extComponent.value == null){
+    		this._handleSelectEvent();
+    	}
+    },
 
-/**
+    /**
      * Handles the expand event by requesting the component to fire
      * its action event.
      */
-    _handleExpandEvent: function() {
+   _handleExpandEvent: function() {
     	this.extComponent.setValue(null);
-        this._handleSelectEvent();
     },
+    
+    
 
     /**
      * Handles the select event by requestint the component to fire
