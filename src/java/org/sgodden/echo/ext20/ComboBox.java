@@ -58,6 +58,7 @@ public class ComboBox
      * Local handler for list selection events.
      */
     private ChangeListener listSelectionListener = new ChangeListener() {
+
         public void stateChanged(ChangeEvent e) {
             if (!suppressChangeNotifications) {
                 firePropertyChange(SELECTION_CHANGED_PROPERTY, null, null);
@@ -168,7 +169,13 @@ public class ComboBox
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
         if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
-            processSelectionInput((Integer) inputValue);
+        	if (inputValue == null){
+        		selectionModel.clearSelection();
+        	}
+        	else{
+        		processSelectionInput((Integer) inputValue);	
+        	}
+            
         }
         else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();

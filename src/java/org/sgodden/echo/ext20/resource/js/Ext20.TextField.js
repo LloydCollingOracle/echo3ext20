@@ -147,7 +147,6 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
      * check for required transformations on blur.
      */
     _handleBlurEvent: function() {
-        
         var newVal = this.extComponent.getValue();
         if (this.component.get("caseRestriction") != null){
             

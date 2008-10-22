@@ -68,6 +68,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         
         options["displayField"] = "display";
         options["valueField"] = "value";
+        options["triggerAction"] = "all";
 
     	if (this.component.get("editable") != null) {
         	options["editable"] = this.component.get("editable");
@@ -79,7 +80,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         /*
          * Get the model.
          */
-    	if (this.component.get("model") != null) {
+    		if (this.component.get("model") != null) {
     	    var model = this.component.get("model");
     	    // create the constructor of a record object to parse the model data
     	    this._record = Ext.data.Record.create([
@@ -97,7 +98,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         	throw new Error("A combo box must have an initial model specified");
         }
         
-    	if (this.component.get("typeAhead") != null) {
+	    	if (this.component.get("typeAhead") != null) {
             options["typeAhead"] = this.component.get("typeAhead");
         }
         if (this.component.get("width") != null) {
@@ -109,7 +110,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         options['mode'] = 'local';
         
         // and then call the superclass method
-    	var ret = EchoExt20.TextFieldSync.prototype.createExtComponent.call(
+    		var ret = EchoExt20.TextFieldSync.prototype.createExtComponent.call(
             this, update, options);
 
         ret.on(
@@ -127,8 +128,22 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             this._handleSelectEvent,
             this
         );
+        ret.on(
+            "expand",
+            this._handleExpandEvent,
+            this
+        );
 
         return ret;
+    },
+
+/**
+     * Handles the expand event by requesting the component to fire
+     * its action event.
+     */
+    _handleExpandEvent: function() {
+    	this.extComponent.setValue(null);
+        this._handleSelectEvent();
     },
 
     /**
