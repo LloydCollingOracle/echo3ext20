@@ -30,6 +30,7 @@ public class ComboBox
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String FORCE_SELECTION_PROPERTY = "forceSelection";
     public static final String INPUT_ACTION = "action";
+    public static final String INVALID_TEXT_PROPERTY = "invalidText";
     public static final String LIST_WIDTH_PROPERTY = "listWidth";
     public static final String MODEL_CHANGED_PROPERTY="model";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
@@ -37,6 +38,7 @@ public class ComboBox
     public static final String STORE_PROPERTY = "store";
     public static final String TYPE_AHEAD_PROPERTY = "typeAhead";
     public static final String WIDTH_PROPERTY = "width";
+    public static final String VALID_PROPERTY = "isValid";
 
     private ListSelectionModel selectionModel;
     
@@ -221,6 +223,16 @@ public class ComboBox
         set(FORCE_SELECTION_PROPERTY, forceSelection);
     }
     
+	/**
+	 * Sets whether the field value is valid.
+	 * 
+	 * @param isValid
+	 *            whether the field value is valid.
+	 */
+	public void setIsValid(boolean isValid) {
+		set(VALID_PROPERTY, isValid);
+	}
+	
     /**
      * Sets the width of the dropped down list.
      * @param listWidth the width.
@@ -241,6 +253,16 @@ public class ComboBox
         firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
         selectionModel.clearSelection();
     }
+    
+	/**
+	 * Sets the invalid text property.
+	 * 
+	 * @param invalidText
+	 *            the invalid text.
+	 */
+	public void setInvalidText(String invalidText) {
+		set(INVALID_TEXT_PROPERTY, invalidText);
+	}
 
     /**
      * Selects the specified index in the selection model.

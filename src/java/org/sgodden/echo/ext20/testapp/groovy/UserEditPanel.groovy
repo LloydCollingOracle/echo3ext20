@@ -321,6 +321,8 @@ class UserEditPanel extends Panel implements ActionListenable {
     	Role[] roles = Role.ROLES;
         roleCombo = new ComboBox(
             fieldLabel: "Role",
+            isValid:false,
+            invalidText:"this combo is invalid",
             model: new DefaultListModel(roles),
             cellRenderer: new RoleListCellRenderer(),
             typeAhead: true,
