@@ -33,7 +33,7 @@
         <mkdir dir="${classes.dir}"/>
         <mkdir dir="${build.dir}"/>
     	<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
-        <javac debug="true"/>
+        	<javac debug="true" target="1.5"/>
     	</groovyc>
     </target>
 	
@@ -41,7 +41,9 @@
 		<taskdef name="groovyc"
 		         classname="org.codehaus.groovy.ant.Groovyc"
 		         classpathref="compile.class.path"/>
-		<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path"/>
+		<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
+        	<javac debug="true" target="1.5"/>
+		</groovyc>
 	</target>
     
     <target name="doc">

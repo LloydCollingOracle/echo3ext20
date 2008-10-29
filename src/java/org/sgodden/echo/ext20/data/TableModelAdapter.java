@@ -18,7 +18,14 @@ package org.sgodden.echo.ext20.data;
 
 import java.io.Serializable;
 
+import nextapp.echo.app.Component;
+import nextapp.echo.app.Label;
 import nextapp.echo.app.table.TableModel;
+import nextapp.echo.app.util.Context;
+import nextapp.echo.webcontainer.ComponentSynchronizePeer;
+import nextapp.echo.webcontainer.SynchronizePeerFactory;
+
+import org.sgodden.echo.ext20.grid.GridPanel;
 
 /**
  * Adapts a swing {@link TableModel} to an ext {@link SimpleStore}.
@@ -38,46 +45,32 @@ public class TableModelAdapter
 	
 	/**
 	 * Constructs a new table model adapter.
-	 * @param tableModel the swing table model from which to take the data.
 	 */
-	public TableModelAdapter(TableModel tableModel) {
-		data = new Object[tableModel.getRowCount()][tableModel.getColumnCount()];
+	public TableModelAdapter(GridPanel gridPanel) {
+		TableModel tableModel = gridPanel.getTableModel();
+		int offset = gridPanel.getPageOffset();
+		int limit = gridPanel.getPageSize();
 		
-		for (int rowIndex = 0; rowIndex < tableModel.getRowCount(); rowIndex++) {
+		int rows = tableModel.getRowCount();
+		if (gridPanel.getPageSize() > 0)
+			rows = offset + limit < tableModel.getRowCount()
+            		? limit : tableModel.getRowCount() - offset;
+		int cols = tableModel.getColumnCount();
+		
+		data = new Object[rows][cols];
+
+		for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
 			Object[] row = data[rowIndex];
 			for (int colIndex = 0; colIndex < tableModel.getColumnCount(); colIndex++) {
-				row[colIndex] = tableModel.getValueAt(colIndex, rowIndex);
+				Component c = gridPanel.getGridCellRenderer().getGridCellRendererComponent(gridPanel, tableModel.getValueAt(colIndex, rowIndex), colIndex, rowIndex);
+				if (c instanceof Label) {
+					row[colIndex] = ((Label)c).getText();
+				} else {
+					throw new RuntimeException("Unknown component type for rendering into a grid: " + c.getClass().getName());
+				}
 			}
 		}
-		
 		makeFields(tableModel);
-	}
-
-	/**
-	 * Constructs a new table model adapter, to return the indicated subset
-     * (page) of the passed table model.
-	 * @param tableModel the swing table model from which to take the data.
-     * @param offset the offset to the first row to read from the table model.
-     * @param limit the number of rows to read from the table model.
-	 */
-	public TableModelAdapter(
-            TableModel tableModel,
-            int offset,
-            int limit) {
-
-        int rows = offset + limit < tableModel.getRowCount()
-                ? limit : tableModel.getRowCount() - offset;
-
-		data = new Object[rows][tableModel.getColumnCount()];
-
-		for (int i = 0; i < rows; i++) {
-			Object[] row = data[i];
-			for (int j = 0; j < tableModel.getColumnCount(); j++) {
-				row[j] = tableModel.getValueAt(j, offset + i);
-			}
-		}
-
-        makeFields(tableModel);
 	}
 
 	/**

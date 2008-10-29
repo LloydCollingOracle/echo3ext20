@@ -99,15 +99,7 @@ public class GridPanelPeer
             return ListSelectionUtil.toString(gridPanel.getSelectionModel(), gridPanel.getTableModel().getRowCount());
         }
         if (PROPERTY_MODEL.equals(propertyName)) {
-            if (gridPanel.getPageSize() > 0) {
-            	return new TableModelAdapter(
-                        gridPanel.getTableModel(),
-                        gridPanel.getPageOffset(),
-                        gridPanel.getPageSize());
-            }
-            else {
-            	return new TableModelAdapter(gridPanel.getTableModel());
-            }
+            return new TableModelAdapter(gridPanel);
         }
         return super.getOutputProperty(context, component, propertyName, propertyIndex);
     }

@@ -90,6 +90,7 @@ public class GridPanel
     private boolean suppressChangeNotifications;
     private boolean notifySelect = false;
     private int[] selectedIndices;
+    private GridCellRenderer gridCellRenderer = new DefaultGridCellRenderer();
 
     /**
      * Local handler for list selection events.
@@ -545,5 +546,13 @@ public class GridPanel
     public void tableChanged(TableModelEvent e) {
         firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge but we're not interested in the old and new values anyway
     }
+
+	public GridCellRenderer getGridCellRenderer() {
+		return gridCellRenderer;
+	}
+
+	public void setGridCellRenderer(GridCellRenderer gridCellRenderer) {
+		this.gridCellRenderer = gridCellRenderer;
+	}
 
 }
