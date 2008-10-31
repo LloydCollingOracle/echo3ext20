@@ -101,7 +101,9 @@
             basedir="src/webapp"
             webxml="src/webapp/WEB-INF/web.xml">
             <lib file="build/*jar"/>
-            <lib dir="lib"/>
+            <lib dir="lib">
+                <exclude name="servlet-api.jar"/>
+            </lib>
             <zipfileset 
                 prefix="resources/ext" 
                 dir="contrib/ext-${ext.version}/resources"
