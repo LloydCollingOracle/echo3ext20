@@ -12,7 +12,6 @@ public class LastPageButton extends Button {
     
     public LastPageButton() {
         super();
-        setStyleName("LastPageButton");
     }
 
 }

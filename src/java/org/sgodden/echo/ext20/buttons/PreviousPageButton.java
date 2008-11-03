@@ -12,7 +12,6 @@ public class PreviousPageButton extends Button {
     
     public PreviousPageButton() {
         super();
-        setStyleName("PreviousPageButton");
     }
 
 }

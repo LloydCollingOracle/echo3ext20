@@ -12,7 +12,6 @@ public class FirstPageButton extends Button {
     
     public FirstPageButton() {
         super();
-        setStyleName("FirstPageButton");
     }
 
 }
