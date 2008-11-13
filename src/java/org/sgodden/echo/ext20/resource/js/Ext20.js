@@ -88,7 +88,8 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
      * Removes the component from the ext container.
      */
     onRenderDispose: function(update) {
-        this.ownerCt.remove(this);
+    	if (typeof this.ownerCt != 'undefined')
+    		this.ownerCt.remove(this);
     },
     
     /**

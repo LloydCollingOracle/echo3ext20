@@ -1,7 +1,61 @@
-Index: src/server-java/app/META-INF/nextapp/echo/XmlPeers.properties
-===================================================================
---- src/server-java/app/META-INF/nextapp/echo/XmlPeers.properties	(revision 1277)
-+++ src/server-java/app/META-INF/nextapp/echo/XmlPeers.properties	(working copy)
+diff -urb src/client/echo/Render.js /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/client/echo/Render.js
+--- src/client/echo/Render.js	2008-10-09 12:36:00.000000000 +0100
++++ /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/client/echo/Render.js	2008-11-06 15:42:57.000000000 +0000
+@@ -36,6 +36,23 @@
+      */
+     _disposedComponents: null,
+     
++        
++    /**
++     * Listeners to be notified of rendering phase events.
++     * @type Core.ListenerList
++     */
++    _listenerList: new Core.ListenerList(),
++
++    /**
++     * Adds a listener to be notified when the renderDisplay
++     * phase of an update has been completed.
++     * 
++     * @param {Function} l the listener to add
++     */
++    addRenderDisplayCompleteListener: function(l) {
++        Echo.Render._listenerList.addListener("renderDisplayComplete", l);
++    },
++    
+     //FIXME.  Scrollbar position tracking code in SplitPane appears to suggest that
+     // disposed states are not in good shape....SplitPane is being disposed when
+     // parent contentPane is redrawn.
+@@ -272,6 +289,11 @@
+             }
+         }
+     
++	// call any listeners that want to know when when the render display phase is finished
++        if (Echo.Render._listenerList.hasListeners("renderDisplayComplete")) {
++            Echo.Render._listenerList.fireEvent({type: "renderDisplayComplete"});
++        }
++    
+         // Profiling: Mark completion of display phase.
+         if (Echo.Client.profilingTimer) {
+             Echo.Client.profilingTimer.mark("disp");
+@@ -309,6 +331,15 @@
+     },
+     
+     /**
++     * Removes a renderDisplayCompleteListener.
++     * 
++     * @param {Function} l the listener to remove
++     */
++    removeRenderDisplayCompleteListener: function(l) {
++        this._listenerList.removeListener("renderDisplayComplete", l);
++    },
++    
++    /**
+      * Renders a new component inside of a DOM element.
+      * This method should be called by container components in order to render their children.
+      * 
+diff -urb src/server-java/app/META-INF/nextapp/echo/XmlPeers.properties /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/app/META-INF/nextapp/echo/XmlPeers.properties
+--- src/server-java/app/META-INF/nextapp/echo/XmlPeers.properties	2008-10-09 12:36:00.000000000 +0100
++++ /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/app/META-INF/nextapp/echo/XmlPeers.properties	2008-11-06 15:42:57.000000000 +0000
 @@ -16,6 +16,7 @@
  nextapp.echo.app.Insets                      nextapp.echo.app.serial.property.InsetsPeer
  nextapp.echo.app.LayoutData                  nextapp.echo.app.serial.property.LayoutDataPeer
@@ -10,25 +64,35 @@ Index: src/server-java/app/META-INF/nextapp/echo/XmlPeers.properties
  
  nextapp.echo.app.layout.CellLayoutData       nextapp.echo.app.serial.property.CellLayoutDataPeer
  nextapp.echo.app.layout.ColumnLayoutData     nextapp.echo.app.serial.property.ColumnLayoutDataPeer
-Index: src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js
-===================================================================
---- src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	(revision 1277)
-+++ src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	(working copy)
-@@ -46,6 +46,13 @@
-     },
-     
-     /**
-+     * Listeners to be notified of remote client events.
-+     * @private
-+     * @type Core.ListenerList
-+     */
-+    _listenerList: null,
-+    
-+    /**
-      * The base server url.
-      * @type String
-      * @private
-@@ -144,6 +151,7 @@
+diff -urb src/server-java/app/nextapp/echo/app/serial/StyleSheetLoader.java /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/app/nextapp/echo/app/serial/StyleSheetLoader.java
+--- src/server-java/app/nextapp/echo/app/serial/StyleSheetLoader.java	2008-10-09 12:36:00.000000000 +0100
++++ /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/app/nextapp/echo/app/serial/StyleSheetLoader.java	2008-11-06 15:43:48.000000000 +0000
+@@ -122,6 +122,9 @@
+         // First pass, load style information.
+         for (int i = 0; i < styleElements.length; ++i) {
+             String name = styleElements[i].getAttribute("n");
++            if ("".equals(name))
++            	name = null;
++            
+             if (!styleElements[i].hasAttribute("t")) {
+                 throw new SerialException("Component type not specified in style: " + name, null);
+             }
+diff -urb src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java	2008-10-09 12:36:00.000000000 +0100
++++ /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java	2008-11-06 15:43:48.000000000 +0000
+@@ -668,7 +668,7 @@
+         StyleSheet styleSheet = c.getApplicationInstance().getStyleSheet();
+         String styleName = c.getStyleName();
+         
+-        if (!required && (styleSheet == null || styleName == null)) {
++        if (!required && (styleSheet == null)) {
+             return;
+         }
+         
+diff -urb src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	2008-10-09 12:35:59.000000000 +0100
++++ /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	2008-11-06 15:42:57.000000000 +0000
+@@ -132,6 +132,7 @@
          Echo.Client.call(this);
          
          this._serverUrl = serverUrl;
@@ -36,7 +100,7 @@ Index: src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteCli
          this._processClientUpdateRef = Core.method(this, this._processClientUpdate);
          this._processClientEventRef = Core.method(this, this._processClientEvent);
          this._urlMappings = {};
-@@ -170,6 +178,17 @@
+@@ -158,6 +159,17 @@
      },
      
      /**
@@ -54,7 +118,7 @@ Index: src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteCli
       * Decompresses a shorthand URL into a valid full-length URL.
       * A shorthand URL is expressed as "!A!xxxx" where
       * "A" is a key whose value contains the first portion of the URL
-@@ -384,6 +403,10 @@
+@@ -369,6 +381,10 @@
              this._waitIndicatorActive = false;
              this._waitIndicator.deactivate();
          }
@@ -65,12 +129,9 @@ Index: src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteCli
      },
      
      /**
-@@ -439,8 +462,17 @@
-     removeComponentListener: function(component, eventType) {
-         component.removeListener(eventType, this._processClientEventRef);
+@@ -426,6 +442,15 @@
      },
--    
-+        
+     
      /**
 +     * Removes a ServerUpdateCompleteListener.
 +     * 
@@ -84,56 +145,13 @@ Index: src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteCli
       * Sets the wait indicator that will be displayed when a client-server action takes longer than
       * a specified period of time.
       * 
-Index: src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java
-===================================================================
---- src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	(revision 1277)
-+++ src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	(working copy)
-@@ -41,9 +41,11 @@
- 
- import java.io.IOException;
- import java.util.ArrayList;
-+import java.util.HashSet;
- import java.util.Iterator;
- import java.util.List;
- 
-+import java.util.Set;
- import javax.servlet.ServletException;
- import javax.servlet.http.HttpServlet;
- import javax.servlet.http.HttpServletRequest;
-@@ -388,5 +390,22 @@
-             activeConnection.set(null);
-         }
-     }
-+   
-+    private Set cssFileNames = new HashSet();
-     
--}
-+    /**
-+     * Adds a css file name to be added to the window html.
-+     */
-+    public void addCssFileName(String cssFileName) {
-+        cssFileNames.add(cssFileName);
-+    }
-+    
-+    /**
-+     * Returns an iterator over the CSS file names.
-+     * @return the iterator.
-+     */
-+    public Iterator getCssFileNames() {
-+        return cssFileNames.iterator();
-+    }
-+    
-+}
-\ No newline at end of file
-Index: src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java
-===================================================================
---- src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	(revision 1277)
-+++ src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	(working copy)
-@@ -104,6 +104,21 @@
-         styleElement.setAttribute("type", "text/css");
+diff -urb src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	2008-10-09 12:36:00.000000000 +0100
++++ /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	2008-11-06 15:42:57.000000000 +0000
+@@ -105,6 +105,21 @@
          styleElement.appendChild(document.createTextNode(" "));
          headElement.appendChild(styleElement);
-+        
+ 
 +        WebContainerServlet servlet = conn.getServlet();
 +        
 +        Iterator cssIt = servlet.getCssFileNames();
@@ -148,16 +166,16 @@ Index: src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtml
 +                headElement.appendChild(additionalStyleElement);
 +            }
 +        }
- 
++
          Element scriptElement = document.createElement("script");
          Text textNode = document.createTextNode(" ");
-@@ -111,8 +126,8 @@
-         scriptElement.setAttribute("type", "text/javascript");
+         scriptElement.appendChild(textNode);
+@@ -112,7 +127,7 @@
          scriptElement.setAttribute("src", userInstance.getServiceUri(BootService.SERVICE));
          headElement.appendChild(scriptElement);
-+
          
 -        WebContainerServlet servlet = conn.getServlet();
++        
          Iterator scriptIt = servlet.getStartupScripts();
          if (scriptIt != null) {
              while (scriptIt.hasNext()) {
@@ -170,10 +188,9 @@ Index: src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtml
                  "font-family:verdana, arial, helvetica, sans-serif;font-size:10pt");
          htmlElement.appendChild(bodyElement);
  
-Index: src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java
-===================================================================
---- src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java	(revision 1277)
-+++ src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java	(working copy)
+diff -urb src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java	2008-10-09 12:36:00.000000000 +0100
++++ /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java	2008-11-06 15:42:57.000000000 +0000
 @@ -101,6 +101,15 @@
       * <code>IdTable</code>.
       */
@@ -190,92 +207,40 @@ Index: src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java
          // Convert any hard references to weak references.
          if (hasHardReferences) {
              synchronized (idToReferenceMap) {
-
-Property changes on: src/client/echo
-___________________________________________________________________
-Name: svn:ignore
-   + .Sync.TextComponent.js.swp
-
-
-Index: src/client/echo/Render.js
-===================================================================
---- src/client/echo/Render.js	(revision 1277)
-+++ src/client/echo/Render.js	(working copy)
-@@ -30,6 +30,23 @@
-      * @type Object
-      */
-     _disposedComponents: null,
-+
-+        
-+    /**
-+     * Listeners to be notified of rendering phase events.
-+     * @type Core.ListenerList
-+     */
-+    _listenerList: new Core.ListenerList(),
-+
-+    /**
-+     * Adds a listener to be notified when the renderDisplay
-+     * phase of an update has been completed.
-+     * 
-+     * @param {Function} l the listener to add
-+     */
-+    addRenderDisplayCompleteListener: function(l) {
-+        Echo.Render._listenerList.addListener("renderDisplayComplete", l);
-+    },
-     
-     //FIXME.  Scrollbar position tracking code in SplitPane appears to suggest that
-     // disposed states are not in good shape....SplitPane is being disposed when
-@@ -262,6 +279,11 @@
-                 Echo.Render._doRenderDisplay(updates[i].parent, true);
-             }
+diff -urb src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	2008-10-09 12:36:00.000000000 +0100
++++ /home/llcolling/workspace/NextApp_Echo3_b2/SourceCode/src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	2008-11-13 15:21:31.000000000 +0000
+@@ -41,9 +41,11 @@
+ 
+ import java.io.IOException;
+ import java.util.ArrayList;
++import java.util.HashSet;
+ import java.util.Iterator;
+ import java.util.List;
+ 
++import java.util.Set;
+ import javax.servlet.ServletException;
+ import javax.servlet.http.HttpServlet;
+ import javax.servlet.http.HttpServletRequest;
+@@ -389,4 +391,21 @@
          }
-+
-+	// call any listeners that want to know when when the render display phase is finished
-+        if (Echo.Render._listenerList.hasListeners("renderDisplayComplete")) {
-+            Echo.Render._listenerList.fireEvent({type: "renderDisplayComplete"});
-+        }
+     }
      
-         // Profiling: Mark completion of display phase.
-         if (Echo.Client.profilingTimer) {
-@@ -298,6 +320,15 @@
-         }
-         this._peers[componentName] = peerObject;
-     },
-+
++    private Set cssFileNames = new HashSet();
++    
 +    /**
-+     * Removes a renderDisplayCompleteListener.
-+     * 
-+     * @param {Function} l the listener to remove
++     * Adds a css file name to be added to the window html.
 +     */
-+    removeRenderDisplayCompleteListener: function(l) {
-+        this._listenerList.removeListener("renderDisplayComplete", l);
-+    },
-     
-     /**
-      * Renders a new component inside of a DOM element.
-Index: src/client/echo/Application.js
-===================================================================
---- src/client/echo/Application.js	(revision 1277)
-+++ src/client/echo/Application.js	(working copy)
-@@ -1047,8 +1047,9 @@
-             if (this._style != null) {
-                 value = this._style[name];
-             }
--            if (value == null && this._styleName && this.application && this.application._styleSheet) {
--                var style = this.application._styleSheet.getRenderStyle(this._styleName, this.componentType);
-+            if (value == null && this.application && this.application._styleSheet) {
-+                var style = this.application._styleSheet.getRenderStyle(
-+                    this._styleName != null ? this._styleName : "", this.componentType);
-                 if (style) {
-                     value = style[name];
-                 }
-@@ -1077,7 +1078,8 @@
-                 value = valueArray ? valueArray[index] : null;
-             }
-             if (value == null && this._styleName && this.application && this.application._styleSheet) {
--                var style = this.application._styleSheet.getRenderStyle(this._styleName, this.componentType);
-+                var style = this.application._styleSheet.getRenderStyle(
-+                    this._styleName != null ? this._styleName : "", this.componentType);
-                 if (style) {
-                     valueArray = style[name];
-                     value = valueArray ? valueArray[index] : null;
++    public void addCssFileName(String cssFileName) {
++        cssFileNames.add(cssFileName);
++    }
++    
++    /**
++     * Returns an iterator over the CSS file names.
++     * @return the iterator.
++     */
++    public Iterator getCssFileNames() {
++        return cssFileNames.iterator();
++    }
++    
+ }

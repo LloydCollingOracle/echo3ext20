@@ -1,0 +1,70 @@
+diff -ur /home/llcolling/workspace/NextApp_Echo3_Extras_orig/SourceCode/src/server-java/app/nextapp/echo/extras/app/Tree.java src/server-java/app/nextapp/echo/extras/app/Tree.java
+--- /home/llcolling/workspace/NextApp_Echo3_Extras_orig/SourceCode/src/server-java/app/nextapp/echo/extras/app/Tree.java	2008-10-09 14:10:10.000000000 +0100
++++ src/server-java/app/nextapp/echo/extras/app/Tree.java	2008-11-13 14:59:00.000000000 +0000
+@@ -35,6 +35,7 @@
+ import java.util.EventListener;
+ import java.util.HashMap;
+ import java.util.HashSet;
++import java.util.LinkedList;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Set;
+@@ -1193,7 +1194,10 @@
+             return (Component) treePathToComponentCache.get(path);
+         } else {
+             List list = (List) treePathToComponentCache.get(path);
+-            return (Component) list.get(column);
++            if (list != null)
++            	return (Component) list.get(column);
++            else
++            	throw new IllegalStateException("Components have not been rendered for path " + path);
+         }
+     }
+     
+@@ -1253,7 +1257,7 @@
+     /**
+      * Marks the tree as needing to be re-rendered.
+      */
+-    private void invalidate() {
++    protected void invalidate() {
+         valid = false;
+     }
+     
+diff -ur /home/llcolling/workspace/NextApp_Echo3_Extras_orig/SourceCode/src/server-java/webcontainer/nextapp/echo/extras/webcontainer/sync/component/TreePeer.java src/server-java/webcontainer/nextapp/echo/extras/webcontainer/sync/component/TreePeer.java
+--- /home/llcolling/workspace/NextApp_Echo3_Extras_orig/SourceCode/src/server-java/webcontainer/nextapp/echo/extras/webcontainer/sync/component/TreePeer.java	2008-10-09 14:10:10.000000000 +0100
++++ src/server-java/webcontainer/nextapp/echo/extras/webcontainer/sync/component/TreePeer.java	2008-11-13 15:10:34.000000000 +0000
+@@ -425,7 +425,9 @@
+         TreePath[] paths = selectionModel.getSelectionPaths();
+         for (int i = 0; i < paths.length; i++) {
+             TreePath path = paths[i];
+-            Component component = tree.getComponent(path, 0);
++            Component component = null;
++            if (pathIsVisible(path, tree))
++                component = tree.getComponent(path, 0);
+             if (component == null) {
+                 if (renderState != null) {
+                     renderState.addUnsentSelection(path);
+@@ -444,6 +446,23 @@
+         return selection.toString();
+     }
+ 
++    /**
++     * This method determines if the given path is currently visible to the user
++     * @param path
++     * @return
++     */
++    private static boolean pathIsVisible(TreePath path, Tree tree) {    	
++        // root node is always visible
++        if (path.getPathCount() == 1)
++            return true;
++        
++        if (tree.isExpanded(path.getParentPath())) {
++            return pathIsVisible(path.getParentPath(), tree);
++        } else {
++            return false;
++        }
++    }
++
+     private static final String PROPERTY_TREE_STRUCTURE = "treeStructure";
+     private static final String PROPERTY_COLUMN_COUNT = "columnCount";
+     private static final String PROPERTY_COLUMN_WIDTH = "columnWidth";

@@ -34,5 +34,6 @@ public class MainTestSuite extends TabbedPane {
         add(new LayoutTest());
         add(new StylesheetTest());
         add(new GroovyTest());
+        add(new TreeTest());
     }
 }

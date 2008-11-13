@@ -1,0 +1,11 @@
+--- ext-2.0.2-src/ext-core-debug.js	2008-11-11 11:38:41.000000000 +0000
++++ /home/sgodden/products/ext-2.0.2/ext-core-debug.js	2008-11-11 11:39:28.000000000 +0000
+@@ -5563,6 +5563,8 @@
+             docEl.dom = document;
+         }
+         return docEl;
++    } else if (el.nodeName && el.nodeName == '#text') {
++    	return el;
+     }
+     return null;
+ };
