@@ -62,7 +62,7 @@ public class TableModelAdapter
 		for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
 			Object[] row = data[rowIndex];
 			for (int colIndex = 0; colIndex < tableModel.getColumnCount(); colIndex++) {
-				Component c = gridPanel.getGridCellRenderer().getGridCellRendererComponent(gridPanel, tableModel.getValueAt(colIndex, rowIndex), colIndex, rowIndex);
+				Component c = gridPanel.getGridCellRenderer().getGridCellRendererComponent(gridPanel, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
 				if (c instanceof Label) {
 					row[colIndex] = ((Label)c).getText();
 				} else {
