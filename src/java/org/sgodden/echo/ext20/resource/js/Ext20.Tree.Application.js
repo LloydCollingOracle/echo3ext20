@@ -133,16 +133,16 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
 
         var buf = [
              '<li class="x-tree-node"><div ext:tree-node-id="',n.id,'" class="x-tree-node-el x-tree-node-leaf ', a.cls,'">',
-                '<div class="x-tree-col" style="width:',c.width-bw,'px;">',
+                '<div class="x-tree-col" style="width:',c.width-bw,'px;" style="vertical-align:middle">',
                     '<span class="x-tree-node-indent">',this.indentMarkup,"</span>",
                     '<img src="', this.emptyIcon, '" class="x-tree-ec-icon x-tree-elbow">',
-                    '<table style="display:inline;" id="tbl',n.id,'"><tr><td id="t',n.id,'">', n.text ? n.text : '',"</td></tr></table>",
+                    '<table style="display:inline',Ext.isIE ? '' : '-table',';vertical-align:middle;cellSpacing:0px;cellPadding:0px" id="tbl',n.id,'" cellspacing="0"><tr><td id="t',n.id,'">', n.text ? n.text : '',"</td></tr></table>",
                 "</div>"];
          for(var i = 1, len = t.getColumns().length; i < len; i++){
              c = t.getColumns()[i];
 
              buf.push('<div class="x-tree-col ',(c.cls?c.cls:''),'" style="width:',c.width-bw,'px;">',
-                        '<div class="x-tree-col-text" id="',n.id,i,'"></div>',
+                        '<div class="x-tree-col-text" ', Ext.isSafari ? 'style="padding: 1px 3px 3px 5px;"' : 'style="padding: 2px 3px 3px 5px;"',' id="',n.id,i,'"></div>',
                       "</div>");
          }
          buf.push(
