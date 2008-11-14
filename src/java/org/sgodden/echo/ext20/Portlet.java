@@ -27,9 +27,9 @@ package org.sgodden.echo.ext20;
 @SuppressWarnings({"serial"})
 public class Portlet 
         extends Panel {
-	
-	public Portlet(){
-		super();
-	}
+    
+    public Portlet(){
+        super();
+    }
 
 }

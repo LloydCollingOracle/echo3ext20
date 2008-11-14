@@ -27,87 +27,87 @@ import java.util.List;
  *
  */
 public class ColumnModel 
-		implements Serializable {
+        implements Serializable {
 
-	private static final long serialVersionUID = 20080310L;
-	
-	private List<ColumnConfiguration> columns;
-	private boolean defaultSortable = true;
-	private Integer defaultWidth;
-	
-	/**
-	 * Constructs a new empty column model.
-	 */
-	public ColumnModel(){}
+    private static final long serialVersionUID = 20080310L;
+    
+    private List<ColumnConfiguration> columns;
+    private boolean defaultSortable = true;
+    private Integer defaultWidth;
+    
+    /**
+     * Constructs a new empty column model.
+     */
+    public ColumnModel(){}
 
-	/**
-	 * Constructs a new column model using the specified
-	 * column configurations.
-	 * @param columns
-	 */
-	public ColumnModel(List<ColumnConfiguration> columns) {
-		super();
-		this.columns = columns;
-	}
-	
-	/**
-	 * Adds a column configuration.
-	 * @param column the column to add.
-	 */
-	public void addColumn(ColumnConfiguration column) {
-	    if (columns == null) {
-	        columns = new ArrayList < ColumnConfiguration >();
-	    }
-	    columns.add(column);
-	}
+    /**
+     * Constructs a new column model using the specified
+     * column configurations.
+     * @param columns
+     */
+    public ColumnModel(List<ColumnConfiguration> columns) {
+        super();
+        this.columns = columns;
+    }
+    
+    /**
+     * Adds a column configuration.
+     * @param column the column to add.
+     */
+    public void addColumn(ColumnConfiguration column) {
+        if (columns == null) {
+            columns = new ArrayList < ColumnConfiguration >();
+        }
+        columns.add(column);
+    }
 
-	/**
-	 * Returns the column configurations.
-	 * @return the column configurations.
-	 */
-	public List<ColumnConfiguration> getColumns() {
-		return columns;
-	}
+    /**
+     * Returns the column configurations.
+     * @return the column configurations.
+     */
+    public List<ColumnConfiguration> getColumns() {
+        return columns;
+    }
 
-	/**
-	 * Sets the column configurations.
-	 * @param columns the column configurations.
-	 */
-	public void setColumns(List<ColumnConfiguration> columns) {
-		this.columns = columns;
-	}
+    /**
+     * Sets the column configurations.
+     * @param columns the column configurations.
+     */
+    public void setColumns(List<ColumnConfiguration> columns) {
+        this.columns = columns;
+    }
 
-	/**
-	 * Returns whether columns are sortable by default.
-	 * @return whether columns are sortable by default.
-	 */
-	public boolean isDefaultSortable() {
-		return defaultSortable;
-	}
+    /**
+     * Returns whether columns are sortable by default.
+     * @return whether columns are sortable by default.
+     */
+    public boolean isDefaultSortable() {
+        return defaultSortable;
+    }
 
-	/**
-	 * Sets whether columns are sortable by default.
-	 * @param defaultSortable whether columns are sortable by default.
-	 */
-	public void setDefaultSortable(boolean defaultSortable) {
-		this.defaultSortable = defaultSortable;
-	}
+    /**
+     * Sets whether columns are sortable by default.
+     * @param defaultSortable whether columns are sortable by default.
+     */
+    public void setDefaultSortable(boolean defaultSortable) {
+        this.defaultSortable = defaultSortable;
+    }
 
-	/**
-	 * Returns the default width of a column.
-	 * @return the default width of a column.
-	 */
-	public Integer getDefaultWidth() {
-		return defaultWidth;
-	}
+    /**
+     * Returns the default width of a column.
+     * @return the default width of a column.
+     */
+    public Integer getDefaultWidth() {
+        return defaultWidth;
+    }
 
-	/**
-	 * Sets the default width of a column.
-	 * @param defaultWidth the default width of a column.
-	 */
-	public void setDefaultWidth(Integer defaultWidth) {
-		this.defaultWidth = defaultWidth;
-	}
+    /**
+     * Sets the default width of a column.
+     * @param defaultWidth the default width of a column.
+     */
+    public void setDefaultWidth(Integer defaultWidth) {
+        this.defaultWidth = defaultWidth;
+    }
     
     /**
      * Returns the index of the column having the specified data
@@ -131,5 +131,5 @@ public class ColumnModel
         
         return ret;
     }
-	
+    
 }

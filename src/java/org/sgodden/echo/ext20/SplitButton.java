@@ -32,7 +32,7 @@ import nextapp.echo.app.ImageReference;
 public class SplitButton 
         extends Button {
 
-	public SplitButton() {
+    public SplitButton() {
         super();
     }
 
@@ -43,5 +43,5 @@ public class SplitButton
     public SplitButton(String text) {
         super(text);
     }
-	
+    
 }

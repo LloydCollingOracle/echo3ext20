@@ -100,7 +100,7 @@ public class CheckboxField
 
     @Override
     public void processInput(String inputName, Object inputValue) {
-    	super.processInput(inputName, inputValue);
+        super.processInput(inputName, inputValue);
         if (SELECTED_CHANGED_PROPERTY.equals(inputName)) {
             setSelected((Boolean) inputValue);
         }

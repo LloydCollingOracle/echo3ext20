@@ -30,17 +30,17 @@ import nextapp.echo.app.event.ActionListener;
 public class TriggerField 
         extends TextField {
 
-    public static final String ACTION_COMMAND_PROPERTY = "actionCommand";	
+    public static final String ACTION_COMMAND_PROPERTY = "actionCommand";    
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String INPUT_ACTION = "action";
     
     private String actionCommand;
 
-	/**
-	 * Creates a new Trigger Field.
-	 * @param text the text contents.
-	 * @param fieldLabel the field label to be used in a form.
-	 */
+    /**
+     * Creates a new Trigger Field.
+     * @param text the text contents.
+     * @param fieldLabel the field label to be used in a form.
+     */
     public TriggerField(String text, String fieldLabel) {
         super(text, fieldLabel);
     }
@@ -92,7 +92,7 @@ public class TriggerField
      * Fires an action event to all listeners.
      */
     private void fireActionEvent() {
-    	
+        
         if (!hasEventListenerList()) {
             return;
         }

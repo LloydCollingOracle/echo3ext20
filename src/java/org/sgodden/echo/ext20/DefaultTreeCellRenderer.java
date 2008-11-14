@@ -30,11 +30,11 @@ public class DefaultTreeCellRenderer implements TreeCellRenderer {
             if (leaf) {
                 icon = leafIcon;
             } else {
-            	if (tree.isExpanded(treePath)) {
-            		icon = folderOpenIcon;
-            	} else {
-            		icon = folderIcon;
-            	}
+                if (tree.isExpanded(treePath)) {
+                    icon = folderOpenIcon;
+                } else {
+                    icon = folderIcon;
+                }
             }
         }
         return value == null ? new Label(icon) : new Label(value.toString(), icon);

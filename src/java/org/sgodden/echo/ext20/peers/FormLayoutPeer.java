@@ -25,17 +25,17 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings({"unchecked"})
 public class FormLayoutPeer 
-		implements SerialPropertyPeer {
+        implements SerialPropertyPeer {
 
-	public Object toProperty(Context arg0, Class arg1, Element arg2) throws SerialException {
-		throw new UnsupportedOperationException();
-	}
+    public Object toProperty(Context arg0, Class arg1, Element arg2) throws SerialException {
+        throw new UnsupportedOperationException();
+    }
 
-	public void toXml(Context context, Class objectClass, Element propertyElement, Object propertyValue) throws SerialException {
+    public void toXml(Context context, Class objectClass, Element propertyElement, Object propertyValue) throws SerialException {
         SerialContext serialContext = (SerialContext) context.get(SerialContext.class);
         propertyElement.setAttribute("t", 
                 (serialContext.getFlags() & SerialContext.FLAG_RENDER_SHORT_NAMES) == 0 ? "Ext20FormLayout" : "E2FML");
 
-	}
+    }
 
 }

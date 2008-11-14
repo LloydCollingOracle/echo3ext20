@@ -38,18 +38,18 @@ extends ExtComponentPeer {
     }
     
     public HtmlEditorPeer() {
-    	super();
-    	addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);
+        super();
+        addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);
     }
 
-	public Class getComponentClass() {
-		return HtmlEditor.class;
-	}
+    public Class getComponentClass() {
+        return HtmlEditor.class;
+    }
 
-	public String getClientComponentType(boolean shortType) {
-		return shortType ? "E2HE" : "Ext20HtmlEditor";
-	}
-	
+    public String getClientComponentType(boolean shortType) {
+        return shortType ? "E2HE" : "Ext20HtmlEditor";
+    }
+    
     /**
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
      */
@@ -70,7 +70,7 @@ extends ExtComponentPeer {
         }
     }
 
-	
+    
     /**
      * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#init(Context)
      */

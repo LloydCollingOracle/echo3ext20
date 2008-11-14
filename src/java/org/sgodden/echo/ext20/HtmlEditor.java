@@ -31,25 +31,25 @@ import nextapp.echo.app.Component;
  */
 @SuppressWarnings({"serial"})
 public class HtmlEditor 
-		extends Component {
-	
+        extends Component {
+    
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
-	public static final String TEXT_CHANGED_PROPERTY = "text";
-	
-	/**
-	 * Creates a new empty html editor.
-	 */
-	public HtmlEditor() {
-		super();
-	}
-	
-	/**
-	 * Creates a new html editor with the passed HTML.
-	 * @param text the html content for the editor.
-	 */
-	public HtmlEditor(String text) {
-		setText(text);
-	}
+    public static final String TEXT_CHANGED_PROPERTY = "text";
+    
+    /**
+     * Creates a new empty html editor.
+     */
+    public HtmlEditor() {
+        super();
+    }
+    
+    /**
+     * Creates a new html editor with the passed HTML.
+     * @param text the html content for the editor.
+     */
+    public HtmlEditor(String text) {
+        setText(text);
+    }
     
     /**
      * Returns the field label.
@@ -66,28 +66,28 @@ public class HtmlEditor
     public void setFieldLabel(String fieldLabel) {
         set(FIELD_LABEL_PROPERTY, fieldLabel);
     }
-	
-	/**
-	 * Sets the HTML content.
-	 * @param text the html content.
-	 */
-	public void setText(String text) {
-		set(TEXT_CHANGED_PROPERTY, text);
-	}
-	
-	/**
-	 * Returns the HTML content.
-	 * @return the HTML content.
-	 */
-	public String getText() {
-		return (String) get(TEXT_CHANGED_PROPERTY);
-	}
+    
+    /**
+     * Sets the HTML content.
+     * @param text the html content.
+     */
+    public void setText(String text) {
+        set(TEXT_CHANGED_PROPERTY, text);
+    }
+    
+    /**
+     * Returns the HTML content.
+     * @return the HTML content.
+     */
+    public String getText() {
+        return (String) get(TEXT_CHANGED_PROPERTY);
+    }
 
-	@Override
-    public void processInput(String inputName, Object inputValue) {    	
-    	if (TEXT_CHANGED_PROPERTY.equals(inputName)) {
-    		setText((String)inputValue);
-    	}
+    @Override
+    public void processInput(String inputName, Object inputValue) {        
+        if (TEXT_CHANGED_PROPERTY.equals(inputName)) {
+            setText((String)inputValue);
+        }
     }
 
 }

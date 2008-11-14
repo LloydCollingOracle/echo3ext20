@@ -76,9 +76,9 @@ public class WindowTest
     }
 
     private static class TestWindow extends Window {
-    	
-    	private int clickCount = 0;
-    	
+        
+        private int clickCount = 0;
+        
         private TestWindow(){
             super(new FitLayout(), "Grid and form");
             setWidth(400);
@@ -90,17 +90,17 @@ public class WindowTest
             Button closeButton = new Button("Close me");
             addButton(closeButton);
             closeButton.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent arg0) {
-					close();
-				}
-			});
+                public void actionPerformed(ActionEvent arg0) {
+                    close();
+                }
+            });
             
             Button changeTitleButton = new Button("Change window title");
             addButton(changeTitleButton);
             changeTitleButton.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent arg0) {
-					setTitle("Grid and form: " + ++clickCount);
-				}});
+                public void actionPerformed(ActionEvent arg0) {
+                    setTitle("Grid and form: " + ++clickCount);
+                }});
         }
     }
 

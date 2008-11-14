@@ -13,43 +13,43 @@ import nextapp.echo.app.list.ListModel;
 @SuppressWarnings("serial")
 public abstract class AbstractListComponent extends Component {
 
-	public static final String LIST_CELL_RENDERER_CHANGED_PROPERTY = "listCellRenderer";
+    public static final String LIST_CELL_RENDERER_CHANGED_PROPERTY = "listCellRenderer";
 
     private static final ListCellRenderer DEFAULT_LIST_CELL_RENDERER = new DefaultListCellRenderer();
 
-	/**
-	 * The list model.
-	 */
-	protected ListModel model;
-	
-	/**
-	 * The list cell renderer.
-	 */
-	private ListCellRenderer listCellRenderer = DEFAULT_LIST_CELL_RENDERER;
+    /**
+     * The list model.
+     */
+    protected ListModel model;
+    
+    /**
+     * The list cell renderer.
+     */
+    private ListCellRenderer listCellRenderer = DEFAULT_LIST_CELL_RENDERER;
 
-	/**
-	 * Returns the model.
-	 * @return the model.
-	 */
-	public ListModel getModel() {
-		return model;
-	}
+    /**
+     * Returns the model.
+     * @return the model.
+     */
+    public ListModel getModel() {
+        return model;
+    }
 
-	/**
-	 * Sets the model.
-	 * @param model the model.
-	 */
-	public void setModel(ListModel model) {
-		this.model = model;
-	}
+    /**
+     * Sets the model.
+     * @param model the model.
+     */
+    public void setModel(ListModel model) {
+        this.model = model;
+    }
 
-	/**
-	 * Returns the list cell renderer.
-	 * @return the list cell renderer.
-	 */
-	public ListCellRenderer getCellRenderer() {
-		return listCellRenderer;
-	}
+    /**
+     * Returns the list cell renderer.
+     * @return the list cell renderer.
+     */
+    public ListCellRenderer getCellRenderer() {
+        return listCellRenderer;
+    }
     
     /**
      * Sets the renderer for items.

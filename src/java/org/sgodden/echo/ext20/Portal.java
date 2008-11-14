@@ -52,7 +52,7 @@ public class MyPortal extends Portal {
     add(col2);
     col2.setPadding("10px");
     col2.setLayoutData(new ColumnLayoutData(.5));
-		
+        
     Portlet portlet5 = new Portlet();
     col2.add(portlet5);
     portlet5.setTitle("Portlet 5");
@@ -69,9 +69,9 @@ public class MyPortal extends Portal {
 public class Portal 
         extends Panel {
     
-	/**
-	 * Creates a new portal.
-	 */
+    /**
+     * Creates a new portal.
+     */
     public Portal(){
         super(new ColumnLayout());
     }

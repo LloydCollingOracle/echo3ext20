@@ -255,11 +255,11 @@ public class PagingToolbar extends Toolbar {
          * the toolbar attributes accordingly.
          */
         model.addTableModelListener(new TableModelListener(){
-			public void tableChanged(TableModelEvent arg0) {
-				refreshPagingToolBar();
-			}
+            public void tableChanged(TableModelEvent arg0) {
+                refreshPagingToolBar();
+            }
         });
-    	
+        
         setPageOffset(0);
         maxPageOffset = ( (model.getRowCount() -1) / pageSize)
                         * pageSize;
@@ -286,10 +286,10 @@ public class PagingToolbar extends Toolbar {
      * Refreshes the paging toolbar.
      */
     protected void refreshPagingToolBar() {
-    	this.setTableModel(model);
-	}
+        this.setTableModel(model);
+    }
 
-	/**
+    /**
      * Sets the text to be used in place of the english "Displaying items".
      * @param displayingItemsString the text to use.
      */

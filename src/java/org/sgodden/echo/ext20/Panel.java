@@ -314,7 +314,7 @@ public class Panel extends Component {
      * @param layout the layout to use in the panel.
      */
     public void setLayout(Layout layout) {
-    	set(LAYOUT_PROPERTY, layout);
+        set(LAYOUT_PROPERTY, layout);
     }
     
     /**
@@ -323,7 +323,7 @@ public class Panel extends Component {
      * @param transparent whether the panel body's background should be transparent.
      */
     public void setBodyTransparent(boolean transparent) {
-    	set(PROPERTY_BODY_TRANSPARENT, transparent);
+        set(PROPERTY_BODY_TRANSPARENT, transparent);
     }
     
     /**
@@ -335,7 +335,7 @@ public class Panel extends Component {
      */
     @Override
     public void remove(Component comp) {
-    	if ( !(comp instanceof Button)
+        if ( !(comp instanceof Button)
                 || (comp instanceof Button && !((Button)comp).isAddToButtonBar()) ) {
             nonButtonBarChildCount--;
             super.remove(comp);
@@ -376,27 +376,27 @@ public class Panel extends Component {
      * @param listener the listener to respond to the click event.
      */
     public void addToolListener(Tool tool, ActionListener listener) {
-    	if (toolListeners == null) {
-    		toolListeners = new HashMap<Tool, Set<ActionListener>>();
-    	}
-    	
-    	Set<ActionListener> listeners = toolListeners.get(tool);
-    	if (listeners == null) {
-    		listeners = new HashSet<ActionListener>();
-    		toolListeners.put(tool, listeners);
-    	}
-    	
-    	listeners.add(listener);
-    	
-    	StringBuffer sb = new StringBuffer();
-    	for (Tool theTool : toolListeners.keySet()) {
-    		if (sb.length() > 0) {
-    			sb.append(',');
-    		}
-    		sb.append(theTool.toString().toLowerCase());
-    	}
-    	set(TOOL_IDS_PROPERTY, sb.toString());
-    	firePropertyChange(TOOLCLICK_LISTENERS_CHANGED_PROPERTY, null, listener);
+        if (toolListeners == null) {
+            toolListeners = new HashMap<Tool, Set<ActionListener>>();
+        }
+        
+        Set<ActionListener> listeners = toolListeners.get(tool);
+        if (listeners == null) {
+            listeners = new HashSet<ActionListener>();
+            toolListeners.put(tool, listeners);
+        }
+        
+        listeners.add(listener);
+        
+        StringBuffer sb = new StringBuffer();
+        for (Tool theTool : toolListeners.keySet()) {
+            if (sb.length() > 0) {
+                sb.append(',');
+            }
+            sb.append(theTool.toString().toLowerCase());
+        }
+        set(TOOL_IDS_PROPERTY, sb.toString());
+        firePropertyChange(TOOLCLICK_LISTENERS_CHANGED_PROPERTY, null, listener);
     }
     
     /**
@@ -512,7 +512,7 @@ public class Panel extends Component {
      * @return true if there are any listeners registered, false if not.
      */
     public boolean hasToolListeners() {
-    	return (toolListeners != null && toolListeners.size() > 0);
+        return (toolListeners != null && toolListeners.size() > 0);
     }
     
     /**
@@ -530,7 +530,7 @@ public class Panel extends Component {
      * Fires tool click events to registered listeners.
      */
     private void fireToolClickEvent() {
-    	Tool tool = Tool.valueOf(toolIdClicked.toUpperCase());
+        Tool tool = Tool.valueOf(toolIdClicked.toUpperCase());
         if (!(toolListeners.containsKey(tool))) {
             throw new IllegalStateException("Too click event fired when no listener registered: " + toolIdClicked);
         }

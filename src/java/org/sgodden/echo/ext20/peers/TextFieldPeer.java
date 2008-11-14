@@ -45,14 +45,14 @@ public class TextFieldPeer
         addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(TextField.INPUT_ACTION,  TextField.ACTION_LISTENERS_CHANGED_PROPERTY) {
-        	@Override
+            @Override
             public boolean hasListeners(Context context, Component component) {
-            	/**
-            	 * We only need to put a value change listener on the
-            	 * text field if we have set the notify immediately 
-            	 * property on the text field component.
-            	 */
-            	return ((TextField) component).getNotifyImmediately();
+                /**
+                 * We only need to put a value change listener on the
+                 * text field if we have set the notify immediately 
+                 * property on the text field component.
+                 */
+                return ((TextField) component).getNotifyImmediately();
             }
         });
     }

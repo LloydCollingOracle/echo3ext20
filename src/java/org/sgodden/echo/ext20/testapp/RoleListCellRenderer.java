@@ -10,12 +10,12 @@ import nextapp.echo.app.list.ListCellRenderer;
  */
 public class RoleListCellRenderer implements ListCellRenderer {
 
-	/**
-	 * Returns the description of the role as the object to render.
-	 */
-	public Object getListCellRendererComponent(Component list, Object value,
-			int index) {
-		return ((Role)value).getDescription();
-	}
+    /**
+     * Returns the description of the role as the object to render.
+     */
+    public Object getListCellRendererComponent(Component list, Object value,
+            int index) {
+        return ((Role)value).getDescription();
+    }
 
 }

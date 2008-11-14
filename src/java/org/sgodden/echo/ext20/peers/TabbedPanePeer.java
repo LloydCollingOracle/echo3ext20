@@ -41,8 +41,8 @@ extends ExtComponentPeer {
         super();
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(
-        		TabbedPane.ACTIVE_TAB_CHANGE_EVENT, 
-        		TabbedPane.TAB_CHANGE_LISTENERS_CHANGED_PROPERTY) {
+                TabbedPane.ACTIVE_TAB_CHANGE_EVENT, 
+                TabbedPane.TAB_CHANGE_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {
                 return ((TabbedPane) component).hasTabChangeListeners();
@@ -52,13 +52,13 @@ extends ExtComponentPeer {
 
     }
 
-	public Class getComponentClass() {
-		return TabbedPane.class;
-	}
+    public Class getComponentClass() {
+        return TabbedPane.class;
+    }
 
-	public String getClientComponentType(boolean shortType) {
-		return shortType ? "E2TP" : "Ext20TabbedPane";
-	}
+    public String getClientComponentType(boolean shortType) {
+        return shortType ? "E2TP" : "Ext20TabbedPane";
+    }
 
     /**
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
@@ -76,7 +76,7 @@ extends ExtComponentPeer {
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
         if (propertyName.equals(TabbedPane.ACTIVE_TAB_INDEX_PROPERTY)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-            clientUpdateManager.setComponentProperty(component, TabbedPane.ACTIVE_TAB_INDEX_PROPERTY, newValue);	
+            clientUpdateManager.setComponentProperty(component, TabbedPane.ACTIVE_TAB_INDEX_PROPERTY, newValue);    
         }
     }
 

@@ -26,9 +26,9 @@ import nextapp.echo.app.Component;
 public class Toolbar 
         extends Component {
     
-	/**
-	 * The position (top or bottom) of the toolbar.
-	 */
+    /**
+     * The position (top or bottom) of the toolbar.
+     */
     public static final String POSITION_PROPERTY = "position";
 
     /**

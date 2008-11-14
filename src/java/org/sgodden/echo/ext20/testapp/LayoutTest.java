@@ -19,54 +19,54 @@ import org.sgodden.echo.ext20.testapp.layout.TableLayoutTest2;
  */
 @SuppressWarnings({"serial"})
 public class LayoutTest 
-		extends Panel
-		implements DeferredUiCreate {
-	
-	public LayoutTest(){
-		super(new FitLayout(), "Layouts");
-	}
+        extends Panel
+        implements DeferredUiCreate {
+    
+    public LayoutTest(){
+        super(new FitLayout(), "Layouts");
+    }
 
-	public void createUI() {
-		
-		Panel outer = new Panel(new BorderLayout());
-		add(outer);
-		
-		Panel north = new Panel();
-		north.setHtml("The tabs below contain examples of the supported layouts");
-		north.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
-		outer.add(north);
-		
-		TabbedPane tabs = new TabbedPane();
-		tabs.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
-		outer.add(tabs);
-		
-		tabs.add(new AccordionLayoutTest());
-		tabs.add(new ColumnLayoutTest());
-		tabs.add(new TableLayoutTest());
-		tabs.add(new TableLayoutTest2());
-		
-	}
-	
-	private static class AccordionLayoutTest 
-			extends Panel
-			{
-		
-		private AccordionLayoutTest(){
-			super(new AccordionLayout(), "Accordion");
-			createUI();
-		}
+    public void createUI() {
+        
+        Panel outer = new Panel(new BorderLayout());
+        add(outer);
+        
+        Panel north = new Panel();
+        north.setHtml("The tabs below contain examples of the supported layouts");
+        north.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
+        outer.add(north);
+        
+        TabbedPane tabs = new TabbedPane();
+        tabs.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
+        outer.add(tabs);
+        
+        tabs.add(new AccordionLayoutTest());
+        tabs.add(new ColumnLayoutTest());
+        tabs.add(new TableLayoutTest());
+        tabs.add(new TableLayoutTest2());
+        
+    }
+    
+    private static class AccordionLayoutTest 
+            extends Panel
+            {
+        
+        private AccordionLayoutTest(){
+            super(new AccordionLayout(), "Accordion");
+            createUI();
+        }
 
-		public void createUI() {
-			add(createPanel("Panel 1"));
-			add(createPanel("Panel 2"));
-			add(createPanel("Panel 3"));
-		}
-		
-		private Panel createPanel(String text) {
-			Panel ret = new Panel(text);
-			ret.setHtml(text);
-			return ret;
-		}
-	}
+        public void createUI() {
+            add(createPanel("Panel 1"));
+            add(createPanel("Panel 2"));
+            add(createPanel("Panel 3"));
+        }
+        
+        private Panel createPanel(String text) {
+            Panel ret = new Panel(text);
+            ret.setHtml(text);
+            return ret;
+        }
+    }
 
 }

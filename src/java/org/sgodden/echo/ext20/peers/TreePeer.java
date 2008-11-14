@@ -11,9 +11,9 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 import org.sgodden.echo.ext20.Tree;
 
 public class TreePeer extends
-		nextapp.echo.extras.webcontainer.sync.component.TreePeer {
-	
-	private static final Service TREE_SERVICE = JavaScriptService.forResources("Ext20Tree",  
+        nextapp.echo.extras.webcontainer.sync.component.TreePeer {
+    
+    private static final Service TREE_SERVICE = JavaScriptService.forResources("Ext20Tree",  
             new String[]{ "org/sgodden/echo/ext20/resource/js/Ext20.Tree.Application.js",
                     "org/sgodden/echo/ext20/resource/js/Ext20.Tree.Serial.js",
                     "org/sgodden/echo/ext20/resource/js/Ext20.Tree.Sync.js" });
@@ -23,7 +23,7 @@ public class TreePeer extends
     }
     
     public TreePeer() {
-    	super();
+        super();
         addOutputProperty(Tree.HAS_BORDER_PROPERTY);
     }
 
@@ -35,7 +35,7 @@ public class TreePeer extends
     }
     
     public Class getComponentClass() {
-    	return Tree.class;
+        return Tree.class;
     }
     
     /**

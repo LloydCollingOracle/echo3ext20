@@ -171,12 +171,12 @@ public class ComboBox
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
         if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
-        	if (inputValue == null){
-        		selectionModel.clearSelection();
-        	}
-        	else{
-        		processSelectionInput((Integer) inputValue);	
-        	}
+            if (inputValue == null){
+                selectionModel.clearSelection();
+            }
+            else{
+                processSelectionInput((Integer) inputValue);    
+            }
             
         }
         else if (INPUT_ACTION.equals(inputName)) {
@@ -223,27 +223,27 @@ public class ComboBox
         set(FORCE_SELECTION_PROPERTY, forceSelection);
     }
     
-	/**
-	 * Sets whether the field value is valid.
-	 * 
-	 * @param isValid
-	 *            whether the field value is valid.
-	 */
-	public void setIsValid(boolean isValid) {
-		set(VALID_PROPERTY, isValid);
-	}
-	
+    /**
+     * Sets whether the field value is valid.
+     * 
+     * @param isValid
+     *            whether the field value is valid.
+     */
+    public void setIsValid(boolean isValid) {
+        set(VALID_PROPERTY, isValid);
+    }
+    
     /**
      * Sets the width of the dropped down list.
      * @param listWidth the width.
      */
     public void setListWidth(int listWidth) {
-    	set(LIST_WIDTH_PROPERTY, listWidth);
+        set(LIST_WIDTH_PROPERTY, listWidth);
     }
 
     @Override
     public void setModel(ListModel model) {
-    	super.setModel(model);
+        super.setModel(model);
         if (model == null) {
             throw new IllegalArgumentException("Model may not be null");
         }
@@ -254,15 +254,15 @@ public class ComboBox
         selectionModel.clearSelection();
     }
     
-	/**
-	 * Sets the invalid text property.
-	 * 
-	 * @param invalidText
-	 *            the invalid text.
-	 */
-	public void setInvalidText(String invalidText) {
-		set(INVALID_TEXT_PROPERTY, invalidText);
-	}
+    /**
+     * Sets the invalid text property.
+     * 
+     * @param invalidText
+     *            the invalid text.
+     */
+    public void setInvalidText(String invalidText) {
+        set(INVALID_TEXT_PROPERTY, invalidText);
+    }
 
     /**
      * Selects the specified index in the selection model.
@@ -332,7 +332,7 @@ public class ComboBox
      * @param width the width.
      */
     public void setWidth(int width) {
-    	set(WIDTH_PROPERTY, width);
+        set(WIDTH_PROPERTY, width);
     }
 
 }

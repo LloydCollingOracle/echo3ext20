@@ -14,7 +14,7 @@ import org.sgodden.echo.ext20.util.ListSelectionUtil;
 
 @SuppressWarnings({"unchecked"})
 public class GridPanelPeer 
-		extends AbstractComponentSynchronizePeer {
+        extends AbstractComponentSynchronizePeer {
     
     protected static final Service GRID_SERVICE = JavaScriptService.forResource("EchoExt20.GridPanel", 
             "org/sgodden/echo/ext20/resource/js/Ext20.GridPanel.js");
@@ -24,7 +24,7 @@ public class GridPanelPeer
 
     
     public GridPanelPeer() {
-    	super();
+        super();
         addOutputProperty(PROPERTY_SELECTION);
         addOutputProperty(PROPERTY_MODEL);
         addOutputProperty(GridPanel.PAGE_OFFSET_PROPERTY); // FIXME - why do we have to manually add the output property?
@@ -57,24 +57,24 @@ public class GridPanelPeer
      * (non-Javadoc)
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getComponentClass()
      */
-	@Override
-	public Class getComponentClass() {
-		return GridPanel.class;
-	}
+    @Override
+    public Class getComponentClass() {
+        return GridPanel.class;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#getClientComponentType(boolean)
-	 */
-	public String getClientComponentType(boolean shortType) {
+    /*
+     * (non-Javadoc)
+     * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#getClientComponentType(boolean)
+     */
+    public String getClientComponentType(boolean shortType) {
         return shortType ? "E2GP" : "Echo20GridPanel";
-	}
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
-	 */
-	@Override
+    /*
+     * (non-Javadoc)
+     * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
+     */
+    @Override
     public Class getInputPropertyClass(String propertyName) {
         if (PROPERTY_SELECTION.equals(propertyName)) {
             return String.class;
@@ -88,10 +88,10 @@ public class GridPanelPeer
         return super.getInputPropertyClass(propertyName);
     }
 
-	/*
-	 * (non-Javadoc)
-	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getOutputProperty(nextapp.echo.app.util.Context, nextapp.echo.app.Component, java.lang.String, int)
-	 */
+    /*
+     * (non-Javadoc)
+     * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getOutputProperty(nextapp.echo.app.util.Context, nextapp.echo.app.Component, java.lang.String, int)
+     */
     @Override
     public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
         GridPanel gridPanel = (GridPanel)component;

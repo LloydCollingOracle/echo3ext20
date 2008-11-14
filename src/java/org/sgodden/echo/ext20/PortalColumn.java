@@ -25,8 +25,8 @@ import nextapp.echo.app.Component;
 @SuppressWarnings({"serial"})
 public class PortalColumn 
         extends Component {
-	
-	public static final String PROPERTY_PADDING = "padding";
+    
+    public static final String PROPERTY_PADDING = "padding";
     
     @Override
     public final void add(Component c) {
@@ -41,7 +41,7 @@ public class PortalColumn
      * @param padding the CSS padding of the column.
      */
     public void setPadding(String padding) {
-    	set(PROPERTY_PADDING, padding);
+        set(PROPERTY_PADDING, padding);
     }
 
 }

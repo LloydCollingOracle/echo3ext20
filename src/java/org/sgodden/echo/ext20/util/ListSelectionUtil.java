@@ -10,7 +10,7 @@ import nextapp.echo.app.list.ListSelectionModel;
  * NOTE - this code is lifted straight from echo3.  It is package private there.
  */
 public class ListSelectionUtil {
-	
+    
     
     /**
      * Creates a selection string representation of a <code>ListSelectionModel</code>.

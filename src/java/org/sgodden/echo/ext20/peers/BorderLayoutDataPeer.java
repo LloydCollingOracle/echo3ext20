@@ -27,11 +27,11 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings({"unchecked"})
 public class BorderLayoutDataPeer extends LayoutDataPeer {
-	
+    
     public void toXml(Context context, Class objectClass, Element propertyElement, Object propertyValue) 
     throws SerialException {
         SerialContext serialContext = (SerialContext) context.get(SerialContext.class);
-    	BorderLayoutData layoutData = (BorderLayoutData) propertyValue;
+        BorderLayoutData layoutData = (BorderLayoutData) propertyValue;
         propertyElement.setAttribute("t", 
                 (serialContext.getFlags() & SerialContext.FLAG_RENDER_SHORT_NAMES) == 0 ? "LayoutData" : "L");
         SerialUtil.toXml(context, BorderLayoutData.class, propertyElement, "region", layoutData.getRegion());

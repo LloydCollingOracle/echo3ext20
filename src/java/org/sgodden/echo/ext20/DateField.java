@@ -148,22 +148,22 @@ public class DateField
     @Override
     public void processInput(String inputName, Object inputValue) {
         if (DATE_CHANGED_PROPERTY.equals(inputName)) {
-        	if (!(inputValue instanceof Date)
-        			|| inputValue == null) {
-        		// must have been an invalid date on the client side
-        		this.clientInputValid = false;
-        	} else {
-        		this.clientInputValid = true;
-	            // retrieve the current hour and minute values so that we don't trample over them
-	            int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-	            int minutes = calendar.get(Calendar.MINUTE);
-	            
-	            calendar.setTime( (Date) inputValue );
-	            
-	            // re-set the hour and minutes values that were there before
-	            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-	            calendar.set(Calendar.MINUTE, minutes);
-        	}
+            if (!(inputValue instanceof Date)
+                    || inputValue == null) {
+                // must have been an invalid date on the client side
+                this.clientInputValid = false;
+            } else {
+                this.clientInputValid = true;
+                // retrieve the current hour and minute values so that we don't trample over them
+                int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+                int minutes = calendar.get(Calendar.MINUTE);
+                
+                calendar.setTime( (Date) inputValue );
+                
+                // re-set the hour and minutes values that were there before
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minutes);
+            }
         }
     }
     
@@ -172,6 +172,6 @@ public class DateField
      * @return whether the last received client input was valid.
      */
     public boolean isClientInputValid() {
-    	return clientInputValid;
+        return clientInputValid;
     }
 }

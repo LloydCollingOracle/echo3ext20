@@ -148,10 +148,10 @@ public class ApplicationContentPane
         col.add(button);
         
         button.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				showCentreComponent(new MainTestSuite());
-			}
-		});
+            public void actionPerformed(ActionEvent arg0) {
+                showCentreComponent(new MainTestSuite());
+            }
+        });
         
         Panel regressionPanel = new Panel("Regression tests");
         ret.add(regressionPanel);
@@ -178,9 +178,9 @@ public class ApplicationContentPane
         final nextapp.echo.app.Button button4 = makeEchoButton("Combo box model update");
         col2.add(button4);
         button4.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 showCentreComponent(makeGroovyComponent("org.sgodden.echo.ext20.testapp.regression.ComboBoxModelUpdatePanel"));
-			}});
+            }});
         
 
         return ret;
@@ -195,11 +195,11 @@ public class ApplicationContentPane
     }
     
     private nextapp.echo.app.Button makeEchoButton(String text) {
-    	nextapp.echo.app.Button button = new nextapp.echo.app.Button(text);
-    	button.setInsets(new Insets(2));
-    	button.setBackground(Color.LIGHTGRAY);
-    	button.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
-    	return button;
+        nextapp.echo.app.Button button = new nextapp.echo.app.Button(text);
+        button.setInsets(new Insets(2));
+        button.setBackground(Color.LIGHTGRAY);
+        button.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
+        return button;
     }
     
     private Component makeGroovyComponent(String className) {

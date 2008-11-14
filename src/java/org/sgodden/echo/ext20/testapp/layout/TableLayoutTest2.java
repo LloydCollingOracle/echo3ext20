@@ -18,10 +18,10 @@ import org.sgodden.echo.ext20.layout.TableLayout;
 public class TableLayoutTest2 
         extends Panel {
     
-	Panel inner;
-	Button removeButton;
-	Button removeRowButton;
-	
+    Panel inner;
+    Button removeButton;
+    Button removeRowButton;
+    
     public TableLayoutTest2(){
         super("Table 2");
         
@@ -56,55 +56,55 @@ public class TableLayoutTest2
     }
     
     private Button makeAddButton() {
-		Button ret = new Button("Add a label");
-		ret.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				inner.add(new Label("Another label"));
-				removeButton.setEnabled(true);
-			}});
-		return ret;
-	}
+        Button ret = new Button("Add a label");
+        ret.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                inner.add(new Label("Another label"));
+                removeButton.setEnabled(true);
+            }});
+        return ret;
+    }
     
     private Button makeAddRowButton() {
-		Button ret = new Button("Add a row of labels");
-		ret.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				inner.add(new TextField("text field 1"));
-				inner.add(new TextField("text field 2"));
-				inner.add(new TextField("text field 3"));
-				removeRowButton.setEnabled(true);
-			}});
-		return ret;
-	}
+        Button ret = new Button("Add a row of labels");
+        ret.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                inner.add(new TextField("text field 1"));
+                inner.add(new TextField("text field 2"));
+                inner.add(new TextField("text field 3"));
+                removeRowButton.setEnabled(true);
+            }});
+        return ret;
+    }
     
     private Button makeRemoveButton() {
-		final Button ret = new Button("Remove last component");
-		ret.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				if (inner.getComponentCount() > 0) {
-					inner.remove(inner.getComponentCount()-1);
-				}
-				if (inner.getComponentCount() == 1) {
-					ret.setEnabled(false);
-				}
-			}});
-		return ret;
-	}
+        final Button ret = new Button("Remove last component");
+        ret.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                if (inner.getComponentCount() > 0) {
+                    inner.remove(inner.getComponentCount()-1);
+                }
+                if (inner.getComponentCount() == 1) {
+                    ret.setEnabled(false);
+                }
+            }});
+        return ret;
+    }
     
     private Button makeRemoveRowButton() {
-		final Button ret = new Button("Remove last row");
-		ret.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				if (inner.getComponentCount() >= 3) {
-					inner.remove(inner.getComponentCount()-1);
-					inner.remove(inner.getComponentCount()-1);
-					inner.remove(inner.getComponentCount()-1);
-				}
-				if (inner.getComponentCount() <= 3) {
-					ret.setEnabled(false);
-				}
-			}});
-		return ret;
-	}
+        final Button ret = new Button("Remove last row");
+        ret.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                if (inner.getComponentCount() >= 3) {
+                    inner.remove(inner.getComponentCount()-1);
+                    inner.remove(inner.getComponentCount()-1);
+                    inner.remove(inner.getComponentCount()-1);
+                }
+                if (inner.getComponentCount() <= 3) {
+                    ret.setEnabled(false);
+                }
+            }});
+        return ret;
+    }
 
 }

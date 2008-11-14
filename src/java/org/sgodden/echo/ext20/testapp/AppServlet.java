@@ -28,12 +28,12 @@ import org.sgodden.echo.ext20.AbstractExtAppServlet;
  */
 @SuppressWarnings({"serial"})
 public class AppServlet extends AbstractExtAppServlet {
-	
-	public AppServlet(){
-		super();
+    
+    public AppServlet(){
+        super();
         addCssFileName("resources/ext/css/xtheme-slate.css");
-		addCssFileName("resources/local/localstyle.css");
-	}
+        addCssFileName("resources/local/localstyle.css");
+    }
 
     public ApplicationInstance newApplicationInstance() {
         return new AppInstance();

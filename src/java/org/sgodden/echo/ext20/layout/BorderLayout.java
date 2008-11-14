@@ -25,12 +25,12 @@ package org.sgodden.echo.ext20.layout;
  */
 @SuppressWarnings({"serial"})
 public class BorderLayout 
-		implements Layout {
-	
-	public static final int NORTH = 1;
-	public static final int EAST = 2;
-	public static final int SOUTH = 4;
-	public static final int WEST = 8;
-	public static final int CENTER = 16;
+        implements Layout {
+    
+    public static final int NORTH = 1;
+    public static final int EAST = 2;
+    public static final int SOUTH = 4;
+    public static final int WEST = 8;
+    public static final int CENTER = 16;
 
 }

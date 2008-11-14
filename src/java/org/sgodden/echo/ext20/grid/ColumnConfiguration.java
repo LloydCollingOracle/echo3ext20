@@ -28,7 +28,7 @@ public class ColumnConfiguration
         implements Serializable {
 
     private static final long serialVersionUID = 20080310L;
-	
+    
     private String header;
     private Integer width;
     private boolean sortable = true;
@@ -55,7 +55,7 @@ public class ColumnConfiguration
         this.sortable = sortable;
         this.dataIndex = dataIndex;
     }
-	
+    
     /**
      * Constructs a new column configuration.
      * @param header the header text.
@@ -73,7 +73,7 @@ public class ColumnConfiguration
         this.dataIndex = dataIndex;
         this.hidden = hidden;
     }
-	
+    
     /**
      * Constructs a new column configuration.
      * @param header the header text.

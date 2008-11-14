@@ -41,57 +41,57 @@ import nextapp.echo.app.event.ActionListener;
 @SuppressWarnings({"serial"})
 public class TabbedPane extends Panel {
 
-	private static final long serialVersionUID = 20080102L;
-	
-	//private static final transient Log log = LogFactory.getLog(TabbedPane.class);
-	
-	public static final String ACTIVE_TAB_INDEX_PROPERTY = "activeTabIndex";
+    private static final long serialVersionUID = 20080102L;
+    
+    //private static final transient Log log = LogFactory.getLog(TabbedPane.class);
+    
+    public static final String ACTIVE_TAB_INDEX_PROPERTY = "activeTabIndex";
 
-	public static final String ACTIVE_TAB_CHANGE_EVENT = "activeTabChangeEvent";
-	public static final String TAB_CHANGE_LISTENERS_CHANGED_PROPERTY = "tabChangeListeners";
-	
-	private Set<String> initialisedChildIds = new HashSet<String>();
-	
-	/**
-	 * Creates a new tabbed pane.
-	 */
-	public TabbedPane() {
-		super();
-		setActiveTabIndex(0);
-		
-		addTabChangeListener(new TabChangeListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				// get the component at the new index
-				Component c = getComponent(getActiveTabIndex());
-				// if it's a deferred ui component, tell it to create it now
-				if (c instanceof DeferredUiCreate) {
-					// ensure we don't ask children to create their UI more than once.
-					if (!(initialisedChildIds.contains(c.getRenderId()))) {
-						((DeferredUiCreate)c).createUI();
-						initialisedChildIds.add(c.getRenderId());
-					}
-				}
-			}
-		});
-	}
-	
-	/**
-	 * Sets the index of the active tab.
-	 * @param tabIndex the index of the active tab.
-	 */
-	public void setActiveTabIndex(int tabIndex) {
-		set(ACTIVE_TAB_INDEX_PROPERTY, tabIndex);
-		fireTabChangeEvent();
-	}
+    public static final String ACTIVE_TAB_CHANGE_EVENT = "activeTabChangeEvent";
+    public static final String TAB_CHANGE_LISTENERS_CHANGED_PROPERTY = "tabChangeListeners";
+    
+    private Set<String> initialisedChildIds = new HashSet<String>();
+    
+    /**
+     * Creates a new tabbed pane.
+     */
+    public TabbedPane() {
+        super();
+        setActiveTabIndex(0);
+        
+        addTabChangeListener(new TabChangeListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                // get the component at the new index
+                Component c = getComponent(getActiveTabIndex());
+                // if it's a deferred ui component, tell it to create it now
+                if (c instanceof DeferredUiCreate) {
+                    // ensure we don't ask children to create their UI more than once.
+                    if (!(initialisedChildIds.contains(c.getRenderId()))) {
+                        ((DeferredUiCreate)c).createUI();
+                        initialisedChildIds.add(c.getRenderId());
+                    }
+                }
+            }
+        });
+    }
+    
+    /**
+     * Sets the index of the active tab.
+     * @param tabIndex the index of the active tab.
+     */
+    public void setActiveTabIndex(int tabIndex) {
+        set(ACTIVE_TAB_INDEX_PROPERTY, tabIndex);
+        fireTabChangeEvent();
+    }
 
-	/**
-	 * Returns the index of the active tab.
-	 * @return the index of the active tab.
-	 */
-	public int getActiveTabIndex() {
-		return (Integer) get(ACTIVE_TAB_INDEX_PROPERTY);
-	}
-	
+    /**
+     * Returns the index of the active tab.
+     * @return the index of the active tab.
+     */
+    public int getActiveTabIndex() {
+        return (Integer) get(ACTIVE_TAB_INDEX_PROPERTY);
+    }
+    
 
     @Override
     public void processInput(String inputName, Object inputValue) {
@@ -148,8 +148,8 @@ public class TabbedPane extends Panel {
     
     @Override
     public void remove(Component c) {
-    	super.remove(c);
-    	initialisedChildIds.remove(c.getRenderId());
+        super.remove(c);
+        initialisedChildIds.remove(c.getRenderId());
     }
 
 }

@@ -27,11 +27,11 @@ import org.w3c.dom.Element;
 
 @SuppressWarnings({"unchecked"})
 public class ColumnLayoutDataPeer extends LayoutDataPeer {
-	
+    
     public void toXml(Context context, Class objectClass, Element propertyElement, Object propertyValue) 
     throws SerialException {
         SerialContext serialContext = (SerialContext) context.get(SerialContext.class);
-    	ColumnLayoutData layoutData = (ColumnLayoutData) propertyValue;
+        ColumnLayoutData layoutData = (ColumnLayoutData) propertyValue;
         propertyElement.setAttribute("t", 
                 (serialContext.getFlags() & SerialContext.FLAG_RENDER_SHORT_NAMES) == 0 ? "LayoutData" : "L");
         // there are no serialisation peers for floats so do it as a string

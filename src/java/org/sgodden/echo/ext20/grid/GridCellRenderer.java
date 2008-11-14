@@ -9,15 +9,15 @@ import nextapp.echo.app.Component;
  */
 public interface GridCellRenderer {
 
-	/**
-	 * Renders the specified value in the grid as a Component
-	 * @param gridPanel
-	 * @param valueAt
-	 * @param colIndex
-	 * @param rowIndex
-	 * @return
-	 */
-	public Component getGridCellRendererComponent(Component gridPanel, Object valueAt,
-			int colIndex, int rowIndex);
+    /**
+     * Renders the specified value in the grid as a Component
+     * @param gridPanel
+     * @param valueAt
+     * @param colIndex
+     * @param rowIndex
+     * @return
+     */
+    public Component getGridCellRendererComponent(Component gridPanel, Object valueAt,
+            int colIndex, int rowIndex);
 
 }

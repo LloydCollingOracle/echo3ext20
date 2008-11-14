@@ -39,61 +39,61 @@ import org.sgodden.echo.ext20.layout.TableLayout;
 @SuppressWarnings({"serial"})
 public class TabbedPaneTest extends Panel implements DeferredUiCreate {
 
-	private static final transient Log log = LogFactory
-			.getLog(TabbedPaneTest.class);
+    private static final transient Log log = LogFactory
+            .getLog(TabbedPaneTest.class);
 
-	public TabbedPaneTest() {
-		super(new FitLayout(), "Tabbed pane");
-		setRenderId("tabbedPaneTest");
-	}
+    public TabbedPaneTest() {
+        super(new FitLayout(), "Tabbed pane");
+        setRenderId("tabbedPaneTest");
+    }
 
-	public void createUI() {
-		Panel outer = new Panel(new BorderLayout());
-		add(outer);
+    public void createUI() {
+        Panel outer = new Panel(new BorderLayout());
+        add(outer);
 
-		final TabbedPane tabs = new TabbedPane();
-		tabs.setRenderId("tabbedPaneTestTabs");
-		addPanel(tabs);
+        final TabbedPane tabs = new TabbedPane();
+        tabs.setRenderId("tabbedPaneTestTabs");
+        addPanel(tabs);
 
-		Panel northPanel = new Panel(new TableLayout(2));
-		northPanel.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
-		outer.add(northPanel);
+        Panel northPanel = new Panel(new TableLayout(2));
+        northPanel.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
+        outer.add(northPanel);
 
-		Button newTabButton = new Button("Add new tab");
-		northPanel.add(newTabButton);
-		newTabButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				addPanel(tabs);
-			}
-		});
+        Button newTabButton = new Button("Add new tab");
+        northPanel.add(newTabButton);
+        newTabButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                addPanel(tabs);
+            }
+        });
 
-		Button removeLastButton = new Button("Remove last tab");
-		northPanel.add(removeLastButton);
-		removeLastButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (tabs.getComponentCount() > 0) {
-					tabs
-							.remove(tabs
-									.getComponent(tabs.getComponentCount() - 1));
-				}
-			}
-		});
+        Button removeLastButton = new Button("Remove last tab");
+        northPanel.add(removeLastButton);
+        removeLastButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                if (tabs.getComponentCount() > 0) {
+                    tabs
+                            .remove(tabs
+                                    .getComponent(tabs.getComponentCount() - 1));
+                }
+            }
+        });
 
-		tabs.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
-		outer.add(tabs);
-	}
+        tabs.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
+        outer.add(tabs);
+    }
 
-	private void addPanel(TabbedPane tabs) {
-		Panel newPanel = new Panel();
-		int index = tabs.getComponentCount() + 1;
-		newPanel.setTitle("Tab " + index);
-		newPanel.setHtml("Text for tab " + index);
+    private void addPanel(TabbedPane tabs) {
+        Panel newPanel = new Panel();
+        int index = tabs.getComponentCount() + 1;
+        newPanel.setTitle("Tab " + index);
+        newPanel.setHtml("Text for tab " + index);
 
-		tabs.add(newPanel);
+        tabs.add(newPanel);
 
-		log.info(tabs.getComponentCount());
+        log.info(tabs.getComponentCount());
 
-		tabs.setActiveTabIndex(tabs.getComponentCount() - 1);
-	}
+        tabs.setActiveTabIndex(tabs.getComponentCount() - 1);
+    }
 
 }

@@ -24,15 +24,15 @@ package org.sgodden.echo.ext20;
 @SuppressWarnings({"serial"})
 public class TextArea 
         extends TextField {
-	
-	public static final String PROPERTY_HEIGHT = "height";
-	public static final String PROPERTY_WIDTH = "width";
+    
+    public static final String PROPERTY_HEIGHT = "height";
+    public static final String PROPERTY_WIDTH = "width";
 
-	/**
-	 * Creates a new text area.
-	 * @param text the text contents.
-	 * @param fieldLabel the field label to be used in a form.
-	 */
+    /**
+     * Creates a new text area.
+     * @param text the text contents.
+     * @param fieldLabel the field label to be used in a form.
+     */
     public TextArea(String text, String fieldLabel) {
         super(text, fieldLabel);
     }
@@ -58,8 +58,8 @@ public class TextArea
      * @param height
      */
     public void setSize(int width, int height){
-    	set(PROPERTY_WIDTH, width);
-    	set(PROPERTY_HEIGHT, height);
+        set(PROPERTY_WIDTH, width);
+        set(PROPERTY_HEIGHT, height);
     }
 
 }

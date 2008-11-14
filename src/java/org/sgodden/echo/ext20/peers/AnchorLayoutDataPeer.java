@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  */
 @SuppressWarnings({"unchecked"})
 public class AnchorLayoutDataPeer extends LayoutDataPeer {
-	
+    
     /*
      * (non-Javadoc)
      * @see nextapp.echo.app.serial.property.LayoutDataPeer#toXml(nextapp.echo.app.util.Context, java.lang.Class, org.w3c.dom.Element, java.lang.Object)
@@ -41,7 +41,7 @@ public class AnchorLayoutDataPeer extends LayoutDataPeer {
     public void toXml(Context context, Class objectClass, Element propertyElement, Object propertyValue) 
     throws SerialException {
         SerialContext serialContext = (SerialContext) context.get(SerialContext.class);
-    	AnchorLayoutData layoutData = (AnchorLayoutData) propertyValue;
+        AnchorLayoutData layoutData = (AnchorLayoutData) propertyValue;
         propertyElement.setAttribute("t", 
                 (serialContext.getFlags() & SerialContext.FLAG_RENDER_SHORT_NAMES) == 0 ? "LayoutData" : "L");
         SerialUtil.toXml(context, BorderLayoutData.class, propertyElement, "anchor", layoutData.getAnchorData());

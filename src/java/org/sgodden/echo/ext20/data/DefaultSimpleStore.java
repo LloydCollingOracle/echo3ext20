@@ -27,101 +27,101 @@ import java.io.Serializable;
  *
  */
 public class DefaultSimpleStore 
-		implements SimpleStore, Serializable {
-	
-	private static final long serialVersionUID = 20080310L;
-	
-	private Object[][] data;
-	private Integer id;
-	private String[] fields;
+        implements SimpleStore, Serializable {
+    
+    private static final long serialVersionUID = 20080310L;
+    
+    private Object[][] data;
+    private Integer id;
+    private String[] fields;
 
-	/**
-	 * Creates a new SimpleStore.
-	 */
-	public DefaultSimpleStore() {
-	}
-	
-	/**
-	 * Creates a new SimpleStore, where each row does not have an identifier.
-	 * @param data the store data.
-	 * @param fieldNames the field names of each column.
-	 */
-	public DefaultSimpleStore(Object[][] data, String[] fieldNames) {
-		super();
-		this.data = data;
-		this.fields = fieldNames;
-	}
-	
-	/**
-	 * Creates a new SimpleStore, where each row has an identifier.
-	 * @param data the store data.
-	 * @param idColumnIndex the index of the column giving the id of the row.
-	 * @param fieldNames the field names of each column.
-	 */
-	public DefaultSimpleStore(Object[][] data, int idColumnIndex, String[] fieldNames) {
-		super();
-		this.data = data;
-		this.id = idColumnIndex;
-		this.fields = fieldNames;
-	}
+    /**
+     * Creates a new SimpleStore.
+     */
+    public DefaultSimpleStore() {
+    }
+    
+    /**
+     * Creates a new SimpleStore, where each row does not have an identifier.
+     * @param data the store data.
+     * @param fieldNames the field names of each column.
+     */
+    public DefaultSimpleStore(Object[][] data, String[] fieldNames) {
+        super();
+        this.data = data;
+        this.fields = fieldNames;
+    }
+    
+    /**
+     * Creates a new SimpleStore, where each row has an identifier.
+     * @param data the store data.
+     * @param idColumnIndex the index of the column giving the id of the row.
+     * @param fieldNames the field names of each column.
+     */
+    public DefaultSimpleStore(Object[][] data, int idColumnIndex, String[] fieldNames) {
+        super();
+        this.data = data;
+        this.id = idColumnIndex;
+        this.fields = fieldNames;
+    }
 
-	/**
-	 * Returns the store data.
-	 * @return the store data.
-	 */
-	public Object[][] getData() {
-		return data;
-	}
+    /**
+     * Returns the store data.
+     * @return the store data.
+     */
+    public Object[][] getData() {
+        return data;
+    }
 
-	/**
-	 * Sets the store data.
-	 * @param data the store data.
-	 */
-	public void setData(Object[][] data) {
-		this.data = data;
-	}
+    /**
+     * Sets the store data.
+     * @param data the store data.
+     */
+    public void setData(Object[][] data) {
+        this.data = data;
+    }
 
-	/**
-	 * Returns the index of the column which provides the row identifier, or
-	 * <code>null</code> if there isn't one. 
-	 * @return the index of the column which provides the row identifier, or
-	 * <code>null</code> if there isn't one.
-	 */
-	public Integer getId() {
-		return id;
-	}
+    /**
+     * Returns the index of the column which provides the row identifier, or
+     * <code>null</code> if there isn't one. 
+     * @return the index of the column which provides the row identifier, or
+     * <code>null</code> if there isn't one.
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	/**
-	 * Sets the index of the column which provides the row identifier. 
-	 * @param id the index of the column which provides the row identifier.
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    /**
+     * Sets the index of the column which provides the row identifier. 
+     * @param id the index of the column which provides the row identifier.
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	/**
-	 * Returns the array of field names, which map by their position to the columns
-	 * in the store data.
-	 * @return the array of field names.
-	 */
-	public String[] getFields() {
-		return fields;
-	}
+    /**
+     * Returns the array of field names, which map by their position to the columns
+     * in the store data.
+     * @return the array of field names.
+     */
+    public String[] getFields() {
+        return fields;
+    }
 
-	/**
-	 * Sets the array of field names, which map by their position to the columns
-	 * in the store data.
-	 */
-	public void setFields(String[] fields) {
-		this.fields = fields;
-	}
-	
-	/**
-	 * Returns the number of rows of data.
-	 * @return the number of rows of data.
-	 */
-	public int getSize() {
-		return data.length;
-	}
-	
+    /**
+     * Sets the array of field names, which map by their position to the columns
+     * in the store data.
+     */
+    public void setFields(String[] fields) {
+        this.fields = fields;
+    }
+    
+    /**
+     * Returns the number of rows of data.
+     * @return the number of rows of data.
+     */
+    public int getSize() {
+        return data.length;
+    }
+    
 }

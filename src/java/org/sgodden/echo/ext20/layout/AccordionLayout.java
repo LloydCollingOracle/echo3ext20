@@ -24,6 +24,6 @@ package org.sgodden.echo.ext20.layout;
  */
 @SuppressWarnings({"serial"})
 public class AccordionLayout 
-		implements Layout {
+        implements Layout {
 
 }

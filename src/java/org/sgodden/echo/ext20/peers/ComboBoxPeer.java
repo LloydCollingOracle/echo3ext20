@@ -60,11 +60,11 @@ public class ComboBoxPeer
         return shortType ? "E2CB" : "Ext20ComboBox";
     }
 
-	/*
-	 * (non-Javadoc)
-	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
-	 */
-	@Override
+    /*
+     * (non-Javadoc)
+     * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
+     */
+    @Override
     public Class getInputPropertyClass(String propertyName) {
         if (ComboBox.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
             return Integer.class;
@@ -72,10 +72,10 @@ public class ComboBoxPeer
         return super.getInputPropertyClass(propertyName);
     }
 
-	/*
-	 * (non-Javadoc)
-	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getOutputProperty(nextapp.echo.app.util.Context, nextapp.echo.app.Component, java.lang.String, int)
-	 */
+    /*
+     * (non-Javadoc)
+     * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getOutputProperty(nextapp.echo.app.util.Context, nextapp.echo.app.Component, java.lang.String, int)
+     */
     @Override
     public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
         ComboBox gridPanel = (ComboBox)component;

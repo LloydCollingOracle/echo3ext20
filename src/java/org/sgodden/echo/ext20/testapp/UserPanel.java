@@ -46,7 +46,7 @@ public class UserPanel
     public UserPanel(boolean setTitle){
         super(new FitLayout());
         if (setTitle) {
-        	setTitle("Grid and form");
+            setTitle("Grid and form");
         }
     }
 
@@ -54,9 +54,9 @@ public class UserPanel
      * (non-Javadoc)
      * @see org.sgodden.echo.ext20.DeferredUiCreate#createUI()
      */
-	public void createUI() {
-   		switchToListPanel();
-	}
+    public void createUI() {
+           switchToListPanel();
+    }
     
     /**
      * Switches to the list panel.

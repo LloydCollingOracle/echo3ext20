@@ -111,13 +111,13 @@ public class Window
      * Closes the window, by removing it from its parent container.
      */
     public void close() {
-    	getParent().remove(this);
+        getParent().remove(this);
     }
     
     @Override
     public void init(){
-    	super.init();
-    	getEventListenerList().addListener(WindowListener.class, this);
+        super.init();
+        getEventListenerList().addListener(WindowListener.class, this);
         firePropertyChange(WINDOW_LISTENERS_CHANGED_PROPERTY, null, this);
     }
     
@@ -134,7 +134,7 @@ public class Window
      * @param closable whether the window is closable.
      */
     public void setClosable(boolean closable) {
-    	set(CLOSABLE_PROPERTY, closable);
+        set(CLOSABLE_PROPERTY, closable);
     }
     
     /**
@@ -199,8 +199,8 @@ public class Window
     /**
      * Default window closing handler, which simply closes the window.
      */
-	public void windowClosing(ActionEvent event) {
-		this.close();
-	}
+    public void windowClosing(ActionEvent event) {
+        this.close();
+    }
     
 }

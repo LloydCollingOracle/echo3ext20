@@ -11,6 +11,6 @@ import java.io.Serializable;
  */
 @SuppressWarnings({"serial"})
 public class FormLayout 
-		implements Layout, Serializable {
+        implements Layout, Serializable {
 
 }

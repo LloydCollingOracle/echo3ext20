@@ -30,92 +30,92 @@ import nextapp.echo.app.list.ListModel;
  *
  */
 public class ListModelAdapter
-		implements SimpleStore, Serializable {
-	
-	private static final long serialVersionUID = 1L;
-	
-	private Object[][] data;
-	private Integer id;
-	private String[] fields;
-	
-	public ListModelAdapter(){}
-	
-	/**
-	 * Constructs a new list model adapter.
-	 * @param model the model from which to take the data.
-	 */
-	public ListModelAdapter(AbstractListComponent component) {
-		ListModel model = component.getModel();
-		ListCellRenderer cellRenderer = component.getCellRenderer();
-		
+        implements SimpleStore, Serializable {
+    
+    private static final long serialVersionUID = 1L;
+    
+    private Object[][] data;
+    private Integer id;
+    private String[] fields;
+    
+    public ListModelAdapter(){}
+    
+    /**
+     * Constructs a new list model adapter.
+     * @param model the model from which to take the data.
+     */
+    public ListModelAdapter(AbstractListComponent component) {
+        ListModel model = component.getModel();
+        ListCellRenderer cellRenderer = component.getCellRenderer();
+        
         int rows = model.size();
 
-		data = new Object[rows][2];
+        data = new Object[rows][2];
 
-		for (int i = 0; i < rows; i++) {
-			Object[] row = data[i];
-    		row[0] = cellRenderer.getListCellRendererComponent(component, model.get(i), i);
+        for (int i = 0; i < rows; i++) {
+            Object[] row = data[i];
+            row[0] = cellRenderer.getListCellRendererComponent(component, model.get(i), i);
             row[1] = i;
-		}
-		
-		fields = new String[]{"display","value"};
-	}
+        }
+        
+        fields = new String[]{"display","value"};
+    }
 
-	/**
-	 * Constructs an array of data from the underlying table model
-	 * and returns it.
-	 * <p/>
-	 * Since this method creates a new array each time, don't call it
-	 * more than you need to.
-	 * 
-	 * @return the newly created array of data.
-	 */
-	public Object[][] getData() {
-		return data;
-	}
+    /**
+     * Constructs an array of data from the underlying table model
+     * and returns it.
+     * <p/>
+     * Since this method creates a new array each time, don't call it
+     * more than you need to.
+     * 
+     * @return the newly created array of data.
+     */
+    public Object[][] getData() {
+        return data;
+    }
 
     /**
      * Setter so that automatic JSON translation will work.
      * @param data the data.
      */
-	public void setData(Object[][] data) {
-		this.data = data;
-	}
+    public void setData(Object[][] data) {
+        this.data = data;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sgodden.echo.ext20.data.SimpleStore#getFields()
-	 */
-	public String[] getFields() {
-		return fields;
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.sgodden.echo.ext20.data.SimpleStore#getFields()
+     */
+    public String[] getFields() {
+        return fields;
+    }
 
     /**
      * Setter so that automatic JSON translation will work.
      * @param fields the fields.
      */
-	public void setFields(String[] fields){
-		this.fields = fields;
-	}
+    public void setFields(String[] fields){
+        this.fields = fields;
+    }
 
-	/**
-	 * Returns null - it is up to the application to map selected rows
-	 * to ids.
-	 */
-	public Integer getId() {
-		return id;
-	}
-	
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sgodden.echo.ext20.data.SimpleStore#getSize()
-	 */
-	public int getSize() {
-		return data.length;
-	}
+    /**
+     * Returns null - it is up to the application to map selected rows
+     * to ids.
+     */
+    public Integer getId() {
+        return id;
+    }
+    
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.sgodden.echo.ext20.data.SimpleStore#getSize()
+     */
+    public int getSize() {
+        return data.length;
+    }
 
 }

@@ -94,11 +94,11 @@ public class UserListPanel
                 "/resources/images/fam/icons/cog.png"));
         addButton(changeButton);
         changeButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				startIndex += 10;
+            public void actionPerformed(ActionEvent arg0) {
+                startIndex += 10;
                 rows +=10;
-				userGridPanel.setModel(makeTableModel());
-			}});
+                userGridPanel.setModel(makeTableModel());
+            }});
         
         Button changeIconButton = new Button("Change the button icon");
         addButton(changeIconButton);
@@ -166,23 +166,23 @@ public class UserListPanel
          * be the domain objects themselves, or their ids.
          */
         Object[][] data = makeData();
-    	tableModel = new DefaultSortableTableModel(
-    			data,
-    			makeColumnNames(),
+        tableModel = new DefaultSortableTableModel(
+                data,
+                makeColumnNames(),
                 data);
         tableModel.sort(0, true);
-    	return tableModel;
+        return tableModel;
     }
     
     private String[] makeColumnNames() {
-    	return new String[] {"userid", "name", "role"};
+        return new String[] {"userid", "name", "role"};
     }
 
     /**
-	 * Adds a listener to be notifies when a row is actioned.
-	 *
-	 * @param listener the listener to be added.
-	 */
+     * Adds a listener to be notifies when a row is actioned.
+     *
+     * @param listener the listener to be added.
+     */
     public void addActionListener(ActionListener listener) {
         userGridPanel.addActionListener(listener);
     }

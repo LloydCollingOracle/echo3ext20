@@ -25,24 +25,24 @@ package org.sgodden.echo.ext20;
  */
 public enum Tool {
 
-	CLOSE,
-	DOWN,
-	GEAR,
-	HELP,
-	LEFT,
-	MINIMIZE,
-	MINUS,
-	MAXIMIZE,
-	PIN,
-	PRINT,
-	PLUS,
-	REFRESH,
-	RESTORE,
-	RIGHT,
-	SAVE,
-	SEARCH,
-	TOGGLE,
-	UNPIN,
-	UP
-	
+    CLOSE,
+    DOWN,
+    GEAR,
+    HELP,
+    LEFT,
+    MINIMIZE,
+    MINUS,
+    MAXIMIZE,
+    PIN,
+    PRINT,
+    PLUS,
+    REFRESH,
+    RESTORE,
+    RIGHT,
+    SAVE,
+    SEARCH,
+    TOGGLE,
+    UNPIN,
+    UP
+    
 }

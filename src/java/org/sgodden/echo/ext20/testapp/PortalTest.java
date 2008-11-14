@@ -36,79 +36,79 @@ import org.sgodden.echo.ext20.testapp.regression.RemoveEchoFromExtTest;
  */
 @SuppressWarnings("serial")
 public class PortalTest extends Portal implements DeferredUiCreate {
-	
-	//private static final transient Log log = LogFactory.getLog(PortalTest.class);
+    
+    //private static final transient Log log = LogFactory.getLog(PortalTest.class);
 
-	public PortalTest() {
-		super();
-		setTitle("Portal");
-	}
+    public PortalTest() {
+        super();
+        setTitle("Portal");
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sgodden.echo.ext20.DeferredUiCreate#createUI()
-	 */
-	public void createUI() {
-		addComponents();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.sgodden.echo.ext20.DeferredUiCreate#createUI()
+     */
+    public void createUI() {
+        addComponents();
+    }
 
-	private void addComponents() {
-		PortalColumn col1 = new PortalColumn();
-		add(col1);
-		col1.setLayoutData(new ColumnLayoutData(.5));
-		col1.setPadding("10px 0 10px 10px");
+    private void addComponents() {
+        PortalColumn col1 = new PortalColumn();
+        add(col1);
+        col1.setLayoutData(new ColumnLayoutData(.5));
+        col1.setPadding("10px 0 10px 10px");
 
-		col1.add(makePortlet("Portlet 1", "Portlet 1"));
-		col1.add(makePortlet("Portlet 2", "Portlet 2"));
-		col1.add(makeLayoutTestPortlet());
+        col1.add(makePortlet("Portlet 1", "Portlet 1"));
+        col1.add(makePortlet("Portlet 2", "Portlet 2"));
+        col1.add(makeLayoutTestPortlet());
 
-		PortalColumn col2 = new PortalColumn();
-		add(col2);
-		col2.setLayoutData(new ColumnLayoutData(.5));
-		col2.setPadding("10px");
-		col2.add(makePortlet("Portlet 1", "Portlet 1"));
-		col2.add(makePortlet("Portlet 2", "Portlet 2"));
-	}
+        PortalColumn col2 = new PortalColumn();
+        add(col2);
+        col2.setLayoutData(new ColumnLayoutData(.5));
+        col2.setPadding("10px");
+        col2.add(makePortlet("Portlet 1", "Portlet 1"));
+        col2.add(makePortlet("Portlet 2", "Portlet 2"));
+    }
 
-	private Portlet makePortlet(String title, String html) {
-		final Portlet ret = new Portlet();
-		ret.setTitle(title);
-		ret.setHtml(html);
-		ret.setPadding("5px");
-		
-		ret.addToolListener(Tool.GEAR, new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				Window window = new Window("Gear tool pressed");
-				window.setModal(true);
-				window.setWidth(200);
-				window.setHeight(50);
-				window.setHtml("The gear tool was pressed");
-				ret.add(window);
-			}
-		});
-		
-		ret.addToolListener(Tool.CLOSE, new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				Window window = new Window("Close tool pressed");
-				window.setModal(true);
-				window.setWidth(200);
-				window.setHeight(50);
-				window.setHtml("The close tool was pressed");
-				ret.add(window);
-			}
-		});
+    private Portlet makePortlet(String title, String html) {
+        final Portlet ret = new Portlet();
+        ret.setTitle(title);
+        ret.setHtml(html);
+        ret.setPadding("5px");
+        
+        ret.addToolListener(Tool.GEAR, new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                Window window = new Window("Gear tool pressed");
+                window.setModal(true);
+                window.setWidth(200);
+                window.setHeight(50);
+                window.setHtml("The gear tool was pressed");
+                ret.add(window);
+            }
+        });
+        
+        ret.addToolListener(Tool.CLOSE, new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                Window window = new Window("Close tool pressed");
+                window.setModal(true);
+                window.setWidth(200);
+                window.setHeight(50);
+                window.setHtml("The close tool was pressed");
+                ret.add(window);
+            }
+        });
 
-		return ret;
-	}
-	
-	private Portlet makeLayoutTestPortlet() {
-	    Portlet ret = new Portlet();
-	    ret.setTitle("Layout test");
-	    ret.setLayout(new FitLayout());
-	    ret.add(new RemoveEchoFromExtTest());
-	    ret.setHeight(200);
-	    return ret;
-	}
+        return ret;
+    }
+    
+    private Portlet makeLayoutTestPortlet() {
+        Portlet ret = new Portlet();
+        ret.setTitle("Layout test");
+        ret.setLayout(new FitLayout());
+        ret.add(new RemoveEchoFromExtTest());
+        ret.setHeight(200);
+        return ret;
+    }
 
 }

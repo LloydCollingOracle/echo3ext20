@@ -54,8 +54,8 @@ gridPanel = new GridPanel(columnModel, model);
 
 gridPanel.addActionListener(new ActionListener(){
     public void actionPerformed(ActionEvent e) {
-    	Object[] data = gridPanel.getSelectedRow();
-    	...
+        Object[] data = gridPanel.getSelectedRow();
+        ...
     }
 });
  * </pre>
@@ -119,7 +119,7 @@ public class GridPanel
      * @param columnModel the column model.
      */
     public GridPanel(ColumnModel columnModel) {
-    	this();
+        this();
         setColumnModel(columnModel);
     }
 
@@ -299,7 +299,7 @@ public class GridPanel
      * @return the table model.
      */
     public TableModel getTableModel() {
-    	return tableModel;
+        return tableModel;
     }
 
     /**
@@ -529,15 +529,15 @@ public class GridPanel
      * @param tableModel the table model.
      */
     public void setModel(TableModel tableModel) {
-    	if (tableModel == null) {
-    		throw new IllegalArgumentException("table model may not be null");
-    	}
+        if (tableModel == null) {
+            throw new IllegalArgumentException("table model may not be null");
+        }
 
-    	this.tableModel = tableModel;
-    	tableModel.removeTableModelListener(this); // just in case they set the same table model
-    	tableModel.addTableModelListener(this);
+        this.tableModel = tableModel;
+        tableModel.removeTableModelListener(this); // just in case they set the same table model
+        tableModel.addTableModelListener(this);
 
-    	firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always force change
+        firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always force change
     }
 
     /**
@@ -547,12 +547,12 @@ public class GridPanel
         firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge but we're not interested in the old and new values anyway
     }
 
-	public GridCellRenderer getGridCellRenderer() {
-		return gridCellRenderer;
-	}
+    public GridCellRenderer getGridCellRenderer() {
+        return gridCellRenderer;
+    }
 
-	public void setGridCellRenderer(GridCellRenderer gridCellRenderer) {
-		this.gridCellRenderer = gridCellRenderer;
-	}
+    public void setGridCellRenderer(GridCellRenderer gridCellRenderer) {
+        this.gridCellRenderer = gridCellRenderer;
+    }
 
 }

@@ -123,8 +123,8 @@ public class TimeField
             int minute = 0;
             if (timeValue != null) {
                 String[] strings = timeValue.split(":");
-            	hourOfDay = Integer.valueOf(strings[0]);
-            	minute = Integer.valueOf(strings[1]);
+                hourOfDay = Integer.valueOf(strings[0]);
+                minute = Integer.valueOf(strings[1]);
             }
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);

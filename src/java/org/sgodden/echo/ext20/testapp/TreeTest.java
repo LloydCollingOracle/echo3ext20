@@ -45,95 +45,95 @@ import org.sgodden.echo.ext20.layout.TableLayout;
 @SuppressWarnings({"serial"})
 public class TreeTest extends Panel implements DeferredUiCreate, ChangeListener, ActionListener {
 
-	private static final transient Log log = LogFactory
-			.getLog(TreeTest.class);
+    private static final transient Log log = LogFactory
+            .getLog(TreeTest.class);
 
-	public TreeTest() {
-		super(new FitLayout(), "Tree");
-		setRenderId("treeTest");
-	}
+    public TreeTest() {
+        super(new FitLayout(), "Tree");
+        setRenderId("treeTest");
+    }
 
-	public void createUI() {
-		Panel outer = new Panel(new FitLayout());
-		add(outer);
+    public void createUI() {
+        Panel outer = new Panel(new FitLayout());
+        add(outer);
 
 
         final Object treeBlah = "BLAH";
-		final Object treeFoo = "FOO";
-		final Object treeBar = "BAR";
-		final Object treeRoot = "ROOT";
-		TreeModel treeModel = new AbstractTreeModel() {
+        final Object treeFoo = "FOO";
+        final Object treeBar = "BAR";
+        final Object treeRoot = "ROOT";
+        TreeModel treeModel = new AbstractTreeModel() {
 
-			public Object getChild(Object parent, int index) {
-				if (parent.equals(treeFoo))
-					return treeBar;
-				else if (parent.equals(treeRoot)) {
-					switch (index) {
-					case 0:
-						return treeBlah;
-					case 1:
-						return treeFoo;
-					}
-				}
-				return null;
-			}
+            public Object getChild(Object parent, int index) {
+                if (parent.equals(treeFoo))
+                    return treeBar;
+                else if (parent.equals(treeRoot)) {
+                    switch (index) {
+                    case 0:
+                        return treeBlah;
+                    case 1:
+                        return treeFoo;
+                    }
+                }
+                return null;
+            }
 
-			public int getChildCount(Object parent) {
-				if (parent.equals(treeFoo))
-					return 1;
-				else if (parent.equals(treeRoot))
-					return 2;
-				else
-					return 0;
-			}
+            public int getChildCount(Object parent) {
+                if (parent.equals(treeFoo))
+                    return 1;
+                else if (parent.equals(treeRoot))
+                    return 2;
+                else
+                    return 0;
+            }
 
-			public int getColumnCount() {
-				return 2;
-			}
+            public int getColumnCount() {
+                return 2;
+            }
 
-			public int getIndexOfChild(Object parent, Object child) {
-				if (parent.equals(treeFoo) && child.equals(treeBar))
-					return 0;
-				else if (parent.equals(treeRoot) && child.equals(treeBlah))
-					return 0;
-				else if (parent.equals(treeRoot) && child.equals(treeFoo))
-					return 1;
-				return -1;
-			}
+            public int getIndexOfChild(Object parent, Object child) {
+                if (parent.equals(treeFoo) && child.equals(treeBar))
+                    return 0;
+                else if (parent.equals(treeRoot) && child.equals(treeBlah))
+                    return 0;
+                else if (parent.equals(treeRoot) && child.equals(treeFoo))
+                    return 1;
+                return -1;
+            }
 
-			public Object getRoot() {
-				return treeRoot;
-			}
+            public Object getRoot() {
+                return treeRoot;
+            }
 
-			public Object getValueAt(Object node, int column) {
-				if (treeRoot.equals(node)) {
-					return "root";
-				} else if (treeBlah.equals(node)) {
-					return "blah";
-				} else if (treeFoo.equals(node)) {
-					return "foo";
-				} else if (treeBar.equals(node)) {
-					return "bar";
-				}
-				return null;
-			}
+            public Object getValueAt(Object node, int column) {
+                if (treeRoot.equals(node)) {
+                    return "root";
+                } else if (treeBlah.equals(node)) {
+                    return "blah";
+                } else if (treeFoo.equals(node)) {
+                    return "foo";
+                } else if (treeBar.equals(node)) {
+                    return "bar";
+                }
+                return null;
+            }
 
-			public boolean isLeaf(Object node) {
-				return node.equals(treeBlah) || node.equals(treeBar);
-			}
-		};
+            public boolean isLeaf(Object node) {
+                return node.equals(treeBlah) || node.equals(treeBar);
+            }
+        };
         Tree testTree = new Tree(treeModel);
         testTree.getSelectionModel().addChangeListener(this);
         testTree.addActionListener(this);
-		outer.add(testTree);
-	}
+        outer.add(testTree);
+    }
 
-	public void stateChanged(ChangeEvent arg0) {
-		System.out.println("Tree Selection Changed");
-	}
+    public void stateChanged(ChangeEvent arg0) {
+        System.out.println("Tree Selection Changed");
+    }
 
-	public void actionPerformed(ActionEvent arg0) {
-		System.out.println("Tree action event");
-	}
+    public void actionPerformed(ActionEvent arg0) {
+        System.out.println("Tree action event");
+    }
 
 }

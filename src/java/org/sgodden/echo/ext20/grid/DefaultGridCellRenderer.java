@@ -11,9 +11,9 @@ import nextapp.echo.app.Label;
  */
 public class DefaultGridCellRenderer implements GridCellRenderer {
 
-	public Component getGridCellRendererComponent(Component gridPanel,
-			Object valueAt, int colIndex, int rowIndex) {
-		return new Label(valueAt == null ? "" : String.valueOf(valueAt));
-	}
+    public Component getGridCellRendererComponent(Component gridPanel,
+            Object valueAt, int colIndex, int rowIndex) {
+        return new Label(valueAt == null ? "" : String.valueOf(valueAt));
+    }
 
 }

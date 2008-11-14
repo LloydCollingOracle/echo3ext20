@@ -45,8 +45,8 @@ public class JettyServer {
 //        l.setLevel(Level.DEBUG);
 //        l = Logger.getLogger("org.mortbay");
 //        l.setLevel(Level.DEBUG);
-    	
-    	DOMConfigurator.configure("src/webapp/WEB-INF/classes/log4j.xml"); // FIXME - configure log4j properly
+        
+        DOMConfigurator.configure("src/webapp/WEB-INF/classes/log4j.xml"); // FIXME - configure log4j properly
 
 
         final Server server = new Server(8081);

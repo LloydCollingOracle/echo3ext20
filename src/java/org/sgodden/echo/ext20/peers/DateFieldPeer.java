@@ -31,8 +31,8 @@ import org.sgodden.echo.ext20.DateField;
 public class DateFieldPeer
         extends ExtComponentPeer {
 
-	//private static final transient Log log = LogFactory.getLog(DateFieldPeer.class);
-	
+    //private static final transient Log log = LogFactory.getLog(DateFieldPeer.class);
+    
     protected static final Service DATE_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.DateField",
             "org/sgodden/echo/ext20/resource/js/Ext20.DateField.js");
 
@@ -85,9 +85,9 @@ public class DateFieldPeer
     @Override
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
         if (propertyName.equals(DateField.DATE_CHANGED_PROPERTY)) {
-        	if (newValue == null) {
-        		newValue = ""; // prevent NPE in SimpleDateForm.parse
-        	}
+            if (newValue == null) {
+                newValue = ""; // prevent NPE in SimpleDateForm.parse
+            }
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
             clientUpdateManager.setComponentProperty(component, DateField.DATE_CHANGED_PROPERTY, newValue);
         }
