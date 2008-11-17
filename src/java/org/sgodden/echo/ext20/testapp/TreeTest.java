@@ -16,13 +16,18 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.extras.app.tree.AbstractTreeModel;
+import nextapp.echo.extras.app.tree.DefaultMutableTreeNode;
 import nextapp.echo.extras.app.tree.TreeModel;
+import nextapp.echo.extras.app.tree.TreeNodeModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,71 +62,21 @@ public class TreeTest extends Panel implements DeferredUiCreate, ChangeListener,
         Panel outer = new Panel(new FitLayout());
         add(outer);
 
-
-        final Object treeBlah = "BLAH";
-        final Object treeFoo = "FOO";
-        final Object treeBar = "BAR";
-        final Object treeRoot = "ROOT";
-        TreeModel treeModel = new AbstractTreeModel() {
-
-            public Object getChild(Object parent, int index) {
-                if (parent.equals(treeFoo))
-                    return treeBar;
-                else if (parent.equals(treeRoot)) {
-                    switch (index) {
-                    case 0:
-                        return treeBlah;
-                    case 1:
-                        return treeFoo;
-                    }
-                }
-                return null;
-            }
-
-            public int getChildCount(Object parent) {
-                if (parent.equals(treeFoo))
-                    return 1;
-                else if (parent.equals(treeRoot))
-                    return 2;
-                else
-                    return 0;
-            }
-
-            public int getColumnCount() {
-                return 2;
-            }
-
-            public int getIndexOfChild(Object parent, Object child) {
-                if (parent.equals(treeFoo) && child.equals(treeBar))
-                    return 0;
-                else if (parent.equals(treeRoot) && child.equals(treeBlah))
-                    return 0;
-                else if (parent.equals(treeRoot) && child.equals(treeFoo))
-                    return 1;
-                return -1;
-            }
-
-            public Object getRoot() {
-                return treeRoot;
-            }
-
-            public Object getValueAt(Object node, int column) {
-                if (treeRoot.equals(node)) {
-                    return "root";
-                } else if (treeBlah.equals(node)) {
-                    return "blah";
-                } else if (treeFoo.equals(node)) {
-                    return "foo";
-                } else if (treeBar.equals(node)) {
-                    return "bar";
-                }
-                return null;
-            }
-
-            public boolean isLeaf(Object node) {
-                return node.equals(treeBlah) || node.equals(treeBar);
-            }
-        };
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode();
+        DefaultMutableTreeNode foo = new DefaultMutableTreeNode();
+        DefaultMutableTreeNode bar = new DefaultMutableTreeNode();
+        DefaultMutableTreeNode blah = new DefaultMutableTreeNode();
+        
+        root.addChild(blah);
+        root.addChild(foo);
+        foo.addChild(bar);
+        
+        root.setColumnValues(getMap(new String[] {"0", "1"}, new Object[] {"ROOT", "ROOT"}));
+        foo.setColumnValues(getMap(new String[] {"0", "1"}, new Object[] {"FOO", "FOO"}));
+        bar.setColumnValues(getMap(new String[] {"0", "1"}, new Object[] {"BAR", "BAR"}));
+        blah.setColumnValues(getMap(new String[] {"0", "1"}, new Object[] {"BLAH", "BLAH"}));
+        
+        TreeNodeModel treeModel = new TreeNodeModel(root);
         Tree testTree = new Tree(treeModel);
         testTree.getSelectionModel().addChangeListener(this);
         testTree.addActionListener(this);
@@ -134,6 +89,14 @@ public class TreeTest extends Panel implements DeferredUiCreate, ChangeListener,
 
     public void actionPerformed(ActionEvent arg0) {
         System.out.println("Tree action event");
+    }
+    
+    private Map getMap(String[] columns, Object[] values) {
+        Map m = new HashMap();
+        for (int i = 0; i < values.length; i++) {
+            m.put(columns[i], values[i]);
+        }
+        return m;
     }
 
 }
