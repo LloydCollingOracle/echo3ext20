@@ -108,11 +108,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
                 	alert("Cannot render percent width for tree column");
                 } else {
                     var columnPixels = Echo.Sync.Extent.toPixels(width, true);
-                    if (columnPixelAdjustment) {
-                    	widthPx = columnPixels - columnPixelAdjustment;
-                    } else {
-                    	widthPx = columnPixels;
-                    }
+                    widthPx = columnPixels;
                 }
             }
     		if (c == 0) {
@@ -364,6 +360,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     		// add the nodes below the child
     		nodesBelow = nodesBelow + this._expandedNodesBelow(parent.getChildNode(i));
     	}
+    	return nodesBelow;
     },
     
     _selectionHandler: function(extNode, event) {
@@ -465,13 +462,8 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         	this._treeStructure = treeStructureUpdate.newValue[0];
         	var ownerCt = this.extComponent.ownerCt;
         	ownerCt.remove(this.extComponent);
-        	this.extComponent = null;
-        	this.extComponent = this.createExtComponent(update, {});
-        	
-        	// apply the current selection after the rendering completes
-        	this.extComponent.on('render', this._renderSelectionUpdate, this);
-        	//this._renderSelectionUpdate();
-        	
+        	ownerCt.doLayout();
+        	this.renderAdd(update, ownerCt.getEl());
         	ownerCt.add(this.extComponent);
         	ownerCt.doLayout();
         }

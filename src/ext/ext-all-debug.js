@@ -22625,6 +22625,26 @@ Ext.layout.BorderLayout = Ext.extend(Ext.layout.ContainerLayout, {
                 this[pos].render(target, c);
             }
             this.rendered = true;
+        } else {
+            var items = ct.items.items;
+            collapsed = [];
+
+            for(var i = 0, len = items.length; i < len; i++) {
+                var c = items[i];
+                if (!c.rendered) {
+	                var pos = c.region;
+	                if(c.collapsed){
+	                    collapsed.push(c);
+	                }
+	                c.collapsed = false;
+	                c.cls = c.cls ? c.cls +' x-border-panel' : 'x-border-panel';
+	                c.render(target, i);
+	                this[pos] = pos != 'center' && c.split ?
+	                    new Ext.layout.BorderLayout.SplitRegion(this, c.initialConfig, pos) :
+	                    new Ext.layout.BorderLayout.Region(this, c.initialConfig, pos);
+	                this[pos].render(target, c);
+                }
+            }
         }
 
         var size = target.getViewSize();
