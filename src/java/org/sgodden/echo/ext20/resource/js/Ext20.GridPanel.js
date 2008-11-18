@@ -75,6 +75,10 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 
         options["store"] = this._makeStore();
         
+        if (this.component.get("forceFit")) {
+        		options["viewConfig"] = {forceFit:true}
+        }
+        
         var view;
         if (this.component.get("groupField")) {
             view = new Ext.grid.GroupingView({

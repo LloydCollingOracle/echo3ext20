@@ -352,6 +352,9 @@ public class TextField extends Component {
         else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
         }
+        else if (VALID_PROPERTY.equals(inputName)) {
+        	setIsValid((Boolean) inputValue);
+        }
     }
 
     /**

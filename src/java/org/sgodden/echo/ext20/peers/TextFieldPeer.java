@@ -72,6 +72,9 @@ public class TextFieldPeer
         if (TextField.VALUE_CHANGED_PROPERTY.equals(propertyName)) {
             return String.class;
         }
+        else if(TextField.VALID_PROPERTY.equals(propertyName)){
+        	return Boolean.class;
+        }
         return null;
     }
 
@@ -80,9 +83,14 @@ public class TextFieldPeer
      */
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
         if (propertyName.equals(TextField.VALUE_CHANGED_PROPERTY)) {
-            ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-            clientUpdateManager.setComponentProperty(component, TextField.VALUE_CHANGED_PROPERTY, newValue);
+            getClientUpdateManager(context).setComponentProperty(component, TextField.VALUE_CHANGED_PROPERTY, newValue);
+        }else if(propertyName.equals(TextField.VALID_PROPERTY)){
+        	getClientUpdateManager(context).setComponentProperty(component, TextField.VALID_PROPERTY, newValue);
         }
+    }
+    
+    private ClientUpdateManager getClientUpdateManager(Context context){
+    	return (ClientUpdateManager) context.get(ClientUpdateManager.class);
     }
 
     @Override

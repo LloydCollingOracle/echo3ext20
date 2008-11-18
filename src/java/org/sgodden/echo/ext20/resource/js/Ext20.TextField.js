@@ -195,8 +195,11 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     renderUpdate: function(update){
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
         this.extComponent.setValue(this.component.get("value"));
+        
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
-            this.extComponent.markInvalid(this.component.get("invalidText"));
+            if(this.component.get("invalidText") != null) {
+            	this.extComponent.markInvalid(this.component.get("invalidText"));
+            }
         }
     }
 

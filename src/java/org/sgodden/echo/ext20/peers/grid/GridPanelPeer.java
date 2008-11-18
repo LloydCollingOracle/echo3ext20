@@ -28,6 +28,7 @@ public class GridPanelPeer
         addOutputProperty(PROPERTY_SELECTION);
         addOutputProperty(PROPERTY_MODEL);
         addOutputProperty(GridPanel.PAGE_OFFSET_PROPERTY); // FIXME - why do we have to manually add the output property?
+        addOutputProperty(GridPanel.SET_SIZE_COLUMNS_TO_GRID_PROPERTY);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(GridPanel.INPUT_ACTION, GridPanel.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override

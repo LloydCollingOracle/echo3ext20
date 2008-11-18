@@ -132,7 +132,7 @@ public class PagingToolbar extends Toolbar {
         rowsPerPageTextField.setSize(3);
         p.addKeyPressListener("enter", new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                setPageSize();
+                applyPageSize();
             }
         });
 
@@ -206,11 +206,19 @@ public class PagingToolbar extends Toolbar {
         enableButtons();
     }
 
-    private void setPageSize() {
+    private void applyPageSize() {
         if (rowsPerPageTextField.getValue() == null) {
             rowsPerPageTextField.setValue(String.valueOf(pageSize));
         }
         pageSize = Integer.parseInt(rowsPerPageTextField.getValue());
+        client.setPageSize(pageSize);
+        // reset back to the start
+        setTableModel(model);
+    }
+
+    public void setPageSize(int pageSize) {
+        rowsPerPageTextField.setValue(String.valueOf(pageSize));
+        this.pageSize = pageSize;
         client.setPageSize(pageSize);
         // reset back to the start
         setTableModel(model);

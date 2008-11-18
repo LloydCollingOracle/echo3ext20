@@ -82,7 +82,8 @@ public class GridPanel
     public static final String SORT_ACTION = "sort";
     public static final String SORT_FIELD_PROPERTY = "sortField";
     public static final String SORT_LISTENERS_PROPERTY = "sort";
-    public static final String SORT_ORDER_PROPERTY = "sortDirection"; 
+    public static final String SORT_ORDER_PROPERTY = "sortDirection";
+    public static final String SET_SIZE_COLUMNS_TO_GRID_PROPERTY = "forceFit";
     
     private TableModel tableModel;
     private int pageSize;
@@ -295,6 +296,14 @@ public class GridPanel
     }
     
     /**
+     * Returns the grids forceFit config.
+     * @return is the grid forceFit.
+     */
+    public boolean getSetSizeColumnsToGrid(){
+    	return (Boolean) get(SET_SIZE_COLUMNS_TO_GRID_PROPERTY);
+    }
+    
+    /**
      * Returns the grid's table model.
      * @return the table model.
      */
@@ -497,6 +506,14 @@ public class GridPanel
         newValue.addChangeListener(listSelectionListener);
         selectionModel = newValue;
         firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
+    }
+    
+    /**
+     * Sets the forceFit property of the grid panel.
+     * @param setSizeColumnsToGrid
+     */
+    public void setSetSizeColumnsToGrid(Boolean setSizeColumnsToGrid){
+    	set(SET_SIZE_COLUMNS_TO_GRID_PROPERTY, setSizeColumnsToGrid);
     }
     
     /**
