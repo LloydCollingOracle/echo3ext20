@@ -103,6 +103,14 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 this.extComponent.setTitle(this.component.get("title"));
         }
         
+        if (update.getUpdatedProperty("width") != null) {
+                this.extComponent.setWidth(this.component.get("width"));
+        }
+        
+        if (update.getUpdatedProperty("height") != null) {
+                this.extComponent.setHeight(this.component.get("height"));
+        }
+        
         if (update.hasRemovedChildren()) {
             var removedChildren = update.getRemovedChildren();
             for (var i = 0; i < removedChildren.length; i++) {
