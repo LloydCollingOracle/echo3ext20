@@ -38649,7 +38649,7 @@ Ext.form.Field = Ext.extend(Ext.BoxComponent,  {
      
  
 
-
+		mandatory : false,
      
  
  
@@ -38660,17 +38660,6 @@ Ext.form.Field = Ext.extend(Ext.BoxComponent,  {
 
     
     hasFocus : false,
-
-     
- 
-
-    
-     
- 
-
-     
- 
-
 
 	
 	initComponent : function(){

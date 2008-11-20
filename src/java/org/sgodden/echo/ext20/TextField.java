@@ -49,6 +49,7 @@ public class TextField extends Component {
     public static final String PROPERTY_SIZE = "size";
     public static final String REGEXP_FAILURETEXT_PROPERTY = "regExpFailureText";
     public static final String REGEXP_PROPERTY = "regExp";
+    public static final String MANDATORY_PROPERTY = "mandatory";
     public static final String MIN_LENGTH = "minLength";
     public static final String MIN_LENGTH_TEXT = "minLengthText";
     public static final String MAX_LENGTH = "maxLength";
@@ -132,6 +133,14 @@ public class TextField extends Component {
         return (String) get(FIELD_LABEL_PROPERTY);
     }
 
+    /**
+     * Gets mandatory property
+     */
+    public boolean getMandatory(){
+        return (Boolean) get(MANDATORY_PROPERTY);
+        
+    }
+    
     /**
      * Gets notify immediately property
      */
@@ -242,6 +251,14 @@ public class TextField extends Component {
         set(VALID_PROPERTY, isValid);
     }
 
+    /**
+     * Gets mandatory property
+     */
+    public void setMandatory(boolean mandatory){
+        set(MANDATORY_PROPERTY, mandatory);
+        
+    }
+    
     /**
      * Sets the maximum allowed length of the text field.
      * 

@@ -98,6 +98,10 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         if (this.component.get("validationDelay")){
             options["validationDelay"] = this.component.get("validationDelay");
         }
+        if (this.component.get("mandatory")){
+            options["mandatory"] = this.component.get("mandatory");
+            options["plugins"] = [Ext.ux.MandatoryField]
+        }
         /**
          * boolean logic has been reversed due to property in ext being readOnly rather than
          * the more consistent property of editable.

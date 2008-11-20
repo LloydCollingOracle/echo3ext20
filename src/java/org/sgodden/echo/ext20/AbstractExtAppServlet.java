@@ -50,6 +50,7 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
         extService = JavaScriptService.forResources("Ext20", resources);
         
         resourceList = new ArrayList();
+        resourceList.add("ext/Plugins.js");
         resourceList.add("ext/portal/Portal.js");
         resourceList.add("ext/portal/PortalColumn.js");
         resourceList.add("ext/portal/Portlet.js");
@@ -114,5 +115,6 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
         addCssFileName("resources/ext/css/ext-all.css");
         addCssFileName("resources/ext/css/portal.css");
         addCssFileName("resources/ext/css/Multiselect.css");
+        addCssFileName("resources/ext/css/Plugins.css");
     }
 }
