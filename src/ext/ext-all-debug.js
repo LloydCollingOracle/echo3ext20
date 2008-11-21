@@ -23992,7 +23992,7 @@ Ext.layout.TableLayout = Ext.extend(Ext.layout.ContainerLayout, {
          * arbitrary removal of components, but only those
          * from the end.
          */
-        while (len < this.childCount) {
+        while (len < this.childCount && this.table.tBodies.length > 0) {
             /*
              * Remove the last td of the last row,
              * removing the tr if it becomes empty.
@@ -24010,7 +24010,7 @@ Ext.layout.TableLayout = Ext.extend(Ext.layout.ContainerLayout, {
                 this.currentRow--;
                 this.currentColumn = this.columns - 1;
             }
-
+						
             /*
              * Remove the last cell of the last row
              * of the internal cells variable, removing
