@@ -18,10 +18,13 @@ package org.sgodden.echo.ext20;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.EventListener;
 import java.util.Locale;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Component;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 
 /**
  * A date field with built-in drop-down selector.
@@ -39,6 +42,7 @@ public class DateField
     
     //private static final transient Log log = LogFactory.getLog(DateField.class);
 
+	public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String DATE_FORMAT_PROPERTY = "dateFormat";
     public static final String DATE_CHANGED_PROPERTY = "date";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
@@ -54,7 +58,6 @@ public class DateField
     public DateField() {
         super();
         setLocale(ApplicationInstance.getActive().getLocale());
-        setCalendar(Calendar.getInstance(getLocale()));
     }
 
     /**
@@ -75,6 +78,45 @@ public class DateField
         this();
         setCalendar(cal);
         setFieldLabel(fieldLabel);
+    }
+    
+    /**
+     * Adds an <code>ActionListener</code> to the button.
+     * <code>ActionListener</code>s will be invoked when the combo box is selected.
+     *
+     * @param l the <code>ActionListener</code> to add
+     */
+    public void addActionListener(ActionListener l) {
+        getEventListenerList().addListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
+    
+    /**
+     * Fires an action event to all listeners.
+     */
+    private void fireActionEvent() {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        EventListener[] listeners = getEventListenerList().getListeners(ActionListener.class);
+        ActionEvent e = null;
+        for (int i = 0; i < listeners.length; ++i) {
+            if (e == null) {
+                e = new ActionEvent(this, null);
+            }
+            ((ActionListener) listeners[i]).actionPerformed(e);
+        }
+    }
+    
+    /**
+     * Returns whether any <code>ActionListener</code>s are registered.
+     *
+     * @return true if any action listeners are registered
+     */
+    public boolean hasActionListeners() {
+        return getEventListenerList().getListenerCount(ActionListener.class) != 0;
     }
     
     /**
@@ -154,6 +196,13 @@ public class DateField
                 this.clientInputValid = false;
             } else {
                 this.clientInputValid = true;
+                
+                if(calendar == null) {
+                	calendar = Calendar.getInstance(getLocale());
+                	calendar.set(Calendar.HOUR_OF_DAY, 0);
+                    calendar.set(Calendar.MINUTE, 0);
+                }
+                
                 // retrieve the current hour and minute values so that we don't trample over them
                 int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
                 int minutes = calendar.get(Calendar.MINUTE);
@@ -163,6 +212,8 @@ public class DateField
                 // re-set the hour and minutes values that were there before
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minutes);
+                
+                fireActionEvent();
             }
         }
     }
@@ -173,5 +224,20 @@ public class DateField
      */
     public boolean isClientInputValid() {
         return clientInputValid;
+    }
+    
+    /**
+     * Removes the specified action listener.
+     * @param l the listener to remove.
+     */
+    public void removeActionListener(ActionListener l) {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        getEventListenerList().removeListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+
     }
 }

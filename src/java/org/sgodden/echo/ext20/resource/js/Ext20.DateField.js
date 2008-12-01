@@ -23,7 +23,13 @@ EchoExt20.DateField = Core.extend(EchoExt20.ExtComponent, {
 
     focusable: true,
     
-    componentType: "Ext20DateField"
+    componentType: "Ext20DateField",
+
+    $virtual: {
+        doAction: function() {
+            this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+        }
+    }
     
 });
 
