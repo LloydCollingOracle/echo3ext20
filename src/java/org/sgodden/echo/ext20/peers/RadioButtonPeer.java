@@ -19,10 +19,12 @@ package org.sgodden.echo.ext20.peers;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
+import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
+import org.sgodden.echo.ext20.AbstractButton;
 import org.sgodden.echo.ext20.RadioButton;
 
 @SuppressWarnings({"unchecked"})
@@ -41,6 +43,12 @@ public class RadioButtonPeer
         addOutputProperty(RadioButton.FIELD_LABEL_PROPERTY);
         addOutputProperty(RadioButton.SELECTED_CHANGED_PROPERTY);
         addOutputProperty(RadioButton.NAME_PROPERTY);
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(RadioButton.INPUT_ACTION, RadioButton.ACTION_LISTENERS_CHANGED_PROPERTY) {
+            @Override
+            public boolean hasListeners(Context context, Component component) {
+                return ((RadioButton) component).hasActionListeners();
+            }
+        });
     }
 
     public Class getComponentClass() {

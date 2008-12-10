@@ -23,7 +23,13 @@ EchoExt20.RadioButton = Core.extend(EchoExt20.ExtComponent, {
 
     focusable: true,
     
-    componentType: "Ext20RadioButton"
+    componentType: "Ext20RadioButton",
+    
+    $virtual: {
+        doAction: function() {
+            this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+        }
+    }
     
 });
 
@@ -68,9 +74,10 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     _handleCheckEvent: function() {
         this.component.set("selected", this.extComponent.getValue());
+        this.component.doAction();
     },
     renderUpdate: function(update) {
-    		var selected = this.component.get("selected");
+        var selected = this.component.get("selected");
         this.extComponent.setValue(selected);
     }
     

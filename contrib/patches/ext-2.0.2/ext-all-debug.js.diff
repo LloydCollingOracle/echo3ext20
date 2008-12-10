@@ -1,0 +1,53 @@
+22627a22628,22647
+>         } else {
+>             var items = ct.items.items;
+>             collapsed = [];
+> 
+>             for(var i = 0, len = items.length; i < len; i++) {
+>                 var c = items[i];
+>                 if (!c.rendered) {
+> 	                var pos = c.region;
+> 	                if(c.collapsed){
+> 	                    collapsed.push(c);
+> 	                }
+> 	                c.collapsed = false;
+> 	                c.cls = c.cls ? c.cls +' x-border-panel' : 'x-border-panel';
+> 	                c.render(target, i);
+> 	                this[pos] = pos != 'center' && c.split ?
+> 	                    new Ext.layout.BorderLayout.SplitRegion(this, c.initialConfig, pos) :
+> 	                    new Ext.layout.BorderLayout.Region(this, c.initialConfig, pos);
+> 	                this[pos].render(target, c);
+>                 }
+>             }
+23975c23995
+<         while (len < this.childCount) {
+---
+>         while (len < this.childCount && this.table.tBodies.length > 0) {
+23993c24013
+< 
+---
+> 						
+35264,35265c35284,35287
+<         for(var i = 0,l = this.childNodes.length; i < l; i++){
+<             this.childNodes[i].destroy();
+---
+>         if (this.childNodes != null) {
+>             for(var i = 0,l = this.childNodes.length; i < l; i++){
+>                 this.childNodes[i].destroy();
+>             }
+38630c38652
+< 
+---
+> 		mandatory : false,
+38642,38652d38663
+<      
+<  
+< 
+<     
+<      
+<  
+< 
+<      
+<  
+< 
+< 
