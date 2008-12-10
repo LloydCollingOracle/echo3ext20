@@ -19,6 +19,7 @@ package org.sgodden.echo.ext20.data;
 import java.io.Serializable;
 
 import org.sgodden.echo.ext20.AbstractListComponent;
+import org.sgodden.echo.ext20.ListImageCellRenderer;
 
 import nextapp.echo.app.list.ListCellRenderer;
 import nextapp.echo.app.list.ListModel;
@@ -47,18 +48,24 @@ public class ListModelAdapter
     public ListModelAdapter(AbstractListComponent component) {
         ListModel model = component.getModel();
         ListCellRenderer cellRenderer = component.getCellRenderer();
+        boolean isImageCellRenderer = cellRenderer instanceof ListImageCellRenderer;
         
         int rows = model.size();
 
-        data = new Object[rows][2];
+        data = new Object[rows][isImageCellRenderer ? 3 : 2];
 
         for (int i = 0; i < rows; i++) {
             Object[] row = data[i];
             row[0] = cellRenderer.getListCellRendererComponent(component, model.get(i), i);
             row[1] = i;
+            if (isImageCellRenderer)
+                row[2] = ((ListImageCellRenderer)cellRenderer).getImageLocation(component, model.get(i), i);
         }
         
-        fields = new String[]{"display","value"};
+        if (isImageCellRenderer)
+            fields = new String[]{"display","value", "icon"};
+        else
+            fields = new String[]{"display","value"};
     }
 
     /**
