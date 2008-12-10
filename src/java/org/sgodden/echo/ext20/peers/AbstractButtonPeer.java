@@ -32,7 +32,7 @@ public abstract class AbstractButtonPeer extends ExtComponentPeer {
      */
     public AbstractButtonPeer() {
         super();
-        
+        addOutputProperty(AbstractButton.TEXT_PROPERTY);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(AbstractButton.INPUT_ACTION, AbstractButton.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {

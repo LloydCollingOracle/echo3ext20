@@ -144,6 +144,9 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         this._setIconUrl();
         
+        var text = this.component.get("text");
+        this.extComponent.setText(text);
+        
         if (this.component.isEnabled()) {
             if (this.extComponent.disabled) {
                 this.extComponent.enable();
