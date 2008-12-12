@@ -111,6 +111,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 this.extComponent.setHeight(this.component.get("height"));
         }
         
+        var needsLayout = false;
+        
         if (update.hasRemovedChildren()) {
             var removedChildren = update.getRemovedChildren();
             for (var i = 0; i < removedChildren.length; i++) {
@@ -125,7 +127,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                     this.extComponent.remove(childExtComponent);
                 }
             }
-            this.extComponent.doLayout();
+            needsLayout = true;
         }
         
         if (update.hasAddedChildren()) {
@@ -152,7 +154,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 }
                 if (doHide) {
                 	var dom = this.extComponent.getEl().dom; 
-                    dom.style.visibility = 'hidden';
+//                    dom.style.visibility = 'hidden';
 
                     // and add a server update complete listener to show ourselves again, if we haven't already
                     if (this._makeVisibleRef == null) {
@@ -164,7 +166,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             
             var addedChildren = update.getAddedChildren();
         	this._createChildItems(update, addedChildren);
-            this._conditionalDoLayout(addedChildren);
+            needsLayout = needsLayout || this._conditionalDoLayout(addedChildren);
+            
             /*
              * If we determined that we need to hide the panel
              * while adding, then we must defer the layout of
@@ -173,7 +176,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
              * Otherwise we will get the horrible firefox
              * progressive rendering visible to the user.
              */
-            if (!doHide) {
+            if (!doHide && needsLayout) {
 	            this.extComponent.doLayout();
             }
         }
@@ -386,7 +389,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         if (children.length > 0) {
             this._createChildItems(update, children);
-            this._conditionalDoLayout(children);
+            if (this._conditionalDoLayout(children))
+            	this.extComponent.doLayout();
         }
         
         return this.extComponent;
@@ -500,10 +504,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         for (var i = 0; i < children.length && !done; i++) {
             var layout = children[i].get("layout");
             if ( layout != null && layout instanceof EchoExt20.BorderLayout ) {
-                this.extComponent.doLayout();
                 done = true;
             }
         }
+        return done;
     },
     
     /**
