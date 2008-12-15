@@ -118,14 +118,26 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
 
         ret.on("rowdblclick", this._handleRowActivation, this);
         ret.on("render",this._handleOnRender,this);
-
+        ret.on("columnmove",this._handleColumnMove,this);
+        ret.on("columnresize",this._handleColumnResize,this);
+        
         return ret;
     },
-    
+
     doSort: function(fieldName, sortDirection) {
         this.component.set("sortField", fieldName);
         this.component.set("sortDirection", sortDirection);
         this.component.doSort();
+    },
+
+    _handleColumnMove: function(oldIndex, newIndex) {
+    	this.component.set("columnModel", this.extComponent.getColumnModel());
+    	//this.component.doAction();
+    },
+
+    _handleColumnResize: function(colIndex, newSize) {
+    	this.component.set("columnModel", this.extComponent.getColumnModel());
+    	//this.component.doAction();
     },
 
     _handleKeyDownEvent: function(evt) {
@@ -138,7 +150,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     _handleKeyUpEvent: function(evt) {
         this._ctrlKeyDown = false;
     },
-    
+
     _handleOnRender: function() {
     	this._handleServerSelections();
     	if (this._reconfigureOnRender) {
@@ -367,4 +379,14 @@ Ext.extend(EchoExt20.GridPanelDataProxy, Ext.data.DataProxy, {
         callback.call(scope, result, arg, true);
     }
 	
+});
+
+
+
+EchoExt20.ColumnModel = function(attributes)  {
+	EchoExt20.ColumnModel.superclass.constructor.call(this, attributes);
+	this.className = "Ext20ColumnModel";
+};
+
+Ext.extend(EchoExt20.ColumnModel, Ext.grid.ColumnModel, {
 });

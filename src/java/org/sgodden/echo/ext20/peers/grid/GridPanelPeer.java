@@ -9,6 +9,7 @@ import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.data.TableModelAdapter;
+import org.sgodden.echo.ext20.grid.ColumnModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
 import org.sgodden.echo.ext20.util.ListSelectionUtil;
 
@@ -21,6 +22,7 @@ public class GridPanelPeer
     
     private static final String PROPERTY_SELECTION = "selection";
     private static final String PROPERTY_MODEL = "model";
+    private static final String PROPERTY_COLUMN_MODEL = "columnModel";
 
     
     public GridPanelPeer() {
@@ -29,6 +31,7 @@ public class GridPanelPeer
         addOutputProperty(PROPERTY_MODEL);
         addOutputProperty(GridPanel.PAGE_OFFSET_PROPERTY); // FIXME - why do we have to manually add the output property?
         addOutputProperty(GridPanel.SET_SIZE_COLUMNS_TO_GRID_PROPERTY);
+        addOutputProperty(PROPERTY_COLUMN_MODEL);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(GridPanel.INPUT_ACTION, GridPanel.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
@@ -86,6 +89,9 @@ public class GridPanelPeer
         if (GridPanel.SORT_ORDER_PROPERTY.equals(propertyName)) {
             return String.class;
         }
+        if (GridPanel.COLUMN_MODEL_PROPERTY.equals(propertyName)) {
+            return ColumnModel.class;
+        }
         return super.getInputPropertyClass(propertyName);
     }
 
@@ -121,6 +127,9 @@ public class GridPanelPeer
         }
         else if (GridPanel.SORT_ORDER_PROPERTY.equals(propertyName)) {
             clientUpdateManager.setComponentProperty(component, GridPanel.SORT_ORDER_PROPERTY, (String)newValue);
+        }
+        if (GridPanel.COLUMN_MODEL_PROPERTY.equals(propertyName)) {
+        	clientUpdateManager.setComponentProperty(component, GridPanel.COLUMN_MODEL_PROPERTY, (ColumnModel)newValue);
         }
     }
 
