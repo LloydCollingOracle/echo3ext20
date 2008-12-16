@@ -17,6 +17,7 @@
 package org.sgodden.echo.ext20.grid;
 
 import java.util.EventListener;
+import java.util.List;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -32,6 +33,7 @@ import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.ui.models.BackingObjectDataModel;
+import org.sgodden.ui.models.SortData;
 import org.sgodden.ui.models.SortableTableModel;
 
 /**
@@ -359,10 +361,18 @@ public class GridPanel
         }
         else if (SORT_ACTION.equals(inputName)) {
             if (getTableModel() instanceof SortableTableModel) {
-                int columnIndex = getColumnModel()
-                        .getIndexForDataIndex(getSortField());
-                ((SortableTableModel) getTableModel()).sort(
-                        columnIndex, getSortOrder());
+                ColumnModel colModel = getColumnModel();
+                List<ColumnConfiguration> columns = colModel.getColumns();
+                int[] columnIndices = new int[columns.size()];
+                boolean[] ascending = new boolean[columns.size()];
+                
+                for (int i = 0; i < columnIndices.length; i++) {
+                    int sequence = columns.get(i).getDisplaySequence();
+                    columnIndices[i] = sequence;
+                    ascending[i] = "ASCENDING".equals(columns.get(i).getSortDirection())
+                        || "ASC".equals(columns.get(i).getSortDirection());
+                }
+                ((SortableTableModel) getTableModel()).sort(columnIndices, ascending);
                 getSelectionModel().clearSelection();
             }
             else {

@@ -127,22 +127,28 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     doSort: function(fieldName, sortDirection) {
         this.component.set("sortField", fieldName);
         this.component.set("sortDirection", sortDirection);
+        
+        var colModel = this.extComponent.getColumnModel();
+        var columns = colModel.getColumnsBy(function(columnConfig, index) { return true; });
+        for (var i = 0; i < columns.length; i++) {
+            if (columns[i].dataIndex == fieldName)
+                columns[i].sortDirection = sortDirection;
+        }
+        this.component.set("columnModel", this.extComponent.getColumnModel());
         this.component.doSort();
     },
 
     _handleColumnMove: function(oldIndex, newIndex) {
     	this.component.set("columnModel", this.extComponent.getColumnModel());
-    	//this.component.doAction();
+        this.component.doSort();
     },
 
     _handleColumnResize: function(colIndex, newSize) {
     	this.component.set("columnModel", this.extComponent.getColumnModel());
-    	//this.component.doAction();
     },
 
     _handleKeyDownEvent: function(evt) {
         if (evt.keyCode == 17) {
-            //alert("Control pressed");
             this._ctrlKeyDown = true;
         }
     },
@@ -233,11 +239,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         var proxy = new EchoExt20.GridPanelDataProxy(model.data, this);
 
         var store;
+        
 
-        /*
-         * TODO - defensive checks on sort field name and
-         * group field name.
-         */
         var sortInfo = null;
         var sortField = this.component.get("sortField");
         if (sortField) {
@@ -248,6 +251,13 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             sortInfo = {
                 field: sortField,
                 direction: sortDirection
+            }
+        } else {
+            var colModel = this.component.get("columnModel");
+            var firstCol = colModel.getColumnsBy(function(columnConfig, index) { return true; })[0];
+            sortInfo = {
+                field: firstCol.header,
+                direction: firstCol.sortDirection
             }
         }
 
