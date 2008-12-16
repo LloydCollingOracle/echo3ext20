@@ -120,6 +120,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         ret.on("render",this._handleOnRender,this);
         ret.on("columnmove",this._handleColumnMove,this);
         ret.on("columnresize",this._handleColumnResize,this);
+        options["cm"].on("hiddenchange", this._handleColumnHide, this);
         
         return ret;
     },
@@ -144,6 +145,10 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
 
     _handleColumnResize: function(colIndex, newSize) {
+    	this.component.set("columnModel", this.extComponent.getColumnModel());
+    },
+    
+    _handleColumnHide: function(columnIndex, hidden) {
     	this.component.set("columnModel", this.extComponent.getColumnModel());
     },
 
@@ -311,10 +316,12 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         	 * The grid can only reconfigure itself if it is rendered.
         	 */
         	if (this.extComponent.rendered) {
+        		this.extComponent.getColumnModel().removeListener("hiddenchange", this._handleColumnHide, this);
 	            this.extComponent.reconfigure(
 	              this._makeStore(),
 	              this.component.get("columnModel")
 	            );
+        		this.extComponent.getColumnModel().addListener("hiddenchange", this._handleColumnHide, this);
         	}
         	else {
         		/*
