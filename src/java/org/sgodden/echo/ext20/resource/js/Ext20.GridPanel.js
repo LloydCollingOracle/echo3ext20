@@ -73,6 +73,11 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         
         this._selectedRows = {};
 
+        Ext.state.Manager.clear(this.component.renderId);
+        var existingComponent = Ext.ComponentMgr.get(this.component.renderId);
+        if (existingComponent != null)
+            Ext.ComponentMgr.unregister(existingComponent);
+
         options["store"] = this._makeStore();
         
         if (this.component.get("forceFit")) {
