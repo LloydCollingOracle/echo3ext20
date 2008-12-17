@@ -286,6 +286,7 @@ public class ComboBox
      * the selection.
      */
     public void setSelectedItem(Object selectedItem) {
+        Object oldValue = getSelectedItem();
         if (selectedItem == null) {
             selectionModel.clearSelection();
         }
@@ -298,6 +299,7 @@ public class ComboBox
                 }
             }
         }
+        firePropertyChange(SELECTION_CHANGED_PROPERTY, oldValue, selectedItem);
     }
 
     /**
