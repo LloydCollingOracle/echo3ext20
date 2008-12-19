@@ -21,9 +21,8 @@ import nextapp.echo.app.list.ListSelectionModel;
  * 
  * @author sgodden
  */
-@SuppressWarnings({"serial"})
-public class ComboBox
-        extends AbstractListComponent {
+@SuppressWarnings( { "serial" })
+public class ComboBox extends AbstractListComponent {
 
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String EDITABLE_PROPERTY = "editable";
@@ -32,7 +31,7 @@ public class ComboBox
     public static final String INPUT_ACTION = "action";
     public static final String INVALID_TEXT_PROPERTY = "invalidText";
     public static final String LIST_WIDTH_PROPERTY = "listWidth";
-    public static final String MODEL_CHANGED_PROPERTY="model";
+    public static final String MODEL_CHANGED_PROPERTY = "model";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
     public static final String STORE_PROPERTY = "store";
@@ -41,17 +40,19 @@ public class ComboBox
     public static final String VALID_PROPERTY = "isValid";
 
     private ListSelectionModel selectionModel;
-    
+
     /**
      * Local handler for list data events.
      */
-    private ListDataListener listDataListener = new ListDataListener(){
+    private ListDataListener listDataListener = new ListDataListener() {
         public void intervalAdded(ListDataEvent e) {
             firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
         }
+
         public void intervalRemoved(ListDataEvent e) {
             firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
         }
+
         public void contentsChanged(ListDataEvent e) {
             firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
         }
@@ -72,7 +73,7 @@ public class ComboBox
     /**
      * Creates a new combo box.
      */
-    public ComboBox(){
+    public ComboBox() {
         super();
         setSelectionModel(new DefaultListSelectionModel());
         setTypeAhead(false);
@@ -80,7 +81,9 @@ public class ComboBox
 
     /**
      * Creates a new combo box.
-     * @param model the combo box data model.
+     * 
+     * @param model
+     *            the combo box data model.
      */
     public ComboBox(ListModel model) {
         this();
@@ -89,8 +92,11 @@ public class ComboBox
 
     /**
      * Creates a new combo box.
-     * @param model the combo box data model.
-     * @param fieldLabel the field label to be displayed in a form.
+     * 
+     * @param model
+     *            the combo box data model.
+     * @param fieldLabel
+     *            the field label to be displayed in a form.
      */
     public ComboBox(ListModel model, String fieldLabel) {
         this(model);
@@ -98,9 +104,11 @@ public class ComboBox
 
     /**
      * Adds an <code>ActionListener</code> to the button.
-     * <code>ActionListener</code>s will be invoked when the combo box is selected.
-     *
-     * @param l the <code>ActionListener</code> to add
+     * <code>ActionListener</code>s will be invoked when the combo box is
+     * selected.
+     * 
+     * @param l
+     *            the <code>ActionListener</code> to add
      */
     public void addActionListener(ActionListener l) {
         getEventListenerList().addListener(ActionListener.class, l);
@@ -116,7 +124,8 @@ public class ComboBox
         if (!hasEventListenerList()) {
             return;
         }
-        EventListener[] listeners = getEventListenerList().getListeners(ActionListener.class);
+        EventListener[] listeners = getEventListenerList().getListeners(
+                ActionListener.class);
         ActionEvent e = null;
         for (int i = 0; i < listeners.length; ++i) {
             if (e == null) {
@@ -128,6 +137,7 @@ public class ComboBox
 
     /**
      * Returns the field label.
+     * 
      * @return the field label.
      */
     public String getFieldLabel() {
@@ -136,6 +146,7 @@ public class ComboBox
 
     /**
      * Returns the selected item.
+     * 
      * @return the selected item, or <code>null</code> if no item is selected.
      */
     public Object getSelectedItem() {
@@ -148,6 +159,7 @@ public class ComboBox
 
     /**
      * Returns the selection model.
+     * 
      * @return the selection model.
      */
     public ListSelectionModel getSelectionModel() {
@@ -156,37 +168,47 @@ public class ComboBox
 
     /**
      * Returns whether any <code>ActionListener</code>s are registered.
-     *
+     * 
      * @return true if any action listeners are registered
      */
     public boolean hasActionListeners() {
         return getEventListenerList().getListenerCount(ActionListener.class) != 0;
     }
+
     /**
      * Handles the process input event and fires any action events.
-     * @param inputName the inputName of the event.
-     * @param inputValue the associated value (irrelevant for ComboBox).
+     * 
+     * @param inputName
+     *            the inputName of the event.
+     * @param inputValue
+     *            the associated value (irrelevant for ComboBox).
      */
     @Override
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
         if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
-            if (inputValue == null){
+            if (inputValue == null) {
                 selectionModel.clearSelection();
+
+                for (int x = 0; x < getModel().size(); x++) {
+                    if (getModel().get(x) == null) {
+                        processSelectionInput(x);
+                    }
+                }
+            } else {
+                processSelectionInput((Integer) inputValue);
             }
-            else{
-                processSelectionInput((Integer) inputValue);    
-            }
-            
-        }
-        else if (INPUT_ACTION.equals(inputName)) {
+
+        } else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
         }
     }
 
     /**
      * Removes the specified action listener.
-     * @param l the listener to remove.
+     * 
+     * @param l
+     *            the listener to remove.
      */
     public void removeActionListener(ActionListener l) {
         if (!hasEventListenerList()) {
@@ -201,7 +223,9 @@ public class ComboBox
 
     /**
      * Sets whether the combo box is editable.
-     * @param editable whether the combo box is editable.
+     * 
+     * @param editable
+     *            whether the combo box is editable.
      */
     public void setEditable(boolean editable) {
         set(EDITABLE_PROPERTY, editable);
@@ -209,7 +233,9 @@ public class ComboBox
 
     /**
      * Sets the field label.
-     * @param fieldLabel the field label.
+     * 
+     * @param fieldLabel
+     *            the field label.
      */
     public void setFieldLabel(String fieldLabel) {
         set(FIELD_LABEL_PROPERTY, fieldLabel);
@@ -217,12 +243,14 @@ public class ComboBox
 
     /**
      * Sets whether it is mandatory to select one of the entries.
-     * @param forceSelection whether a selection is mandatory.
+     * 
+     * @param forceSelection
+     *            whether a selection is mandatory.
      */
     public void setForceSelection(boolean forceSelection) {
         set(FORCE_SELECTION_PROPERTY, forceSelection);
     }
-    
+
     /**
      * Sets whether the field value is valid.
      * 
@@ -232,10 +260,12 @@ public class ComboBox
     public void setIsValid(boolean isValid) {
         set(VALID_PROPERTY, isValid);
     }
-    
+
     /**
      * Sets the width of the dropped down list.
-     * @param listWidth the width.
+     * 
+     * @param listWidth
+     *            the width.
      */
     public void setListWidth(int listWidth) {
         set(LIST_WIDTH_PROPERTY, listWidth);
@@ -253,7 +283,7 @@ public class ComboBox
         firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
         selectionModel.clearSelection();
     }
-    
+
     /**
      * Sets the invalid text property.
      * 
@@ -266,15 +296,15 @@ public class ComboBox
 
     /**
      * Selects the specified index in the selection model.
-     *
-     * @param selectedIndex the index to select.
+     * 
+     * @param selectedIndex
+     *            the index to select.
      */
     private void processSelectionInput(int selectedIndex) {
         // Temporarily suppress the Tables selection event notifier.
         suppressChangeNotifications = true;
         selectionModel.clearSelection();
-        selectionModel.setSelectedIndex(selectedIndex,
-                true);
+        selectionModel.setSelectedIndex(selectedIndex, true);
         // End temporary suppression.
         suppressChangeNotifications = false;
     }
@@ -282,15 +312,16 @@ public class ComboBox
     /**
      * Sets the selected item, clearing the selection if a <code>null</code>
      * value is passed.
-     * @param selectedItem the selected item, or <code>null</code> to clear
-     * the selection.
+     * 
+     * @param selectedItem
+     *            the selected item, or <code>null</code> to clear the
+     *            selection.
      */
     public void setSelectedItem(Object selectedItem) {
         Object oldValue = getSelectedItem();
         if (selectedItem == null) {
             selectionModel.clearSelection();
-        }
-        else {
+        } else {
             int size = model.size();
             for (int i = 0; i < size; i++) {
                 if (model.get(i).equals(selectedItem)) {
@@ -303,14 +334,15 @@ public class ComboBox
     }
 
     /**
-     * Sets the row selection model.
-     * The selection model may not be null.
-     *
-     * @param newValue the new selection model
+     * Sets the row selection model. The selection model may not be null.
+     * 
+     * @param newValue
+     *            the new selection model
      */
     public void setSelectionModel(ListSelectionModel newValue) {
         if (newValue == null) {
-            throw new IllegalArgumentException("Selection model may not be null.");
+            throw new IllegalArgumentException(
+                    "Selection model may not be null.");
         }
         ListSelectionModel oldValue = selectionModel;
         if (oldValue != null) {
@@ -323,15 +355,19 @@ public class ComboBox
 
     /**
      * Sets whether type ahead should be enabled (defaults to false).
-     * @param typeAhead whether type ahead should be enabled.
+     * 
+     * @param typeAhead
+     *            whether type ahead should be enabled.
      */
     public void setTypeAhead(boolean typeAhead) {
         set(TYPE_AHEAD_PROPERTY, typeAhead);
     }
-    
+
     /**
      * Sets the width of the combo box.
-     * @param width the width.
+     * 
+     * @param width
+     *            the width.
      */
     public void setWidth(int width) {
         set(WIDTH_PROPERTY, width);
