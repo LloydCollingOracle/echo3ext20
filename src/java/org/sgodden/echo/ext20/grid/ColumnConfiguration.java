@@ -1,277 +1,148 @@
-/* =================================================================
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) any later version.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-#
-# ================================================================= */
 package org.sgodden.echo.ext20.grid;
 
-import java.io.Serializable;
+import nextapp.echo.app.event.ChangeListener;
 
-/**
- * Configuration of a column for a grid.
- * 
- * @author sgodden
- * 
- */
-public class ColumnConfiguration implements Serializable {
+public interface ColumnConfiguration {
 
-	private static final long serialVersionUID = 20080310L;
+    /**
+     * Returns the attribute path.
+     * 
+     * @return the attribute path.
+     */
+    public abstract String getAttributePath();
 
-	private String attributePath;
-	private int displaySequence;
-	private int sortSequence;
-	private String header;
-	private Integer width;
-	private boolean sortable = true;
-	private String dataIndex;
-	private boolean hidden = false;
-	private String sortDirection;
+    /**
+     * Sets the attribute path.
+     * 
+     * @param attributePath
+     *            the attribute path.
+     */
+    public abstract void setSortDirection(String sortDirection);
 
-	/**
-	 * Default constructor.
-	 */
-	public ColumnConfiguration() {
-	}
+    /**
+     * Returns the sort direction.
+     * 
+     * @return the sort direction.
+     */
+    public abstract String getSortDirection();
 
-	/**
-	 * Constructs a new column configuration.
-	 * 
-	 * @param header
-	 *            the header text.
-	 * @param width
-	 *            a specific width for the column.
-	 * @param sortable
-	 *            whether the column is sortable.
-	 * @param dataIndex
-	 *            the id of the column in the store to which this column maps.
-	 */
-	public ColumnConfiguration(String header, Integer width, Boolean sortable,
-			String dataIndex) {
-		super();
-		this.header = header;
-		this.width = width;
-		this.sortable = sortable;
-		this.dataIndex = dataIndex;
-	}
+    /**
+     * Sets the sort direction.
+     * 
+     * @param attributePath
+     *            the sort direction.
+     */
+    public abstract void setAttributePath(String attributePath);
 
-	/**
-	 * Constructs a new column configuration.
-	 * 
-	 * @param header
-	 *            the header text.
-	 * @param width
-	 *            a specific width for the column.
-	 * @param sortable
-	 *            whether the column is sortable.
-	 * @param dataIndex
-	 *            the id of the column in the store to which this column maps.
-	 * @param hidden
-	 *            whether the column is hidden.
-	 */
-	public ColumnConfiguration(String header, Integer width, Boolean sortable,
-			String dataIndex, boolean hidden) {
-		super();
-		this.header = header;
-		this.width = width;
-		this.sortable = sortable;
-		this.dataIndex = dataIndex;
-		this.hidden = hidden;
-	}
+    /**
+     * Returns the display sequence.
+     * 
+     * @return the display sequence.
+     */
+    public abstract int getDisplaySequence();
 
-	/**
-	 * Constructs a new column configuration.
-	 * 
-	 * @param header
-	 *            the header text.
-	 * @param dataIndex
-	 *            the id of the column in the store to which this column maps.
-	 */
-	public ColumnConfiguration(String header, String dataIndex) {
-		this(header, null, true, dataIndex);
-	}
+    /**
+     * Sets the display sequence.
+     * 
+     * @param displaySequence
+     *            the display sequence.
+     */
+    public abstract void setDisplaySequence(int displaySequence);
 
-	/**
-	 * Returns the attribute path.
-	 * 
-	 * @return the attribute path.
-	 */
-	public String getAttributePath() {
-		return attributePath;
-	}
+    /**
+     * Returns the sort sequence.
+     * 
+     * @return the sort sequence.
+     */
+    public abstract int getSortSequence();
 
-	/**
-	 * Sets the attribute path.
-	 * 
-	 * @param attributePath
-	 *            the attribute path.
-	 */
-	public void setSortDirection(String sortDirection) {
-		this.sortDirection = sortDirection;
-	}
+    /**
+     * Sets the sort sequence.
+     * 
+     * @param sortSequence
+     *            the sort sequence.
+     */
+    public abstract void setSortSequence(int sortSequence);
 
-	/**
-	 * Returns the sort direction.
-	 * 
-	 * @return the sort direction.
-	 */
-	public String getSortDirection() {
-		return sortDirection;
-	}
+    /**
+     * Returns the header text.
+     * 
+     * @return the header text.
+     */
+    public abstract String getHeader();
 
-	/**
-	 * Sets the sort direction.
-	 * 
-	 * @param attributePath
-	 *            the sort direction.
-	 */
-	public void setAttributePath(String attributePath) {
-		this.attributePath = attributePath;
-	}
+    /**
+     * Sets the header text.
+     * 
+     * @param header
+     *            the header text.
+     */
+    public abstract void setHeader(String header);
 
-	/**
-	 * Returns the display sequence.
-	 * 
-	 * @return the display sequence.
-	 */
-	public int getDisplaySequence() {
-		return displaySequence;
-	}
+    /**
+     * Returns the width.
+     * 
+     * @return the width.
+     */
+    public abstract Integer getWidth();
 
-	/**
-	 * Sets the display sequence.
-	 * 
-	 * @param displaySequence
-	 *            the display sequence.
-	 */
-	public void setDisplaySequence(int displaySequence) {
-		this.displaySequence = displaySequence;
-	}
+    /**
+     * Sets the width.
+     * 
+     * @param width
+     *            the width.
+     */
+    public abstract void setWidth(Integer width);
 
-	/**
-	 * Returns the sort sequence.
-	 * 
-	 * @return the sort sequence.
-	 */
-	public int getSortSequence() {
-		return sortSequence;
-	}
+    /**
+     * Returns whether this column is sortable.
+     * 
+     * @return whether this column is sortable.
+     */
+    public abstract boolean getSortable();
 
-	/**
-	 * Sets the sort sequence.
-	 * 
-	 * @param sortSequence
-	 *            the sort sequence.
-	 */
-	public void setSortSequence(int sortSequence) {
-		this.sortSequence = sortSequence;
-	}
+    /**
+     * Sets whether this column is sortable.
+     * 
+     * @param sortable
+     *            whether this column is sortable.
+     */
+    public abstract void setSortable(boolean sortable);
 
-	/**
-	 * Returns the header text.
-	 * 
-	 * @return the header text.
-	 */
-	public String getHeader() {
-		return header;
-	}
+    /**
+     * Returns the index of the data column from which data should be taken for
+     * this column.
+     * 
+     * @return the data column index.
+     */
+    public abstract String getDataIndex();
 
-	/**
-	 * Sets the header text.
-	 * 
-	 * @param header
-	 *            the header text.
-	 */
-	public void setHeader(String header) {
-		this.header = header;
-	}
+    /**
+     * Sets the index of the data column from which data should be taken for
+     * this column.
+     * 
+     * @param dataIndex
+     *            the data column index.
+     */
+    public abstract void setDataIndex(String dataIndex);
 
-	/**
-	 * Returns the width.
-	 * 
-	 * @return the width.
-	 */
-	public Integer getWidth() {
-		return width;
-	}
+    /**
+     * Returns whether this column should be hidden.
+     * 
+     * @return whether this column should be hidden.
+     */
+    public abstract boolean getHidden();
 
-	/**
-	 * Sets the width.
-	 * 
-	 * @param width
-	 *            the width.
-	 */
-	public void setWidth(Integer width) {
-		this.width = width;
-	}
+    /**
+     * Sets whether this column should be hidden.
+     * 
+     * @param hidden
+     *            whether this column should be hidden.
+     */
+    public abstract void setHidden(boolean hidden);
 
-	/**
-	 * Returns whether this column is sortable.
-	 * 
-	 * @return whether this column is sortable.
-	 */
-	public boolean getSortable() {
-		return sortable;
-	}
+    public abstract void addChangeListener(ChangeListener listener);
 
-	/**
-	 * Sets whether this column is sortable.
-	 * 
-	 * @param sortable
-	 *            whether this column is sortable.
-	 */
-	public void setSortable(boolean sortable) {
-		this.sortable = sortable;
-	}
-
-	/**
-	 * Returns the index of the data column from which data should be taken for
-	 * this column.
-	 * 
-	 * @return the data column index.
-	 */
-	public String getDataIndex() {
-		return dataIndex;
-	}
-
-	/**
-	 * Sets the index of the data column from which data should be taken for
-	 * this column.
-	 * 
-	 * @param dataIndex
-	 *            the data column index.
-	 */
-	public void setDataIndex(String dataIndex) {
-		this.dataIndex = dataIndex;
-	}
-
-	/**
-	 * Returns whether this column should be hidden.
-	 * 
-	 * @return whether this column should be hidden.
-	 */
-	public boolean getHidden() {
-		return hidden;
-	}
-
-	/**
-	 * Sets whether this column should be hidden.
-	 * 
-	 * @param hidden
-	 *            whether this column should be hidden.
-	 */
-	public void setHidden(boolean hidden) {
-		this.hidden = hidden;
-	}
+    public abstract void removeChangeListener(ChangeListener listener);
 
 }

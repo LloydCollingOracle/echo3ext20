@@ -37,6 +37,14 @@ EchoExt20.GridPanel = Core.extend(EchoExt20.ExtComponent, {
 
     doSelect: function() {
         this.fireEvent({type: "select", source: this});
+    },
+
+    doColumnRemove: function(colIndex) {
+        this.fireEvent({type: "columnRemove", source: this, data: colIndex});
+    },
+
+    doColumnAdd: function(colIndex) {
+        this.fireEvent({type: "columnAdd", source: this});
     }
     
 });
@@ -77,11 +85,13 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         var existingComponent = Ext.ComponentMgr.get(this.component.renderId);
         if (existingComponent != null)
             Ext.ComponentMgr.unregister(existingComponent);
+        
+        options["plugins"] = new EchoExt20.GridColAddRemove();
 
         options["store"] = this._makeStore();
         
         if (this.component.get("forceFit")) {
-        		options["viewConfig"] = {forceFit:true}
+                options["viewConfig"] = {forceFit:true}
         }
         
         var view;
@@ -93,14 +103,14 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         if (view) {
             options["view"] = view;
         }
-		
+        
         options["cm"] = this.component.get("columnModel");
         
         // ext does not support multiple interval selection
         var smode = this.component.get("selectionMode");
         var ss = true;
         if (smode != "S") {
-        	ss = false;
+            ss = false;
         }
         var sm = new Ext.grid.RowSelectionModel({singleSelect: ss});
         
@@ -125,6 +135,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         ret.on("render",this._handleOnRender,this);
         ret.on("columnmove",this._handleColumnMove,this);
         ret.on("columnresize",this._handleColumnResize,this);
+        ret.on("columnremove", this._handleColumnRemove, this);
+        ret.on("columnadd", this._handleColumnAdd, this);
         options["cm"].on("hiddenchange", this._handleColumnHide, this);
         
         return ret;
@@ -145,16 +157,24 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
 
     _handleColumnMove: function(oldIndex, newIndex) {
-    	this.component.set("columnModel", this.extComponent.getColumnModel());
+        this.component.set("columnModel", this.extComponent.getColumnModel());
         this.component.doSort();
     },
 
     _handleColumnResize: function(colIndex, newSize) {
-    	this.component.set("columnModel", this.extComponent.getColumnModel());
+        this.component.set("columnModel", this.extComponent.getColumnModel());
     },
     
     _handleColumnHide: function(columnIndex, hidden) {
-    	this.component.set("columnModel", this.extComponent.getColumnModel());
+        this.component.set("columnModel", this.extComponent.getColumnModel());
+    },
+    
+    _handleColumnRemove : function(columnIndex) {
+    	this.component.doColumnRemove(columnIndex);
+    },
+    
+    _handleColumnAdd : function() {
+    	this.component.doColumnAdd();
     },
 
     _handleKeyDownEvent: function(evt) {
@@ -168,13 +188,13 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
 
     _handleOnRender: function() {
-    	this._handleServerSelections();
-    	if (this._reconfigureOnRender) {
-	        this.extComponent.reconfigure(
-	          this._makeStore(),
-	          this.component.get("columnModel")
-	        );
-    	}
+        this._handleServerSelections();
+        if (this._reconfigureOnRender) {
+            this.extComponent.reconfigure(
+              this._makeStore(),
+              this.component.get("columnModel")
+            );
+        }
     },
     
     _handleRowActivation: function() {
@@ -307,33 +327,34 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         Ext.Element.get("approot").un("keyup",
                 this._handleKeyUpEvent);
     },
-	
+    
     renderUpdate: function(update) {
         EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
 
         // suspend event handling while we are manipulating
         this._handleSortEvents = false;
         this._handleSelectionEvents = false;
-		
+        
         var updatedStore = update.getUpdatedProperty("model");
         if (updatedStore != null) {
-        	/*
-        	 * The grid can only reconfigure itself if it is rendered.
-        	 */
-        	if (this.extComponent.rendered) {
-        		this.extComponent.getColumnModel().removeListener("hiddenchange", this._handleColumnHide, this);
-	            this.extComponent.reconfigure(
-	              this._makeStore(),
-	              this.component.get("columnModel")
-	            );
-        		this.extComponent.getColumnModel().addListener("hiddenchange", this._handleColumnHide, this);
-        	}
-        	else {
-        		/*
-        		 * Make a note to reconfigure when the grid is rendered.
-        		 */
-        		this._reconfigureOnRender = true;
-        	}
+            /*
+             * The grid can only reconfigure itself if it is rendered.
+             */
+            if (this.extComponent.rendered) {
+                this.extComponent.getColumnModel().removeListener("hiddenchange", this._handleColumnHide, this);
+                var colModel = this.component.get("columnModel");
+                this.extComponent.reconfigure(
+                  this._makeStore(),
+                  colModel
+                );
+                this.extComponent.getColumnModel().addListener("hiddenchange", this._handleColumnHide, this);
+            }
+            else {
+                /*
+                 * Make a note to reconfigure when the grid is rendered.
+                 */
+                this._reconfigureOnRender = true;
+            }
         }
 
         this._handleServerSelections();
@@ -379,9 +400,9 @@ Ext.extend(EchoExt20.GridPanelDataProxy, Ext.data.DataProxy, {
 
     load : function(params, reader, callback, scope, arg){
         params = params || {};
-		
+        
         var result;
-		
+        
         if (params.sort) {
             var sortField = params.sort;
             var direction = params.dir;
@@ -389,7 +410,7 @@ Ext.extend(EchoExt20.GridPanelDataProxy, Ext.data.DataProxy, {
                 this.syncPeer.doSort(sortField, direction);
             }
         }
-		
+        
         try {
             result = reader.readRecords(this.data);
         }
@@ -400,15 +421,52 @@ Ext.extend(EchoExt20.GridPanelDataProxy, Ext.data.DataProxy, {
         }
         callback.call(scope, result, arg, true);
     }
-	
+    
 });
 
 
 
 EchoExt20.ColumnModel = function(attributes)  {
-	EchoExt20.ColumnModel.superclass.constructor.call(this, attributes);
-	this.className = "Ext20ColumnModel";
+    EchoExt20.ColumnModel.superclass.constructor.call(this, attributes);
+    this.className = "Ext20ColumnModel";
 };
 
 Ext.extend(EchoExt20.ColumnModel, Ext.grid.ColumnModel, {
+});
+
+// plugin for the grid that adds menu items 'add column' and 'remove column'
+// to the header context menu
+EchoExt20.GridColAddRemove = function(config) {
+    Ext.apply(this, config);
+};
+
+Ext.extend(EchoExt20.GridColAddRemove, Ext.util.Observable, {
+    init : function(gridPanel) {
+        var view = gridPanel.getView();
+        Ext.apply(view, {
+            renderUI: view.renderUI.createSequence(function() {
+                this.hmenu.add('-');
+                this.hmenu.add({id:'....removecol', text:'Remove Column'});
+                this.hmenu.add({id:'....addcol', text:'Add Column'});
+            }),
+
+            handleHdMenuClick : view.handleHdMenuClick.createInterceptor(function(item) {
+                var index = this.hdCtxIndex;
+                var cm = this.cm;
+                switch(item.id) {
+                    case "....removecol":
+                        this.grid.fireEvent('columnremove', cm.getColumnId(index));
+                        break;
+                    case "....addcol":
+                        this.grid.fireEvent('columnadd');
+                        break;
+                }
+            })
+        });
+        
+        gridPanel.addEvents(
+            "columnremove",
+            "columnadd"
+        );
+    }
 });

@@ -20,8 +20,8 @@ import org.sgodden.echo.ext20.Panel
 import org.sgodden.echo.ext20.grid.GridPanel
 import nextapp.echo.app.table.TableModel
 import org.sgodden.ui.models.DefaultSortableTableModel
-import org.sgodden.echo.ext20.grid.ColumnModel
-import org.sgodden.echo.ext20.grid.ColumnConfiguration
+import org.sgodden.echo.ext20.grid.DefaultColumnModel
+import org.sgodden.echo.ext20.grid.DefaultColumnConfiguration
 /**
  * Tests to ensure that a grid which is updated but not yet rendered does
  * not fall over and reconfigures itself on render.
@@ -64,14 +64,14 @@ rendered on initial display of these tabs.  Nothing should fall over...''',
     private makeGridPanel() {
         gridPanel = new GridPanel(
             title: "Grid panel",
-            columnModel: new ColumnModel(
+            columnModel: new DefaultColumnModel(
                 columns: [
-                    new ColumnConfiguration (
+                    new DefaultColumnConfiguration (
                         header: "Column 1",
                         width: 200,
                         dataIndex: "col1"
                     ),
-                    new ColumnConfiguration (
+                    new DefaultColumnConfiguration (
                         header: "Column 2",
                         width: 200,
                         dataIndex: "col2"

@@ -111,7 +111,10 @@ public class Window
      * Closes the window, by removing it from its parent container.
      */
     public void close() {
-        getParent().remove(this);
+        if (getParent() != null) {
+            getParent().remove(this);
+            fireWindowClosingEvent();
+        }
     }
     
     @Override

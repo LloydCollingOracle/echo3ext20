@@ -17,7 +17,6 @@
 package org.sgodden.echo.ext20.grid;
 
 import java.util.EventListener;
-import java.util.List;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -33,50 +32,41 @@ import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.ui.models.BackingObjectDataModel;
-import org.sgodden.ui.models.SortData;
 import org.sgodden.ui.models.SortableTableModel;
 
 /**
- * An ext GridPanel.  It uses swing table models, since these provide a complete
- * model API, and it is portable since it is shipped with the JVM.  An adapter takes
- * care of converting these into ext stores.
+ * An ext GridPanel. It uses swing table models, since these provide a complete
+ * model API, and it is portable since it is shipped with the JVM. An adapter
+ * takes care of converting these into ext stores.
  * <p/>
- * Code example:
- * <pre class="code">
-List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
-cols.add(new ColumnConfiguration("User ID", "userid"));
-cols.add(new ColumnConfiguration("Name", "name"));
-ColumnModel columnModel = new ColumnModel(cols);
-
-TableModel model = new DefaultTableModel(
-    data, // simple Object[][] of your data
-    new String[]{"id", "userid", "name", "date"});
-
-gridPanel = new GridPanel(columnModel, model);
-
-gridPanel.addActionListener(new ActionListener(){
-    public void actionPerformed(ActionEvent e) {
-        Object[] data = gridPanel.getSelectedRow();
-        ...
-    }
-});
- * </pre>
+ * Code example: <pre class="code"> List<ColumnConfiguration> cols = new
+ * ArrayList<ColumnConfiguration>(); cols.add(new ColumnConfiguration("User ID",
+ * "userid")); cols.add(new ColumnConfiguration("Name", "name")); ColumnModel
+ * columnModel = new ColumnModel(cols);
+ * 
+ * TableModel model = new DefaultTableModel( data, // simple Object[][] of your
+ * data new String[]{"id", "userid", "name", "date"});
+ * 
+ * gridPanel = new GridPanel(columnModel, model);
+ * 
+ * gridPanel.addActionListener(new ActionListener(){ public void
+ * actionPerformed(ActionEvent e) { Object[] data = gridPanel.getSelectedRow();
+ * ... } }); </pre>
  * 
  * @author sgodden
- *
+ * 
  */
-@SuppressWarnings({"serial"})
-public class GridPanel
-        extends Panel 
-        implements TableModelListener, PagingToolbarClient {
+@SuppressWarnings( { "serial" })
+public class GridPanel extends Panel implements TableModelListener,
+        PagingToolbarClient {
 
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String COLUMN_MODEL_PROPERTY = "columnModel";
-    public static final String GROUP_FIELD_PROPERTY="groupField";
+    public static final String GROUP_FIELD_PROPERTY = "groupField";
     public static final String INPUT_ACTION = "action";
-    public static final String MODEL_CHANGED_PROPERTY="model";
-    public static final String PAGE_OFFSET_PROPERTY="pageOffset";
+    public static final String MODEL_CHANGED_PROPERTY = "model";
+    public static final String PAGE_OFFSET_PROPERTY = "pageOffset";
     public static final String SELECT_ACTION = "select";
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODE = "selectionMode";
@@ -86,7 +76,10 @@ public class GridPanel
     public static final String SORT_LISTENERS_PROPERTY = "sort";
     public static final String SORT_ORDER_PROPERTY = "sortDirection";
     public static final String SET_SIZE_COLUMNS_TO_GRID_PROPERTY = "forceFit";
-    
+    public static final String COLUMN_ADDED = "columnAdd";
+    public static final String COLUMN_REMOVED = "columnRemove";
+    public static final String COLUMN_LISTENERS = "columnListeners";
+
     private TableModel tableModel;
     private int pageSize;
     private ListSelectionModel selectionModel;
@@ -115,11 +108,14 @@ public class GridPanel
         setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
         setSelectionModel(new DefaultListSelectionModel());
         setPageOffset(0);
+        setComplexProperty(COLUMN_MODEL_PROPERTY, true);
     }
-    
+
     /**
      * Constructs a new grid panel.
-     * @param columnModel the column model.
+     * 
+     * @param columnModel
+     *            the column model.
      */
     public GridPanel(ColumnModel columnModel) {
         this();
@@ -128,8 +124,11 @@ public class GridPanel
 
     /**
      * Constructs a new grid panel.
-     * @param columnModel the column model.
-     * @param tableModel the table model.
+     * 
+     * @param columnModel
+     *            the column model.
+     * @param tableModel
+     *            the table model.
      */
     public GridPanel(ColumnModel columnModel, TableModel tableModel) {
         this(columnModel);
@@ -138,10 +137,10 @@ public class GridPanel
 
     /**
      * Adds an <code>ActionListener</code> to the <code>Table</code>.
-     * <code>ActionListener</code>s will be invoked when the user
-     * selects a row.
-     *
-     * @param l the <code>ActionListener</code> to add
+     * <code>ActionListener</code>s will be invoked when the user selects a row.
+     * 
+     * @param l
+     *            the <code>ActionListener</code> to add
      */
     public void addActionListener(ActionListener l) {
         getEventListenerList().addListener(ActionListener.class, l);
@@ -157,11 +156,13 @@ public class GridPanel
         if (!hasEventListenerList()) {
             return;
         }
-        EventListener[] listeners = getEventListenerList().getListeners(ActionListener.class);
+        EventListener[] listeners = getEventListenerList().getListeners(
+                ActionListener.class);
         ActionEvent e = null;
         for (int i = 0; i < listeners.length; ++i) {
             if (e == null) {
-                e = new ActionEvent(this, (String) getRenderProperty(ACTION_COMMAND_PROPERTY));
+                e = new ActionEvent(this,
+                        (String) getRenderProperty(ACTION_COMMAND_PROPERTY));
             }
             ((ActionListener) listeners[i]).actionPerformed(e);
         }
@@ -169,26 +170,27 @@ public class GridPanel
 
     /**
      * Returns the action command which will be provided in
-     * <code>ActionEvent</code>s fired by this
-     * <code>Table</code>.
-     *
+     * <code>ActionEvent</code>s fired by this <code>Table</code>.
+     * 
      * @return the action command
      */
     public String getActionCommand() {
         return (String) get(ACTION_COMMAND_PROPERTY);
     }
-    
+
     /**
      * Returns the column model for the table.
+     * 
      * @return the column model for the table.
      */
     public ColumnModel getColumnModel() {
-        return ((ColumnModel)get(COLUMN_MODEL_PROPERTY));
+        return ((ColumnModel) get(COLUMN_MODEL_PROPERTY));
     }
-    
+
     /**
-     * Returns whether a server event should be generated
-     * immediately upon the user selecting a grid row.
+     * Returns whether a server event should be generated immediately upon the
+     * user selecting a grid row.
+     * 
      * @return whether to generate a server event.
      */
     public boolean isNotifySelect() {
@@ -196,8 +198,9 @@ public class GridPanel
     }
 
     /**
-     * Returns the offset to the current page, in the case that the
-     * page size has been set.
+     * Returns the offset to the current page, in the case that the page size
+     * has been set.
+     * 
      * @return the offset to the current page.
      */
     public int getPageOffset() {
@@ -206,22 +209,25 @@ public class GridPanel
 
     /**
      * Returns the page size, or 0 if the table is not paged.
+     * 
      * @return the page size, or 0 if the table is not paged.
      */
     public int getPageSize() {
-       return pageSize;
+        return pageSize;
     }
-    
+
     /**
      * Returns the selected indices.
+     * 
      * @return the selected indices.
      */
     public int[] getSelectedIndices() {
         return selectedIndices;
     }
-    
+
     /**
      * Returns the selection mode.
+     * 
      * @return the selection mode.
      */
     public SelectionMode getSelectionMode() {
@@ -229,23 +235,21 @@ public class GridPanel
         String mode = (String) get(SELECTION_MODE);
         if (mode.equals("S")) {
             ret = SelectionMode.SINGLE_SELECTION;
-        }
-        else if (mode.equals("SI")) {
+        } else if (mode.equals("SI")) {
             ret = SelectionMode.SINGLE_INTERVAL_SELECTION;
-        }
-        else if (mode.equals("MI")) {
+        } else if (mode.equals("MI")) {
             ret = SelectionMode.MULTIPLE_INTERVAL_SELECTION;
-        }
-        else {
-            throw new IllegalArgumentException("Unknown selection mode: " + mode);
+        } else {
+            throw new IllegalArgumentException("Unknown selection mode: "
+                    + mode);
         }
         return ret;
-        
+
     }
 
     /**
      * Returns the row selection model.
-     *
+     * 
      * @return the selection model
      */
     public ListSelectionModel getSelectionModel() {
@@ -253,25 +257,28 @@ public class GridPanel
     }
 
     /**
-     * Convenience method to return the selected backing object in the case
-     * that the model implements {@link BackingObjectDataModel}.
+     * Convenience method to return the selected backing object in the case that
+     * the model implements {@link BackingObjectDataModel}.
+     * 
      * @return
      */
     public Object getSelectedBackingObject() {
         if (!(tableModel instanceof BackingObjectDataModel)) {
-            throw new IllegalStateException("Backing object does not" +
-                    " implement BackingObjectDataModel");
+            throw new IllegalStateException("Backing object does not"
+                    + " implement BackingObjectDataModel");
         }
         Object ret = null;
         if (selectionModel.getMinSelectedIndex() > -1) {
-            ret = ((BackingObjectDataModel)tableModel).getBackingObjectForRow(
-                    selectionModel.getMinSelectedIndex());
+            ret = ((BackingObjectDataModel) tableModel)
+                    .getBackingObjectForRow(selectionModel
+                            .getMinSelectedIndex());
         }
         return ret;
     }
 
     /**
      * Returns the name of the field by which the data should be sorted.
+     * 
      * @return the name of the field by which the data should be sorted.
      */
     public String getSortField() {
@@ -281,6 +288,7 @@ public class GridPanel
     /**
      * Returns the order by which the field specified in
      * {@link #setSortField(java.lang.String)} should be sorted.
+     * 
      * @return the sort order.
      */
     public boolean getSortOrder() {
@@ -289,24 +297,25 @@ public class GridPanel
         String sortString = (String) get(SORT_ORDER_PROPERTY);
         if ("ASC".equals(sortString)) {
             ret = true;
-        }
-        else if ("DESC".equals(sortString)) {
+        } else if ("DESC".equals(sortString)) {
             ret = false;
         }
 
         return ret;
     }
-    
+
     /**
      * Returns the grids forceFit config.
+     * 
      * @return is the grid forceFit.
      */
-    public boolean getSetSizeColumnsToGrid(){
-    	return (Boolean) get(SET_SIZE_COLUMNS_TO_GRID_PROPERTY);
+    public boolean getSetSizeColumnsToGrid() {
+        return (Boolean) get(SET_SIZE_COLUMNS_TO_GRID_PROPERTY);
     }
-    
+
     /**
      * Returns the grid's table model.
+     * 
      * @return the table model.
      */
     public TableModel getTableModel() {
@@ -315,7 +324,7 @@ public class GridPanel
 
     /**
      * Returns whether any <code>ActionListener</code>s are registered.
-     *
+     * 
      * @return true if any action listeners are registered
      */
     public boolean hasActionListeners() {
@@ -324,7 +333,7 @@ public class GridPanel
 
     /**
      * Returns whether the model is sortable.
-     *
+     * 
      * @return true if the model is sortable, false if not.
      */
     public boolean isModelSortable() {
@@ -332,59 +341,61 @@ public class GridPanel
     }
 
     /**
-     * @see nextapp.echo.app.Component#processInput(java.lang.String, java.lang.Object)
+     * @see nextapp.echo.app.Component#processInput(java.lang.String,
+     *      java.lang.Object)
      */
     @Override
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
         if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
             setSelectedIndices((int[]) inputValue);
-        }
-        else if (INPUT_ACTION.equals(inputName)) {
+        } else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
-        }
-        else if (SORT_FIELD_PROPERTY.equals(inputName)) {
-            setSortField((String)inputValue);
-        }
-        else if (SORT_ORDER_PROPERTY.equals(inputName)) {
+        } else if (SORT_FIELD_PROPERTY.equals(inputName)) {
+            setSortField((String) inputValue);
+        } else if (SORT_ORDER_PROPERTY.equals(inputName)) {
             String value = (String) inputValue;
             if (value.equals("ASC")) {
                 setSortAscending(true);
-            }
-            else if (value.equals("DESC")) {
+            } else if (value.equals("DESC")) {
                 setSortAscending(false);
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("Unknown sort order: "
                         + value);
             }
-        }
-        else if (SORT_ACTION.equals(inputName)) {
+        } else if (SORT_ACTION.equals(inputName)) {
             if (getTableModel() instanceof SortableTableModel) {
                 ColumnModel colModel = getColumnModel();
-                List<ColumnConfiguration> columns = colModel.getColumns();
-                int[] columnIndices = new int[columns.size()];
-                boolean[] ascending = new boolean[columns.size()];
-                
+                int[] columnIndices = new int[colModel.getColumnCount()];
+                boolean[] ascending = new boolean[colModel.getColumnCount()];
+
                 for (int i = 0; i < columnIndices.length; i++) {
-                    int sequence = columns.get(i).getDisplaySequence();
+                    int sequence = colModel.getColumn(i).getDisplaySequence();
                     columnIndices[i] = sequence;
-                    ascending[i] = "ASCENDING".equals(columns.get(i).getSortDirection())
-                        || "ASC".equals(columns.get(i).getSortDirection());
+                    ascending[i] = "ASCENDING".equals(colModel.getColumn(i)
+                            .getSortDirection())
+                            || "ASC".equals(colModel.getColumn(i)
+                                    .getSortDirection());
                 }
-                ((SortableTableModel) getTableModel()).sort(columnIndices, ascending);
+                ((SortableTableModel) getTableModel()).sort(columnIndices,
+                        ascending);
                 getSelectionModel().clearSelection();
+            } else {
+                throw new IllegalStateException("Request to sort table made, "
+                        + "but model is not sortable");
             }
-            else {
-                throw new IllegalStateException("Request to sort table made, " +
-                        "but model is not sortable");
-            }
+        } else if (COLUMN_ADDED.equals(inputName)) {
+            fireColumnAddedEvent();
+        } else if (COLUMN_REMOVED.equals(inputName)) {
+            fireColumnRemovedEvent((Integer) inputValue);
         }
     }
 
     /**
      * Removes the specified action listener.
-     * @param l the listener to remove.
+     * 
+     * @param l
+     *            the listener to remove.
      */
     public void removeActionListener(ActionListener l) {
         if (!hasEventListenerList()) {
@@ -400,53 +411,62 @@ public class GridPanel
     /**
      * Sets the bottom toolbar, which must be an instance of
      * {@link PagingToolbar}.
+     * 
      * @param toolbar
      */
     @Override
     public void setBottomToolbar(Toolbar toolbar) {
         if (!(toolbar instanceof PagingToolbar)) {
-            throw new IllegalArgumentException("Toolbar must be" +
-                " an instance of org.sgodden.echo.ext20.grid.PagingToolbar");
+            throw new IllegalArgumentException(
+                    "Toolbar must be"
+                            + " an instance of org.sgodden.echo.ext20.grid.PagingToolbar");
         }
-        if (getTableModel() == null || pageSize ==0) {
-            throw new IllegalStateException("Initialise the model and" +
-                    " page size before setting the paging toolbar");
+        if (getTableModel() == null || pageSize == 0) {
+            throw new IllegalStateException("Initialise the model and"
+                    + " page size before setting the paging toolbar");
         }
         super.setBottomToolbar(toolbar);
-        ((PagingToolbar)toolbar).initialise(getTableModel(), pageSize, this);
+        ((PagingToolbar) toolbar).initialise(getTableModel(), pageSize, this);
     }
 
     /**
      * Sets the column model for the table.
-     * @param columnModel the column model for the table.
+     * WARNING: this forces a full re-draw of the grid.
+     * @param columnModel
+     *            the column model for the table.
      */
     public void setColumnModel(ColumnModel columnModel) {
         set(COLUMN_MODEL_PROPERTY, columnModel);
     }
 
     /**
-     * Sets the name of the column in the data model by which to
-     * group the table.
-     * @param groupField the name of the column by which to group.
+     * Sets the name of the column in the data model by which to group the
+     * table.
+     * 
+     * @param groupField
+     *            the name of the column by which to group.
      */
     public void setGroupField(String groupField) {
         set(GROUP_FIELD_PROPERTY, groupField);
     }
-    
+
     /**
-     * Sets whether a server event should be generated immediately
-     * upon the user selecting a row.
-     * selects a row.
-     * @param notify whether to generate a server event.
+     * Sets whether a server event should be generated immediately upon the user
+     * selecting a row. selects a row.
+     * 
+     * @param notify
+     *            whether to generate a server event.
      */
     public void setNotifySelect(boolean notify) {
         this.notifySelect = notify;
     }
 
     /**
-     * Sets the offset to the first record in the model that is being shown
-     * in the grid view.
-     * @param pageOffset the offset to the first record in the model.
+     * Sets the offset to the first record in the model that is being shown in
+     * the grid view.
+     * 
+     * @param pageOffset
+     *            the offset to the first record in the model.
      */
     public void setPageOffset(int pageOffset) {
         set(PAGE_OFFSET_PROPERTY, pageOffset);
@@ -455,9 +475,11 @@ public class GridPanel
 
     /**
      * Sets the size of the page that should be displayed when not displaying
-     * the entire table model at once.  A size of 0 means that the table
-     * should not be paged.
-     * @param pageSize the size of the page, or 0 to not page.
+     * the entire table model at once. A size of 0 means that the table should
+     * not be paged.
+     * 
+     * @param pageSize
+     *            the size of the page, or 0 to not page.
      */
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
@@ -467,7 +489,8 @@ public class GridPanel
     /**
      * Selects only the specified row indices.
      * 
-     * @param selectedIndices the indices to select
+     * @param selectedIndices
+     *            the indices to select
      */
     private void setSelectedIndices(int[] selectedIndices) {
         this.selectedIndices = selectedIndices;
@@ -475,16 +498,17 @@ public class GridPanel
         suppressChangeNotifications = true;
         selectionModel.clearSelection();
         for (int i = 0; i < selectedIndices.length; ++i) {
-            selectionModel.setSelectedIndex(selectedIndices[i],
-                    true);
+            selectionModel.setSelectedIndex(selectedIndices[i], true);
         }
         // End temporary suppression.
         suppressChangeNotifications = false;
     }
-    
+
     /**
      * Sets the selection mode for this grid.
-     * @param mode the selection mode.
+     * 
+     * @param mode
+     *            the selection mode.
      */
     public void setSelectionMode(SelectionMode mode) {
         switch (mode) {
@@ -500,14 +524,15 @@ public class GridPanel
     }
 
     /**
-     * Sets the row selection model.
-     * The selection model may not be null.
-     *
-     * @param newValue the new selection model
+     * Sets the row selection model. The selection model may not be null.
+     * 
+     * @param newValue
+     *            the new selection model
      */
     public void setSelectionModel(ListSelectionModel newValue) {
         if (newValue == null) {
-            throw new IllegalArgumentException("Selection model may not be null.");
+            throw new IllegalArgumentException(
+                    "Selection model may not be null.");
         }
         ListSelectionModel oldValue = selectionModel;
         if (oldValue != null) {
@@ -517,43 +542,49 @@ public class GridPanel
         selectionModel = newValue;
         firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
     }
-    
+
     /**
      * Sets the forceFit property of the grid panel.
+     * 
      * @param setSizeColumnsToGrid
      */
-    public void setSetSizeColumnsToGrid(Boolean setSizeColumnsToGrid){
-    	set(SET_SIZE_COLUMNS_TO_GRID_PROPERTY, setSizeColumnsToGrid);
+    public void setSetSizeColumnsToGrid(Boolean setSizeColumnsToGrid) {
+        set(SET_SIZE_COLUMNS_TO_GRID_PROPERTY, setSizeColumnsToGrid);
     }
-    
+
     /**
-     * Sets the name of the field by which the data will be sorted, and sets
-     * the sort sequence to ascending.
-     * @param sortField the name of the field to sort by.
+     * Sets the name of the field by which the data will be sorted, and sets the
+     * sort sequence to ascending.
+     * 
+     * @param sortField
+     *            the name of the field to sort by.
      */
     public void setSortField(String sortField) {
         set(SORT_FIELD_PROPERTY, sortField);
         setSortAscending(true);
     }
-    
+
     /**
      * Sets whether the field specified in
-     * {@link #setSortField(java.lang.String)} should be sorted
-     * ascending (true), or descending (false).
-     * @param ascending true to sort ascending, false to sort descending.
+     * {@link #setSortField(java.lang.String)} should be sorted ascending
+     * (true), or descending (false).
+     * 
+     * @param ascending
+     *            true to sort ascending, false to sort descending.
      */
     public void setSortAscending(boolean ascending) {
         if (ascending) {
             set(SORT_ORDER_PROPERTY, "ASC");
-        }
-        else {
+        } else {
             set(SORT_ORDER_PROPERTY, "DESC");
         }
     }
 
     /**
      * Sets the data store from a Swing {@link TableModel}.
-     * @param tableModel the table model.
+     * 
+     * @param tableModel
+     *            the table model.
      */
     public void setModel(TableModel tableModel) {
         if (tableModel == null) {
@@ -561,17 +592,29 @@ public class GridPanel
         }
 
         this.tableModel = tableModel;
-        tableModel.removeTableModelListener(this); // just in case they set the same table model
+        tableModel.removeTableModelListener(this); // just in case they set the
+                                                   // same table model
         tableModel.addTableModelListener(this);
 
-        firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always force change
+        firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always
+                                                                      // force
+                                                                      // change
     }
 
     /**
      * Forces a client-side refresh of the table when the table model changes.
      */
     public void tableChanged(TableModelEvent e) {
-        firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge but we're not interested in the old and new values anyway
+        firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge
+                                                                      // but
+                                                                      // we're
+                                                                      // not
+                                                                      // interested
+                                                                      // in the
+                                                                      // old and
+                                                                      // new
+                                                                      // values
+                                                                      // anyway
     }
 
     public GridCellRenderer getGridCellRenderer() {
@@ -580,6 +623,49 @@ public class GridPanel
 
     public void setGridCellRenderer(GridCellRenderer gridCellRenderer) {
         this.gridCellRenderer = gridCellRenderer;
+    }
+
+    public void addColumnListener(ColumnListener l) {
+        getEventListenerList().addListener(ColumnListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(COLUMN_LISTENERS, null, l);
+    }
+
+    /**
+     * Removes the specified column listener.
+     * 
+     * @param l
+     *            the listener to remove.
+     */
+    public void removeColumnListener(ColumnListener l) {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        getEventListenerList().removeListener(ColumnListener.class, l);
+        firePropertyChange(COLUMN_LISTENERS, l, null);
+
+    }
+
+    public boolean hasColumnListeners() {
+        return getEventListenerList().getListenerCount(ColumnListener.class) != 0;
+    }
+
+    private void fireColumnRemovedEvent(Integer columnIndex) {
+        RemoveColumnEvent rce = null;
+        for (EventListener listener : getEventListenerList().getListeners(
+                ColumnListener.class)) {
+            if (rce == null)
+                rce = new RemoveColumnEvent(this, columnIndex.intValue());
+            ((ColumnListener) listener).removeColumn(rce);
+        }
+    }
+
+    private void fireColumnAddedEvent() {
+        for (EventListener listener : getEventListenerList().getListeners(
+                ColumnListener.class)) {
+            ((ColumnListener) listener).addColumn();
+        }
     }
 
 }

@@ -11,4 +11,4 @@ Ext.ux.MandatoryField={
             }}
         });
     	}
-    }
+    };

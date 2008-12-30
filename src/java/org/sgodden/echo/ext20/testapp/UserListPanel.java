@@ -42,7 +42,9 @@ import org.sgodden.echo.ext20.ToolbarFill;
 import org.sgodden.echo.ext20.ToolbarSeparator;
 import org.sgodden.echo.ext20.ToolbarTextItem;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
+import org.sgodden.echo.ext20.grid.DefaultColumnConfiguration;
 import org.sgodden.echo.ext20.grid.ColumnModel;
+import org.sgodden.echo.ext20.grid.DefaultColumnModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
 import org.sgodden.echo.ext20.grid.PagingToolbar;
 import org.sgodden.echo.ext20.layout.FitLayout;
@@ -125,10 +127,10 @@ public class UserListPanel
     
     private GridPanel makeGridPanel() {
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
-        cols.add(new ColumnConfiguration("User ID", 200, true, "userid", false));
-        cols.add(new ColumnConfiguration("Name", 200, true, "name", false));
-        cols.add(new ColumnConfiguration("Role", 200, true, "role", true));
-        ColumnModel columnModel = new ColumnModel(cols);
+        cols.add(new DefaultColumnConfiguration("User ID", 200, true, "userid", false));
+        cols.add(new DefaultColumnConfiguration("Name", 200, true, "name", false));
+        cols.add(new DefaultColumnConfiguration("Role", 200, true, "role", true));
+        ColumnModel columnModel = new DefaultColumnModel(cols);
         
         userGridPanel = new GridPanel(columnModel);
         userGridPanel.setPageSize(20);
