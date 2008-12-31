@@ -324,7 +324,7 @@ public class ComboBox extends AbstractListComponent {
         } else {
             int size = model.size();
             for (int i = 0; i < size; i++) {
-                if (model.get(i).equals(selectedItem)) {
+                if ((model.get(i) == null && selectedItem == null) || (model.get(i) != null && model.get(i).equals(selectedItem))) {
                     selectionModel.setSelectedIndex(i, true);
                     break;
                 }
