@@ -366,11 +366,11 @@ public class GridPanel extends Panel implements TableModelListener,
         } else if (SORT_ACTION.equals(inputName)) {
             if (getTableModel() instanceof SortableTableModel) {
                 ColumnModel colModel = getColumnModel();
-                int[] columnIndices = new int[colModel.getColumnCount()];
+                String[] columnIndices = new String[colModel.getColumnCount()];
                 boolean[] ascending = new boolean[colModel.getColumnCount()];
 
                 for (int i = 0; i < columnIndices.length; i++) {
-                    int sequence = colModel.getColumn(i).getDisplaySequence();
+                    String sequence = colModel.getColumn(i).getDataIndex();
                     columnIndices[i] = sequence;
                     ascending[i] = "ASCENDING".equals(colModel.getColumn(i)
                             .getSortDirection())
