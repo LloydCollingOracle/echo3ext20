@@ -39,6 +39,8 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         Echo.Render.registerPeer("Ext20RadioButton", this);
     },
     
+    disableActions : false,
+    
     createExtComponent: function(update, options) {
         
         var selected = this.component.get("selected");
@@ -73,12 +75,16 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     _handleCheckEvent: function() {
+        var oldValue = this.component.get("selected"); 
         this.component.set("selected", this.extComponent.getValue());
-        this.component.doAction();
+        if (this.disableActions == false && this.extComponent.getValue() == true)
+            this.component.doAction();
     },
     renderUpdate: function(update) {
         var selected = this.component.get("selected");
+        this.disableActions = true;
         this.extComponent.setValue(selected);
+        this.disableActions = false;
     }
     
     
