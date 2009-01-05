@@ -17,6 +17,7 @@
 package org.sgodden.echo.ext20.testapp;
 
 import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.webcontainer.service.CSSStyleSheetService;
 
 import org.sgodden.echo.ext20.AbstractExtAppServlet;
 
@@ -31,8 +32,8 @@ public class AppServlet extends AbstractExtAppServlet {
     
     public AppServlet(){
         super();
-        addCssFileName("resources/ext/css/xtheme-slate.css");
-        addCssFileName("resources/local/localstyle.css");
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtSlateThemeCSS", "ext/css/xtheme-slate.css", "ext/css/"));
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtLocalStyleCSS", "local/localstyle.css", "local/"));
     }
 
     public ApplicationInstance newApplicationInstance() {

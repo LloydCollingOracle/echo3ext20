@@ -21,7 +21,9 @@ import java.util.List;
 
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
+import nextapp.echo.webcontainer.service.CSSStyleSheetService;
 import nextapp.echo.webcontainer.service.JavaScriptService;
+import nextapp.echo.webcontainer.service.StaticTextService;
 
 /**
  * Abstract superclass for application servlets that wish to use
@@ -109,12 +111,12 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
 
     public AbstractExtAppServlet() {
         super();
-        addStartupScript(extService);
-        addStartupScript(extExtensionsService);
-        addStartupScript(echoExtService);
-        addCssFileName("resources/ext/css/ext-all.css");
-        addCssFileName("resources/ext/css/portal.css");
-        addCssFileName("resources/ext/css/Multiselect.css");
-        addCssFileName("resources/ext/css/Plugins.css");
+        addInitScript(extService);
+        addInitScript(extExtensionsService);
+        addInitScript(echoExtService);
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtAllCSS", "ext/css/ext-all.css", "ext/css/"));
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtPortalCSS", "ext/css/portal.css", "ext/css/"));
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtMultiSelectCSS", "ext/css/Multiselect.css", "ext/css/"));
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtPluginsCSS", "ext/css/Plugins.css", "ext/css/"));
     }
 }
