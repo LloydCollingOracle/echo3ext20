@@ -75,7 +75,7 @@
             <fileset dir="src/java" includes="**/*.xml, **/*.js, **/*.groovy, META-INF/**/*"/>
             <zipfileset 
                 prefix = "ext" 
-                dir="contrib/ext-${ext.version}" 
+                dir="src/ext" 
                 includes="adapter/ext/ext-base.js"/>
             <zipfileset 
                 prefix = "ext" 

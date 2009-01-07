@@ -789,26 +789,26 @@ EchoExt20.PropertyTranslator.ColumnModel = {
         var obj = EchoExt20.PropertyTranslator.toJsObject(client, propertyElement);
         return new EchoExt20.ColumnModel(obj.columns);
     },
-	toXml: function(client, propertyElement, propertyValue) {
-    	var colObject = new Object();
-    	colObject.columns = new Array();
-    	for(var x = 0; x < propertyValue.config.length; x++){
-    		var propEl = propertyValue.config[x];
-    		var config = new Object();
-    		config.attributePath = propEl.attributePath;
-    		config.dataIndex = propEl.dataIndex;
-    		config.displaySequence = propEl.displaySequence;
-    		config.header = propEl.header;
-    		config.hidden = propEl.hidden;
-    		config.sortDirection = propEl.sortDirection;
-    		config.sortSequence = propEl.sortSequence;
-    		config.sortable = propEl.sortable;
-    		config.width = propEl.width;
-    		colObject.columns.push(config);
-    	}
-    	var json = Ext.util.JSON.encode(colObject);
-    	var node = Ext.getDoc().dom.createTextNode(json);
-    	propertyElement.appendChild(node);
+    toXml: function(client, propertyElement, propertyValue) {
+        var colObject = new Object();
+        colObject.columns = new Array();
+        for(var x = 0; x < propertyValue.config.length; x++){
+            var propEl = propertyValue.config[x];
+            var config = new Object();
+            config.attributePath = propEl.attributePath;
+            config.dataIndex = propEl.dataIndex;
+            config.displaySequence = propEl.displaySequence;
+            config.header = propEl.header;
+            config.hidden = propEl.hidden;
+            config.sortDirection = propEl.sortDirection;
+            config.sortSequence = propEl.sortSequence;
+            config.sortable = propEl.sortable;
+            config.width = propEl.width;
+            colObject.columns.push(config);
+        }
+        var json = Ext.util.JSON.encode(colObject);
+        var node = propertyElement.ownerDocument.createTextNode(json);
+        propertyElement.appendChild(node);
     }
 };
 
