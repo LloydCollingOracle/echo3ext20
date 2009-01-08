@@ -114,9 +114,9 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
         addInitScript(extService);
         addInitScript(extExtensionsService);
         addInitScript(echoExtService);
-        addInitStyleSheet(CSSStyleSheetService.forResource("ExtAllCSS", "ext/css/ext-all.css", "ext/css/"));
-        addInitStyleSheet(CSSStyleSheetService.forResource("ExtPortalCSS", "ext/css/portal.css", "ext/css/"));
-        addInitStyleSheet(CSSStyleSheetService.forResource("ExtMultiSelectCSS", "ext/css/Multiselect.css", "ext/css/"));
-        addInitStyleSheet(CSSStyleSheetService.forResource("ExtPluginsCSS", "ext/css/Plugins.css", "ext/css/"));
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtAllCSS", "ext/css/ext-all.css", "resources/ext/css/"));
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtPortalCSS", "ext/css/portal.css", "resources/ext/css/"));
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtMultiSelectCSS", "ext/css/Multiselect.css", "resources/ext/css/"));
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtPluginsCSS", "ext/css/Plugins.css", "resources/ext/css/"));
     }
 }
