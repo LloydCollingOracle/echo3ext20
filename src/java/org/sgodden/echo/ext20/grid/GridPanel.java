@@ -63,7 +63,6 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String COLUMN_MODEL_PROPERTY = "columnModel";
-    public static final String GROUP_FIELD_PROPERTY = "groupField";
     public static final String INPUT_ACTION = "action";
     public static final String MODEL_CHANGED_PROPERTY = "model";
     public static final String PAGE_OFFSET_PROPERTY = "pageOffset";
@@ -79,6 +78,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String COLUMN_ADDED = "columnAdd";
     public static final String COLUMN_REMOVED = "columnRemove";
     public static final String COLUMN_LISTENERS = "columnListeners";
+    public static final String GROUP_ACTION = "group";
 
     private TableModel tableModel;
     private int pageSize;
@@ -364,30 +364,77 @@ public class GridPanel extends Panel implements TableModelListener,
                         + value);
             }
         } else if (SORT_ACTION.equals(inputName)) {
-            if (getTableModel() instanceof SortableTableModel) {
-                ColumnModel colModel = getColumnModel();
-                String[] columnIndices = new String[colModel.getColumnCount()];
-                boolean[] ascending = new boolean[colModel.getColumnCount()];
-
-                for (int i = 0; i < columnIndices.length; i++) {
-                    String sequence = colModel.getColumn(i).getDataIndex();
-                    columnIndices[i] = sequence;
-                    ascending[i] = "ASCENDING".equals(colModel.getColumn(i)
-                            .getSortDirection())
-                            || "ASC".equals(colModel.getColumn(i)
-                                    .getSortDirection());
-                }
-                ((SortableTableModel) getTableModel()).sort(columnIndices,
-                        ascending);
-                getSelectionModel().clearSelection();
-            } else {
-                throw new IllegalStateException("Request to sort table made, "
-                        + "but model is not sortable");
-            }
+            doSort();
         } else if (COLUMN_ADDED.equals(inputName)) {
             fireColumnAddedEvent();
         } else if (COLUMN_REMOVED.equals(inputName)) {
             fireColumnRemovedEvent((Integer) inputValue);
+        } else if (GROUP_ACTION.equals(inputName)) {
+            doSort();
+        }
+    }
+
+    protected void doSort() {
+        if (getTableModel() instanceof SortableTableModel) {
+            ColumnModel colModel = getColumnModel();
+            String[] columnIndices = new String[colModel.getColumnCount()];
+            boolean[] ascending = new boolean[colModel.getColumnCount()];
+            ColumnConfiguration group = null;
+            for (ColumnConfiguration cc : colModel) {
+                if (cc.getGrouping())
+                    group = cc;;
+            }
+
+            ColumnConfiguration sort = null;
+            if (getSortField() != null) {
+                for (ColumnConfiguration cc : colModel) {
+                    if (cc.getDataIndex().equals(getSortField())) {
+                        sort = cc;
+                    }
+                }
+            }
+
+            // the standard columns are offset in the output array 
+            // if we're grouping or sorting
+            int offset = 0;
+            if (group == null && sort != null)
+                offset = 1;
+            else if (group != null && sort != null && group != sort)
+                offset = 2;
+            else if (group != null && sort != null && group == sort)
+                offset = 1;
+
+            for (int i = 0; i < columnIndices.length; i++) {
+                ColumnConfiguration cc = colModel.getColumn(i);
+                String sequence = cc.getDataIndex();
+                
+                // work out where in the output array the column goes
+                int index = -1;
+                if (cc == group) {
+                    index = 0;
+                } else if (cc == sort) {
+                    if (group == null) {
+                        index = 0;
+                    } else {
+                        index = 1;
+                    }
+                } else {
+                    index = offset++;
+                }
+                
+                columnIndices[index] = sequence;
+
+                ascending[index] = "ASCENDING".equals(cc
+                        .getSortDirection())
+                        || "ASC".equals(cc.getSortDirection());
+            }
+            ((SortableTableModel) getTableModel()).sort(columnIndices,
+                    ascending);
+            getSelectionModel().clearSelection();
+        } else {
+            throw new IllegalStateException(
+                    "Request to group/sort table made, "
+                            + "but model is not sortable");
         }
     }
 
@@ -430,24 +477,14 @@ public class GridPanel extends Panel implements TableModelListener,
     }
 
     /**
-     * Sets the column model for the table.
-     * WARNING: this forces a full re-draw of the grid.
+     * Sets the column model for the table. WARNING: this forces a full re-draw
+     * of the grid.
+     * 
      * @param columnModel
      *            the column model for the table.
      */
-    public void setColumnModel(ColumnModel columnModel) {
+    public void setColumnModel(final ColumnModel columnModel) {
         set(COLUMN_MODEL_PROPERTY, columnModel);
-    }
-
-    /**
-     * Sets the name of the column in the data model by which to group the
-     * table.
-     * 
-     * @param groupField
-     *            the name of the column by which to group.
-     */
-    public void setGroupField(String groupField) {
-        set(GROUP_FIELD_PROPERTY, groupField);
     }
 
     /**
@@ -593,28 +630,33 @@ public class GridPanel extends Panel implements TableModelListener,
 
         this.tableModel = tableModel;
         tableModel.removeTableModelListener(this); // just in case they set the
-                                                   // same table model
+        // same table model
         tableModel.addTableModelListener(this);
 
-        firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // always
-                                                                      // force
-                                                                      // change
+        tableChanged(null); // always
+        // force
+        // change
     }
 
+    boolean firingTableChanged = false;
     /**
      * Forces a client-side refresh of the table when the table model changes.
      */
     public void tableChanged(TableModelEvent e) {
-        firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge
-                                                                      // but
-                                                                      // we're
-                                                                      // not
-                                                                      // interested
-                                                                      // in the
-                                                                      // old and
-                                                                      // new
-                                                                      // values
-                                                                      // anyway
+        if (!firingTableChanged) {
+            firingTableChanged = true;
+            firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge
+            // but
+            // we're
+            // not
+            // interested
+            // in the
+            // old and
+            // new
+            // values
+            // anyway
+            firingTableChanged = false;
+        }
     }
 
     public GridCellRenderer getGridCellRenderer() {

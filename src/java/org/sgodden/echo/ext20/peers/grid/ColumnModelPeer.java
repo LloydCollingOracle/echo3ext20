@@ -1,7 +1,6 @@
 package org.sgodden.echo.ext20.peers.grid;
 
 import java.io.StringReader;
-import java.util.HashMap;
 
 import nextapp.echo.app.serial.SerialContext;
 import nextapp.echo.app.serial.SerialException;
@@ -111,6 +110,8 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                         .getValue();
                 boolean sortable = ((JSONBoolean) jsonCol.get("sortable"))
                         .getValue();
+                boolean grouping = ((JSONBoolean) jsonCol.get("grouping"))
+                        .getValue();
                 String sortDirection = ((JSONString) jsonCol
                         .get("sortDirection")).getValue();
                 int width = ((JSONInteger) jsonCol.get("width")).getValue()
@@ -126,6 +127,7 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                 thisCol.setSortable(sortable);
                 thisCol.setSortDirection(sortDirection);
                 thisCol.setWidth(width);
+                thisCol.setGrouping(grouping);
                 cm.addColumn(thisCol);
             }
 

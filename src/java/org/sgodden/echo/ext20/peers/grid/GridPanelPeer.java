@@ -79,6 +79,14 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
                 return (((GridPanel) component).hasColumnListeners());
             }
         });
+
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(
+                GridPanel.GROUP_ACTION, "groupListeners") {
+            @Override
+            public boolean hasListeners(Context context, Component component) {
+                return (((GridPanel) component).isModelSortable());
+            }
+        });
     }
 
     /*
@@ -173,8 +181,7 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
         } else if (GridPanel.SORT_ORDER_PROPERTY.equals(propertyName)) {
             clientUpdateManager.setComponentProperty(component,
                     GridPanel.SORT_ORDER_PROPERTY, (String) newValue);
-        }
-        if (GridPanel.COLUMN_MODEL_PROPERTY.equals(propertyName)) {
+        } else if (GridPanel.COLUMN_MODEL_PROPERTY.equals(propertyName)) {
 
             ColumnModel serverModel = ((GridPanel) component).getColumnModel();
             ColumnModel clientModel = (ColumnModel) newValue;
@@ -191,6 +198,7 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
                 serverColumn.setSortDirection(clientColumn.getSortDirection());
                 serverColumn.setSortSequence(x);
                 serverColumn.setWidth(clientColumn.getWidth());
+                serverColumn.setGrouping(clientColumn.getGrouping());
             }
             clientUpdateManager.setComponentProperty(component,
                     GridPanel.COLUMN_MODEL_PROPERTY, serverModel);

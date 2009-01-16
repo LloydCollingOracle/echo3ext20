@@ -144,5 +144,13 @@ public interface ColumnConfiguration {
     public abstract void addChangeListener(ChangeListener listener);
 
     public abstract void removeChangeListener(ChangeListener listener);
+    
+    /**
+     * Whether this column is grouping the table
+     * @return
+     */
+    public abstract boolean getGrouping();
+    
+    public abstract void setGrouping(boolean isGrouping);
 
 }

@@ -41,6 +41,7 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
     private boolean sortable = true;
     private String dataIndex;
     private boolean hidden = false;
+    private boolean grouping = false;
     private String sortDirection;
     private EventListenerList listenerList = new EventListenerList();
 
@@ -263,6 +264,14 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
                 ce = new ChangeEvent(this);
             ((ChangeListener) l).stateChanged(ce);
         }
+    }
+
+    public boolean getGrouping() {
+        return grouping;
+    }
+
+    public void setGrouping(boolean grouping) {
+        this.grouping = grouping;
     }
 
 }

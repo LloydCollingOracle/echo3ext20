@@ -18740,7 +18740,9 @@ Ext.data.GroupingStore = Ext.extend(Ext.data.Store, {
             if(this.baseParams){
                 delete this.baseParams.groupBy;
             }
-            this.reload();
+            var params = { groupBy: null };
+            var options = {params: params};
+            this.reload(options);
         }else{
             this.applySort();
             this.fireEvent('datachanged', this);

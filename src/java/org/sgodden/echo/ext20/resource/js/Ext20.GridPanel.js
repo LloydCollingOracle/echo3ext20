@@ -45,6 +45,10 @@ EchoExt20.GridPanel = Core.extend(EchoExt20.ExtComponent, {
 
     doColumnAdd: function(colIndex) {
         this.fireEvent({type: "columnAdd", source: this});
+    },
+
+    doGroup: function() {
+        this.fireEvent({type: "group", source: this});
     }
     
 });
@@ -89,20 +93,14 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         options["plugins"] = new EchoExt20.GridColAddRemove();
 
         options["store"] = this._makeStore();
-        
-        if (this.component.get("forceFit")) {
-                options["viewConfig"] = {forceFit:true}
-        }
-        
-        var view;
-        if (this.component.get("groupField")) {
-            view = new Ext.grid.GroupingView({
-                groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
-            });
-        }
-        if (view) {
-            options["view"] = view;
-        }
+                
+        var view = new Ext.grid.GroupingView({
+            forceFit:this.component.get("forceFit"),
+            enableGroupingMenu:true,
+            enableNoGroups:true,
+            groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
+        });
+        options["view"] = view;
         
         options["cm"] = this.component.get("columnModel");
         
@@ -154,6 +152,36 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         }
         this.component.set("columnModel", this.extComponent.getColumnModel());
         this.component.doSort();
+    },
+
+    doGroup: function(fieldName) {
+        if (this.extComponent == null)
+            return;
+        
+        if (this.getGroupByField() == fieldName)
+            return;
+        
+        var colModel = this.extComponent.getColumnModel();
+        var columns = colModel.getColumnsBy(function(columnConfig, index) { return true; });
+        for (var i = 0; i < columns.length; i++) {
+            if (columns[i].dataIndex == fieldName)
+                columns[i].grouping = true;
+            else
+                columns[i].grouping = false;
+        }
+        this.component.set("columnModel", this.extComponent.getColumnModel());
+    },
+    
+    getGroupByField: function() {
+        if (this.extComponent == null)
+            return null;
+        var colModel = this.extComponent.getColumnModel();
+        var columns = colModel.getColumnsBy(function(columnConfig, index) { return true; });
+        for (var i = 0; i < columns.length; i++) {
+            if (columns[i].grouping == true)
+                return columns[i].dataIndex;
+        }
+        return null;
     },
 
     _handleColumnMove: function(oldIndex, newIndex) {
@@ -271,46 +299,57 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         var store;
         
 
-        var sortInfo = null;
+        var colModel = this.component.get("columnModel");
         var sortField = this.component.get("sortField");
+        var sortDirection = this.component.get("sortDirection");
         if (sortField) {
-            var sortDirection = this.component.get("sortDirection");
-            if (sortDirection == null) {
-                sortDirection = "ASC";
-            }
-            sortInfo = {
-                field: sortField,
-                direction: sortDirection
-            }
+            // nothing special to do
         } else {
-            var colModel = this.component.get("columnModel");
             var firstCol = colModel.getColumnsBy(function(columnConfig, index) { return true; })[0];
-            sortInfo = {
-                field: firstCol.header,
-                direction: firstCol.sortDirection
-            }
+            sortField = firstCol.header;
+            sortDirection = firstCol.sortDirection;
         }
+        if (sortDirection == null) {
+            sortDirection = "ASC";
+        }
+        var sortInfo = {
+            field: sortField,
+            direction: sortDirection
+        };
 
-        var groupField = this.component.get("groupField");
-        if (groupField) {
+        var groupField = null;
+        var columns = colModel.getColumnsBy(function(columnConfig, index) { return true; });
+        for (var i = 0; i < columns.length; i++) {
+            if (columns[i].grouping == true)
+                groupField = columns[i].dataIndex;
+        }
+        if (groupField != null) {
             store = new Ext.data.GroupingStore({
                 groupField: groupField,
                 proxy: proxy,
                 reader: reader,
                 sortInfo: sortInfo,
-                remoteSort: true
+                remoteSort: true,
+                remoteGroup: true
             });
         }
         else {
-            store = new Ext.data.Store({
+            store = new Ext.data.GroupingStore({
                 reader: reader,
                 proxy: proxy,
                 sortInfo: sortInfo,
-                remoteSort: true
+                remoteSort: true,
+                remoteGroup: true
             });
         }
 
-        store.load();
+        var parms = {
+            groupBy: groupField,
+            sort: sortField,
+            dir: sortDirection
+        };
+        var options = {params:parms};
+        store.load(options);
         
         return store;
     },
@@ -402,8 +441,22 @@ Ext.extend(EchoExt20.GridPanelDataProxy, Ext.data.DataProxy, {
         params = params || {};
         
         var result;
+
+        var groupField = params.groupBy ? params.groupBy : null;
         
-        if (params.sort) {
+        if (groupField != this.syncPeer.getGroupByField()) {
+            this.syncPeer.doGroup(groupField);
+            
+            if (this.syncPeer._handleSortEvents) {
+                var sortField = groupField;
+                var direction = "ASC";
+                if ((sortField == null || sortField == "") && params.sort) {
+                    sortField = params.sort;
+                    direction = params.dir;
+                }
+                this.syncPeer.doSort(sortField, direction);
+            }
+        } else if (params.sort) {
             var sortField = params.sort;
             var direction = params.dir;
             if (this.syncPeer._handleSortEvents) {

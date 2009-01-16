@@ -804,6 +804,7 @@ EchoExt20.PropertyTranslator.ColumnModel = {
             config.sortSequence = propEl.sortSequence;
             config.sortable = propEl.sortable;
             config.width = propEl.width;
+            config.grouping = propEl.grouping;
             colObject.columns.push(config);
         }
         var json = Ext.util.JSON.encode(colObject);
