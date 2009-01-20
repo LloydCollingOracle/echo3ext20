@@ -110,7 +110,14 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         if (smode != "S") {
             ss = false;
         }
-        var sm = new Ext.grid.RowSelectionModel({singleSelect: ss});
+        var sm;
+        if (this.component.get("showCheckbox")){
+        	sm = new Ext.grid.CheckboxSelectionModel({singleSelect: ss});
+        	options["cm"].config.unshift(sm);
+        }else{
+        	sm = new Ext.grid.RowSelectionModel({singleSelect: ss});
+        }
+        
         
         sm.on("rowselect", this._handleRowSelectEvent, this);
         sm.on("rowdeselect", this._handleRowDeselectEvent, this);

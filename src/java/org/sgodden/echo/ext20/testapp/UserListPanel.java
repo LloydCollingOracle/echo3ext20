@@ -127,6 +127,7 @@ public class UserListPanel
     
     private GridPanel makeGridPanel() {
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
+        
         cols.add(new DefaultColumnConfiguration("User ID", 200, true, "userid", false));
         cols.add(new DefaultColumnConfiguration("Name", 200, true, "name", false));
         cols.add(new DefaultColumnConfiguration("Role", 200, true, "role", true));
@@ -147,6 +148,8 @@ public class UserListPanel
         userGridPanel.setNotifySelect(true);
         // don't allow multiple row selection
         userGridPanel.setSelectionMode(SelectionMode.SINGLE_SELECTION);
+        //
+        userGridPanel.setShowCheckbox(true);
         
         userGridPanel.getSelectionModel().addChangeListener(
                 new ChangeListener(){

@@ -39,7 +39,7 @@
 </s>
 
 <!-- next class inherits from the previous one -->
-<s b="" n="testStyle" t="org.sgodden.echo.ext20.Panel">
+<s n="testStyle" t="org.sgodden.echo.ext20.Panel">
     <p n="border">true</p>
     <p n="height">200</p>
     <p n="width">400</p>

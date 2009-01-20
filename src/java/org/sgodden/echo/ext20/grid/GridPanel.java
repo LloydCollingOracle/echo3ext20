@@ -79,6 +79,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String COLUMN_REMOVED = "columnRemove";
     public static final String COLUMN_LISTENERS = "columnListeners";
     public static final String GROUP_ACTION = "group";
+    public static final String SHOW_CHECKBOX = "showCheckbox";
 
     private TableModel tableModel;
     private int pageSize;
@@ -87,6 +88,14 @@ public class GridPanel extends Panel implements TableModelListener,
     private boolean notifySelect = false;
     private int[] selectedIndices;
     private GridCellRenderer gridCellRenderer = new DefaultGridCellRenderer();
+    
+	/**
+	 * Sets the showCheckbox property which if enabled shows checkboxes on the
+	 * GridPanel.
+	 */
+	public void setShowCheckbox(Boolean showCheckbox) {
+		set(SHOW_CHECKBOX, showCheckbox);
+	}
 
     /**
      * Local handler for list selection events.

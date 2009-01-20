@@ -786,8 +786,9 @@ Echo.Serial.addPropertyTranslator("E2SS", EchoExt20.PropertyTranslator.SimpleSto
  */
 EchoExt20.PropertyTranslator.ColumnModel = {
     toProperty: function(client, propertyElement) {
-        var obj = EchoExt20.PropertyTranslator.toJsObject(client, propertyElement);
-        return new EchoExt20.ColumnModel(obj.columns);
+		var obj = EchoExt20.PropertyTranslator.toJsObject(client,
+				propertyElement);
+		return new EchoExt20.ColumnModel(obj.columns);
     },
     toXml: function(client, propertyElement, propertyValue) {
         var colObject = new Object();
