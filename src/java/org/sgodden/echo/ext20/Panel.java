@@ -119,6 +119,13 @@ public class Panel extends Component {
     public static final String KEYPRESS_LISTENERS_CHANGED_PROPERTY = "keyPressListeners";
     public static final String REGISTERED_KEY_PRESSES_PROPERTY="registeredKeyPresses";
     public static final String TOOLCLICK_LISTENERS_CHANGED_PROPERTY = "toolclickListeners";
+    /**
+     * Whether the panel should be drawn with rounded borders.
+     * <p>
+     * Type: Boolean.
+     * </p>
+     */
+    public static final String ROUNDED_BORDERS_PROPERTY = "frame";
     
     private Map<String, Set<ActionListener>> keyPressListeners;
     private Map<Tool, Set<ActionListener>> toolListeners;
@@ -540,6 +547,14 @@ public class Panel extends Component {
         for (ActionListener listener : toolListeners.get(tool)) {
             listener.actionPerformed(e);
         }
+    }
+    
+    public Boolean getRoundedBorders() {
+        return (Boolean)get(ROUNDED_BORDERS_PROPERTY);
+    }
+    
+    public void setRoundedBorders(Boolean roundBorders) {
+        set(ROUNDED_BORDERS_PROPERTY, roundBorders);
     }
 
 }

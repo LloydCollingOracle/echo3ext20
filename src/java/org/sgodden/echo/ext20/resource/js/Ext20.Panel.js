@@ -165,7 +165,38 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
             
             var addedChildren = update.getAddedChildren();
-        	this._createChildItems(update, addedChildren);
+            this._createChildItems(update, addedChildren);
+            var buttons = this._createButtons(update, addedChildren);
+            if (buttons.length > 0) {
+                needsLayout = true;
+                var footer = this.extComponent.footer;
+                if (!footer) {
+                    footer = this.extComponent.el.createChild();
+                    footer.addClass('x-panel-footer');
+                    footer.addClass('x-panel-footer-noborder');
+                    this.extComponent.footer = footer;
+                    var tb = footer.createChild({cls:'x-panel-btns-ct', cn: {
+                        cls:"x-panel-btns x-panel-btns-"+this.extComponent.buttonAlign,
+                        html:'<table cellspacing="0"><tbody><tr></tr></tbody></table><div class="x-clear"></div>'
+                    }}, null, true);
+                    var tr = tb.getElementsByTagName('tr')[0];
+                    for(var i = 0, len = buttons.length; i < len; i++) {
+                        var b = buttons[i];
+                        var td = document.createElement('td');
+                        td.className = 'x-panel-btn-td';
+                        b.render(tr.appendChild(td));
+                    }
+                } else {
+                    var existingButtonTd = footer.child("td.x-panel-btn-td");
+                    var tableRow = Ext.Element.get(existingButtonTd.dom.parentNode);
+                    for(var i = 0, len = buttons.length; i < len; i++) {
+                        var b = buttons[i];
+                        var td = document.createElement('td');
+                        td.className = 'x-panel-btn-td';
+                        b.render(tableRow.appendChild(td));
+                    }
+                }
+            }
             needsLayout = needsLayout || this._conditionalDoLayout(addedChildren);
             
             /*
@@ -229,7 +260,13 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
-    	// process basic properties
+        // process basic properties
+        
+        if (this.component.render("frame")) {
+            options.frame = this.component.render("frame");
+            if (options.frame == true)
+                options.baseCls = 'x-box';
+        }
 
         if (this.component.render("padding")) {
             options.style.padding = this.component.render("padding");
@@ -500,14 +537,16 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      * <p/>
      */
     _conditionalDoLayout: function(children) {
-        var done = false;
-        for (var i = 0; i < children.length && !done; i++) {
+        var doLayout = false;
+        if (this.extComponent.getLayout() instanceof Ext.layout.ColumnLayout)
+            doLayout = true;
+        for (var i = 0; i < children.length && !doLayout; i++) {
             var layout = children[i].get("layout");
             if ( layout != null && layout instanceof EchoExt20.BorderLayout ) {
-                done = true;
+                doLayout = true;
             }
         }
-        return done;
+        return doLayout;
     },
     
     /**

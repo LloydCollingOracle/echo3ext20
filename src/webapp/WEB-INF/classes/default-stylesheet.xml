@@ -34,6 +34,16 @@
         <fi t="r"><i r="resources/images/ext/slate/grid/page-last-disabled.gif"/></fi>
     </p>
 </s>
+<s t="org.sgodden.echo.ext20.buttons.AddButton">
+    <p n="icon" t="nextapp.echo.app.FillImage">
+        <fi t="h"><i u="resources/images/fam/icons/add.png"/></fi>
+    </p>
+</s>
+<s t="org.sgodden.echo.ext20.buttons.RemoveButton">
+    <p n="icon" t="nextapp.echo.app.FillImage">
+        <fi t="h"><i u="resources/images/fam/icons/delete.png"/></fi>
+    </p>
+</s>
 
 <s t="org.sgodden.echo.ext20.Panel">
 </s>
