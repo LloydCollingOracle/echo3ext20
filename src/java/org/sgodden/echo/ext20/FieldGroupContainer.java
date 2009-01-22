@@ -40,6 +40,7 @@ public class FieldGroupContainer extends Panel {
     FieldGroupFactory factory = null;
     List<Panel> containedGroups = new ArrayList<Panel>();
     EventListenerList listenerList = new EventListenerList();
+    int initialFieldGroups = 1;
     
     public FieldGroupContainer() {
         super(new ColumnLayout());
@@ -58,10 +59,6 @@ public class FieldGroupContainer extends Panel {
         contentPanel.setRoundedBorders(Boolean.TRUE);
         contentPanel.setPadding("5px");
 
-        if (!fireWillAdd(0)) {
-            throw new IllegalStateException(
-                    "Addition of first panel was cancelled");
-        }
         contentPanel.add(factory.getFieldGroup(0));
         groupedPanel.add(contentPanel);
 
@@ -78,6 +75,9 @@ public class FieldGroupContainer extends Panel {
             }
         });
         addButton(addButton);
+        
+        for (int i = 1; i < initialFieldGroups; i++)
+            doAddFieldGroup(i);
     }
 
     protected void doAddFieldGroup(int index) {
@@ -163,5 +163,16 @@ public class FieldGroupContainer extends Panel {
     
     public void removeFieldGroupListener(FieldGroupListener listener) {
         listenerList.removeListener(FieldGroupListener.class, listener);
+    }
+    
+    /**
+     * Sets the number of field groups to display initially
+     * @param number
+     */
+    public void setNumberInitialFieldGroups(int number) {
+        if (number < 1)
+            throw new IllegalArgumentException("Number of initial field groups must be at least one");
+        
+        this.initialFieldGroups = number;
     }
 }
