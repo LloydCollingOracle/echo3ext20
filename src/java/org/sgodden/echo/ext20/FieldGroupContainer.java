@@ -16,7 +16,6 @@ import org.sgodden.echo.ext20.fieldgroup.FieldGroupFactory;
 import org.sgodden.echo.ext20.fieldgroup.FieldGroupListener;
 import org.sgodden.echo.ext20.layout.ColumnLayout;
 import org.sgodden.echo.ext20.layout.ColumnLayoutData;
-import org.sgodden.echo.ext20.layout.FitLayout;
 
 /**
  * This component allows the entry of values in one or more field groups. It
@@ -41,6 +40,7 @@ public class FieldGroupContainer extends Panel {
     List<Panel> containedGroups = new ArrayList<Panel>();
     EventListenerList listenerList = new EventListenerList();
     int initialFieldGroups = 1;
+    AddButton addButton;
     
     public FieldGroupContainer() {
         super(new ColumnLayout());
@@ -48,14 +48,15 @@ public class FieldGroupContainer extends Panel {
 
     @Override
     public void init() {
+        super.init();
         if (factory == null)
             throw new IllegalStateException(
                     "Field group factory must be set before initialistion");
+        if (addButton != null)
+            return;
         Panel groupedPanel = new Panel();
         groupedPanel.setLayoutData(new ColumnLayoutData(1.0));
-        groupedPanel.setRenderId("groupedPanel0");
         Panel contentPanel = new Panel();
-        contentPanel.setRenderId("contentPanel0");
         contentPanel.setRoundedBorders(Boolean.TRUE);
         contentPanel.setPadding("5px");
 
@@ -65,7 +66,7 @@ public class FieldGroupContainer extends Panel {
         add(groupedPanel);
         containedGroups.add(groupedPanel);
 
-        AddButton addButton = new AddButton();
+        addButton = new AddButton();
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 int index = containedGroups.size();
