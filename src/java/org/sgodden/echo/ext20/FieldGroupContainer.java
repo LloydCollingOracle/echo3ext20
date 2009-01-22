@@ -138,7 +138,7 @@ public class FieldGroupContainer extends Panel {
     protected boolean fireWillAdd(int index) {
         FieldGroupEvent e = new FieldGroupEvent(this, index);
         for (EventListener listener : listenerList
-                .getListeners(EventListener.class)) {
+                .getListeners(FieldGroupListener.class)) {
             ((FieldGroupListener) listener).willAddFieldGroup(e);
         }
         return !e.isActionCancelled();
@@ -147,7 +147,7 @@ public class FieldGroupContainer extends Panel {
     protected boolean fireWillRemove(int index) {
         FieldGroupEvent e = new FieldGroupEvent(this, index);
         for (EventListener listener : listenerList
-                .getListeners(EventListener.class)) {
+                .getListeners(FieldGroupListener.class)) {
             ((FieldGroupListener) listener).willRemoveFieldGroup(e);
         }
         return !e.isActionCancelled();
@@ -155,5 +155,13 @@ public class FieldGroupContainer extends Panel {
 
     public void setFieldGroupFactory(FieldGroupFactory factory) {
         this.factory = factory;
+    }
+    
+    public void addFieldGroupListener(FieldGroupListener listener) {
+        listenerList.addListener(FieldGroupListener.class, listener);
+    }
+    
+    public void removeFieldGroupListener(FieldGroupListener listener) {
+        listenerList.removeListener(FieldGroupListener.class, listener);
     }
 }
