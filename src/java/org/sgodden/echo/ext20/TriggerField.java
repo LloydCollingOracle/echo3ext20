@@ -33,6 +33,7 @@ public class TriggerField
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";    
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String INPUT_ACTION = "action";
+    public static final String SEARCH_ICON_PROPERTY = "useSearchTrigger";
     
     private String actionCommand;
 
@@ -125,4 +126,11 @@ public class TriggerField
         this.actionCommand = actionCommand;
     }
 
+    public void setUseSearchIcon(Boolean useSearchIcon) {
+        set(SEARCH_ICON_PROPERTY, useSearchIcon);
+    }
+    
+    public Boolean getUseSearchIcon() {
+        return (Boolean)get(SEARCH_ICON_PROPERTY);
+    }
 }

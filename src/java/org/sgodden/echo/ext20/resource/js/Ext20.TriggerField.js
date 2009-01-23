@@ -41,6 +41,10 @@ EchoExt20.TriggerFieldSync = Core.extend(EchoExt20.TextFieldSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	
+    	if (this.component.render("useSearchTrigger") == true) {
+    		options["triggerClass"] = "x-form-search-trigger";
+    	}
 
         var extComponent = EchoExt20.TextFieldSync.prototype.createExtComponent.call(this,update,options);
 
