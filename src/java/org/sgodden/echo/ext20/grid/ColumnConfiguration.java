@@ -152,5 +152,11 @@ public interface ColumnConfiguration {
     public abstract boolean getGrouping();
     
     public abstract void setGrouping(boolean isGrouping);
+    
+    /**
+     * The type of value in the column (return Object.class if not sure)
+     * @return
+     */
+    public Class<?> getColumnClass();
 
 }

@@ -274,4 +274,8 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
         this.grouping = grouping;
     }
 
+    public Class<?> getColumnClass() {
+        return Object.class;
+    }
+
 }
