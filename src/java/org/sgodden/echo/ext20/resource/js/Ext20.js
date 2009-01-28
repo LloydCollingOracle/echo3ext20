@@ -77,7 +77,13 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
         this.el = new Ext.Element(this.wrappedRootElement);
 
         if (position != null) {
-            position.appendChild(this.wrappedRootElement);
+        	if(position.nodeType != 3){
+        		position.appendChild(this.wrappedRootElement);
+        	}
+        	else{
+        		position.parentNode.appendChild(this.wrappedRootElement);
+        	}
+            
         }
         else {
             ct.appendChild(this.el);

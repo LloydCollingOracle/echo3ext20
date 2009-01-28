@@ -52,6 +52,8 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         }
     },
     
+    _initialText: null,
+    
     /**
      * Called by the base class to create the ext component.
      */
@@ -71,10 +73,10 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         if (this.component.get("emptyText") != null) {
             options['emptyText'] = this.component.get("emptyText");
         }
-    		if ( !(this.component.isEnabled()) ) {
+    	if ( !(this.component.isEnabled()) ) {
             options['disabled'] = true;
-    		}
-    		if (this.component.get("maskRe")) {
+    	}
+    	if (this.component.get("maskRe")) {
             options.maskRe = new RegExp(this.component.get("maskRe"));
         }  	
         if (this.component.get("regExp")) {
@@ -100,7 +102,16 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         }
         if (this.component.get("mandatory")){
             options["mandatory"] = this.component.get("mandatory");
-            options["plugins"] = [Ext.ux.MandatoryField]
+            options["plugins"] = [Ext.ux.MandatoryField];
+        }
+        if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
+            if(this.component.get("invalidText") != null) {
+            	if(this.component.get('value') != null) {
+            		this._initialText = this.component.get('value');
+            		options["invalidText"] = this.component.get("invalidText")
+            		options["validator"] = this._checkMatchesInitialValue.createDelegate(this);
+            	}
+            }
         }
         /**
          * boolean logic has been reversed due to property in ext being readOnly rather than
@@ -132,6 +143,17 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             extComponent.on("valid", this._handleValidEvent, this);
         }
     	return extComponent;
+    },
+    
+    _checkMatchesInitialValue: function(value) {
+		if(value == this._initialText){
+			this.extComponent.addClass("x-form-invalid");
+			return this.extComponent.invalidText;
+		}
+		else{
+			this.extComponent.removeClass("x-form-invalid");
+			return true;
+		}
     },
 
     _doOnRender: function() {
@@ -199,7 +221,6 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     renderUpdate: function(update){
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
         this.extComponent.setValue(this.component.get("value"));
-        
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             if(this.component.get("invalidText") != null) {
             	this.extComponent.markInvalid(this.component.get("invalidText"));

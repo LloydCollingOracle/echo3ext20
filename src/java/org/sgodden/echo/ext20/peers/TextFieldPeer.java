@@ -73,6 +73,9 @@ public class TextFieldPeer
         if (TextField.VALUE_CHANGED_PROPERTY.equals(propertyName)) {
             return String.class;
         }
+        if (TextField.INVALID_TEXT_PROPERTY.equals(propertyName)) {
+            return String.class;
+        }
         else if(TextField.VALID_PROPERTY.equals(propertyName)){
         	return Boolean.class;
         }
@@ -90,6 +93,8 @@ public class TextFieldPeer
             getClientUpdateManager(context).setComponentProperty(component, TextField.VALUE_CHANGED_PROPERTY, newValue);
         }else if(propertyName.equals(TextField.VALID_PROPERTY)){
         	getClientUpdateManager(context).setComponentProperty(component, TextField.VALID_PROPERTY, newValue);
+        }else if(propertyName.equals(TextField.INVALID_TEXT_PROPERTY)){
+            getClientUpdateManager(context).setComponentProperty(component, TextField.INVALID_TEXT_PROPERTY, newValue);
         }
     }
     
