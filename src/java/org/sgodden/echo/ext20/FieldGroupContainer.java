@@ -41,6 +41,8 @@ public class FieldGroupContainer extends Panel {
     EventListenerList listenerList = new EventListenerList();
     int initialFieldGroups = 1;
     AddButton addButton;
+    boolean initted = false;
+    String removeButtonText = null;
     
     public FieldGroupContainer() {
         super(new ColumnLayout());
@@ -52,8 +54,9 @@ public class FieldGroupContainer extends Panel {
         if (factory == null)
             throw new IllegalStateException(
                     "Field group factory must be set before initialistion");
-        if (addButton != null)
+        if (initted)
             return;
+        initted = true;
         Panel groupedPanel = new Panel();
         groupedPanel.setLayoutData(new ColumnLayoutData(1.0));
         Panel contentPanel = new Panel();
@@ -66,7 +69,8 @@ public class FieldGroupContainer extends Panel {
         add(groupedPanel);
         containedGroups.add(groupedPanel);
 
-        addButton = new AddButton();
+        if (addButton == null)
+            addButton = new AddButton();
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 int index = containedGroups.size();
@@ -87,6 +91,8 @@ public class FieldGroupContainer extends Panel {
         if (index == 1) {
             Panel firstGroup = containedGroups.get(0);
             RemoveButton removeButton = new RemoveButton();
+            if (removeButtonText != null)
+                removeButton.setText(removeButtonText);
             removeButton.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent arg0) {
@@ -107,6 +113,8 @@ public class FieldGroupContainer extends Panel {
         groupedPanel.add(contentPanel);
 
         RemoveButton removeButton = new RemoveButton();
+        if (removeButtonText != null)
+            removeButton.setText(removeButtonText);
         removeButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
@@ -175,5 +183,15 @@ public class FieldGroupContainer extends Panel {
             throw new IllegalArgumentException("Number of initial field groups must be at least one");
         
         this.initialFieldGroups = number;
+    }
+    
+    public void setAddButtonText(String text) {
+        if (addButton == null)
+            addButton = new AddButton();
+        addButton.setText(text);
+    }
+    
+    public void setRemoveButtonText(String text) {
+        this.removeButtonText = text;
     }
 }

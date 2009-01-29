@@ -62,10 +62,30 @@ public class FormGrid extends Panel {
     }
     
     /**
+     * Adds the specified component, with the specified
+     * field label.
+     * @param c the component to add.
+     * @param fieldLabel the field label, or <code>null</code>
+     * for no field label.
+     */
+    public void add(Component c, Component fieldLabel) {
+        TableLayoutData tld = new TableLayoutData();
+        tld.setCellAlign("right");
+        tld.setCellVAlign("top");
+        fieldLabel.setLayoutData(tld);
+        super.add(fieldLabel);
+        
+        tld = new TableLayoutData();
+        tld.setCellVAlign("top");
+        c.setLayoutData(tld);
+        super.add(c);
+    }
+    
+    /**
      * Adds the specified component, with no field label.
      */
     public void add(Component c) {
-        add(c, null);
+        add(c, (String)null);
     }
     
     /**
