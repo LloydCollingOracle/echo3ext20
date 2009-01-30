@@ -199,10 +199,10 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     renderUpdate: function(update) {
         EchoExt20.TextFieldSync.prototype.renderUpdate.call(this, update);
         this._suspendEvents = true;
-        this._setSelection();
         if (update.getUpdatedProperty("model")) {
             this._updateStore(this.component.get("model"))
         }
+        this._setSelection();
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             this.extComponent.markInvalid(this.component.get("invalidText"));
         }
