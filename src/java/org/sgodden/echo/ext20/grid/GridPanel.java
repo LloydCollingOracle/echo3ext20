@@ -80,6 +80,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String COLUMN_LISTENERS = "columnListeners";
     public static final String GROUP_ACTION = "group";
     public static final String SHOW_CHECKBOX = "showCheckbox";
+    public static final String HIDE_HEADERS = "hideHeaders";
 
     private TableModel tableModel;
     private int pageSize;
@@ -717,6 +718,19 @@ public class GridPanel extends Panel implements TableModelListener,
                 ColumnListener.class)) {
             ((ColumnListener) listener).addColumn();
         }
+    }
+    
+    /**
+     * Returns whether the headers of the grid are currently hidden
+     * @return
+     */
+    public boolean getHideHeaders() {
+        Boolean b = (Boolean)get(HIDE_HEADERS);
+        return Boolean.TRUE.equals(b);
+    }
+    
+    public void setHideHeaders(Boolean b) {
+        set(HIDE_HEADERS, b);
     }
 
 }

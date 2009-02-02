@@ -118,6 +118,20 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         	sm = new Ext.grid.RowSelectionModel({singleSelect: ss});
         }
         
+        if (this.component.get("hideHeaders")) {
+            view.templates = {};
+            view.templates.master = new Ext.Template(
+                    '<div class="x-grid3" hidefocus="true">',
+                    '<div class="x-grid3-viewport">',
+                        '<div class="x-grid3-header" style="display:none;"><div class="x-grid3-header-inner"><div class="x-grid3-header-offset">{header}</div></div><div class="x-clear"></div></div>',
+                        '<div class="x-grid3-scroller"><div class="x-grid3-body">{body}</div><a href="#" class="x-grid3-focus" tabIndex="-1"></a></div>',
+                    "</div>",
+                    '<div class="x-grid3-resize-marker">&#160;</div>',
+                    '<div class="x-grid3-resize-proxy">&#160;</div>',
+                    "</div>"
+                );
+        }
+        
         
         sm.on("rowselect", this._handleRowSelectEvent, this);
         sm.on("rowdeselect", this._handleRowDeselectEvent, this);
