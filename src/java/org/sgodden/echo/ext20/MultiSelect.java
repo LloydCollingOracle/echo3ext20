@@ -1,8 +1,11 @@
 package org.sgodden.echo.ext20;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.event.ListDataEvent;
@@ -29,6 +32,8 @@ public class MultiSelect extends AbstractListComponent {
     public static final String SELECTION_CHANGED_PROPERTY = "selection";
     public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
     public static final String TO_LEGEND_PROPERTY = "toLegend";
+    public static final String INPUT_ACTION = "action";
+    public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
 
     private ListSelectionModel selectionModel;
     private int[] selectedIndices;
@@ -104,6 +109,56 @@ public class MultiSelect extends AbstractListComponent {
     public MultiSelect(ListModel model, String fieldLabel, boolean isComplex) {
         this(model);
         setComplex(isComplex);
+    }
+
+    /**
+     * Adds an <code>ActionListener</code> to the button.
+     * <code>ActionListener</code>s will be invoked when the combo box is
+     * selected.
+     * 
+     * @param l
+     *            the <code>ActionListener</code> to add
+     */
+    public void addActionListener(ActionListener l) {
+        getEventListenerList().addListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
+
+    /**
+     * Fires an action event to all listeners.
+     */
+    private void fireActionEvent() {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        EventListener[] listeners = getEventListenerList().getListeners(
+                ActionListener.class);
+        ActionEvent e = null;
+        for (int i = 0; i < listeners.length; ++i) {
+            if (e == null) {
+                e = new ActionEvent(this, null);
+            }
+            ((ActionListener) listeners[i]).actionPerformed(e);
+        }
+    }
+
+    /**
+     * Removes the specified action listener.
+     * 
+     * @param l
+     *            the listener to remove.
+     */
+    public void removeActionListener(ActionListener l) {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        getEventListenerList().removeListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+
     }
 
     /**
@@ -258,9 +313,20 @@ public class MultiSelect extends AbstractListComponent {
     @Override
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
-        if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
+        if (SELECTION_CHANGED_PROPERTY.equals(inputName)) {
             setSelectedIndices((int[]) inputValue);
+        } else if (INPUT_ACTION.equals(inputName)) {
+            fireActionEvent();
         }
+    }
+
+    /**
+     * Returns whether any <code>ActionListener</code>s are registered.
+     * 
+     * @return true if any action listeners are registered
+     */
+    public boolean hasActionListeners() {
+        return getEventListenerList().getListenerCount(ActionListener.class) != 0;
     }
 
     /**

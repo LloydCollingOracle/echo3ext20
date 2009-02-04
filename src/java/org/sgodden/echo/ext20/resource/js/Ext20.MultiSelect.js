@@ -18,7 +18,7 @@
  * Component implementation for Ext.multiselect.MultiSelect.
  */
 EchoExt20.MultiSelect = Core.extend(EchoExt20.ExtComponent, {
-	
+    
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20MultiSelect", this);
         Echo.ComponentFactory.registerType("E2MS", this);
@@ -64,28 +64,29 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
       if (this.component.get("editable") != null) {
           options["editable"] = this.component.get("editable");
       }
-    	if (this.component.get("forceSelection") != null) {
+      if (this.component.get("forceSelection") != null) {
           options["forceSelection"] = this.component.get("forceSelection");
       }
-    	if (this.component.get("model") != null) {
-    	    var store = this.component.get("model");
+      
+      if (this.component.get("model") != null) {
+          var store = this.component.get("model");
             
           options.dataFields = store.fields;
           if (this.component.get("complex")) {
               this._selectedRows = this.component.get("selection").split(",");
               var toData = [[]];
               var fromData = [[]];
-            	for( var z=0 ; z<store.data.length; z++ ) {
-            	    found = false;
+                for( var z=0 ; z<store.data.length; z++ ) {
+                    found = false;
                   for( var x=0; x<this._selectedRows.length; x++ ) {
-            	        if (this._selectedRows[x].toString() == store.data[z][1].toString()) {
-	            	          toData.push(store.data[z]);
-	                        found = true;
+                        if (this._selectedRows[x].toString() == store.data[z][1].toString()) {
+                              toData.push(store.data[z]);
+                            found = true;
                           break;
-            	        }
-            	    }
-            	    if (!found) {
-            	        fromData.push(store.data[z]);
+                        }
+                    }
+                    if (!found) {
+                        fromData.push(store.data[z]);
                   }
               }
               options.fromData = fromData;
@@ -96,34 +97,34 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
           }
       }
         
-        var extComponent = this.newExtComponentInstance(options);
+      var extComponent = this.newExtComponentInstance(options);
 
-				if( this.component.get("complex") ) {
-					
-					if(!_renderedComplex) {
-						this._setSelectionComplex
-						_renderedComplex = true;
-					}
-					
-    			extComponent.on(
+      if( this.component.get("complex") ) {
+                    
+          if(!_renderedComplex) {
+              this._setSelectionComplex
+              _renderedComplex = true;
+          }
+                    
+          extComponent.on(
             "change",
             this._handleSelectEventComplex,
             this);
-    		}
-    		else{
-    			extComponent.on(
+      }
+      else{
+          extComponent.on(
             "change",
             this._handleSelectEventSimple,
             this);
-    		}
+      }
 
-        extComponent.on(
+      extComponent.on(
             "render",
             this._setSelection,
             this);
 
             
-	    	return extComponent;
+      return extComponent;
     },
        
     /**
@@ -131,12 +132,12 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
      * ext component of the correct type.
      */
     newExtComponentInstance: function(options) {
-    	if( this.component.get("complex") ) {
-    		return new Ext.ux.ItemSelector(options);
-    	}
-    	else{
-    		return new Ext.ux.Multiselect(options);
-    	}
+        if( this.component.get("complex") ) {
+            return new Ext.ux.ItemSelector(options);
+        }
+        else{
+            return new Ext.ux.Multiselect(options);
+        }
     },
 
     renderUpdate: function(update) {
@@ -156,6 +157,7 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
             
             this._updateRowSelection();            
             this._setSelection();
+            this.component.doAction();
         }
     },
     
@@ -165,15 +167,16 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
             var rows = val.split(",");
             
             for (var x=0; x<rows.length; x++) {
-            		if(rows[x]!="") {
+                    if(rows[x]!="") {
                     this._selectedRows[rows[x]] = true;
-            		}
-            		else{
-            			delete this._selectedRows[rows[x]];
-            		}
+                    }
+                    else{
+                        delete this._selectedRows[rows[x]];
+                    }
             }
             this._updateRowSelection();   
             this._setSelectionComplex();
+            this.component.doAction();
         }
     },
 

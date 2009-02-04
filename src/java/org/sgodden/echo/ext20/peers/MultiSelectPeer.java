@@ -25,6 +25,7 @@ import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
+import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.MultiSelect;
 import org.sgodden.echo.ext20.data.ListModelAdapter;
 import org.sgodden.echo.ext20.util.ListSelectionUtil;
@@ -45,6 +46,12 @@ public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
         addOutputProperty(MultiSelect.SELECTION_CHANGED_PROPERTY);
         addOutputProperty(MultiSelect.MODEL_CHANGED_PROPERTY);
         addOutputProperty(MultiSelect.COMPLEX_PROPERTY);
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(MultiSelect.INPUT_ACTION, MultiSelect.ACTION_LISTENERS_CHANGED_PROPERTY) {
+            @Override
+            public boolean hasListeners(Context context, Component component) {
+                return ((MultiSelect) component).hasActionListeners();
+            }
+        });
     }
 
     @Override
