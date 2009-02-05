@@ -35,12 +35,12 @@ import org.sgodden.echo.ext20.TriggerField;
 public class TriggerFieldPeer
         extends TextFieldPeer {
 
-    protected static final Service TRIGGER_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.TriggerField",
-            "org/sgodden/echo/ext20/resource/js/Ext20.TriggerField.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(TRIGGER_FIELD_SERVICE);
-    }
+//    protected static final Service TRIGGER_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.TriggerField",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.TriggerField.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(TRIGGER_FIELD_SERVICE);
+//    }
 
     public TriggerFieldPeer() {
         super();
@@ -65,6 +65,6 @@ public class TriggerFieldPeer
     public void init(Context context, Component c) {
         super.init(context, c);
     ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-    serverMessage.addLibrary(TRIGGER_FIELD_SERVICE.getId());
+//    serverMessage.addLibrary(TRIGGER_FIELD_SERVICE.getId());
     }
 }

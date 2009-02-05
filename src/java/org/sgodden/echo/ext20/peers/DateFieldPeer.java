@@ -35,12 +35,12 @@ public class DateFieldPeer
 
     //private static final transient Log log = LogFactory.getLog(DateFieldPeer.class);
     
-    protected static final Service DATE_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.DateField",
-            "org/sgodden/echo/ext20/resource/js/Ext20.DateField.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(DATE_FIELD_SERVICE);
-    }
+//    protected static final Service DATE_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.DateField",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.DateField.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(DATE_FIELD_SERVICE);
+//    }
 
     public DateFieldPeer() {
         super();

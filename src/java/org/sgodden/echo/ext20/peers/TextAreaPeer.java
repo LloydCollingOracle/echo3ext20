@@ -28,12 +28,12 @@ import org.sgodden.echo.ext20.TextArea;
 public class TextAreaPeer
         extends TextFieldPeer {
 
-    protected static final Service TEXT_AREA_SERVICE = JavaScriptService.forResource("EchoExt20.TextArea",
-            "org/sgodden/echo/ext20/resource/js/Ext20.TextArea.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(TEXT_AREA_SERVICE);
-    }
+//    protected static final Service TEXT_AREA_SERVICE = JavaScriptService.forResource("EchoExt20.TextArea",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.TextArea.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(TEXT_AREA_SERVICE);
+//    }
 
     public TextAreaPeer() {
         super();

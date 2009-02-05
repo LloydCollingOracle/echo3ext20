@@ -29,12 +29,12 @@ import org.sgodden.echo.ext20.ToolbarTextItem;
 public class ToolbarTextItemPeer
         extends ExtComponentPeer {
 
-    protected static final Service TOOLBAR_TEXT_SERVICE = JavaScriptService.forResource("EchoExt20.ToolbarTextItem",
-            "org/sgodden/echo/ext20/resource/js/Ext20.ToolbarTextItem.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(TOOLBAR_TEXT_SERVICE);
-    }
+//    protected static final Service TOOLBAR_TEXT_SERVICE = JavaScriptService.forResource("EchoExt20.ToolbarTextItem",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.ToolbarTextItem.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(TOOLBAR_TEXT_SERVICE);
+//    }
 
     public ToolbarTextItemPeer(){
         addOutputProperty(ToolbarTextItem.TEXT_PROPERTY);

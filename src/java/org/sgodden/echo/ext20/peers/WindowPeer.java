@@ -31,12 +31,12 @@ import org.sgodden.echo.ext20.Window;
 @SuppressWarnings({"unchecked"})
 public class WindowPeer extends PanelPeer {
     
-    protected static final Service WINDOW_SERVICE = JavaScriptService.forResource("EchoExt20.Window", 
-            "org/sgodden/echo/ext20/resource/js/Ext20.Window.js");
-    
-    static {
-        WebContainerServlet.getServiceRegistry().add(WINDOW_SERVICE);
-    }
+//    protected static final Service WINDOW_SERVICE = JavaScriptService.forResource("EchoExt20.Window", 
+//            "org/sgodden/echo/ext20/resource/js/Ext20.Window.js");
+//    
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(WINDOW_SERVICE);
+//    }
     
     /**
      * Default constructor.

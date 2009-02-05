@@ -19,9 +19,9 @@ import org.sgodden.echo.ext20.util.ListSelectionUtil;
 @SuppressWarnings( { "unchecked" })
 public class GridPanelPeer extends AbstractComponentSynchronizePeer {
 
-    protected static final Service GRID_SERVICE = JavaScriptService
-            .forResource("EchoExt20.GridPanel",
-                    "org/sgodden/echo/ext20/resource/js/Ext20.GridPanel.js");
+//    protected static final Service GRID_SERVICE = JavaScriptService
+//            .forResource("EchoExt20.GridPanel",
+//                    "org/sgodden/echo/ext20/resource/js/Ext20.GridPanel.js");
 
     private static final String PROPERTY_SELECTION = "selection";
     private static final String PROPERTY_MODEL = "model";

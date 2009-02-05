@@ -29,12 +29,12 @@ import org.sgodden.echo.ext20.ToolbarSeparator;
 public class ToolbarSeparatorPeer
         extends AbstractComponentSynchronizePeer {
 
-    protected static final Service TOOLBAR_SEPARATOR_SERVICE = JavaScriptService.forResource("EchoExt20.ToolbarSeparator",
-            "org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSeparator.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(TOOLBAR_SEPARATOR_SERVICE);
-    }
+//    protected static final Service TOOLBAR_SEPARATOR_SERVICE = JavaScriptService.forResource("EchoExt20.ToolbarSeparator",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSeparator.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(TOOLBAR_SEPARATOR_SERVICE);
+//    }
 
     public Class getComponentClass() {
         return ToolbarSeparator.class;

@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="src/webapp/WEB-INF/lib/Echo3_Extras_App.jar"/>
 	<classpathentry kind="lib" path="src/webapp/WEB-INF/lib/Echo3_Extras_WebContainer.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="lib/ant-1.6.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

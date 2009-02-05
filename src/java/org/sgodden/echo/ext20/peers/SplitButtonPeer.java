@@ -31,12 +31,12 @@ import org.sgodden.echo.ext20.SplitButton;
 @SuppressWarnings({"unchecked"})
 public class SplitButtonPeer extends AbstractButtonPeer {
     
-    protected static final Service SPLIT_BUTTON_SERVICE = JavaScriptService.forResource("EchoExt20.SplitButton", 
-            "org/sgodden/echo/ext20/resource/js/Ext20.SplitButton.js");
-    
-    static {
-        WebContainerServlet.getServiceRegistry().add(SPLIT_BUTTON_SERVICE);
-    }
+//    protected static final Service SPLIT_BUTTON_SERVICE = JavaScriptService.forResource("EchoExt20.SplitButton", 
+//            "org/sgodden/echo/ext20/resource/js/Ext20.SplitButton.js");
+//    
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(SPLIT_BUTTON_SERVICE);
+//    }
     
     /**
      * Default constructor.
@@ -63,7 +63,7 @@ public class SplitButtonPeer extends AbstractButtonPeer {
     public void init(Context context, Component c) {
         super.init(context, c);
         ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-        serverMessage.addLibrary(SPLIT_BUTTON_SERVICE.getId());
+//        serverMessage.addLibrary(SPLIT_BUTTON_SERVICE.getId());
     }
 
 }

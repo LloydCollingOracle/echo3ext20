@@ -28,12 +28,12 @@ import org.sgodden.echo.ext20.Menu;
 public class MenuPeer
         extends ExtComponentPeer {
 
-    protected static final Service MENU_SERVICE = JavaScriptService.forResource("EchoExt20.Menu",
-            "org/sgodden/echo/ext20/resource/js/Ext20.Menu.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(MENU_SERVICE);
-    }
+//    protected static final Service MENU_SERVICE = JavaScriptService.forResource("EchoExt20.Menu",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.Menu.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(MENU_SERVICE);
+//    }
 
     public Class getComponentClass() {
         return Menu.class;

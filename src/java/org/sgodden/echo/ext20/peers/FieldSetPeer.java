@@ -28,12 +28,12 @@ import org.sgodden.echo.ext20.FieldSet;
 public class FieldSetPeer
         extends PanelPeer {
 
-    protected static final Service FIELDSET_SERVICE = JavaScriptService.forResource("EchoExt20.FieldSet",
-            "org/sgodden/echo/ext20/resource/js/Ext20.FieldSet.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(PANEL_SERVICE);
-    }
+//    protected static final Service FIELDSET_SERVICE = JavaScriptService.forResource("EchoExt20.FieldSet",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.FieldSet.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(PANEL_SERVICE);
+//    }
 
     @Override
     public Class getComponentClass() {

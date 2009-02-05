@@ -1,260 +1,313 @@
 <?xml version="1.0"?>
-<project name="Echo_3_Ext_20" default="war" basedir=".">
-    
-    <property file="build.properties"/>
-    
-    <property name="classes.dir" value="bin"/>
-    <property name="build.dir" value="build"/>
-    <property name="jar.name" value="echo3ext20.jar"/>
-    <property name="sources.jar.name" value="echo3ext20-sources.jar"/>
-    <property name="war.name" value="echo3ext20.war"/>
-	
-    <property name="ext.version" value="2.0.2"/>
-    
-    <path id="compile.class.path">
-        <fileset dir="src/webapp/WEB-INF/lib"/>
-        <fileset dir="lib"/>
-        <pathelement path="${servlet.api.jar}"/>
-    </path>
-    
-    <target name="clean">
-        <delete dir="${classes.dir}"/>
-        <delete dir="${build.dir}"/>
-        <delete dir="doc"/>
-        <delete dir="contrib/ext-${ext.version}"/>
-        <delete dir="bin-groovy"/>
-    	<available file="contrib/ext-${ext.version}/ext-all-debug.js" property="ext-exists"/>
-    </target>
-    
-    <target name="compile" depends="clean">
-        <taskdef name="groovyc"
-                 classname="org.codehaus.groovy.ant.Groovyc"
-                 classpathref="compile.class.path"/>
-        <mkdir dir="${classes.dir}"/>
-        <mkdir dir="${build.dir}"/>
-    	<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
-        	<javac debug="true" target="1.5"/>
-    	</groovyc>
-    </target>
-	
-	<target name="compile-groovy">
-		<taskdef name="groovyc"
-		         classname="org.codehaus.groovy.ant.Groovyc"
-		         classpathref="compile.class.path"/>
+<project name="Echo_3_Ext_20" default="mvn-install" basedir=".">
+
+	<property file="build.properties" />
+
+	<property name="classes.dir" value="bin" />
+	<property name="build.dir" value="build" />
+	<property name="jar.name" value="echo3ext20.jar" />
+	<property name="sources.jar.name" value="echo3ext20-sources.jar" />
+	<property name="war.name" value="echo3ext20.war" />
+
+	<property name="ext.version" value="2.0.2" />
+
+	<path id="compile.class.path">
+		<fileset dir="src/webapp/WEB-INF/lib" />
+		<fileset dir="lib" />
+		<pathelement path="${servlet.api.jar}" />
+	</path>
+
+	<target name="clean">
+		<delete dir="${classes.dir}" />
+		<delete dir="${build.dir}" />
+		<delete dir="doc" />
+		<delete dir="contrib/ext-${ext.version}" />
+		<delete dir="bin-groovy" />
+		<available file="contrib/ext-${ext.version}/ext-all-debug.js" property="ext-exists" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="compile.class.path" />
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${build.dir}" />
 		<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
-        	<javac debug="true" target="1.5"/>
+			<javac debug="true" target="1.5" />
 		</groovyc>
 	</target>
-    
-    <target name="doc">
-        <javadoc
-            access="protected"
-            destdir="docs/api"
-            author="true"
-            use="true"
-            windowtitle="Echo3Ext20 Public API documentation"
-            classpathref="compile.class.path"
-            stylesheetfile="${basedir}/resources/css/stylesheet.css">
-                
-            <packageset 
-            	dir="src/java" 
-            	includes="org/sgodden/echo/ext20,org/sgodden/echo/ext20/data,org/sgodden/echo/ext20/grid,org/sgodden/echo/ext20/layout,org/sgodden/echo/ext20/models" 
-            	defaultexcludes="yes">
-            </packageset>
-            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
-            <link offline="true"
-                href="http://echo.nextapp.com/content/echo3/doc/3.0/api/public/"
-                packageListLoc="${basedir}/echo3-package-list"/>
-        </javadoc>
-    </target>
-    
-	<!-- TODO - minification of the ext-all-debug.js into ext-all.js, and option to use it -->
-    <target name="jar" depends="compile, compile-groovy, unpack-ext">
-        <jar destfile="${build.dir}/${jar.name}">
-            <fileset dir="${classes.dir}"/>
-            <fileset dir="src/java" includes="**/*.xml, **/*.js, **/*.groovy, META-INF/**/*"/>
-            <zipfileset 
-                prefix = "ext" 
-                dir="src/ext" 
-                includes="adapter/ext/ext-base.js"/>
-            <zipfileset 
-                prefix = "ext" 
-                dir="src/ext" 
-                includes="ext-all-debug.js"/>
-            <zipfileset 
-                prefix = "ext/css" 
-                dir="src/webapp/resources/ext/css" 
-                includes="*.css"/>
-            <zipfileset 
-                prefix = "local" 
-                dir="src/webapp/resources/local" 
-                includes="*.css"/>
-            <zipfileset
-                prefix="META-INF/maven/org.sgodden/echo3ext20"
-                dir="maven"/>
-        </jar>
-        <jar destfile="${build.dir}/${sources.jar.name}">
-            <fileset dir="src/java" includes="**/*.java"/>
-        </jar>
-    </target>
-    
-    <target name="unpack-ext" unless="ext-exists">
-        <unzip src="contrib/ext-${ext.version}.zip" dest="contrib"/>
-    </target>
-    
-    <target name="war" depends="jar">
-        <mkdir dir="${build.dir}/webapps"/>
-        <war 
-            destfile="${build.dir}/webapps/${war.name}" 
-            basedir="src/webapp"
-            webxml="src/webapp/WEB-INF/web.xml">
-            <lib file="build/*jar"/>
-            <lib dir="lib">
-                <exclude name="servlet-api.jar"/>
-            </lib>
-            <zipfileset 
-                prefix="resources/ext" 
-                dir="contrib/ext-${ext.version}/resources"
-                includes="**/*"/>
-        </war>
-    </target>
-    
-    <target name="deploy" depends="war">
-        <copy todir="${deploy.dir}" file="${build.dir}/${war.name}"/>
-    </target>
-    
-    <target name="deploy-tomcat" depends="war">
-        <unzip src="${build.dir}/${war.name}" dest="${deploy.dir}/echo3ext20"></unzip>
-    </target>
-    
-    <target name="run-server" depends="war">
-        <java dir="${basedir}" 
-              fork="true" 
-              classname="org.sgodden.echo.ext20.testapp.JettyServer">
-            <jvmarg value="-Xmx256m"/>
-            <jvmarg value="-Xdebug"/>
-            <jvmarg value="-Decho.syncdump=true"/>
-            <jvmarg value="-Dgroovy.script.url=file://${basedir}/src/java/"/>
-            <!--<jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>-->
-            <classpath>
-                <pathelement location="${classes.dir}"/>
-                <pathelement location="${servlet.api.jar}"/>
-                <fileset dir="lib"/>
-            </classpath>
-        </java>
-    </target>
-    
-    <target name="run-server-debug" depends="war">
-        <java dir="${basedir}" 
-              fork="true" 
-              classname="org.sgodden.echo.ext20.testapp.JettyServer">
-            <jvmarg value="-Xmx256m"/>
-            <jvmarg value="-Xdebug"/>
-            <jvmarg value="-Decho.syncdump=true"/>
-            <jvmarg value="-Dgroovy.script.url=file://${basedir}/src/java/"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=n"/>
-            <classpath>
-                <pathelement location="${classes.dir}"/>
-                <pathelement location="src/java"/>
-                <pathelement location="src/webapp/WEB-INF/classes"/>
-                <pathelement location="${servlet.api.jar}"/>
-                <fileset dir="lib"/>
-            </classpath>
-        </java>
-    </target>
 
-    <target name="run-groovy">
-        <java dir="${basedir}"
-              fork="true"
-              classname="org.sgodden.echo.ext20.testapp.GroovyTest">
-            <jvmarg value="-Xmx256m"/>
-            <classpath>
-                <pathelement location="${classes.dir}"/>
-                <pathelement path="src/java"/>
-                <fileset dir="src/webapp/WEB-INF/lib"/>
-                <pathelement location="${servlet.api.jar}"/>
-                <fileset dir="lib"/>
-            </classpath>
-        </java>
-    </target>
-    
-    <target name="mvn-install"
-            depends="os-detect, jar"
-            description="Builds and installs into the local maven repository">
-        <antcall target="mvn-install-unix"/>
-        <antcall target="mvn-install-windows"/>
-    </target>
-    
-    
-    <target name="mvn-install-unix"
-            if="is-unix"
-            description="Installs the jar into the local maven repository">
-        <exec executable="mvn">
-                <arg value="install:install-file"/>
-                <arg value="-DgroupId=org.sgodden"/>
-                <arg value="-DartifactId=echo3ext20"/>
-                <arg value="-Dversion=1.0-SNAPSHOT"/>
-                <arg value="-Dpackaging=jar"/>
-                <arg value="-Dfile=build${file.separator}echo3ext20.jar"/>
-        </exec>
-    </target>
-    
-    <target name="mvn-install-windows"
-            if="is-windows"
-            description="Installs the jar into the local maven repository (windows environment)">
-        <exec executable="cmd">
-            <arg value="/c"/>
-            <arg value="mvn install:install-file -DgroupId=org.sgodden -DartifactId=echo3ext20 -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=build${file.separator}echo3ext20.jar"/>
-        </exec>
-    </target>
-    
-    <target name="mvn-install-echo3"
-            depends="os-detect"
-            description="Builds and installs into the local maven repository">
-        <antcall target="mvn-install-echo3-unix"/>
-        <antcall target="mvn-install-echo3-windows"/>
-    </target>
-    
-    
-    <target name="mvn-install-echo3-unix"
-            if="is-unix"
-            description="Installs the echo3 jars into the local maven repository">
-        <exec executable="mvn">
-                <arg value="install:install-file"/>
-                <arg value="-DgroupId=com.nextapp"/>
-                <arg value="-DartifactId=echo3-app"/>
-                <arg value="-Dversion=1.0-SNAPSHOT"/>
-                <arg value="-Dpackaging=jar"/>
-                <arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_App.jar"/>
-        </exec>
-        <exec executable="mvn">
-                <arg value="install:install-file"/>
-                <arg value="-DgroupId=com.nextapp"/>
-                <arg value="-DartifactId=echo3-webcontainer"/>
-                <arg value="-Dversion=1.0-SNAPSHOT"/>
-                <arg value="-Dpackaging=jar"/>
-                <arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_WebContainer.jar"/>
-        </exec>
-    </target>
-    
-    <target name="mvn-install-echo3-windows"
-            if="is-windows"
-            description="Installs the echo3 jars into the local maven repository (windows environment)">
-        <exec executable="cmd">
-            <arg value="/c"/>
-            <arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_App.jar"/>
-            <arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_WebContainer.jar"/>
-        </exec>
-    </target>
-    
-    <target name="os-detect">
-        <condition property="is-unix" value="true">
-             <os family="unix"/>
-        </condition>
-        <condition property="is-windows" value="true">
-                <os family="windows"/>
-        </condition>
-    </target>
-    
-    
+	<target name="compile-groovy">
+		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="compile.class.path" />
+		<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
+			<javac debug="true" target="1.5" />
+		</groovyc>
+	</target>
+
+	<target name="doc">
+		<javadoc access="protected" destdir="docs/api" author="true" use="true" windowtitle="Echo3Ext20 Public API documentation" classpathref="compile.class.path" stylesheetfile="${basedir}/resources/css/stylesheet.css">
+
+			<packageset dir="src/java" includes="org/sgodden/echo/ext20,org/sgodden/echo/ext20/data,org/sgodden/echo/ext20/grid,org/sgodden/echo/ext20/layout,org/sgodden/echo/ext20/models" defaultexcludes="yes">
+			</packageset>
+			<link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
+			<link offline="true" href="http://echo.nextapp.com/content/echo3/doc/3.0/api/public/" packageListLoc="${basedir}/echo3-package-list" />
+		</javadoc>
+	</target>
+
+	<target name="manipulateJavascripts" depends="compile, compile-groovy, unpack-ext">
+		<taskdef classname="org.sgodden.echo.ext20.ant.StripAndZipJSTask" name="stripAndZipJS">
+			<classpath>
+				<pathelement path="${classes.dir}" />
+				<fileset dir="src/webapp/WEB-INF/lib" />
+				<fileset dir="lib" />
+				<pathelement path="${servlet.api.jar}" />
+			</classpath>
+		</taskdef>
+		<stripAndZipJS destFile="${classes.dir}/js/ext-all.js">
+			<fileset dir=".">
+				<include name="src/ext/**/*.js" />
+			</fileset>
+		</stripAndZipJS>
+
+		<stripAndZipJS destFile="${classes.dir}/js/ext20ext-all.js">
+			<fileset dir="src/java/ext">
+				<include name="Plugins.js" />
+			</fileset>
+			<fileset dir="src/java/ext">
+				<include name="portal/Portal.js" />
+			</fileset>
+			<fileset dir="src/java/ext">
+				<include name="portal/PortalColumn.js" />
+			</fileset>
+			<fileset dir="src/java/ext">
+				<include name="portal/Portlet.js" />
+			</fileset>
+			<fileset dir="src/java/ext">
+				<include name="multiselect/Multiselect.js" />
+			</fileset>
+			<fileset dir="src/java/ext">
+				<include name="multiselect/DDView.js" />
+			</fileset>
+		</stripAndZipJS>
+
+		<stripAndZipJS destFile="${classes.dir}/js/echo3ext20-all.js">
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.FormField.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.Panel.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.Button.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.TextField.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.TextArea.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.ComboBox.js" />
+				<include name="Ext20.CheckboxField.js" />
+				<include name="Ext20.DateField.js" />
+				<include name="Ext20.FieldSet.js" />
+				<include name="Ext20.GridPanel.js" />
+				<include name="Ext20.HtmlEditor.js" />
+				<include name="Ext20.Menu.js" />
+				<include name="Ext20.MenuItem.js" />
+				<include name="Ext20.MultiSelect.js" />
+				<include name="Ext20.PasswordField.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.Portal.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.PortalColumn.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.Portlet.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.RadioButton.js" />
+				<include name="Ext20.SplitButton.js" />
+				<include name="Ext20.TabbedPane.js" />
+				<include name="Ext20.TimeField.js" />
+				<include name="Ext20.TriggerField.js" />
+				<include name="Ext20.Toolbar.js" />
+				<include name="Ext20.ToolbarButton.js" />
+				<include name="Ext20.ToolbarFill.js" />
+				<include name="Ext20.ToolbarSeparator.js" />
+				<include name="Ext20.ToolbarSpacer.js" />
+				<include name="Ext20.ToolbarTextItem.js" />
+				<include name="Ext20.WaitIndicator.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.ApplicationWaitIndicator.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.Tree.Application.js" />
+				<include name="Ext20.Tree.Serial.js" />
+				<include name="Ext20.Tree.Sync.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.Window.js" />
+			</fileset>
+			<fileset dir="src/java">
+				<include name="json2.js" />
+			</fileset>
+		</stripAndZipJS>
+
+	</target>
+
+	<!-- TODO - minification of the ext-all-debug.js into ext-all.js, and option to use it -->
+	<target name="jar" depends="manipulateJavascripts">
+		<jar destfile="${build.dir}/${jar.name}">
+			<fileset dir="${classes.dir}" />
+			<fileset dir="src/java" includes="**/*.xml, **/*.groovy, META-INF/**/*, **/Ext20.ApplicationWaitIndicator.js" />
+			<zipfileset prefix="ext/css" dir="src/webapp/resources/ext/css" includes="*.css" />
+			<zipfileset prefix="local" dir="src/webapp/resources/local" includes="*.css" />
+			<zipfileset prefix="META-INF/maven/org.sgodden/echo3ext20" dir="maven" />
+		</jar>
+		<jar destfile="${build.dir}/${sources.jar.name}">
+			<fileset dir="src/java" includes="**/*.java" />
+		</jar>
+	</target>
+
+	<target name="unpack-ext" unless="ext-exists">
+		<unzip src="contrib/ext-${ext.version}.zip" dest="contrib" />
+	</target>
+
+	<target name="war" depends="jar">
+		<mkdir dir="${build.dir}/webapps" />
+		<war destfile="${build.dir}/webapps/${war.name}" basedir="src/webapp" webxml="src/webapp/WEB-INF/web.xml">
+			<lib file="build/*jar" />
+			<lib dir="lib">
+				<exclude name="servlet-api.jar" />
+			</lib>
+			<zipfileset prefix="resources/ext" dir="contrib/ext-${ext.version}/resources" includes="**/*" />
+		</war>
+	</target>
+
+	<target name="deploy" depends="war">
+		<copy todir="${deploy.dir}" file="${build.dir}/${war.name}" />
+	</target>
+
+	<target name="deploy-tomcat" depends="war">
+		<unzip src="${build.dir}/${war.name}" dest="${deploy.dir}/echo3ext20">
+		</unzip>
+	</target>
+
+	<target name="run-server" depends="war">
+		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
+			<jvmarg value="-Xmx256m" />
+			<jvmarg value="-Xdebug" />
+			<jvmarg value="-Decho.syncdump=true" />
+			<jvmarg value="-Dgroovy.script.url=file://${basedir}/src/java/" />
+			<!--<jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>-->
+			<classpath>
+				<pathelement location="${classes.dir}" />
+				<pathelement location="${servlet.api.jar}" />
+				<fileset dir="lib" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="run-server-debug" depends="war">
+		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
+			<jvmarg value="-Xmx256m" />
+			<jvmarg value="-Xdebug" />
+			<jvmarg value="-Decho.syncdump=true" />
+			<jvmarg value="-Dgroovy.script.url=file://${basedir}/src/java/" />
+			<jvmarg value="-Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=n" />
+			<classpath>
+				<pathelement location="${classes.dir}" />
+				<pathelement location="src/java" />
+				<pathelement location="src/webapp/WEB-INF/classes" />
+				<pathelement location="${servlet.api.jar}" />
+				<fileset dir="lib" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="run-groovy">
+		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.GroovyTest">
+			<jvmarg value="-Xmx256m" />
+			<classpath>
+				<pathelement location="${classes.dir}" />
+				<pathelement path="src/java" />
+				<fileset dir="src/webapp/WEB-INF/lib" />
+				<pathelement location="${servlet.api.jar}" />
+				<fileset dir="lib" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="mvn-install" depends="os-detect, jar" description="Builds and installs into the local maven repository">
+		<antcall target="mvn-install-unix" />
+		<antcall target="mvn-install-windows" />
+	</target>
+
+
+	<target name="mvn-install-unix" if="is-unix" description="Installs the jar into the local maven repository">
+		<exec executable="mvn">
+			<arg value="install:install-file" />
+			<arg value="-DgroupId=org.sgodden" />
+			<arg value="-DartifactId=echo3ext20" />
+			<arg value="-Dversion=1.0-SNAPSHOT" />
+			<arg value="-Dpackaging=jar" />
+			<arg value="-Dfile=build${file.separator}echo3ext20.jar" />
+		</exec>
+	</target>
+
+	<target name="mvn-install-windows" if="is-windows" description="Installs the jar into the local maven repository (windows environment)">
+		<exec executable="cmd">
+			<arg value="/c" />
+			<arg value="mvn install:install-file -DgroupId=org.sgodden -DartifactId=echo3ext20 -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=build${file.separator}echo3ext20.jar" />
+		</exec>
+	</target>
+
+	<target name="mvn-install-echo3" depends="os-detect" description="Builds and installs into the local maven repository">
+		<antcall target="mvn-install-echo3-unix" />
+		<antcall target="mvn-install-echo3-windows" />
+	</target>
+
+
+	<target name="mvn-install-echo3-unix" if="is-unix" description="Installs the echo3 jars into the local maven repository">
+		<exec executable="mvn">
+			<arg value="install:install-file" />
+			<arg value="-DgroupId=com.nextapp" />
+			<arg value="-DartifactId=echo3-app" />
+			<arg value="-Dversion=1.0-SNAPSHOT" />
+			<arg value="-Dpackaging=jar" />
+			<arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_App.jar" />
+		</exec>
+		<exec executable="mvn">
+			<arg value="install:install-file" />
+			<arg value="-DgroupId=com.nextapp" />
+			<arg value="-DartifactId=echo3-webcontainer" />
+			<arg value="-Dversion=1.0-SNAPSHOT" />
+			<arg value="-Dpackaging=jar" />
+			<arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_WebContainer.jar" />
+		</exec>
+	</target>
+
+	<target name="mvn-install-echo3-windows" if="is-windows" description="Installs the echo3 jars into the local maven repository (windows environment)">
+		<exec executable="cmd">
+			<arg value="/c" />
+			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_App.jar" />
+			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_WebContainer.jar" />
+		</exec>
+	</target>
+
+	<target name="os-detect">
+		<condition property="is-unix" value="true">
+			<os family="unix" />
+		</condition>
+		<condition property="is-windows" value="true">
+			<os family="windows" />
+		</condition>
+	</target>
+
+
 </project>

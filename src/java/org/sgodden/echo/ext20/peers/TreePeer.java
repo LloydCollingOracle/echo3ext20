@@ -13,14 +13,14 @@ import org.sgodden.echo.ext20.Tree;
 public class TreePeer extends
         nextapp.echo.extras.webcontainer.sync.component.TreePeer {
     
-    private static final Service TREE_SERVICE = JavaScriptService.forResources("Ext20Tree",  
-            new String[]{ "org/sgodden/echo/ext20/resource/js/Ext20.Tree.Application.js",
-                    "org/sgodden/echo/ext20/resource/js/Ext20.Tree.Serial.js",
-                    "org/sgodden/echo/ext20/resource/js/Ext20.Tree.Sync.js" });
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(TREE_SERVICE);
-    }
+//    private static final Service TREE_SERVICE = JavaScriptService.forResources("Ext20Tree",  
+//            new String[]{ "org/sgodden/echo/ext20/resource/js/Ext20.Tree.Application.js",
+//                    "org/sgodden/echo/ext20/resource/js/Ext20.Tree.Serial.js",
+//                    "org/sgodden/echo/ext20/resource/js/Ext20.Tree.Sync.js" });
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(TREE_SERVICE);
+//    }
     
     public TreePeer() {
         super();
@@ -44,6 +44,6 @@ public class TreePeer extends
     public void init(Context context, Component component) {
         super.init(context, component);
         ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-        serverMessage.addLibrary(TREE_SERVICE.getId());
+//        serverMessage.addLibrary(TREE_SERVICE.getId());
     }
 }

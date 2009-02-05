@@ -24,6 +24,7 @@ import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.CSSStyleSheetService;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 import nextapp.echo.webcontainer.service.StaticTextService;
+import nextapp.echo.webcontainer.util.Resource;
 
 /**
  * Abstract superclass for application servlets that wish to use
@@ -40,79 +41,24 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
     private static final long serialVersionUID = 20080107L;
     private static final Service extService;
     private static final Service extExtensionsService;
+    private static final Service echoLabelService;
     private static final Service echoExtService;
 
     static {
-        List resourceList = new ArrayList();
-        resourceList.add("ext/adapter/ext/ext-base.js");
-        resourceList.add("ext/ext-all-debug.js");
-
-        String[] resources = new String[resourceList.size()];
-        resourceList.toArray(resources);
-        extService = JavaScriptService.forResources("Ext20", resources);
+        extService = new JavaScriptService("Ext20", Resource.getResourceAsString("js/ext-all.js"), Resource.getResourceAsByteArray("js/ext-all.js.gz"));
         
-        resourceList = new ArrayList();
-        resourceList.add("ext/Plugins.js");
-        resourceList.add("ext/portal/Portal.js");
-        resourceList.add("ext/portal/PortalColumn.js");
-        resourceList.add("ext/portal/Portlet.js");
-        resourceList.add("ext/multiselect/Multiselect.js");
-        resourceList.add("ext/multiselect/DDView.js");
+        extExtensionsService = new JavaScriptService("Ext20Ext", Resource.getResourceAsString("js/ext20ext-all.js"), Resource.getResourceAsByteArray("js/ext20ext-all.js.gz"));
+        
+        echoLabelService = JavaScriptService.forResource("Echo.Label", "nextapp/echo/webcontainer/resource/Sync.Label.js");
 
-        resources = new String[resourceList.size()];
-        resourceList.toArray(resources);
-        extExtensionsService = JavaScriptService.forResources("Ext20Ext", resources);
-
-        /*
-         * Whilst we are in development mode, add all the scripts up
-         * front so that they can be seen by firebug.
-         * When we go to release, these should be loaded as needed
-         * by the rendering peers.
-         * (or should they - these are all tiny, so maybe just loading
-         * them all up front in one shot is fine).
-         */
-        resourceList = new ArrayList();
-        // ORDER IS IMPORTANT FOR INHERITANCE!
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.FormField.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Panel.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Button.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.TextField.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.TextArea.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ComboBox.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.CheckboxField.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.DateField.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.FieldSet.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.GridPanel.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.HtmlEditor.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Menu.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.MenuItem.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.PasswordField.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Portal.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.PortalColumn.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Portlet.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.RadioButton.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.TabbedPane.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.TimeField.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Toolbar.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarButton.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarFill.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSeparator.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarSpacer.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.ToolbarTextItem.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.WaitIndicator.js");
-        resourceList.add("org/sgodden/echo/ext20/resource/js/Ext20.Window.js");
-        resourceList.add("json2.js");
-
-        resources = new String[resourceList.size()];
-        resourceList.toArray(resources);
-        echoExtService = JavaScriptService.forResources("EchoExt20", resources);
+        echoExtService = new JavaScriptService("EchoExt20", Resource.getResourceAsString("js/echo3ext20-all.js"), Resource.getResourceAsByteArray("js/echo3ext20-all.js.gz"));
     }
 
     public AbstractExtAppServlet() {
         super();
         addInitScript(extService);
         addInitScript(extExtensionsService);
+        addInitScript(echoLabelService);
         addInitScript(echoExtService);
         addInitStyleSheet(CSSStyleSheetService.forResource("ExtAllCSS", "ext/css/ext-all.css", "resources/ext/css/"));
         addInitStyleSheet(CSSStyleSheetService.forResource("ExtPortalCSS", "ext/css/portal.css", "resources/ext/css/"));

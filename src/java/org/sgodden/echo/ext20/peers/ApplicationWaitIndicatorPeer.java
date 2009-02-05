@@ -12,12 +12,12 @@ import org.sgodden.echo.ext20.ApplicationWaitIndicator;
 
 public class ApplicationWaitIndicatorPeer extends LabelPeer {
     
-    protected static final Service JS_SERVICE = JavaScriptService.forResource("EchoExt20.ApplicationWaitIndicator", 
-            "org/sgodden/echo/ext20/resource/js/Ext20.ApplicationWaitIndicator.js");
-    
-    static {
-        WebContainerServlet.getServiceRegistry().add(JS_SERVICE);
-    }
+//    protected static final Service JS_SERVICE = JavaScriptService.forResource("EchoExt20.ApplicationWaitIndicator", 
+//            "org/sgodden/echo/ext20/resource/js/Ext20.ApplicationWaitIndicator.js");
+//    
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(JS_SERVICE);
+//    }
 
     public ApplicationWaitIndicatorPeer(){
         super();    
@@ -41,8 +41,8 @@ public class ApplicationWaitIndicatorPeer extends LabelPeer {
     @Override
     public void init(Context context, Component c) {
         super.init(context, c);
-        ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-        serverMessage.addLibrary(JS_SERVICE.getId());
+//        ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
+//        serverMessage.addLibrary(JS_SERVICE.getId());
     }
 
 }

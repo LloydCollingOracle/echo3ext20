@@ -30,12 +30,12 @@ import org.sgodden.echo.ext20.MenuItem;
 @SuppressWarnings({"unchecked"})
 public class MenuItemPeer extends AbstractButtonPeer {
     
-    protected static final Service MENU_ITEM_SERVICE = JavaScriptService.forResource("EchoExt20.MenuItem", 
-            "org/sgodden/echo/ext20/resource/js/Ext20.MenuItem.js");
-    
-    static {
-        WebContainerServlet.getServiceRegistry().add(MENU_ITEM_SERVICE);
-    }
+//    protected static final Service MENU_ITEM_SERVICE = JavaScriptService.forResource("EchoExt20.MenuItem", 
+//            "org/sgodden/echo/ext20/resource/js/Ext20.MenuItem.js");
+//    
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(MENU_ITEM_SERVICE);
+//    }
     
     /**
      * Default constructor.

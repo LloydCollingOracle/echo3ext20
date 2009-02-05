@@ -31,12 +31,12 @@ import org.sgodden.echo.ext20.data.ListModelAdapter;
 public class ComboBoxPeer
         extends TextFieldPeer {
 
-    protected static final Service COMBO_BOX_SERVICE = JavaScriptService.forResource("EchoExt20.ComboBox",
-            "org/sgodden/echo/ext20/resource/js/Ext20.ComboBox.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(COMBO_BOX_SERVICE);
-    }
+//    protected static final Service COMBO_BOX_SERVICE = JavaScriptService.forResource("EchoExt20.ComboBox",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.ComboBox.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(COMBO_BOX_SERVICE);
+//    }
 
     public ComboBoxPeer() {
         super();

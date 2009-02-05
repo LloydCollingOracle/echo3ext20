@@ -33,13 +33,13 @@ import org.sgodden.echo.ext20.util.ListSelectionUtil;
 @SuppressWarnings( { "unchecked" })
 public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
 
-    protected static final Service MULTI_SELECT_SERVICE = JavaScriptService
-            .forResource("EchoExt20.MultiSelect",
-                    "org/sgodden/echo/ext20/resource/js/Ext20.MultiSelect.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(MULTI_SELECT_SERVICE);
-    }
+//    protected static final Service MULTI_SELECT_SERVICE = JavaScriptService
+//            .forResource("EchoExt20.MultiSelect",
+//                    "org/sgodden/echo/ext20/resource/js/Ext20.MultiSelect.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(MULTI_SELECT_SERVICE);
+//    }
 
     public MultiSelectPeer() {
         super();
@@ -108,7 +108,7 @@ public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
         super.init(context, c);
         ServerMessage serverMessage = (ServerMessage) context
                 .get(ServerMessage.class);
-        serverMessage.addLibrary(MULTI_SELECT_SERVICE.getId());
+//        serverMessage.addLibrary(MULTI_SELECT_SERVICE.getId());
     }
 
     /*

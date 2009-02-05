@@ -31,12 +31,12 @@ import org.sgodden.echo.ext20.RadioButton;
 public class RadioButtonPeer
         extends ExtComponentPeer {
 
-    protected static final Service TEXT_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.RadioButton",
-            "org/sgodden/echo/ext20/resource/js/Ext20.RadioButton.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(TEXT_FIELD_SERVICE);
-    }
+//    protected static final Service TEXT_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.RadioButton",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.RadioButton.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(TEXT_FIELD_SERVICE);
+//    }
 
     public RadioButtonPeer() {
         super();

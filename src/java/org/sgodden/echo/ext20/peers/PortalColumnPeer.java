@@ -28,12 +28,12 @@ import org.sgodden.echo.ext20.PortalColumn;
 public class PortalColumnPeer
         extends ExtComponentPeer {
 
-    protected static final Service PORTAL_COLUMN_SERVICE = JavaScriptService.forResource("EchoExt20.PortalColumn",
-            "org/sgodden/echo/ext20/resource/js/Ext20.PortalColumn.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(PORTAL_COLUMN_SERVICE);
-    }
+//    protected static final Service PORTAL_COLUMN_SERVICE = JavaScriptService.forResource("EchoExt20.PortalColumn",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.PortalColumn.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(PORTAL_COLUMN_SERVICE);
+//    }
     
     public PortalColumnPeer() {
         super();

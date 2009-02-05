@@ -27,12 +27,12 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 public class PasswordFieldPeer
         extends TextFieldPeer {
 
-    protected static final Service PASSWORD_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.PasswordField",
-            "org/sgodden/echo/ext20/resource/js/Ext20.PasswordField.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(PASSWORD_FIELD_SERVICE);
-    }
+//    protected static final Service PASSWORD_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.PasswordField",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.PasswordField.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(PASSWORD_FIELD_SERVICE);
+//    }
 
     public PasswordFieldPeer() {
         super();

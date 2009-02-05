@@ -28,12 +28,12 @@ import org.sgodden.echo.ext20.Portal;
 public class PortalPeer
         extends PanelPeer {
 
-    protected static final Service PORTAL_SERVICE = JavaScriptService.forResource("EchoExt20.Portal",
-            "org/sgodden/echo/ext20/resource/js/Ext20.Portal.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(PORTAL_SERVICE);
-    }
+//    protected static final Service PORTAL_SERVICE = JavaScriptService.forResource("EchoExt20.Portal",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.Portal.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(PORTAL_SERVICE);
+//    }
     
     public PortalPeer() {
         super();

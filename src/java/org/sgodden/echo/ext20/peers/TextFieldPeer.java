@@ -30,12 +30,12 @@ import org.sgodden.echo.ext20.TextField;
 public class TextFieldPeer
         extends ExtComponentPeer {
 
-    protected static final Service TEXT_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.TextField",
-            "org/sgodden/echo/ext20/resource/js/Ext20.TextField.js");
-
-    static {
-        WebContainerServlet.getServiceRegistry().add(TEXT_FIELD_SERVICE);
-    }
+//    protected static final Service TEXT_FIELD_SERVICE = JavaScriptService.forResource("EchoExt20.TextField",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.TextField.js");
+//
+//    static {
+//        WebContainerServlet.getServiceRegistry().add(TEXT_FIELD_SERVICE);
+//    }
 
     public TextFieldPeer() {
         super();
