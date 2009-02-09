@@ -1,0 +1,60 @@
+--- ext-all-debug.js	2009-02-06 14:55:52.000000000 +0000
++++ ext-all-debug.js	2009-02-06 15:01:09.000000000 +0000
+@@ -16171,8 +16171,56 @@
+             this.table = target.createChild(
+                 {tag:'table', cls:'x-table-layout', cellspacing: 0, cn: {tag: 'tbody'}}, null, true);
+ 
+-            this.renderAll(ct, target);
++            if (this.tableStyle) {
++                Ext.DomHelper.applyStyles(this.table, this.tableStyle);
++            }
++
++            if (this.tableBorder) {
++                this.table.border = "1";
++            }
++
++            if (this.cellSpacing) {
++                this.table.cellSpacing = this.cellSpacing;
++            }
++        }
++        /*
++         * If the total number of children is less than our current
++         * total tds, then remove that number of tds from the end.
++         * N.B. - that means that this container does NOT support
++         * arbitrary removal of components, but only those
++         * from the end.
++         */
++        while (len < this.childCount && this.table.tBodies.length > 0) {
++            /*
++             * Remove the last td of the last row,
++             * removing the tr if it becomes empty.
++             */
++            var trows = this.table.tBodies[0].childNodes;
++            var trow = trows[trows.length -1];
++            var tcells = trow.childNodes;
++            trow.removeChild(tcells[tcells.length - 1]);
++
++            this.childCount--;
++            this.currentColumn--;
++
++            if (trow.childNodes.length ==0) {
++                this.table.tBodies[0].removeChild(trow);
++                this.currentRow--;
++                this.currentColumn = this.columns - 1;
++            }
++
++            /*
++             * Remove the last cell of the last row
++             * of the internal cells variable, removing
++             * the row if it becomes empty.
++             */
++            this.cells[this.cells.length-1].pop();
++            if (this.cells[this.cells.length-1].length == 0) {
++                this.cells.pop();
++            }
+         }
++
++        this.renderAll(ct, target);
+     },
+ 
+     // private

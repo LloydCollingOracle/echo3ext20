@@ -1,0 +1,11 @@
+--- ext-all-debug.js	2009-02-06 15:04:55.000000000 +0000
++++ ext-all-debug.js	2009-02-06 15:05:23.000000000 +0000
+@@ -27015,6 +27015,8 @@
+     readOnly : false,
+     
+     disabled : false,
++    
++    mandatory : false,
+ 
+     // private
+     isFormField : true,

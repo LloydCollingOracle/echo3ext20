@@ -32,8 +32,8 @@ public class AppServlet extends AbstractExtAppServlet {
     
     public AppServlet(){
         super();
-        addInitStyleSheet(CSSStyleSheetService.forResource("ExtSlateThemeCSS", "ext/css/xtheme-slate.css", "ext/css/"));
-        addInitStyleSheet(CSSStyleSheetService.forResource("ExtLocalStyleCSS", "local/localstyle.css", "local/"));
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtSlateThemeCSS", "ext/css/xtheme-slate.css", "resources/ext/css/"));
+        addInitStyleSheet(CSSStyleSheetService.forResource("ExtLocalStyleCSS", "local/localstyle.css", "resources/local/"));
     }
 
     public ApplicationInstance newApplicationInstance() {

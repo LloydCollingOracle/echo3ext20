@@ -9,7 +9,7 @@
 	<property name="sources.jar.name" value="echo3ext20-sources.jar" />
 	<property name="war.name" value="echo3ext20.war" />
 
-	<property name="ext.version" value="2.0.2" />
+	<property name="ext.version" value="2.2.1" />
 
 	<path id="compile.class.path">
 		<fileset dir="src/webapp/WEB-INF/lib" />
@@ -62,8 +62,11 @@
 			</classpath>
 		</taskdef>
 		<stripAndZipJS destFile="${classes.dir}/js/ext-all.js">
-			<fileset dir=".">
-				<include name="src/ext/**/*.js" />
+			<fileset dir="contrib/ext-${ext.version}/adapter/ext">
+				<include name="ext-base.js" />
+			</fileset>
+			<fileset dir="contrib/ext-${ext.version}">
+				<include name="ext-all-debug.js" />
 			</fileset>
 		</stripAndZipJS>
 
@@ -175,7 +178,16 @@
 	</target>
 
 	<target name="unpack-ext" unless="ext-exists">
-		<unzip src="contrib/ext-${ext.version}.zip" dest="contrib" />
+		<mkdir dir="contrib/ext-${ext.version}" />
+		<unzip src="contrib/ext-${ext.version}.zip" dest="contrib/ext-${ext.version}" />
+
+		<!-- apply our patches to the ExtJS files -->
+		<patch patchfile="contrib/patches/ext-2.2.1/GroupingStore.clearGrouping.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+		<patch patchfile="contrib/patches/ext-2.2.1/BorderLayout.onLayout.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+		<patch patchfile="contrib/patches/ext-2.2.1/TableLayout.onLayout.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+		<patch patchfile="contrib/patches/ext-2.2.1/Ext.form.Field.mandatory.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+		<patch patchfile="contrib/patches/ext-2.2.1/ExtBase.getXY.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
+		<patch patchfile="contrib/patches/ext-2.2.1/TableLayout.getNextCell.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 	</target>
 
 	<target name="war" depends="jar">
@@ -204,10 +216,12 @@
 			<jvmarg value="-Xdebug" />
 			<jvmarg value="-Decho.syncdump=true" />
 			<jvmarg value="-Dgroovy.script.url=file://${basedir}/src/java/" />
-			<!--<jvmarg value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>-->
 			<classpath>
 				<pathelement location="${classes.dir}" />
+				<pathelement location="src/java" />
+				<pathelement location="src/webapp/WEB-INF/classes" />
 				<pathelement location="${servlet.api.jar}" />
+				<pathelement location="src/webapp/resources" />
 				<fileset dir="lib" />
 			</classpath>
 		</java>

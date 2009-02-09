@@ -1,0 +1,18 @@
+--- ext-all-debug.js	2009-02-06 20:29:34.000000000 +0000
++++ ext-all-debug.js	2009-02-06 20:30:37.000000000 +0000
+@@ -16260,6 +16260,15 @@
+ 		if(c.rowspan){
+ 			td.rowSpan = c.rowspan;
+ 		}
++        if (c.cellStyle) {
++            Ext.DomHelper.applyStyles(td, c.cellStyle);
++        }
++        if (c.cellAlign) {
++            td.align = c.cellAlign;
++        }
++        if (c.cellVAlign) {
++            td.vAlign = c.cellVAlign;
++        }
+ 		this.getRow(curRow).appendChild(td);
+ 		return td;
+ 	},

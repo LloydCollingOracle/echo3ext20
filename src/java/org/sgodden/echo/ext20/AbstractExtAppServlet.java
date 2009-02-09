@@ -46,11 +46,8 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
 
     static {
         extService = new JavaScriptService("Ext20", Resource.getResourceAsString("js/ext-all.js"), Resource.getResourceAsByteArray("js/ext-all.js.gz"));
-        
         extExtensionsService = new JavaScriptService("Ext20Ext", Resource.getResourceAsString("js/ext20ext-all.js"), Resource.getResourceAsByteArray("js/ext20ext-all.js.gz"));
-        
         echoLabelService = JavaScriptService.forResource("Echo.Label", "nextapp/echo/webcontainer/resource/Sync.Label.js");
-
         echoExtService = new JavaScriptService("EchoExt20", Resource.getResourceAsString("js/echo3ext20-all.js"), Resource.getResourceAsByteArray("js/echo3ext20-all.js.gz"));
     }
 

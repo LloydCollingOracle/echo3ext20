@@ -1,6 +1,7 @@
 package org.sgodden.echo.ext20.peers.grid;
 
 import java.io.StringReader;
+import java.math.BigInteger;
 
 import nextapp.echo.app.serial.SerialContext;
 import nextapp.echo.app.serial.SerialException;
@@ -99,22 +100,22 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                 JSONObject jsonCol = (JSONObject) columns.get(i);
 
                 // extract the data
-                String attributePath = ((JSONString) jsonCol
-                        .get("attributePath")).getValue();
-                String dataIndex = ((JSONString) jsonCol.get("dataIndex"))
-                        .getValue();
-                int displaySequence = ((JSONInteger) jsonCol
-                        .get("displaySequence")).getValue().intValue();
-                String header = ((JSONString) jsonCol.get("header")).getValue();
-                boolean hidden = ((JSONBoolean) jsonCol.get("hidden"))
-                        .getValue();
-                boolean sortable = ((JSONBoolean) jsonCol.get("sortable"))
-                        .getValue();
-                boolean grouping = ((JSONBoolean) jsonCol.get("grouping"))
-                        .getValue();
-                String sortDirection = ((JSONString) jsonCol
-                        .get("sortDirection")).getValue();
-                int width = ((JSONInteger) jsonCol.get("width")).getValue()
+                String attributePath = getValue(((JSONString) jsonCol
+                        .get("attributePath")));
+                String dataIndex = getValue(((JSONString) jsonCol.get("dataIndex"))
+                        );
+                int displaySequence = getValue(((JSONInteger) jsonCol
+                        .get("displaySequence"))).intValue();
+                String header = getValue(((JSONString) jsonCol.get("header")));
+                boolean hidden = getValue(((JSONBoolean) jsonCol.get("hidden"))
+                        );
+                boolean sortable = getValue(((JSONBoolean) jsonCol.get("sortable"))
+                        );
+                boolean grouping = getValue(((JSONBoolean) jsonCol.get("grouping"))
+                        );
+                String sortDirection = getValue(((JSONString) jsonCol
+                        .get("sortDirection")));
+                int width = getValue(((JSONInteger) jsonCol.get("width")))
                         .intValue();
 
                 // set the data on the column
@@ -132,6 +133,24 @@ public class ColumnModelPeer implements SerialPropertyPeer {
             }
 
             return new MarshallValueImpl(cm);
+        }
+
+        private boolean getValue(JSONBoolean boolean1) {
+            if (boolean1 == null)
+                return false;
+            return boolean1.getValue();
+        }
+
+        private String getValue(JSONString string) {
+            if (string == null)
+                return null;
+            return string.getValue();
+        }
+
+        private BigInteger getValue(JSONInteger integer) {
+            if (integer == null)
+                return null;
+            return integer.getValue();
         }
     }
 }
