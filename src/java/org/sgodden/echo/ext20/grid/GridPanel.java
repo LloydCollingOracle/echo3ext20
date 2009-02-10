@@ -89,14 +89,14 @@ public class GridPanel extends Panel implements TableModelListener,
     private boolean notifySelect = false;
     private int[] selectedIndices;
     private GridCellRenderer gridCellRenderer = new DefaultGridCellRenderer();
-    
-	/**
-	 * Sets the showCheckbox property which if enabled shows checkboxes on the
-	 * GridPanel.
-	 */
-	public void setShowCheckbox(Boolean showCheckbox) {
-		set(SHOW_CHECKBOX, showCheckbox);
-	}
+
+    /**
+     * Sets the showCheckbox property which if enabled shows checkboxes on the
+     * GridPanel.
+     */
+    public void setShowCheckbox(Boolean showCheckbox) {
+        set(SHOW_CHECKBOX, showCheckbox);
+    }
 
     /**
      * Local handler for list selection events.
@@ -392,7 +392,7 @@ public class GridPanel extends Panel implements TableModelListener,
             ColumnConfiguration group = null;
             for (ColumnConfiguration cc : colModel) {
                 if (cc.getGrouping())
-                    group = cc;;
+                    group = cc;
             }
 
             ColumnConfiguration sort = null;
@@ -404,7 +404,7 @@ public class GridPanel extends Panel implements TableModelListener,
                 }
             }
 
-            // the standard columns are offset in the output array 
+            // the standard columns are offset in the output array
             // if we're grouping or sorting
             int offset = 0;
             if (group == null && sort != null)
@@ -417,7 +417,7 @@ public class GridPanel extends Panel implements TableModelListener,
             for (int i = 0; i < columnIndices.length; i++) {
                 ColumnConfiguration cc = colModel.getColumn(i);
                 String sequence = cc.getDataIndex();
-                
+
                 // work out where in the output array the column goes
                 int index = -1;
                 if (cc == group) {
@@ -431,11 +431,10 @@ public class GridPanel extends Panel implements TableModelListener,
                 } else {
                     index = offset++;
                 }
-                
+
                 columnIndices[index] = sequence;
 
-                ascending[index] = "ASCENDING".equals(cc
-                        .getSortDirection())
+                ascending[index] = "ASCENDING".equals(cc.getSortDirection())
                         || "ASC".equals(cc.getSortDirection());
             }
             ((SortableTableModel) getTableModel()).sort(columnIndices,
@@ -649,13 +648,15 @@ public class GridPanel extends Panel implements TableModelListener,
     }
 
     boolean firingTableChanged = false;
+
     /**
      * Forces a client-side refresh of the table when the table model changes.
      */
     public void tableChanged(TableModelEvent e) {
         if (!firingTableChanged) {
             firingTableChanged = true;
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a bodge
+            firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a
+                                                                          // bodge
             // but
             // we're
             // not
@@ -719,16 +720,17 @@ public class GridPanel extends Panel implements TableModelListener,
             ((ColumnListener) listener).addColumn();
         }
     }
-    
+
     /**
      * Returns whether the headers of the grid are currently hidden
+     * 
      * @return
      */
     public boolean getHideHeaders() {
-        Boolean b = (Boolean)get(HIDE_HEADERS);
+        Boolean b = (Boolean) get(HIDE_HEADERS);
         return Boolean.TRUE.equals(b);
     }
-    
+
     public void setHideHeaders(Boolean b) {
         set(HIDE_HEADERS, b);
     }
