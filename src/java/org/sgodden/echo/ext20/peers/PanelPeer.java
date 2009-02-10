@@ -20,11 +20,10 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
-import nextapp.echo.webcontainer.Service;
-import nextapp.echo.webcontainer.WebContainerServlet;
-import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.util.InsertEntities;
+
 
 @SuppressWarnings({"unchecked"})
 public class PanelPeer
@@ -106,5 +105,13 @@ public class PanelPeer
         super.init(context, c);
     //ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
     //serverMessage.addLibrary(PANEL_SERVICE.getId());
+    }
+    
+    public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
+        if (Panel.PROPERTY_TITLE.equals(propertyName)) {
+            String title = (String)super.getOutputProperty(context, component, propertyName, propertyIndex);
+            return InsertEntities.insertHTMLEntities(title);
+        }
+        return super.getOutputProperty(context, component, propertyName, propertyIndex);
     }
 }
