@@ -49,6 +49,7 @@ class UserEditPanel extends Panel implements ActionListenable {
     def dateField
     def timeField
     def textAreaField
+    def activeField
     
     def fieldSet
     def enabledField

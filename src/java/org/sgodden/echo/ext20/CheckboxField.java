@@ -31,6 +31,7 @@ import nextapp.echo.app.event.ActionListener;
 public class CheckboxField
         extends Component {
 
+    public static final String EDITABLE_PROPERTY = "editable";
     public static final String SELECTED_CHANGED_PROPERTY = "selected";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
 

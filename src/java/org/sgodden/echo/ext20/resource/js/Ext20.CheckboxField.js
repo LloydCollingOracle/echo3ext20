@@ -78,7 +78,14 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     renderUpdate: function(update) {
-    		var selected = this.component.get("selected");
+    
+        if ( !(this.component.isEnabled()) ) {
+            this.extComponent.setDisabled(true);
+        } else {
+            this.extComponent.setDisabled(false);
+        }
+    
+        var selected = this.component.get("selected");
         this.extComponent.setValue(selected);
     },
     
@@ -91,7 +98,7 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         var selected = this.extComponent.getValue();
         if (selected != this.component.get("selected")) {
             this.component.set("selected", this.extComponent.getValue());
-            this.component.doAction();			
+            this.component.doAction();
         }
     }
     
