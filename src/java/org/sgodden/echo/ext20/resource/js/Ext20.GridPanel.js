@@ -78,6 +78,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     _handleSortEvents: false,
     _reconfigureOnRender: false,
     _selectedRows: null,
+    _model: null,
     
     createExtComponent: function(update, options) {
         this._handleSortEvents = false;
@@ -90,8 +91,11 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         if (existingComponent != null)
             Ext.ComponentMgr.unregister(existingComponent);
         
-        options["plugins"] = new EchoExt20.GridColAddRemove();
+        options["plugins"] = [];
+        options["plugins"][0] = new EchoExt20.GridColAddRemove();
+        var pluginIndex = 1;
 
+        this._model = this.component.render("model");
         options["store"] = this._makeStore();
                 
         var view = new Ext.grid.GroupingView({
@@ -103,6 +107,17 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         options["view"] = view;
         
         options["cm"] = this.component.get("columnModel");
+        // apply the column renderers!
+        for (var i = 0; i < options["cm"].config.length; i++) {
+            var thisCol = options["cm"].config[i];
+            
+            if (thisCol instanceof Ext.grid.CheckColumn) {
+                options["plugins"][pluginIndex] = thisCol;
+                pluginIndex++;
+            } else {
+                thisCol.renderer = this._renderColumn.createDelegate(this);
+            }
+        }
         
         // ext does not support multiple interval selection
         var smode = this.component.get("selectionMode");
@@ -156,9 +171,23 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         ret.on("columnresize",this._handleColumnResize,this);
         ret.on("columnremove", this._handleColumnRemove, this);
         ret.on("columnadd", this._handleColumnAdd, this);
+
+        if (this.component.get("editcellcontents") == true) {
+            ret.on("afteredit", this._handleModelChanged, this);
+        }
         options["cm"].on("hiddenchange", this._handleColumnHide, this);
         
         return ret;
+    },
+    
+    _renderColumn: function(value, metadata, record, rowIndex, colIndex, store) {
+        var renderedValue = null;
+        if (this.component.get("showCheckbox")){
+            eval(this._model.renderedData[rowIndex][colIndex - 1]);
+        } else {
+            eval(this._model.renderedData[rowIndex][colIndex]);
+        }
+        return renderedValue;
     },
 
     doSort: function(fieldName, sortDirection) {
@@ -293,7 +322,28 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                         row - first, true);
             }
         }
-
+    },
+    
+    _handleModelChanged: function(editEvent) {
+        var store = this.extComponent.getStore();
+        var data = [];
+        for (var i = 0; i < store.getCount(); i++) {
+            data[i] = [];
+            var thisRecord = store.getAt(i);
+            var recordKeys = thisRecord.fields.keys;
+            for (var j = 0; j < recordKeys.length; j++) {
+                data[i][j] = thisRecord.get(recordKeys[j]);
+            }
+        }
+        var oldModel = this._model;
+        this._model = {
+            data : data,
+            renderedData : oldModel.renderedData,
+            fields : oldModel.fields,
+            size: oldModel.size,
+            className: "E2SS"
+        };
+        this.component.set("model", this._model);
     },
     
     /**
@@ -376,8 +426,13 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
     
     newExtComponentInstance: function(options) {
-        var ret = new Ext.grid.GridPanel(options);
-        return ret;
+        if (this.component.get("editcellcontents") == true) {
+            options["clicksToEdit"] = 1;
+            return new Ext.grid.EditorGridPanel(options);
+        } else {
+            var ret = new Ext.grid.GridPanel(options);
+            return ret;
+        }
     },
 
     renderDispose: function(update) {
@@ -544,3 +599,57 @@ Ext.extend(EchoExt20.GridColAddRemove, Ext.util.Observable, {
         );
     }
 });
+
+
+// check column code copied from http://extjs.com/learn/Ext_FAQ_Grid#How_to_make_a_check_box_column_in_grid
+// on 13th Feb 2009
+Ext.grid.CheckColumn = function(config){
+    Ext.apply(this, config);
+    if(!this.id){
+        this.id = Ext.id();
+    }
+    this.renderer = this.renderer.createDelegate(this);
+};
+
+Ext.grid.CheckColumn.prototype ={
+    init : function(grid){
+        this.grid = grid;
+        this.grid.on('render', function(){
+            var view = this.grid.getView();
+            view.mainBody.on('mousedown', this.onMouseDown, this);
+        }, this);
+    },
+    onMouseDown : function(e, t){
+        if(t.className && t.className.indexOf('x-grid3-cc-'+this.id) != -1){
+            e.stopEvent();
+            var index = this.grid.getView().findRowIndex(t);
+            var record = this.grid.store.getAt(index);
+            var value = false;
+            if (record.data[this.dataIndex] === "true" || record.data[this.dataIndex] === true)
+                value = true;
+            
+            record.set(this.dataIndex, !value);
+
+            var editEvent = {
+                grid: this.grid,
+                record: record,
+                field: this.dataIndex,
+                originalValue:value,
+                value: !value,
+                row: index,
+                column: this,
+                cancel:false
+            };
+            this.grid.fireEvent("afteredit", editEvent);
+        }
+    },
+    renderer : function(v, p, record){
+        var isChecked = v === "true" || v === true;
+        p.css += ' x-grid3-check-col-td'; 
+        return '<div class="x-grid3-check-col' +
+                (isChecked?'-on':'') +
+               ' x-grid3-cc-' + 
+               this.id + 
+               '"> </div>';
+    }
+};

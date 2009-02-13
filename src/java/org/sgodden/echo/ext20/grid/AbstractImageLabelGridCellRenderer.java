@@ -2,31 +2,36 @@ package org.sgodden.echo.ext20.grid;
 
 import java.text.MessageFormat;
 
-import org.sgodden.echo.ext20.util.InsertEntities;
-
 import nextapp.echo.app.Component;
-import nextapp.echo.app.Label;
+
+import org.sgodden.echo.ext20.util.InsertEntities;
 
 
 /**
- * A grid cell renderer that may be subclassed to return values for images and
- * text content
+ * A grid cell renderer that may be extended to return values for images and
+ * text content.
+ * 
+ * Note that this expects the grid to be read-only, so will render the value as a
+ * constant value.
  * 
  * @author Lloyd Colling
  */
-public abstract class ImageLabelGridCellRenderer implements GridCellRenderer {
+public abstract class AbstractImageLabelGridCellRenderer implements GridCellRenderer {
 
     private CellTemplate cellFormat = new CellTemplate();
 
-    public final Component getGridCellRendererComponent(Component gridPanel,
-            Object valueAt, int colIndex, int rowIndex) {
+    public abstract String getModelValue(Component gridPanel, Object valueAt,
+            int colIndex, int rowIndex);
+
+    public String getClientSideValueRendererScript(Component gridPanel, Object valueAt,
+            int colIndex, int rowIndex) {
         String imageUrl = getImageUrl(gridPanel, valueAt, colIndex, rowIndex);
-        String text = getText(gridPanel, valueAt, colIndex, rowIndex);
+        String text = InsertEntities.insertHTMLEntities(getText(gridPanel, valueAt, colIndex, rowIndex));
         String template = getCellTemplate(gridPanel, valueAt, colIndex,
                 rowIndex);
 
         String cellContents = MessageFormat.format(template, imageUrl, text);
-        return new Label(cellContents);
+        return "renderedValue = '" + cellContents.replaceAll("'", "\\'") + "';";
     }
     
     protected CellTemplate getCellFormat() {

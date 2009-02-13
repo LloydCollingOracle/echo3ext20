@@ -18,12 +18,7 @@ package org.sgodden.echo.ext20.data;
 
 import java.io.Serializable;
 
-import nextapp.echo.app.Component;
-import nextapp.echo.app.Label;
 import nextapp.echo.app.table.TableModel;
-import nextapp.echo.app.util.Context;
-import nextapp.echo.webcontainer.ComponentSynchronizePeer;
-import nextapp.echo.webcontainer.SynchronizePeerFactory;
 
 import org.sgodden.echo.ext20.grid.GridPanel;
 
@@ -38,6 +33,7 @@ public class TableModelAdapter
     private static final long serialVersionUID = 1L;
     
     private Object[][] data;
+    private Object[][] renderedData;
     private Integer id;
     private String[] fields;
     
@@ -47,7 +43,7 @@ public class TableModelAdapter
      * Constructs a new table model adapter.
      */
     public TableModelAdapter(GridPanel gridPanel) {
-        TableModel tableModel = gridPanel.getTableModel();
+        TableModel tableModel = gridPanel.getModel();
         int offset = gridPanel.getPageOffset();
         int limit = gridPanel.getPageSize();
         
@@ -57,30 +53,22 @@ public class TableModelAdapter
                     ? limit : tableModel.getRowCount() - offset;
         int cols = tableModel.getColumnCount();
         
-        data = new Object[rows][cols];
+        data = new String[rows][cols];
+        renderedData = new String[rows][cols];
 
         for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
             Object[] row = data[rowIndex];
+            Object[] renderedRow = renderedData[rowIndex];
             for (int colIndex = 0; colIndex < tableModel.getColumnCount(); colIndex++) {
-                Component c = gridPanel.getGridCellRenderer().getGridCellRendererComponent(gridPanel, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
-                if (c instanceof Label) {
-                    row[colIndex] = ((Label)c).getText();
-                } else {
-                    throw new RuntimeException("Unknown component type for rendering into a grid: " + c.getClass().getName());
-                }
+                row[colIndex] = gridPanel.getGridCellRenderer().getModelValue(gridPanel, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
+                renderedRow[colIndex] = gridPanel.getGridCellRenderer().getClientSideValueRendererScript(gridPanel, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
             }
         }
         makeFields(tableModel);
     }
 
     /**
-     * Constructs an array of data from the underlying table model
-     * and returns it.
-     * <p/>
-     * Since this method creates a new array each time, don't call it
-     * more than you need to.
-     * 
-     * @return the newly created array of data.
+     * Returns the raw model data for use on the client side.
      */
     public Object[][] getData() {
         return data;
@@ -88,6 +76,19 @@ public class TableModelAdapter
     
     public void setData(Object[][] data) {
         this.data = data;
+    }
+
+    /**
+     * Returns the rendered model data for use in presenting
+     * the data on the client side.
+     * @return
+     */
+    public Object[][] getRenderedData() {
+        return renderedData;
+    }
+    
+    public void setRenderedData(Object[][] data) {
+        this.renderedData = data;
     }
 
     /*
@@ -132,5 +133,4 @@ public class TableModelAdapter
             fields[i] = tableModel.getColumnName(i);
         }
     }
-
 }

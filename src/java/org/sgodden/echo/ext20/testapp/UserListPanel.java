@@ -30,6 +30,7 @@ import nextapp.echo.app.table.TableModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.CheckboxField;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
@@ -129,8 +130,25 @@ public class UserListPanel
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
         
         cols.add(new DefaultColumnConfiguration("User ID", 200, true, "userid", false));
-        cols.add(new DefaultColumnConfiguration("Name", 200, true, "name", false));
-        cols.add(new DefaultColumnConfiguration("Role", 200, true, "role", true));
+        ColumnConfiguration nameCol = new DefaultColumnConfiguration("Name",
+                100, true, "name", false) {
+            @Override
+            public Class getColumnClass() {
+                return String.class;
+            }
+        };
+        nameCol.setEditorComponent(new TextField());
+        cols.add(nameCol);
+
+        ColumnConfiguration adminCol = new DefaultColumnConfiguration(
+                "Is Admin?", 200, true, "isadmin", false) {
+            @Override
+            public Class getColumnClass() {
+                return Boolean.class;
+            }
+        };
+        adminCol.setEditorComponent(new CheckboxField());
+        cols.add(adminCol);
         ColumnModel columnModel = new DefaultColumnModel(cols);
         
         userGridPanel = new GridPanel(columnModel);
@@ -150,6 +168,7 @@ public class UserListPanel
         userGridPanel.setSelectionMode(SelectionMode.SINGLE_SELECTION);
         //
         userGridPanel.setShowCheckbox(true);
+        userGridPanel.setEditCellContents(true);
         
         userGridPanel.getSelectionModel().addChangeListener(
                 new ChangeListener(){
@@ -180,7 +199,7 @@ public class UserListPanel
     }
     
     private String[] makeColumnNames() {
-        return new String[] {"userid", "name", "role"};
+        return new String[] {"userid", "name", "isadmin"};
     }
 
     /**
@@ -219,7 +238,7 @@ public class UserListPanel
             Object[] row = new Object[3];
             row[0] = "User id  " + (startIndex + i);
             row[1] = "Name " + (startIndex + i);
-            row[2] = "Role" + (i % 2 == 0 ? "User" : "Admin");
+            row[2] = Boolean.valueOf(i % 2 == 0);
             data[i] = row;
         }
 

@@ -1,5 +1,6 @@
 package org.sgodden.echo.ext20.grid;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ChangeListener;
 
 public interface ColumnConfiguration {
@@ -158,5 +159,21 @@ public interface ColumnConfiguration {
      * @return
      */
     public Class<?> getColumnClass();
+    
+    /**
+     * Sets the editor component to use for editing this column.
+     * 
+     * Please note that only specific components may be used as editors
+     * for columns, so setting this is any random component is likely to
+     * end in tears.
+     * @param c
+     */
+    public void setEditorComponent(Component c);
+    
+    /**
+     * Gets the editor component to use for editing this column.
+     * @return
+     */
+    public Component getEditorComponent();
 
 }

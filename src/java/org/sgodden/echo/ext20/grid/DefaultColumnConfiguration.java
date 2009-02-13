@@ -19,6 +19,7 @@ package org.sgodden.echo.ext20.grid;
 import java.io.Serializable;
 import java.util.EventListener;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.event.EventListenerList;
@@ -44,6 +45,7 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
     private boolean grouping = false;
     private String sortDirection;
     private EventListenerList listenerList = new EventListenerList();
+    private Component editorComponent;
 
     /**
      * Default constructor.
@@ -276,6 +278,14 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
 
     public Class<?> getColumnClass() {
         return Object.class;
+    }
+
+    public Component getEditorComponent() {
+        return editorComponent;
+    }
+
+    public void setEditorComponent(Component c) {
+        this.editorComponent = c;
     }
 
 }

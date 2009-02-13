@@ -316,6 +316,10 @@ public class TextField extends Component {
     public void setRegExp(String regExp) {
         set(REGEXP_PROPERTY, regExp);
     }
+    
+    public String getRegExp() {
+        return (String)get(REGEXP_PROPERTY);
+    }
 
     /**
      * Custom property which applies a time delay to the 
@@ -349,6 +353,10 @@ public class TextField extends Component {
      */
     public void setRegexpFailureText(String regExpFailureText) {
         set(REGEXP_FAILURETEXT_PROPERTY, regExpFailureText);
+    }
+    
+    public String getRegexpFailureText() {
+        return (String)get(REGEXP_FAILURETEXT_PROPERTY);
     }
 
     /**

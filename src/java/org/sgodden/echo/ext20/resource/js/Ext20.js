@@ -780,6 +780,11 @@ Echo.Serial.addPropertyTranslator("E2TL", EchoExt20.PropertyTranslator.TableLayo
 EchoExt20.PropertyTranslator.SimpleStore = {
     toProperty: function(client, propertyElement) {
         return EchoExt20.PropertyTranslator.toJsObject(client, propertyElement);
+    },
+    toXml: function(client, propertyElement, propertyValue) {
+        var json = Ext.util.JSON.encode(propertyValue);
+        var node = propertyElement.ownerDocument.createTextNode(json);
+        propertyElement.appendChild(node);
     }
 };
 
@@ -792,9 +797,26 @@ Echo.Serial.addPropertyTranslator("E2SS", EchoExt20.PropertyTranslator.SimpleSto
  */
 EchoExt20.PropertyTranslator.ColumnModel = {
     toProperty: function(client, propertyElement) {
-		var obj = EchoExt20.PropertyTranslator.toJsObject(client,
-				propertyElement);
-		return new EchoExt20.ColumnModel(obj.columns);
+        var obj = EchoExt20.PropertyTranslator.toJsObject(client,
+                propertyElement);
+        for (var i = 0; i < obj.columns.length; i++) {
+            var thisCol = obj.columns[i];
+            if (thisCol.editorConfig) {
+                var config = thisCol.editorConfig;
+                if (thisCol.editorConfig.type == 'Ext.form.TextField') {
+                    thisCol.editor = new Ext.form.TextField(config);
+                } else if (thisCol.editorConfig.type == 'Ext.form.Checkbox') {
+                    delete thisCol.renderer;
+                    var checkCol = new Ext.grid.CheckColumn(thisCol);
+                    obj.columns[i] = checkCol;
+                    
+                } else {
+                    eval("thisCol.editor = new " + config.type + "(config);");
+                }
+            }
+        }
+        
+        return new EchoExt20.ColumnModel(obj.columns);
     },
     toXml: function(client, propertyElement, propertyValue) {
         var colObject = new Object();

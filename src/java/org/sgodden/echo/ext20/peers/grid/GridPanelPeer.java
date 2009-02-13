@@ -1,12 +1,13 @@
 package org.sgodden.echo.ext20.peers.grid;
 
+import java.lang.reflect.InvocationTargetException;
+
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Table;
+import nextapp.echo.app.table.EditableTableModel;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
-import nextapp.echo.webcontainer.Service;
-import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.data.TableModelAdapter;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
@@ -24,20 +25,19 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
 //                    "org/sgodden/echo/ext20/resource/js/Ext20.GridPanel.js");
 
     private static final String PROPERTY_SELECTION = "selection";
-    private static final String PROPERTY_MODEL = "model";
     private static final String PROPERTY_COLUMN_MODEL = "columnModel";
 
     public GridPanelPeer() {
         super();
         addOutputProperty(PROPERTY_SELECTION);
-        addOutputProperty(PROPERTY_MODEL);
         addOutputProperty(GridPanel.PAGE_OFFSET_PROPERTY); // FIXME - why do we
         // have to manually
         // add the output
         // property?
         addOutputProperty(GridPanel.SET_SIZE_COLUMNS_TO_GRID_PROPERTY);
         addOutputProperty(PROPERTY_COLUMN_MODEL);
-
+        addOutputProperty(GridPanel.PROPERTY_MODEL);
+        
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(
                 GridPanel.INPUT_ACTION,
                 GridPanel.ACTION_LISTENERS_CHANGED_PROPERTY) {
@@ -115,7 +115,7 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
     /*
      * (non-Javadoc)
      * 
-     * @seenextapp.echo.webcontainer.AbstractComponentSynchronizePeer#
+     * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#
      * getInputPropertyClass(java.lang.String)
      */
     @Override
@@ -131,6 +131,9 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
         }
         if (GridPanel.COLUMN_MODEL_PROPERTY.equals(propertyName)) {
             return DefaultColumnModel.class;
+        }
+        if (GridPanel.PROPERTY_MODEL.equals(propertyName)) {
+            return TableModelAdapter.class;
         }
         return super.getInputPropertyClass(propertyName);
     }
@@ -149,9 +152,9 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
         GridPanel gridPanel = (GridPanel) component;
         if (PROPERTY_SELECTION.equals(propertyName)) {
             return ListSelectionUtil.toString(gridPanel.getSelectionModel(),
-                    gridPanel.getTableModel().getRowCount());
+                    gridPanel.getModel().getRowCount());
         }
-        if (PROPERTY_MODEL.equals(propertyName)) {
+        if (GridPanel.PROPERTY_MODEL.equals(propertyName)) {
             return new TableModelAdapter(gridPanel);
         }
         return super.getOutputProperty(context, component, propertyName,
@@ -185,24 +188,86 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
 
             ColumnModel serverModel = ((GridPanel) component).getColumnModel();
             ColumnModel clientModel = (ColumnModel) newValue;
+            
+            GridPanel p = (GridPanel)component;
+            boolean ignoreFirstCol = p.getShowCheckbox();
 
-            for (int x = 0; x < clientModel.getColumnCount(); x++) {
+            int x = ignoreFirstCol ? 1 : 0;
+            
+            for (;x < clientModel.getColumnCount(); x++) {
                 ColumnConfiguration clientColumn = clientModel.getColumn(x);
-                ColumnConfiguration serverColumn = serverModel.getColumn(x);
+                ColumnConfiguration serverColumn = serverModel.getColumn(ignoreFirstCol ? x - 1 : x);
 
                 serverColumn.setAttributePath(clientColumn.getAttributePath());
                 serverColumn.setHeader(clientColumn.getHeader());
                 serverColumn.setDataIndex(clientColumn.getDataIndex());
-                serverColumn.setDisplaySequence(x);
+                serverColumn.setDisplaySequence(ignoreFirstCol ? x - 1 : x);
                 serverColumn.setHidden(clientColumn.getHidden());
                 serverColumn.setSortDirection(clientColumn.getSortDirection());
-                serverColumn.setSortSequence(x);
+                serverColumn.setSortSequence(ignoreFirstCol ? x - 1 : x);
                 serverColumn.setWidth(clientColumn.getWidth());
                 serverColumn.setGrouping(clientColumn.getGrouping());
             }
             clientUpdateManager.setComponentProperty(component,
                     GridPanel.COLUMN_MODEL_PROPERTY, serverModel);
+        } else if (GridPanel.PROPERTY_MODEL.equals(propertyName)) {
+            TableModelAdapter tma = (TableModelAdapter)newValue;
+            GridPanel p = (GridPanel)component;
+            EditableTableModel currentModel = (EditableTableModel)p.getModel();
+            ColumnModel cm = p.getColumnModel();
+            
+            int offset = p.getPageOffset();
+            
+            for (int row = 0; row < tma.getData().length; row++) {
+                for (int col = 0; col < tma.getData()[row].length; col++) {
+                    String renderedValue = p.getGridCellRenderer().getModelValue(p, currentModel.getValueAt(col, row + offset), col, row + offset);
+                    Object newTMValue = tma.getData()[row][col];
+                    if (renderedValue == null && newTMValue == null) {
+                        // value has not changed
+                    } else if (renderedValue != null && newTMValue == null) {
+                        currentModel.setValueAt(null, col, row + offset);
+                    } else if (renderedValue == null && newTMValue != null) {
+                        currentModel.setValueAt(convertToType(newTMValue, cm.getColumn(col).getColumnClass()), col, row + offset);
+                    } else {
+                        if (!renderedValue.equals(newTMValue))
+                            currentModel.setValueAt(convertToType(newTMValue, cm.getColumn(col).getColumnClass()), col, row + offset);
+                    }
+                }
+            }
         }
+    }
+    
+    private Object convertToType(Object value, Class type) {
+        if (type.isAssignableFrom(value.getClass()))
+                return value;
+        
+        if (Object.class.equals(type))
+            return value;
+            
+        if (String.class.equals(type)) {
+            return String.valueOf(value);
+        } else if (Boolean.class.equals(type)) {
+            if (value instanceof String)
+                return Boolean.valueOf((String)value);
+        } else if (Number.class.isAssignableFrom(type)) {
+            if (value instanceof String) {
+                try {
+                    return type.getMethod("valueOf", new Class[] {String.class}).invoke(null, value);
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalArgumentException("Can't convert value to Number", e);
+                } catch (SecurityException e) {
+                    throw new IllegalArgumentException("Can't convert value to Number", e);
+                } catch (IllegalAccessException e) {
+                    throw new IllegalArgumentException("Can't convert value to Number", e);
+                } catch (InvocationTargetException e) {
+                    throw new IllegalArgumentException("Can't convert value to Number", e);
+                } catch (NoSuchMethodException e) {
+                    throw new IllegalArgumentException("Can't convert value to Number", e);
+                }
+            }
+        }
+        
+        throw new IllegalArgumentException("I can't convert " + value + " to " + type.getCanonicalName());
     }
 
 }

@@ -1,7 +1,6 @@
 package org.sgodden.echo.ext20.grid;
 
 import nextapp.echo.app.Component;
-import nextapp.echo.app.Label;
 
 /**
  * Implementation of a grid cell renderer that renders values
@@ -14,9 +13,14 @@ import nextapp.echo.app.Label;
  */
 public class NoEscapingGridCellRenderer implements GridCellRenderer {
 
-    public Component getGridCellRendererComponent(Component gridPanel,
-            Object valueAt, int colIndex, int rowIndex) {
-        return new Label(valueAt == null ? "" : String.valueOf(valueAt));
+    public String getModelValue(Component gridPanel, Object valueAt,
+            int colIndex, int rowIndex) {
+        return String.valueOf(valueAt);
+    }
+
+    public String getClientSideValueRendererScript(Component gridPanel, Object valueAt,
+            int colIndex, int rowIndex) {
+        return "renderedValue = value;";
     }
 
 }

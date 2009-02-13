@@ -26,6 +26,7 @@ import nextapp.echo.app.event.TableModelEvent;
 import nextapp.echo.app.event.TableModelListener;
 import nextapp.echo.app.list.DefaultListSelectionModel;
 import nextapp.echo.app.list.ListSelectionModel;
+import nextapp.echo.app.table.EditableTableModel;
 import nextapp.echo.app.table.TableModel;
 
 import org.sgodden.echo.ext20.Panel;
@@ -81,8 +82,9 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String GROUP_ACTION = "group";
     public static final String SHOW_CHECKBOX = "showCheckbox";
     public static final String HIDE_HEADERS = "hideHeaders";
+    public static final String EDITCELLCONTENTS = "editcellcontents";
+    public static final String PROPERTY_MODEL = "model";
 
-    private TableModel tableModel;
     private int pageSize;
     private ListSelectionModel selectionModel;
     private boolean suppressChangeNotifications;
@@ -96,6 +98,11 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public void setShowCheckbox(Boolean showCheckbox) {
         set(SHOW_CHECKBOX, showCheckbox);
+    }
+
+    public boolean getShowCheckbox() {
+        Boolean b = (Boolean) get(SHOW_CHECKBOX);
+        return (b == null) ? false : b.booleanValue();
     }
 
     /**
@@ -273,13 +280,13 @@ public class GridPanel extends Panel implements TableModelListener,
      * @return
      */
     public Object getSelectedBackingObject() {
-        if (!(tableModel instanceof BackingObjectDataModel)) {
+        if (!(getModel() instanceof BackingObjectDataModel)) {
             throw new IllegalStateException("Backing object does not"
                     + " implement BackingObjectDataModel");
         }
         Object ret = null;
         if (selectionModel.getMinSelectedIndex() > -1) {
-            ret = ((BackingObjectDataModel) tableModel)
+            ret = ((BackingObjectDataModel) getModel())
                     .getBackingObjectForRow(selectionModel
                             .getMinSelectedIndex());
         }
@@ -328,8 +335,8 @@ public class GridPanel extends Panel implements TableModelListener,
      * 
      * @return the table model.
      */
-    public TableModel getTableModel() {
-        return tableModel;
+    public TableModel getModel() {
+        return (TableModel) get(PROPERTY_MODEL);
     }
 
     /**
@@ -347,7 +354,7 @@ public class GridPanel extends Panel implements TableModelListener,
      * @return true if the model is sortable, false if not.
      */
     public boolean isModelSortable() {
-        return (getTableModel() instanceof SortableTableModel);
+        return (getModel() instanceof SortableTableModel);
     }
 
     /**
@@ -385,7 +392,7 @@ public class GridPanel extends Panel implements TableModelListener,
     }
 
     protected void doSort() {
-        if (getTableModel() instanceof SortableTableModel) {
+        if (getModel() instanceof SortableTableModel) {
             ColumnModel colModel = getColumnModel();
             String[] columnIndices = new String[colModel.getColumnCount()];
             boolean[] ascending = new boolean[colModel.getColumnCount()];
@@ -437,8 +444,7 @@ public class GridPanel extends Panel implements TableModelListener,
                 ascending[index] = "ASCENDING".equals(cc.getSortDirection())
                         || "ASC".equals(cc.getSortDirection());
             }
-            ((SortableTableModel) getTableModel()).sort(columnIndices,
-                    ascending);
+            ((SortableTableModel) getModel()).sort(columnIndices, ascending);
             getSelectionModel().clearSelection();
         } else {
             throw new IllegalStateException(
@@ -477,12 +483,12 @@ public class GridPanel extends Panel implements TableModelListener,
                     "Toolbar must be"
                             + " an instance of org.sgodden.echo.ext20.grid.PagingToolbar");
         }
-        if (getTableModel() == null || pageSize == 0) {
+        if (getModel() == null || pageSize == 0) {
             throw new IllegalStateException("Initialise the model and"
                     + " page size before setting the paging toolbar");
         }
         super.setBottomToolbar(toolbar);
-        ((PagingToolbar) toolbar).initialise(getTableModel(), pageSize, this);
+        ((PagingToolbar) toolbar).initialise(getModel(), pageSize, this);
     }
 
     /**
@@ -637,7 +643,7 @@ public class GridPanel extends Panel implements TableModelListener,
             throw new IllegalArgumentException("table model may not be null");
         }
 
-        this.tableModel = tableModel;
+        set(PROPERTY_MODEL, tableModel);
         tableModel.removeTableModelListener(this); // just in case they set the
         // same table model
         tableModel.addTableModelListener(this);
@@ -645,6 +651,30 @@ public class GridPanel extends Panel implements TableModelListener,
         tableChanged(null); // always
         // force
         // change
+    }
+
+    /**
+     * Sets whether the grid panel should enable editing of the contents of the
+     * table cells. This should only be called when an EditableTableModel has
+     * been set as the model of the table.
+     * 
+     * @param editCells
+     */
+    public void setEditCellContents(boolean editCells) {
+        if (!(getModel() instanceof EditableTableModel))
+            throw new IllegalStateException(
+                    "Cannot set a grid into editable mode without an editable table model");
+        set(EDITCELLCONTENTS, Boolean.valueOf(editCells));
+    }
+
+    /**
+     * Whether the grid panel should enable editing of the contents of the table
+     * cells.
+     * 
+     * @return
+     */
+    public boolean getEditCellContents() {
+        return Boolean.TRUE.equals(get(EDITCELLCONTENTS));
     }
 
     boolean firingTableChanged = false;
@@ -655,8 +685,8 @@ public class GridPanel extends Panel implements TableModelListener,
     public void tableChanged(TableModelEvent e) {
         if (!firingTableChanged) {
             firingTableChanged = true;
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, tableModel); // a
-                                                                          // bodge
+            firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel()); // a
+            // bodge
             // but
             // we're
             // not

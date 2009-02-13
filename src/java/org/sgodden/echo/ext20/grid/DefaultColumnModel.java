@@ -22,8 +22,6 @@ import java.util.EventListener;
 import java.util.Iterator;
 import java.util.List;
 
-import sun.awt.geom.AreaOp.AddOp;
-
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.event.EventListenerList;
