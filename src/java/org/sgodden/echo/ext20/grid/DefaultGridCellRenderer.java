@@ -13,7 +13,7 @@ public class DefaultGridCellRenderer extends AbstractGridCellRenderer {
 
     public String getModelValue(Component gridPanel, Object valueAt,
             int colIndex, int rowIndex) {
-        return String.valueOf(valueAt);
+        return valueAt == null ? null : String.valueOf(valueAt);
     }
 
     public String getClientSideValueRendererScript(Component gridPanel, Object valueAt,
