@@ -74,7 +74,13 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     },
     
     _handleTimeFieldOnRender: function() {
+    	
         EchoExt20.FormFieldSync.prototype._handleOnRender.call(this);
+        if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
+            if(this.component.get("invalidText") != null) {
+            	this.extComponent.markInvalid(this.component.get("invalidText"));
+            }
+        }
         this.extComponent.getEl().on(
             "keyup",
             this._handleValueChangeEvent,

@@ -128,13 +128,19 @@ class UserEditPanel extends Panel implements ActionListenable {
         Calendar cal = Calendar.getInstance(
             ApplicationInstance.getActive().getLocale())
         dateField = new DateField(
+            isValid:false,
+            invalidText:"this datefield is invalid",
             blankAllowed: false,
             calendar: cal
         )
+        
         timeField = new TimeField(
+            isValid:false,
+            invalidText:"this timefield is invalid",
             blankAllowed: false,
             calendar: cal
         )
+
         textAreaField = new TextArea(
             fieldLabel: "Notes",
             value: "Some text in a text area"
@@ -201,6 +207,8 @@ class UserEditPanel extends Panel implements ActionListenable {
         )
         fieldSetForm.add(adminRoleButton, "Administrator")
         
+        
+        
         roleCombo = makeRoleCombo()
         fieldSetForm.add(roleCombo, "Role combo");
 
@@ -260,6 +268,7 @@ class UserEditPanel extends Panel implements ActionListenable {
 
     private void doSave(ActionEvent evt) {
         log.info(roleCombo.selectedItem);
+        System.out.println("USER ROLE BUTTON XXXXXXXXXXXXXXXXXXXXXXXXXXXX"+userRoleButton.getSelected());
         if (invalidField.value.length() > 10) {
             invalidField.isValid = false;
             invalidField.invalidText = "Value cannot exceed 10 characters";

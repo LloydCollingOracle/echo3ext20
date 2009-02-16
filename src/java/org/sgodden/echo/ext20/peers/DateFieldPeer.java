@@ -28,6 +28,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.DateField;
+import org.sgodden.echo.ext20.TextField;
 
 @SuppressWarnings({"unchecked"})
 public class DateFieldPeer

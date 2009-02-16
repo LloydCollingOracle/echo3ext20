@@ -81,6 +81,11 @@ EchoExt20.DateFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     renderDisplay: function(update) {
         EchoExt20.FormFieldSync.prototype.renderDisplay.call(this, update);
         this.extComponent.setValue(this.component.get("date"));
+        if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
+            if(this.component.get("invalidText") != null) {
+            	this.extComponent.markInvalid(this.component.get("invalidText"));
+            }
+        }
     }
     
 });

@@ -26,6 +26,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.AbstractButton;
 import org.sgodden.echo.ext20.CheckboxField;
+import org.sgodden.echo.ext20.TextField;
 
 @SuppressWarnings({"unchecked"})
 public class CheckboxFieldPeer
@@ -42,6 +43,8 @@ public class CheckboxFieldPeer
         super();
         addOutputProperty(CheckboxField.FIELD_LABEL_PROPERTY);
         addOutputProperty(CheckboxField.SELECTED_CHANGED_PROPERTY);
+        addOutputProperty(TextField.VALID_PROPERTY);
+        addOutputProperty(TextField.INVALID_TEXT_PROPERTY);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(AbstractButton.INPUT_ACTION, AbstractButton.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override

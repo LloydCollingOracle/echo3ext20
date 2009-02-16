@@ -23,6 +23,7 @@ import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
+import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.TimeField;
 
 @SuppressWarnings({"unchecked"})
@@ -62,10 +63,13 @@ public class TimeFieldPeer
      */
     @Override
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-        if (propertyName.equals(TimeField.TIME_CHANGED_PROPERTY)) {
-            ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-            clientUpdateManager.setComponentProperty(component, TimeField.TIME_CHANGED_PROPERTY, newValue);
+       	if (propertyName.equals(TimeField.TIME_CHANGED_PROPERTY)) {            
+    		getClientUpdateManager(context).setComponentProperty(component, TimeField.TIME_CHANGED_PROPERTY, newValue);
         }
+    }
+    
+    private ClientUpdateManager getClientUpdateManager(Context context){
+    	return (ClientUpdateManager) context.get(ClientUpdateManager.class);
     }
 
     @Override
