@@ -38,7 +38,7 @@ import nextapp.echo.app.event.ActionListener;
  */
 @SuppressWarnings({"serial"})
 public class DateField
-        extends Component {
+        extends Component implements Field {
     
     //private static final transient Log log = LogFactory.getLog(DateField.class);
 
@@ -47,6 +47,8 @@ public class DateField
     public static final String DATE_CHANGED_PROPERTY = "date";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
+	public static final String INVALID_TEXT_PROPERTY = "invalidText";
+	public static final String VALID_PROPERTY = "isValid";
     
     private Calendar calendar;
     
@@ -240,4 +242,24 @@ public class DateField
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
 
     }
+    
+	/**
+	 * Sets the invalid text property.
+	 * 
+	 * @param invalidText
+	 *            the invalid text.
+	 */
+	public void setInvalidText(String invalidText) {
+		set(INVALID_TEXT_PROPERTY, invalidText);
+	}
+
+	/**
+	 * Sets whether the field value is valid.
+	 * 
+	 * @param isValid
+	 *            whether the field value is valid.
+	 */
+	public void setIsValid(boolean isValid) {
+		set(VALID_PROPERTY, isValid);
+	}
 }

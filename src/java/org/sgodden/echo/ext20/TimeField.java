@@ -30,7 +30,7 @@ import nextapp.echo.app.Component;
  */
 @SuppressWarnings({"serial"})
 public class TimeField
-        extends Component {
+        extends Component implements Field {
     
     //private static final transient Log log = LogFactory.getLog(TimeField.class);
 
@@ -38,6 +38,8 @@ public class TimeField
     public static final String TIME_CHANGED_PROPERTY = "time";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
+	public static final String INVALID_TEXT_PROPERTY = "invalidText";
+	public static final String VALID_PROPERTY = "isValid";
     
     private Calendar calendar;
 
@@ -130,4 +132,24 @@ public class TimeField
             calendar.set(Calendar.MINUTE, minute);
         }
     }
+    
+	/**
+	 * Sets the invalid text property.
+	 * 
+	 * @param invalidText
+	 *            the invalid text.
+	 */
+	public void setInvalidText(String invalidText) {
+		set(INVALID_TEXT_PROPERTY, invalidText);
+	}
+
+	/**
+	 * Sets whether the field value is valid.
+	 * 
+	 * @param isValid
+	 *            whether the field value is valid.
+	 */
+	public void setIsValid(boolean isValid) {
+		set(VALID_PROPERTY, isValid);
+	}
 }

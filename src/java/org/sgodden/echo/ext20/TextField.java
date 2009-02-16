@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
  * 
  */
 @SuppressWarnings( { "serial" })
-public class TextField extends Component {
+public class TextField extends Component implements Field {
     
     private static final Logger log = Logger.getLogger(TextField.class);
 
