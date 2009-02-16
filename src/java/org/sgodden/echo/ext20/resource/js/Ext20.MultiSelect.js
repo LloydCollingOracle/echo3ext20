@@ -63,6 +63,8 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
 
       if (this.component.get("editable") != null) {
           options["editable"] = this.component.get("editable");
+          options["disabled"] = !this.component.get("editable");
+          options["readOnly"] = !this.component.get("editable");
       }
       if (this.component.get("forceSelection") != null) {
           options["forceSelection"] = this.component.get("forceSelection");
@@ -141,6 +143,11 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
     },
 
     renderUpdate: function(update) {
+        if (this.component.get("editable") != null) {
+            this.extComponent.setEditable(this.component.get("editable"));
+            this.extComponent.setDisabled(!this.component.get("editable"));
+            this.extComponent.setReadOnly(!this.component.get("editable"));
+        }
         EchoExt20.FormFieldSync.prototype.renderUpdate.call(this, update);
         this._handleSelectEventSimple;
     },

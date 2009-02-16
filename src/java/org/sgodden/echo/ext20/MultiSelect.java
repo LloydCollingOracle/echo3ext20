@@ -260,6 +260,16 @@ public class MultiSelect extends AbstractListComponent {
     }
 
     /**
+     * Sets whether the multi select is enabled.
+     * 
+     * @param enabled
+     *            whether the multi select is enabled.
+     */
+    public void setEnabled(boolean enabled) {
+        set(EDITABLE_PROPERTY, enabled);
+    }
+
+    /**
      * Sets the field label.
      * 
      * @param fieldLabel
