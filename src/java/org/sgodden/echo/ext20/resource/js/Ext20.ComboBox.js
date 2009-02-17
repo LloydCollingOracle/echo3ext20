@@ -156,7 +156,18 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             this._handleCollapseEvent,
             this
         );
+        ret.on("focus", this._handleFocus, this);
         return ret;
+    },
+    
+    /**
+     * Ensures the application is notified that this component has been focused
+     */
+    _handleFocus: function() {
+        var focusedComponent = this.component.application.getFocusedComponent();
+        if (!(focusedComponent == this.component)) {
+            this.component.application.setFocusedComponent(this.component);
+        }
     },
     
     /**
@@ -180,7 +191,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     
 
     /**
-     * Handles the select event by requestint the component to fire
+     * Handles the select event by requesting the component to fire
      * its action event.
      */
     _handleSelectEvent: function() {
@@ -188,6 +199,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             var selectedIndex = this.extComponent.getValue();
             this.component.set("selection", parseInt(selectedIndex));
             this.component.doAction();
+            this.extComponent.focus(true, true);
         }
     },
     
