@@ -26,6 +26,7 @@ public class ComboBox extends AbstractListComponent {
 
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String EDITABLE_PROPERTY = "editable";
+    public static final String EMPTY_TEXT_PROPERTY = "emptyText";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String FORCE_SELECTION_PROPERTY = "forceSelection";
     public static final String INPUT_ACTION = "action";
@@ -229,6 +230,17 @@ public class ComboBox extends AbstractListComponent {
      */
     public void setEditable(boolean editable) {
         set(EDITABLE_PROPERTY, editable);
+    }
+
+    /**
+     * Sets text to be displayed when the user has entered no text themselves.
+     * 
+     * @param emptyText
+     *            text to be displayed when the user has entered no text
+     *            themselves.
+     */
+    public void setEmptyText(String emptyText) {
+        set(EMPTY_TEXT_PROPERTY, emptyText);
     }
 
     /**

@@ -77,6 +77,9 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         if (this.component.get("forceSelection") != null) {
              options["forceSelection"] = this.component.get("forceSelection");
         }
+        if (this.component.get("emptyText") != null) {
+            options['emptyText'] = this.component.get("emptyText");
+        }
         
         /*
          * Get the model.
@@ -215,6 +218,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         }
         else {
             this.extComponent.clearValue();
+            this.extComponent.value = null;
         }
     },
     
