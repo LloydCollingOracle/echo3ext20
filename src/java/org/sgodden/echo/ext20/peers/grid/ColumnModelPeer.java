@@ -116,8 +116,13 @@ public class ColumnModelPeer implements SerialPropertyPeer {
             attributes.put("sortSequence", new JSONInteger(new BigInteger("" + cc.getSortSequence())));
             if (cc.getHeader() != null)
                 attributes.put("header", new JSONString(cc.getHeader()));
-            if (cc.getWidth() != null)
-                attributes.put("width", new JSONInteger(new BigInteger("" + cc.getWidth())));
+            if (cc.getWidth() != null) {
+                if (Integer.valueOf(-1).equals(cc.getWidth())) {
+                    attributes.put("width", new JSONInteger(new BigInteger("100")));
+                } else {
+                    attributes.put("width", new JSONInteger(new BigInteger("" + cc.getWidth())));
+                }
+            }
             attributes.put("sortable", new JSONBoolean(cc.getSortable()));
             if (cc.getDataIndex() != null)
                 attributes.put("dataIndex", new JSONString(cc.getDataIndex()));
