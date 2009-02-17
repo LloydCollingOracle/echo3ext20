@@ -351,6 +351,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
      */
     _makeStore: function() {
         var model = this.component.get("model");
+        this._model = model;
 
         /*
          * Create an ArrayReader using the fields
