@@ -1,0 +1,12 @@
+--- ext-2.2.1-orig/ext-all-debug.js	2009-02-19 15:39:20.000000000 +0000
++++ ext-2.2.1/ext-all-debug.js	2009-02-19 15:44:35.000000000 +0000
+@@ -27839,6 +27839,9 @@
+     onRender : function(ct, position){
+         Ext.form.TriggerField.superclass.onRender.call(this, ct, position);
+         this.wrap = this.el.wrap({cls: "x-form-field-wrap"});
++        this.wrap.set({
++            align: 'left'
++        });
+         this.trigger = this.wrap.createChild(this.triggerConfig ||
+                 {tag: "img", src: Ext.BLANK_IMAGE_URL, cls: "x-form-trigger " + this.triggerClass});
+         if(this.hideTrigger){
