@@ -36,6 +36,8 @@ public class MultiSelect extends Component implements AbstractListComponent {
     public static final String TO_LEGEND_PROPERTY = "toLegend";
     public static final String INPUT_ACTION = "action";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
+    public static final String HEIGHT_PROPERTY = "height";
+    public static final String WIDTH_PROPERTY = "width";
 
     private ListSelectionModel selectionModel;
     private int[] selectedIndices;
@@ -429,5 +431,21 @@ public class MultiSelect extends Component implements AbstractListComponent {
 
     public void setCellRenderer(ListCellRenderer newValue) {
         this.cellRenderer = newValue;
+    }
+    
+    public Integer getHeight() {
+        return (Integer)get(HEIGHT_PROPERTY);
+    }
+    
+    public void setHeight(Integer height) {
+        set(HEIGHT_PROPERTY, height);
+    }
+    
+    public Integer getWidth() {
+        return (Integer)get(WIDTH_PROPERTY);
+    }
+    
+    public void setWidth(Integer width) {
+        set(WIDTH_PROPERTY, width);
     }
 }

@@ -4,8 +4,8 @@ Ext.ux.Multiselect = Ext.extend(Ext.form.Field,  {
 	store:null,
 	dataFields:[],
 	data:[],
-	width:200,
-	height:200,
+	width:'auto',
+	height:'auto',
 	displayField:0,
 	valueField:1,
 	allowBlank:true,
@@ -63,7 +63,7 @@ Ext.ux.Multiselect = Ext.extend(Ext.form.Field,  {
 		tpl = '<tpl for="."><div class="' + cls + '-item';
 		if(Ext.isIE || Ext.isIE7)tpl+='" unselectable=on';
 		else tpl+=' x-unselectable"';
-		tpl+='>{' + this.displayField + '}</div></tpl>';
+		tpl+=' align="left">{' + this.displayField + '}</div></tpl>';
 
 		if(!this.store){
 			this.store = new Ext.data.SimpleStore({

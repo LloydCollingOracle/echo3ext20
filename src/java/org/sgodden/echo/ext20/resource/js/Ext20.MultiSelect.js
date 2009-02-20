@@ -69,6 +69,12 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
       if (this.component.get("forceSelection") != null) {
           options["forceSelection"] = this.component.get("forceSelection");
       }
+      if (this.component.get("height") != null) {
+          options["height"] = this.component.get("height");
+      }
+      if (this.component.get("width") != null) {
+          options["width"] = this.component.get("width");
+      }
       
       if (this.component.get("model") != null) {
           var store = this.component.get("model");
