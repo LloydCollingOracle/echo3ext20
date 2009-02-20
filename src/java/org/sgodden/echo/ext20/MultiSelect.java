@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;
@@ -11,6 +12,7 @@ import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.event.ListDataEvent;
 import nextapp.echo.app.event.ListDataListener;
 import nextapp.echo.app.list.DefaultListSelectionModel;
+import nextapp.echo.app.list.ListCellRenderer;
 import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
@@ -21,7 +23,7 @@ import nextapp.echo.app.list.ListSelectionModel;
  * @author bwoods
  */
 @SuppressWarnings( { "serial" })
-public class MultiSelect extends AbstractListComponent {
+public class MultiSelect extends Component implements AbstractListComponent {
 
     public static final String COMPLEX_PROPERTY = "complex";
     public static final String EDITABLE_PROPERTY = "editable";
@@ -37,6 +39,9 @@ public class MultiSelect extends AbstractListComponent {
 
     private ListSelectionModel selectionModel;
     private int[] selectedIndices;
+    private ListCellRenderer cellRenderer = DEFAULT_LIST_CELL_RENDERER;
+    private ListModel model;
+    
     /**
      * Local handler for list data events.
      */
@@ -299,12 +304,11 @@ public class MultiSelect extends AbstractListComponent {
         set(FROM_LEGEND_PROPERTY, fromLegend);
     }
 
-    @Override
     public void setModel(ListModel model) {
-        super.setModel(model);
         if (model == null) {
             throw new IllegalArgumentException("Model may not be null");
         }
+        this.model = model;
         // just in case they set the same model...
         model.removeListDataListener(listDataListener);
         model.addListDataListener(listDataListener);
@@ -413,5 +417,17 @@ public class MultiSelect extends AbstractListComponent {
      */
     public void setToLegend(String toLegend) {
         set(TO_LEGEND_PROPERTY, toLegend);
+    }
+
+    public ListCellRenderer getCellRenderer() {
+        return cellRenderer;
+    }
+
+    public ListModel getModel() {
+        return model;
+    }
+
+    public void setCellRenderer(ListCellRenderer newValue) {
+        this.cellRenderer = newValue;
     }
 }

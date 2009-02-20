@@ -6,6 +6,7 @@ package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;
@@ -13,6 +14,7 @@ import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.event.ListDataEvent;
 import nextapp.echo.app.event.ListDataListener;
 import nextapp.echo.app.list.DefaultListSelectionModel;
+import nextapp.echo.app.list.ListCellRenderer;
 import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
@@ -22,7 +24,7 @@ import nextapp.echo.app.list.ListSelectionModel;
  * @author sgodden
  */
 @SuppressWarnings( { "serial" })
-public class ComboBox extends AbstractListComponent {
+public class ComboBox extends Component implements AbstractListComponent {
 
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String EDITABLE_PROPERTY = "editable";
@@ -41,21 +43,23 @@ public class ComboBox extends AbstractListComponent {
     public static final String VALID_PROPERTY = "isValid";
 
     private ListSelectionModel selectionModel;
+    private ListCellRenderer cellRenderer = DEFAULT_LIST_CELL_RENDERER;
+    private ListModel model;
 
     /**
      * Local handler for list data events.
      */
     private ListDataListener listDataListener = new ListDataListener() {
         public void intervalAdded(ListDataEvent e) {
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+            firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel());
         }
 
         public void intervalRemoved(ListDataEvent e) {
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+            firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel());
         }
 
         public void contentsChanged(ListDataEvent e) {
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+            firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel());
         }
     };
     /**
@@ -153,7 +157,7 @@ public class ComboBox extends AbstractListComponent {
     public Object getSelectedItem() {
         Object ret = null;
         if (selectionModel.getMinSelectedIndex() > -1) {
-            ret = model.get(selectionModel.getMinSelectedIndex());
+            ret = getModel().get(selectionModel.getMinSelectedIndex());
         }
         return ret;
     }
@@ -283,12 +287,11 @@ public class ComboBox extends AbstractListComponent {
         set(LIST_WIDTH_PROPERTY, listWidth);
     }
 
-    @Override
     public void setModel(ListModel model) {
-        super.setModel(model);
         if (model == null) {
             throw new IllegalArgumentException("Model may not be null");
         }
+        this.model = model;
         // just in case they set the same model...
         model.removeListDataListener(listDataListener);
         model.addListDataListener(listDataListener);
@@ -330,9 +333,9 @@ public class ComboBox extends AbstractListComponent {
         if (selectedItem == null) {
             selectionModel.clearSelection();
         } else {
-            int size = model.size();
+            int size = getModel().size();
             for (int i = 0; i < size; i++) {
-                if ((model.get(i) == null && selectedItem == null) || (model.get(i) != null && model.get(i).equals(selectedItem))) {
+                if ((getModel().get(i) == null && selectedItem == null) || (getModel().get(i) != null && getModel().get(i).equals(selectedItem))) {
                     selectionModel.setSelectedIndex(i, true);
                     break;
                 }
@@ -379,6 +382,18 @@ public class ComboBox extends AbstractListComponent {
      */
     public void setWidth(int width) {
         set(WIDTH_PROPERTY, width);
+    }
+
+    public ListCellRenderer getCellRenderer() {
+        return cellRenderer;
+    }
+
+    public ListModel getModel() {
+        return model;
+    }
+
+    public void setCellRenderer(ListCellRenderer newValue) {
+        cellRenderer = newValue;
     }
 
 }

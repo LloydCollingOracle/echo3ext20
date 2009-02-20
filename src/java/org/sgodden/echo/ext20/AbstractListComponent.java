@@ -1,6 +1,5 @@
 package org.sgodden.echo.ext20;
 
-import nextapp.echo.app.Component;
 import nextapp.echo.app.list.DefaultListCellRenderer;
 import nextapp.echo.app.list.ListCellRenderer;
 import nextapp.echo.app.list.ListModel;
@@ -11,46 +10,29 @@ import nextapp.echo.app.list.ListSelectionModel;
  * @author sgodden
  *
  */
-@SuppressWarnings("serial")
-public abstract class AbstractListComponent extends Component {
+public interface AbstractListComponent {
 
     public static final String LIST_CELL_RENDERER_CHANGED_PROPERTY = "listCellRenderer";
 
-    private static final ListCellRenderer DEFAULT_LIST_CELL_RENDERER = new DefaultListCellRenderer();
-
-    /**
-     * The list model.
-     */
-    protected ListModel model;
-    
-    /**
-     * The list cell renderer.
-     */
-    private ListCellRenderer listCellRenderer = DEFAULT_LIST_CELL_RENDERER;
+    public static final ListCellRenderer DEFAULT_LIST_CELL_RENDERER = new DefaultListCellRenderer();
 
     /**
      * Returns the model.
      * @return the model.
      */
-    public ListModel getModel() {
-        return model;
-    }
+    public ListModel getModel();
 
     /**
      * Sets the model.
      * @param model the model.
      */
-    public void setModel(ListModel model) {
-        this.model = model;
-    }
+    public void setModel(ListModel model);
 
     /**
      * Returns the list cell renderer.
      * @return the list cell renderer.
      */
-    public ListCellRenderer getCellRenderer() {
-        return listCellRenderer;
-    }
+    public ListCellRenderer getCellRenderer();
     
     /**
      * Sets the renderer for items.
@@ -59,17 +41,10 @@ public abstract class AbstractListComponent extends Component {
      * 
      * @param newValue the new renderer
      */
-    public void setCellRenderer(ListCellRenderer newValue) {
-        if (newValue == null) {
-            throw new IllegalArgumentException("Cell Renderer may not be null.");
-        }
-        ListCellRenderer oldValue = listCellRenderer;
-        listCellRenderer = newValue;
-        firePropertyChange(LIST_CELL_RENDERER_CHANGED_PROPERTY, oldValue, newValue);
-    }
+    public void setCellRenderer(ListCellRenderer newValue);
 
-    public abstract void setSelectionModel(ListSelectionModel selectionModel);
+    public void setSelectionModel(ListSelectionModel selectionModel);
     
-    public abstract ListSelectionModel getSelectionModel();
+    public ListSelectionModel getSelectionModel();
 
 }

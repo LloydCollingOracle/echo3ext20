@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.sgodden.echo.ext20.AbstractListComponent;
 import org.sgodden.echo.ext20.ListImageCellRenderer;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.list.ListCellRenderer;
 import nextapp.echo.app.list.ListModel;
 
@@ -56,10 +57,10 @@ public class ListModelAdapter
 
         for (int i = 0; i < rows; i++) {
             Object[] row = data[i];
-            row[0] = cellRenderer.getListCellRendererComponent(component, model.get(i), i);
+            row[0] = cellRenderer.getListCellRendererComponent((Component)component, model.get(i), i);
             row[1] = i;
             if (isImageCellRenderer)
-                row[2] = ((ListImageCellRenderer)cellRenderer).getImageLocation(component, model.get(i), i);
+                row[2] = ((ListImageCellRenderer)cellRenderer).getImageLocation((Component)component, model.get(i), i);
         }
         
         if (isImageCellRenderer)
