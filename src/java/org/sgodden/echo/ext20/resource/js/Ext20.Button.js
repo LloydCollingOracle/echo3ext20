@@ -18,7 +18,7 @@
  * Component implementation for Ext.Button.
  */
 EchoExt20.Button = Core.extend(EchoExt20.ExtComponent, {
-	
+    
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20Button", this);
         Echo.ComponentFactory.registerType("E2B", this);
@@ -33,7 +33,7 @@ EchoExt20.Button = Core.extend(EchoExt20.ExtComponent, {
             this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
         }
     }
-	
+    
 });
 
 /**
@@ -55,27 +55,25 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             return new Ext.Button(options);
         },
         _setIconUrl: function() {
-    			var iconUrl = null;
-    			if (this.component.isEnabled() || this.component.get("disabledIcon") == null) {
-		    		iconUrl = Echo.Sync.ImageReference.getUrl(
-          	this.component.render("icon"));
-    			}
-    			else {
-		    		iconUrl = Echo.Sync.ImageReference.getUrl(
-          	this.component.render("disabledIcon"));
-    			}
-    			if (iconUrl != null) {
-           		var el = this.extComponent.getEl().down("////button"); // the left button td
-           		el.dom.style.backgroundImage = "url(" + iconUrl + ")";
-           		el = el.up("table");
-           		if (this.component.get("text")) {
-             		el.addClass("x-btn-text-icon");        
-            	}	
-		            else {
-             		el.addClass("x-btn-icon");        
-           		}
-    			}
-    	  }
+                var iconUrl = null;
+                if (this.component.isEnabled() || this.component.get("disabledIcon") == null) {
+                    iconUrl = Echo.Sync.ImageReference.getUrl(
+                    this.component.render("icon"));
+                } else {
+                    iconUrl = Echo.Sync.ImageReference.getUrl(
+                    this.component.render("disabledIcon"));
+                }
+                if (iconUrl != null) {
+                   var el = this.extComponent.getEl().down("////button"); // the left button td
+                   el.dom.style.backgroundImage = "url(" + iconUrl + ")";
+                   el = el.up("table");
+                   if (this.component.get("text")) {
+                     el.addClass("x-btn-text-icon");        
+                   } else {
+                     el.addClass("x-btn-icon");        
+                   }
+                }
+          }
     },
     
     /**
@@ -86,7 +84,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (this.component.render("iconClass") != null) {
                 options['iconCls'] = this.component.render("iconClass");
         }
-    	options['text'] = this.component.get("text");
+        options['text'] = this.component.get("text");
 
         if (this.component.get("tooltipText") != null) {
             options['tooltip'] = this.component.get("tooltipText");
@@ -95,7 +93,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         if ( !(this.component.isEnabled()) ) {
             options['disabled'] = true;
             this.component.focusable = false;
-    	}
+        }
 
         // see if we have a menu child item
         if (this.component.getComponentCount() == 1) {
@@ -113,14 +111,14 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
         }
     
-    	var extComponent = this.newExtComponentInstance(options);
+        var extComponent = this.newExtComponentInstance(options);
         
-    	extComponent.on('click', this._handleClickEvent, this);
+        extComponent.on('click', this._handleClickEvent, this);
         if (this.component.render("icon")) {
             extComponent.on("render", this._onRender, this);
         }
-    	
-    	return extComponent;
+        
+        return extComponent;
     },
    
     /**
@@ -129,11 +127,11 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     _handleClickEvent: function() {
         this.component.application.setFocusedComponent(this.component);
-    	  this.component.doAction();
+          this.component.doAction();
     },
     
     _onRender: function() {
-    	this._setIconUrl();
+        this._setIconUrl();
     },
 
     /**
