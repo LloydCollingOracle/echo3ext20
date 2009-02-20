@@ -313,12 +313,8 @@ public class ComboBox extends AbstractListComponent {
      *            the index to select.
      */
     private void processSelectionInput(int selectedIndex) {
-        // Temporarily suppress the Tables selection event notifier.
-        suppressChangeNotifications = true;
         selectionModel.clearSelection();
         selectionModel.setSelectedIndex(selectedIndex, true);
-        // End temporary suppression.
-        suppressChangeNotifications = false;
     }
 
     /**

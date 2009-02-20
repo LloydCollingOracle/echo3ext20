@@ -4,6 +4,7 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.list.DefaultListCellRenderer;
 import nextapp.echo.app.list.ListCellRenderer;
 import nextapp.echo.app.list.ListModel;
+import nextapp.echo.app.list.ListSelectionModel;
 
 /**
  * An abstract list component.
@@ -67,5 +68,8 @@ public abstract class AbstractListComponent extends Component {
         firePropertyChange(LIST_CELL_RENDERER_CHANGED_PROPERTY, oldValue, newValue);
     }
 
+    public abstract void setSelectionModel(ListSelectionModel selectionModel);
+    
+    public abstract ListSelectionModel getSelectionModel();
 
 }

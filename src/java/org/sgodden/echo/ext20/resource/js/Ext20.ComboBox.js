@@ -194,10 +194,10 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
      * Handles the select event by requesting the component to fire
      * its action event.
      */
-    _handleSelectEvent: function() {
+    _handleSelectEvent: function(combo, record, index) {
         if (!this._suspendEvents) {
             var selectedIndex = this.extComponent.getValue();
-            this.component.set("selection", parseInt(selectedIndex));
+            this.component.set("selection", index);
             this.component.doAction();
             this.extComponent.focus(true, true);
         }
