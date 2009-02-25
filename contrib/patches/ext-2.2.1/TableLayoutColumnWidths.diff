@@ -1,0 +1,17 @@
+--- ext-all-debug.js	2009-02-25 10:45:52.000000000 +0000
++++ ext-all-debug.js	2009-02-25 11:57:33.000000000 +0000
+@@ -16173,6 +16173,14 @@
+ 
+             if (this.tableStyle) {
+                 Ext.DomHelper.applyStyles(this.table, this.tableStyle);
++                
++                if (this.tableStyle.columnWidths) {
++                    var myTable = Ext.Element.get(this.table);
++                    var tbody = myTable.first();
++                    for (var i = 0; i < this.tableStyle.columnWidths.length; i++) {
++                        var colgroup = myTable.createChild({tag:'colgroup', width: this.tableStyle.columnWidths[i] + "px"}, tbody.dom);
++                    }
++                }
+             }
+ 
+             if (this.tableBorder) {

@@ -145,6 +145,11 @@ public class TableLayout
      * Spacing for table cells, in pixels.
      */
     private int cellSpacing;
+    
+    /**
+     * The widths of the columns
+     */
+    private int[] columnWidths = null;
 
     /**
      * Creates a table layout.
@@ -267,6 +272,18 @@ public class TableLayout
      */
     public void setCellSpacing(int cellSpacing) {
         this.cellSpacing = cellSpacing;
+    }
+
+    /**
+     * Returns the widths of the columns in the layout
+     * @return
+     */
+    public int[] getColumnWidths() {
+        return columnWidths;
+    }
+
+    public void setColumnWidths(int[] columnWidths) {
+        this.columnWidths = columnWidths;
     }
 
 }

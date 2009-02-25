@@ -45,6 +45,16 @@ implements SerialPropertyPeer {
         propertyElement.setAttribute("p", layout.getCellPadding());
         propertyElement.setAttribute("sp", String.valueOf(layout.getCellSpacing()));
         propertyElement.setAttribute("b", layout.getBorder() ? "1" : "0");
+        
+        if (layout.getColumnWidths() != null) {
+            StringBuffer out = new StringBuffer();
+            for (int i = 0; i < layout.getColumnWidths().length; i++) {
+                if (i > 0)
+                    out.append(",");
+                out.append(layout.getColumnWidths()[i]);
+            }
+            propertyElement.setAttribute("cw", out.toString());
+        }
     }
 
 }

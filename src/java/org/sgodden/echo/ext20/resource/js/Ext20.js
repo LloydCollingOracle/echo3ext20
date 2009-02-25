@@ -717,14 +717,16 @@ EchoExt20.TableLayout = Core.extend({
     cellSpacing: 0,
     fullHeight: false,
     fullWidth: false,
+    columnWidths : null,
     
-    $construct: function(columns, border, fullHeight, fullWidth, cellPadding, cellSpacing) {
+    $construct: function(columns, border, fullHeight, fullWidth, cellPadding, cellSpacing, columnWidths) {
         this.columns = columns;
         this.border = border;
         this.fullHeight = fullHeight;
         this.fullWidth = fullWidth;
         this.cellPadding = cellPadding;
         this.cellSpacing = cellSpacing;
+        this.columnWidths = columnWidths;
     }
     
 });
@@ -750,9 +752,19 @@ EchoExt20.PropertyTranslator.TableLayout = {
         var border = propertyElement.getAttribute('b') == "1" ? true : false;
         var fullHeight = propertyElement.getAttribute('fh') == "1" ? true : false;
         var fullWidth = propertyElement.getAttribute('fw') == "1" ? true : false;
+        
+        var columnWidths = null;
+        var colWidthsStr = propertyElement.getAttribute("cw");
+        if (colWidthsStr) {
+            var colWidthsArrStr = colWidthsStr.split(",");
+            columnWidths = [];
+            for (var i = 0;i < colWidthsArrStr.length; i++) {
+                columnWidths[i] = parseInt(colWidthsArrStr[i]);
+            }
+        }
 
         var ret = new EchoExt20.TableLayout(
-            parseInt(columns), border, fullHeight, fullWidth, cellPadding, parseInt(cellSpacing)
+            parseInt(columns), border, fullHeight, fullWidth, cellPadding, parseInt(cellSpacing), columnWidths
         );
 
         return ret;

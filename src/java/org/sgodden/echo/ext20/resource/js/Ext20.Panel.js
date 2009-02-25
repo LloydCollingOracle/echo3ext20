@@ -403,6 +403,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 if (layout.fullHeight) {
                     options.layoutConfig.tableStyle.height = "100%";
                 }
+                if (layout.columnWidths) {
+                    options.layoutConfig.tableStyle.columnWidths = layout.columnWidths;
+                }
             }
             else {
                 throw new Error("Unsupported layout");
