@@ -80,7 +80,9 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         if (this.component.get("emptyText") != null) {
             options['emptyText'] = this.component.get("emptyText");
         }
-        
+        if(this.component.get("rawValue") != null) {
+            options['rawValue'] = this.component.get("rawValue");
+        }
         /*
          * Get the model.
          */
@@ -132,6 +134,11 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             this, update, options);
 
         ret.on(
+            "blur",
+            this._handleRawValueChangeEvent,
+            this);
+
+        ret.on(
             "render",
             this._setSelection,
             this
@@ -171,6 +178,13 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     },
     
     /**
+     * Update the component's value from the value in the ext text field.
+     */
+    _handleRawValueChangeEvent: function() {
+        this.component.set("rawValue", this.extComponent.getRawValue());
+    },
+    
+    /**
      * Handles the collapse event which fires a select event
      * if the selected value is not null.
      */
@@ -198,6 +212,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         if (!this._suspendEvents) {
             if (typeof index != "undefined") {
                 this.component.set("selection", index);
+                this.component.set("rawValue", null);
                 this.component.doAction();
             }
             this.extComponent.focus(true, true);
@@ -219,6 +234,11 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             this._updateStore(this.component.get("model"))
         }
         this._setSelection();
+        
+        if(this.component.get("rawValue")) {
+            this.extComponent.setRawValue(this.component.get("rawValue"));
+        }
+        
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             this.extComponent.markInvalid(this.component.get("invalidText"));
         }
@@ -230,8 +250,13 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             this.extComponent.setValue(this.component.get("selection"));
         }
         else {
-            this.extComponent.clearValue();
-            this.extComponent.value = null;
+            if(this.component.get("rawValue")) {
+                this.extComponent.setRawValue(this.component.get("rawValue"));
+            }
+            else{
+                this.extComponent.clearValue();
+                this.extComponent.value = null;
+            }
         }
     },
     

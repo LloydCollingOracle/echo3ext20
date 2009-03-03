@@ -41,6 +41,7 @@ public class ComboBox extends Component implements AbstractListComponent {
     public static final String TYPE_AHEAD_PROPERTY = "typeAhead";
     public static final String WIDTH_PROPERTY = "width";
     public static final String VALID_PROPERTY = "isValid";
+    public static final String RAW_VALUE_CHANGED_PROPERTY = "rawValue";
 
     private ListSelectionModel selectionModel;
     private ListCellRenderer cellRenderer = DEFAULT_LIST_CELL_RENDERER;
@@ -203,9 +204,12 @@ public class ComboBox extends Component implements AbstractListComponent {
             } else {
                 processSelectionInput((Integer) inputValue);
             }
-
+            
         } else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
+        }
+        else if (RAW_VALUE_CHANGED_PROPERTY.equals(inputName)) {
+            setRawValue((String) inputValue);
         }
     }
 
@@ -225,7 +229,26 @@ public class ComboBox extends Component implements AbstractListComponent {
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
 
     }
-
+    
+    /**
+     * Returns the value (text) of the field.
+     * 
+     * @return the value of the field.
+     */
+    public String getRawValue() {
+        return (String) get(RAW_VALUE_CHANGED_PROPERTY);
+    }
+    
+    /**
+     * Sets the value (text) of the field.
+     * 
+     * @param value
+     *            the value of the field.
+     */
+    public void setRawValue(String rawValue) {
+        set(RAW_VALUE_CHANGED_PROPERTY, rawValue);
+    }
+    
     /**
      * Sets whether the combo box is editable.
      * 

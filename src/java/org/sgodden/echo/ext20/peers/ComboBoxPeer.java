@@ -22,6 +22,7 @@ import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 
 import org.sgodden.echo.ext20.ComboBox;
+import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.data.ListModelAdapter;
 
 @SuppressWarnings({"unchecked"})
@@ -39,6 +40,7 @@ public class ComboBoxPeer
         super();
         addOutputProperty(ComboBox.SELECTION_CHANGED_PROPERTY);
         addOutputProperty(ComboBox.MODEL_CHANGED_PROPERTY);
+        addOutputProperty(ComboBox.RAW_VALUE_CHANGED_PROPERTY);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(ComboBox.INPUT_ACTION, ComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {
@@ -63,6 +65,9 @@ public class ComboBoxPeer
      */
     @Override
     public Class getInputPropertyClass(String propertyName) {
+        if (ComboBox.RAW_VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+            return String.class;
+        }
         if (ComboBox.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
             return Integer.class;
         }
@@ -106,6 +111,9 @@ public class ComboBoxPeer
         super.storeInputProperty(context, component, propertyName, index, newValue);
         if (ComboBox.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
             clientUpdateManager.setComponentProperty(component, ComboBox.SELECTION_CHANGED_PROPERTY, newValue);
+        }
+        else if (propertyName.equals(ComboBox.RAW_VALUE_CHANGED_PROPERTY)) {
+            clientUpdateManager.setComponentProperty(component, ComboBox.RAW_VALUE_CHANGED_PROPERTY, newValue);
         }
     }
 
