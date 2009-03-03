@@ -165,10 +165,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
             
             var addedChildren = update.getAddedChildren();
+            //Needs layout if any components have been added to the panel.
+            needsLayout = true;
             this._createChildItems(update, addedChildren);
             var buttons = this._createButtons(update, addedChildren);
             if (buttons.length > 0) {
-                needsLayout = true;
                 var footer = this.extComponent.footer;
                 if (!footer) {
                     footer = this.extComponent.el.createChild();

@@ -36,5 +36,6 @@ public class MainTestSuite extends TabbedPane {
         add(new GroovyTest());
         add(new TreeTest());
         add(new FieldGroupTest());
+        add(new ComboListTest());
     }
 }

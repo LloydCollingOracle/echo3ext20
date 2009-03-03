@@ -49,6 +49,8 @@ public class DateField
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
 	public static final String INVALID_TEXT_PROPERTY = "invalidText";
 	public static final String VALID_PROPERTY = "isValid";
+    public static final String MANDATORY_PROPERTY = "mandatory";
+    public static final String BLANK_TEXT_PROPERTY = "blankText";
     
     private Calendar calendar;
     
@@ -262,4 +264,22 @@ public class DateField
 	public void setIsValid(boolean isValid) {
 		set(VALID_PROPERTY, isValid);
 	}
+	
+    /**
+     * Gets mandatory property
+     */
+    public void setMandatory(boolean mandatory){
+        set(MANDATORY_PROPERTY, mandatory);
+        
+    }
+    
+    /**
+     * Sets the text to be displayed when the isBlankAllowed test fails.
+     * 
+     * @param value
+     *            the value of the field.
+     */
+    public void setBlankText(String blankText) {
+        set(BLANK_TEXT_PROPERTY, blankText);
+    }
 }
