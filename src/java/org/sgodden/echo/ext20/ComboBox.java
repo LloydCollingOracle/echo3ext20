@@ -363,6 +363,10 @@ public class ComboBox extends Component implements AbstractListComponent {
                     break;
                 }
             }
+            if(selectionModel.getMinSelectedIndex() == -1){
+                Object value = getCellRenderer().getListCellRendererComponent(this, selectedItem, -1);
+                setRawValue(String.valueOf(value));
+            }
         }
         firePropertyChange(SELECTION_CHANGED_PROPERTY, oldValue, selectedItem);
     }
