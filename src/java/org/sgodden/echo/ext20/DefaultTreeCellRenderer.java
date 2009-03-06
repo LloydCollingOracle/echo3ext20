@@ -4,11 +4,15 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.HttpImageReference;
 import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.Label;
-import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.extras.app.Tree;
 import nextapp.echo.extras.app.tree.TreeCellRenderer;
 import nextapp.echo.extras.app.tree.TreePath;
 
+/**
+ * A default implementation of {@link TreeCellRenderer}.
+ * @author llcolling
+ *
+ */
 public class DefaultTreeCellRenderer implements TreeCellRenderer {
     
     private ImageReference leafIcon;

@@ -5,7 +5,7 @@
 package org.sgodden.echo.ext20;
 
 /**
- *
+ * A password field.
  * @author bwoods
  */
 @SuppressWarnings({"serial"})

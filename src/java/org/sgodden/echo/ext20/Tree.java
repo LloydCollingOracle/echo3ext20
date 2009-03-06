@@ -6,6 +6,11 @@ import nextapp.echo.extras.app.event.TreeExpansionListener;
 import nextapp.echo.extras.app.tree.TreeColumnModel;
 import nextapp.echo.extras.app.tree.TreeModel;
 
+/**
+ * Implementation of an Ext tree component.
+ * @author Lloyd Colling.
+ *
+ */
 public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionListener {
     
     public static final String HAS_BORDER_PROPERTY = "hasBorder";

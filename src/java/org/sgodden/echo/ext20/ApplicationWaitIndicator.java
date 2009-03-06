@@ -4,36 +4,44 @@ import nextapp.echo.app.HttpImageReference;
 import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.Label;
 
+/**
+ * An example custom wait indicator which uses a 'throbber' that
+ * animates when a server interaction is underway.
+ * @author bwoods
+ *
+ */
 @SuppressWarnings("serial")
-public class ApplicationWaitIndicator extends Label{
+public class ApplicationWaitIndicator extends Label {
 
-    public static final String PROPERTY_WAIT_ICON = "waitIcon";
-    public static final String PROPERTY_NO_WAIT_ICON = "noWaitIcon";
-    
-    private final static ImageReference defaultWaitIcon = new HttpImageReference("resources/ext/images/default/grid/wait.gif");
-    private final static ImageReference defaultNoWaitIcon = new HttpImageReference("resources/ext/images/default/grid/nowait.gif");
-    
-    public ApplicationWaitIndicator(){
-        super(defaultNoWaitIcon);
-        setRenderId("applicationWaitIndicator");
-        setWaitIcon(defaultWaitIcon);
-        setNoWaitIcon(defaultNoWaitIcon);
-    }
+	public static final String PROPERTY_WAIT_ICON = "waitIcon";
+	public static final String PROPERTY_NO_WAIT_ICON = "noWaitIcon";
 
-    public ImageReference getWaitIcon(){
-        return (ImageReference) get(PROPERTY_WAIT_ICON);
-    }
+	private final static ImageReference defaultWaitIcon = new HttpImageReference(
+			"resources/ext/images/default/grid/wait.gif");
+	private final static ImageReference defaultNoWaitIcon = new HttpImageReference(
+			"resources/ext/images/default/grid/nowait.gif");
 
-    public void setWaitIcon(ImageReference waitIcon){
-        set(PROPERTY_WAIT_ICON, waitIcon);
-    }
+	public ApplicationWaitIndicator() {
+		super(defaultNoWaitIcon);
+		setRenderId("applicationWaitIndicator");
+		setWaitIcon(defaultWaitIcon);
+		setNoWaitIcon(defaultNoWaitIcon);
+	}
 
-    public ImageReference getNoWaitIcon(){
-        return (ImageReference) get(PROPERTY_NO_WAIT_ICON);
-    }
+	public ImageReference getWaitIcon() {
+		return (ImageReference) get(PROPERTY_WAIT_ICON);
+	}
 
-    public void setNoWaitIcon(ImageReference waitIcon){
-        set(PROPERTY_NO_WAIT_ICON, waitIcon);
-    }
-    
+	public void setWaitIcon(ImageReference waitIcon) {
+		set(PROPERTY_WAIT_ICON, waitIcon);
+	}
+
+	public ImageReference getNoWaitIcon() {
+		return (ImageReference) get(PROPERTY_NO_WAIT_ICON);
+	}
+
+	public void setNoWaitIcon(ImageReference waitIcon) {
+		set(PROPERTY_NO_WAIT_ICON, waitIcon);
+	}
+
 }

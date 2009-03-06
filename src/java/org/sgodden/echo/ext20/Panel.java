@@ -27,7 +27,6 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.layout.Layout;
-import org.sgodden.echo.ext20.layout.TableLayout;
 
 /**
  * The main container component for Ext.

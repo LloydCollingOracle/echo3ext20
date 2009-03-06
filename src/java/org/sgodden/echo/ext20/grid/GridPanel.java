@@ -40,19 +40,25 @@ import org.sgodden.ui.models.SortableTableModel;
  * model API, and it is portable since it is shipped with the JVM. An adapter
  * takes care of converting these into ext stores.
  * <p/>
- * Code example: <pre class="code"> List<ColumnConfiguration> cols = new
- * ArrayList<ColumnConfiguration>(); cols.add(new ColumnConfiguration("User ID",
- * "userid")); cols.add(new ColumnConfiguration("Name", "name")); ColumnModel
- * columnModel = new ColumnModel(cols);
+ * Code example: <pre class="code"> 
+ * List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>(); 
+ * cols.add(new ColumnConfiguration("User ID", "userid")); 
+ * cols.add(new ColumnConfiguration("Name", "name")); 
+ * ColumnModel columnModel = new ColumnModel(cols);
  * 
- * TableModel model = new DefaultTableModel( data, // simple Object[][] of your
- * data new String[]{"id", "userid", "name", "date"});
+ * TableModel model = new DefaultTableModel(
+ *   data, // simple Object[][] of your data
+ *   new String[]{"id", "userid", "name", "date"}
+ *   );
  * 
  * gridPanel = new GridPanel(columnModel, model);
  * 
- * gridPanel.addActionListener(new ActionListener(){ public void
- * actionPerformed(ActionEvent e) { Object[] data = gridPanel.getSelectedRow();
- * ... } }); </pre>
+ * gridPanel.addActionListener(new ActionListener(){ 
+ *   public void actionPerformed(ActionEvent e) {
+ *     Object[] data = gridPanel.getSelectedRow();
+ * ... 
+ *   } 
+ * }); </pre>
  * 
  * @author sgodden
  * 

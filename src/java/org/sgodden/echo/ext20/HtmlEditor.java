@@ -16,7 +16,6 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import nextapp.echo.app.Component;
 
 /**
  * A html editor field.

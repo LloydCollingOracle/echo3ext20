@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
-import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;

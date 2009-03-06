@@ -22,7 +22,6 @@ import java.util.EventListener;
 import java.util.Locale;
 
 import nextapp.echo.app.ApplicationInstance;
-import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 

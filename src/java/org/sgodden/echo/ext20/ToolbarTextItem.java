@@ -16,7 +16,6 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import nextapp.echo.app.Component;
 
 /**
  * Renders text directly into a toolbar.

@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.IllegalChildException;
 
-import org.sgodden.echo.ext20.layout.FitLayout;
-import org.sgodden.echo.ext20.layout.FormLayout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
 /**
