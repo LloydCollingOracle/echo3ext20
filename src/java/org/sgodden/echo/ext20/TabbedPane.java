@@ -49,6 +49,9 @@ public class TabbedPane extends Panel {
 
     public static final String ACTIVE_TAB_CHANGE_EVENT = "activeTabChangeEvent";
     public static final String TAB_CHANGE_LISTENERS_CHANGED_PROPERTY = "tabChangeListeners";
+
+    public static final String TAB_CLOSE_EVENT = "tabClose";
+    public static final String TAB_CLOSE_LISTENERS_CHANGED = "tabCloseListeners";
     
     private Set<String> initialisedChildIds = new HashSet<String>();
     
@@ -97,6 +100,18 @@ public class TabbedPane extends Panel {
     public void processInput(String inputName, Object inputValue) {
         if (ACTIVE_TAB_INDEX_PROPERTY.equals(inputName)) {
             setActiveTabIndex((Integer)inputValue);
+        } else if (TAB_CLOSE_EVENT.equals(inputName)) {
+            int closingTab = ((Integer)inputValue).intValue();
+            if (fireTabClosingEvent(closingTab)) {
+                remove(getComponent(closingTab));
+                
+                // if we just removed the active tab, check that we still have that many tabs
+                // if we don't, then set us to the tabs.length - 1 as the active tab
+                if (getActiveTabIndex() == closingTab) {
+                    if (getComponentCount() <= closingTab)
+                        setActiveTabIndex(getComponentCount() - 1);
+                }
+            }
         }
         /* 
          * we don't handle the change event because listeners are
@@ -109,10 +124,20 @@ public class TabbedPane extends Panel {
     /**
      * Returns whether any <code>TabChangeListener</code>s are registered.
      * 
-     * @return true if any action listeners are registered
+     * @return true if any tab change listeners are registered
      */
     public boolean hasTabChangeListeners() {
         return getEventListenerList().getListenerCount(TabChangeListener.class) != 0;
+    }
+    
+    
+    /**
+     * Returns whether any <code>TabClosingListener</code>s are registered.
+     * 
+     * @return true if any tab closing listeners are registered
+     */
+    public boolean hasTabClosingListeners() {
+        return getEventListenerList().getListenerCount(TabClosingListener.class) != 0;
     }
 
     
@@ -126,6 +151,19 @@ public class TabbedPane extends Panel {
     public void addTabChangeListener(TabChangeListener l) {
         getEventListenerList().addListener(TabChangeListener.class, l);
         firePropertyChange(TAB_CHANGE_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
+
+    
+    /**
+     * Adds a <code>TabClosingListener</code> to the pane.
+     * <code>TabClosingListener</code>s will be invoked before a tab is removed
+     * from the tabbed pane.
+     * 
+     * @param l the <code>TabClosingListener</code> to add.
+     */
+    public void addTabClosingListener(TabClosingListener l) {
+        getEventListenerList().addListener(TabClosingListener.class, l);
+        firePropertyChange(TAB_CLOSE_LISTENERS_CHANGED, null, l);
     }
 
     
@@ -144,6 +182,23 @@ public class TabbedPane extends Panel {
             }
             ((ActionListener) listeners[i]).actionPerformed(e);
         }
+    }
+
+    
+    /**
+     * Calls all tab closing listeners to inform them of a tab closing, returning whether the action
+     * should go ahead.
+     */
+    private boolean fireTabClosingEvent(int tabIndex) {
+        if (!hasEventListenerList()) {
+            return true;
+        }
+        EventListener[] listeners = getEventListenerList().getListeners(TabClosingListener.class);
+        boolean notVetoed = true;
+        for (int i = 0; i < listeners.length && notVetoed; ++i) {
+            notVetoed = ((TabClosingListener) listeners[i]).tabClosing(this, getComponent(tabIndex), tabIndex);
+        }
+        return notVetoed;
     }
     
     @Override

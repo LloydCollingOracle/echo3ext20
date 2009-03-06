@@ -31,7 +31,7 @@ import nextapp.echo.app.Component;
  */
 @SuppressWarnings({"serial"})
 public class HtmlEditor 
-        extends AbstractExtComponent {
+        extends ExtComponent {
     
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
     public static final String TEXT_CHANGED_PROPERTY = "text";

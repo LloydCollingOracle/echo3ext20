@@ -48,6 +48,13 @@ extends ExtComponentPeer {
                 return ((TabbedPane) component).hasTabChangeListeners();
             }
         });
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(
+                TabbedPane.TAB_CLOSE_EVENT, TabbedPane.TAB_CLOSE_LISTENERS_CHANGED) {
+            @Override
+            public boolean hasListeners(Context context, Component component) {
+                return true;
+            }
+        });
         addOutputProperty(TabbedPane.ACTIVE_TAB_INDEX_PROPERTY);
 
     }
@@ -68,6 +75,16 @@ extends ExtComponentPeer {
             return Integer.class;
         }
         return null;
+    }
+    
+
+    @Override
+    public Class getEventDataClass(String eventType) {
+        if ("tabClose".equals(eventType)){
+            return Integer.class;
+        } else {
+            return super.getEventDataClass(eventType);
+        }
     }
 
     /**

@@ -16,40 +16,25 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import java.util.EventListener;
+
 import nextapp.echo.app.Component;
 
 /**
- * Renders text directly into a toolbar.
- * @author sgodden
+ * Listener to be notified before a tab is removed from a tabbed pane, allowing
+ * the listener to veto the removal,
+ * @author Lloyd Colling
  */
-@SuppressWarnings({"serial"})
-public class ToolbarTextItem 
-        extends ExtComponent {
-    
-    public static final String TEXT_PROPERTY = "text";
+public interface TabClosingListener 
+    extends EventListener {
 
     /**
-     * Creates a new toolbar text item with no text.
+     * Method called when a tab is going to be closed. Returning
+     * false will veto the removal of the tab.
+     * @param pane
+     * @param tabContents
+     * @param tabIndex
+     * @return true to remove the tab, false to veto the removal
      */
-    public ToolbarTextItem() {
-        super();
-    }
-
-    /**
-     * Creates a new toolbar text item.
-     * @param text the text to display.
-     */
-    public ToolbarTextItem(String text) {
-        super();
-        setText(text);
-    }
-    
-    /**
-     * Sets the text to display.
-     * @param text the text to disaplay.
-     */
-    public void setText(String text) {
-        set(TEXT_PROPERTY, text);
-    }
-
+    public boolean tabClosing(TabbedPane pane, Component tabContents, int tabIndex);
 }

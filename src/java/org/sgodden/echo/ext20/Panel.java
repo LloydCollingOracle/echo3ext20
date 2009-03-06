@@ -35,12 +35,16 @@ import org.sgodden.echo.ext20.layout.TableLayout;
  * @author goddens
  *
  */
-public class Panel extends AbstractExtComponent {
+public class Panel extends ExtComponent {
 
     private static final long serialVersionUID = 20080102L;
     
     //private static final transient Log log = LogFactory.getLog(Panel.class);
 
+    /**
+     * Sets the base css for this panel. (Defaults to 'x-panel')
+     */
+    public static final String BASE_CSS_CLASS = "baseCssClass";
     /**
      * Whether the panel show scroll its contents to handle overflow,
      * or clip overflowing contents (defaults to false, to clip).
@@ -556,5 +560,17 @@ public class Panel extends AbstractExtComponent {
     public void setRoundedBorders(Boolean roundBorders) {
         set(ROUNDED_BORDERS_PROPERTY, roundBorders);
     }
+    
+    public String getBaseCssClass() {
+		return (String)get(BASE_CSS_CLASS);
+	}
+    
+    /**
+     * @param The base css class to be used for this panel. This 
+     * class should be defined in the css file for this application
+     */
+    public void setBaseCssClass(String baseCssClass) {
+		set(BASE_CSS_CLASS,baseCssClass);
+	}
 
 }

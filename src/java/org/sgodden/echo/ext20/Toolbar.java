@@ -16,6 +16,7 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.Component;
 
 /**
  * A toolbar.
@@ -23,7 +24,7 @@ package org.sgodden.echo.ext20;
  */
 @SuppressWarnings({"serial"})
 public class Toolbar 
-        extends AbstractExtComponent {
+        extends ExtComponent {
     
     /**
      * The position (top or bottom) of the toolbar.

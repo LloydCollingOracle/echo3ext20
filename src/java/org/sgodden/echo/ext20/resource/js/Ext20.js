@@ -316,6 +316,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
 
             options.style = {};
             options.bodyStyle = {};
+            options.closable = this.component.get("closable");
            
             /*
              * Add the necessary layout options.
@@ -381,7 +382,8 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             var options = {
                 id: this.component.renderId,
                 style: {},
-                bodyStyle: {}
+                bodyStyle: {},
+                closable: this.component.get("closable")
             };
             if (this instanceof EchoExt20.PanelSync) {
                 options.renderTo = this._parentElement;

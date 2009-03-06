@@ -24,7 +24,7 @@ import nextapp.echo.app.Component;
  */
 @SuppressWarnings({"serial"})
 public class PortalColumn 
-        extends AbstractExtComponent {
+        extends ExtComponent {
     
     public static final String PROPERTY_PADDING = "padding";
     

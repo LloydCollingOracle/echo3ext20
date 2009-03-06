@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;
@@ -22,7 +23,7 @@ import nextapp.echo.app.list.ListSelectionModel;
  * @author bwoods
  */
 @SuppressWarnings( { "serial" })
-public class MultiSelect extends AbstractExtComponent implements AbstractListComponent {
+public class MultiSelect extends ExtComponent implements AbstractListComponent {
 
     public static final String COMPLEX_PROPERTY = "complex";
     public static final String EDITABLE_PROPERTY = "editable";

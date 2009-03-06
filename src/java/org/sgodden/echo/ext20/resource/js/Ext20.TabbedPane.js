@@ -28,6 +28,14 @@ EchoExt20.TabbedPane = Core.extend(EchoExt20.Panel, {
             type: "activeTabChangeEvent",
             source: this
         });
+    },
+        
+    doTabClose: function(data){
+        this.fireEvent({
+            type: "tabClose",
+            source: this,
+            data: data
+        });
     }
     
 });
@@ -47,6 +55,9 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
 	
     // used to prevent us notifying the server of a tab change they just told us about
     _tabChangeNotificationSuspended: false,
+    
+    // used to prevent us vetoing the removal of a tab by a server update
+    _tabCloseNotificationSuspended: false,
 	
     newExtComponentInstance: function(options) {
         // ignore the first tab change
@@ -78,18 +89,38 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
             this
         );
         
+        ret.on(
+                "beforeremove", 
+                this._handleRemoveComponent,
+                this
+                );
+        
         return ret;
+    },
+    
+    _handleRemoveComponent: function(container, child) {
+        if (this._tabCloseNotificationSuspended == true)
+            return true;
+        
+        for (var i = 0; i < this.component.getComponentCount(); i++) {
+            if (this.component.getComponent(i).renderId == child.id)
+                this.component.doTabClose(i);
+        }
+        return false;
     },
     
     createExtComponent: function(update, options) {
         options.activeTab = this.component.get("activeTabIndex");
         options.deferredRender = true;
+        options.enableTabScroll = true;
         return EchoExt20.PanelSync.prototype.createExtComponent.call(
-        this, update, options);
+                this, update, options);
     },
 	
     renderUpdate: function(update) {
+        this._tabCloseNotificationSuspended = true;
         EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
+        this._tabCloseNotificationSuspended = false;
 		
         if (update.getUpdatedProperty("activeTabIndex") != null) {
             var activeTabIndex = this.component.get("activeTabIndex");

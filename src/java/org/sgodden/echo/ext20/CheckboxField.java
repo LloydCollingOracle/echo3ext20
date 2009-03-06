@@ -28,7 +28,7 @@ import nextapp.echo.app.event.ActionListener;
  * @author simon
  */
 @SuppressWarnings("serial")
-public class CheckboxField extends AbstractExtComponent implements Field {
+public class CheckboxField extends ExtComponent implements Field {
 
 	public static final String EDITABLE_PROPERTY = "editable";
 	public static final String SELECTED_CHANGED_PROPERTY = "selected";
