@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Echo_3_Ext_20" default="mvn-install" basedir=".">
+<project name="Echo_3_Ext_20" default="war" basedir=".">
 
 	<property file="build.properties" />
 
