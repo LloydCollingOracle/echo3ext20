@@ -38,7 +38,7 @@ import nextapp.echo.app.event.ActionListener;
  */
 @SuppressWarnings({"serial"})
 public class DateField
-        extends Component implements Field {
+        extends AbstractExtComponent implements Field {
     
     //private static final transient Log log = LogFactory.getLog(DateField.class);
 

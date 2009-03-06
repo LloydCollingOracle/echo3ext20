@@ -30,7 +30,7 @@ import nextapp.echo.app.event.ActionListener;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractButton 
-        extends Component {
+        extends AbstractExtComponent {
     
     public static final String TEXT_PROPERTY = "text";
     public static final String PROPERTY_DISABLED_ICON = "disabledIcon";

@@ -18,7 +18,6 @@ package org.sgodden.echo.ext20;
 
 import java.util.EventListener;
 
-import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
@@ -32,7 +31,7 @@ import org.apache.log4j.Logger;
  * 
  */
 @SuppressWarnings( { "serial" })
-public class TextField extends Component implements Field {
+public class TextField extends AbstractExtComponent implements Field {
     
     private static final Logger log = Logger.getLogger(TextField.class);
 

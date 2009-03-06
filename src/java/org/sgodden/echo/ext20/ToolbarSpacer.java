@@ -16,7 +16,6 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import nextapp.echo.app.Component;
 
 /**
  * A simple element that adds extra horizontal space between items in a toolbar.
@@ -24,6 +23,6 @@ import nextapp.echo.app.Component;
  */
 @SuppressWarnings({"serial"})
 public class ToolbarSpacer 
-        extends Component {
+        extends AbstractExtComponent {
 
 }

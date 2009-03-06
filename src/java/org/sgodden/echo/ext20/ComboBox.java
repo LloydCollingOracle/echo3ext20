@@ -24,7 +24,7 @@ import nextapp.echo.app.list.ListSelectionModel;
  * @author sgodden
  */
 @SuppressWarnings( { "serial" })
-public class ComboBox extends Component implements AbstractListComponent {
+public class ComboBox extends AbstractExtComponent implements AbstractListComponent {
 
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String EDITABLE_PROPERTY = "editable";

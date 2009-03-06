@@ -18,8 +18,6 @@ package org.sgodden.echo.ext20;
 
 import java.util.Calendar;
 
-import nextapp.echo.app.Component;
-
 /**
  * A time field.
  * <p/>
@@ -30,7 +28,7 @@ import nextapp.echo.app.Component;
  */
 @SuppressWarnings({"serial"})
 public class TimeField
-        extends Component implements Field {
+        extends AbstractExtComponent implements Field {
     
     //private static final transient Log log = LogFactory.getLog(TimeField.class);
 

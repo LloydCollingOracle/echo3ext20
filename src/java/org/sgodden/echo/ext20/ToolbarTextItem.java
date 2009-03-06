@@ -16,7 +16,6 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import nextapp.echo.app.Component;
 
 /**
  * Renders text directly into a toolbar.
@@ -24,7 +23,7 @@ import nextapp.echo.app.Component;
  */
 @SuppressWarnings({"serial"})
 public class ToolbarTextItem 
-        extends Component {
+        extends AbstractExtComponent {
     
     public static final String TEXT_PROPERTY = "text";
 

@@ -24,6 +24,6 @@ import nextapp.echo.app.Component;
  */
 @SuppressWarnings({"serial"})
 public class Menu 
-        extends Component {
+        extends AbstractExtComponent {
 
 }

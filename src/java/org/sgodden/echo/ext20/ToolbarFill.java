@@ -16,7 +16,6 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import nextapp.echo.app.Component;
 
 /**
  * A simple element that adds a greedy (100% width) horizontal space 
@@ -26,6 +25,6 @@ import nextapp.echo.app.Component;
  */
 @SuppressWarnings({"serial"})
 public class ToolbarFill 
-        extends Component {
+        extends AbstractExtComponent {
 
 }
