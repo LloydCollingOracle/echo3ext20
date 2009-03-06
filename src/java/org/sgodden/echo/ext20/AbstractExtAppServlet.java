@@ -16,14 +16,10 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.CSSStyleSheetService;
 import nextapp.echo.webcontainer.service.JavaScriptService;
-import nextapp.echo.webcontainer.service.StaticTextService;
 import nextapp.echo.webcontainer.util.Resource;
 
 /**
@@ -35,7 +31,6 @@ import nextapp.echo.webcontainer.util.Resource;
  * @author goddens
  *
  */
-@SuppressWarnings("unchecked")
 public abstract class AbstractExtAppServlet extends WebContainerServlet {
 
     private static final long serialVersionUID = 20080107L;
