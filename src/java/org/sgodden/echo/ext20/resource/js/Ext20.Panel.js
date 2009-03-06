@@ -316,7 +316,12 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (width != null) {
             options['width'] = width;
         }
-
+        
+        var baseCssClass = this.component.get("baseCssClass");
+        if (baseCssClass != null){
+            options['baseCls'] = baseCssClass;
+        }
+        
         if (this.component.render("autoScroll")) {
             options.autoScroll = this.component.render("autoScroll");
         }

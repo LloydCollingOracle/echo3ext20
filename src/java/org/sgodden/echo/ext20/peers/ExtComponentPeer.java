@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.peers;
 
+import org.sgodden.echo.ext20.Panel;
+
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 
 /**
@@ -28,6 +30,7 @@ public abstract class ExtComponentPeer extends AbstractComponentSynchronizePeer 
      */
     public ExtComponentPeer() {
         super();
+        addOutputProperty(Panel.BASE_CSS_CLASS);
     }
 
 }

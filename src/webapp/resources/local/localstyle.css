@@ -79,3 +79,8 @@
 .task-folder {
     background-image:url(../images/fam/icons/folder_go.png) !important;
 }
+.customcss {
+    background-color:red;
+    border-left:10px solid #eee;
+    border-right:10px solid #d0d0d0;
+}

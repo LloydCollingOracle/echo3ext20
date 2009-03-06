@@ -32,6 +32,7 @@ public class LayoutTest
         add(outer);
         
         Panel north = new Panel();
+        
         north.setHtml("The tabs below contain examples of the supported layouts");
         north.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
         outer.add(north);
@@ -64,6 +65,7 @@ public class LayoutTest
         
         private Panel createPanel(String text) {
             Panel ret = new Panel(text);
+            ret.setBaseCssClass("customcss");
             ret.setHtml(text);
             return ret;
         }
