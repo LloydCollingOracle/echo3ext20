@@ -33,6 +33,22 @@ If you decide to go for it, here's the process:
 your tomcat deployment directoy.
 2. Run ant.  The war file will be produced in the 'dist' directory and copied to the deployment directory.
 
+Customised Echo3 Package
+========================
+
+This library uses a customised version of the Echo3 framework. Currently, this is built by checking out svn revision 1602 of Echo3 and applying
+the following patches in order:
+
+1. echo3ext20/contrib/patches/Echo3/1602/ComplexPropertiesAndCss.diff
+2. echo3ext20/contrib/patches/Echo3/1602/CSSStyleSheetService.diff
+3. http://bugs.nextapp.com/mantis/view.php?id=368
+4. http://bugs.nextapp.com/mantis/view.php?id=370
+5. http://bugs.nextapp.com/mantis/view.php?id=369
+6. echo3ext20contrib/patches/Echo3/1602/ComplexClientProperties.diff
+7. http://bugs.nextapp.com/mantis/view.php?id=367
+
+There are no guarantees mad as to when the project will update the version of Echo3.
+
 LIMITATIONS
 ===========
 It is not possible to nest form components within ext layouts within echo layouts.  Something just doesn't work, and I have not had the time

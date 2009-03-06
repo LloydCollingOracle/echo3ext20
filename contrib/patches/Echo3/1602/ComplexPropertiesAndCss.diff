@@ -1,0 +1,338 @@
+=== modified file 'src/client/echo/Render.js'
+--- src/client/echo/Render.js	2008-12-25 18:58:13 +0000
++++ src/client/echo/Render.js	2009-01-02 15:06:06 +0000
+@@ -36,6 +36,23 @@
+      */
+     _disposedComponents: null,
+     
++        
++    /**
++     * Listeners to be notified of rendering phase events.
++     * @type Core.ListenerList
++     */
++    _listenerList: new Core.ListenerList(),
++
++    /**
++     * Adds a listener to be notified when the renderDisplay
++     * phase of an update has been completed.
++     * 
++     * @param {Function} l the listener to add
++     */
++    addRenderDisplayCompleteListener: function(l) {
++        Echo.Render._listenerList.addListener("renderDisplayComplete", l);
++    },
++    
+     //FIXME.  Scrollbar position tracking code in SplitPane appears to suggest that
+     // disposed states are not in good shape....SplitPane is being disposed when
+     // parent contentPane is redrawn.
+@@ -272,6 +289,11 @@
+             }
+         }
+     
++        // call any listeners that want to know when when the render display phase is finished
++        if (Echo.Render._listenerList.hasListeners("renderDisplayComplete")) {
++            Echo.Render._listenerList.fireEvent({type: "renderDisplayComplete"});
++        }
++    
+         // Profiling: Mark completion of display phase.
+         if (Echo.Client.profilingTimer) {
+             Echo.Client.profilingTimer.mark("disp");
+@@ -309,6 +331,15 @@
+     },
+     
+     /**
++     * Removes a renderDisplayCompleteListener.
++     * 
++     * @param {Function} l the listener to remove
++     */
++    removeRenderDisplayCompleteListener: function(l) {
++        this._listenerList.removeListener("renderDisplayComplete", l);
++    },
++    
++    /**
+      * Renders a new component inside of a DOM element.
+      * This method should be called by container components in order to render their children.
+      * 
+
+=== modified file 'src/server-java/app/nextapp/echo/app/ApplicationInstance.java'
+--- src/server-java/app/nextapp/echo/app/ApplicationInstance.java	2009-01-02 04:39:09 +0000
++++ src/server-java/app/nextapp/echo/app/ApplicationInstance.java	2009-01-02 15:06:06 +0000
+@@ -600,7 +600,8 @@
+             }
+             serverUpdateManager.processComponentVisibilityUpdate(parent);
+         } else {
+-            if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
++            if ((oldValue == null && newValue == null) 
++                || (oldValue != null && newValue != null && !parent.isComplexProperty(propertyName) && oldValue.equals(newValue))) {
+                 return;
+             }
+             if (parent instanceof ModalSupport && ModalSupport.MODAL_CHANGED_PROPERTY.equals(propertyName)) {
+
+=== modified file 'src/server-java/app/nextapp/echo/app/Component.java'
+--- src/server-java/app/nextapp/echo/app/Component.java	2009-01-02 04:39:09 +0000
++++ src/server-java/app/nextapp/echo/app/Component.java	2009-01-02 15:06:06 +0000
+@@ -1641,4 +1641,12 @@
+         }
+         return -1;
+     }
++
++    public boolean isComplexProperty(String propertyName) {
++        return localStyle.isComplexProperty(propertyName);
++    }
++
++    public void setComplexProperty(String propertyName, boolean isComplex) {
++        localStyle.setComplexProperty(propertyName, isComplex);
++    }
+ }
+
+=== modified file 'src/server-java/app/nextapp/echo/app/MutableStyle.java'
+--- src/server-java/app/nextapp/echo/app/MutableStyle.java	2009-01-02 04:39:09 +0000
++++ src/server-java/app/nextapp/echo/app/MutableStyle.java	2009-01-02 15:06:06 +0000
+@@ -30,6 +30,7 @@
+ package nextapp.echo.app;
+ 
+ import java.io.Serializable;
++import java.util.HashSet;
+ import java.util.Iterator;
+ import java.util.SortedMap;
+ import java.util.TreeMap;
+@@ -158,6 +159,7 @@
+     
+     private Object[] data = EMPTY;
+     int length = 0; // Number of items * 2;
++    HashSet complexProperties = new HashSet();
+ 
+     /**
+      * Default constructor.
+@@ -433,4 +435,15 @@
+         out.append("}");
+         return out.toString();
+     }
++
++    public boolean isComplexProperty(String propertyName) {
++        return complexProperties.contains(propertyName);
++    }
++
++    public void setComplexProperty(String propertyName, boolean isComplex) {
++        if (!isComplex)
++            complexProperties.remove(propertyName);
++        if (isComplex)
++            complexProperties.add(propertyName);
++    }
+ }
+
+=== modified file 'src/server-java/app/nextapp/echo/app/serial/StyleSheetLoader.java'
+--- src/server-java/app/nextapp/echo/app/serial/StyleSheetLoader.java	2009-01-02 04:39:09 +0000
++++ src/server-java/app/nextapp/echo/app/serial/StyleSheetLoader.java	2009-01-02 15:06:06 +0000
+@@ -123,7 +123,7 @@
+         for (int i = 0; i < styleElements.length; ++i) {
+             String name = styleElements[i].getAttribute("n");
+             if ("".equals(name)) {
+-            	name = null;
++                name = null;
+             }
+             if (!styleElements[i].hasAttribute("t")) {
+                 throw new SerialException("Component type not specified in style: " + name, null);
+
+=== modified file 'src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java'
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java	2009-01-02 04:39:09 +0000
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java	2009-01-03 22:13:28 +0000
+@@ -573,7 +573,7 @@
+         
+         componentPeer.init(context, c);
+ 
+-        renderComponentStyleName(cElement, c, false);
++        renderComponentStyleName(cElement, c, true);
+         renderComponentStyle(cElement, c, false);
+         
+         if (!c.isEnabled()) {
+@@ -709,7 +709,11 @@
+         } else {
+             // A synchronize peer exists for the style class, simply render the style name.
+             Element sElement = document.createElement("s");
+-            sElement.appendChild(document.createTextNode(styleName == null ? "" : styleName));
++            if (styleName == null) {
++                sElement.appendChild(document.createTextNode(":" + styleClass.getName()));
++            } else {
++                sElement.appendChild(document.createTextNode(styleName));
++            }
+             element.appendChild(sElement);
+         }
+     }
+@@ -901,6 +905,8 @@
+                     // Synchronize peer does exist for style's specific component class, render style name unmodified.
+                     if (styleName != null) {
+                         sElement.setAttribute("n", styleName);
++                    } else {
++                        sElement.setAttribute("n", ":" + componentClass.getName());
+                     }
+                 }
+ 
+
+=== modified file 'src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java'
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	2009-01-02 04:39:09 +0000
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	2009-01-02 15:43:48 +0000
+@@ -29,6 +29,17 @@
+ 
+ package nextapp.echo.webcontainer;
+ 
++import java.io.IOException;
++import java.util.ArrayList;
++import java.util.Collections;
++import java.util.Iterator;
++import java.util.List;
++
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
++
+ import nextapp.echo.app.ApplicationInstance;
+ import nextapp.echo.webcontainer.service.AsyncMonitorService;
+ import nextapp.echo.webcontainer.service.BootService;
+@@ -39,17 +50,6 @@
+ import nextapp.echo.webcontainer.service.SynchronizeService;
+ import nextapp.echo.webcontainer.service.WindowHtmlService;
+ 
+-import java.io.IOException;
+-import java.util.ArrayList;
+-import java.util.Collections;
+-import java.util.Iterator;
+-import java.util.List;
+-
+-import javax.servlet.ServletException;
+-import javax.servlet.http.HttpServlet;
+-import javax.servlet.http.HttpServletRequest;
+-import javax.servlet.http.HttpServletResponse;
+-
+ /**
+  * Web container <code>HttpServlet</code> implementation.
+  * An Echo application should provide an derivative of this
+@@ -431,5 +431,5 @@
+         } finally {
+             activeConnection.set(null);
+         }
+-    }
++    }    
+ }
+
+=== modified file 'src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js'
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	2008-12-23 08:37:08 +0000
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	2009-01-02 15:06:06 +0000
+@@ -146,6 +146,7 @@
+         
+         this._msg = Echo.RemoteClient.resource.get();
+         this._serverUrl = serverUrl;
++        this._listenerList = new Core.ListenerList();
+         this._processClientUpdateRef = Core.method(this, this._processClientUpdate);
+         this._processClientEventRef = Core.method(this, this._processClientEvent);
+         this._urlMappings = {};
+@@ -172,6 +173,17 @@
+     },
+     
+     /**
++     * Adds a listener to be notified when a server update has been
++     * completely processed, that is, all component and rendering
++     * updates have been completed.
++     * 
++     * @param {Function} l the listener to add
++     */
++    addServerUpdateCompleteListener: function(l) {
++        this._listenerList.addListener("serverUpdateComplete", l);
++    },
++    
++    /**
+      * Decompresses a shorthand URL into a valid full-length URL.
+      * A shorthand URL is expressed as "!A!xxxx" where
+      * "A" is a key whose value contains the first portion of the URL
+@@ -386,6 +398,10 @@
+             this._waitIndicatorActive = false;
+             this._waitIndicator.deactivate();
+         }
++        
++        if (this._listenerList.hasListeners("serverUpdateComplete")) {
++            this._listenerList.fireEvent({type: "serverUpdateComplete"});
++        }
+     },
+     
+     /**
+@@ -449,6 +465,15 @@
+     },
+     
+     /**
++     * Removes a ServerUpdateCompleteListener.
++     * 
++     * @param {Function} l the listener to remove
++     */
++    removeServerUpdateCompleteListener: function(l) {
++        this._listenerList.removeListener("serverUpdateComplete", l);
++    },
++
++    /**
+      * Sets the wait indicator that will be displayed when a client-server action takes longer than
+      * a specified period of time.
+      * 
+
+=== modified file 'src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java'
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	2009-01-02 04:39:09 +0000
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	2009-01-02 15:06:06 +0000
+@@ -106,6 +106,21 @@
+         styleElement.appendChild(document.createTextNode(" "));
+         headElement.appendChild(styleElement);
+ 
++        WebContainerServlet servlet = conn.getServlet();
++        
++        Iterator cssIt = servlet.getCssFileNames();
++        if (cssIt != null) {
++            while(cssIt.hasNext()) {
++                String cssFileName = (String) cssIt.next();
++                Element additionalStyleElement = document.createElement("link");
++                additionalStyleElement.setAttribute("href", cssFileName);
++                additionalStyleElement.setAttribute("type", "text/css");
++                additionalStyleElement.setAttribute("rel", "stylesheet");
++                additionalStyleElement.appendChild(document.createTextNode(" "));
++                headElement.appendChild(additionalStyleElement);
++            }
++        }
++
+         Element scriptElement = document.createElement("script");
+         Text textNode = document.createTextNode(" ");
+         scriptElement.appendChild(textNode);
+@@ -113,7 +128,6 @@
+         scriptElement.setAttribute("src", userInstance.getServiceUri(BootService.SERVICE));
+         headElement.appendChild(scriptElement);
+         
+-        WebContainerServlet servlet = conn.getServlet();
+         
+         // Include application-provided initialization scripts.
+         Iterator scriptIt = servlet.getInitScripts();
+@@ -146,7 +160,7 @@
+         bodyElement.setAttribute("id", "body");
+         bodyElement.setAttribute("onload", "Echo.Boot.boot('" + userInstance.getServletUri() + "', " + debug + ");");
+         bodyElement.setAttribute("style",
+-                "height:100%;width:100%;margin:0px;padding: 0px;" +
++                "height:100%;width:100%;overflow:hidden;margin:0px;padding: 0px;" +
+                 "font-family:verdana, arial, helvetica, sans-serif;font-size:10pt");
+         htmlElement.appendChild(bodyElement);
+ 
+
+=== modified file 'src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java'
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java	2009-01-02 04:39:09 +0000
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/util/IdTable.java	2009-01-02 15:06:06 +0000
+@@ -101,6 +101,15 @@
+      * <code>IdTable</code>.
+      */
+     private void purge() {
++        /*
++         * Due to clustering, our transient fields may be null.
++         */
++        if (referenceQueue == null) {
++            referenceQueue = new ReferenceQueue();
++        }
++        if (idToReferenceMap == null) {
++            idToReferenceMap = new HashMap();
++        }
+         // Convert any hard references to weak references.
+         if (hasHardReferences) {
+             synchronized (idToReferenceMap) {
+

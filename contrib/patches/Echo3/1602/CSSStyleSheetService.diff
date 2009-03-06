@@ -1,0 +1,267 @@
+=== added file 'src/server-java/webcontainer/nextapp/echo/webcontainer/service/CSSStyleSheetService.java'
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/service/CSSStyleSheetService.java	1970-01-01 00:00:00 +0000
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/service/CSSStyleSheetService.java	2009-01-05 13:09:46 +0000
+@@ -0,0 +1,135 @@
++package nextapp.echo.webcontainer.service;
++
++import java.io.IOException;
++
++import nextapp.echo.webcontainer.Connection;
++import nextapp.echo.webcontainer.Service;
++import nextapp.echo.webcontainer.util.Resource;
++
++/**
++ * A Service for CSS StyleSheets that supports the application of a relative path to the
++ * URLs in the StyleSheet.
++ * 
++ * @author Lloyd Colling
++ */
++public class CSSStyleSheetService implements Service {
++
++    /**
++     * Creates a new <code>CSSStyleSheetService</code> based on the content in
++     * the specified <code>CLASSPATH</code> resource. A runtime exception will
++     * be thrown in the event the resource does not exist (it generally should
++     * not be caught).
++     * 
++     * Please Note that all urls in the StyleSheet must be relative to the
++     * Servlet location when this method is used.
++     * 
++     * @param id
++     *            the <code>Service</code> identifier
++     * @param resourceName
++     *            the path to the content resource in the <code>CLASSPATH</code>
++     * @param relativePath
++     *            the relative path to the stylesheet from the servlet
++     * @return the created <code>CSSStyleSheetService</code>
++     */
++    public static CSSStyleSheetService forResource(String id,
++            String resourceName) {
++        String content = Resource.getResourceAsString(resourceName);
++        return new CSSStyleSheetService(id, content);
++    }
++
++    /**
++     * Creates a new <code>CSSStyleSheetService</code> based on the content in
++     * the specified <code>CLASSPATH</code> resource with any image URLs updated
++     * to reflect the relative location compared to the application Servlet. A
++     * runtime exception will be thrown in the event the resource does not exist
++     * (it generally should not be caught).
++     * 
++     * @param id
++     *            the <code>Service</code> identifier
++     * @param resourceName
++     *            the path to the content resource in the <code>CLASSPATH</code>
++     * @param relativePath
++     *            the relative path to the stylesheet from the servlet
++     * @return the created <code>CSSStyleSheetService</code>
++     */
++    public static CSSStyleSheetService forResource(String id,
++            String resourceName, String relativePath) {
++        String content = Resource.getResourceAsString(resourceName);
++        return new CSSStyleSheetService(id, content, relativePath);
++    }
++
++    private String id;
++    private String content;
++    private final String contentType = "text/css";
++
++    public CSSStyleSheetService(String id, String content) {
++        super();
++        this.id = id;
++        this.content = content;
++    }
++
++    public CSSStyleSheetService(String id, String content, String relativePath) {
++        super();
++        this.id = id;
++        this.content = content;
++        processImageURLs(relativePath);
++    }
++
++    public String getId() {
++        return id;
++    }
++
++    public int getVersion() {
++        return 0;
++    }
++
++    public void service(Connection conn) throws IOException {
++        conn.getResponse().setContentType(contentType);
++        conn.getWriter().print(content);
++    }
++
++    /**
++     * Processes the CSS StyleSheet and replaces all image URLs so that they
++     * start with the relativePath. For example,
++     * <code>URL(../images/MyImage.png)</code> if processed with relative path
++     * <code>resources/css</code> would result in
++     * <code>URL(resources/css/../images/MyImage.png</code>.
++     * 
++     * @param relativePath
++     */
++    private void processImageURLs(String relativePath) {
++        if (!relativePath.endsWith("/")) {
++            relativePath = relativePath + "/";
++        }
++        int indexOfURL = content.indexOf("url");
++        if (indexOfURL == -1)
++            return;
++        int lastIndexOfURL = indexOfURL;
++        StringBuffer endContent = new StringBuffer();
++        endContent.append(content.substring(0, indexOfURL));
++        
++        do {
++            int openParen = content.indexOf("(", indexOfURL);
++            int closeParen = content.indexOf(")", indexOfURL);
++            String imgUrl = content.substring(openParen + 1, closeParen);
++            imgUrl = imgUrl.trim();
++            
++            endContent.append("url(");
++            endContent.append(relativePath);
++            endContent.append(imgUrl);
++            endContent.append(")");
++            
++            indexOfURL = content.indexOf("url", indexOfURL + 1);
++            if (indexOfURL != -1) {
++                lastIndexOfURL = indexOfURL;
++                endContent.append(content.substring(closeParen + 1, indexOfURL));
++            }
++        } while (indexOfURL != -1);
++        
++        if (lastIndexOfURL != -1) {
++            int closeParen = content.indexOf(")", lastIndexOfURL);
++            endContent.append(content.substring(closeParen + 1));
++        }
++        this.content = endContent.toString();
++    }
++}
+
+=== modified file 'src/server-java/webcontainer/nextapp/echo/webcontainer/service/StaticTextService.java'
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/service/StaticTextService.java	2009-01-02 04:39:09 +0000
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/service/StaticTextService.java	2009-01-05 13:09:17 +0000
+@@ -29,7 +29,6 @@
+ 
+ package nextapp.echo.webcontainer.service;
+ 
+-
+ import java.io.IOException;
+ 
+ import nextapp.echo.webcontainer.Connection;
+@@ -39,22 +38,24 @@
+ /**
+  * A service which renders a text resource, such as a text or XML document.
+  */
+-public class StaticTextService 
+-implements Service {
+-    
++public class StaticTextService implements Service {
++
+     /**
+      * Creates a new <code>StaticTextService</code> based on the content in the
+-     * specified <code>CLASSPATH</code> resource.  A runtime exception will be 
+-     * thrown in the even the resource does not exist (it generally should not
++     * specified <code>CLASSPATH</code> resource. A runtime exception will be
++     * thrown in the event the resource does not exist (it generally should not
+      * be caught).
+      * 
+-     * @param id the <code>Service</code> identifier
+-     * @param contentType the content type of the document
+-     * @param resourceName the path to the content resource in the 
+-     *        <code>CLASSPATH</code>
++     * @param id
++     *            the <code>Service</code> identifier
++     * @param contentType
++     *            the content type of the document
++     * @param resourceName
++     *            the path to the content resource in the <code>CLASSPATH</code>
+      * @return the created <code>StaticTextService</code>
+      */
+-    public static StaticTextService forResource(String id, String contentType, String resourceName) {
++    public static StaticTextService forResource(String id, String contentType,
++            String resourceName) {
+         String content = Resource.getResourceAsString(resourceName);
+         return new StaticTextService(id, contentType, content);
+     }
+@@ -62,13 +63,16 @@
+     private String id;
+     private String content;
+     private String contentType;
+-    
++
+     /**
+      * Creates a new <code>StaticTextService</code>.
+      * 
+-     * @param id the <code>Service</code> identifier
+-     * @param contentType the content type of the document
+-     * @param content the text
++     * @param id
++     *            the <code>Service</code> identifier
++     * @param contentType
++     *            the content type of the document
++     * @param content
++     *            the text
+      */
+     public StaticTextService(String id, String contentType, String content) {
+         super();
+@@ -76,21 +80,21 @@
+         this.contentType = contentType;
+         this.content = content;
+     }
+-    
++
+     /**
+      * @see Service#getId()
+      */
+     public String getId() {
+         return id;
+     }
+-    
++
+     /**
+      * @see Service#getVersion()
+      */
+     public int getVersion() {
+         return 0;
+     }
+-    
++
+     /**
+      * @see Service#service(nextapp.echo.webcontainer.Connection)
+      */
+
+=== modified file 'src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java'
+--- src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	2009-01-02 15:06:06 +0000
++++ src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	2009-01-03 22:15:03 +0000
+@@ -106,21 +106,6 @@
+         styleElement.appendChild(document.createTextNode(" "));
+         headElement.appendChild(styleElement);
+ 
+-        WebContainerServlet servlet = conn.getServlet();
+-        
+-        Iterator cssIt = servlet.getCssFileNames();
+-        if (cssIt != null) {
+-            while(cssIt.hasNext()) {
+-                String cssFileName = (String) cssIt.next();
+-                Element additionalStyleElement = document.createElement("link");
+-                additionalStyleElement.setAttribute("href", cssFileName);
+-                additionalStyleElement.setAttribute("type", "text/css");
+-                additionalStyleElement.setAttribute("rel", "stylesheet");
+-                additionalStyleElement.appendChild(document.createTextNode(" "));
+-                headElement.appendChild(additionalStyleElement);
+-            }
+-        }
+-
+         Element scriptElement = document.createElement("script");
+         Text textNode = document.createTextNode(" ");
+         scriptElement.appendChild(textNode);
+@@ -128,6 +113,7 @@
+         scriptElement.setAttribute("src", userInstance.getServiceUri(BootService.SERVICE));
+         headElement.appendChild(scriptElement);
+         
++        WebContainerServlet servlet = conn.getServlet();
+         
+         // Include application-provided initialization scripts.
+         Iterator scriptIt = servlet.getInitScripts();
+
