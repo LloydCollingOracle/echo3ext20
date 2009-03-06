@@ -1,7 +1,7 @@
 /**
  * @class Default wait indicator implementation.
  */
-EchoExt20.WaitIndicator = Core.extend(Echo.RemoteClient.WaitIndicator, {
+EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
 
     $static: {
     

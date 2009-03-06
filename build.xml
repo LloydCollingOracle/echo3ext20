@@ -189,6 +189,7 @@
 		<patch patchfile="contrib/patches/ext-2.2.1/TableLayout.getNextCell.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 		<patch patchfile="contrib/patches/ext-2.2.1/rightAlignTriggerFieldFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 		<patch patchfile="contrib/patches/ext-2.2.1/TableLayoutColumnWidths.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+		<patch patchfile="contrib/patches/ext-2.2.1/Ext.form.TextField.selectText.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 		<patch patchfile="contrib/patches/ext-2.2.1/ExtBase.getXY2.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
 	</target>
 

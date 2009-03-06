@@ -1,0 +1,16 @@
+--- ext-all-debug.js	2009-03-06 22:28:27.000000000 +0000
++++ ext-all-debug.js	2009-03-06 22:31:38.000000000 +0000
+@@ -27758,7 +27758,12 @@
+             end = end === undefined ? v.length : end;
+             var d = this.el.dom;
+             if(d.setSelectionRange){
+-                d.setSelectionRange(start, end);
++            	var position = this.getPosition();
++            	var size = this.getSize();
++            	if (position[0] != 0 || position[1] != 0 
++            			|| size.width != 0 || size.height != 0) {
++            		d.setSelectionRange(start, end);
++            	}
+             }else if(d.createTextRange){
+                 var range = d.createTextRange();
+                 range.moveStart("character", start);
