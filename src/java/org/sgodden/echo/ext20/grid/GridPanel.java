@@ -36,9 +36,7 @@ import org.sgodden.ui.models.BackingObjectDataModel;
 import org.sgodden.ui.models.SortableTableModel;
 
 /**
- * An ext GridPanel. It uses swing table models, since these provide a complete
- * model API, and it is portable since it is shipped with the JVM. An adapter
- * takes care of converting these into ext stores.
+ * An ext GridPanel.
  * <p/>
  * Code example: <pre class="code"> 
  * List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>(); 
