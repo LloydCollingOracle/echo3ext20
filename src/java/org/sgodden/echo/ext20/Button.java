@@ -37,6 +37,12 @@ public class Button
      */
     public static final String ADD_TO_BUTTON_BAR_PROPERTY = "addToButtonBar";
     
+    /**
+     * The group that this toggle button is a member of
+     */
+    public static final String TOGGLE_GROUP = "toggleGroup";
+    
+    
     private Menu menu;
     
     {
@@ -84,4 +90,17 @@ public class Button
         
         this.menu = menu;
     }
+
+    /**
+     * Set the toggle group which this button belongs to. This also sets
+     * the extjs property enableToggle to true for this button.
+     * @param 
+     */
+    public void setToggleGroup(String toggleGroup){
+    	set(TOGGLE_GROUP, toggleGroup);
+    }
+
+	public static String getToggleGroup() {
+		return (String)TOGGLE_GROUP;
+	}
 }

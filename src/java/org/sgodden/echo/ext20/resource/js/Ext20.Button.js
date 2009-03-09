@@ -118,6 +118,13 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             extComponent.on("render", this._onRender, this);
         }
         
+        //if this button belongs to a toggle group we set the
+        //toggleGroup name and set the enableToggle to true on the button.
+        if (this.component.get("toggleGroup")){
+            options['enableToggle'] = true;
+            options['toggleGroup'] = this.component.get("toggleGroup");
+        }
+        
         return extComponent;
     },
    

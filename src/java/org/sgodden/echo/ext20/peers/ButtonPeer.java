@@ -23,6 +23,7 @@ import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.TextField;
 
 /**
  * Synchronization peer for {@link Button}.
@@ -42,6 +43,7 @@ public class ButtonPeer extends AbstractButtonPeer {
      */
     public ButtonPeer() {
         super();
+    	addOutputProperty(Button.TOGGLE_GROUP);
     }
     
     public String getClientComponentType(boolean shortType) {
