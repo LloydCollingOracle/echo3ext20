@@ -18,37 +18,34 @@ package org.sgodden.echo.ext20;
 
 import nextapp.echo.app.ImageReference;
 
-
 /**
  * An ext button.
  * 
  * @author goddens
- *
+ * 
  */
-public class Button 
-        extends AbstractButton {
+public class Button extends AbstractButton {
 
     private static final long serialVersionUID = 20080102L;
-    
+
     /**
-     * When set to true, tells the client side rendering engine that this
-     * button should go into the container's button bar, rather than being
-     * added directly to its layout.
+     * When set to true, tells the client side rendering engine that this button
+     * should go into the container's button bar, rather than being added
+     * directly to its layout.
      */
     public static final String ADD_TO_BUTTON_BAR_PROPERTY = "addToButtonBar";
-    
+
     /**
      * The group that this toggle button is a member of
      */
     public static final String TOGGLE_GROUP = "toggleGroup";
-    
-    
+
     private Menu menu;
-    
+
     {
         setAddToButtonBar(false);
     }
-    
+
     public Button() {
         super();
     }
@@ -63,44 +60,52 @@ public class Button
 
     /**
      * See {@link #ADD_TO_BUTTON_BAR_PROPERTY}.
-     * @param addToButtonBar whether to add this button to the button bar rather than the main panel body.
+     * 
+     * @param addToButtonBar
+     *            whether to add this button to the button bar rather than the
+     *            main panel body.
      */
     void setAddToButtonBar(boolean addToButtonBar) {
         set(ADD_TO_BUTTON_BAR_PROPERTY, addToButtonBar);
     }
-    
+
     /**
      * See {@link #ADD_TO_BUTTON_BAR_PROPERTY}.
-     * @return whether this button is added to the button bar rather than the main panel body.
+     * 
+     * @return whether this button is added to the button bar rather than the
+     *         main panel body.
      */
     boolean isAddToButtonBar() {
         return (Boolean) get(ADD_TO_BUTTON_BAR_PROPERTY);
     }
-    
+
     /**
      * Sets a menu to be opened when this button is clicked.
-     * @param menu the menu to open.
-     */        
+     * 
+     * @param menu
+     *            the menu to open.
+     */
     public void setMenu(Menu menu) {
         if (this.menu != null) {
             remove(this.menu);
         }
-        
+
         add(menu);
-        
+
         this.menu = menu;
     }
 
     /**
-     * Set the toggle group which this button belongs to. This also sets
-     * the extjs property enableToggle to true for this button.
-     * @param 
+     * Set the toggle group which this button belongs to. This also sets the
+     * extjs property enableToggle to true for this button.
+     * 
+     * @param
      */
-    public void setToggleGroup(String toggleGroup){
-    	set(TOGGLE_GROUP, toggleGroup);
+    public void setToggleGroup(String toggleGroup) {
+        set(TOGGLE_GROUP, toggleGroup);
     }
 
-	public static String getToggleGroup() {
-		return (String)TOGGLE_GROUP;
-	}
+    public static String getToggleGroup() {
+        return (String) TOGGLE_GROUP;
+    }
 }

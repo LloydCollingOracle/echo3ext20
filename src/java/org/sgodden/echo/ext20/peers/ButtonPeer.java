@@ -18,38 +18,34 @@ package org.sgodden.echo.ext20.peers;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.util.Context;
-import nextapp.echo.webcontainer.Service;
-import nextapp.echo.webcontainer.WebContainerServlet;
-import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.Button;
-import org.sgodden.echo.ext20.TextField;
 
 /**
  * Synchronization peer for {@link Button}.
  */
-@SuppressWarnings({"unchecked"})
+@SuppressWarnings( { "unchecked" })
 public class ButtonPeer extends AbstractButtonPeer {
-    
-//    protected static final Service BUTTON_SERVICE = JavaScriptService.forResource("EchoExt20.Button", 
-//            "org/sgodden/echo/ext20/resource/js/Ext20.Button.js");
-//    
-//    static {
-//        WebContainerServlet.getServiceRegistry().add(BUTTON_SERVICE);
-//    }
-    
+
+    // protected static final Service BUTTON_SERVICE =
+    // JavaScriptService.forResource("EchoExt20.Button",
+    // "org/sgodden/echo/ext20/resource/js/Ext20.Button.js");
+    //    
+    // static {
+    // WebContainerServlet.getServiceRegistry().add(BUTTON_SERVICE);
+    // }
+
     /**
      * Default constructor.
      */
     public ButtonPeer() {
         super();
-    	addOutputProperty(Button.TOGGLE_GROUP);
     }
-    
+
     public String getClientComponentType(boolean shortType) {
         return shortType ? "E2B" : "Ext20Button";
     }
-    
+
     /**
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getComponentClass()
      */
@@ -63,8 +59,9 @@ public class ButtonPeer extends AbstractButtonPeer {
     @Override
     public void init(Context context, Component c) {
         super.init(context, c);
-        //ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-        //serverMessage.addLibrary(BUTTON_SERVICE.getId());
+        // ServerMessage serverMessage = (ServerMessage)
+        // context.get(ServerMessage.class);
+        // serverMessage.addLibrary(BUTTON_SERVICE.getId());
     }
 
 }
