@@ -40,6 +40,12 @@ public class Button extends AbstractButton {
      */
     public static final String TOGGLE_GROUP = "toggleGroup";
 
+    /**
+     * When set to true, tells the client to show the menu assoicated with the
+     * button.
+     */
+    public static final String HOVER_MENU = "hoverMenu";
+
     private Menu menu;
 
     {
@@ -98,8 +104,6 @@ public class Button extends AbstractButton {
     /**
      * Set the toggle group which this button belongs to. This also sets the
      * extjs property enableToggle to true for this button.
-     * 
-     * @param
      */
     public void setToggleGroup(String toggleGroup) {
         set(TOGGLE_GROUP, toggleGroup);
@@ -107,5 +111,14 @@ public class Button extends AbstractButton {
 
     public static String getToggleGroup() {
         return (String) TOGGLE_GROUP;
+    }
+
+    /**
+     * Set this button to display the menu.
+     * 
+     * @param true to show the menu on mouse over.
+     */
+    public void isHoverMenu(boolean hoverMenu) {
+        set(HOVER_MENU, hoverMenu);
     }
 }

@@ -125,7 +125,30 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['toggleGroup'] = this.component.get("toggleGroup");
         }
         
+        extComponent.on('menutriggerover', this._handleMenuTriggerOver, this);
+        //extComponent.on('menutriggerout', this._handleMenuTriggerOut, this);
+        
         return extComponent;
+    },
+    
+    /**
+    * shows the menu when the mouse leaves the button if it is a 
+    * hover menu button
+    */
+    _handleMenuTriggerOver: function() {
+         if(this.component.get("hoverMenu")){
+             this.extComponent.showMenu();
+         }
+    },
+    
+    /**
+     * Hides the menu when the mouse leaves the button if it is a 
+     * hover menu button.
+     */
+    _handleMenuTriggerOut: function() {
+        if(this.component.get("hoverMenu")){
+            this.extComponent.hideMenu();
+        }
     },
    
     /**
