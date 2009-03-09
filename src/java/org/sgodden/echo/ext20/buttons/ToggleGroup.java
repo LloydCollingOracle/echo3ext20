@@ -13,18 +13,15 @@ public class ToggleGroup {
 
     private String toggleGroupName;
 
-    /**
-     * Default toggle group name that is unique within this application
-     * instance.
-     */
-    private static final String DEFAULT_TGROUP_NAME = ApplicationInstance
-            .getActive().generateId();
+    private static final String DEFAULT_TGROUP_NAME = "toggle_group_";
 
     /**
-     * Constructs a toggle group with a default toggle group name
+     * Constructs a toggle group with a default toggle group name that is unique
+     * to the Application Instance.
      */
     public ToggleGroup() {
-        setToggleGroupName(DEFAULT_TGROUP_NAME);
+        setToggleGroupName(DEFAULT_TGROUP_NAME
+                + ApplicationInstance.getActive().generateId());
     }
 
     /**
