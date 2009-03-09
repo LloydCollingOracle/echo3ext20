@@ -33,6 +33,9 @@
 		<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
 			<javac debug="true" target="1.5" />
 		</groovyc>
+		<groovyc srcdir="src/test" destdir="${classes.dir}" classpathref="compile.class.path">
+			<javac debug="true" target="1.5" />
+		</groovyc>
 	</target>
 
 	<target name="compile-groovy">
