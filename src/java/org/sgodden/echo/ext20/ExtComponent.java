@@ -18,24 +18,29 @@ public abstract class ExtComponent extends Component {
     public static final String CLOSABLE_PROPERTY = "closable";
 
     /**
-     * Sets the base css for this panel. (Defaults to 'x-panel')
+     * An optional extra CSS class that will be added to this component's Element (defaults to '').
      */
-    public static final String BASE_CSS_CLASS = "baseCssClass";
+    public static final String CSS_CLASS = "cssClass";
+    
+    /**
+     * An optional extra CSS class that will be added to this component's container (defaults to '').
+     */
+    public static final String CONTAINER_CSS_CLASS = "containerCssClass";
     
     public ExtComponent() {
         super();
     }
     
     /**
-     * @param The base css class to be used for this panel. This 
-     * class should be defined in the css file for this application
+     * Sets an optional extra CSS class that will be added to this component's Element (defaults to '').
+     * @param cls the extra CSS class
      */
-    public void setBaseCssClass(String baseCssClass) {
-        set(BASE_CSS_CLASS,baseCssClass);
+    public void setCssClass(String cls) {
+        set(CSS_CLASS,cls);
     }
     
-    public String getBaseCssClass() {
-        return (String)get(BASE_CSS_CLASS);
+    public String getCssClass() {
+        return (String)get(CSS_CLASS);
     }
     
     /**
@@ -50,5 +55,17 @@ public abstract class ExtComponent extends Component {
     
     public void setClosable(boolean closable) {
         set(CLOSABLE_PROPERTY, Boolean.valueOf(closable));
+    }
+    
+    /**
+     * An optional extra CSS class that will be added to this component's container (defaults to '').
+     * @param cls the extra CSS class
+     */
+    public void setContainerCssClass(String cls) {
+        set(CONTAINER_CSS_CLASS,cls);
+    }
+    
+    public String getContainerCssClass() {
+        return (String)get(CONTAINER_CSS_CLASS);
     }
 }

@@ -45,6 +45,10 @@ public class Panel extends ExtComponent {
      */
     public static final String BASE_CSS_CLASS = "baseCssClass";
     /**
+     * A CSS class that will provide a background image to be used as the header icon (defaults to '').
+     */
+    public static final String ICON_CSS_CLASS = "iconCssClass";
+    /**
      * Whether the panel show scroll its contents to handle overflow,
      * or clip overflowing contents (defaults to false, to clip).
      */
@@ -561,15 +565,28 @@ public class Panel extends ExtComponent {
     }
     
     public String getBaseCssClass() {
-		return (String)get(BASE_CSS_CLASS);
-	}
+        return (String)get(BASE_CSS_CLASS);
+    }
     
     /**
      * @param The base css class to be used for this panel. This 
      * class should be defined in the css file for this application
      */
     public void setBaseCssClass(String baseCssClass) {
-		set(BASE_CSS_CLASS,baseCssClass);
-	}
+        set(BASE_CSS_CLASS,baseCssClass);
+    }
+    
+    /**
+     * Returns the css class that will be used to provide a background image
+     * used as the header icon.
+     * @return
+     */
+    public String getIconCssClass() {
+        return (String)get(ICON_CSS_CLASS);
+    }
+    
+    public void setIconCssClass(String cls) {
+        set(ICON_CSS_CLASS, cls);
+    }
 
 }

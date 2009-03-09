@@ -317,6 +317,12 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             options.style = {};
             options.bodyStyle = {};
             options.closable = this.component.get("closable");
+            if (this.component.get("cssClass")) {
+                options.cls = this.component.get("cssClass");
+            }
+            if (this.component.get("containerCssClass")) {
+                options.ctCls = this.component.get("containerCssClass");
+            }
            
             /*
              * Add the necessary layout options.
@@ -385,6 +391,14 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 bodyStyle: {},
                 closable: this.component.get("closable")
             };
+
+            if (this.component.get("cssClass")) {
+                options.cls = this.component.get("cssClass");
+            }
+            if (this.component.get("containerCssClass")) {
+                options.ctCls = this.component.get("containerCssClass");
+            }
+            
             if (this instanceof EchoExt20.PanelSync) {
                 options.renderTo = this._parentElement;
             }

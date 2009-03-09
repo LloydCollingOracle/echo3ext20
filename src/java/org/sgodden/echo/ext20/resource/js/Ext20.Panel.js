@@ -110,6 +110,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (update.getUpdatedProperty("height") != null) {
                 this.extComponent.setHeight(this.component.get("height"));
         }
+        if (update.getUpdatedProperty("iconCssClass") != null) {
+            this.extComponent.setIconClass(this.component.get("iconCssClass"));
+        }
         
         var needsLayout = false;
         
@@ -320,6 +323,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         var baseCssClass = this.component.get("baseCssClass");
         if (baseCssClass != null){
             options['baseCls'] = baseCssClass;
+        }
+        
+        if (this.component.get("iconCssClass")) {
+            options['iconCls'] = this.component.get("iconCssClass");
         }
         
         if (this.component.render("autoScroll")) {
