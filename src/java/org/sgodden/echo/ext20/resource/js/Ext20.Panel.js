@@ -126,8 +126,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                  * added to the parent ext container in the first place.
                  */
                 if (!(child instanceof EchoExt20.Window)) {
-                    var childExtComponent = child.peer.extComponent;
-                    this.extComponent.remove(childExtComponent);
+                    if (child.peer && child.peer.extComponent) {
+                        var childExtComponent = child.peer.extComponent;
+                        this.extComponent.remove(childExtComponent);
+                    }
                 }
             }
             needsLayout = true;
