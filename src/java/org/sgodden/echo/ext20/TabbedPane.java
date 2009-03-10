@@ -104,13 +104,6 @@ public class TabbedPane extends Panel {
             int closingTab = ((Integer)inputValue).intValue();
             if (fireTabClosingEvent(closingTab)) {
                 remove(getComponent(closingTab));
-                
-                // if we just removed the active tab, check that we still have that many tabs
-                // if we don't, then set us to the tabs.length - 1 as the active tab
-                if (getActiveTabIndex() == closingTab) {
-                    if (getComponentCount() <= closingTab)
-                        setActiveTabIndex(getComponentCount() - 1);
-                }
             }
         }
         /* 

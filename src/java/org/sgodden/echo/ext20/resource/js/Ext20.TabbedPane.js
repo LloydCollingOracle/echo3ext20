@@ -118,18 +118,20 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
     },
 	
     renderUpdate: function(update) {
+        var activeTabIndex = this.component.get("activeTabIndex");
         this._tabCloseNotificationSuspended = true;
+        this._tabChangeNotificationSuspended = true;
         EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
         this._tabCloseNotificationSuspended = false;
-		
+        this._tabChangeNotificationSuspended = false;
+
         if (update.getUpdatedProperty("activeTabIndex") != null) {
-            var activeTabIndex = this.component.get("activeTabIndex");
             var activeChild = this.component.getComponent(activeTabIndex);
             var activeExtComponent = activeChild.peer.extComponent;
-		
+
             this._tabChangeNotificationSuspended = true;
-		
             this.extComponent.setActiveTab(activeExtComponent);
+            this._tabChangeNotificationSuspended = false;
         }
     }
     

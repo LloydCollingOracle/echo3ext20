@@ -34,5 +34,15 @@ public class TabbedPaneTest extends TestCase {
         p.remove(c);
         assertTrue("Tabbed Pane is not detecting invalid active tab index values after component removal",
                 p.getActiveTabIndex() < p.getComponentCount());
+
+        p.setActiveTabIndex(0);
+        p.add(c);
+        p.setActiveTabIndex(1);
+        p.processInput(TabbedPane.TAB_CLOSE_EVENT, Integer.valueOf(1));
+
+        assertTrue("Tabbed Pane is not detecting invalid active tab index values after tab closing",
+                p.getActiveTabIndex() < p.getComponentCount());
+        
+        
     }
 }
