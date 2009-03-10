@@ -16,7 +16,7 @@ import org.sgodden.echo.ext20.layout.TableLayout;
 public class ButtonGroupTest extends Panel {
 
     public ButtonGroupTest() {
-        TableLayout tl = new TableLayout(3);
+        TableLayout tl = new TableLayout(4);
         setLayout(tl);
         setTitle("Button Group Test");
 
@@ -25,6 +25,7 @@ public class ButtonGroupTest extends Panel {
 
         Button menuButton = new Button();
         menuButton.isHoverMenu(true);
+        menuButton.setText("Hover menu button");
         Menu adminMenu = new Menu();
         // adminMenu.
         menuButton.add(adminMenu);
@@ -38,6 +39,12 @@ public class ButtonGroupTest extends Panel {
         adminMenu.add(mi);
 
         add(menuButton);
+
+        Button iconButton = new Button();
+
+        iconButton.setIconClass("icon-accept");
+        iconButton.setText("Icon button from CSS");
+        add(iconButton);
 
     }
 

@@ -85,7 +85,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
                 options['iconCls'] = this.component.render("iconClass");
         }
         options['text'] = this.component.get("text");
-
+  
         if (this.component.get("tooltipText") != null) {
             options['tooltip'] = this.component.get("tooltipText");
         }

@@ -12,9 +12,9 @@
 .icon-settings {
 	background-image: url(../images/fam/icons/cog.png) !important;
 }
-
-
-
+button.icon-accept {
+    background-image: url(../images/fam/icons/add.png) !important;
+}
 /*
  * Ext JS Library 2.0.2
  * Copyright(c) 2006-2008, Ext JS, LLC.
