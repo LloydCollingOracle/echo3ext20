@@ -606,8 +606,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Creates the passed children and adds them to the ext panel.
      */
     _createChildItems: function(update, children) {
+        
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
+            
+            var childIndex = this.component.indexOf(child);
             /*
              *  if this is not an ext20 component, we need to wrap it
              *  so that it can operate within an ext container.
@@ -615,7 +618,23 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             if (! (child instanceof EchoExt20.ExtComponent) ) {
                 // we don't renderAdd here - ext does it lazily
                 var wrapper = new EchoExt20.Echo3SyncWrapper(update, child);
-                this.extComponent.add(wrapper);
+                if (this.extComponent.items) {
+                    var inserted = false;
+                    for (var h = 0; h < this.extComponent.items.getCount() && !inserted; h++) {
+                        var extChild = this.extComponent.items.itemAt(h);
+                        var echoComp = extChild.echoComponent;
+                        
+                        var extChildIndex = this.component.indexOf(extChild.echoComponent);
+                        if (extChildIndex > childIndex) {
+                            this.extComponent.insert(h, wrapper);
+                            inserted = true;
+                        }
+                    }
+                    if (!inserted)
+                        this.extComponent.add(wrapper);
+                } else {
+                    this.extComponent.add(wrapper);
+                }
             }
             else if (child instanceof EchoExt20.Window) {
                 this._createWindow(update, child);
@@ -637,11 +656,27 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 else {
                     // make sure we can get back to the echo component from the ext component
                     childExtComponent.echoComponent = child;
-                    this.extComponent.add(childExtComponent);
+                    if (this.extComponent.items) {
+                        var inserted = false;
+                        for (var h = 0; h < this.extComponent.items.getCount() && !inserted; h++) {
+                            var extChild = this.extComponent.items.itemAt(h);
+                            var echoComp = extChild.echoComponent;
+                            
+                            var extChildIndex = this.component.indexOf(extChild.echoComponent);
+                            if (extChildIndex > childIndex) {
+                                this.extComponent.insert(h, childExtComponent);
+                                inserted = true;
+                            }
+                        }
+                        if (!inserted)
+                            this.extComponent.add(childExtComponent);
+                    } else {
+                        this.extComponent.add(childExtComponent);
+                    }
                 }
             }
         }
-		
+
         // now make sure that the child indexes are set, so that, for instance, when a certain
         // tab is selected in a tabbed pane, it can work out what the index of the displayed component
         // is.
