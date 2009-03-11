@@ -102,8 +102,9 @@ public class TabbedPane extends Panel {
             setActiveTabIndex((Integer)inputValue);
         } else if (TAB_CLOSE_EVENT.equals(inputName)) {
             int closingTab = ((Integer)inputValue).intValue();
+            Component tab = getComponent(closingTab);
             if (fireTabClosingEvent(closingTab)) {
-                remove(getComponent(closingTab));
+                remove(tab);
             }
         }
         /* 
