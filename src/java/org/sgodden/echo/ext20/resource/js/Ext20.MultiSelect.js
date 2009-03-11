@@ -150,9 +150,7 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
 
     renderUpdate: function(update) {
         if (this.component.get("editable") != null) {
-            this.extComponent.setEditable(this.component.get("editable"));
             this.extComponent.setDisabled(!this.component.get("editable"));
-            this.extComponent.setReadOnly(!this.component.get("editable"));
         }
         EchoExt20.FormFieldSync.prototype.renderUpdate.call(this, update);
         this._handleSelectEventSimple;
