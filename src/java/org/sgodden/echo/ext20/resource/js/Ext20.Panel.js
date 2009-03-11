@@ -116,25 +116,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         var needsLayout = false;
         
-        if (update.hasRemovedChildren()) {
-            var removedChildren = update.getRemovedChildren();
-            for (var i = 0; i < removedChildren.length; i++) {
-                // all children have to be ext components anyway
-                var child = removedChildren[i];
-                /*
-                 * Not if it is a window, because it was never
-                 * added to the parent ext container in the first place.
-                 */
-                if (!(child instanceof EchoExt20.Window)) {
-                    if (child.peer && child.peer.extComponent) {
-                        var childExtComponent = child.peer.extComponent;
-                        this.extComponent.remove(childExtComponent);
-                    }
-                }
-            }
-            needsLayout = true;
-        }
-        
         if (update.hasAddedChildren()) {
         	/*
         	 * Firefox has some particularly appalling issues
@@ -204,18 +185,37 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 }
             }
             needsLayout = needsLayout || this._conditionalDoLayout(addedChildren);
-            
-            /*
-             * If we determined that we need to hide the panel
-             * while adding, then we must defer the layout of
-             * the ext component until the ._makeVisible
-             * method is called below.
-             * Otherwise we will get the horrible firefox
-             * progressive rendering visible to the user.
-             */
-            if (!doHide && needsLayout) {
-	            this.extComponent.doLayout();
+        }
+        
+        if (update.hasRemovedChildren()) {
+            var removedChildren = update.getRemovedChildren();
+            for (var i = 0; i < removedChildren.length; i++) {
+                // all children have to be ext components anyway
+                var child = removedChildren[i];
+                /*
+                 * Not if it is a window, because it was never
+                 * added to the parent ext container in the first place.
+                 */
+                if (!(child instanceof EchoExt20.Window)) {
+                    if (child.peer && child.peer.extComponent) {
+                        var childExtComponent = child.peer.extComponent;
+                        this.extComponent.remove(childExtComponent);
+                    }
+                }
             }
+            needsLayout = true;
+        }
+        
+        /*
+         * If we determined that we need to hide the panel
+         * while adding, then we must defer the layout of
+         * the ext component until the ._makeVisible
+         * method is called below.
+         * Otherwise we will get the horrible firefox
+         * progressive rendering visible to the user.
+         */
+        if (!doHide && needsLayout) {
+            this.extComponent.doLayout();
         }
         
         this.syncExtComponent(update);

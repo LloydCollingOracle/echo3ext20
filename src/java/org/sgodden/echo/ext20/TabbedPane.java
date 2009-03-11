@@ -199,7 +199,7 @@ public class TabbedPane extends Panel {
     public void remove(Component c) {
         super.remove(c);
         initialisedChildIds.remove(c.getRenderId());
-        if (getComponentCount() <= getActiveTabIndex()) {
+        if (getComponentCount() <= getActiveTabIndex() && getComponentCount() > 0) {
             setActiveTabIndex(getComponentCount() - 1);
         }
     }
