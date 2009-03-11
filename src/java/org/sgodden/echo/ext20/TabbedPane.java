@@ -99,7 +99,11 @@ public class TabbedPane extends Panel {
     @Override
     public void processInput(String inputName, Object inputValue) {
         if (ACTIVE_TAB_INDEX_PROPERTY.equals(inputName)) {
-            setActiveTabIndex((Integer)inputValue);
+            int requestedIndex = ((Integer)inputValue).intValue();
+            if (requestedIndex >= getComponentCount())
+                setActiveTabIndex(getComponentCount() - 1);
+            else
+                setActiveTabIndex(requestedIndex);
         } else if (TAB_CLOSE_EVENT.equals(inputName)) {
             int closingTab = ((Integer)inputValue).intValue();
             Component tab = getComponent(closingTab);
