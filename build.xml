@@ -236,7 +236,6 @@
 	</target>
 
 	<target name="run-server-javarebel" depends="war">
-                <echo message="${groovy.script.url}"/>
 		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
 			<jvmarg value="-noverify" />
                         <jvmarg value="-javaagent:${javarebel.jar}"/>
