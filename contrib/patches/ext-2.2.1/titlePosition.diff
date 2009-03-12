@@ -1,0 +1,42 @@
+--- ext-all-debug.js	2009-03-11 15:31:42.000000000 +0000
++++ ext-all-debug.js	2009-03-11 15:33:10.000000000 +0000
+@@ -16603,7 +16603,9 @@
+         if(this.frame){
+             el.insertHtml('afterBegin', String.format(Ext.Element.boxMarkup, this.baseCls));
+ 
+-            this.createElement('header', d.firstChild.firstChild.firstChild);
++            if(this.titlePosition == null || this.titlePosition == "ABOVE_TOOLBAR"){
++                this.createElement('header', d.firstChild.firstChild.firstChild);
++            }
+             this.createElement('bwrap', d);
+ 
+             // append the mid and bottom frame to the bwrap
+@@ -16614,6 +16616,9 @@
+ 
+             var mc = bw.firstChild.firstChild.firstChild;
+             this.createElement('tbar', mc);
++            if(this.titlePosition == "BELOW_TOOLBAR"){
++                this.createElement('header', MC);
++            }
+             this.createElement('body', mc);
+             this.createElement('bbar', mc);
+             this.createElement('footer', bw.lastChild.firstChild.firstChild);
+@@ -16622,12 +16627,17 @@
+                 this.bwrap.dom.lastChild.className += ' x-panel-nofooter';
+             }
+         }else{
+-            this.createElement('header', d);
++            if(this.titlePosition == null || this.titlePosition == "ABOVE_TOOLBAR"){
++                this.createElement('header', d);
++            }
+             this.createElement('bwrap', d);
+ 
+             // append the mid and bottom frame to the bwrap
+             var bw = this.bwrap.dom;
+             this.createElement('tbar', bw);
++            if(this.titlePosition == "BELOW_TOOLBAR"){
++                this.createElement('header', bw);
++            }
+             this.createElement('body', bw);
+             this.createElement('bbar', bw);
+             this.createElement('footer', bw);

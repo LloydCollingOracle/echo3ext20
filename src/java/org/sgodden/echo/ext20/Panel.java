@@ -134,6 +134,14 @@ public class Panel extends ExtComponent {
      */
     public static final String ROUNDED_BORDERS_PROPERTY = "frame";
     
+    /**
+     * Whether the title bar should appear above or below the tool bar.
+     */
+    public static final String TITLE_POSITION = "titlePosition";
+    public static enum TitlePosition{
+        ABOVE_TOOLBAR, BELOW_TOOLBAR
+    }
+    
     private Map<String, Set<ActionListener>> keyPressListeners;
     private Map<Tool, Set<ActionListener>> toolListeners;
     
@@ -562,6 +570,14 @@ public class Panel extends ExtComponent {
     
     public void setRoundedBorders(Boolean roundBorders) {
         set(ROUNDED_BORDERS_PROPERTY, roundBorders);
+    }
+    
+    public String getTitlePosition() {
+        return (String)get(TITLE_POSITION);
+    }
+    
+    public void setTitlePosition(TitlePosition titlePosition) {
+        set(TITLE_POSITION, titlePosition.toString());
     }
     
     public String getBaseCssClass() {

@@ -273,6 +273,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             if (options.frame == true)
                 options.baseCls = 'x-box';
         }
+        
+        if (this.component.render("titlePosition")) {
+            options.titlePosition = this.component.render("titlePosition");
+        }
 
         if (this.component.render("padding")) {
             options.style.padding = this.component.render("padding");
