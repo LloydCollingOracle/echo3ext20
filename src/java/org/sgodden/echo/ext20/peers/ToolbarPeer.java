@@ -22,7 +22,9 @@ import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
+import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.Toolbar;
+import org.sgodden.echo.ext20.data.ListModelAdapter;
 
 @SuppressWarnings({"unchecked"})
 public class ToolbarPeer

@@ -76,5 +76,4 @@ public class Toolbar
         TOP,
         BOTTOM
     }
-
 }

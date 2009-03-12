@@ -52,6 +52,10 @@ public class TabbedPane extends Panel {
 
     public static final String TAB_CLOSE_EVENT = "tabClose";
     public static final String TAB_CLOSE_LISTENERS_CHANGED = "tabCloseListeners";
+    /**
+     * Should the tabbed pane have a plain background.
+     */
+    public static final String DISABLED_STRIP_BACKGROUND_PROPERTY = "plain";
     
     private Set<String> initialisedChildIds = new HashSet<String>();
     
@@ -206,6 +210,14 @@ public class TabbedPane extends Panel {
         if (getComponentCount() <= getActiveTabIndex() && getComponentCount() > 0) {
             setActiveTabIndex(getComponentCount() - 1);
         }
+    }
+    
+    /**
+     * Sets the tabbed panes background strip state.
+     * @param disabled
+     */
+    public void setDisableStripBackground(boolean disabled){
+        set(DISABLED_STRIP_BACKGROUND_PROPERTY, disabled);
     }
 
 }

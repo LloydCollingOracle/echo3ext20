@@ -110,6 +110,9 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
     },
     
     createExtComponent: function(update, options) {
+        if (this.component.get('plain') != null) {
+            options['plain'] = this.component.get("plain");
+        }
         options.activeTab = this.component.get("activeTabIndex");
         options.deferredRender = true;
         options.enableTabScroll = true;
