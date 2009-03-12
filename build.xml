@@ -217,12 +217,13 @@
 		</unzip>
 	</target>
 
-	<target name="run-server" depends="war, set-groovy-script-url">
+	<target name="run-server" depends="war">
 		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
 			<jvmarg value="-Xmx256m" />
 			<jvmarg value="-Xdebug" />
 			<jvmarg value="-Decho.syncdump=true" />
-			<jvmarg value="-Dgroovy.script.url=${groovy.script.url}" />
+			<jvmarg
+                        value="-Dgroovy.script.url=file:///${basedir}/src/java/" />
 			<classpath>
 				<pathelement location="${classes.dir}" />
 				<pathelement location="src/java" />
@@ -234,29 +235,34 @@
 		</java>
 	</target>
 
-        <target name="set-groovy-script-url" depends="os-detect">
-                <antcall target="set-groovy-script-url-windows"/>
-                <antcall target="set-groovy-script-url-unix"/>
-        </target>
-
-        <target name="set-groovy-script-url-windows" if="is-windows">
-                <echo message="Setting windows groovy script url"/>
-                <property name="groovy.script.url"
-                value="file:///${basedir}/src/java/"/>
-        </target>
-
-        <target name="set-groovy-script-url-unix" if="is-unix">
-                <echo message="Setting unix groovy script url"/>
-                <property name="groovy.script.url"
-                value="file://${basedir}/src/java/"/>
-        </target>
+	<target name="run-server-javarebel" depends="war">
+                <echo message="${groovy.script.url}"/>
+		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
+			<jvmarg value="-noverify" />
+                        <jvmarg value="-javaagent:${javarebel.jar}"/>
+			<jvmarg value="-Xmx256m" />
+			<jvmarg value="-Xdebug" />
+			<jvmarg value="-Decho.syncdump=true" />
+			<jvmarg
+                        value="-Dgroovy.script.url=file:///${basedir}/src/java/" />
+			<classpath>
+				<pathelement location="${classes.dir}" />
+				<pathelement location="src/java" />
+				<pathelement location="src/webapp/WEB-INF/classes" />
+				<pathelement location="${servlet.api.jar}" />
+				<pathelement location="src/webapp/resources" />
+				<fileset dir="lib" />
+			</classpath>
+		</java>
+	</target>
 
 	<target name="run-server-debug" depends="war">
 		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
 			<jvmarg value="-Xmx256m" />
 			<jvmarg value="-Xdebug" />
 			<jvmarg value="-Decho.syncdump=true" />
-			<jvmarg value="-Dgroovy.script.url=file://${basedir}/src/java/" />
+			<jvmarg
+                        value="-Dgroovy.script.url=file:///${basedir}/src/java/" />
 			<jvmarg value="-Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=n" />
 			<classpath>
 				<pathelement location="${classes.dir}" />
