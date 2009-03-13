@@ -314,6 +314,19 @@ public class Panel extends ExtComponent {
     public void setAutoScroll(boolean autoScroll) {
         set(PROPERTY_AUTOSCROLL, autoScroll);
     }
+    /**
+     * Returns the scrollability of the panel.
+     * @return is the panel scrollable.
+     */
+    public boolean getAutoScroll(){
+        Object scrollable = get(PROPERTY_AUTOSCROLL);
+        if(scrollable == null){
+            return false;
+        }
+        else{
+            return (Boolean) scrollable;
+        }
+    }
 
 	/**
      * Sets whether the panel should be collapsible.

@@ -1,6 +1,11 @@
 package org.sgodden.echo.ext20;
 
+import org.sgodden.echo.ext20.command.ScrollIntoViewCommand;
+
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Command;
 import nextapp.echo.app.Component;
+import nextapp.echo.webcontainer.command.BrowserOpenWindowCommand;
 
 /**
  * Abstract subclass of component that introduces behavioural options
@@ -67,5 +72,22 @@ public abstract class ExtComponent extends Component {
     
     public String getContainerCssClass() {
         return (String)get(CONTAINER_CSS_CLASS);
+    }
+    
+    public void scrollIntoView() {
+        Component parent = getParent();
+        boolean isScrollable;
+        while(parent != null){
+            if(parent instanceof Panel){
+                isScrollable = ((Panel) parent).getAutoScroll();
+                if(isScrollable){
+                    Command command = new ScrollIntoViewCommand(this, parent);
+                    ApplicationInstance.getActive().enqueueCommand(command);
+                    ((ExtComponent)parent).scrollIntoView();
+                    break;
+                }
+            }
+            parent = parent.getParent();
+        }
     }
 }
