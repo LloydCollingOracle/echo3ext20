@@ -158,6 +158,16 @@ public class TableLayout
     public TableLayout(int columns) {
         this.columns = columns;
     }
+
+    /**
+     * Creates a table layout.
+     * @param columns the number of columns for the table.
+     */
+    public TableLayout(int columns, boolean fullWidth, boolean fullHeight) {
+        this(columns);
+        setFullWidth(fullWidth);
+        setFullHeight(fullHeight);
+    }
     
     /**
      * Creates a new table layout, where all components
