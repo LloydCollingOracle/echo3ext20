@@ -637,7 +637,7 @@ public class GridPanel extends Panel implements TableModelListener,
     }
 
     /**
-     * Sets the data store from a Swing {@link TableModel}.
+     * Sets the data store from an echo table model.
      * 
      * @param tableModel
      *            the table model.
