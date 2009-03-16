@@ -43,13 +43,13 @@ import org.sgodden.echo.ext20.ToolbarFill;
 import org.sgodden.echo.ext20.ToolbarSeparator;
 import org.sgodden.echo.ext20.ToolbarTextItem;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
-import org.sgodden.echo.ext20.grid.DefaultColumnConfiguration;
 import org.sgodden.echo.ext20.grid.ColumnModel;
+import org.sgodden.echo.ext20.grid.DefaultColumnConfiguration;
 import org.sgodden.echo.ext20.grid.DefaultColumnModel;
+import org.sgodden.echo.ext20.grid.DefaultSortableTableModel;
 import org.sgodden.echo.ext20.grid.GridPanel;
 import org.sgodden.echo.ext20.grid.PagingToolbar;
 import org.sgodden.echo.ext20.layout.FitLayout;
-import org.sgodden.ui.models.DefaultSortableTableModel;
 
 /**
  * A panel which displays a list of users.
@@ -192,8 +192,7 @@ public class UserListPanel
         Object[][] data = makeData();
         tableModel = new DefaultSortableTableModel(
                 data,
-                makeColumnNames(),
-                data);
+                makeColumnNames());
         tableModel.sort(0, true);
         return tableModel;
     }
@@ -223,7 +222,11 @@ public class UserListPanel
      * @return the selected row of data.
      */
     public Object[] getSelectedRow() {
-        return (Object[]) tableModel.getBackingObjectForRow(getSelectedIndex());
+    	Object[] ret = new Object[tableModel.getColumnCount()];
+    	for (int i = 0, j = tableModel.getColumnCount(); i < j; i++) {
+    		ret[i] = tableModel.getValueAt(getSelectedIndex(), i);
+    	}
+        return ret;
     }
 
     /**

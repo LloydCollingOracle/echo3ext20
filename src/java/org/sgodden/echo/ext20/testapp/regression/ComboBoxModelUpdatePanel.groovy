@@ -19,7 +19,7 @@ package org.sgodden.echo.ext20.testapp.regression
 import org.sgodden.echo.ext20.Panel
 import org.sgodden.echo.ext20.grid.GridPanel
 import nextapp.echo.app.table.TableModel
-import org.sgodden.ui.models.DefaultSortableTableModel
+import org.sgodden.echo.ext20.grid.DefaultSortableTableModel
 import org.sgodden.echo.ext20.grid.ColumnModel
 import org.sgodden.echo.ext20.grid.ColumnConfiguration
 import org.sgodden.echo.ext20.ComboBoximport nextapp.echo.app.list.ListModelimport nextapp.echo.app.list.DefaultListModel/**

@@ -32,8 +32,6 @@ import nextapp.echo.app.table.TableModel;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.Toolbar;
-import org.sgodden.ui.models.BackingObjectDataModel;
-import org.sgodden.ui.models.SortableTableModel;
 
 /**
  * An ext GridPanel.
@@ -275,26 +273,6 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public ListSelectionModel getSelectionModel() {
         return selectionModel;
-    }
-
-    /**
-     * Convenience method to return the selected backing object in the case that
-     * the model implements {@link BackingObjectDataModel}.
-     * 
-     * @return
-     */
-    public Object getSelectedBackingObject() {
-        if (!(getModel() instanceof BackingObjectDataModel)) {
-            throw new IllegalStateException("Backing object does not"
-                    + " implement BackingObjectDataModel");
-        }
-        Object ret = null;
-        if (selectionModel.getMinSelectedIndex() > -1) {
-            ret = ((BackingObjectDataModel) getModel())
-                    .getBackingObjectForRow(selectionModel
-                            .getMinSelectedIndex());
-        }
-        return ret;
     }
 
     /**

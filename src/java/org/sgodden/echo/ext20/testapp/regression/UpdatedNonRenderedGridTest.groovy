@@ -19,7 +19,7 @@ import org.sgodden.echo.ext20.TabbedPane
 import org.sgodden.echo.ext20.Panel
 import org.sgodden.echo.ext20.grid.GridPanel
 import nextapp.echo.app.table.TableModel
-import org.sgodden.ui.models.DefaultSortableTableModel
+import org.sgodden.echo.ext20.grid.DefaultSortableTableModel
 import org.sgodden.echo.ext20.grid.DefaultColumnModel
 import org.sgodden.echo.ext20.grid.DefaultColumnConfiguration
 /**
