@@ -34,6 +34,7 @@ public abstract class ExtComponent extends Component {
     
     public ExtComponent() {
         super();
+        setRenderId(getClass().getSimpleName() + ApplicationInstance.getActive().generateId());
     }
     
     /**
