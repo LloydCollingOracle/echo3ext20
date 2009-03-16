@@ -32,6 +32,19 @@ public abstract class ExtComponent extends Component {
      */
     public static final String CONTAINER_CSS_CLASS = "containerCssClass";
     
+    /**
+     * The effect to apply when the component is added to it's parent container
+     */
+    public static final String CONTAINER_ADD_EFFECTS = "containerAddFx";
+    
+    /**
+     * The effect to apply when the component will be removed from it's parent container
+     */
+    public static final String CONTAINER_REMOVE_EFFECTS = "containerRemoveFx";
+    
+    AddComponentFx addEffect = null;
+    RemoveComponentFx removeEffect = null;
+    
     public ExtComponent() {
         super();
         if (ApplicationInstance.getActive() != null)
@@ -91,5 +104,23 @@ public abstract class ExtComponent extends Component {
             }
             parent = parent.getParent();
         }
+    }
+    
+    public AddComponentFx getAddEffect() {
+        return addEffect;
+    }
+    
+    public void setAddEffect(AddComponentFx effect) {
+        addEffect = effect;
+        set(CONTAINER_ADD_EFFECTS, addEffect.toString());
+    }
+    
+    public RemoveComponentFx getRemoveEffect() {
+        return removeEffect;
+    }
+    
+    public void setRemoveEffect(RemoveComponentFx effect) {
+        removeEffect = effect;
+        set(CONTAINER_REMOVE_EFFECTS, removeEffect.toString());
     }
 }

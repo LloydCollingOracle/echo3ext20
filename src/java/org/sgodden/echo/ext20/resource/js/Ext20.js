@@ -235,6 +235,31 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     _update: null,
     
     /**
+     * Whether the component has effects queued from being added or removed
+     */
+    hasQueuedAddFx: false,
+    
+    /**
+     * The queued effects
+     */
+    queuedAddFx: [],
+    
+    /**
+     * Whether the component has effects queued from being added or removed
+     */
+    hasQueuedRemoveFx: false,
+    
+    /**
+     * The queued effects
+     */
+    queuedRemoveFx: [],
+    
+    /**
+     * The container the fx is removing us from
+     */
+    fxRemoveContainer: null,
+    
+    /**
      * Notifies the root container that layout changes
      * occurred, and that it therefore needs to redo its
      * layout.
@@ -264,6 +289,17 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
      */
     renderAdd: function(update, parentElement) {
         this._update = update;
+        
+        if (this.component.get("containerAddFx") != null) {
+            var effect = this.component.get("containerAddFx");
+            this.queuedAddFx[0] = effect;
+            this.hasQueuedAddFx = true;
+        }
+        if (this.component.get("containerRemoveFx") != null) {
+            var effect = this.component.get("containerRemoveFx");
+            this.queuedRemoveFx[0] = effect;
+            this.hasQueuedRemoveFx = true;
+        }
 
         /*
          * Windows, and all components whose parent is not an
@@ -352,6 +388,42 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
              */
             this._parentElement = parentElement; 
         }
+    },
+    
+    runAddFx: function() {
+        this.hasQueuedAddFx = false;
+        if (this.queuedAddFx[0] == "FADE_IN") {
+            this.extComponent.getEl().fadeIn();
+        } else if (this.queuedAddFx[0] == "SLIDE_IN") {
+            this.extComponent.getEl().slideIn();
+        }
+        this.queuedAddFx = [];
+    },
+    
+    runRemoveFx: function(container) {
+        this.hasQueuedRemoveFx = false;
+        this.fxRemoveContainer = container;
+        if (this.queuedRemoveFx[0] == "FADE_OUT") {
+            this.extComponent.getEl().fadeOut({callback: this._removeAfterFx.createDelegate(this), remove: true});
+        } else if (this.queuedRemoveFx[0] == "SLIDE_OUT") {
+            if (this.extComponent.getEl().dom.parentNode != null)
+                this.extComponent.getEl().slideOut('t', {callback: this._removeAfterFx.createDelegate(this), remove: true});
+            else
+                container.extComponent.remove(this.extComponent);
+        } else if (this.queuedRemoveFx[0] == "GHOST") {
+                this.extComponent.getEl().ghost('t', {callback: this._removeAfterFx.createDelegate(this), remove: true});
+        } else if (this.queuedRemoveFx[0] == "PUFF") {
+                this.extComponent.getEl().puff({callback: this._removeAfterFx.createDelegate(this), remove: true});
+        } else if (this.queuedRemoveFx[0] == "SWITCH_OFF") {
+                this.extComponent.getEl().switchOff({callback: this._removeAfterFx.createDelegate(this), remove: true});
+        }
+        this.queuedRemoveFx = [];
+    },
+    
+    _removeAfterFx: function() {
+//        this.fxRemoveContainer.remove(this.extComponent);
+//        this.fxRemoveContainer.ownerCt.doLayout();
+//        this.fxRemoveContainer = null;
     },
     
     /**

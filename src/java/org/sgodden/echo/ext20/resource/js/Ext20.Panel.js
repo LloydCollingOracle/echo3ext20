@@ -216,6 +216,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
          */
         if (!doHide && needsLayout) {
             this.extComponent.doLayout();
+        } else if (!doHide) {
+            this._doChildAddEffects();
         }
         
         this.syncExtComponent(update);
@@ -445,6 +447,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         this.extComponent = this.newExtComponentInstance(options);
         this.extComponent.on("render", this._doOnExtRender, this);
+        this.extComponent.on("afterlayout", this._doChildAddEffects, this);
+        this.extComponent.on("beforeremove", this._doChildRemoveEffects, this);
         
         if (children.length > 0) {
             this._createChildItems(update, children);
@@ -453,6 +457,27 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
         
         return this.extComponent;
+    },
+    
+    _doChildAddEffects: function() {
+        for (var i = 0; i < this.component.getComponentCount(); i++) {
+            var thisChild = this.component.getComponent(i);
+            if (thisChild.peer) {
+                if (thisChild.peer.hasQueuedAddFx) {
+                    thisChild.peer.runAddFx();
+                }
+            }
+        }
+    },
+    
+    _doChildRemoveEffects: function(container, thisChild) {
+        if (thisChild.echoComponent && thisChild.echoComponent.peer) {
+            if (thisChild.echoComponent.peer.hasQueuedRemoveFx) {
+                thisChild.echoComponent.peer.runRemoveFx(this);
+                return false;
+            }
+        }
+        return true;
     },
     
     _doOnExtRender: function() {

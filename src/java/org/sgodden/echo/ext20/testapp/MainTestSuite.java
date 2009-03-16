@@ -37,5 +37,6 @@ public class MainTestSuite extends TabbedPane {
         add(new FieldGroupTest());
         add(new ComboListTest());
         add(new ButtonGroupTest());
+        add(new EffectsTest());
     }
 }
