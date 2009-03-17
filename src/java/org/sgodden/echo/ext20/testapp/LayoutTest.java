@@ -1,13 +1,24 @@
 package org.sgodden.echo.ext20.testapp;
 
+import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Label;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+
+import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TabbedPane;
+import org.sgodden.echo.ext20.command.DoPanelLayoutCommand;
 import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.sgodden.echo.ext20.layout.FitLayout;
+<<<<<<< .mine
+import org.sgodden.echo.ext20.layout.TableLayout;
+=======
 import org.sgodden.echo.ext20.testapp.layout.BorderLayoutTest;
+>>>>>>> .r408
 import org.sgodden.echo.ext20.testapp.layout.ColumnLayoutTest;
 import org.sgodden.echo.ext20.testapp.layout.TableLayoutTest;
 import org.sgodden.echo.ext20.testapp.layout.TableLayoutTest2;
@@ -46,7 +57,7 @@ public class LayoutTest
         tabs.add(new ColumnLayoutTest());
         tabs.add(new TableLayoutTest());
         tabs.add(new TableLayoutTest2());
-        
+        tabs.add(new DoPanelLayoutTest());
     }
     
     private static class AccordionLayoutTest 
@@ -69,6 +80,49 @@ public class LayoutTest
             ret.setBaseCssClass("customcss");
             ret.setHtml(text);
             return ret;
+        }
+    }
+    
+    private static class DoPanelLayoutTest 
+            extends Panel
+            {
+        
+        private DoPanelLayoutTest(){
+            super(new BorderLayout(), "DoPanelLayout");
+            createUI();
+        }
+
+        public void createUI() {
+            final Panel northPanel = new Panel(new TableLayout(1));
+            northPanel.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
+            add(northPanel);
+            
+            Panel centerPanel = new Panel();
+            centerPanel.add(new Label("This is the center panel!"));
+            centerPanel.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
+            add(centerPanel);
+            
+            Button addRemoveExtraPanelButton = new Button("Add/Remove Panel");
+            final Panel childPanel = new Panel();
+            childPanel.add(new Label("Child Panel"));
+            addRemoveExtraPanelButton.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent arg0) {
+                    boolean isAdded = false;
+                    for (int i = 0; i < northPanel.getComponentCount(); i++) {
+                        if (northPanel.getComponent(i) == childPanel)
+                            isAdded = true;
+                    }
+                    
+                    if (isAdded)
+                        northPanel.remove(childPanel);
+                    else
+                        northPanel.add(childPanel);
+                    ApplicationInstance.getActive().enqueueCommand(new DoPanelLayoutCommand(DoPanelLayoutTest.this));
+                }});
+            
+            northPanel.add(addRemoveExtraPanelButton);
+            northPanel.add(new Label("This is the north panel!"));
         }
     }
 

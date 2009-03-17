@@ -254,6 +254,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             this.extComponent.setHeight(this._parentElement.offsetHeight);
             this.extComponent.setWidth(this._parentElement.offsetWidth);
         }
+        if (this.extComponent.getLayout() instanceof Ext.layout.BorderLayout) {
+            this.extComponent.doLayout();
+        }
     },
     
     /**
