@@ -49,7 +49,7 @@ public class JettyServer {
         DOMConfigurator.configure("src/webapp/WEB-INF/classes/log4j.xml"); // FIXME - configure log4j properly
 
 
-        final Server server = new Server(8081);
+        final Server server = new Server(8082);
         server.setStopAtShutdown(true);
 
         server.addHandler(new RequestLogHandler());

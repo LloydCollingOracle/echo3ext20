@@ -7,12 +7,13 @@ import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.sgodden.echo.ext20.layout.FitLayout;
+import org.sgodden.echo.ext20.testapp.layout.BorderLayoutTest;
 import org.sgodden.echo.ext20.testapp.layout.ColumnLayoutTest;
 import org.sgodden.echo.ext20.testapp.layout.TableLayoutTest;
 import org.sgodden.echo.ext20.testapp.layout.TableLayoutTest2;
 
 /**
- * Tests out positioning relative to other components.
+ * Layout tests.
  * 
  * @author sgodden
  *
@@ -45,6 +46,7 @@ public class LayoutTest
         tabs.add(new ColumnLayoutTest());
         tabs.add(new TableLayoutTest());
         tabs.add(new TableLayoutTest2());
+        tabs.add(new BorderLayoutTest());
         
     }
     
