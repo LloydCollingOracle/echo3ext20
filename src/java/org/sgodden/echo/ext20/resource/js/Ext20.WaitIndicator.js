@@ -18,19 +18,19 @@ EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
     },
     
     activate: function() {
-        var waitEl = document.getElementById("c_applicationWaitIndicator");
-    	if (waitEl != null) {
-    		waitEl.firstChild.src = EchoExt20.waitIconUrl;
-        	//waitEl.style.backgroundImage = "url(" + waitEl.waitIconUrl + ")";
-    	}
+        var waitEl = document.getElementById("C.applicationWaitIndicator");
+        if (waitEl != null) {
+            waitEl.firstChild.src = EchoExt20.waitIconUrl;
+            //waitEl.style.backgroundImage = "url(" + waitEl.waitIconUrl + ")";
+        }
 
     },
     
     deactivate: function() {
-        var waitEl = document.getElementById("c_applicationWaitIndicator");
-    	if (waitEl != null) {
-    		waitEl.firstChild.src = EchoExt20.noWaitIconUrl;
-	        //waitEl.style.backgroundImage = "url(" + waitEl.noWaitIconUrl + ")";
-	    }
+        var waitEl = document.getElementById("C.applicationWaitIndicator");
+        if (waitEl != null) {
+            waitEl.firstChild.src = EchoExt20.noWaitIconUrl;
+            //waitEl.style.backgroundImage = "url(" + waitEl.noWaitIconUrl + ")";
+        }
     }
 });
