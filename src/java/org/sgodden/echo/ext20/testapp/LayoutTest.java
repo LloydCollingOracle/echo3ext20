@@ -14,11 +14,7 @@ import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.sgodden.echo.ext20.layout.FitLayout;
-<<<<<<< .mine
 import org.sgodden.echo.ext20.layout.TableLayout;
-=======
-import org.sgodden.echo.ext20.testapp.layout.BorderLayoutTest;
->>>>>>> .r408
 import org.sgodden.echo.ext20.testapp.layout.ColumnLayoutTest;
 import org.sgodden.echo.ext20.testapp.layout.TableLayoutTest;
 import org.sgodden.echo.ext20.testapp.layout.TableLayoutTest2;
