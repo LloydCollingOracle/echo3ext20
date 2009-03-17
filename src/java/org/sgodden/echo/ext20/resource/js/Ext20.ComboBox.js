@@ -127,6 +127,10 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         if (this.component.get("listWidth") != null) {
             options["listWidth"] = this.component.get("listWidth");
         }
+        if (this.component.get("allowBlank") != null){
+            options["allowBlank"] = this.component.get("allowBlank");
+            options["plugins"] = [Ext.ux.MandatoryField];
+        }
         options['mode'] = 'local';
         
         // and then call the superclass method

@@ -115,7 +115,8 @@ class UserEditPanel extends Panel implements ActionListenable {
             regExp: "^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})\$",
             regexpFailureText: "Invalid postal code",
             propertyChange: { println "A property changed on the postcode field"  },
-            caseRestriction: CaseRestriction.LOWER
+            caseRestriction: CaseRestriction.LOWER,
+            allowBlank: true
         )
         invalidField = new TextField(
             value: "Is this field invalid for business reasons?",
@@ -123,6 +124,7 @@ class UserEditPanel extends Panel implements ActionListenable {
             minLengthText : "Minimum length text test.",
             maxLength : 10,
             maxLengthText : "Maximum length text test",
+            allowBlank: false
         )
         passwordField = new PasswordField()
         Calendar cal = Calendar.getInstance(
@@ -130,20 +132,21 @@ class UserEditPanel extends Panel implements ActionListenable {
         dateField = new DateField(
             isValid:false,
             invalidText:"this datefield is invalid",
-            blankAllowed: false,
+            allowBlank: false,
             calendar: cal
         )
         
         timeField = new TimeField(
             isValid:false,
             invalidText:"this timefield is invalid",
-            blankAllowed: false,
+            allowBlank: false,
             calendar: cal
         )
 
         textAreaField = new TextArea(
             fieldLabel: "Notes",
-            value: "Some text in a text area"
+            value: "Some text in a text area",
+            allowBlank: false,
         )
         
         FormGrid1.formComponents = [
@@ -210,10 +213,12 @@ class UserEditPanel extends Panel implements ActionListenable {
         
         
         roleCombo = makeRoleCombo()
+        roleCombo.allowBlank = false;
         fieldSetForm.add(roleCombo, "Role combo");
 
         dateField = new DateField()
         def triggerField = new TriggerField(
+        		allowBlank:false,
         		actionPerformed: {
         		log.debug("TRIGGER FIELD PRESSED")
                 def triggerWindow = new Window();
@@ -353,6 +358,7 @@ class UserEditPanel extends Panel implements ActionListenable {
      */
     private MultiSelect makeRoleMultiSelect() {
         roleMultiSelect = new MultiSelect(
+        	allowBlank: false,
             fieldLabel: "Role",
             model: new DefaultListModel(Role.ROLES),
             cellRenderer: new RoleListCellRenderer(),

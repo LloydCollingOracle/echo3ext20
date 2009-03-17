@@ -1,3 +1,12 @@
-.ux-mandatory{
-	background-color: #ff9999 !important;
+label.ux-mandatory {
+	padding-left: 2px;
+	color: #f00 !important;
+}
+/* position label past the trigger button */
+.x-form-field-wrap label.ux-mandatory {
+	margin-left: 17px;
+}
+/* position label to the right of the multiselect */
+div.ux-mandatory fieldset {
+	float: left;
 }

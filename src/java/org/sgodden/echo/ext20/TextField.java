@@ -48,7 +48,6 @@ public class TextField extends ExtComponent implements Field {
     public static final String PROPERTY_SIZE = "size";
     public static final String REGEXP_FAILURETEXT_PROPERTY = "regExpFailureText";
     public static final String REGEXP_PROPERTY = "regExp";
-    public static final String MANDATORY_PROPERTY = "mandatory";
     public static final String MIN_LENGTH = "minLength";
     public static final String MIN_LENGTH_TEXT = "minLengthText";
     public static final String MAX_LENGTH = "maxLength";
@@ -124,20 +123,20 @@ public class TextField extends ExtComponent implements Field {
     }
 
     /**
+     * Gets allow blank property
+     */
+    public boolean getAllowBlank(){
+        return (Boolean) get(ALLOW_BLANK_PROPERTY);
+        
+    }
+    
+    /**
      * Returns the field label.
      * 
      * @return the field label.
      */
     public String getFieldLabel() {
         return (String) get(FIELD_LABEL_PROPERTY);
-    }
-
-    /**
-     * Gets mandatory property
-     */
-    public boolean getMandatory(){
-        return (Boolean) get(MANDATORY_PROPERTY);
-        
     }
     
     /**
@@ -160,11 +159,11 @@ public class TextField extends ExtComponent implements Field {
     /**
      * Sets whether a blank value is allowed.
      * 
-     * @param blankAllowed
+     * @param allowBlank
      *            whether a blank value is allowed.
      */
-    public void setBlankAllowed(boolean blankAllowed) {
-        set(ALLOW_BLANK_PROPERTY, blankAllowed);
+    public void setAllowBlank(boolean allowBlank) {
+        set(ALLOW_BLANK_PROPERTY, allowBlank);
     }
     
     /**
@@ -248,14 +247,6 @@ public class TextField extends ExtComponent implements Field {
      */
     public void setIsValid(boolean isValid) {
         set(VALID_PROPERTY, isValid);
-    }
-
-    /**
-     * Gets mandatory property
-     */
-    public void setMandatory(boolean mandatory){
-        set(MANDATORY_PROPERTY, mandatory);
-        
     }
     
     /**

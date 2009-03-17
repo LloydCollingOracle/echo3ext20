@@ -26,6 +26,7 @@ import nextapp.echo.app.list.ListSelectionModel;
 public class ComboBox extends ExtComponent implements AbstractListComponent {
 
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
+    public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
     public static final String EDITABLE_PROPERTY = "editable";
     public static final String EMPTY_TEXT_PROPERTY = "emptyText";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
@@ -140,6 +141,14 @@ public class ComboBox extends ExtComponent implements AbstractListComponent {
         }
     }
 
+    /**
+     * Gets allow blank property
+     */
+    public boolean getAllowBlank(){
+        return (Boolean) get(ALLOW_BLANK_PROPERTY);
+        
+    }
+    
     /**
      * Returns the field label.
      * 
@@ -269,6 +278,14 @@ public class ComboBox extends ExtComponent implements AbstractListComponent {
         set(EMPTY_TEXT_PROPERTY, emptyText);
     }
 
+    /**
+     * Sets allow blank property
+     */
+    public void setAllowBlank(boolean allowBlank){
+        set(ALLOW_BLANK_PROPERTY, allowBlank);
+        
+    }
+    
     /**
      * Sets the field label.
      * 

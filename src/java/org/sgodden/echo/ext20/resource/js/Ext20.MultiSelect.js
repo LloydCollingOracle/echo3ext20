@@ -75,7 +75,10 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
       if (this.component.get("width") != null) {
           options["width"] = this.component.get("width");
       }
-      
+      if (this.component.get("allowBlank") != null) {
+          options['allowBlank'] = this.component.get("allowBlank");
+          options["plugins"] = [Ext.ux.MandatoryField];
+      }      
       if (this.component.get("model") != null) {
           var store = this.component.get("model");
             

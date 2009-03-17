@@ -66,6 +66,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         }
         if (this.component.get("allowBlank") != null) {
             options['allowBlank'] = this.component.get("allowBlank");
+            options["plugins"] = [Ext.ux.MandatoryField];
         }
         if (this.component.get("blankText") != null) {
             options['blankText'] = this.component.get("blankText");
@@ -99,10 +100,6 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         }
         if (this.component.get("validationDelay")){
             options["validationDelay"] = this.component.get("validationDelay");
-        }
-        if (this.component.get("mandatory")){
-            options["mandatory"] = this.component.get("mandatory");
-            options["plugins"] = [Ext.ux.MandatoryField];
         }
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             if(this.component.get("invalidText") != null) {

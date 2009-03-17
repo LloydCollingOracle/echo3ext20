@@ -43,7 +43,6 @@ public class TextFieldPeer
         addOutputProperty(TextField.VALID_PROPERTY);
         addOutputProperty(TextField.INVALID_TEXT_PROPERTY);
         addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);
-        addOutputProperty(TextField.MANDATORY_PROPERTY);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(TextField.INPUT_ACTION,  TextField.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
@@ -77,9 +76,6 @@ public class TextFieldPeer
             return String.class;
         }
         else if(TextField.VALID_PROPERTY.equals(propertyName)){
-        	return Boolean.class;
-        }
-        else if(TextField.MANDATORY_PROPERTY.equals(propertyName)) {
         	return Boolean.class;
         }
         return null;

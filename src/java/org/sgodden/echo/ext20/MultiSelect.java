@@ -24,6 +24,7 @@ import nextapp.echo.app.list.ListSelectionModel;
 @SuppressWarnings( { "serial" })
 public class MultiSelect extends ExtComponent implements AbstractListComponent {
 
+    public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
     public static final String COMPLEX_PROPERTY = "complex";
     public static final String EDITABLE_PROPERTY = "editable";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
@@ -168,6 +169,14 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
     }
 
     /**
+     * Gets allow blank property
+     */
+    public boolean getAllowBlank(){
+        return (Boolean) get(ALLOW_BLANK_PROPERTY);
+        
+    }
+    
+    /**
      * Returns the complex boolean.
      * 
      * @return the complex boolean.
@@ -245,6 +254,16 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
         return selectionModel;
     }
 
+    /**
+     * Sets whether a blank value is allowed.
+     * 
+     * @param allowBlank
+     *            whether a blank value is allowed.
+     */
+    public void setAllowBlank(boolean allowBlank) {
+        set(ALLOW_BLANK_PROPERTY, allowBlank);
+    }
+    
     /**
      * Should the selector display as a simple multi select component or a
      * complex item selector.
