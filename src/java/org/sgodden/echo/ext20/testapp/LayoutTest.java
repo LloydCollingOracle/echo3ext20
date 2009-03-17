@@ -46,7 +46,6 @@ public class LayoutTest
         tabs.add(new ColumnLayoutTest());
         tabs.add(new TableLayoutTest());
         tabs.add(new TableLayoutTest2());
-        tabs.add(new BorderLayoutTest());
         
     }
     
