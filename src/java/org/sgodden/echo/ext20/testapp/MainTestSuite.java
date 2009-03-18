@@ -27,6 +27,7 @@ public class MainTestSuite extends TabbedPane {
         add(welcomePanel);
 
         add(new UserPanel(true));
+        add( new HtmlPanelTest());
         add(new WindowTest());
         add(new PortalTest());
         add(new TabbedPaneTest());
