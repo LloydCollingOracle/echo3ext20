@@ -15,7 +15,6 @@ public class HtmlPanelPeer extends ExtComponentPeer {
 		return HtmlPanel.class;
 	}
 
-	@Override
 	public String getClientComponentType(boolean shortType) {
 		return shortType ? "E2HP" : "Ext20HtmlPanel";
 	}
