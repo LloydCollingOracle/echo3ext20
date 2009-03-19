@@ -110,21 +110,21 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
                 throw new Error("Illegal child added to a button");
             }
         }
-    
-        var extComponent = this.newExtComponentInstance(options);
-        
-        extComponent.on('click', this._handleClickEvent, this);
-        if (this.component.render("icon")) {
-            extComponent.on("render", this._onRender, this);
-        }
-        
+
         //if this button belongs to a toggle group we set the
         //toggleGroup name and set the enableToggle to true on the button.
         if (this.component.get("toggleGroup")){
             options['enableToggle'] = true;
             options['toggleGroup'] = this.component.get("toggleGroup");
         }
+
+        var extComponent = this.newExtComponentInstance(options);
         
+        extComponent.on('click', this._handleClickEvent, this);
+        if (this.component.render("icon")) {
+            extComponent.on("render", this._onRender, this);
+        }
+
         extComponent.on('menutriggerover', this._handleMenuTriggerOver, this);
         //extComponent.on('menutriggerout', this._handleMenuTriggerOut, this);
         
