@@ -226,7 +226,13 @@ public abstract class AbstractButton extends ExtComponent {
      * Gets the toggle state of the button.
      */
     public boolean getPressed(){
-        return (Boolean) get(PRESSED_PROPERTY);
+        Object ret = get(PRESSED_PROPERTY);
+        if(ret == null){
+            return false;
+        }
+        else{
+            return (Boolean) ret;
+        }
     }
 
 }

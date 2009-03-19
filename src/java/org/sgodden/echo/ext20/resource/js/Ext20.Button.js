@@ -199,5 +199,10 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
                 this.component.focusable = false;
             }
         }
+        if (this.component.get("toggleGroup")){
+            if (this.component.get("pressed")){
+                this.extComponent.toggle(this.component.get("pressed"));
+            }
+        }
     }
 });
