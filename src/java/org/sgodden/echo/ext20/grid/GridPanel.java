@@ -32,6 +32,7 @@ import nextapp.echo.app.table.TableModel;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.Toolbar;
+import org.sgodden.query.models.GroupingTableModel;
 
 /**
  * An ext GridPanel.
@@ -427,6 +428,11 @@ public class GridPanel extends Panel implements TableModelListener,
                         || "ASC".equals(cc.getSortDirection());
             }
             ((SortableTableModel) getModel()).sort(columnIndices, ascending);
+                     
+            // used for retrieving the size of the groups in the model
+//            if (group != null && getModel() instanceof GroupingTableModel) {
+//                ((GroupingTableModel)getModel()).doGrouping(true);
+//            }
             getSelectionModel().clearSelection();
         } else {
             throw new IllegalStateException(
