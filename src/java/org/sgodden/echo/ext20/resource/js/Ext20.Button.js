@@ -115,7 +115,11 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         //toggleGroup name and set the enableToggle to true on the button.
         if (this.component.get("toggleGroup")){
             options['enableToggle'] = true;
+            options['allowDepress'] = false;
             options['toggleGroup'] = this.component.get("toggleGroup");
+            if (this.component.get("pressed")){
+                options['pressed'] = true;
+            }
         }
 
         var extComponent = this.newExtComponentInstance(options);
@@ -127,6 +131,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
 
         extComponent.on('menutriggerover', this._handleMenuTriggerOver, this);
         //extComponent.on('menutriggerout', this._handleMenuTriggerOut, this);
+        extComponent.on('toggle', this._handleToggle, this);
         
         return extComponent;
     },
@@ -152,12 +157,19 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
    
     /**
-     * Handles the click event by requestint the component to fire
+     * Handles the click event by requesting the component to fire
      * its action event.
      */
     _handleClickEvent: function() {
         this.component.application.setFocusedComponent(this.component);
           this.component.doAction();
+    },
+    
+    /**
+     * Handles the press of a toggle button
+     */
+    _handleToggle: function() {
+        this.component.set("pressed", this.extComponent.pressed);
     },
     
     _onRender: function() {

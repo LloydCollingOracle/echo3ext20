@@ -37,6 +37,7 @@ public abstract class AbstractButton extends ExtComponent {
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String TOOLTIP_TEXT_PROPERTY = "tooltipText";
     public static final String ICON_CLASS = "iconClass";
+    public static final String PRESSED_PROPERTY = "pressed";
 
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
 
@@ -212,6 +213,20 @@ public abstract class AbstractButton extends ExtComponent {
      */
     public void setIconClass(String iconClass) {
         set(ICON_CLASS, iconClass);
+    }
+    
+    /**
+     * Sets the pressed / toggled state of the button.
+     */
+    public void setPressed(boolean pressed) {
+        set(PRESSED_PROPERTY, pressed);
+    }
+    
+    /**
+     * Gets the toggle state of the button.
+     */
+    public boolean getPressed(){
+        return (Boolean) get(PRESSED_PROPERTY);
     }
 
 }
