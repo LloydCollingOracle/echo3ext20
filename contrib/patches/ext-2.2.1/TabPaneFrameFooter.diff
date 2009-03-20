@@ -1,0 +1,54 @@
+--- ext-all-debug.js	2009-03-20 11:22:51.000000000 +0000
++++ ext-all-debug.js	2009-03-20 11:59:12.000000000 +0000
+@@ -19656,6 +19656,15 @@
+             this.stack = Ext.TabPanel.AccessStack();
+         }
+         this.initItems();
++        this.on('bodyresize', this.updateFrameFooterSizes, this);
++    },
++    
++    updateFrameFooterSizes: function(tabPanel, w, h) {
++        this['ffl'].setWidth(w);
++        var mns = this['ffl'].getMargins('lr') + this['ffl'].getPadding('lr');
++        this['ffr'].setWidth(w - mns);
++        mns += this['ffr'].getMargins('lr') + this['ffr'].getPadding('lr');
++        this['ffc'].setWidth(w - mns);
+     },
+ 
+     // private
+@@ -19666,6 +19675,35 @@
+             delete this.activeTab;
+             this.setActiveTab(item);
+         }
++        
++        // add divs for the tab pane frame above footer and below the toolbar/bwrap
++        
++        var el = document.createElement('div');
++        el.className = this.baseCls + "-frame-footer-left";
++        this['ffl'] = Ext.Element.get(el);
++        if (this.footer) {
++            this['ffl'].insertBefore(this.footer);
++        } else if (this.bbar) {
++            this['ffl'].insertAfter(this.bbar);
++        } else {
++            this['ffl'].insertAfter(this.bwrap);
++        }
++        
++        var el2 = document.createElement('div');
++        el2.className = this.baseCls + "-frame-footer-right";
++        this['ffr'] = Ext.Element.get(el2);
++        this['ffl'].appendChild(el2);
++        
++        var el3 = document.createElement('div');
++        el3.className = this.baseCls + "-frame-footer-centre";
++        this['ffc'] = Ext.Element.get(el3);
++        this['ffr'].appendChild(el3);
++    },
++    
++    getFrameHeight : function(){
++        var frameHeight = Ext.TabPanel.superclass.getFrameHeight.call(this);
++        frameHeight += this['ffl'].getHeight();
++        return frameHeight;
+     },
+ 
+     // private

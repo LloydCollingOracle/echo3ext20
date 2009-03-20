@@ -198,6 +198,7 @@
 		<patch patchfile="contrib/patches/ext-2.2.1/Ext.form.TextField.selectText.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 		<patch patchfile="contrib/patches/ext-2.2.1/titlePosition.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 		<patch patchfile="contrib/patches/ext-2.2.1/ColumnLayout100PCWidth.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+		<patch patchfile="contrib/patches/ext-2.2.1/TabPaneFrameFooter.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 		<patch patchfile="contrib/patches/ext-2.2.1/ExtBase.getXY2.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
 	</target>
 
