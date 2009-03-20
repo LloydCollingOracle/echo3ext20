@@ -94,6 +94,10 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['disabled'] = true;
             this.component.focusable = false;
         }
+        // We can set the button's template
+        if ( this.component.render( "template") != null) {
+            options['template'] = new Ext.Template( this.component.render( "template"));
+        }
 
         // see if we have a menu child item
         if (this.component.getComponentCount() == 1) {
@@ -185,7 +189,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         this._setIconUrl();
         
         var text = this.component.get("text");
-        this.extComponent.setText(text);
+        if (text) this.extComponent.setText(text);
         
         if (this.component.isEnabled()) {
             if (this.extComponent.disabled) {

@@ -45,7 +45,11 @@ public class Button extends AbstractButton {
      * button.
      */
     public static final String HOVER_MENU = "hoverMenu";
-
+    /**
+     * set the button's template
+     */
+    public static final String TEMPLATE_PROPERTY = "template";
+    
     private Menu menu;
 
     {
@@ -109,6 +113,10 @@ public class Button extends AbstractButton {
         set(TOGGLE_GROUP, toggleGroup);
     }
 
+    public void setTemplate( String template) {
+    	set( TEMPLATE_PROPERTY, template);
+    }
+    
     public static String getToggleGroup() {
         return (String) TOGGLE_GROUP;
     }
