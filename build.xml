@@ -17,7 +17,7 @@
 		<pathelement path="${servlet.api.jar}" />
 	</path>
 
-	<target name="clean">
+	<target name="clean" unless="isDev">
 		<delete dir="${classes.dir}" />
 		<delete dir="${build.dir}" />
 		<delete dir="doc" />
@@ -183,7 +183,7 @@
 		</jar>
 	</target>
 
-	<target name="unpack-ext" unless="ext-exists">
+	<target name="unpack-ext" unless="isDev">
 		<mkdir dir="contrib/ext-${ext.version}" />
 		<unzip src="contrib/ext-${ext.version}.zip" dest="contrib/ext-${ext.version}" />
 

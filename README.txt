@@ -42,6 +42,19 @@ to understand the ext layout pipeline enough to find the problem. So you can use
 put another ext layout inside that containing form components.  You will get all sorts of rendering issues.
 
 
+FOR DEVELOPER
+=============
+If you want to make some changes to this project, you can set the environment like below:
+1) Use eclipse to open the project.
+2) Run "ant war" at the first time.
+3) Run "ant -DisDev=true run-server" at console.
+4) Change some codes.
+5) Press Ctrl+C at the console.
+6) Run "ant -DisDev=true run-server" at console again
+7) View your changes
+8) Repeat step 4 to 7. 
+Welcome to contribute to the project. ;)  
+
 OTHER INFORMATION
 =================
 
