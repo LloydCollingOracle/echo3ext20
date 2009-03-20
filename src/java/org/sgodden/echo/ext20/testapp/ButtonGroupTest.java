@@ -46,6 +46,12 @@ public class ButtonGroupTest extends Panel {
         iconButton.setText("Icon button from CSS");
         add(iconButton);
 
+        // set the button's template, we can have a button without outter button wrapper.
+        Button templatedButton = new Button();
+        templatedButton.setTemplate( "<em unselectable=\"on\"><button class=\"x-btn-text\" type=\"{1}\">{0}</button></em>");
+        templatedButton.setIconClass( "templated");
+        templatedButton.setTooltip( "A templatedButton");
+        add( templatedButton);
     }
 
     private static Button createButton(String buttonName, String buttonGroup) {

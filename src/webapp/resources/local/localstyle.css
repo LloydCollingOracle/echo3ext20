@@ -15,6 +15,11 @@
 button.icon-accept {
     background-image: url(../images/fam/icons/add.png) !important;
 }
+button.templated {
+    background-image: url(../images/fam/icons/add.png) !important;
+    width: 16px !important;
+    height: 16px !important;
+}
 /*
  * Ext JS Library 2.0.2
  * Copyright(c) 2006-2008, Ext JS, LLC.

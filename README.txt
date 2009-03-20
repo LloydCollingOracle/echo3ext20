@@ -46,12 +46,14 @@ FOR DEVELOPER
 =============
 If you want to make some changes to this project, you can set the environment like below:
 1) Use eclipse to open the project.
-2) Run "ant war" at the first time.
-3) Run "ant -DisDev=true run-server" at console.
+2) Run "ant war" at the first time, to expand the ExtJS and patch it.
+3) Run "ant -DisDev=true run-server" at console. The -DisDev=true set "isDev" property, 
+   which prevents the "clean" target being run, meaning that ExtJS will not be re-expanded.
+   It will take much fewer time to build and run. 
 4) Change some codes.
 5) Press Ctrl+C at the console.
-6) Run "ant -DisDev=true run-server" at console again
-7) View your changes
+6) Run "ant -DisDev=true run-server" at console again.
+7) View your changes.
 8) Repeat step 4 to 7. 
 Welcome to contribute to the project. ;)  
 

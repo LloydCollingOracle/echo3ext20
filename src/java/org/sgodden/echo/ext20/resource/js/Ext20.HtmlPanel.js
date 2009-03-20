@@ -13,39 +13,24 @@
  * =================================================================
  */
 EchoExt20.HtmlPanel = Core.extend(EchoExt20.Panel, {
+    $load : function() {
+        Echo.ComponentFactory.registerType("Ext20HtmlPanel", this);
+        Echo.ComponentFactory.registerType("E2HP", this);
+    },
+    componentType : "Ext20HtmlPanel"
+});
 
-            $load : function() {
-                Echo.ComponentFactory.registerType("Ext20HtmlPanel", this);
-                Echo.ComponentFactory.registerType("E2HP", this);
-            },
-
-            componentType : "Ext20HtmlPanel"
-        });
-
-EchoExt20.HtmlPanelSync = Core.extend( EchoExt20.PanelSync, {
+EchoExt20.HtmlPanelSync = Core.extend(EchoExt20.PanelSync, {
     $load : function() {
         Echo.Render.registerPeer("Ext20HtmlPanel", this);
     },
-    
-    createExtComponent: function(update, options) {
-        return EchoExt20.PanelSync.prototype.createExtComponent.call(this, update, options);
-    },
-renderDispose: function(update) {
-    return EchoExt20.PanelSync.prototype.renderDispose.call(this, update);
-},
-renderAdd: function(update, parentElement) {
-    return EchoExt20.PanelSync.prototype.renderAdd.call(this, update, parentElement);
-},
-renderUpdate: function(update) {
-    return EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
-},
-    
+
     _childRendered : false,
-    renderDisplay: function(update) {
+    renderDisplay : function(update) {
         EchoExt20.PanelSync.prototype.renderDisplay.call(this, update);
-        if ( !this.extComponent.rendered) return;
-        if ( this._childRendered) return;
-        
+        if (!this.extComponent.rendered) return;
+        if (this._childRendered) return;
+
         for (var i = 0; i < this.component.getComponentCount(); i++) {
             var child = this.component.getComponent(i);
 
@@ -53,31 +38,25 @@ renderUpdate: function(update) {
             if (!layoutData) {
                 throw new Error("For HTML component, child must specify the HtmlLayoutdata");
             }
-
             var locationName = layoutData["locationName"];
-            if ( child.peer.isExtComponent) {
+
+            if (child.peer.isExtComponent) {
                 var childExtComponent = child.peer.extComponent;
                 if (childExtComponent == null) {
-                    throw new Error("No child ext component was created during renderAdd for component type: "
-                            + child.componentType);
-                } 
-
-                var locationElement = Ext.get( locationName);
-                if ( locationElement == null) {
-                    throw new Error( "Can't find element have id " + locationName + " at the template");
+                    throw new Error("No child ext component was created during renderAdd for component type: "+ child.componentType);
                 }
 
-                //if ( !childExtComponent.getEl())
-                    childExtComponent.render( locationName);
-                //Ext.get( locationName).replaceWith( childExtComponent.getEl());
-                //childExtComponent.getEl().id = locationName;
-                // else 
-                // locationElement.appendChild( childExtComponent.getEl());
+                var locationElement = Ext.get(locationName);
+                if (locationElement == null) {
+                    throw new Error("Can't find element have id " + locationName + " at the template");
+                }
+
+                childExtComponent.render(locationName);
             } else {
                 // if it's an echoComponent, remove it frist, then add to the container.
                 // child.peer._containerElement.removeChild( child.peer._node);
-                Echo.Render.renderComponentDispose( update, child);
-                Echo.Render.renderComponentAdd(update, child, Ext.getDom( locationName));
+                Echo.Render.renderComponentDispose(update, child);
+                Echo.Render.renderComponentAdd(update, child, Ext.getDom(locationName));
             }
         }
         this._childRendered = true;
