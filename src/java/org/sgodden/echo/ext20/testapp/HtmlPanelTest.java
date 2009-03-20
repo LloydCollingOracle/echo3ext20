@@ -11,7 +11,7 @@ public class HtmlPanelTest extends HtmlPanel {
 	
 	public HtmlPanelTest() {
 		super( "Test HtmlPanel");
-		setHtml( "<html><body><div>This is a HtmlPanel include another <div id=\"field1\"></div></div> <div id=\"simplePanel\"> And </div><div id=\"field2\"></div></div></body></html>");
+		setHtml( "<html><body><div>This is a HtmlPanel include a field <div id=\"field1\"></div></div> And another HtmlPanel <div id=\"simplePanel\"></div> And <div id=\"field2\"></div></div></body></html>");
 		textField1.setLayoutData( new HtmlLayoutData( "field1"));
 		add( textField1);
 		simplePanel.setLayoutData( new HtmlLayoutData( "simplePanel"));

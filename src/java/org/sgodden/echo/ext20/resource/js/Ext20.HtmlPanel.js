@@ -27,6 +27,19 @@ EchoExt20.HtmlPanelSync = Core.extend( EchoExt20.PanelSync, {
         Echo.Render.registerPeer("Ext20HtmlPanel", this);
     },
     
+    createExtComponent: function(update, options) {
+        return EchoExt20.PanelSync.prototype.createExtComponent.call(this, update, options);
+    },
+renderDispose: function(update) {
+    return EchoExt20.PanelSync.prototype.renderDispose.call(this, update);
+},
+renderAdd: function(update, parentElement) {
+    return EchoExt20.PanelSync.prototype.renderAdd.call(this, update, parentElement);
+},
+renderUpdate: function(update) {
+    return EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
+},
+    
     _childRendered : false,
     renderDisplay: function(update) {
         EchoExt20.PanelSync.prototype.renderDisplay.call(this, update);
@@ -47,14 +60,23 @@ EchoExt20.HtmlPanelSync = Core.extend( EchoExt20.PanelSync, {
                 if (childExtComponent == null) {
                     throw new Error("No child ext component was created during renderAdd for component type: "
                             + child.componentType);
-                } else {
-                    if ( !childExtComponent.getEl())
-                        childExtComponent.render( locationName);
-                    Ext.get( locationName).replaceWith( childExtComponent.getEl());
+                } 
+
+                var locationElement = Ext.get( locationName);
+                if ( locationElement == null) {
+                    throw new Error( "Can't find element have id " + locationName + " at the template");
                 }
+
+                //if ( !childExtComponent.getEl())
+                    childExtComponent.render( locationName);
+                //Ext.get( locationName).replaceWith( childExtComponent.getEl());
+                //childExtComponent.getEl().id = locationName;
+                // else 
+                // locationElement.appendChild( childExtComponent.getEl());
             } else {
                 // if it's an echoComponent, remove it frist, then add to the container.
-                child.peer._containerElement.removeChild( child.peer._node);
+                // child.peer._containerElement.removeChild( child.peer._node);
+                Echo.Render.renderComponentDispose( update, child);
                 Echo.Render.renderComponentAdd(update, child, Ext.getDom( locationName));
             }
         }

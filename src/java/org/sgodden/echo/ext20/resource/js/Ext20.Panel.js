@@ -634,6 +634,18 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         return buttons;
     },
     
+    _addExtComponentChild: function( child, extComponent) {
+        var layoutData = child.render("layoutData");
+        if (layoutData) {
+            var locationName = layoutData["locationName"];
+            if ( locationName) {
+                // It's a HtmlLayoutData, don't add it now. It will be added at renderUpdate.
+                return;
+            }
+        }
+        this.extComponent.add(extComponent);
+    },
+    
     /**
      * Creates the passed children and adds them to the ext panel.
      */
@@ -663,9 +675,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                         }
                     }
                     if (!inserted)
-                        this.extComponent.add(wrapper);
+                        this._addExtComponentChild( child, wrapper);
                 } else {
-                    this.extComponent.add(wrapper);
+                    this._addExtComponentChild( child, wrapper);
                 }
             }
             else if (child instanceof EchoExt20.Window) {
@@ -701,9 +713,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                             }
                         }
                         if (!inserted)
-                            this.extComponent.add(childExtComponent);
+                            this._addExtComponentChild( child, childExtComponent);
                     } else {
-                        this.extComponent.add(childExtComponent);
+                        this._addExtComponentChild( child, childExtComponent);
                     }
                 }
             }
