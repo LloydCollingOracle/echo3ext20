@@ -458,8 +458,10 @@ public class Panel extends ExtComponent {
             remove(bottomToolbar);
         }
         
-        toolbar.setPosition(Toolbar.Position.BOTTOM);
-        add(toolbar);
+        if (toolbar != null) {
+            toolbar.setPosition(Toolbar.Position.BOTTOM);
+            add(toolbar);
+        }
         
         this.bottomToolbar = toolbar;
     }
