@@ -26,17 +26,15 @@ EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
         Echo.Render.registerPeer("Ext20Label", this);
     },
 
-    $virtual: {
-        /**
-         * Actually creates the ext component instance.  Overriden by
-         * classes such as EchoExt20.GridPanelSync to create their
-         * relevant Ext subclass.
-         */
-        newExtComponentInstance: function(options) {
-            return new Ext.form.Label(options);
-        }
+    /**
+     * Actually creates the ext component instance.  Overriden by
+     * classes such as EchoExt20.GridPanelSync to create their
+     * relevant Ext subclass.
+     */
+    newExtComponentInstance: function(options) {
+        return new Ext.form.Label(options);
     },
-    
+
     /**
      * Render update implementation.  Supports update of the panel title,
      * and adding and removing children.
