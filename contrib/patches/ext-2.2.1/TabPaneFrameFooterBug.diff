@@ -1,0 +1,21 @@
+--- ext-all-debug.js	2009-03-23 11:44:51.000000000 +0000
++++ ext-all-debug.js	2009-03-23 11:45:32.000000000 +0000
+@@ -19660,11 +19660,13 @@
+     },
+     
+     updateFrameFooterSizes: function(tabPanel, w, h) {
+-        this['ffl'].setWidth(w);
+-        var mns = this['ffl'].getMargins('lr') + this['ffl'].getPadding('lr');
+-        this['ffr'].setWidth(w - mns);
+-        mns += this['ffr'].getMargins('lr') + this['ffr'].getPadding('lr');
+-        this['ffc'].setWidth(w - mns);
++        if (this['ffl']) {
++            this['ffl'].setWidth(w);
++            var mns = this['ffl'].getMargins('lr') + this['ffl'].getPadding('lr');
++            this['ffr'].setWidth(w - mns);
++            mns += this['ffr'].getMargins('lr') + this['ffr'].getPadding('lr');
++            this['ffc'].setWidth(w - mns);
++        }
+     },
+ 
+     // private
