@@ -105,6 +105,9 @@
 				<include name="Ext20.Panel.js" />
 			</fileset>
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+			    <include name="Ext20.Label.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.Button.js" />
 			</fileset>
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">

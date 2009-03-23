@@ -1,7 +1,6 @@
 package org.sgodden.echo.ext20;
 
 import nextapp.echo.app.Component;
-import nextapp.echo.app.Label;
 
 import org.sgodden.echo.ext20.layout.TableLayout;
 import org.sgodden.echo.ext20.layout.TableLayoutData;
@@ -50,6 +49,7 @@ public class FormGrid extends Panel {
         } else {
             l = new Label(" ");
         }
+        l.setCssClass("standard-field-label");
         TableLayoutData tld = new TableLayoutData();
         tld.setCellAlign("left");
         tld.setCellVAlign("top");
