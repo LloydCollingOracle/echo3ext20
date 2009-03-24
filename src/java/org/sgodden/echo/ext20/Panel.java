@@ -36,9 +36,7 @@ import org.sgodden.echo.ext20.layout.Layout;
  */
 public class Panel extends ExtComponent {
 
-    private static final long serialVersionUID = 20080102L;
-    
-    //private static final transient Log log = LogFactory.getLog(Panel.class);
+    private static final long serialVersionUID = 20090324L;
 
     /**
      * Sets the base css for this panel. (Defaults to 'x-panel')
@@ -138,6 +136,29 @@ public class Panel extends ExtComponent {
      * Whether the title bar should appear above or below the tool bar.
      */
     public static final String TITLE_POSITION = "titlePosition";
+    
+    /**
+     * Whether the panel should be 'floating' (absolute positioning)
+     * <p>
+     * Type: Boolean.
+     * </p>
+     */
+    public static final String FLOATING_PROPERTY = "floating";
+    /**
+     * The x position of the panel (used only when floating)
+     * <p>
+     * Type: Integer.
+     * </p>
+     */
+    public static final String POSITION_X = "positionX";
+    /**
+     * The y position of the panel (used only when floating)
+     * <p>
+     * Type: Integer.
+     * </p>
+     */
+    public static final String POSITION_Y = "positionY";
+    
     public static enum TitlePosition{
         ABOVE_TOOLBAR, BELOW_TOOLBAR
     }
@@ -618,6 +639,34 @@ public class Panel extends ExtComponent {
     
     public void setIconCssClass(String cls) {
         set(ICON_CSS_CLASS, cls);
+    }
+    
+    public boolean getFloating() {
+        Boolean isFloating = (Boolean)get(FLOATING_PROPERTY);
+        if (isFloating == null)
+            return false;
+        else
+            return isFloating.booleanValue();
+    }
+    
+    public void setFloating(boolean floating) {
+        set(FLOATING_PROPERTY, Boolean.valueOf(floating));
+    }
+    
+    public Integer getPositionX() {
+        return (Integer)get(POSITION_X);
+    }
+    
+    public void setPositionX(Integer position) {
+        set(POSITION_X, position);
+    }
+    
+    public Integer getPositionY() {
+        return (Integer)get(POSITION_Y);
+    }
+    
+    public void setPositionY(Integer position) {
+        set(POSITION_Y, position);
     }
 
 }

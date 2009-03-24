@@ -65,6 +65,16 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     _makeVisibleRef: null,
     
+    /**
+     * The x position to set the panel to (used in absolute positioning only)
+     */
+    positionX: null,
+
+    /**
+     * The y position to set the panel to (used in absolute positioning only)
+     */
+    positionY: null,
+    
     $virtual: {
 		
         /**
@@ -343,6 +353,13 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (this.component.render("autoScroll")) {
             options.autoScroll = this.component.render("autoScroll");
         }
+        
+        if (this.component.get("floating")) {
+            options['floating'] = this.component.get("floating");
+            options['shadow'] = false;
+            this.positionX = this.component.get("positionX");
+            this.positionY = this.component.get("positionY");
+        }
 		
         /*
          * Tool ids are passed as a comma-separated string.
@@ -452,6 +469,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         this.extComponent.on("render", this._doOnExtRender, this);
         this.extComponent.on("afterlayout", this._doChildAddEffects, this);
         this.extComponent.on("beforeremove", this._doChildRemoveEffects, this);
+        if (this.component.get("floating")) {
+            this.extComponent.setPagePosition(this.positionX, this.positionY);
+        }
         
         if (children.length > 0) {
             this._createChildItems(update, children);
@@ -484,14 +504,14 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     _doOnExtRender: function() {
-    	/*
-    	 * If we have a table layout, check to see if we are are a form, i.e.
-    	 * the first component is a label and the second component is a form
-    	 * component.  If so, apply a relative 1 pixel offset to each label, since
-    	 * otherwise the labels and form fields do not align properly.  FIXME,
-    	 * do this on a bodge 'form' property instead.
-    	 */
-    	
+        if (this.positionX != null && this.positionY != null) {
+            if (this.extComponent.el) {
+                var xyPos = [];
+                xyPos[0] = this.positionX;
+                xyPos[1] = this.positionY;
+                this.extComponent.el.setXY(xyPos);
+            }
+        }
     },
     
     /**
