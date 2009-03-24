@@ -28,6 +28,10 @@ public class TableLayoutData
      * The cell vertical alignment (value of valign attribute on the td).
      */
     private String cellVAlign;
+    /**
+     * The cell css.
+     */
+    private String cellCls;
     
     /**
      * The column span of the cell.
@@ -90,6 +94,22 @@ public class TableLayoutData
      */
     public String getCellVAlign() {
         return cellVAlign;
+    }
+    
+    /**
+     * Sets the cell cls.
+     * @param cellCls the cell cls.
+     */
+    public void setCellCls(String cellCls) {
+        this.cellCls = cellCls;
+    }
+
+    /**
+     * Returns the cell cls.
+     * @return the cell cls.
+     */
+    public String getCellCls() {
+        return cellCls;
     }
     
     /**

@@ -1,7 +1,11 @@
 package org.sgodden.echo.ext20;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import nextapp.echo.app.Component;
 
+import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 import org.sgodden.echo.ext20.layout.TableLayoutData;
 
@@ -14,23 +18,40 @@ import org.sgodden.echo.ext20.layout.TableLayoutData;
 @SuppressWarnings("serial")
 public class FormGrid extends Panel {
 
+    private boolean separatorsRequired = true;
+    private int columnsAdded = 0;
+    private int columnCount = 0;
+    private int separatorsAdded = 0;
+    private int separatorCount = 0;
+    private Set<ColumnSeparator> separators = new HashSet<ColumnSeparator>();
+
     /**
      * Creates a new form panel to hold a single column of form fields.
      */
     public FormGrid() {
-        super();
-        setColumns(1);
+        this(1, false);
     }
 
     /**
      * Creates a new form panel to hold the specified number of columns of form
-     * fields.
+     * fields. If there are more than one columns, a vertical rule separator is
+     * specified.
      * 
      * @param cols
      *            the number of columns of form fields.
      */
     public FormGrid(int cols) {
+        this(cols, (cols > 1));
+    }
+
+    /**
+     * Creates a new form panel to hold the specified number of columns of form
+     * fields with an optional vertical rule separator.
+     */
+    public FormGrid(int cols, boolean separatorsRequired) {
         super();
+        columnCount = cols;
+        this.separatorsRequired = separatorsRequired;
         setColumns(cols);
     }
 
@@ -49,7 +70,6 @@ public class FormGrid extends Panel {
         } else {
             l = new Label(" ");
         }
-        l.setCssClass("standard-field-label");
         TableLayoutData tld = new TableLayoutData();
         tld.setCellAlign("left");
         tld.setCellVAlign("top");
@@ -60,14 +80,17 @@ public class FormGrid extends Panel {
         tld.setCellVAlign("top");
         c.setLayoutData(tld);
         super.add(c);
+        if (separatorsRequired)
+            addSeparatorAndCss(l);
     }
 
     /**
-     * Adds the specified component, with the specified
-     * field label.
-     * @param c the component to add.
-     * @param fieldLabel the field label, or <code>null</code>
-     * for no field label.
+     * Adds the specified component, with the specified field label.
+     * 
+     * @param c
+     *            the component to add.
+     * @param fieldLabel
+     *            the field label, or <code>null</code> for no field label.
      */
     public void add(Component c, Component fieldLabel) {
         TableLayoutData tld = new TableLayoutData();
@@ -75,18 +98,80 @@ public class FormGrid extends Panel {
         tld.setCellVAlign("top");
         fieldLabel.setLayoutData(tld);
         super.add(fieldLabel);
-        
+
         tld = new TableLayoutData();
         tld.setCellVAlign("top");
         c.setLayoutData(tld);
         super.add(c);
+        if (separatorsRequired)
+            addSeparatorAndCss(fieldLabel);
     }
-    
+
     /**
      * Adds the specified component, with no field label.
      */
     public void add(Component c) {
-        add(c, (String)null);
+        add(c, (String) null);
+    }
+
+    /**
+     * Add column separator if more than one column and pad cells to the right
+     * of the separator.
+     * 
+     * @param l
+     *            the label following the separator.
+     */
+    private void addSeparatorAndCss(Component l) {
+        if (addSeparator()) {
+            super.add(new ColumnSeparator(1));
+        }
+        if (isNewRow()) {
+            updateRowSpan();
+            if (l instanceof ExtComponent)
+                ((ExtComponent) l).setCssClass("standard-field-label-padded");
+        } else {
+            if (l instanceof ExtComponent)
+                ((ExtComponent) l).setCssClass("standard-field-label");
+        }
+    }
+
+    /**
+     * After each new row is added, update the row span of the separator
+     * components.
+     */
+    private void updateRowSpan() {
+        for (ColumnSeparator cs : separators) {
+            cs.setRowSpan(cs.getRowSpan() + 1);
+        }
+    }
+
+    /**
+     * Is the cell being added the first in a new row?
+     * 
+     * @return boolean isNewRow
+     */
+    private boolean isNewRow() {
+        columnsAdded++;
+        if (columnsAdded < columnCount || columnCount == 1) {
+            return false;
+        } else {
+            columnsAdded = 0;
+            return true;
+        }
+    }
+
+    /**
+     * Should a separator cell be added.
+     * 
+     * @return boolean add a separator.
+     */
+    private boolean addSeparator() {
+        if (separatorsAdded < separatorCount) {
+            separatorsAdded++;
+            return true;
+        } else {
+            return false;
+        }
     }
 
 /**
@@ -117,10 +202,19 @@ public class FormGrid extends Panel {
      *            the number of columns of form components.
      */
     public void setColumns(int columns) {
-        TableLayout tl = new TableLayout(columns * 2);
+        int columnsRequired;
+        if (separatorsRequired) {
+            columnsRequired = (columns * 2) + (columns - 1);
+        } else {
+            columnsRequired = columns * 2;
+        }
+        TableLayout tl = new TableLayout(columnsRequired);
         tl.setFullWidth(false);
         tl.setCellSpacing(5);
         setLayout(tl);
+        if (columns > 1 && separatorsRequired) {
+            separatorCount = columns - 1;
+        }
     }
 
     /**
@@ -141,4 +235,29 @@ public class FormGrid extends Panel {
         ABOVE
     }
 
+    /**
+     * Creates a panel that is styled as a vertical rule separator.
+     * 
+     * @author bwoods
+     * 
+     */
+    private class ColumnSeparator extends Panel {
+        private TableLayoutData tld = new TableLayoutData();
+
+        private ColumnSeparator(int rowSpan) {
+            setLayout(new FitLayout());
+            this.setRowSpan(rowSpan);
+            this.tld.setCellCls("form-grid-separator");
+            setLayoutData(tld);
+            separators.add(this);
+        }
+
+        private void setRowSpan(int rowSpan) {
+            tld.setRowSpan(rowSpan);
+        }
+
+        private int getRowSpan() {
+            return tld.getRowSpan();
+        }
+    }
 }

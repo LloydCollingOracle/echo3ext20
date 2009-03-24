@@ -637,6 +637,9 @@ EchoExt20.LayoutProcessor = {
                     if (layoutData.cellVAlign) {
                         options.cellVAlign = layoutData.cellVAlign;
                     }
+                    if (layoutData.cellCls) {
+                        options.cellCls = layoutData.cellCls;
+                    }
                     if (layoutData.colSpan) {
                         options.colspan = layoutData.colSpan;
                     }
