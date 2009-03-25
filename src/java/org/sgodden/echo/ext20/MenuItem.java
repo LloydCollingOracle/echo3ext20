@@ -23,9 +23,8 @@ import nextapp.echo.app.ImageReference;
  * 
  * @author sgodden
  */
-@SuppressWarnings({"serial"})
-public class MenuItem 
-        extends BaseMenuItem {
+@SuppressWarnings( { "serial" })
+public class MenuItem extends BaseMenuItem {
 
     public MenuItem() {
         super();

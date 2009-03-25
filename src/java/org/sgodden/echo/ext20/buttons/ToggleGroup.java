@@ -1,7 +1,11 @@
 package org.sgodden.echo.ext20.buttons;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nextapp.echo.app.ApplicationInstance;
 
+import org.sgodden.echo.ext20.AbstractButton;
 import org.sgodden.echo.ext20.Button;
 
 /**
@@ -14,6 +18,8 @@ public class ToggleGroup {
     private String toggleGroupName;
 
     private static final String DEFAULT_TGROUP_NAME = "toggle_group_";
+
+    private List<AbstractButton> buttons = new ArrayList<AbstractButton>();
 
     /**
      * Constructs a toggle group with a default toggle group name that is unique
@@ -43,5 +49,14 @@ public class ToggleGroup {
      */
     public void addButton(Button button) {
         button.setToggleGroup(toggleGroupName);
+        buttons.add(button);
+    }
+
+    /**
+     * @return buttons All the buttons that have been added to this toggle
+     *         group.
+     */
+    public List<AbstractButton> getButtons() {
+        return buttons;
     }
 }
