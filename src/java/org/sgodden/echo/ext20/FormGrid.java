@@ -80,8 +80,7 @@ public class FormGrid extends Panel {
         tld.setCellVAlign("top");
         c.setLayoutData(tld);
         super.add(c);
-        if (separatorsRequired)
-            addSeparatorAndCss(l);
+        addSeparatorAndCss(l);
     }
 
     /**
@@ -122,10 +121,10 @@ public class FormGrid extends Panel {
      *            the label following the separator.
      */
     private void addSeparatorAndCss(Component l) {
-        if (addSeparator()) {
+        if (separatorsRequired && addSeparator()) {
             super.add(new ColumnSeparator(1));
         }
-        if (isNewRow()) {
+        if (separatorsRequired && isNewRow()) {
             updateRowSpan();
             if (l instanceof ExtComponent)
                 ((ExtComponent) l).setCssClass("standard-field-label-padded");
