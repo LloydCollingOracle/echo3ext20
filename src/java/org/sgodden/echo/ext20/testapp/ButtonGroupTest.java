@@ -4,6 +4,7 @@ import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.RadioButton;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
 /**
@@ -52,6 +53,16 @@ public class ButtonGroupTest extends Panel {
         templatedButton.setIconClass( "templated");
         templatedButton.setTooltip( "A templatedButton");
         add( templatedButton);
+        
+        RadioButton radioButton1 = new RadioButton( true);
+        radioButton1.setName( "RadioGroup");
+        radioButton1.setBoxLabel( "option one");
+        add(radioButton1);
+
+        RadioButton radioButton2 = new RadioButton();
+        radioButton2.setName( "RadioGroup");
+        radioButton2.setBoxLabel( "option two");
+        add(radioButton2);
     }
 
     private static Button createButton(String buttonName, String buttonGroup) {

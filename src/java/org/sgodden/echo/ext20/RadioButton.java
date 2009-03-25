@@ -36,6 +36,7 @@ public class RadioButton
 
     public static final String SELECTED_CHANGED_PROPERTY = "selected";
     public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
+    public static final String BOX_LABEL_PROPERTY = "boxLabel";
     public static final String NAME_PROPERTY = "name";
     public static final String INPUT_ACTION = "action";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
@@ -136,6 +137,13 @@ public class RadioButton
     public String getFieldLabel() {
         return (String) get(FIELD_LABEL_PROPERTY);
     }
+    /**
+     * Returns the boxLabel.
+     * @return the boxLabel.
+     */
+    public String getBoxLabel() {
+    	return (String) get(BOX_LABEL_PROPERTY);
+    }
 
     /**
      * Sets whether the button is selected.
@@ -159,6 +167,14 @@ public class RadioButton
      */
     public void setFieldLabel(String fieldLabel) {
         set(FIELD_LABEL_PROPERTY, fieldLabel);
+    }
+    
+    /**
+     * Sets the field label to be used in forms.
+     * @param boxLabel the field label to be used in forms.
+     */
+    public void setBoxLabel(String boxLabel) {
+    	set(BOX_LABEL_PROPERTY, boxLabel);
     }
     
     /**

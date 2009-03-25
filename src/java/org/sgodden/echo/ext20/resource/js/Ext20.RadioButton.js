@@ -51,6 +51,7 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
         
         options['name'] = this.component.get("name");
+        options['boxLabel'] = this.component.get("boxLabel");
         
         var extComponent = new Ext.form.Radio(options);
         extComponent.setValue(selected);
