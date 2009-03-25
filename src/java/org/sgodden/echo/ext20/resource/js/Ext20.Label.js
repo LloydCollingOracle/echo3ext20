@@ -18,7 +18,6 @@ EchoExt20.Label = Core.extend(EchoExt20.ExtComponent, {
 * Sync peer for labels.
 */
 EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
-    
     /**
      * Registers the sync peer on initial load.
      */
@@ -36,16 +35,15 @@ EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
 
     /**
-     * Render update implementation.  Supports update of the panel title,
-     * and adding and removing children.
+     * Render update implementation.
      */
     renderUpdate: function(update){
         // check for any property updates
         if (update.getUpdatedProperty("text") != null) {
-            this.extComponent.setText(this.component.get("text"));
+            this.extComponent.setText(this.component.get("text"), false);
         }
     },
-    
+
     /**
      * Called by the base class to create the ext component.
      */
@@ -53,9 +51,8 @@ EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
         // process basic properties
         var labelText = this.component.get("text");
         if (labelText != null) {
-            options['text'] = labelText;
+            options['html'] = labelText;
         }
-        
         this.extComponent = this.newExtComponentInstance(options);
         return this.extComponent;
     }

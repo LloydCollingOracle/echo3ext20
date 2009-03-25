@@ -4,6 +4,11 @@ import org.sgodden.echo.ext20.Label;
 
 public class LabelPeer extends ExtComponentPeer {
 
+    public LabelPeer() {
+        super();
+        addOutputProperty(Label.TEXT_PROPERTY);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public Class getComponentClass() {
