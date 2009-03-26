@@ -53,6 +53,7 @@ public class FormGrid extends Panel {
         columnCount = cols;
         this.separatorsRequired = separatorsRequired;
         setColumns(cols);
+        setBaseCssClass("form-grid");
     }
 
     /**
@@ -209,7 +210,7 @@ public class FormGrid extends Panel {
         }
         TableLayout tl = new TableLayout(columnsRequired);
         tl.setFullWidth(false);
-        tl.setCellSpacing(5);
+        tl.setCellSpacing(10);
         setLayout(tl);
         if (columns > 1 && separatorsRequired) {
             separatorCount = columns - 1;
