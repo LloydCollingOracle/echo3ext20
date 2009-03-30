@@ -158,9 +158,53 @@ public class Panel extends ExtComponent {
      * </p>
      */
     public static final String POSITION_Y = "positionY";
+    /**
+     * The relative (to the panel's container) x position of the panel (used only when floating)
+     * <p>
+     * Type: Integer.
+     * </p>
+     */
+    public static final String RELATIVE_POSITION_X = "relativePositionX";
+    /**
+     * The relative (to the panel's container) y position of the panel (used only when floating)
+     * <p>
+     * Type: Integer.
+     * </p>
+     */
+    public static final String RELATIVE_POSITION_Y = "relativePositionY";
+    
+    /**
+     * The anchor position to which this panel works out it's relative position when floating.
+     * May be one of: TL, TR, BL, BR which are Top Left, Top Right, Bottom Left, Bottom Right respectively.
+     * <p>
+     * Type: String.
+     * </p>
+     */
+    public static final String RELATIVE_ANCHOR_POSITION = "relativeAnchorPosition";
     
     public static enum TitlePosition{
         ABOVE_TOOLBAR, BELOW_TOOLBAR
+    }
+    
+    public static enum RelativeAnchorPosition {
+        TL,
+        TR,
+        BL,
+        BR;
+        
+        public static RelativeAnchorPosition forName(String name) {
+            if ("TL".equals(name)) {
+                return TL;
+            } else if ("TR".equals(name)) {
+                return TR;
+            } else if ("BL".equals(name)) {
+                return BL;
+            } else if ("BR".equals(name)) {
+                return BR;
+            } else {
+                return null;
+            }
+        }
     }
     
     private Map<String, Set<ActionListener>> keyPressListeners;
@@ -668,5 +712,29 @@ public class Panel extends ExtComponent {
     public void setPositionY(Integer position) {
         set(POSITION_Y, position);
     }
+    
+    public Integer getRelativePositionX() {
+        return (Integer)get(RELATIVE_POSITION_X);
+    }
+    
+    public void setRelativePositionX(Integer position) {
+        set(RELATIVE_POSITION_X, position);
+    }
+    
+    public Integer getRelativePositionY() {
+        return (Integer)get(RELATIVE_POSITION_Y);
+    }
+    
+    public void setRelativePositionY(Integer position) {
+        set(RELATIVE_POSITION_Y, position);
+    }
 
+    public RelativeAnchorPosition getRelativeAnchorPosition() {
+        String pos = (String)get(RELATIVE_ANCHOR_POSITION);
+        return RelativeAnchorPosition.forName(pos);
+    }
+    
+    public void setRelativeAnchorPosition(RelativeAnchorPosition anchor) {
+        set(RELATIVE_ANCHOR_POSITION, anchor.name());
+    }
 }

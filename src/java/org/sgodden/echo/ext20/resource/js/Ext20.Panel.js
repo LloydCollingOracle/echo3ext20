@@ -75,6 +75,21 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     positionY: null,
     
+    /**
+     * The relative (to the panel's container) x position to set the panel to (used in absolute positioning only)
+     */
+    relativePositionX: null,
+
+    /**
+     * The relative (to the panel's container) y position to set the panel to (used in absolute positioning only)
+     */
+    relativePositionY: null,
+
+    /**
+     * The corner of the parent container to calculate the panel co-ordinates from (used in absolute positioning only)
+     */
+    relativeAnchorPosition: null,
+    
     $virtual: {
 		
         /**
@@ -359,8 +374,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['shadow'] = false;
             this.positionX = this.component.get("positionX");
             this.positionY = this.component.get("positionY");
+            this.relativePositionX = this.component.get("relativePositionX");
+            this.relativePositionY = this.component.get("relativePositionY");
+            this.relativeAnchorPosition = this.component.get("relativeAnchorPosition");
         }
-		
+
         /*
          * Tool ids are passed as a comma-separated string.
          * These are the little tool icons that appear in the title
@@ -491,6 +509,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 }
             }
         }
+
+        if (this.relativePositionX != null && this.relativePositionY != null) {
+            this._setRelativePosition();
+        }
     },
     
     _doChildRemoveEffects: function(container, thisChild) {
@@ -511,6 +533,43 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 xyPos[1] = this.positionY;
                 this.extComponent.el.setXY(xyPos);
             }
+        }
+        if (this.relativePositionX != null && this.relativePositionY != null) {
+            this._setRelativePosition();
+            
+            this.extComponent.ownerCt.on("resize", this._doOnExtParentResize, this);
+            this.extComponent.ownerCt.on("move", this._doOnExtParentMove, this);
+        }
+    },
+    
+    _doOnExtParentResize: function () {
+        this._setRelativePosition();
+    },
+    
+    _doOnExtParentMove: function() {
+        this._setRelativePosition();
+    },
+    
+    _setRelativePosition: function() {
+        if (this.extComponent.el) {
+            var xyPos = [];
+            
+            var ownerCt = this.extComponent.ownerCt;
+
+            var position = ownerCt.getPosition();
+            xyPos[0] = position[0] + this.relativePositionX;
+            xyPos[1] = position[1] + this.relativePositionY;
+            
+            if (this.relativeAnchorPosition == 'TR') {
+                xyPos[0] = xyPos[0] + ownerCt.getSize().width;
+            } else if (this.relativeAnchorPosition == 'BL') {
+                xyPos[1] = xyPos[1] + ownerCt.getSize().height;
+            } else if (this.relativeAnchorPosition == 'BR') {
+                xyPos[0] = xyPos[0] + ownerCt.getSize().width;
+                xyPos[1] = xyPos[1] + ownerCt.getSize().height;
+            }
+            
+            this.extComponent.el.setXY(xyPos);
         }
     },
     
