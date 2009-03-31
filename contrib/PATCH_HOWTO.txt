@@ -1,0 +1,48 @@
+How to create a patch for ExtJS
+===============================
+
+1) Run the normal build for this project, so that the ext zip is unpacked and the
+existing patches are applied.
+    $ ant clean jar
+2) Change directory into this contrib directory on the command line
+    $ cd contrib
+3) Create a deep copy of the ext-2.2.1 folder called ext-2.2.1
+    $ cp -r ext-2.2.1 ext-2.2.1-orig
+4) Make your changes to the files in ext-2.2.1
+
+5) Create a patch using the diff command
+    $ diff -u ext-2.2.1-orig/path/to/changed/file ext-2.2.1/path/to/changed/file > patches/ext-2.2.1/patchname.diff
+6) Edit the patch and remove the file path from the context header:
+
+    Original:
+    
+    --- ext-2.2.1-orig/ext-all-debug.js	2009-03-11 15:31:42.000000000 +0000
+    +++ ext-2.2.1/ext-all-debug.js	2009-03-11 15:33:10.000000000 +0000
+    
+    Result:
+    
+    --- ext-all-debug.js	2009-03-11 15:31:42.000000000 +0000
+    +++ ext-all-debug.js	2009-03-11 15:33:10.000000000 +0000
+    
+7) Add the patch into the build.xml in target unpack-ext:
+
+    <target name="unpack-ext" unless="isDev">
+        <mkdir dir="contrib/ext-${ext.version}" />
+        <unzip src="contrib/ext-${ext.version}.zip" dest="contrib/ext-${ext.version}" />
+
+        <!-- apply our patches to the ExtJS files -->
+        <patch patchfile="contrib/patches/ext-2.2.1/patchname.diff" originalfile="contrib/ext-2.2.1/path/to/changed/file" />
+    </target>
+    
+8) Run the normal build so that the patch is included in the jar
+    $ ant clean jar
+
+9) Test your changes
+
+10) If testing fails then return to step 4 and continue from there, skipping step 7.
+
+11) If testing is successfull, then delete the -orig directory
+    $ cd contrib
+    $ rm -rf ext-2.2.1-orig
+
+12) Commit changes to SVN
