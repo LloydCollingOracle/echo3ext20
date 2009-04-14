@@ -349,6 +349,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         var title = this.component.get("title");
         if (title != null) {
             options['title'] = title;
+            options['tabTip'] = title;
         }
         
         var width = this.component.render("width");
