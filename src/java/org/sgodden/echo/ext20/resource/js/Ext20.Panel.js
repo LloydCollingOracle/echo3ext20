@@ -722,7 +722,34 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 return;
             }
         }
+        if (child.parent != null) {
+            if (child.parent instanceof EchoExt20.TabbedPane) {
+                var tabTitle = extComponent.title.toString();
+                var maxLength = 20;
+                if(tabTitle.length > maxLength) {
+                    extComponent.setTitle(this._getShortTitle(tabTitle, maxLength));
+                }
+            }
+        }
         this.extComponent.add(extComponent);
+    },
+
+    /**
+     * Returns a tab header friendly version of the title.
+     */
+    _getShortTitle: function(title, maxLength) {
+        if(maxLength < 3)
+            return title;
+
+        var fullLength = title.length;
+        var trimmedLength = (maxLength - 2);
+
+        if( (fullLength - 2) > trimmedLength) {
+            return title.substr(0, trimmedLength) + "..";
+        }
+        else {
+            return title;
+        }
     },
     
     /**
