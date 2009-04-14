@@ -18,6 +18,8 @@ package org.sgodden.echo.ext20.testapp;
 
 import groovy.util.GroovyScriptEngine;
 import java.net.URL;
+import java.util.Map;
+
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.StyleSheet;
 import nextapp.echo.app.Window;
@@ -62,10 +64,10 @@ public class AppInstance extends ApplicationInstance {
         }
     }
 
-    public Window init() {
+    public Window init(Map parameters) {
         setStyleSheet(DEFAULT_STYLE_SHEET);
 
-        Window ret = new Window();
+        Window ret = new Window(this);
 
         ret.setTitle("Echo3 and Ext2.0 test application");
         ret.setContent(new ApplicationContentPane());

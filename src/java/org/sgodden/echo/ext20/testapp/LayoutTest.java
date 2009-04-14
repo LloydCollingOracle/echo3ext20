@@ -2,6 +2,7 @@ package org.sgodden.echo.ext20.testapp;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Label;
+import nextapp.echo.app.Window;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
@@ -114,7 +115,7 @@ public class LayoutTest
                         northPanel.remove(childPanel);
                     else
                         northPanel.add(childPanel);
-                    ApplicationInstance.getActive().enqueueCommand(new DoPanelLayoutCommand(DoPanelLayoutTest.this));
+                    Window.getActive().enqueueCommand(new DoPanelLayoutCommand(DoPanelLayoutTest.this));
                 }});
             
             northPanel.add(addRemoveExtraPanelButton);

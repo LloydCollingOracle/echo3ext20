@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nextapp.echo.app.ApplicationInstance;
+import nextapp.echo.app.Window;
 
 import org.sgodden.echo.ext20.AbstractButton;
 import org.sgodden.echo.ext20.Button;
@@ -27,7 +28,7 @@ public class ToggleGroup {
      */
     public ToggleGroup() {
         setToggleGroupName(DEFAULT_TGROUP_NAME
-                + ApplicationInstance.getActive().generateId());
+                + Window.getActive().generateId());
     }
 
     /**

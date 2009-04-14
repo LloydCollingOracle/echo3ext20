@@ -17,7 +17,7 @@ implements Command {
     
     public DoPanelLayoutCommand(Panel panelToLayout) {
         super();
-        this.panelId = panelToLayout.getRenderId();
+        this.panelId = panelToLayout.getContainingWindow().getId() + "." + panelToLayout.getRenderId();
     }
     
     public String getPanelId(){
