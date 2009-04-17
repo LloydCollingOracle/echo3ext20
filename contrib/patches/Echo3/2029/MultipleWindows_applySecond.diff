@@ -1,6 +1,6 @@
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f .classpath
+diff -r 6ca1f7b8d775 .classpath
 --- a/.classpath	Sat Apr 11 13:12:55 2009 +0100
-+++ b/.classpath	Wed Apr 15 20:11:52 2009 +0100
++++ b/.classpath	Fri Apr 17 16:57:14 2009 +0100
 @@ -1,17 +1,9 @@
  <?xml version="1.0" encoding="UTF-8"?>
  <classpath>
@@ -21,17 +21,17 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f .classpath
  	<classpathentry kind="lib" path="resource/JSLint/rhino.jar"/>
  	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
  	<classpathentry kind="var" path="M2_REPO/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar"/>
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f .hgignore
+diff -r 6ca1f7b8d775 .hgignore
 --- a/.hgignore	Sat Apr 11 13:12:55 2009 +0100
-+++ b/.hgignore	Wed Apr 15 20:11:52 2009 +0100
++++ b/.hgignore	Fri Apr 17 16:57:14 2009 +0100
 @@ -1,3 +1,4 @@
  bin
  build
  .svn
 +dist
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f .settings/org.eclipse.jdt.core.prefs
+diff -r 6ca1f7b8d775 .settings/org.eclipse.jdt.core.prefs
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/.settings/org.eclipse.jdt.core.prefs	Wed Apr 15 20:11:52 2009 +0100
++++ b/.settings/org.eclipse.jdt.core.prefs	Fri Apr 17 16:57:14 2009 +0100
 @@ -0,0 +1,70 @@
 +#Tue Apr 14 20:02:35 BST 2009
 +eclipse.preferences.version=1
@@ -103,9 +103,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f .settings/org.eclipse.jdt.core.prefs
 +org.eclipse.jdt.core.compiler.problem.unusedWarningToken=warning
 +org.eclipse.jdt.core.compiler.problem.varargsArgumentNeedCast=warning
 +org.eclipse.jdt.core.compiler.source=1.3
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f resource/maven/echo3-app-pom.xml
+diff -r 6ca1f7b8d775 resource/maven/echo3-app-pom.xml
 --- a/resource/maven/echo3-app-pom.xml	Sat Apr 11 13:12:55 2009 +0100
-+++ b/resource/maven/echo3-app-pom.xml	Wed Apr 15 20:11:52 2009 +0100
++++ b/resource/maven/echo3-app-pom.xml	Fri Apr 17 16:57:14 2009 +0100
 @@ -5,7 +5,7 @@
  	<artifactId>echo3-app</artifactId>
  	<packaging>jar</packaging>
@@ -115,9 +115,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f resource/maven/echo3-app-pom.xml
  	<description>Echo3 AJAX Framework</description>
  	<issueManagement>
  		<url>http://bugs.nextapp.com/mantis</url>
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f resource/maven/echo3-webcontainer-pom.xml
+diff -r 6ca1f7b8d775 resource/maven/echo3-webcontainer-pom.xml
 --- a/resource/maven/echo3-webcontainer-pom.xml	Sat Apr 11 13:12:55 2009 +0100
-+++ b/resource/maven/echo3-webcontainer-pom.xml	Wed Apr 15 20:11:52 2009 +0100
++++ b/resource/maven/echo3-webcontainer-pom.xml	Fri Apr 17 16:57:14 2009 +0100
 @@ -5,7 +5,7 @@
  	<artifactId>echo3-webcontainer</artifactId>
  	<packaging>jar</packaging>
@@ -127,9 +127,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f resource/maven/echo3-webcontainer-pom.xml
  	<description>Echo3 AJAX Framework</description>
  	<issueManagement>
  		<url>http://bugs.nextapp.com/mantis</url>
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/client/echo/Serial.js
+diff -r 6ca1f7b8d775 src/client/echo/Serial.js
 --- a/src/client/echo/Serial.js	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/client/echo/Serial.js	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/client/echo/Serial.js	Fri Apr 17 16:57:14 2009 +0100
 @@ -532,9 +532,9 @@
      
          /** @see Echo.Serial.PropertyTranslator#toProperty */
@@ -190,9 +190,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/client/echo/Serial.js
          }
      },
      
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java-examples/chatclient/src/java/chatclient/ChatApp.java
+diff -r 6ca1f7b8d775 src/server-java-examples/chatclient/src/java/chatclient/ChatApp.java
 --- a/src/server-java-examples/chatclient/src/java/chatclient/ChatApp.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java-examples/chatclient/src/java/chatclient/ChatApp.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java-examples/chatclient/src/java/chatclient/ChatApp.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -30,6 +30,7 @@
  package chatclient;
  
@@ -293,9 +293,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java-examples/chatclient/src/jav
          window.setTitle(Messages.getString("Application.Title.Window"));
          window.setContent(new LoginScreen());
          return window;
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java-examples/chatclient/src/java/chatclient/ChatScreen.java
+diff -r 6ca1f7b8d775 src/server-java-examples/chatclient/src/java/chatclient/ChatScreen.java
 --- a/src/server-java-examples/chatclient/src/java/chatclient/ChatScreen.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java-examples/chatclient/src/java/chatclient/ChatScreen.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java-examples/chatclient/src/java/chatclient/ChatScreen.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -37,6 +37,7 @@
  import nextapp.echo.app.Row;
  import nextapp.echo.app.SplitPane;
@@ -322,9 +322,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java-examples/chatclient/src/jav
          messagePane.update();
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java-examples/chatclient/src/java/chatclient/LoginScreen.java
+diff -r 6ca1f7b8d775 src/server-java-examples/chatclient/src/java/chatclient/LoginScreen.java
 --- a/src/server-java-examples/chatclient/src/java/chatclient/LoginScreen.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java-examples/chatclient/src/java/chatclient/LoginScreen.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java-examples/chatclient/src/java/chatclient/LoginScreen.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -38,6 +38,7 @@
  import nextapp.echo.app.Row;
  import nextapp.echo.app.SplitPane;
@@ -351,9 +351,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java-examples/chatclient/src/jav
          }
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java-examples/helloworld/src/java/helloworld/HelloWorldApp.java
+diff -r 6ca1f7b8d775 src/server-java-examples/helloworld/src/java/helloworld/HelloWorldApp.java
 --- a/src/server-java-examples/helloworld/src/java/helloworld/HelloWorldApp.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java-examples/helloworld/src/java/helloworld/HelloWorldApp.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java-examples/helloworld/src/java/helloworld/HelloWorldApp.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -1,4 +1,6 @@
  package helloworld;
 +
@@ -372,9 +372,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java-examples/helloworld/src/jav
  
          ContentPane contentPane = new ContentPane();
          window.setContent(contentPane);
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java-examples/numberguess/src/java/numberguess/NumberGuessApp.java
+diff -r 6ca1f7b8d775 src/server-java-examples/numberguess/src/java/numberguess/NumberGuessApp.java
 --- a/src/server-java-examples/numberguess/src/java/numberguess/NumberGuessApp.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java-examples/numberguess/src/java/numberguess/NumberGuessApp.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java-examples/numberguess/src/java/numberguess/NumberGuessApp.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -28,6 +28,8 @@
   */
  
@@ -395,9 +395,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java-examples/numberguess/src/ja
          window.setTitle("Echo Guess-A-Number");
          startNewGame();
          return window;
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/test/ApplicationInstanceTest.java
+diff -r 6ca1f7b8d775 src/server-java/app-test/nextapp/echo/app/test/ApplicationInstanceTest.java
 --- a/src/server-java/app-test/nextapp/echo/app/test/ApplicationInstanceTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app-test/nextapp/echo/app/test/ApplicationInstanceTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app-test/nextapp/echo/app/test/ApplicationInstanceTest.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -28,6 +28,8 @@
   */
  
@@ -473,9 +473,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/t
          assertTrue(validatingLabel.valid);
          
          ApplicationInstance.setActive(null);
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/test/ApplicationStyleTest.java
+diff -r 6ca1f7b8d775 src/server-java/app-test/nextapp/echo/app/test/ApplicationStyleTest.java
 --- a/src/server-java/app-test/nextapp/echo/app/test/ApplicationStyleTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app-test/nextapp/echo/app/test/ApplicationStyleTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app-test/nextapp/echo/app/test/ApplicationStyleTest.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -46,7 +46,7 @@
          ColumnApp app = new ColumnApp();
          ApplicationInstance.setActive(app);
@@ -485,9 +485,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/t
          assertTrue(app.getLabel().isRegistered());
          
          MutableStyleSheet styleSheet = new MutableStyleSheet();
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/test/ColumnApp.java
+diff -r 6ca1f7b8d775 src/server-java/app-test/nextapp/echo/app/test/ColumnApp.java
 --- a/src/server-java/app-test/nextapp/echo/app/test/ColumnApp.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app-test/nextapp/echo/app/test/ColumnApp.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app-test/nextapp/echo/app/test/ColumnApp.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -29,6 +29,8 @@
  
  package nextapp.echo.app.test;
@@ -508,9 +508,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/t
          contentPane = window.getContent();
          column = new Column();
          label = new Label("Label");
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/test/ComponentTest.java
+diff -r 6ca1f7b8d775 src/server-java/app-test/nextapp/echo/app/test/ComponentTest.java
 --- a/src/server-java/app-test/nextapp/echo/app/test/ComponentTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app-test/nextapp/echo/app/test/ComponentTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app-test/nextapp/echo/app/test/ComponentTest.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -327,7 +327,7 @@
      public void testLifecycleSingleComponent() {
          ColumnApp app = new ColumnApp();
@@ -583,9 +583,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/t
          assertTrue(app.getContentPane().isRenderVisible());
          assertTrue(app.getColumn().isRenderVisible());
          assertTrue(app.getLabel().isRenderVisible());
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/test/FocusTraversalTest.java
+diff -r 6ca1f7b8d775 src/server-java/app-test/nextapp/echo/app/test/FocusTraversalTest.java
 --- a/src/server-java/app-test/nextapp/echo/app/test/FocusTraversalTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app-test/nextapp/echo/app/test/FocusTraversalTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app-test/nextapp/echo/app/test/FocusTraversalTest.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -38,7 +38,7 @@
      public void test1() {
          ColumnApp app = new ColumnApp();
@@ -595,9 +595,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/t
          Button a = new Button();
          a.setRenderId("a");
          app.getColumn().add(a);
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/test/HelloWorldApp.java
+diff -r 6ca1f7b8d775 src/server-java/app-test/nextapp/echo/app/test/HelloWorldApp.java
 --- a/src/server-java/app-test/nextapp/echo/app/test/HelloWorldApp.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app-test/nextapp/echo/app/test/HelloWorldApp.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app-test/nextapp/echo/app/test/HelloWorldApp.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -29,6 +29,8 @@
  
  package nextapp.echo.app.test;
@@ -618,9 +618,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/t
          content = window.getContent();
          label = new Label("Hello, world!");
          content.add(label);
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/test/LayoutDirectionTest.java
+diff -r 6ca1f7b8d775 src/server-java/app-test/nextapp/echo/app/test/LayoutDirectionTest.java
 --- a/src/server-java/app-test/nextapp/echo/app/test/LayoutDirectionTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app-test/nextapp/echo/app/test/LayoutDirectionTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app-test/nextapp/echo/app/test/LayoutDirectionTest.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -54,7 +54,7 @@
      public void setUp() {
          app = new ColumnApp();
@@ -630,9 +630,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/t
      }
      
      /**
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/test/ModalTest.java
+diff -r 6ca1f7b8d775 src/server-java/app-test/nextapp/echo/app/test/ModalTest.java
 --- a/src/server-java/app-test/nextapp/echo/app/test/ModalTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app-test/nextapp/echo/app/test/ModalTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app-test/nextapp/echo/app/test/ModalTest.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -31,6 +31,7 @@
  
  import nextapp.echo.app.ApplicationInstance;
@@ -776,9 +776,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/t
 +        assertEquals(b1, Window.getActive().getModalContextRoot());
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java
+diff -r 6ca1f7b8d775 src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java
 --- a/src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -40,6 +40,7 @@
  import nextapp.echo.app.Component;
  import nextapp.echo.app.Label;
@@ -872,9 +872,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/t
          
          // Ensure commands can be enqueued even if a full refresh is present.
          assertEquals(1, manager.getServerUpdateManager().getCommands().length);
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/test/WindowTest.java
+diff -r 6ca1f7b8d775 src/server-java/app-test/nextapp/echo/app/test/WindowTest.java
 --- a/src/server-java/app-test/nextapp/echo/app/test/WindowTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app-test/nextapp/echo/app/test/WindowTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app-test/nextapp/echo/app/test/WindowTest.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -44,7 +44,7 @@
       * Tests changing content of window.
       */
@@ -911,9 +911,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app-test/nextapp/echo/app/t
          window.setTitle("Title!!!");
          assertEquals("Title!!!", window.getTitle());
      }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/META-INF/nextapp/echo/SerialPeers.properties
+diff -r 6ca1f7b8d775 src/server-java/app/META-INF/nextapp/echo/SerialPeers.properties
 --- a/src/server-java/app/META-INF/nextapp/echo/SerialPeers.properties	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app/META-INF/nextapp/echo/SerialPeers.properties	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/META-INF/nextapp/echo/SerialPeers.properties	Fri Apr 17 16:57:14 2009 +0100
 @@ -18,7 +18,7 @@
  nextapp.echo.app.Insets                      nextapp.echo.app.serial.property.InsetsPeer
  nextapp.echo.app.LayoutData                  nextapp.echo.app.serial.property.LayoutDataPeer
@@ -923,9 +923,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/META-INF/nextapp/echo/S
  
  nextapp.echo.app.layout.CellLayoutData       nextapp.echo.app.serial.property.CellLayoutDataPeer
  nextapp.echo.app.layout.ColumnLayoutData     nextapp.echo.app.serial.property.ColumnLayoutDataPeer
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/ApplicationInstance.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/ApplicationInstance.java
 --- a/src/server-java/app/nextapp/echo/app/ApplicationInstance.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app/nextapp/echo/app/ApplicationInstance.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/ApplicationInstance.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -32,18 +32,12 @@
  import java.beans.PropertyChangeListener;
  import java.beans.PropertyChangeSupport;
@@ -1791,9 +1791,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Applic
 +        }
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Component.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/Component.java
 --- a/src/server-java/app/nextapp/echo/app/Component.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app/nextapp/echo/app/Component.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/Component.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -289,6 +289,9 @@
      /** Render id of next focus traversal component. */
      private String focusNextId;
@@ -1901,9 +1901,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Compon
 +        }
 +    }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/ContentPane.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/ContentPane.java
 --- a/src/server-java/app/nextapp/echo/app/ContentPane.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app/nextapp/echo/app/ContentPane.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/ContentPane.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -28,6 +28,7 @@
   */
  
@@ -1912,9 +1912,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Conten
  
  /**
   * <code>ContentPane</code> component: a high-level container/layout object which fills a region and optionally provides the
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/MutableStyle.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/MutableStyle.java
 --- a/src/server-java/app/nextapp/echo/app/MutableStyle.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app/nextapp/echo/app/MutableStyle.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/MutableStyle.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -214,7 +214,7 @@
       * @deprecated Use {@link #getIndex(String, int)} instead.
       */
@@ -1942,9 +1942,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Mutabl
      }
      
      /**
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/RenderState.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/RenderState.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/server-java/app/nextapp/echo/app/RenderState.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/RenderState.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -0,0 +1,40 @@
 +/* 
 + * This file is part of the Echo Web Application Framework (hereinafter "Echo").
@@ -1986,9 +1986,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Render
 + */
 +public interface RenderState 
 +extends Serializable { }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Window.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/Window.java
 --- a/src/server-java/app/nextapp/echo/app/Window.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app/nextapp/echo/app/Window.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/Window.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -29,6 +29,20 @@
  
  package nextapp.echo.app;
@@ -2010,7 +2010,7 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Window
  /**
   * A top-level window.
   */
-@@ -38,13 +52,181 @@
+@@ -38,13 +52,186 @@
      private static final long serialVersionUID = 20070101L;
  
      public static final String PROPERTY_TITLE = "title";
@@ -2092,6 +2092,11 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Window
 +     * browser windows pointing at the same application instance.
 +     */
 +    private int transactionId = 0;
++    
++    /**
++     * The last time the window was involved in a synchronisation with a client
++     */
++    private long lastUpdateTime = System.currentTimeMillis();
 +    
 +    /**
 +     * Mapping between component instances and <code>RenderState</code> objects.
@@ -2193,7 +2198,7 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Window
      }
      
      /**
-@@ -104,4 +286,475 @@
+@@ -104,4 +291,483 @@
      public void setTitle(String newValue) {
          set(PROPERTY_TITLE, newValue);
      }
@@ -2668,10 +2673,18 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/Window
 +        Window w = (Window)contextStack.pop();
 +        Window.setActive(w);
 +    }
++    
++    public long getLastUpdateTime() {
++        return lastUpdateTime;
++    }
++    
++    public void updateLastUpdateTime() {
++        lastUpdateTime = System.currentTimeMillis();
++    }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/command/BrowserCloseWindowCommand.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/command/BrowserCloseWindowCommand.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/server-java/app/nextapp/echo/app/command/BrowserCloseWindowCommand.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/command/BrowserCloseWindowCommand.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -0,0 +1,40 @@
 +/* 
 + * This file is part of the Echo Web Application Framework (hereinafter "Echo").
@@ -2713,9 +2726,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/comman
 +public class BrowserCloseWindowCommand 
 +implements Command {
 +}
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/command/BrowserOpenWindowCommand.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/command/BrowserOpenWindowCommand.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/server-java/app/nextapp/echo/app/command/BrowserOpenWindowCommand.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/command/BrowserOpenWindowCommand.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -0,0 +1,171 @@
 +/* 
 + * This file is part of the Echo Web Application Framework (hereinafter "Echo").
@@ -2888,9 +2901,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/comman
 +        return flags;
 +    }
 +}
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/command/OpenEcho3WindowCommand.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/command/OpenEcho3WindowCommand.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/server-java/app/nextapp/echo/app/command/OpenEcho3WindowCommand.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/command/OpenEcho3WindowCommand.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -0,0 +1,72 @@
 +/* 
 + * This file is part of the Echo Web Application Framework (hereinafter "Echo").
@@ -2964,9 +2977,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/comman
 +		return window;
 +	}
 +}
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/serial/property/HttpImageReferencePeer.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/serial/property/HttpImageReferencePeer.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/server-java/app/nextapp/echo/app/serial/property/HttpImageReferencePeer.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/serial/property/HttpImageReferencePeer.java	Fri Apr 17 16:57:14 2009 +0100
 @@ -0,0 +1,111 @@
 +/* 
 + * This file is part of the Echo Web Application Framework (hereinafter "Echo").
@@ -3079,9 +3092,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/serial
 +        }
 +    }
 +}
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/update/ClientUpdateManager.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/update/ClientUpdateManager.java
 --- a/src/server-java/app/nextapp/echo/app/update/ClientUpdateManager.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app/nextapp/echo/app/update/ClientUpdateManager.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/update/ClientUpdateManager.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -36,6 +36,7 @@
  
  import nextapp.echo.app.ApplicationInstance;
@@ -3121,9 +3134,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/update
          }
          
          // Process property updates. 
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/update/ServerUpdateManager.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/update/ServerUpdateManager.java
 --- a/src/server-java/app/nextapp/echo/app/update/ServerUpdateManager.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app/nextapp/echo/app/update/ServerUpdateManager.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/update/ServerUpdateManager.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -42,6 +42,7 @@
  import nextapp.echo.app.ApplicationInstance;
  import nextapp.echo.app.Command;
@@ -3168,9 +3181,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/update
          }
  
          Iterator it = componentUpdateMap.keySet().iterator();
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/update/UpdateManager.java
+diff -r 6ca1f7b8d775 src/server-java/app/nextapp/echo/app/update/UpdateManager.java
 --- a/src/server-java/app/nextapp/echo/app/update/UpdateManager.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/app/nextapp/echo/app/update/UpdateManager.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/update/UpdateManager.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -31,7 +31,8 @@
  
  import java.io.Serializable;
@@ -3252,9 +3265,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/app/nextapp/echo/app/update
 +        }
 +    }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/GhostTask.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/GhostTask.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/GhostTask.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/GhostTask.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/GhostTask.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -30,6 +30,7 @@
  package nextapp.echo.testapp.interactive;
  
@@ -3296,9 +3309,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
 +        Window.getActive().enqueueTask(taskQueue, task);
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/InteractiveApp.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/InteractiveApp.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/InteractiveApp.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/InteractiveApp.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/InteractiveApp.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -28,6 +28,8 @@
   */
  
@@ -3350,9 +3363,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
          ghostTaskQueue = null;
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/RandomClick.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/RandomClick.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/RandomClick.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/RandomClick.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/RandomClick.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -100,7 +100,7 @@
       * programmatically clicks one.
       */
@@ -3362,9 +3375,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
          List buttonList = new ArrayList();
          findButtons(buttonList, window);
          AbstractButton button = (AbstractButton) buttonList.get((int) (buttonList.size() * Math.random()));
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/TestPane.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/TestPane.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/TestPane.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/TestPane.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/TestPane.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -40,6 +40,7 @@
  import nextapp.echo.app.Extent;
  import nextapp.echo.app.Label;
@@ -3381,9 +3394,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
 +        Window.getActive().setFocusedComponent(testLaunchButtonsColumn.getComponent(0));
      };
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/WelcomePane.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/WelcomePane.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/WelcomePane.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/WelcomePane.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/WelcomePane.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -38,6 +38,7 @@
  import nextapp.echo.app.Label;
  import nextapp.echo.app.Row;
@@ -3400,9 +3413,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
 +        Window.getActive().setFocusedComponent(continueButton);
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/CommandTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/CommandTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/CommandTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/CommandTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/CommandTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -33,10 +33,10 @@
  import nextapp.echo.app.Column;
  import nextapp.echo.app.Extent;
@@ -3469,9 +3482,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
                          new BrowserOpenWindowCommand("http://echo.nextapp.com", 
                          "auxwindow", new Extent(40, Extent.PERCENT), new Extent(60, Extent.PERCENT),
                          BrowserOpenWindowCommand.FLAG_REPLACE | BrowserOpenWindowCommand.FLAG_MENUBAR |
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/ContentPaneTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/ContentPaneTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/ContentPaneTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/ContentPaneTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/ContentPaneTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -38,6 +38,7 @@
  import nextapp.echo.app.Insets;
  import nextapp.echo.app.Label;
@@ -3489,9 +3502,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
          
          ButtonColumn controlsColumn = new ButtonColumn();
          controlsColumn.setStyleName("TestControlsColumn");
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/FocusTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/FocusTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/FocusTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/FocusTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/FocusTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -84,7 +84,7 @@
              final int index = i;
              controlsColumn.addButton("Focus " + i, new ActionListener() {
@@ -3546,9 +3559,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
              }
          });
          testColumn.add(focusListBox);
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/GridTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/GridTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/GridTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/GridTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/GridTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -580,7 +580,7 @@
                  windowPane.setInsets(new Insets(10));
                  windowPane.setStyleName("Default");
@@ -3567,9 +3580,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
                  
                  GridLayoutData gld;
                  ColumnLayoutData cld;
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/ListBoxTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/ListBoxTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/ListBoxTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/ListBoxTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/ListBoxTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -727,12 +727,12 @@
          });
          controlsColumn.addButton("Focus SelectField1", new ActionListener() {
@@ -3585,9 +3598,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
              }
          });
          
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/PushTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/PushTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/PushTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/PushTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/PushTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -74,7 +74,7 @@
                  }
                  ApplicationInstance app = getApplicationInstance();
@@ -3633,9 +3646,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
          }
          super.dispose();
      }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/StyleSheetTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/StyleSheetTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/StyleSheetTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/StyleSheetTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/StyleSheetTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -44,6 +44,7 @@
  import nextapp.echo.app.Column;
  import nextapp.echo.app.StyleSheet;
@@ -3653,9 +3666,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
          } catch (IOException ex) {
              throw new RuntimeException(ex);
          }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/TextComponentTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/TextComponentTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/TextComponentTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/TextComponentTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/TextComponentTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -527,17 +527,17 @@
          });
          controlsColumn.addButton("Focus TextField", new ActionListener() {
@@ -3677,9 +3690,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
              }
          });
          controlsColumn.addButton("Sync Mode: On Action", new ActionListener() {
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowPaneExamplesTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowPaneExamplesTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowPaneExamplesTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowPaneExamplesTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowPaneExamplesTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -48,6 +48,7 @@
  import nextapp.echo.app.Table;
  import nextapp.echo.app.TextArea;
@@ -3787,9 +3800,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
                  }
              });
          }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowPaneTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowPaneTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowPaneTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowPaneTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowPaneTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -37,6 +37,7 @@
  import nextapp.echo.app.Insets;
  import nextapp.echo.app.Label;
@@ -3807,9 +3820,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
              }
          });
      }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowTest.java
+diff -r 6ca1f7b8d775 src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowTest.java
 --- a/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowTest.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowTest.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/testapp/interactive/testscreen/WindowTest.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -51,38 +51,38 @@
  
          controlsColumn.addButton("Set window title", new ActionListener() {
@@ -3856,9 +3869,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/testapp-interactive/lib/nex
              }
          });
          controlsColumn.addButton("Multiple Content Changes", new ActionListener() {
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/META-INF/nextapp/echo/SynchronizePeerBindings.properties
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/META-INF/nextapp/echo/SynchronizePeerBindings.properties
 --- a/src/server-java/webcontainer/META-INF/nextapp/echo/SynchronizePeerBindings.properties	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/META-INF/nextapp/echo/SynchronizePeerBindings.properties	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/META-INF/nextapp/echo/SynchronizePeerBindings.properties	Fri Apr 17 16:57:15 2009 +0100
 @@ -86,7 +86,11 @@
                                               nextapp.echo.webcontainer.sync.component.AbstractListComponentPeer$ListDataPeer
  
@@ -3872,9 +3885,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/META-INF/nexta
 +                                             nextapp.echo.webcontainer.sync.command.OpenEcho3WindowCommandPeer
  nextapp.echo.webcontainer.command.BrowserRedirectCommand \
                                               nextapp.echo.webcontainer.sync.command.BrowserRedirectCommandPeer
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/ClientMessage.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/ClientMessage.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/ClientMessage.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/ClientMessage.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/ClientMessage.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -96,6 +96,9 @@
      /** The sequential transaction identifier, used for determining if the client has the current application state. */
      private int transactionId;
@@ -3911,9 +3924,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
      }
      
      /**
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/ComponentFocusInputProcessor.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/ComponentFocusInputProcessor.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/ComponentFocusInputProcessor.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/ComponentFocusInputProcessor.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/ComponentFocusInputProcessor.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -33,6 +33,7 @@
  import org.w3c.dom.Element;
  
@@ -3930,9 +3943,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
 +        Window.getActive().setFocusedComponent(component);
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/ComponentInputProcessor.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/ComponentInputProcessor.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/ComponentInputProcessor.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/ComponentInputProcessor.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/ComponentInputProcessor.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -35,6 +35,7 @@
  import java.util.Map;
  
@@ -3958,9 +3971,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
          
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/InputProcessor.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/InputProcessor.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/InputProcessor.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/InputProcessor.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/InputProcessor.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -34,6 +34,8 @@
  import org.w3c.dom.Document;
  import org.xml.sax.SAXException;
@@ -4014,9 +4027,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
                  DomUtil.save(clientMessage.getDocument(), System.err, DomUtil.OUTPUT_PROPERTIES_INDENT);
                  System.err.println();
              } catch (SAXException ex) {
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -143,7 +143,7 @@
          document = serverMessage.getDocument();
          context = new OutputContext();
@@ -4096,9 +4109,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
          if (focusedComponent != null) {
              Element focusElement = serverMessage.addDirective(ServerMessage.GROUP_ID_UPDATE, "CFocus", "focus");
              focusElement.setAttribute("i", userInstance.getClientRenderId(focusedComponent));
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/RenderState.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/RenderState.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/RenderState.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/RenderState.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/RenderState.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -1,40 +1,10 @@
 -/* 
 - * This file is part of the Echo Web Application Framework (hereinafter "Echo").
@@ -4143,9 +4156,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
 +public interface RenderState extends nextapp.echo.app.RenderState {
 +
 +}
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/Synchronization.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/Synchronization.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/Synchronization.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/Synchronization.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/Synchronization.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -32,6 +32,9 @@
  import java.io.IOException;
  
@@ -4156,9 +4169,12 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
  
  /**
   * The high-level object which encapsulates the core of the client-server synchronization process for 
-@@ -106,19 +109,35 @@
+@@ -105,20 +108,38 @@
+                 InputProcessor inputProcessor = new InputProcessor(this, conn);
                  inputProcessor.process();
                  
++                Window.getActive().updateLastUpdateTime();
++                
                  // Manage render states.
 -                if (userInstance.getUpdateManager().getServerUpdateManager().isFullRefreshRequired()) {
 -                    userInstance.clearRenderStates();
@@ -4196,9 +4212,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
                  ApplicationInstance.setActive(null);
              }
          }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -49,8 +49,7 @@
  import nextapp.echo.app.ApplicationInstance;
  import nextapp.echo.app.Component;
@@ -4429,9 +4445,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
      }
  
      /**
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/WebContainerServlet.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -48,6 +48,7 @@
  import nextapp.echo.webcontainer.service.AsyncMonitorService;
  import nextapp.echo.webcontainer.service.BootService;
@@ -4448,7 +4464,7 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
 +    /**
 +     * <code>Service</code> identifier of the 'new window' service. 
 +     * The 'new window' service is rendered when a client makes a request
-+     * with the service identifier <code>nwin</code> and a session DOES exist..
++     * with the service identifier <code>Echo.NewWindow</code> and a session DOES exist..
 +     */
 +    public static final String SERVICE_ID_NEW_WINDOW = "Echo.NewWindow";
      
@@ -4496,7 +4512,7 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
 +        return allowAsyncWindowUpdates;
 +    }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/command/BrowserOpenWindowCommand.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/command/BrowserOpenWindowCommand.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/command/BrowserOpenWindowCommand.java	Sat Apr 11 13:12:55 2009 +0100
 +++ /dev/null	Thu Jan 01 00:00:00 1970 +0000
 @@ -1,171 +0,0 @@
@@ -4671,9 +4687,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
 -        return flags;
 -    }
 -}
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/resource/Boot.js
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/resource/Boot.js
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/Boot.js	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/Boot.js	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/Boot.js	Fri Apr 17 16:57:15 2009 +0100
 @@ -30,15 +30,16 @@
       * 
       * @param {String} serverBaseUrl the servlet URL
@@ -4693,9 +4709,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
          for (var i = 0; i < Echo.Boot._initMethods.length; ++i) {
              Echo.Boot._initMethods[i](client);
          }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.BrowserCloseWindow.js
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.BrowserCloseWindow.js
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.BrowserCloseWindow.js	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.BrowserCloseWindow.js	Fri Apr 17 16:57:15 2009 +0100
 @@ -0,0 +1,18 @@
 +/**
 + * Command execution peer: Browser Close Window
@@ -4715,9 +4731,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
 +     }
 +});
 +
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.BrowserOpenWindow.js
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.BrowserOpenWindow.js
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.BrowserOpenWindow.js	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.BrowserOpenWindow.js	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.BrowserOpenWindow.js	Fri Apr 17 16:57:15 2009 +0100
 @@ -77,7 +77,7 @@
       },
       
@@ -4727,9 +4743,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
       }
  });
  
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.OpenEcho3Window.js
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.OpenEcho3Window.js
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.OpenEcho3Window.js	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.OpenEcho3Window.js	Fri Apr 17 16:57:15 2009 +0100
 @@ -0,0 +1,22 @@
 +/**
 + * Command execution peer: Open Echo3 Window
@@ -4753,9 +4769,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
 +     }
 +});
 +
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	Fri Apr 17 16:57:15 2009 +0100
 @@ -138,11 +138,18 @@
      transactionId: 0,
      
@@ -4801,9 +4817,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
          if (initialize) {
              this._document.documentElement.setAttribute("t", "init");
              this._renderClientProperties();
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/service/AsyncMonitorService.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/service/AsyncMonitorService.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/service/AsyncMonitorService.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/AsyncMonitorService.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/AsyncMonitorService.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -32,6 +32,7 @@
  
  import java.io.IOException;
@@ -4812,20 +4828,22 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
  import nextapp.echo.webcontainer.Connection;
  import nextapp.echo.webcontainer.ContentType;
  import nextapp.echo.webcontainer.Service;
-@@ -82,7 +83,9 @@
+@@ -82,7 +83,11 @@
       */
      public void service(Connection conn) throws IOException {
          conn.setContentType(ContentType.TEXT_XML);
 -        if (conn.getUserInstance().getApplicationInstance().hasQueuedTasks()) {
 +        String windowId = conn.getRequest().getParameter("wid");
 +        Window w = conn.getUserInstance().getApplicationInstance().getWindow(windowId);
++        if (w != null)
++            w.updateLastUpdateTime();
 +        if (w != null && w.hasQueuedTasks()) {
              conn.getWriter().write("<async-monitor request-sync=\"true\"/>");
          } else {
              conn.getWriter().write("<async-monitor request-sync=\"false\"/>");
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/service/NewInstanceService.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/service/NewInstanceService.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/service/NewInstanceService.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/NewInstanceService.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/NewInstanceService.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -75,7 +75,7 @@
       */
      public void service(Connection conn) 
@@ -4835,9 +4853,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
          WindowHtmlService.INSTANCE.service(conn);
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/service/NewWindowService.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/service/NewWindowService.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/NewWindowService.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/NewWindowService.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -0,0 +1,90 @@
 +/* 
 + * This file is part of the Echo Web Application Framework (hereinafter "Echo").
@@ -4929,9 +4947,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
 +        }
 +    }
 +}
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -44,6 +44,7 @@
  import org.xml.sax.SAXException;
  
@@ -4970,9 +4988,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
          }
      }
  }
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/BrowserCloseWindowCommandPeer.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/BrowserCloseWindowCommandPeer.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/BrowserCloseWindowCommandPeer.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/BrowserCloseWindowCommandPeer.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -0,0 +1,75 @@
 +/* 
 + * This file is part of the Echo Web Application Framework (hereinafter "Echo").
@@ -5049,9 +5067,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
 +        serverMessage.addLibrary(BROWSER_CLOSE_WINDOW_SERVICE.getId());
 +    }
 +}
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/BrowserOpenWindowCommandPeer.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/BrowserOpenWindowCommandPeer.java
 --- a/src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/BrowserOpenWindowCommandPeer.java	Sat Apr 11 13:12:55 2009 +0100
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/BrowserOpenWindowCommandPeer.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/BrowserOpenWindowCommandPeer.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -30,12 +30,12 @@
  package nextapp.echo.webcontainer.sync.command;
  
@@ -5066,9 +5084,9 @@ diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/w
  import nextapp.echo.webcontainer.service.JavaScriptService;
  
  /**
-diff -r 6ca1f7b8d775 -r a3e1aabddd4f src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/OpenEcho3WindowCommandPeer.java
+diff -r 6ca1f7b8d775 src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/OpenEcho3WindowCommandPeer.java
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/OpenEcho3WindowCommandPeer.java	Wed Apr 15 20:11:52 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/sync/command/OpenEcho3WindowCommandPeer.java	Fri Apr 17 16:57:15 2009 +0100
 @@ -0,0 +1,90 @@
 +/* 
 + * This file is part of the Echo Web Application Framework (hereinafter "Echo").
