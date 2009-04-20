@@ -144,6 +144,11 @@ public abstract class AbstractButton extends ExtComponent {
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
         if (INPUT_ACTION.equals(inputName)) {
+            if (getPressed()) {
+                setPressed(false);
+            } else {
+                setPressed(true);
+            }
             fireActionEvent();
         }
     }

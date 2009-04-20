@@ -3,10 +3,10 @@ package org.sgodden.echo.ext20.buttons;
 import java.util.ArrayList;
 import java.util.List;
 
-import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Window;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 
-import org.sgodden.echo.ext20.AbstractButton;
 import org.sgodden.echo.ext20.Button;
 
 /**
@@ -14,13 +14,14 @@ import org.sgodden.echo.ext20.Button;
  * 
  * @author rcharlton
  */
-public class ToggleGroup {
+@SuppressWarnings("serial")
+public class ToggleGroup implements ActionListener {
 
     private String toggleGroupName;
 
     private static final String DEFAULT_TGROUP_NAME = "toggle_group_";
 
-    private List<AbstractButton> buttons = new ArrayList<AbstractButton>();
+    private List<Button> buttons = new ArrayList<Button>();
 
     /**
      * Constructs a toggle group with a default toggle group name that is unique
@@ -50,6 +51,7 @@ public class ToggleGroup {
      */
     public void addButton(Button button) {
         button.setToggleGroup(toggleGroupName);
+        button.addActionListener(this);
         buttons.add(button);
     }
 
@@ -57,7 +59,20 @@ public class ToggleGroup {
      * @return buttons All the buttons that have been added to this toggle
      *         group.
      */
-    public List<AbstractButton> getButtons() {
+    public List<Button> getButtons() {
         return buttons;
+    }
+
+    /**
+     * Handles the clicking of a button in this toggle group
+     */
+    public void actionPerformed(ActionEvent arg0) {
+        Button source = (Button)arg0.getSource();
+        source.setPressed(true);
+        for (Button b : buttons) {
+            if (b != source) {
+                b.setPressed(false);
+            }
+        }
     }
 }
