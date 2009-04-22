@@ -20,6 +20,7 @@
  */
 
 // Ext initialisation
+Ext.BLANK_IMAGE_URL="resources/ext/images/default/s.gif";
 Ext.QuickTips.init();
 
 
