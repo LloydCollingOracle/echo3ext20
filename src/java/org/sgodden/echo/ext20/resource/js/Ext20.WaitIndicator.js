@@ -5,6 +5,8 @@ EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
 
     $static: {
     
+        appWaitIndicator: null,
+    
         boot: function(client) {
             client.setWaitIndicator(new EchoExt20.WaitIndicator());
             client._preWaitIndicatorDelay = 5;
@@ -18,7 +20,7 @@ EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
     },
     
     activate: function() {
-        var waitEl = document.getElementById("C.applicationWaitIndicator");
+        var waitEl = EchoExt20.WaitIndicator.appWaitIndicator;
         if (waitEl != null) {
             waitEl.firstChild.src = EchoExt20.waitIconUrl;
             //waitEl.style.backgroundImage = "url(" + waitEl.waitIconUrl + ")";
@@ -27,7 +29,7 @@ EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
     },
     
     deactivate: function() {
-        var waitEl = document.getElementById("C.applicationWaitIndicator");
+        var waitEl = EchoExt20.WaitIndicator.appWaitIndicator;
         if (waitEl != null) {
             waitEl.firstChild.src = EchoExt20.noWaitIconUrl;
             //waitEl.style.backgroundImage = "url(" + waitEl.noWaitIconUrl + ")";

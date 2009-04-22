@@ -1,5 +1,5 @@
 EchoExt20.ApplicationWaitIndicator = Core.extend(Echo.Label, {
-	
+    
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20ApplicationWaitIndicator", this);
         Echo.ComponentFactory.registerType("E2AWI", this);
@@ -18,21 +18,23 @@ EchoExt20.ApplicationWaitIndicatorSync = Core.extend(Echo.Sync.Label, {
     },
 
     renderAdd: function(update, parentElement) {
-    	// invoke super class method
-	    Echo.Sync.Label.prototype.renderAdd.call(this, update, parentElement);
-	    
-	    // get the two urls from the component
-	    var waitIconUrl = Echo.Sync.ImageReference.getUrl(
-        	this.component.get("waitIcon"));
+        // invoke super class method
+        Echo.Sync.Label.prototype.renderAdd.call(this, update, parentElement);
+        
+        // get the two urls from the component
+        var waitIconUrl = Echo.Sync.ImageReference.getUrl(
+            this.component.get("waitIcon"));
         var noWaitIconUrl = Echo.Sync.ImageReference.getUrl(
-        	this.component.get("noWaitIcon"));
-	
-	    // set them as attributes on the parent element
-	    EchoExt20.waitIconUrl = waitIconUrl;
-	    EchoExt20.noWaitIconUrl = noWaitIconUrl;
-	},
-	
-	renderDispose: function(update) {
-		Echo.Sync.Label.prototype.renderDispose.call(this, update, parentElement);
-	}
+            this.component.get("noWaitIcon"));
+    
+        // set them as attributes on the parent element
+        EchoExt20.waitIconUrl = waitIconUrl;
+        EchoExt20.noWaitIconUrl = noWaitIconUrl;
+        
+        EchoExt20.WaitIndicator.appWaitIndicator = this._node;
+    },
+    
+    renderDispose: function(update) {
+        Echo.Sync.Label.prototype.renderDispose.call(this, update, parentElement);
+    }
 });
