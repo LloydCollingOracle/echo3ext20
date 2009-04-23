@@ -102,6 +102,7 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
         if (this._tabCloseNotificationSuspended == true)
             return true;
         
+        Core.Debug.consoleWrite("synca: " + new Date().getTime());
         for (var i = 0; i < this.component.getComponentCount(); i++) {
             if (this.component.getComponent(i).renderId == child.id)
                 this.component.doTabClose(i);
@@ -130,8 +131,7 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
 
         // we always set the tab index as the child add/removes may have
         // changed the tab index
-        var activeChild = this.component.getComponent(activeTabIndex);
-        var activeExtComponent = activeChild.peer.extComponent;
+        var activeExtComponent = this.extComponent.items.get(activeTabIndex);
 
         this._tabChangeNotificationSuspended = true;
         this.extComponent.setActiveTab(activeExtComponent);
