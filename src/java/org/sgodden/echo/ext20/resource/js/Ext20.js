@@ -544,7 +544,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             // update listener we added earlier
             Echo.Render.removeRenderDisplayCompleteListener(this.renderDisplayCompleteRef);
         }
-        this.extComponent.destroy();
     },
     
     renderUpdate: function(update) {
