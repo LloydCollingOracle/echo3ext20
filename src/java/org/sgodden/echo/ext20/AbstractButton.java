@@ -48,6 +48,7 @@ public abstract class AbstractButton extends ExtComponent {
      */
     public AbstractButton() {
         super();
+        setPressed(false);
     }
 
     /**
@@ -59,6 +60,7 @@ public abstract class AbstractButton extends ExtComponent {
     public AbstractButton(String text) {
         this();
         setText(text);
+        setPressed(false);
     }
 
     /**
@@ -72,6 +74,7 @@ public abstract class AbstractButton extends ExtComponent {
     public AbstractButton(String text, ImageReference icon) {
         this(text);
         setIcon(icon);
+        setPressed(false);
     }
 
     /**
@@ -144,11 +147,7 @@ public abstract class AbstractButton extends ExtComponent {
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
         if (INPUT_ACTION.equals(inputName)) {
-            if (getPressed()) {
-                setPressed(false);
-            } else {
-                setPressed(true);
-            }
+            setPressed(!getPressed());
             fireActionEvent();
         }
     }
