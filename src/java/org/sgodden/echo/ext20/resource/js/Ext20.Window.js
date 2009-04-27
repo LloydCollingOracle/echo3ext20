@@ -70,6 +70,11 @@ EchoExt20.WindowSync = Core.extend(EchoExt20.PanelSync, {
 		
         // we don't want ext to close the window - server-side code has to do it
         return false;
+    },
+
+    renderDispose: function(update) {
+        EchoExt20.PanelSync.prototype.renderDispose.call(this, update);
+        this.extComponent.destroy();
     }
 
 });
