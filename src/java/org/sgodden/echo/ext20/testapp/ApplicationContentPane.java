@@ -37,6 +37,7 @@ import org.sgodden.echo.ext20.layout.TableLayout;
 import org.sgodden.echo.ext20.layout.TableLayoutData;
 import org.sgodden.echo.ext20.testapp.regression.BorderLayoutTest;
 import org.sgodden.echo.ext20.testapp.regression.RemoveEchoFromExtTest;
+import org.sgodden.echo.ext20.testapp.regression.TextFieldActionTest;
 
 /**
  * Application content pane for the test application.
@@ -187,6 +188,12 @@ public class ApplicationContentPane
         button5.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent e) {
         		showCentreComponent( new BorderLayoutTest());
+        	}});
+        final nextapp.echo.app.Button button6 = makeEchoButton("TextField Action, issue 29");
+        col2.add(button6);
+        button6.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e) {
+        		showCentreComponent( new TextFieldActionTest());
         	}});
         
 

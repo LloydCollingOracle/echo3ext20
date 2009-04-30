@@ -389,4 +389,18 @@ public class TextField extends ExtComponent implements Field {
             ((ActionListener) listeners[i]).actionPerformed(e);
         }
     }
+    
+    /**
+     * Adds an <code>ActionListener</code> to the textfield.
+     * <code>ActionListener</code>s will be invoked when the button is clicked.
+     * 
+     * @param l
+     *            the <code>ActionListener</code> to add
+     */
+    public void addActionListener(ActionListener l) {
+        getEventListenerList().addListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
 }
