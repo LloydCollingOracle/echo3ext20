@@ -35,6 +35,7 @@ import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 import org.sgodden.echo.ext20.layout.TableLayoutData;
+import org.sgodden.echo.ext20.testapp.regression.BorderLayoutTest;
 import org.sgodden.echo.ext20.testapp.regression.RemoveEchoFromExtTest;
 
 /**
@@ -181,6 +182,12 @@ public class ApplicationContentPane
             public void actionPerformed(ActionEvent e) {
                 showCentreComponent(makeGroovyComponent("org.sgodden.echo.ext20.testapp.regression.ComboBoxModelUpdatePanel"));
             }});
+        final nextapp.echo.app.Button button5 = makeEchoButton("Button in BorderLayout, issue 28");
+        col2.add(button5);
+        button5.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e) {
+        		showCentreComponent( new BorderLayoutTest());
+        	}});
         
 
         return ret;
