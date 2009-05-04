@@ -146,9 +146,13 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     $virtual: {
         renderFocus: function() {
             if (this.extComponent.rendered) {
-                this.extComponent.focus();
-                if (this.extComponent.selectText) {
-                    this.extComponent.selectText();
+                try {
+                    this.extComponent.focus();
+                    if (this.extComponent.selectText) {
+                        this.extComponent.selectText();
+                    }
+                } catch (ex) {
+                    this.extComponent.el.focus();
                 }
             }
             else {
