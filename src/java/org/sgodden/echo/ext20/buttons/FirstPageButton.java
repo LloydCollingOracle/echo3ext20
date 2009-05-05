@@ -12,6 +12,7 @@ public class FirstPageButton extends Button {
     
     public FirstPageButton() {
         super();
+        setIconClass("x-tbar-page-first");
     }
 
 }
