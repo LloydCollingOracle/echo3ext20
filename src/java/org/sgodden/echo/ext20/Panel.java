@@ -51,6 +51,10 @@ public class Panel extends ExtComponent {
      * or clip overflowing contents (defaults to false, to clip).
      */
     public static final String PROPERTY_AUTOSCROLL = "autoScroll";
+    /**
+     * The tab tip when the Panel is added to a TabbedPane
+     */
+    public static final String PROPERTY_TABTIP = "tabTip";
     
     /**
      * Whether to render a border around the whole panel.
@@ -302,7 +306,24 @@ public class Panel extends ExtComponent {
     public String getTitle() {
         return (String) get(PROPERTY_TITLE);
     }
+    /**
+     * Sets the tabTip of the panel.
+     * @param tabTip the tabTip of the panel.
+     */
+    public void setTabTip( String tabTip) {
+    	set( PROPERTY_TABTIP, tabTip);
+    }
+    /**
+     * Returns the panel's tabTip
+     * @return If the panel's tabTip is setted, then return the tabTip, else return the title 
+     */
+    public String getTabTip() {
+    	String tabTip = (String) get( PROPERTY_TABTIP);
+    	if ( tabTip == null) return getTitle();
+		return tabTip;
+    }
 
+    
     /**
      * Sets the padding of the overall panel, in CSS style.
      * @param padding the padding of the overall panel, in CSS style.
