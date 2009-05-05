@@ -1,0 +1,1091 @@
+=== modified file 'ant.properties'
+--- ant.properties	2008-12-19 08:21:08 +0000
++++ ant.properties	2009-01-05 16:43:32 +0000
+@@ -51,6 +51,7 @@
+ dir.build                               build
+ dir.build.server-java                   ${dir.build}/server-java
+ dir.build.server-java.app               ${dir.build.server-java}/app
++dir.build.server-java.app-test          ${dir.build.server-java}/app-test
+ dir.build.server-java.webcontainer      ${dir.build.server-java}/webcontainer
+ dir.build.server-java.webcontainer.res  ${dir.build.server-java.webcontainer}/nextapp/echo/extras/webcontainer/resource
+ dir.build.server-java.testapp           ${dir.build.server-java}/testapp
+
+=== modified file 'build.xml'
+--- build.xml	2009-01-02 04:47:28 +0000
++++ build.xml	2009-05-05 08:51:28 +0000
+@@ -62,6 +62,7 @@
+     
+     <target name="compile.app" description="Compile Application source files">
+         <mkdir dir="${dir.build.server-java.app}"/>
++    	<echo message="${echo3.app.lib.jar}"/>
+         <javac srcdir="${dir.src.server-java.app}" destdir="${dir.build.server-java.app}" 
+                 debug="${debug}" deprecation="yes" source="${ant.build.javac.source}" target="${ant.build.javac.target}">
+             <classpath>
+@@ -86,7 +87,9 @@
+             debug="${debug}" deprecation="yes" source="${ant.build.javac.source}" target="${ant.build.javac.target}">
+             <classpath>
+                 <pathelement path="${echo3.app.lib.jar}"/>
+-                <pathelement path="${dir.dist.lib}/${jarfile.echo.app}"/>
++                <pathelement path="${echo3.webcontainer.lib.jar}"/>
++                <pathelement path="${dir.dist.lib}/${jarfile.extras.app}"/>
++                <pathelement path="${dir.dist.lib}/${jarfile.extras.webcontainer}"/>
+             </classpath>
+         </javac>
+         <copy todir="${dir.build.server-java.app-test}">
+@@ -101,8 +104,10 @@
+         <junit printsummary="yes" haltonfailure="no">
+             <classpath>
+                 <pathelement path="${echo3.app.lib.jar}"/>
++                <pathelement path="${echo3.webcontainer.lib.jar}"/>
+                 <pathelement path="${dir.build.server-java.app-test}"/>
+-                <pathelement path="${dir.dist.lib}/${jarfile.echo.app}"/>
++                <pathelement path="${dir.dist.lib}/${jarfile.extras.app}"/>
++                <pathelement path="${dir.dist.lib}/${jarfile.extras.webcontainer}"/>
+             </classpath>
+             <formatter type="plain"/>
+             <batchtest fork="yes" todir="${dir.testoutput.app-test}">
+
+=== added file 'src/server-java/app-test/nextapp/echo/extras/app/tree/TreeNodeTest.java'
+--- src/server-java/app-test/nextapp/echo/extras/app/tree/TreeNodeTest.java	1970-01-01 00:00:00 +0000
++++ src/server-java/app-test/nextapp/echo/extras/app/tree/TreeNodeTest.java	2009-01-05 16:28:26 +0000
+@@ -0,0 +1,232 @@
++package nextapp.echo.extras.app.tree;
++
++import java.util.HashMap;
++import java.util.Map;
++
++import nextapp.echo.extras.app.tree.DefaultMutableTreeNode;
++import nextapp.echo.extras.app.tree.TreeNodeModel;
++import nextapp.echo.extras.app.tree.TreePath;
++import junit.framework.TestCase;
++
++/**
++ * A set of tests for the TreeNode related classes.
++ *
++ * @author Lloyd Colling
++ */
++public class TreeNodeTest extends TestCase {
++
++    /**
++     * Tests that the addChild method of treeNode works as expected
++     */
++    public void testAddChild() {
++        DefaultMutableTreeNode parent = new DefaultMutableTreeNode();
++        DefaultMutableTreeNode child = new DefaultMutableTreeNode();
++
++        assertEquals(parent.getChildCount(), 0);
++        assertNull(child.getParent());
++        
++        parent.addChild(child);
++        
++        assertEquals(parent.getChildCount(), 1);
++        assertEquals(parent.getChild(0), child);
++        assertEquals(child.getParent(), parent);
++    }
++
++    /**
++     * Tests the the getChildCount method of treeNode works as expected
++     */
++    public void testGetChildCount() {
++        DefaultMutableTreeNode parent = new DefaultMutableTreeNode();
++        assertEquals(parent.getChildCount(), 0);
++        parent.addChild(new DefaultMutableTreeNode());
++        assertEquals(parent.getChildCount(), 1);
++        parent.removeAllChildren();
++        assertEquals(parent.getChildCount(), 0);
++    }
++
++    /**
++     * Tests the the get column values method works as expected
++     */
++    public void testGetColumnValues() {
++        Map columnValues = new HashMap();
++        columnValues.put("aNumber", new Integer(1));
++        columnValues.put("aBoolean", Boolean.FALSE);
++        columnValues.put("aString", "BLAH");
++        DefaultMutableTreeNode parent = new DefaultMutableTreeNode(columnValues);
++        
++        assertNotNull(parent.getColumnValues());
++        assertEquals(parent.getColumnValues().size(), columnValues.size());
++        assertTrue(parent.getColumnValues().entrySet().containsAll(columnValues.entrySet()));
++    }
++
++    /**
++     * Tests that the get node for path method works as expected
++     */
++    public void testGetNodeForPath() {
++        DefaultMutableTreeNode node1 = new DefaultMutableTreeNode();
++        DefaultMutableTreeNode node2 = new DefaultMutableTreeNode();
++        DefaultMutableTreeNode node3 = new DefaultMutableTreeNode();
++        DefaultMutableTreeNode node4 = new DefaultMutableTreeNode();
++        
++        node1.addChild(node2);
++        node1.addChild(node3);
++        node3.addChild(node4);
++
++        assertEquals(node1.getNodeForPath(new TreePath(new Object[] {node1})), node1);
++        assertEquals(node1.getNodeForPath(new TreePath(new Object[] {node1, node3, node4})), node4);
++        
++        try {
++            node1.getNodeForPath(new TreePath(new Object[0]));
++            fail("get node for path is not checking the path has entries");
++        } catch (IllegalArgumentException e) {
++            // this is what we expect to happen
++        }
++        
++        try {
++            node1.getNodeForPath(new TreePath(new Object[] {node3, node4}));
++            fail("get node for path is not checking the first node in the path");
++        } catch (IllegalStateException e) {
++            // this is what we expect to happen
++        }
++    }
++
++    /**
++     * Tests that the getParent method of tree node works as expected
++     */
++    public void testGetParent() {
++        DefaultMutableTreeNode node1 = new DefaultMutableTreeNode();
++        DefaultMutableTreeNode node2 = new DefaultMutableTreeNode();        
++        assertNull(node1.getParent());
++        assertNull(node2.getParent());
++        
++        node1.addChild(node2);
++        assertNull(node1.getParent());
++        assertNotNull(node2.getParent());
++        
++        node1.removeChild(node2);
++        assertNull(node2.getParent());
++        
++        node1.addChild(node2);
++        node1.removeAllChildren();
++        assertNull(node2.getParent());
++    }
++
++    public void testIsLeaf() {
++        DefaultMutableTreeNode node1 = new DefaultMutableTreeNode();
++        assertTrue(node1.isLeaf());
++        
++        node1.setLeaf(Boolean.FALSE);
++        
++        assertFalse(node1.isLeaf());
++        
++        node1.setLeaf(null);
++        
++        assertTrue(node1.isLeaf());
++        
++        node1.addChild(new DefaultMutableTreeNode());
++        
++        assertFalse(node1.isLeaf());
++    }
++
++    public void testRemoveAllChildren() {
++        DefaultMutableTreeNode node1 = new DefaultMutableTreeNode();
++        assertEquals(node1.getChildCount(), 0);
++        
++        try {
++            node1.removeAllChildren();
++        } catch (Throwable e) {
++            fail("Call to remove all children threw an exception: " + e.getMessage());
++        }
++        
++        node1.addChild(new DefaultMutableTreeNode());
++        assertEquals(node1.getChildCount(), 1);
++        node1.removeAllChildren();
++        assertEquals(node1.getChildCount(), 0);
++    }
++
++    public void testRemoveChild() {
++        DefaultMutableTreeNode node1 = new DefaultMutableTreeNode();
++        DefaultMutableTreeNode node2 = new DefaultMutableTreeNode();
++        node1.addChild(node2);
++        
++        assertEquals(node1.getChildCount(), 1);
++        
++        node1.removeChild(node2);
++        
++        assertEquals(node1.getChildCount(), 0);
++        
++        try {
++            node1.removeChild(node2);
++        } catch (Throwable t) {
++            fail("Call to remove child threw an exception: " + t.getMessage());
++        }
++    }
++
++    public void testSetColumnValues() {
++        DefaultMutableTreeNode node1 = new DefaultMutableTreeNode();
++        
++        assertNotNull(node1.getColumnValues());
++        assertEquals(node1.getColumnValues().size(), 0);
++        
++        Map columnValues = new HashMap();
++        columnValues.put("aNumber", new Integer(1));
++        columnValues.put("aBoolean", Boolean.FALSE);
++        columnValues.put("aString", "BLAH");
++        
++        node1.setColumnValues(columnValues);
++        
++        assertNotNull(node1.getColumnValues());
++        assertEquals(node1.getColumnValues().size(), columnValues.size());
++    }
++
++    public void testGetIndexOf() {
++        DefaultMutableTreeNode node1 = new DefaultMutableTreeNode();
++        DefaultMutableTreeNode node2 = new DefaultMutableTreeNode();
++        
++        assertEquals(node1.getIndexOf(node2), -1);
++        
++        node1.addChild(node2);
++        
++        assertEquals(node1.getIndexOf(node2), 0);
++        
++        node1.removeChild(node2);
++        
++        assertEquals(node1.getIndexOf(node2), -1);
++    }
++    
++    public void testCreateModelFromNodes() {
++
++        DefaultMutableTreeNode node1 = new DefaultMutableTreeNode(getMap(new String[] {"node1", "node1"}));
++        DefaultMutableTreeNode node2 = new DefaultMutableTreeNode(getMap(new String[] {"node2", "node2"}));
++        DefaultMutableTreeNode node3 = new DefaultMutableTreeNode(getMap(new String[] {"node3", "node3"}));
++        DefaultMutableTreeNode node4 = new DefaultMutableTreeNode(getMap(new String[] {"node4", "node4"}));
++        
++        node1.addChild(node2);
++        node1.addChild(node3);
++        node3.addChild(node4);
++        
++        TreeNodeModel model = new TreeNodeModel(node1);
++        
++        assertEquals(model.getRoot(), node1);
++        
++        assertEquals(model.getChildCount(model.getRoot()), node1.getChildCount());
++        assertEquals(model.getChild(model.getRoot(), 0), node1.getChild(0));
++        assertEquals(model.getChild(model.getRoot(), 1), node1.getChild(1));
++        assertEquals(model.isLeaf(model.getRoot()), node1.isLeaf());
++        
++        assertEquals(model.isLeaf(node3), node3.isLeaf());
++        
++        assertEquals(model.getColumnCount(), 2);
++        
++        assertEquals("node3", model.getValueAt(node3, 1));
++    }
++
++    private Map getMap(String[] values) {
++        Map ret = new HashMap();
++        for (int i = 0; i < values.length; i++) {
++            ret.put(Integer.toString(i), values[i]);
++        }
++        
++        return ret;
++    }
++}
+
+=== modified file 'src/server-java/app/nextapp/echo/extras/app/Tree.java'
+--- src/server-java/app/nextapp/echo/extras/app/Tree.java	2009-01-02 04:47:28 +0000
++++ src/server-java/app/nextapp/echo/extras/app/Tree.java	2009-01-02 15:55:31 +0000
+@@ -1196,7 +1196,10 @@
+             return (Component) treePathToComponentCache.get(path);
+         } else {
+             List list = (List) treePathToComponentCache.get(path);
+-            return (Component) list.get(column);
++            if (list != null)
++                return (Component) list.get(column);
++            else
++                throw new IllegalStateException("Components have not been rendered for path " + path);
+         }
+     }
+     
+@@ -1256,7 +1259,7 @@
+     /**
+      * Marks the tree as needing to be re-rendered.
+      */
+-    private void invalidate() {
++    protected void invalidate() {
+         valid = false;
+     }
+     
+
+=== added file 'src/server-java/app/nextapp/echo/extras/app/tree/AbstractTreeNode.java'
+--- src/server-java/app/nextapp/echo/extras/app/tree/AbstractTreeNode.java	1970-01-01 00:00:00 +0000
++++ src/server-java/app/nextapp/echo/extras/app/tree/AbstractTreeNode.java	2008-11-18 12:23:26 +0000
+@@ -0,0 +1,136 @@
++package nextapp.echo.extras.app.tree;
++
++import java.util.Map;
++import java.util.Vector;
++
++import nextapp.echo.app.event.EventListenerList;
++import nextapp.echo.extras.app.event.TreeModelEvent;
++import nextapp.echo.extras.app.event.TreeModelListener;
++
++public abstract class AbstractTreeNode implements TreeNode {
++
++    protected EventListenerList listenerList = new EventListenerList();
++
++    public void addTreeModelListener(TreeModelListener listener) {
++        listenerList.addListener(TreeModelListener.class, listener);
++    }
++    
++    public void removeTreeModelListener(TreeModelListener l) {
++        listenerList.removeListener(TreeModelListener.class, l);
++    }
++    
++    private Object[] getPathToRoot(TreeNode node) {
++        Vector path = new Vector();
++        TreeNode currNode = node;
++        do {
++            path.add(0, currNode);
++            currNode = currNode.getParent();
++        } while (currNode != null);
++        return path.toArray();
++    }
++    
++    private TreeNode[] getChildren(int[] childIndices) {
++        TreeNode[] children = new TreeNode[childIndices.length];
++        for (int i = 0; i < children.length; i++) {
++            children[i] = getChild(childIndices[i]);
++        }
++        return children;
++    }
++    
++    /**
++     * Notifies all listeners that have registered interest for notification on
++     * this event type. The event instance is lazily created using the
++     * parameters passed into the fire method.
++     * 
++     * @param source the node being changed
++     * @param path the path to the root node
++     * @param childIndices the indices of the changed elements
++     * @param children the changed elements
++     * @see EventListenerList
++     */
++    protected void fireTreeNodesChanged(TreeNode parent, int[] childIndices) {
++        // Guaranteed to return a non-null array
++        Object[] listeners = listenerList.getListeners(TreeModelListener.class);
++        
++        TreeModelEvent e = null;
++        for (int i = 0; i < listeners.length; ++i) {
++            // Lazily create the event:
++            if (e == null) {
++                e = new TreeModelEvent(parent, getPathToRoot(parent), childIndices, getChildren(childIndices));
++            }
++            ((TreeModelListener) listeners[i]).treeNodesChanged(e);
++        }
++    }
++
++    /**
++     * Notifies all listeners that have registered interest for notification on
++     * this event type. The event instance is lazily created using the
++     * parameters passed into the fire method.
++     * 
++     * @param source the node where new elements are being inserted
++     * @param path the path to the root node
++     * @param childIndices the indices of the new elements
++     * @param children the new elements
++     * @see EventListenerList
++     */
++    protected void fireTreeNodesInserted(int[] childIndices) {
++        // Guaranteed to return a non-null array
++        Object[] listeners = listenerList.getListeners(TreeModelListener.class);
++        TreeModelEvent e = null;
++        for (int i = 0; i < listeners.length; i++) {
++            // Lazily create the event:
++            if (e == null) {
++                e = new TreeModelEvent(this, getPathToRoot(this), childIndices, getChildren(childIndices));
++            }
++            ((TreeModelListener) listeners[i]).treeNodesAdded(e);
++        }
++    }
++
++    /**
++     * Notifies all listeners that have registered interest for notification on
++     * this event type. The event instance is lazily created using the
++     * parameters passed into the fire method.
++     * 
++     * @param source the node where elements are being removed
++     * @param path the path to the root node
++     * @param childIndices the indices of the removed elements
++     * @param children the removed elements
++     * @see EventListenerList
++     */
++    protected void fireTreeNodesRemoved(int[] childIndices) {
++        // Guaranteed to return a non-null array
++        Object[] listeners = listenerList.getListeners(TreeModelListener.class);
++        TreeModelEvent e = null;
++        for (int i = 0; i < listeners.length; i++) {
++            // Lazily create the event:
++            if (e == null) {
++                e = new TreeModelEvent(this, getPathToRoot(this), childIndices, getChildren(childIndices));
++            }
++            ((TreeModelListener) listeners[i]).treeNodesRemoved(e);
++        }
++    }
++
++    /**
++     * Notifies all listeners that have registered interest for notification on
++     * this event type. The event instance is lazily created using the
++     * parameters passed into the fire method.
++     * 
++     * @param source the node where the tree model has changed
++     * @param path the path to the root node
++     * @param childIndices the indices of the affected elements
++     * @param children the affected elements
++     * @see EventListenerList
++     */
++    protected void fireTreeStructureChanged(int[] childIndices) {
++        // Guaranteed to return a non-null array
++        Object[] listeners = listenerList.getListeners(TreeModelListener.class);
++        TreeModelEvent e = null;
++        for (int i = 0; i < listeners.length; i++) {
++            // Lazily create the event:
++            if (e == null)
++                e = new TreeModelEvent(this, getPathToRoot(this), childIndices, getChildren(childIndices));
++            ((TreeModelListener) listeners[i]).treeStructureChanged(e);
++        }
++    }
++
++}
+
+=== added file 'src/server-java/app/nextapp/echo/extras/app/tree/DefaultMutableTreeNode.java'
+--- src/server-java/app/nextapp/echo/extras/app/tree/DefaultMutableTreeNode.java	1970-01-01 00:00:00 +0000
++++ src/server-java/app/nextapp/echo/extras/app/tree/DefaultMutableTreeNode.java	2008-11-18 12:23:26 +0000
+@@ -0,0 +1,212 @@
++package nextapp.echo.extras.app.tree;
++
++import java.util.Collections;
++import java.util.HashMap;
++import java.util.Map;
++import java.util.Vector;
++
++/**
++ * A default implementation of the {@link TreeNode} interface.
++ * The column values are stored as an immutable map cloned from the
++ * Map that is supplied, so any changes to the column values can only be
++ * applied by calling setColumnValues with the modified Map.
++ *
++ * @author Lloyd Colling
++ */
++public class DefaultMutableTreeNode extends AbstractTreeNode {
++    
++    /**
++     * The parent node for this TreeNode. If null, this is either
++     * a root node or a tree fragment.
++     */
++    TreeNode parent;
++    /**
++     * The list of child nodes for this node
++     */
++    Vector children = new Vector();
++    /**
++     * The list of column values for this node
++     */
++    Map columnValues = Collections.emptyMap();
++    /**
++     * Whether this node is a leaf node. If null, then indicates that
++     * we are a leaf if we have no children.
++     */
++    Boolean isLeaf;
++    
++    /**
++     * Default constructor
++     */
++    public DefaultMutableTreeNode() {
++        this(null);
++    }
++    
++    /**
++     * Constructor that sets the column values for this node
++     * @param columnValues
++     */
++    public DefaultMutableTreeNode(Map columnValues) {
++        this(columnValues, null);
++    }
++    
++    /**
++     * Constructor that sets the column values for this node and it's leaf status
++     * @param columnValues
++     * @param isLeaf
++     */
++    public DefaultMutableTreeNode(Map columnValues, Boolean isLeaf) {
++        super();
++        if (columnValues != null)
++            this.columnValues = columnValues;
++        this.isLeaf = isLeaf;
++    }
++
++    /**
++     * Adds a child to this node at the end of the child nodes list
++     */
++    public void addChild(TreeNode node) {
++        children.add(node);
++        node.setParent(this);
++        int childIndex = children.indexOf(node);
++        fireTreeNodesInserted(new int[] {childIndex});
++    }
++
++    /**
++     * Returns the node at the specified index.
++     * @throws ArrayIndexOutOfBoundsException if the index is out of range for the child list
++     */
++    public TreeNode getChild(int index) {
++        if (index < 0 || index >= children.size()) {
++            throw new ArrayIndexOutOfBoundsException("Index " 
++                    + index 
++                    + " is not in range 0 <= index < " 
++                    + children.size());
++        }
++        return (TreeNode)children.get(index);
++    }
++
++    /**
++     * Returns the number of children this node holds
++     */
++    public int getChildCount() {
++        return children.size();
++    }
++
++    /**
++     * Returns an unmodifiable map of the nodes column values
++     */
++    public Map getColumnValues() {
++        return Collections.unmodifiableMap(columnValues);
++    }
++
++    /**
++     * Retrieves the node at the end of the given path. 
++     * The path must start with this node or an IllegalStateException will be thrown.
++     */
++    public TreeNode getNodeForPath(TreePath path) {
++        Object[] pathObj = path.getPath();
++        if (pathObj.length == 0) {
++            throw new IllegalStateException("Empty path");
++        } else if (pathObj[0] != this) {
++            throw new IllegalStateException("Path does not start at this node");
++        } else if (pathObj.length == 1) {
++            return this;
++        } else {
++            TreeNode child = null;
++            for (int i = 0; i < children.size() && child == null; i++) {
++                if (children.get(i) == pathObj[1])
++                    child = (TreeNode)children.get(i);
++            }
++            
++            if (child == null)
++                throw new IllegalArgumentException("Path is not valid due to child not found: " 
++                        + path);
++            Object[] subPath = new Object[pathObj.length - 1];
++            System.arraycopy(pathObj, 1, subPath, 0, subPath.length);
++            return child.getNodeForPath(new TreePath(subPath));
++        }
++    }
++
++    /**
++     * Returns the current parent of this node
++     */
++    public TreeNode getParent() {
++        return this.parent;
++    }
++    
++    /**
++     * Sets the current parent of this node.
++     */
++    public void setParent(TreeNode node) {
++        if (parent != null)
++            parent.removeChild(this);
++        this.parent = node;
++    }
++
++    /**
++     * Whether this node is a leaf node
++     */
++    public boolean isLeaf() {
++        if (isLeaf != null)
++            return isLeaf.booleanValue();
++        
++        return getChildCount() == 0;
++    }
++    
++    /**
++     * Sets whether this node is a leaf node. If set to null, then the node will be a leaf node if
++     * it has no children.
++     * @param isLeaf
++     */
++    public void setLeaf(Boolean isLeaf) {
++        this.isLeaf = isLeaf;
++    }
++
++    /**
++     * Clears the list of children for this node
++     */
++    public void removeAllChildren() {
++        int[] children = new int[this.children.size()];
++        for (int i = 0; i < children.length; i++) {
++            children[i] = i;
++        }
++        Object[] childNodes = this.children.toArray(); 
++        this.children.removeAllElements();
++        for (int i = 0; i < childNodes.length; i++) {
++            ((TreeNode)childNodes[i]).setParent(null);
++        }
++        fireTreeNodesRemoved(children);
++    }
++
++    /**
++     * Removes the specified node from the list of children. If the node is not in the list of 
++     * children, this does nothing.
++     */
++    public void removeChild(TreeNode node) {
++        int index = children.indexOf(node);
++        if (index == -1)
++            return;
++        children.remove(node);
++        node.setParent(null);
++        fireTreeNodesRemoved(new int[] {index});
++    }
++
++    /**
++     * Sets the column values to be a shallow copy of the map of values passed.
++     */
++    public void setColumnValues(Map values) {
++        this.columnValues = new HashMap();
++        this.columnValues.putAll(values);
++        if (parent != null)
++            fireTreeNodesChanged(parent, new int[] {parent.getIndexOf(this)});
++    }
++
++    /**
++     * Returns the index of the specified node in this node's child list, or -1 if the supplied node
++     * is not a child of this node.
++     */
++    public int getIndexOf(TreeNode node) {
++        return children.indexOf(node);
++    }
++
++}
+
+=== added file 'src/server-java/app/nextapp/echo/extras/app/tree/TreeNode.java'
+--- src/server-java/app/nextapp/echo/extras/app/tree/TreeNode.java	1970-01-01 00:00:00 +0000
++++ src/server-java/app/nextapp/echo/extras/app/tree/TreeNode.java	2008-11-18 12:23:26 +0000
+@@ -0,0 +1,101 @@
++package nextapp.echo.extras.app.tree;
++
++import java.util.Map;
++
++import nextapp.echo.extras.app.event.TreeModelListener;
++
++/**
++ * Represents a single node in a tree that contains a Map of values that may be displayed
++ * as the columns for that node.
++ *
++ * @author Lloyd Colling
++ */
++public interface TreeNode {
++
++    /**
++     * How many children the node has
++     * @return
++     */
++    public int getChildCount();
++    
++    /**
++     * Retrieves the node at the specified index
++     * @param index
++     * @return
++     */
++    public TreeNode getChild(int index);
++    
++    /**
++     * Whether this node is a leaf node
++     * @return
++     */
++    public boolean isLeaf();
++    
++    /**
++     * Returns this node's current parent
++     * @return
++     */
++    public TreeNode getParent();
++    
++    /**
++     * Sets the parent of the current node
++     * @param parent
++     */
++    public void setParent(TreeNode parent);
++    
++    /**
++     * Adds the specified node as a child of this node
++     * @param node
++     */
++    public void addChild(TreeNode node);
++    
++    /**
++     * Removes the specified node from this node's children
++     * @param node
++     */
++    public void removeChild(TreeNode node);
++    
++    /**
++     * Removes all the children from this node
++     */
++    public void removeAllChildren();
++    
++    /**
++     * Adds a listener to receive events generated by this node
++     * @param listener
++     */
++    public void addTreeModelListener(TreeModelListener listener);
++    
++    /**
++     * Stops the listener from receiving events generated by this node
++     * @param listener
++     */
++    public void removeTreeModelListener(TreeModelListener listener);
++    
++    /**
++     * The Map of column name to column value for this node
++     * @return
++     */
++    public Map getColumnValues();
++    
++    /**
++     * Sets the column values for this node
++     * @param values
++     */
++    public void setColumnValues(Map values);
++    
++    /**
++     * Returns the node corresponding with the given path based on this node.
++     * The path must start with this node.
++     * @param path
++     * @return
++     */
++    public TreeNode getNodeForPath(TreePath path);
++    
++    /**
++     * Returns the index of the specified node in this node's children
++     * @param node
++     * @return
++     */
++    public int getIndexOf(TreeNode node);
++}
+
+=== added file 'src/server-java/app/nextapp/echo/extras/app/tree/TreeNodeModel.java'
+--- src/server-java/app/nextapp/echo/extras/app/tree/TreeNodeModel.java	1970-01-01 00:00:00 +0000
++++ src/server-java/app/nextapp/echo/extras/app/tree/TreeNodeModel.java	2008-11-18 12:23:26 +0000
+@@ -0,0 +1,207 @@
++package nextapp.echo.extras.app.tree;
++
++import java.util.HashSet;
++import java.util.Iterator;
++import java.util.LinkedList;
++import java.util.List;
++import java.util.Set;
++
++import nextapp.echo.extras.app.event.TreeModelEvent;
++import nextapp.echo.extras.app.event.TreeModelListener;
++
++/**
++ * A {@link TreeModel} implementation that compiles a {@link TreeNode} root node and it's children
++ * into a model as used by {@link nextapp.echo.extras.app.Tree}.
++ * 
++ * If constructed with only the root node, then the columns will be the set of keys that are 
++ * contained in any of the tree nodes, with no guaranteed ordering.
++ *
++ * @author Lloyd Colling
++ */
++public class TreeNodeModel extends AbstractTreeModel implements TreeModelListener {
++    
++    /**
++     * The root node of the model
++     */
++    TreeNode root;
++    /**
++     * The keys used for retrieving the column values
++     */
++    String[] columnKeys;
++    
++    /**
++     * The set of nodes that we are listening to
++     */
++    Set nodesWeAreListeningTo = new HashSet();
++    
++    /**
++     * Default constructor that creates a model from a node and compiles the set of column keys from
++     * all the nodes in the tree.
++     * @param root
++     */
++    public TreeNodeModel(TreeNode root) {
++        this(root, null);
++    }
++    
++    /**
++     * Constructor that creates a model from the given node using the supplied keys to retrieve the
++     * column values for display.
++     * @param root
++     * @param columnKeys
++     */
++    public TreeNodeModel(TreeNode root, String[] columnKeys) {
++        super();
++        this.root = root;
++        if (columnKeys != null)
++            this.columnKeys = columnKeys;
++        else
++            compileColumns();
++    }
++    
++    /**
++     * Adds this model as a tree model listener to the given node and it's children.
++     * @param treefragment
++     */
++    protected void addListenersToTree(TreeNode treefragment) {
++        if (!nodesWeAreListeningTo.contains(treefragment)) {
++            treefragment.addTreeModelListener(this);
++            nodesWeAreListeningTo.add(treefragment);
++        }
++        for(int i = 0; i < treefragment.getChildCount(); i++) {
++            addListenersToTree(treefragment.getChild(i));
++        }
++    }
++
++    protected void removeListenersFromTree(TreeNode treeNode) {
++        if (nodesWeAreListeningTo.contains(treeNode)) {
++            treeNode.removeTreeModelListener(this);
++            nodesWeAreListeningTo.remove(treeNode);
++        }
++        for(int i = 0; i < treeNode.getChildCount(); i++) {
++            removeListenersFromTree(treeNode.getChild(i));
++        }
++    }
++    
++    /**
++     * Compiles the list of column headings from the current tree
++     */
++    protected void compileColumns() {
++        List columnHeadings = new LinkedList();
++        addColumnHeadings(root, columnHeadings);
++        columnKeys = new String[columnHeadings.size()];
++        for (int i = 0; i < columnHeadings.size(); i++) {
++            columnKeys[i] = (String)columnHeadings.get(i);
++        }
++    }
++    
++    /**
++     * Appends any unknown column keys from the given node and it's children to the current list of
++     * column headings.
++     * @param node
++     * @param columnHeadings
++     */
++    private void addColumnHeadings(TreeNode node, List columnHeadings) {
++        Set keys =  node.getColumnValues().keySet();
++        for (Iterator i = keys.iterator(); i.hasNext();) {
++            String thisKey = (String)i.next();
++            if (!columnHeadings.contains(thisKey))
++                columnHeadings.add(thisKey);
++        }
++    }
++
++    /**
++     * @see nextapp.echo.extras.app.tree.TreeModel.getChild(Object, int)
++     */
++    public Object getChild(Object parent, int index) {
++        return ((TreeNode)parent).getChild(index);
++    }
++
++    /**
++     * @see nextapp.echo.extras.app.tree.TreeModel.getChildCount(Object)
++     */
++    public int getChildCount(Object parent) {
++        return ((TreeNode)parent).getChildCount();
++    }
++
++    /**
++     * @see nextapp.echo.extras.app.tree.TreeModel.getColumnCount()
++     */
++    public int getColumnCount() {
++        return columnKeys.length;
++    }
++
++    /**
++     * @see nextapp.echo.extras.app.tree.TreeModel.getIndexOfChild(Object, Object)
++     */
++    public int getIndexOfChild(Object parent, Object child) {
++        return ((TreeNode)parent).getIndexOf((TreeNode)child);
++    }
++
++    /**
++     * @see nextapp.echo.extras.app.tree.TreeModel.getRoot()
++     */
++    public Object getRoot() {
++        return root;
++    }
++
++    /**
++     * @see nextapp.echo.extras.app.tree.TreeModel.getValueAt(Object, int)
++     */
++    public Object getValueAt(Object node, int column) {
++        return ((TreeNode)node).getColumnValues().get(columnKeys[column]);
++    }
++
++    /**
++     * @see nextapp.echo.extras.app.tree.TreeModel.isLeaf(Object)
++     */
++    public boolean isLeaf(Object object) {
++        return ((TreeNode)object).isLeaf();
++    }
++
++    /**
++     * handles notifications from the tree nodes that the tree structure has changed
++     */
++    public void treeNodesAdded(TreeModelEvent e) {
++        for (int i = 0; i < e.getChildren().length; i++) {
++            addListenersToTree((TreeNode)e.getChildren()[i]);
++        }
++        fireTreeNodesInserted(this, e.getPath(), e.getChildIndices(), e.getChildren());
++    }
++
++    /**
++     * handles notifications from the tree nodes that the tree structure has changed
++     */
++    public void treeNodesChanged(TreeModelEvent e) {
++        fireTreeNodesChanged(this, e.getPath(), e.getChildIndices(), e.getChildren());
++    }
++
++    /**
++     * handles notifications from the tree nodes that the tree structure has changed
++     */
++    public void treeNodesRemoved(TreeModelEvent e) {
++        for (int i = 0; i < e.getChildren().length; i++) {
++            removeListenersFromTree((TreeNode)e.getChildren()[i]);
++        }
++        fireTreeNodesRemoved(this, e.getPath(), e.getChildIndices(), e.getChildren());
++    }
++
++    /**
++     * handles notifications from the tree nodes that the tree structure has changed
++     */
++    public void treeStructureChanged(TreeModelEvent e) {
++        removeAllNodeListeners();
++        addListenersToTree(root);
++        fireTreeStructureChanged(this, e.getPath(), e.getChildIndices(), e.getChildren());
++    }
++
++    /**
++     * Removes this TreeModel as a model listener from all the nodes it is currently registered to
++     */
++    private void removeAllNodeListeners() {
++        for(Iterator i = nodesWeAreListeningTo.iterator(); i.hasNext();) {
++            ((TreeNode)i.next()).removeTreeModelListener(this);
++        }
++        nodesWeAreListeningTo.clear();
++    }
++
++}
+
+=== modified file 'src/server-java/webcontainer/nextapp/echo/extras/webcontainer/sync/component/TreePeer.java'
+--- src/server-java/webcontainer/nextapp/echo/extras/webcontainer/sync/component/TreePeer.java	2009-01-02 04:47:28 +0000
++++ src/server-java/webcontainer/nextapp/echo/extras/webcontainer/sync/component/TreePeer.java	2009-05-05 08:48:27 +0000
+@@ -40,6 +40,7 @@
+ import java.util.Set;
+ 
+ import nextapp.echo.app.Component;
++import nextapp.echo.app.Window;
+ import nextapp.echo.app.serial.SerialException;
+ import nextapp.echo.app.serial.SerialPropertyPeer;
+ import nextapp.echo.app.update.ClientUpdateManager;
+@@ -311,11 +312,11 @@
+             Tree tree = ((TreeStructure) propertyValue).tree;
+             TreeStructureRenderer renderer = new TreeStructureRenderer(propertyElement, tree);
+             propertyElement.setAttribute("t", SerialPropertyPeerConstants.PROPERTY_TYPE_PREFIX + "TreeStructure");
+-            UserInstance userInstance = (UserInstance) context.get(UserInstance.class);
+-            TreeRenderState renderState = (TreeRenderState) userInstance.getRenderState(tree);
++            Window containingWindow = tree.getContainingWindow();
++            TreeRenderState renderState = (TreeRenderState) containingWindow.getRenderState(tree);
+             if (renderState == null) {
+                 renderState = new TreeRenderState(tree);
+-                userInstance.setRenderState(tree, renderState);
++                containingWindow.setRenderState(tree, renderState);
+             }
+             renderer.render(context, renderState);
+             renderState.clearChangedPaths();
+@@ -445,13 +446,15 @@
+      */
+     private static String getSelectionString(Context context, TreeSelectionModel selectionModel, Tree tree) {
+         UserInstance userInstance = (UserInstance) context.get(UserInstance.class);
+-        TreeRenderState renderState = (TreeRenderState) userInstance.getRenderState(tree);
++        TreeRenderState renderState = (TreeRenderState) tree.getContainingWindow().getRenderState(tree);
+         
+         StringBuffer selection = new StringBuffer();
+         TreePath[] paths = selectionModel.getSelectionPaths();
+         for (int i = 0; i < paths.length; i++) {
+             TreePath path = paths[i];
+-            Component component = tree.getComponent(path, 0);
++            Component component = null;
++            if (pathIsVisible(path, tree))
++                component = tree.getComponent(path, 0);
+             if (component == null) {
+                 if (renderState != null) {
+                     renderState.addUnsentSelection(path);
+@@ -470,6 +473,23 @@
+         return selection.toString();
+     }
+ 
++    /**
++     * This method determines if the given path is currently visible to the user
++     * @param path
++     * @return
++     */
++    private static boolean pathIsVisible(TreePath path, Tree tree) {    	
++        // root node is always visible
++        if (path.getPathCount() == 1)
++            return true;
++        
++        if (tree.isExpanded(path.getParentPath())) {
++            return pathIsVisible(path.getParentPath(), tree);
++        } else {
++            return false;
++        }
++    }
++
+     private static final String PROPERTY_TREE_STRUCTURE = "treeStructure";
+     private static final String PROPERTY_COLUMN_COUNT = "columnCount";
+     private static final String PROPERTY_COLUMN_WIDTH = "columnWidth";
+@@ -595,8 +615,9 @@
+         Iterator normalPropertyIterator = super.getUpdatedOutputPropertyNames(context, component, update);
+         HashSet extraProperties = new HashSet();
+         
++        Tree tree = (Tree) update.getParent();
+         if (update.hasRemovedChildren() || update.hasRemovedDescendants()) {
+-            userInstance.removeRenderState(component);
++        	tree.getContainingWindow().removeRenderState(component);
+             extraProperties.add(PROPERTY_TREE_STRUCTURE);
+             extraProperties.add(Tree.SELECTION_CHANGED_PROPERTY);
+         }
+@@ -605,7 +626,7 @@
+             extraProperties.addAll(Arrays.asList(MODEL_CHANGED_UPDATE_PROPERTIES));
+         } 
+         if (update.hasUpdatedProperty(Tree.EXPANSION_STATE_CHANGED_PROPERTY)) {
+-            TreeRenderState renderState = (TreeRenderState) userInstance.getRenderState(component);
++            TreeRenderState renderState = (TreeRenderState) tree.getContainingWindow().getRenderState(component);
+             if (renderState == null || renderState.hasChangedPaths()) {
+                 extraProperties.add(PROPERTY_TREE_STRUCTURE);
+             }
+@@ -623,13 +644,13 @@
+     public void storeInputProperty(Context context, Component component,
+             String propertyName, int index, Object newValue) {
+         Tree tree = (Tree) component;
+-        if (EXPANSION_PROPERTY.equals(propertyName)) {
++        if (EXPANSION_PROPERTY.equals(propertyName)) {
+             int row = ((Integer)newValue).intValue();
+             UserInstance userInstance = (UserInstance) context.get(UserInstance.class);
+-            TreeRenderState renderState = (TreeRenderState) userInstance.getRenderState(component);
++            TreeRenderState renderState = (TreeRenderState) tree.getContainingWindow().getRenderState(component);
+             if (renderState == null) {
+                 renderState = new TreeRenderState(tree);
+-                userInstance.setRenderState(component, renderState);
++                tree.getContainingWindow().setRenderState(component, renderState);
+             }
+             TreePath path = tree.getPathForRow(row);
+             renderState.setClientPath(path);
+
