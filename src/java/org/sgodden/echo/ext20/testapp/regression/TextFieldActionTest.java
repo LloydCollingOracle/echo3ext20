@@ -16,7 +16,7 @@ public class TextFieldActionTest extends Panel {
 		field.setEmptyText( "Please input some words");
 		field.setNotifyImmediately( true);
 		field.addActionListener( new ActionListener() {
-			@Override
+			
 			public void actionPerformed(ActionEvent arg0) {
 				label.setText( field.getValue());
 			}
