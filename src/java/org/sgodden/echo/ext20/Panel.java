@@ -263,6 +263,14 @@ public class Panel extends ExtComponent {
     public Toolbar getBottomToolbar() {
         return bottomToolbar;
     }
+    
+    /**
+     * Returns the panel's top toolbar.
+     * @return the top toolbar.
+     */
+    public Toolbar getToolbar() {
+    	return topToolbar;
+    }
 
     /**
      * Constructor taking a map of configuration options,
