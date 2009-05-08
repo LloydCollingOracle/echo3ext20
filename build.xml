@@ -165,6 +165,8 @@
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.Window.js" />
 				<include name="Ext20.HtmlPanel.js" />
+				<include name="Ext20.MultiSelectComboBox.js" />
+				<include name="Select.js" />
 			</fileset>
 			<fileset dir="src/java">
 				<include name="json2.js" />
