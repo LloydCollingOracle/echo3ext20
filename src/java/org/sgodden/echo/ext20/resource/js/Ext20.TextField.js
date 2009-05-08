@@ -48,7 +48,25 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
          * text field.
          */
         newExtComponentInstance: function(options) {
+            options.ctCls = 'x-text-field-wrap';
             return new Ext.form.TextField(options);
+        },
+        
+        _getComponentValue: function() {
+            return this.component.get('value');
+        },
+        
+        _doOnInvalid: function() {
+            this._invalidMsg = this.extComponent.errorIcon.dom.qtip;
+            // move the icon across a bit
+            this.extComponent.errorIcon.setLeft(this.extComponent.errorIcon.getLeft() - 10);
+            this.extComponent.errorIcon.dom.qtip = '';
+            this.extComponent.on("focus", this._doOnInvalidFocus, this);
+            this.extComponent.on("blur", this._doOnInvalidBlur, this);
+        },
+        
+        _getExtComponentValue: function() {
+            return this.extComponent.getValue();
         }
     },
     
@@ -111,8 +129,8 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         }
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             if(this.component.get("invalidText") != null) {
-                if(this.component.get('value') != null) {
-                    this._invalidValue = this.component.get('value');
+                if(this._getComponentValue() != null) {
+                    this._invalidValue = this._getComponentValue();
                     options["invalidText"] = this.component.get("invalidText")
                 }
             }
@@ -130,7 +148,6 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         
         options.selectOnFocus = true;
         options.msgTarget = 'side';
-        options.ctCls = 'x-form-field-wrap';
         
         var extComponent = this.newExtComponentInstance(options);
 
@@ -158,15 +175,6 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             extComponent.on("valid", this._handleValidEvent, this);
         }
         return extComponent;
-    },
-    
-    _doOnInvalid: function() {
-        this._invalidMsg = this.extComponent.errorIcon.dom.qtip;
-        // move the icon across a bit
-        this.extComponent.errorIcon.setLeft(this.extComponent.errorIcon.getLeft() - 10);
-        this.extComponent.errorIcon.dom.qtip = '';
-        this.extComponent.on("focus", this._doOnInvalidFocus, this);
-        this.extComponent.on("blur", this._doOnInvalidBlur, this);
     },
     
     _doOnValid: function() {
@@ -198,7 +206,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     },
     
     _checkMatchesInitialValue: function(value) {
-        if(value == this._invalidValue){
+        if(this._getExtComponentValue() == this._invalidValue){
             return this.extComponent.invalidText;
         }
         else{
