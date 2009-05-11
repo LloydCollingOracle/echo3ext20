@@ -16,7 +16,9 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.grid;
 
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -92,7 +94,6 @@ public class GridPanel extends Panel implements TableModelListener,
     private ListSelectionModel selectionModel;
     private boolean suppressChangeNotifications;
     private boolean notifySelect = false;
-    private int[] selectedIndices;
     private GridCellRenderer gridCellRenderer = new DefaultGridCellRenderer();
 
     /**
@@ -242,7 +243,18 @@ public class GridPanel extends Panel implements TableModelListener,
      * @return the selected indices.
      */
     public int[] getSelectedIndices() {
-        return selectedIndices;
+    	int size = getModel().getRowCount();
+    	List<Integer> list = new ArrayList<Integer>(); 
+    	for (int i = 0; i < size; i++) {
+    		if (selectionModel.isSelectedIndex(i)) {
+        		list.add(i);
+    		}
+    	}
+    	int[] ret = new int[list.size()];
+    	for (int i = 0; i < ret.length; i++) {
+    		ret[i] = list.get(i);
+    	}
+    	return ret;
     }
 
     /**
@@ -533,7 +545,6 @@ public class GridPanel extends Panel implements TableModelListener,
      *            the indices to select
      */
     private void setSelectedIndices(int[] selectedIndices) {
-        this.selectedIndices = selectedIndices;
         // Temporarily suppress the Tables selection event notifier.
         suppressChangeNotifications = true;
         selectionModel.clearSelection();
