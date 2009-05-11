@@ -15,7 +15,6 @@ public class MultiSelectTest extends Panel implements DeferredUiCreate {
 		super( "Multi Select Test");
 	}
 
-	@Override
 	public void createUI() {
 		DefaultListModel model = new DefaultListModel( new String[]{ "aaaa", "bbb", "ccc"});
 		createDemo(model, 1);

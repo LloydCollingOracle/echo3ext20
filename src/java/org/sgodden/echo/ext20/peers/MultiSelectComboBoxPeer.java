@@ -37,7 +37,6 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
         return MultiSelectComboBox.class;
     }
 
-    @Override
     public String getClientComponentType(boolean shortType) {
         return shortType ? "E2MSCB" : "Ext20MultiSelectComboBox";
     }
