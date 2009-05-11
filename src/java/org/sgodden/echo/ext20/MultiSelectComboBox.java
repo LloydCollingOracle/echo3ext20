@@ -78,11 +78,9 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 			selectionModel.setSelectedIndex( Integer.parseInt( v), true);
 		}
 	}
-	@Override
 	public ListCellRenderer getCellRenderer() {
 		return cellRenderer;
 	}
-	@Override
 	public void setCellRenderer(ListCellRenderer newValue) {
 		cellRenderer = newValue;
 	}
