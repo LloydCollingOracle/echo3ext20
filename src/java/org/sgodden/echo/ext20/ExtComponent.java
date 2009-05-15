@@ -45,8 +45,6 @@ public abstract class ExtComponent extends Component {
     
     public ExtComponent() {
         super();
-        if (nextapp.echo.app.Window.getActive() != null)
-            setRenderId(getClass().getSimpleName() + nextapp.echo.app.Window.getActive().generateId());
     }
     
     /**

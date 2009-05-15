@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 import nextapp.echo.app.Component;
+import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.serial.SerialContext;
 import nextapp.echo.app.serial.SerialException;
 import nextapp.echo.app.serial.SerialPropertyPeer;
 import nextapp.echo.app.util.Context;
 
 import org.sgodden.echo.ext20.CheckboxField;
+import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
 import org.sgodden.echo.ext20.grid.ColumnModel;
@@ -48,6 +50,7 @@ public class ColumnModelPeer implements SerialPropertyPeer {
         editorClassToType = new HashMap<Class<?>, String>();
         editorClassToType.put(TextField.class, "Ext.form.TextField");
         editorClassToType.put(CheckboxField.class, "Ext.form.Checkbox");
+        editorClassToType.put(ComboBox.class, "Ext.form.ComboBox");
     }
 
     public Object toProperty(Context context, Class objectClass,
@@ -146,7 +149,15 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                 if (!attributes2.containsKey("type")) {
                     throw new IllegalStateException("Unknown type being used for editor!!!: " + c.getClass());
                 }
-
+                if ( attributes2.get( "type").toString().contains("Ext.form.ComboBox")) {
+                	ComboBox combo = (ComboBox)c;
+                	ListModel model = combo.getModel();
+                	Object[] values = new Object[model.size()];
+                	for ( int i=0; i<model.size(); i++) {
+                		values[i] = model.get(i);
+                	}
+                	attributes2.put( "modelValues", JSONMapper.toJSON( values));
+                }
                 for (Iterator it = c.getLocalStyle().getPropertyNames(); it.hasNext();) {
                     String name = (String)it.next();
                     Object value = c.getLocalStyle().get(name);

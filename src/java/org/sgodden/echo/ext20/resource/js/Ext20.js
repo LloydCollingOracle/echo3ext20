@@ -917,6 +917,10 @@ EchoExt20.PropertyTranslator.ColumnModel = {
                     var checkCol = new Ext.grid.CheckColumn(thisCol);
                     obj.columns[i] = checkCol;
                     
+                } else if ( thisCol.editorConfig.type == 'Ext.form.ComboBox') {
+                    config['store'] = thisCol.editorConfig.modelValues;
+                    config['triggerAction'] = 'all';
+                    thisCol.editor = new Ext.form.ComboBox(config);
                 } else {
                     eval("thisCol.editor = new " + config.type + "(config);");
                 }

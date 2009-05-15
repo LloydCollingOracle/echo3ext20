@@ -25,12 +25,14 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
+import nextapp.echo.app.list.DefaultListModel;
 import nextapp.echo.app.table.TableModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.CheckboxField;
+import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
@@ -149,6 +151,14 @@ public class UserListPanel
         };
         adminCol.setEditorComponent(new CheckboxField());
         cols.add(adminCol);
+        ColumnConfiguration sexCol = new DefaultColumnConfiguration( "Sex", 200, true, "sex", false) {
+			@Override
+			public Class<?> getColumnClass() {
+				return String.class;
+			}
+        };
+        sexCol.setEditorComponent( new ComboBox( new DefaultListModel( new String[]{ "male", "female"})));
+        cols.add( sexCol);
         ColumnModel columnModel = new DefaultColumnModel(cols);
         
         userGridPanel = new GridPanel(columnModel);
@@ -198,7 +208,7 @@ public class UserListPanel
     }
     
     private String[] makeColumnNames() {
-        return new String[] {"userid", "name", "isadmin"};
+        return new String[] {"userid", "name", "isadmin", "sex"};
     }
 
     /**
@@ -238,10 +248,11 @@ public class UserListPanel
         Object[][] data = new Object[rows][];
 
         for (int i = 0; i < data.length; i++) {
-            Object[] row = new Object[3];
+            Object[] row = new Object[4];
             row[0] = "User id  " + (startIndex + i);
             row[1] = "Name " + (startIndex + i);
             row[2] = Boolean.valueOf(i % 2 == 0);
+            row[3] = i % 2 == 0 ? "male" : "female";
             data[i] = row;
         }
 
