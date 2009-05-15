@@ -38,6 +38,7 @@ import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.SplitButton;
+import org.sgodden.echo.ext20.TextArea;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.echo.ext20.ToolbarButton;
@@ -159,6 +160,14 @@ public class UserListPanel
         };
         sexCol.setEditorComponent( new ComboBox( new DefaultListModel( new String[]{ "male", "female"})));
         cols.add( sexCol);
+        ColumnConfiguration mottoCol = new DefaultColumnConfiguration( "Motto", 200, true, "motto", false) {
+        	@Override
+        	public Class<?> getColumnClass() {
+        		return String.class;
+        	}
+        };
+        mottoCol.setEditorComponent( new TextArea());
+        cols.add( mottoCol);
         ColumnModel columnModel = new DefaultColumnModel(cols);
         
         userGridPanel = new GridPanel(columnModel);
@@ -208,7 +217,7 @@ public class UserListPanel
     }
     
     private String[] makeColumnNames() {
-        return new String[] {"userid", "name", "isadmin", "sex"};
+        return new String[] {"userid", "name", "isadmin", "sex", "motto"};
     }
 
     /**
@@ -248,11 +257,12 @@ public class UserListPanel
         Object[][] data = new Object[rows][];
 
         for (int i = 0; i < data.length; i++) {
-            Object[] row = new Object[4];
+            Object[] row = new Object[5];
             row[0] = "User id  " + (startIndex + i);
             row[1] = "Name " + (startIndex + i);
             row[2] = Boolean.valueOf(i % 2 == 0);
             row[3] = i % 2 == 0 ? "male" : "female";
+            row[4] = "A long long long words, \n with many many many \nlines";
             data[i] = row;
         }
 
