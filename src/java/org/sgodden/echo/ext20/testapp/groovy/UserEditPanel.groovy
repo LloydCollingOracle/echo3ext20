@@ -85,7 +85,7 @@ class UserEditPanel extends Panel implements ActionListenable {
             makeChangeRoleButton()
         ]
         
-        ApplicationInstance.getActive().setFocusedComponent(codeField)
+        //ApplicationInstance.getActive().setFocusedComponent(codeField)
     }
 
     public void setData(Object[] data) {
