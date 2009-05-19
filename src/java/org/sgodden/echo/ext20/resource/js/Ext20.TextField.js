@@ -55,14 +55,21 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         _getComponentValue: function() {
             return this.component.get('value');
         },
-        
+
+        /**
+         * FIXME - this is all specific to a particular implementation,
+         * and needs putting in to subclasses which are not part
+         * of echo3ext20.
+         */
         _doOnInvalid: function() {
-            this._invalidMsg = this.extComponent.errorIcon.dom.qtip;
-            // move the icon across a bit
-            this.extComponent.errorIcon.setLeft(this.extComponent.errorIcon.getLeft() - 10);
-            this.extComponent.errorIcon.dom.qtip = '';
-            this.extComponent.on("focus", this._doOnInvalidFocus, this);
-            this.extComponent.on("blur", this._doOnInvalidBlur, this);
+        	if (this.extComponent.errorIcon) {
+	            this._invalidMsg = this.extComponent.errorIcon.dom.qtip;
+	            // move the icon across a bit
+	            this.extComponent.errorIcon.setLeft(this.extComponent.errorIcon.getLeft() - 10);
+	            this.extComponent.errorIcon.dom.qtip = '';
+	            this.extComponent.on("focus", this._doOnInvalidFocus, this);
+	            this.extComponent.on("blur", this._doOnInvalidBlur, this);
+        	}
         },
         
         _getExtComponentValue: function() {
