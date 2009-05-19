@@ -180,6 +180,18 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         return ret;
     },
     
+    _createContextMenu: function() {
+    	var children = EchoExt20.PanelSync.prototype
+    			._createChildComponentArrayFromComponent.call(this);
+        for (var i = 0; i < children.length; i++) {
+        	var child = children[i];
+        	if (child instanceof EchoExt20.Menu) {
+        		// HERE
+                //ret.on("cellcontextmenu", this._handleContextMenu, this);
+        	}
+        }
+    },
+    
     _renderColumn: function(value, metadata, record, rowIndex, colIndex, store) {
         var renderedValue = null;
         if (this.component.get("showCheckbox")){
@@ -253,6 +265,11 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     
     _handleColumnAdd : function() {
     	this.component.doColumnAdd();
+    },
+    
+    _handleContextMenu: function(grid, rowIndex, columnIndex, evt) {
+    	// TODO - show any context menu defined for the grid
+    	alert("Right-click on row " + rowIndex);
     },
 
     _handleKeyDownEvent: function(evt) {
