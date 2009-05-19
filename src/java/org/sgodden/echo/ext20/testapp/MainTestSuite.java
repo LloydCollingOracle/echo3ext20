@@ -25,7 +25,8 @@ public class MainTestSuite extends TabbedPane {
                         + "<p>Each tab contains examples of a particular component type.</p>");
         welcomePanel.setTitle("Welcome");
         add(welcomePanel);
-
+        
+        add( new TimeFieldTest());
         add(new UserPanel(true));
         add( new HtmlPanelTest());
         add( new MultiSelectTest());

@@ -70,7 +70,12 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             "render",
             this._handleTimeFieldOnRender,
             this);
-        
+        extComponent.on(
+            "change",
+            this._handleValueChangeEvent,
+            this
+        );
+
         return extComponent;
     },
     
