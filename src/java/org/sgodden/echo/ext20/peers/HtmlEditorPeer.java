@@ -19,9 +19,6 @@ package org.sgodden.echo.ext20.peers;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
-import nextapp.echo.webcontainer.Service;
-import nextapp.echo.webcontainer.WebContainerServlet;
-import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.HtmlEditor;
 import org.sgodden.echo.ext20.TextField;
@@ -40,6 +37,7 @@ extends ExtComponentPeer {
     public HtmlEditorPeer() {
         super();
         addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);
+        
     }
 
     public Class getComponentClass() {
@@ -54,7 +52,7 @@ extends ExtComponentPeer {
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
      */
     public Class getInputPropertyClass(String propertyName) {
-        if (TextField.VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+        if (HtmlEditor.TEXT_CHANGED_PROPERTY.equals(propertyName)) {
             return String.class;
         }
         return null;
@@ -64,9 +62,9 @@ extends ExtComponentPeer {
      * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#storeInputProperty(Context, Component, String, int, Object)
      */
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-        if (propertyName.equals(TextField.VALUE_CHANGED_PROPERTY)) {
+        if (propertyName.equals(HtmlEditor.TEXT_CHANGED_PROPERTY)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-            clientUpdateManager.setComponentProperty(component, TextField.VALUE_CHANGED_PROPERTY, newValue);
+            clientUpdateManager.setComponentProperty(component, HtmlEditor.TEXT_CHANGED_PROPERTY, newValue);
         }
     }
 

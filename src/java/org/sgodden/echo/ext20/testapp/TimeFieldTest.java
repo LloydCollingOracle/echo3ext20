@@ -16,7 +16,6 @@ public class TimeFieldTest extends Panel implements DeferredUiCreate {
 		super( "TimeFieldTest");
 	}
 
-	@Override
 	public void createUI() {
 		final TimeField timeField = new TimeField( Calendar.getInstance());
 		add( timeField);

@@ -26,7 +26,7 @@
 		<available file="contrib/ext-${ext.version}/ext-all-debug.js" property="ext-exists" />
 	</target>
 
-	<target name="compile" depends="clean">
+	<target name="compile">
 		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="compile.class.path" />
 		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${build.dir}" />

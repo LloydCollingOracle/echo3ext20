@@ -83,7 +83,7 @@ public class HtmlEditor
     }
 
     @Override
-    public void processInput(String inputName, Object inputValue) {        
+    public void processInput(String inputName, Object inputValue) {
         if (TEXT_CHANGED_PROPERTY.equals(inputName)) {
             setText((String)inputValue);
         }
