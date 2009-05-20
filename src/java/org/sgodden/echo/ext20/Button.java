@@ -50,10 +50,13 @@ public class Button extends AbstractButton {
      */
     public static final String TEMPLATE_PROPERTY = "template";
     
+    public static final String FOCUSABLE = "focusable";
+    
     private Menu menu;
 
     {
         setAddToButtonBar(false);
+        setFocusable(true);
     }
 
     public Button() {
@@ -128,5 +131,22 @@ public class Button extends AbstractButton {
      */
     public void isHoverMenu(boolean hoverMenu) {
         set(HOVER_MENU, hoverMenu);
+    }
+    
+    /**
+     * Sets whether this button may receive the focus
+     * (defaults to <code>true</code>).
+     * <p>
+     * This may be useful in situations where you
+     * are dynamically adding rows to a table.  You will
+     * want to know which component was focused when
+     * the 'insert a row' button was pressed.  To achieve
+     * that, make that button non-focusable.  The price
+     * you pay is that the user cannot tab to that
+     * button using the keyboard.
+     * </p>
+     */
+    public void setFocusable(boolean focusable) {
+    	set(FOCUSABLE, focusable);
     }
 }

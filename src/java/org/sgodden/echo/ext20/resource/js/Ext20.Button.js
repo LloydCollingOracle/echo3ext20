@@ -165,8 +165,10 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
      * its action event.
      */
     _handleClickEvent: function() {
-        this.component.application.setFocusedComponent(this.component);
-          this.component.doAction();
+    	if (this.component.get("focusable")) {
+    		this.component.application.setFocusedComponent(this.component);
+    	}
+        this.component.doAction();
     },
     
     /**

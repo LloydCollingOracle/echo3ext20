@@ -155,6 +155,15 @@ public class ApplicationContentPane
             }
         });
         
+        final nextapp.echo.app.Button focusableButtonTest = makeEchoButton("Non-focusable buttons");
+        col.add(focusableButtonTest);
+        
+        focusableButtonTest.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                showCentreComponent(new FocusableButtonTest());
+            }
+        });
+        
         Panel regressionPanel = new Panel("Regression tests");
         ret.add(regressionPanel);
         regressionPanel.setBodyTransparent(true);
