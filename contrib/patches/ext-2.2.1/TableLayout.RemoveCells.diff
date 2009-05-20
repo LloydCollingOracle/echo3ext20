@@ -1,0 +1,74 @@
+--- ext-all-debug.js	2009-05-20 20:19:46.000000000 +0100
++++ ext-all-debug.js	2009-05-20 21:26:35.000000000 +0100
+@@ -16211,40 +16211,37 @@
+                 this.table.cellSpacing = this.cellSpacing;
+             }
+         }
+-        /*
+-         * If the total number of children is less than our current
+-         * total tds, then remove that number of tds from the end.
+-         * N.B. - that means that this container does NOT support
+-         * arbitrary removal of components, but only those
+-         * from the end.
+-         */
+-        while (len < this.childCount && this.table.tBodies.length > 0) {
+-            /*
+-             * Remove the last td of the last row,
+-             * removing the tr if it becomes empty.
+-             */
+-            var trows = this.table.tBodies[0].childNodes;
+-            var trow = trows[trows.length -1];
+-            var tcells = trow.childNodes;
+-            trow.removeChild(tcells[tcells.length - 1]);
+-
+-            this.childCount--;
+-            this.currentColumn--;
+-
+-            if (trow.childNodes.length ==0) {
+-                this.table.tBodies[0].removeChild(trow);
+-                this.currentRow--;
+-                this.currentColumn = this.columns - 1;
+-            }
+-
+-            /*
+-             * Remove the last cell of the last row
+-             * of the internal cells variable, removing
+-             * the row if it becomes empty.
+-             */
+-            this.cells[this.cells.length-1].pop();
+-            if (this.cells[this.cells.length-1].length == 0) {
+-                this.cells.pop();
++
++        // remove any empty tds, and trs if they have no tds
++        // these have been caused by removes from the container
++        // we are laying out
++        var tbody = this.table.tBodies[0];
++        var trows = tbody.childNodes;
++        for (var i = 0; i < trows.length; i++) {
++            var trow = trows[i];
++            var tcells = [];
++            for (var j = 0; j < trow.childNodes.length; j++) {
++                tcells.push(trow.childNodes[j]);
++            }
++            for (var j = 0; j < tcells.length; j++) {
++                var tcell = tcells[j];
++                if (tcell.childNodes.length == 0) {
++                    trow.removeChild(tcell);
++                    /*
++                     * Remove the last cell of the last row
++                     * of the internal cells variable, removing
++                     * the row if it becomes empty.
++                     * FIXME - does not work for colspan / rowspan
++                     */
++                    this.cells[this.cells.length-1].pop();
++                    if (this.cells[this.cells.length-1].length == 0) {
++                        this.cells.pop();
++                        this.currentRow--;
++                    }
++                }
++            }
++            if (trow.childNodes.length == 0) {
++                tbody.removeChild(trow);
+             }
+         }
+ 
