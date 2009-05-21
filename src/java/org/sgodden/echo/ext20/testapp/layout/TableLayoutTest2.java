@@ -53,6 +53,8 @@ public class TableLayoutTest2
         removeRowButton = makeRemoveRowButton();
         addButton(removeRowButton);
         
+        addButton(makeRemoveAllAndAddButton());
+        
     }
     
     private Button makeAddButton() {
@@ -103,6 +105,18 @@ public class TableLayoutTest2
                 if (inner.getComponentCount() <= 3) {
                     ret.setEnabled(false);
                 }
+            }});
+        return ret;
+    }
+    
+    private Button makeRemoveAllAndAddButton() {
+        final Button ret = new Button("Remove all and add");
+        ret.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+            	inner.removeAll();
+                inner.add(new TextField("text field 1"));
+                inner.add(new TextField("text field 2"));
+                inner.add(new TextField("text field 3"));
             }});
         return ret;
     }
