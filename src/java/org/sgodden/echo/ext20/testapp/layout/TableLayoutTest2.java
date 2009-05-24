@@ -63,6 +63,7 @@ public class TableLayoutTest2
             public void actionPerformed(ActionEvent arg0) {
                 inner.add(new Label("Another label"));
                 removeButton.setEnabled(true);
+                removeRowButton.setEnabled(true);
             }});
         return ret;
     }
@@ -71,9 +72,9 @@ public class TableLayoutTest2
         Button ret = new Button("Add a row of labels");
         ret.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-                inner.add(new TextField("text field 1"));
-                inner.add(new TextField("text field 2"));
-                inner.add(new TextField("text field 3"));
+                inner.add(new Label("Label 1"));
+                inner.add(new Label("Label 2"));
+                inner.add(new Label("Label 3"));
                 removeRowButton.setEnabled(true);
             }});
         return ret;
@@ -86,7 +87,7 @@ public class TableLayoutTest2
                 if (inner.getComponentCount() > 0) {
                     inner.remove(inner.getComponentCount()-1);
                 }
-                if (inner.getComponentCount() == 1) {
+                if (inner.getComponentCount() == 0) {
                     ret.setEnabled(false);
                 }
             }});
@@ -102,7 +103,7 @@ public class TableLayoutTest2
                     inner.remove(inner.getComponentCount()-1);
                     inner.remove(inner.getComponentCount()-1);
                 }
-                if (inner.getComponentCount() <= 3) {
+                if (inner.getComponentCount() == 0) {
                     ret.setEnabled(false);
                 }
             }});
@@ -114,9 +115,9 @@ public class TableLayoutTest2
         ret.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
             	inner.removeAll();
-                inner.add(new TextField("text field 1"));
-                inner.add(new TextField("text field 2"));
-                inner.add(new TextField("text field 3"));
+                inner.add(new Label("Label 1"));
+                inner.add(new Label("Label 2"));
+                inner.add(new Label("Label 3"));
             }});
         return ret;
     }

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Test table layout</title>
+<link rel="stylesheet" type="text/css"
+	href="../../contrib/ext-2.2.1/resources/css/ext-all.css" />
+<script type="text/javascript"
+	src="../../contrib/ext-2.2.1/adapter/ext/ext-base.js"></script>
+<script type="text/javascript"
+	src="../../contrib/ext-2.2.1/ext-all-debug.js"></script>
+
+</head>
+<body>
+
+<div id="table"></div>
+
+<script type="text/javascript">
+var rows = 1;
+var panel;
+var lastChild;
+var rows = [makePanelRow()];
+
+Ext.onReady(function() {
+	panel = new Ext.Panel({
+		applyTo:  'table',
+		layout: 'table',
+		width: 400,
+		height: 200,
+		layoutConfig: {
+			columns: 3
+		},
+		items: [rows[0][0], rows[0][1], rows[0][2]],
+	    buttons: [
+	              {
+		              text: 'Remove last row',
+			          listeners: {
+				          'click' : removeLastRow
+		              }
+	              },
+	              {
+		              text: 'Add row',
+			          listeners: {
+				          'click' : addRow
+		              }
+	              },
+	              {
+		              text: 'Remove all',
+			          listeners: {
+				          'click' : removeAll
+		              }
+	              },
+	              {
+		              text: 'Remove and add last',
+			          listeners: {
+				          'click' : removeAndAddLast
+		              }
+	              }
+	    ]
+	});
+});
+
+function removeLastRow() {
+	var row = rows.pop();
+	panel.remove(row[0]);
+	panel.remove(row[1]);
+	panel.remove(row[2]);
+	panel.doLayout();
+}
+
+function addRow() {
+	var newRow = makePanelRow();
+	rows.push(newRow);
+	panel.add(newRow[0]);
+	panel.add(newRow[1]);
+	panel.add(newRow[2]);
+	panel.doLayout();
+}
+
+function removeAll() {
+	panel.removeAll();
+}
+
+function removeAndAddLast() {
+	panel.remove(lastChild);
+	lastChild.rendered = false;
+	panel.doLayout();
+	panel.add(lastChild);
+	panel.doLayout(); 
+}
+
+function makePanelRow() {
+	var ret = [];
+	ret.push(new Ext.Panel({html: "Panel 1"}));
+	ret.push(new Ext.Panel({html: "Panel 2"}));
+	lastChild = new Ext.Panel({html: "Panel 3"});
+	ret.push(lastChild);
+	return ret;
+}
+</script>
+
+</body>
+</html>

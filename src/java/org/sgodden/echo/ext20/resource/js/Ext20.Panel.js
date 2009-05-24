@@ -225,6 +225,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                     if (child.peer && child.peer.extComponent) {
                         var childExtComponent = child.peer.extComponent;
                         this.extComponent.remove(childExtComponent);
+                        // FIXME - is this necessary?
+                        childExtComponent.rendered = false;
                     }
                 }
             }

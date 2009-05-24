@@ -1,6 +1,6 @@
---- ext-all-debug.js	2009-05-20 20:19:46.000000000 +0100
-+++ ext-all-debug.js	2009-05-20 21:26:35.000000000 +0100
-@@ -16211,40 +16211,37 @@
+--- ext-all-debug.js	2009-05-24 20:16:21.046875000 +0100
++++ ../ext-all-debug.js.orig	2009-05-24 20:14:30.156250000 +0100
+@@ -16211,40 +16211,43 @@
                  this.table.cellSpacing = this.cellSpacing;
              }
          }
@@ -54,6 +54,10 @@
 +                var tcell = tcells[j];
 +                if (tcell.childNodes.length == 0) {
 +                    trow.removeChild(tcell);
++                    this.currentColumn = trow.childNodes.length - 1;
++                    if (this.currentColumn < 0) {
++                        this.currentColumn = 0;
++                    }
 +                    /*
 +                     * Remove the last cell of the last row
 +                     * of the internal cells variable, removing
@@ -63,7 +67,9 @@
 +                    this.cells[this.cells.length-1].pop();
 +                    if (this.cells[this.cells.length-1].length == 0) {
 +                        this.cells.pop();
-+                        this.currentRow--;
++                        if (this.currentRow > 0) {
++                        	this.currentRow--;
++                        }
 +                    }
 +                }
 +            }
