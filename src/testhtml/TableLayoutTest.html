@@ -16,6 +16,7 @@
 <div id="table"></div>
 
 <script type="text/javascript">
+var index = 0;
 var rows = 1;
 var panel;
 var lastChild;
@@ -25,8 +26,9 @@ Ext.onReady(function() {
 	panel = new Ext.Panel({
 		applyTo:  'table',
 		layout: 'table',
-		width: 400,
+		width: 600,
 		height: 200,
+		autoScroll: true,
 		layoutConfig: {
 			columns: 3
 		},
@@ -55,6 +57,18 @@ Ext.onReady(function() {
 			          listeners: {
 				          'click' : removeAndAddLast
 		              }
+	              },
+	              {
+		              text: 'Insert in the middle',
+			          listeners: {
+				          'click' : insertInMiddle
+		              }
+	              },
+	              {
+		              text: 'Delete second row',
+			          listeners: {
+				          'click' : deleteSecondRow
+		              }
 	              }
 	    ]
 	});
@@ -79,6 +93,7 @@ function addRow() {
 
 function removeAll() {
 	panel.removeAll();
+	index = 0;
 }
 
 function removeAndAddLast() {
@@ -89,13 +104,34 @@ function removeAndAddLast() {
 	panel.doLayout(); 
 }
 
+function insertInMiddle() {
+	panel.insert(3, makePanel());
+	panel.insert(4, makePanel());
+	panel.insert(5, makePanel());
+	panel.doLayout();
+}
+
+function deleteSecondRow() {
+	var row = rows[1];
+	rows.splice(1,1);
+	for (var i = 0; i < row.length; i++) {
+		var child = row[i];
+		panel.remove(child);
+	}
+	panel.doLayout();
+}
+
 function makePanelRow() {
 	var ret = [];
-	ret.push(new Ext.Panel({html: "Panel 1"}));
-	ret.push(new Ext.Panel({html: "Panel 2"}));
-	lastChild = new Ext.Panel({html: "Panel 3"});
+	ret.push(makePanel());
+	ret.push(makePanel());
+	lastChild = makePanel();
 	ret.push(lastChild);
 	return ret;
+}
+
+function makePanel() {
+	return new Ext.Panel({html: "Panel " + ++index});
 }
 </script>
 

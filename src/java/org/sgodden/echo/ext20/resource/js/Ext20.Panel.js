@@ -720,7 +720,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         return buttons;
     },
     
-    _addExtComponentChild: function( child, extComponent) {
+    _addExtComponentChild: function( child, childExtComponent, childIndex) {
         var layoutData = child.render("layoutData");
         if (layoutData) {
             var locationName = layoutData["locationName"];
@@ -731,14 +731,19 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
         if (child.parent != null) {
             if (child.parent instanceof EchoExt20.TabbedPane) {
-                var tabTitle = extComponent.title.toString();
+                var tabTitle = childExtComponent.title.toString();
                 var maxLength = 20;
                 if(tabTitle.length > maxLength) {
-                    extComponent.setTitle(this._getShortTitle(tabTitle, maxLength));
+                    childExtComponent.setTitle(this._getShortTitle(tabTitle, maxLength));
                 }
             }
         }
-        this.extComponent.add(extComponent);
+        if (this.extComponent.items && childIndex < this.extComponent.items.getCount()) {
+            this.extComponent.insert(childIndex, childExtComponent);
+        }
+        else {
+        	this.extComponent.add(childExtComponent);
+        }
     },
 
     /**
@@ -774,24 +779,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
              */
             if (! (child instanceof EchoExt20.ExtComponent) ) {
                 // we don't renderAdd here - ext does it lazily
-                var wrapper = new EchoExt20.Echo3SyncWrapper(update, child);
-                if (this.extComponent.items) {
-                    var inserted = false;
-                    for (var h = 0; h < this.extComponent.items.getCount() && !inserted; h++) {
-                        var extChild = this.extComponent.items.itemAt(h);
-                        var echoComp = extChild.echoComponent;
-                        
-                        var extChildIndex = this.component.indexOf(extChild.echoComponent);
-                        if (extChildIndex > childIndex) {
-                            this.extComponent.insert(h, wrapper);
-                            inserted = true;
-                        }
-                    }
-                    if (!inserted)
-                        this._addExtComponentChild( child, wrapper);
-                } else {
-                    this._addExtComponentChild( child, wrapper);
-                }
+                var childExtComponent = new EchoExt20.Echo3SyncWrapper(update, child);
+                this._addExtComponentChild(child, childExtComponent, childIndex);
             }
             else if (child instanceof EchoExt20.Window) {
                 this._createWindow(update, child);
@@ -813,23 +802,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 else {
                     // make sure we can get back to the echo component from the ext component
                     childExtComponent.echoComponent = child;
-                    if (this.extComponent.items) {
-                        var inserted = false;
-                        for (var h = 0; h < this.extComponent.items.getCount() && !inserted; h++) {
-                            var extChild = this.extComponent.items.itemAt(h);
-                            var echoComp = extChild.echoComponent;
-                            
-                            var extChildIndex = this.component.indexOf(extChild.echoComponent);
-                            if (extChildIndex > childIndex) {
-                                this.extComponent.insert(h, childExtComponent);
-                                inserted = true;
-                            }
-                        }
-                        if (!inserted)
-                            this._addExtComponentChild( child, childExtComponent);
-                    } else {
-                        this._addExtComponentChild( child, childExtComponent);
-                    }
+                    this._addExtComponentChild(child, childExtComponent, childIndex);
                 }
             }
         }

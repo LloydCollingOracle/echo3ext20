@@ -1,12 +1,15 @@
 package org.sgodden.echo.ext20.testapp.layout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import nextapp.echo.app.Component;
 import nextapp.echo.app.Label;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
@@ -18,9 +21,9 @@ import org.sgodden.echo.ext20.layout.TableLayout;
 public class TableLayoutTest2 
         extends Panel {
     
-    Panel inner;
-    Button removeButton;
-    Button removeRowButton;
+	private int index = 0;
+    private Panel inner;
+    private Button removeRowButton;
     
     public TableLayoutTest2(){
         super("Table 2");
@@ -41,55 +44,30 @@ public class TableLayoutTest2
         /*
          * Create components for the first row.
          */
-        inner.add(new Label("Row 1 Column 1"));
-        inner.add(new Label("Row 1 Column 2"));
-        inner.add(new Label("Row 1 Column 3"));
-        
-        addButton(makeAddButton());
-        removeButton = makeRemoveButton();
-        addButton(removeButton);
+        inner.add(makeLabel());
+        inner.add(makeLabel());
+        inner.add(makeLabel());
         
         addButton(makeAddRowButton());
+        
         removeRowButton = makeRemoveRowButton();
         addButton(removeRowButton);
         
         addButton(makeRemoveAllAndAddButton());
+        addButton(makeInsertInMiddleButton());
+        addButton(makeDeleteSecondRowButton());
+        addButton(makeSwapRowsButton());
         
-    }
-    
-    private Button makeAddButton() {
-        Button ret = new Button("Add a label");
-        ret.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent arg0) {
-                inner.add(new Label("Another label"));
-                removeButton.setEnabled(true);
-                removeRowButton.setEnabled(true);
-            }});
-        return ret;
     }
     
     private Button makeAddRowButton() {
         Button ret = new Button("Add a row of labels");
         ret.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-                inner.add(new Label("Label 1"));
-                inner.add(new Label("Label 2"));
-                inner.add(new Label("Label 3"));
+                inner.add(makeLabel());
+                inner.add(makeLabel());
+                inner.add(makeLabel());
                 removeRowButton.setEnabled(true);
-            }});
-        return ret;
-    }
-    
-    private Button makeRemoveButton() {
-        final Button ret = new Button("Remove last component");
-        ret.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent arg0) {
-                if (inner.getComponentCount() > 0) {
-                    inner.remove(inner.getComponentCount()-1);
-                }
-                if (inner.getComponentCount() == 0) {
-                    ret.setEnabled(false);
-                }
             }});
         return ret;
     }
@@ -115,11 +93,59 @@ public class TableLayoutTest2
         ret.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
             	inner.removeAll();
-                inner.add(new Label("Label 1"));
-                inner.add(new Label("Label 2"));
-                inner.add(new Label("Label 3"));
+            	index = 0;
+                inner.add(makeLabel());
+                inner.add(makeLabel());
+                inner.add(makeLabel());
             }});
         return ret;
+    }
+    
+    private Button makeInsertInMiddleButton() {
+        final Button ret = new Button("Insert second row");
+        ret.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                inner.add(makeLabel(), 3);
+                inner.add(makeLabel(), 4);
+                inner.add(makeLabel(), 5);
+            }});
+        return ret;    	
+    }
+    
+    private Button makeDeleteSecondRowButton() {
+        final Button ret = new Button("Delete second row");
+        ret.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+                inner.remove(3);
+                inner.remove(3);
+                inner.remove(3);
+            }});
+        return ret;    	
+    }
+    
+    private Button makeSwapRowsButton() {
+    	final Button ret = new Button("Swap rows 2 and 3");
+    	ret.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				List<Component> comps = new ArrayList<Component>();
+				comps.add(inner.getComponent(3));
+				comps.add(inner.getComponent(4));
+				comps.add(inner.getComponent(5));
+				
+				inner.remove(3);
+				inner.remove(3);
+				inner.remove(3);
+				
+				inner.add(comps.get(0), 6);
+				inner.add(comps.get(1), 7);
+				inner.add(comps.get(2), 8);
+			}
+		});
+    	return ret;
+    }
+    
+    private Label makeLabel() {
+    	return new Label("Label " + ++index);
     }
 
 }

@@ -1,6 +1,14 @@
---- ext-all-debug.js	2009-05-24 20:16:21.046875000 +0100
-+++ ../ext-all-debug.js.orig	2009-05-24 20:14:30.156250000 +0100
-@@ -16211,40 +16211,43 @@
+--- ext-all-debug.js	2009-05-25 20:02:20.546875000 +0100
++++ ../ext-all-debug.js	2009-05-25 20:07:38.234375000 +0100
+@@ -16179,6 +16179,7 @@
+         this.currentRow = 0;
+         this.currentColumn = 0;
+         this.cells = [];
++        this.renderedComponentCount = 0;
+     },
+ 
+     // private
+@@ -16211,40 +16212,49 @@
                  this.table.cellSpacing = this.cellSpacing;
              }
          }
@@ -43,9 +51,14 @@
 +        // these have been caused by removes from the container
 +        // we are laying out
 +        var tbody = this.table.tBodies[0];
-+        var trows = tbody.childNodes;
++        // make a copy of the rows and loop through them
++        var trows = [];
++        for (var i = 0; i < tbody.childNodes.length; i++) {
++            trows.push(tbody.childNodes[i]);
++        }
 +        for (var i = 0; i < trows.length; i++) {
 +            var trow = trows[i];
++            // make a copy of the cells and loop through them
 +            var tcells = [];
 +            for (var j = 0; j < trow.childNodes.length; j++) {
 +                tcells.push(trow.childNodes[j]);
@@ -54,6 +67,7 @@
 +                var tcell = tcells[j];
 +                if (tcell.childNodes.length == 0) {
 +                    trow.removeChild(tcell);
++                    this.renderedComponentCount--;
 +                    this.currentColumn = trow.childNodes.length - 1;
 +                    if (this.currentColumn < 0) {
 +                        this.currentColumn = 0;
@@ -78,3 +92,95 @@
              }
          }
  
+@@ -16262,17 +16272,41 @@
+     },
+ 
+     // private
+-	getNextCell : function(c){
+-		var cell = this.getNextNonSpan(this.currentColumn, this.currentRow);
+-		var curCol = this.currentColumn = cell[0], curRow = this.currentRow = cell[1];
+-		for(var rowIndex = curRow; rowIndex < curRow + (c.rowspan || 1); rowIndex++){
+-			if(!this.cells[rowIndex]){
+-				this.cells[rowIndex] = [];
+-			}
+-			for(var colIndex = curCol; colIndex < curCol + (c.colspan || 1); colIndex++){
+-				this.cells[rowIndex][colIndex] = true;
+-			}
+-		}
++	getNextCell : function(c, position){
++        var trElement;
++        // detect attempts to insert a row, or column into a previous row
++        if (position < this.renderedComponentCount) {
++            var positionNonSpan = this.getPositionNonSpan(position);
++            var cellPosition = positionNonSpan % this.columns;
++            var rowNum = parseInt(positionNonSpan / this.columns);
++            var tbody = this.table.tBodies[0];
++            if (cellPosition == 0) {
++                trElement = this.table.insertRow(rowNum);
++                // need to update the internal cells variable
++                var newCellsRow = [];
++                for (var i = 0; i < this.columns; i++) {
++                    newCellsRow.push(true);
++                }
++                this.cells.splice(rowNum, 0, newCellsRow);
++            }
++            else {
++                trElement = tbody.childNodes[rowNum];
++            }
++        }
++        else {
++            // not inserting in the middle, regular 'append to end' processing
++            var cell = this.getNextNonSpan(this.currentColumn, this.currentRow);
++            var curCol = this.currentColumn = cell[0], curRow = this.currentRow = cell[1];
++            for(var rowIndex = curRow; rowIndex < curRow + (c.rowspan || 1); rowIndex++){
++                if(!this.cells[rowIndex]){
++                    this.cells[rowIndex] = [];
++                }
++                for(var colIndex = curCol; colIndex < curCol + (c.colspan || 1); colIndex++){
++                    this.cells[rowIndex][colIndex] = true;
++                }
++            }
++            trElement = this.getRow(curRow);
++        }
+ 		var td = document.createElement('td');
+ 		if(c.cellId){
+ 			td.id = c.cellId;
+@@ -16297,7 +16331,7 @@
+         if (c.cellVAlign) {
+             td.vAlign = c.cellVAlign;
+         }
+-		this.getRow(curRow).appendChild(td);
++		trElement.appendChild(td);
+ 		return td;
+ 	},
+     
+@@ -16314,11 +16348,28 @@
+ 		}
+ 		return [colIndex, rowIndex];
+ 	},
++    
++    // private
++    getPositionNonSpan: function(position) {
++        var ret = 0;
++        var count = this.container.items.getCount();
++        for (var i = 0; i < count && i < position; i++) {
++            var child = this.container.items.get(i);
++            if (child.colspan) {
++                ret += child.colspan;
++            }
++            else {
++                ret += 1;
++            }
++        }
++        return ret;
++    },
+ 
+     // private
+     renderItem : function(c, position, target){
+         if(c && !c.rendered){
+-            c.render(this.getNextCell(c));
++            c.render(this.getNextCell(c, position));
++            this.renderedComponentCount++;
+             if(this.extraCls){
+                 var t = c.getPositionEl ? c.getPositionEl() : c;
+                 t.addClass(this.extraCls);
