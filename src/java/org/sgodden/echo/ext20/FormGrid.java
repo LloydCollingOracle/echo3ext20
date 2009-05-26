@@ -17,19 +17,11 @@ import org.sgodden.echo.ext20.layout.TableLayoutData;
  */
 @SuppressWarnings("serial")
 public class FormGrid extends Panel {
-
-    private boolean separatorsRequired = true;
-    private int columnsAdded = 0;
-    private int columnCount = 0;
-    private int separatorsAdded = 0;
-    private int separatorCount = 0;
-    private Set<ColumnSeparator> separators = new HashSet<ColumnSeparator>();
-
     /**
      * Creates a new form panel to hold a single column of form fields.
      */
     public FormGrid() {
-        this(1, false);
+        this(1);
     }
 
     /**
@@ -41,19 +33,34 @@ public class FormGrid extends Panel {
      *            the number of columns of form fields.
      */
     public FormGrid(int cols) {
-        this(cols, (cols > 1));
+        super();
+        setColumns(cols);
+        if (getBaseCssClass() != null)
+            setBaseCssClass(getBaseCssClass());
     }
 
     /**
-     * Creates a new form panel to hold the specified number of columns of form
-     * fields with an optional vertical rule separator.
+     * Provides the base css class for the form grid
      */
-    public FormGrid(int cols, boolean separatorsRequired) {
-        super();
-        columnCount = cols;
-        this.separatorsRequired = separatorsRequired;
-        setColumns(cols);
-        setBaseCssClass("form-grid");
+    @Override
+    public String getBaseCssClass() {
+        return null;
+    }
+
+    /**
+     * Provides the css class for the field label column
+     */
+    protected String getFieldLabelColumnCssCls() {
+        return null;
+    }
+
+    /**
+     * Provides the css class for the component column
+     * 
+     * @return
+     */
+    protected String getComponentColumnCssCls() {
+        return null;
     }
 
     /**
@@ -74,14 +81,18 @@ public class FormGrid extends Panel {
         TableLayoutData tld = new TableLayoutData();
         tld.setCellAlign("left");
         tld.setCellVAlign("top");
+        if (getFieldLabelColumnCssCls() != null)
+            tld.setCellCls(getFieldLabelColumnCssCls());
         l.setLayoutData(tld);
         super.add(l);
 
         tld = new TableLayoutData();
         tld.setCellVAlign("top");
+        if (getComponentColumnCssCls() != null)
+            tld.setCellCls(getComponentColumnCssCls());
         c.setLayoutData(tld);
         super.add(c);
-        addSeparatorAndCss(l);
+
     }
 
     /**
@@ -96,6 +107,8 @@ public class FormGrid extends Panel {
         TableLayoutData tld = new TableLayoutData();
         tld.setCellAlign("left");
         tld.setCellVAlign("top");
+        if (getFieldLabelColumnCssCls() != null)
+            tld.setCellCls(getFieldLabelColumnCssCls());
         fieldLabel.setLayoutData(tld);
         super.add(fieldLabel);
 
@@ -103,8 +116,6 @@ public class FormGrid extends Panel {
         tld.setCellVAlign("top");
         c.setLayoutData(tld);
         super.add(c);
-        if (separatorsRequired)
-            addSeparatorAndCss(fieldLabel);
     }
 
     /**
@@ -112,66 +123,6 @@ public class FormGrid extends Panel {
      */
     public void add(Component c) {
         add(c, (String) null);
-    }
-
-    /**
-     * Add column separator if more than one column and pad cells to the right
-     * of the separator.
-     * 
-     * @param l
-     *            the label following the separator.
-     */
-    private void addSeparatorAndCss(Component l) {
-        if (separatorsRequired && addSeparator()) {
-            super.add(new ColumnSeparator(1));
-        }
-        if (separatorsRequired && isNewRow()) {
-            updateRowSpan();
-            if (l instanceof ExtComponent)
-                ((ExtComponent) l).setCssClass("standard-field-label-padded");
-        } else {
-            if (l instanceof ExtComponent)
-                ((ExtComponent) l).setCssClass("standard-field-label");
-        }
-    }
-
-    /**
-     * After each new row is added, update the row span of the separator
-     * components.
-     */
-    private void updateRowSpan() {
-        for (ColumnSeparator cs : separators) {
-            cs.setRowSpan(cs.getRowSpan() + 1);
-        }
-    }
-
-    /**
-     * Is the cell being added the first in a new row?
-     * 
-     * @return boolean isNewRow
-     */
-    private boolean isNewRow() {
-        columnsAdded++;
-        if (columnsAdded < columnCount || columnCount == 1) {
-            return false;
-        } else {
-            columnsAdded = 0;
-            return true;
-        }
-    }
-
-    /**
-     * Should a separator cell be added.
-     * 
-     * @return boolean add a separator.
-     */
-    private boolean addSeparator() {
-        if (separatorsAdded < separatorCount) {
-            separatorsAdded++;
-            return true;
-        } else {
-            return false;
-        }
     }
 
 /**
@@ -203,18 +154,11 @@ public class FormGrid extends Panel {
      */
     public void setColumns(int columns) {
         int columnsRequired;
-        if (separatorsRequired) {
-            columnsRequired = (columns * 2) + (columns - 1);
-        } else {
-            columnsRequired = columns * 2;
-        }
+        columnsRequired = columns * 2;
         TableLayout tl = new TableLayout(columnsRequired);
         tl.setFullWidth(false);
         tl.setCellSpacing(10);
         setLayout(tl);
-        if (columns > 1 && separatorsRequired) {
-            separatorCount = columns - 1;
-        }
     }
 
     /**
@@ -233,31 +177,5 @@ public class FormGrid extends Panel {
          * Indicates that the field label should be placed above its component.
          */
         ABOVE
-    }
-
-    /**
-     * Creates a panel that is styled as a vertical rule separator.
-     * 
-     * @author bwoods
-     * 
-     */
-    private class ColumnSeparator extends Panel {
-        private TableLayoutData tld = new TableLayoutData();
-
-        private ColumnSeparator(int rowSpan) {
-            setLayout(new FitLayout());
-            this.setRowSpan(rowSpan);
-            this.tld.setCellCls("form-grid-separator");
-            setLayoutData(tld);
-            separators.add(this);
-        }
-
-        private void setRowSpan(int rowSpan) {
-            tld.setRowSpan(rowSpan);
-        }
-
-        private int getRowSpan() {
-            return tld.getRowSpan();
-        }
     }
 }
