@@ -171,37 +171,6 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         return ret;
     },
     
-    _getComponentValue: function() {
-        return this.component.get('selection');
-    },
-    
-    _getExtComponentValue: function() {
-        var record = null;
-        var v = this.extComponent.getValue();
-        var recordIndex = this.extComponent.valueField;
-        if(this.extComponent.store.getCount() > 0){
-            this.extComponent.store.each(function(r){
-                if(r.data[recordIndex] == v){
-                    record = r;
-                }
-            });
-        }
-        if (record != null)
-            return this.extComponent.store.indexOf(record);
-        else
-            return -1;
-    },
-    
-    _doOnInvalid: function() {
-        this._invalidMsg = this.extComponent.errorIcon.dom.qtip;
-        // move the icon across a bit
-        this.extComponent.errorIcon.alignTo(this.extComponent.trigger, 'tl-tr');
-        this.extComponent.errorIcon.setLeft(parseInt(this.extComponent.errorIcon.dom.style.left) + 10);
-        this.extComponent.errorIcon.dom.qtip = '';
-        this.extComponent.on("focus", this._doOnInvalidFocus, this);
-        this.extComponent.on("blur", this._doOnInvalidBlur, this);
-    },
-    
     /**
      * Ensures the application is notified that this component has been focused
      */
