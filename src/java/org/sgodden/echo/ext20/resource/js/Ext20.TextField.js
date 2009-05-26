@@ -49,10 +49,26 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
          */
         newExtComponentInstance: function(options) {
             return new Ext.form.TextField(options);
+        },
+        
+        _getComponentValue: function() {
+            return this.component.get('value');
+        },
+        
+        _getExtComponentValue: function() {
+            return this.extComponent.getValue();
         }
     },
     
-    _initialText: null,
+    /**
+     * The last remembered value that put the field in error
+     */
+    _invalidValue: null,
+    
+    /**
+     * The message being displayed when the field is invalid
+     */
+    _invalidMsg: null,
     
     /**
      * Called by the base class to create the ext component.
@@ -103,13 +119,13 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         }
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             if(this.component.get("invalidText") != null) {
-            	if(this.component.get('value') != null) {
-            		this._initialText = this.component.get('value');
+                if(this._getComponentValue() != null) {
+                    this._invalidValue = this._getComponentValue();
             		options["invalidText"] = this.component.get("invalidText")
-            		options["validator"] = this._checkMatchesInitialValue.createDelegate(this);
             	}
             }
         }
+        options["validator"] = this._checkMatchesInitialValue.createDelegate(this);
         /**
          * boolean logic has been reversed due to property in ext being readOnly rather than
          * the more consistent property of editable.
@@ -143,12 +159,10 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     },
     
     _checkMatchesInitialValue: function(value) {
-		if(value == this._initialText){
-			this.extComponent.addClass("x-form-invalid");
+        if(this._getExtComponentValue() == this._invalidValue){
 			return this.extComponent.invalidText;
 		}
 		else{
-			this.extComponent.removeClass("x-form-invalid");
 			return true;
 		}
     },
@@ -170,6 +184,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             this.extComponent.getEl().dom.size =
                 this.component.get("size");
         }
+        this.extComponent.validate.defer(100, this.extComponent);
     },
     
      /**
@@ -226,6 +241,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         this.extComponent.setValue(this.component.get("value"));
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             if(this.component.get("invalidText") != null) {
+                this._invalidValue = this.component.get("value");
             	this.extComponent.markInvalid(this.component.get("invalidText"));
             }
         }

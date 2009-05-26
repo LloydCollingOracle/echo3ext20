@@ -171,6 +171,27 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         return ret;
     },
     
+    _getComponentValue: function() {
+        return this.component.get('selection');
+    },
+    
+    _getExtComponentValue: function() {
+        var record = null;
+        var v = this.extComponent.getValue();
+        var recordIndex = this.extComponent.valueField;
+        if(this.extComponent.store.getCount() > 0){
+            this.extComponent.store.each(function(r){
+                if(r.data[recordIndex] == v){
+                    record = r;
+                }
+            });
+        }
+        if (record != null)
+            return this.extComponent.store.indexOf(record);
+        else
+            return -1;
+    },
+    
     /**
      * Ensures the application is notified that this component has been focused
      */
@@ -205,8 +226,6 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
    _handleExpandEvent: function() {
         this.extComponent.setValue(null);
     },
-    
-    
 
     /**
      * Handles the select event by requesting the component to fire
