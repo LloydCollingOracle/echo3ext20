@@ -1,5 +1,5 @@
---- ext-all-debug.js	2009-05-25 20:02:20.546875000 +0100
-+++ ../ext-all-debug.js	2009-05-25 20:07:38.234375000 +0100
+--- ext-all-debug.js	2009-05-26 09:30:33.000000000 +0100
++++ ext-all-debug.js	2009-05-26 09:40:06.000000000 +0100
 @@ -16179,6 +16179,7 @@
          this.currentRow = 0;
          this.currentColumn = 0;
@@ -8,7 +8,7 @@
      },
  
      // private
-@@ -16211,40 +16212,49 @@
+@@ -16211,40 +16212,48 @@
                  this.table.cellSpacing = this.cellSpacing;
              }
          }
@@ -46,7 +46,6 @@
 -            this.cells[this.cells.length-1].pop();
 -            if (this.cells[this.cells.length-1].length == 0) {
 -                this.cells.pop();
-+
 +        // remove any empty tds, and trs if they have no tds
 +        // these have been caused by removes from the container
 +        // we are laying out
@@ -92,7 +91,7 @@
              }
          }
  
-@@ -16262,17 +16272,41 @@
+@@ -16262,17 +16271,41 @@
      },
  
      // private
@@ -107,45 +106,45 @@
 -				this.cells[rowIndex][colIndex] = true;
 -			}
 -		}
-+	getNextCell : function(c, position){
-+        var trElement;
-+        // detect attempts to insert a row, or column into a previous row
-+        if (position < this.renderedComponentCount) {
-+            var positionNonSpan = this.getPositionNonSpan(position);
-+            var cellPosition = positionNonSpan % this.columns;
-+            var rowNum = parseInt(positionNonSpan / this.columns);
-+            var tbody = this.table.tBodies[0];
-+            if (cellPosition == 0) {
-+                trElement = this.table.insertRow(rowNum);
-+                // need to update the internal cells variable
-+                var newCellsRow = [];
-+                for (var i = 0; i < this.columns; i++) {
-+                    newCellsRow.push(true);
-+                }
-+                this.cells.splice(rowNum, 0, newCellsRow);
-+            }
-+            else {
-+                trElement = tbody.childNodes[rowNum];
-+            }
-+        }
-+        else {
-+            // not inserting in the middle, regular 'append to end' processing
-+            var cell = this.getNextNonSpan(this.currentColumn, this.currentRow);
-+            var curCol = this.currentColumn = cell[0], curRow = this.currentRow = cell[1];
-+            for(var rowIndex = curRow; rowIndex < curRow + (c.rowspan || 1); rowIndex++){
-+                if(!this.cells[rowIndex]){
-+                    this.cells[rowIndex] = [];
-+                }
-+                for(var colIndex = curCol; colIndex < curCol + (c.colspan || 1); colIndex++){
-+                    this.cells[rowIndex][colIndex] = true;
-+                }
-+            }
-+            trElement = this.getRow(curRow);
-+        }
++    getNextCell : function(c, position){
++    	var trElement;
++    	// detect attempts to insert a row, or column into a previous row
++    	if (position < this.renderedComponentCount) {
++    	    var positionNonSpan = this.getPositionNonSpan(position);
++    	    var cellPosition = positionNonSpan % this.columns;
++    	    var rowNum = parseInt(positionNonSpan / this.columns);
++    	    var tbody = this.table.tBodies[0];
++    	    if (cellPosition == 0) {
++    	        trElement = this.table.insertRow(rowNum);
++    	        // need to update the internal cells variable
++    	        var newCellsRow = [];
++    	        for (var i = 0; i < this.columns; i++) {
++    	            newCellsRow.push(true);
++    	        }
++    	        this.cells.splice(rowNum, 0, newCellsRow);
++    	    }
++    	    else {
++    	        trElement = tbody.childNodes[rowNum];
++    	    }
++    	}
++    	else {
++    	    // not inserting in the middle, regular 'append to end' processing
++    	    var cell = this.getNextNonSpan(this.currentColumn, this.currentRow);
++    	    var curCol = this.currentColumn = cell[0], curRow = this.currentRow = cell[1];
++    	    for(var rowIndex = curRow; rowIndex < curRow + (c.rowspan || 1); rowIndex++){
++    	        if(!this.cells[rowIndex]){
++    	            this.cells[rowIndex] = [];
++    	        }
++    	        for(var colIndex = curCol; colIndex < curCol + (c.colspan || 1); colIndex++){
++    	            this.cells[rowIndex][colIndex] = true;
++    	        }
++    	    }
++    	    trElement = this.getRow(curRow);
++    	}
  		var td = document.createElement('td');
  		if(c.cellId){
  			td.id = c.cellId;
-@@ -16297,7 +16331,7 @@
+@@ -16297,7 +16330,7 @@
          if (c.cellVAlign) {
              td.vAlign = c.cellVAlign;
          }
@@ -154,26 +153,26 @@
  		return td;
  	},
      
-@@ -16314,11 +16348,28 @@
+@@ -16314,11 +16347,28 @@
  		}
  		return [colIndex, rowIndex];
  	},
-+    
-+    // private
-+    getPositionNonSpan: function(position) {
-+        var ret = 0;
-+        var count = this.container.items.getCount();
-+        for (var i = 0; i < count && i < position; i++) {
-+            var child = this.container.items.get(i);
-+            if (child.colspan) {
-+                ret += child.colspan;
-+            }
-+            else {
-+                ret += 1;
-+            }
-+        }
-+        return ret;
-+    },
++	
++	// private
++	getPositionNonSpan: function(position) {
++	    var ret = 0;
++	    var count = this.container.items.getCount();
++	    for (var i = 0; i < count && i < position; i++) {
++	        var child = this.container.items.get(i);
++	        if (child.colspan) {
++	            ret += child.colspan;
++	        }
++	        else {
++	            ret += 1;
++	        }
++	    }
++	    return ret;
++	},
  
      // private
      renderItem : function(c, position, target){
