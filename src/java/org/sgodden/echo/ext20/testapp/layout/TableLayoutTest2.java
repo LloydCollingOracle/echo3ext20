@@ -34,7 +34,7 @@ public class TableLayoutTest2
         add(inner);
         inner.setAutoScroll(true);
         
-        TableLayout layout = new TableLayout(3);
+        TableLayout layout = new TableLayout(5);
         // try out most of the options
         layout.setFullWidth(true);
         layout.setCellPadding(10, 10, 0, 10);
@@ -44,6 +44,8 @@ public class TableLayoutTest2
         /*
          * Create components for the first row.
          */
+        inner.add(makeLabel());
+        inner.add(makeLabel());
         inner.add(makeLabel());
         inner.add(makeLabel());
         inner.add(makeLabel());
@@ -67,6 +69,8 @@ public class TableLayoutTest2
                 inner.add(makeLabel());
                 inner.add(makeLabel());
                 inner.add(makeLabel());
+                inner.add(makeLabel());
+                inner.add(makeLabel());
                 removeRowButton.setEnabled(true);
             }});
         return ret;
@@ -76,7 +80,9 @@ public class TableLayoutTest2
         final Button ret = new Button("Remove last row");
         ret.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-                if (inner.getComponentCount() >= 3) {
+                if (inner.getComponentCount() >= 5) {
+                    inner.remove(inner.getComponentCount()-1);
+                    inner.remove(inner.getComponentCount()-1);
                     inner.remove(inner.getComponentCount()-1);
                     inner.remove(inner.getComponentCount()-1);
                     inner.remove(inner.getComponentCount()-1);
@@ -97,6 +103,8 @@ public class TableLayoutTest2
                 inner.add(makeLabel());
                 inner.add(makeLabel());
                 inner.add(makeLabel());
+                inner.add(makeLabel());
+                inner.add(makeLabel());
             }});
         return ret;
     }
@@ -105,9 +113,11 @@ public class TableLayoutTest2
         final Button ret = new Button("Insert second row");
         ret.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-                inner.add(makeLabel(), 3);
-                inner.add(makeLabel(), 4);
                 inner.add(makeLabel(), 5);
+                inner.add(makeLabel(), 6);
+                inner.add(makeLabel(), 7);
+                inner.add(makeLabel(), 8);
+                inner.add(makeLabel(), 9);
             }});
         return ret;    	
     }
@@ -116,9 +126,11 @@ public class TableLayoutTest2
         final Button ret = new Button("Delete second row");
         ret.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-                inner.remove(3);
-                inner.remove(3);
-                inner.remove(3);
+                inner.remove(5);
+                inner.remove(5);
+                inner.remove(5);
+                inner.remove(5);
+                inner.remove(5);
             }});
         return ret;    	
     }
@@ -128,17 +140,23 @@ public class TableLayoutTest2
     	ret.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				List<Component> comps = new ArrayList<Component>();
-				comps.add(inner.getComponent(3));
-				comps.add(inner.getComponent(4));
 				comps.add(inner.getComponent(5));
+				comps.add(inner.getComponent(6));
+				comps.add(inner.getComponent(7));
+				comps.add(inner.getComponent(8));
+				comps.add(inner.getComponent(9));
 				
-				inner.remove(3);
-				inner.remove(3);
-				inner.remove(3);
+				inner.remove(5);
+				inner.remove(5);
+				inner.remove(5);
+				inner.remove(5);
+				inner.remove(5);
 				
-				inner.add(comps.get(0), 6);
-				inner.add(comps.get(1), 7);
-				inner.add(comps.get(2), 8);
+				inner.add(comps.get(0), 10);
+				inner.add(comps.get(1), 11);
+				inner.add(comps.get(2), 12);
+				inner.add(comps.get(3), 13);
+				inner.add(comps.get(4), 14);
 			}
 		});
     	return ret;
