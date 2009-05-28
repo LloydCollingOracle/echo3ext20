@@ -1,0 +1,69 @@
+=== modified file 'src/server-java/webcontainer/nextapp/echo/extras/webcontainer/sync/component/TreePeer.java'
+--- src/server-java/webcontainer/nextapp/echo/extras/webcontainer/sync/component/TreePeer.java	2009-01-05 16:52:01 +0000
++++ src/server-java/webcontainer/nextapp/echo/extras/webcontainer/sync/component/TreePeer.java	2009-05-05 09:12:44 +0000
+@@ -40,6 +40,7 @@
+ import java.util.Set;
+ 
+ import nextapp.echo.app.Component;
++import nextapp.echo.app.Window;
+ import nextapp.echo.app.serial.SerialException;
+ import nextapp.echo.app.serial.SerialPropertyPeer;
+ import nextapp.echo.app.update.ClientUpdateManager;
+@@ -311,11 +312,11 @@
+             Tree tree = ((TreeStructure) propertyValue).tree;
+             TreeStructureRenderer renderer = new TreeStructureRenderer(propertyElement, tree);
+             propertyElement.setAttribute("t", SerialPropertyPeerConstants.PROPERTY_TYPE_PREFIX + "TreeStructure");
+-            UserInstance userInstance = (UserInstance) context.get(UserInstance.class);
+-            TreeRenderState renderState = (TreeRenderState) userInstance.getRenderState(tree);
++            Window containingWindow = tree.getContainingWindow();
++            TreeRenderState renderState = (TreeRenderState) containingWindow.getRenderState(tree);
+             if (renderState == null) {
+                 renderState = new TreeRenderState(tree);
+-                userInstance.setRenderState(tree, renderState);
++                containingWindow.setRenderState(tree, renderState);
+             }
+             renderer.render(context, renderState);
+             renderState.clearChangedPaths();
+@@ -445,7 +446,7 @@
+      */
+     private static String getSelectionString(Context context, TreeSelectionModel selectionModel, Tree tree) {
+         UserInstance userInstance = (UserInstance) context.get(UserInstance.class);
+-        TreeRenderState renderState = (TreeRenderState) userInstance.getRenderState(tree);
++        TreeRenderState renderState = (TreeRenderState) tree.getContainingWindow().getRenderState(tree);
+         
+         StringBuffer selection = new StringBuffer();
+         TreePath[] paths = selectionModel.getSelectionPaths();
+@@ -614,8 +615,9 @@
+         Iterator normalPropertyIterator = super.getUpdatedOutputPropertyNames(context, component, update);
+         HashSet extraProperties = new HashSet();
+         
++        Tree tree = (Tree) update.getParent();
+         if (update.hasRemovedChildren() || update.hasRemovedDescendants()) {
+-            userInstance.removeRenderState(component);
++        	tree.getContainingWindow().removeRenderState(component);
+             extraProperties.add(PROPERTY_TREE_STRUCTURE);
+             extraProperties.add(Tree.SELECTION_CHANGED_PROPERTY);
+         }
+@@ -624,7 +626,7 @@
+             extraProperties.addAll(Arrays.asList(MODEL_CHANGED_UPDATE_PROPERTIES));
+         } 
+         if (update.hasUpdatedProperty(Tree.EXPANSION_STATE_CHANGED_PROPERTY)) {
+-            TreeRenderState renderState = (TreeRenderState) userInstance.getRenderState(component);
++            TreeRenderState renderState = (TreeRenderState) tree.getContainingWindow().getRenderState(component);
+             if (renderState == null || renderState.hasChangedPaths()) {
+                 extraProperties.add(PROPERTY_TREE_STRUCTURE);
+             }
+@@ -645,10 +647,10 @@
+         if (EXPANSION_PROPERTY.equals(propertyName)) {
+             int row = ((Integer)newValue).intValue();
+             UserInstance userInstance = (UserInstance) context.get(UserInstance.class);
+-            TreeRenderState renderState = (TreeRenderState) userInstance.getRenderState(component);
++            TreeRenderState renderState = (TreeRenderState) tree.getContainingWindow().getRenderState(component);
+             if (renderState == null) {
+                 renderState = new TreeRenderState(tree);
+-                userInstance.setRenderState(component, renderState);
++                tree.getContainingWindow().setRenderState(component, renderState);
+             }
+             TreePath path = tree.getPathForRow(row);
+             renderState.setClientPath(path);
+
