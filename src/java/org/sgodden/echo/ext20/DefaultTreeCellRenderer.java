@@ -20,9 +20,9 @@ public class DefaultTreeCellRenderer implements TreeCellRenderer {
     private ImageReference folderOpenIcon;
 
     public DefaultTreeCellRenderer() {
-        leafIcon = new HttpImageReference("resources/ext/images/slate/tree/leaf.gif");
-        folderIcon = new HttpImageReference("resources/ext/images/slate/tree/folder.gif");
-        folderOpenIcon = new HttpImageReference("resources/ext/images/slate/tree/folder-open.gif");
+        leafIcon = new HttpImageReference("resources/ext/images/default/tree/leaf.gif");
+        folderIcon = new HttpImageReference("resources/ext/images/default/tree/folder.gif");
+        folderOpenIcon = new HttpImageReference("resources/ext/images/default/tree/folder-open.gif");
     }
     
     /**
