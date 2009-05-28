@@ -1,0 +1,18 @@
+--- ext-2.2.1-orig/ext-all-debug.js	2009-05-28 11:47:56.000000000 +0100
++++ ext-2.2.1/ext-all-debug.js	2009-05-28 13:37:34.000000000 +0100
+@@ -15186,8 +15186,13 @@
+                     c.collapsed = false;
+                     c.cls = c.cls ? c.cls +' x-border-panel' : 'x-border-panel';
+                     c.render(target, i);
+-                    this[pos] = pos != 'center' && c.split ?
+-                        new Ext.layout.BorderLayout.SplitRegion(this, c.initialConfig, pos) :
++                    if (pos != 'center' && c.split) {
++                        this[pos] = new Ext.layout.BorderLayout.SplitRegion(this, c.initialConfig, pos);
++                    } else {
++                        if (!this[pos]) {
++                            this[pos] = new Ext.layout.BorderLayout.Region(this, c.initialConfig, pos);
++                        }
++                    }
+                     this[pos].render(target, c);
+                 }
+             }

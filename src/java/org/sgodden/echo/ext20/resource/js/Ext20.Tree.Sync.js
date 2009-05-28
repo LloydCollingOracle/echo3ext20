@@ -56,6 +56,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     	// default options
     	options['autoScroll'] = true;
+    	options['animate'] = false;
     	options['containerScroll'] = true;
     	
     	if (this.component.get("hasBorder") != null)
