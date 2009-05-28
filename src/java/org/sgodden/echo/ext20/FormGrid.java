@@ -114,6 +114,8 @@ public class FormGrid extends Panel {
 
         tld = new TableLayoutData();
         tld.setCellVAlign("top");
+        if (getComponentColumnCssCls() != null)
+            tld.setCellCls(getComponentColumnCssCls());
         c.setLayoutData(tld);
         super.add(c);
     }
