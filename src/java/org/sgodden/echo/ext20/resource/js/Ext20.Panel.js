@@ -141,6 +141,27 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         var needsLayout = false;
         
+        if (update.hasRemovedChildren()) {
+            var removedChildren = update.getRemovedChildren();
+            for (var i = 0; i < removedChildren.length; i++) {
+                // all children have to be ext components anyway
+                var child = removedChildren[i];
+                /*
+                 * Not if it is a window, because it was never
+                 * added to the parent ext container in the first place.
+                 */
+                if (!(child instanceof EchoExt20.Window)) {
+                    if (child.peer && child.peer.extComponent) {
+                        var childExtComponent = child.peer.extComponent;
+                        this.extComponent.remove(childExtComponent);
+                        // FIXME - is this necessary?
+                        childExtComponent.rendered = false;
+                    }
+                }
+            }
+            needsLayout = true;
+        }
+       
         if (update.hasAddedChildren()) {
         	/*
         	 * Firefox has some particularly appalling issues
@@ -210,27 +231,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 }
             }
             needsLayout = needsLayout || this._conditionalDoLayout(addedChildren);
-        }
-        
-        if (update.hasRemovedChildren()) {
-            var removedChildren = update.getRemovedChildren();
-            for (var i = 0; i < removedChildren.length; i++) {
-                // all children have to be ext components anyway
-                var child = removedChildren[i];
-                /*
-                 * Not if it is a window, because it was never
-                 * added to the parent ext container in the first place.
-                 */
-                if (!(child instanceof EchoExt20.Window)) {
-                    if (child.peer && child.peer.extComponent) {
-                        var childExtComponent = child.peer.extComponent;
-                        this.extComponent.remove(childExtComponent);
-                        // FIXME - is this necessary?
-                        childExtComponent.rendered = false;
-                    }
-                }
-            }
-            needsLayout = true;
         }
         
         /*

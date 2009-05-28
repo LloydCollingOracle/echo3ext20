@@ -26,7 +26,7 @@ Ext.onReady(function() {
 	panel = new Ext.Panel({
 		applyTo:  'table',
 		layout: 'table',
-		width: 600,
+		width: 700,
 		height: 200,
 		autoScroll: true,
 		layoutConfig: {
@@ -68,6 +68,12 @@ Ext.onReady(function() {
 		              text: 'Delete second row',
 			          listeners: {
 				          'click' : deleteSecondRow
+		              }
+	              },
+	              {
+		              text: 'Swap rows',
+			          listeners: {
+				          'click' : swapRows
 		              }
 	              }
 	    ]
@@ -111,6 +117,24 @@ function insertInMiddle() {
 	panel.doLayout();
 }
 
+function swapRows() {
+	var comps = [];
+	comps.push(panel.getComponent(3));
+	comps.push(panel.getComponent(4));
+	comps.push(panel.getComponent(5));
+
+	for (var i = 0; i < comps.length; i++) {
+		panel.remove(comps[i]);
+		comps[i].rendered = false;
+	}
+
+	panel.insert(6, comps[0]);
+	panel.insert(7, comps[1]);
+	panel.insert(8, comps[2]);
+
+	panel.doLayout();
+}
+
 function deleteSecondRow() {
 	var row = rows[1];
 	rows.splice(1,1);
@@ -123,10 +147,16 @@ function deleteSecondRow() {
 
 function makePanelRow() {
 	var ret = [];
-	ret.push(makePanel());
-	ret.push(makePanel());
-	lastChild = makePanel();
-	ret.push(lastChild);
+	index++;
+	ret.push(new Ext.form.ComboBox({
+		store: ['Foo','Bar']
+	}));
+	ret.push(new Ext.form.TextField({
+		value: 'Asd ' + index 
+	}));
+	ret.push(new Ext.form.TextField({
+		value: 'Wer ' + index 
+	}));
 	return ret;
 }
 

@@ -3,13 +3,20 @@ package org.sgodden.echo.ext20.testapp.layout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+
 import nextapp.echo.app.Component;
-import nextapp.echo.app.Label;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.list.DefaultListModel;
+import nextapp.echo.app.list.ListModel;
 
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.ComboBox;
+import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
@@ -44,11 +51,7 @@ public class TableLayoutTest2
         /*
          * Create components for the first row.
          */
-        inner.add(makeLabel());
-        inner.add(makeLabel());
-        inner.add(makeLabel());
-        inner.add(makeLabel());
-        inner.add(makeLabel());
+        addRow(makeRow());
         
         addButton(makeAddRowButton());
         
@@ -66,11 +69,7 @@ public class TableLayoutTest2
         Button ret = new Button("Add a row of labels");
         ret.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-                inner.add(makeLabel());
-                inner.add(makeLabel());
-                inner.add(makeLabel());
-                inner.add(makeLabel());
-                inner.add(makeLabel());
+            	addRow(makeRow());
                 removeRowButton.setEnabled(true);
             }});
         return ret;
@@ -100,11 +99,7 @@ public class TableLayoutTest2
             public void actionPerformed(ActionEvent arg0) {
             	inner.removeAll();
             	index = 0;
-                inner.add(makeLabel());
-                inner.add(makeLabel());
-                inner.add(makeLabel());
-                inner.add(makeLabel());
-                inner.add(makeLabel());
+                addRow(makeRow());
             }});
         return ret;
     }
@@ -113,11 +108,12 @@ public class TableLayoutTest2
         final Button ret = new Button("Insert second row");
         ret.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent arg0) {
-                inner.add(makeLabel(), 5);
-                inner.add(makeLabel(), 6);
-                inner.add(makeLabel(), 7);
-                inner.add(makeLabel(), 8);
-                inner.add(makeLabel(), 9);
+            	Component[] row = makeRow();
+                inner.add(row[0], 5);
+                inner.add(row[1], 6);
+                inner.add(row[2], 7);
+                inner.add(row[3], 8);
+                inner.add(row[4], 9);
             }});
         return ret;    	
     }
@@ -162,8 +158,28 @@ public class TableLayoutTest2
     	return ret;
     }
     
-    private Label makeLabel() {
-    	return new Label("Label " + ++index);
+    private void addRow(Component[] row) {
+    	for (Component c : row) {
+    		inner.add(c);
+    	}
+    }
+    
+    private Component[] makeRow() {
+    	Component[] ret = new Component[5];
+    	String text = "Blah " + ++index;
+    	ret[0] = new ComboBox(makeComboBoxModel());
+    	ret[1] = new TextField(text);
+    	ret[2] = new TextField(text);
+    	ret[3] = new TextField(text);
+    	ret[4] = new TextField(text);
+    	return ret;
+    }
+    
+    private ListModel makeComboBoxModel() {
+    	DefaultListModel ret = new DefaultListModel();
+    	ret.add("FOO");
+    	ret.add("BAR");
+    	return ret;
     }
 
 }
