@@ -70,6 +70,7 @@ public class UserPanel
             listPanel = new UserListPanel();
             listPanel.getGridPanel().addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent arg0) {
+                	if ( listPanel.getSelectedIndex() < 0) return;
                     switchToEditPanel(listPanel.getSelectedRow());
                     listPanel.getGridPanel().getSelectionModel().clearSelection();
                 }

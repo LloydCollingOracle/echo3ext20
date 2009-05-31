@@ -242,8 +242,9 @@ public class UserListPanel
      */
     public Object[] getSelectedRow() {
     	Object[] ret = new Object[tableModel.getColumnCount()];
+    	int row = getSelectedIndex();
     	for (int i = 0, j = tableModel.getColumnCount(); i < j; i++) {
-    		ret[i] = tableModel.getValueAt(getSelectedIndex(), i);
+    		ret[i] = tableModel.getValueAt(i, row);
     	}
         return ret;
     }

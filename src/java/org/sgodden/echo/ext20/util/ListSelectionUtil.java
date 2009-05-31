@@ -60,6 +60,8 @@ public class ListSelectionUtil {
      */
     public static int[] toIntArray(String selectionString) {
         int[] selection;
+        if ( selectionString == null) return new int[0];
+        
         int selectionStringLength  = selectionString.length();
         if (selectionStringLength == 0) {
             selection = new int[0];
