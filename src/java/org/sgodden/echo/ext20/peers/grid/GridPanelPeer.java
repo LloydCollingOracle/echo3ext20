@@ -1,6 +1,9 @@
 package org.sgodden.echo.ext20.peers.grid;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Table;
@@ -265,7 +268,17 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
                     throw new IllegalArgumentException("Can't convert value to Number", e);
                 }
             }
+        } else if ( Date.class.equals( type)) {
+        	if ( value instanceof String) {
+        		try {
+        			SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss");
+					return formatter.parse( (String) value);
+				} catch (ParseException e) {
+                    throw new IllegalArgumentException("Can't convert " + value + " to Date", e);
+				}
+        	}
         }
+        	
         
         throw new IllegalArgumentException("I can't convert " + value + " to " + type.getCanonicalName());
     }

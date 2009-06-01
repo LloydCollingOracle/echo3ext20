@@ -17,6 +17,7 @@ import nextapp.echo.app.util.Context;
 
 import org.sgodden.echo.ext20.CheckboxField;
 import org.sgodden.echo.ext20.ComboBox;
+import org.sgodden.echo.ext20.DateField;
 import org.sgodden.echo.ext20.TextArea;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
@@ -53,6 +54,7 @@ public class ColumnModelPeer implements SerialPropertyPeer {
         editorClassToType.put(TextArea.class, "Ext.form.TextArea");
         editorClassToType.put(CheckboxField.class, "Ext.form.Checkbox");
         editorClassToType.put(ComboBox.class, "Ext.form.ComboBox");
+        editorClassToType.put(DateField.class, "Ext.form.DateField");
     }
 
     public Object toProperty(Context context, Class objectClass,

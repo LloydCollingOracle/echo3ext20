@@ -17,6 +17,8 @@
 package org.sgodden.echo.ext20.testapp;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import nextapp.echo.app.ImageReference;
@@ -33,6 +35,7 @@ import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.CheckboxField;
 import org.sgodden.echo.ext20.ComboBox;
+import org.sgodden.echo.ext20.DateField;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
@@ -168,6 +171,14 @@ public class UserListPanel
         };
         mottoCol.setEditorComponent( new TextArea());
         cols.add( mottoCol);
+        ColumnConfiguration birthdayCol = new DefaultColumnConfiguration( "Birthday", 200, true, "birthday", false) {
+			@Override
+			public Class<?> getColumnClass() {
+				return Date.class;
+			}
+        };
+        birthdayCol.setEditorComponent( new DateField());
+        cols.add( birthdayCol);
         ColumnModel columnModel = new DefaultColumnModel(cols);
         
         userGridPanel = new GridPanel(columnModel);
@@ -217,7 +228,7 @@ public class UserListPanel
     }
     
     private String[] makeColumnNames() {
-        return new String[] {"userid", "name", "isadmin", "sex", "motto"};
+        return new String[] {"userid", "name", "isadmin", "sex", "motto", "birthday"};
     }
 
     /**
@@ -258,12 +269,13 @@ public class UserListPanel
         Object[][] data = new Object[rows][];
 
         for (int i = 0; i < data.length; i++) {
-            Object[] row = new Object[5];
+            Object[] row = new Object[6];
             row[0] = "User id  " + (startIndex + i);
             row[1] = "Name " + (startIndex + i);
             row[2] = Boolean.valueOf(i % 2 == 0);
             row[3] = i % 2 == 0 ? "male" : "female";
             row[4] = "A long long long words, \n with many many many \nlines";
+            row[5] = Calendar.getInstance().getTime();
             data[i] = row;
         }
 
