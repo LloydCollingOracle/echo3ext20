@@ -518,11 +518,11 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 	 */
 	setValue:function(v){
 	   if ( v == null) return;
-	   if ( v == "") return;
+	   if ( (typeof v == 'string') && v == "") return;
 		var result = [],
 				resultRaw = [];
 		if (!(v instanceof Array)){
-			if (this.separator && this.separator !== true){
+			if (this.separator && this.separator !== true && typeof v == 'string'){
 				v = v.split(String(this.separator));
 			}else{
 				v = [v];

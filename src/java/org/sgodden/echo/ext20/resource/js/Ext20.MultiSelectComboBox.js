@@ -107,6 +107,11 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
         if (this.component.get("listWidth") != null) {
             options["listWidth"] = this.component.get("listWidth");
         }
+        if (this.component.get("multiSelect") != null) {
+            options['multiSelect']=this.component.get("multiSelect");
+        } else {
+            options['multiSelect']=true;
+        }
         options['mode'] = 'local';
         this.extComponent = this.newExtComponentInstance(options);
         this.extComponent.on(
@@ -147,7 +152,6 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
      * ext component of the correct type.
      */
     newExtComponentInstance: function(options) {
-        options['multiSelect']=true;
         return new Ext.ux.Andrie.Select(options);
     },
 
