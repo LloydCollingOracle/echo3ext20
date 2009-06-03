@@ -102,6 +102,7 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public void setShowCheckbox(Boolean showCheckbox) {
         set(SHOW_CHECKBOX, showCheckbox);
+        setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
     }
 
     public boolean getShowCheckbox() {
@@ -126,8 +127,8 @@ public class GridPanel extends Panel implements TableModelListener,
     public GridPanel() {
         super();
         setBorder(true);
-        setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
         setSelectionModel(new DefaultListSelectionModel());
+        setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
         setPageOffset(0);
         setComplexProperty(COLUMN_MODEL_PROPERTY, true);
     }
@@ -565,12 +566,15 @@ public class GridPanel extends Panel implements TableModelListener,
         switch (mode) {
         case SINGLE_SELECTION:
             set(SELECTION_MODE, "S");
+            getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             break;
         case SINGLE_INTERVAL_SELECTION:
             set(SELECTION_MODE, "SI");
+            getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_SELECTION);
             break;
         case MULTIPLE_INTERVAL_SELECTION:
             set(SELECTION_MODE, "MI");
+            getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_SELECTION);
         }
     }
 

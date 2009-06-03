@@ -311,7 +311,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         if (this._handleSelectionEvents) {
             var pageOffset = this.component.get("pageOffset");
             var index = pageOffset + rowIndex;
-            if (!this._ctrlKeyDown) {
+            var needsCtrlForMultiple = !(this.extComponent.getSelectionModel() instanceof Ext.grid.CheckboxSelectionModel);
+            if (needsCtrlForMultiple && !this._ctrlKeyDown) {
                 this._selectedRows = {};
             }
             this._selectedRows[index] = true;
