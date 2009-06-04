@@ -200,16 +200,18 @@ public class DateField
     @Override
     public void processInput(String inputName, Object inputValue) {
         if (DATE_CHANGED_PROPERTY.equals(inputName)) {
-            if (!(inputValue instanceof Date)
-                    || inputValue == null) {
+            if (!(inputValue instanceof Date)) {
                 // must have been an invalid date on the client side
                 this.clientInputValid = false;
+            } else if (inputValue == null) {
+                calendar = null;
+                setCalendar(null);
             } else {
                 this.clientInputValid = true;
                 
                 if(calendar == null) {
-                	calendar = Calendar.getInstance(getLocale());
-                	calendar.set(Calendar.HOUR_OF_DAY, 0);
+                    calendar = Calendar.getInstance(getLocale());
+                    calendar.set(Calendar.HOUR_OF_DAY, 0);
                     calendar.set(Calendar.MINUTE, 0);
                 }
                 
@@ -222,6 +224,7 @@ public class DateField
                 // re-set the hour and minutes values that were there before
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minutes);
+                setCalendar(calendar);
                 
                 fireActionEvent();
             }
