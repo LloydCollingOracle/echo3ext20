@@ -15,7 +15,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.ActionListenable
 import org.sgodden.echo.ext20.Button
-import org.sgodden.echo.ext20.CaseRestriction
 import org.sgodden.echo.ext20.ComboBox
 import org.sgodden.echo.ext20.CheckboxField
 import org.sgodden.echo.ext20.DateField
@@ -40,7 +39,7 @@ class UserEditPanel extends Panel implements ActionListenable {
 
     private static final transient Log log = LogFactory.getLog(UserEditPanel.class);
 
-    def FormGrid1
+    def formGrid1
     def codeField
     def nameField
     def postcodeField
@@ -61,7 +60,7 @@ class UserEditPanel extends Panel implements ActionListenable {
     def cancelButton
     def saveButton
     
-    def FormGrid2
+    def formGrid2
 
     public UserEditPanel() {
         super();
@@ -74,9 +73,9 @@ class UserEditPanel extends Panel implements ActionListenable {
         initComponents()
         
         components = [
-            FormGrid1,
+            formGrid1,
             fieldSet,
-            FormGrid2
+            formGrid2
         ]
 
         buttons = [
@@ -105,7 +104,7 @@ class UserEditPanel extends Panel implements ActionListenable {
     }
 
     private void initComponents(Object[] data) {
-        FormGrid1 = new FormGrid(2)
+        formGrid1 = new FormGrid(2)
         
         codeField = new TextField()
         nameField = new TextField(
@@ -149,7 +148,7 @@ class UserEditPanel extends Panel implements ActionListenable {
             allowBlank: false,
         )
         
-        FormGrid1.formComponents = [
+        formGrid1.formComponents = [
             [
                 field: codeField,
                 label: "Code"
@@ -242,7 +241,7 @@ class UserEditPanel extends Panel implements ActionListenable {
         roleMultiSelect = makeRoleMultiSelect()
         fieldSetForm.add(roleMultiSelect, "Role multi select");
         
-        FormGrid2 = new FormGrid(
+        formGrid2 = new FormGrid(
             formComponents: [
                 [
                     field: new DateField(),
