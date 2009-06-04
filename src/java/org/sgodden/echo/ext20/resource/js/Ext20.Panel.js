@@ -90,6 +90,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     relativeAnchorPosition: null,
     
+    /**
+     * The context menu that has been defined for this panel
+     */
+    contextMenu: null,
+    
     $virtual: {
 		
         /**
@@ -121,8 +126,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     renderUpdate: function(update){
 
-        //EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
-
         // check for any property updates
         if (update.getUpdatedProperty("title") != null) {
                 this.extComponent.setTitle(this.component.get("title"));
@@ -146,6 +149,15 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             for (var i = 0; i < removedChildren.length; i++) {
                 // all children have to be ext components anyway
                 var child = removedChildren[i];
+                
+                // if the removed child is our context menu, hide it and then unset it
+                if (child instanceof EchoExt20.Menu) {
+                    if (this.contextMenu.isVisible()) {
+                        this.contextMenu.hide();
+                        this.contextMenu.destroy();
+                    }
+                    this.contextMenu = null;
+                }
                 /*
                  * Not if it is a window, because it was never
                  * added to the parent ext container in the first place.
@@ -532,6 +544,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         return true;
     },
     
+    _doOnContextMenu: function(evt, div) {
+        evt.stopEvent();
+        this.contextMenu.showAt(evt.getXY());
+    },
+    
     _doOnExtRender: function() {
         if (this.positionX != null && this.positionY != null) {
             if (this.extComponent.el) {
@@ -546,6 +563,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             
             this.extComponent.ownerCt.on("resize", this._doOnExtParentResize, this);
             this.extComponent.ownerCt.on("move", this._doOnExtParentMove, this);
+        }
+        
+            this.extComponent.el.un('contextmenu', this._doOnContextMenu, this);
+        if (this.contextMenu != null) {
+            this.extComponent.el.on('contextmenu', this._doOnContextMenu, this);
         }
     },
     
@@ -784,6 +806,13 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
             else if (child instanceof EchoExt20.Window) {
                 this._createWindow(update, child);
+            }
+            else if (child instanceof EchoExt20.Menu) {
+                Echo.Render.renderComponentAdd(update, child, null);
+                this.contextMenu = child.peer.extComponent;
+                if (this.contextMenu == null) {
+                    throw new Error("Context Menu not created for Panel");
+                }
             }
             else if ( 
                   (

@@ -221,6 +221,8 @@ public class Panel extends ExtComponent {
     private String toolIdClicked;
     
     private int nonButtonBarChildCount = 0;
+    
+    private Menu contextMenu;
 
     /**
      * Creates a new empty panel with the default container layout.
@@ -765,5 +767,17 @@ public class Panel extends ExtComponent {
     
     public void setRelativeAnchorPosition(RelativeAnchorPosition anchor) {
         set(RELATIVE_ANCHOR_POSITION, anchor.name());
+    }
+    
+    public Menu getContextMenu() {
+        return contextMenu;
+    }
+    
+    public void setContextMenu(Menu menu) {
+        if (contextMenu != null)
+            remove(contextMenu);
+        this.contextMenu = menu;
+        if (menu != null)
+            add(contextMenu);
     }
 }
