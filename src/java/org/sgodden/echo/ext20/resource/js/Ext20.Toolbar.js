@@ -37,6 +37,37 @@ EchoExt20.ToolbarSync = Core.extend(EchoExt20.ExtComponentSync, {
     	return extComponent;
     },
     
+    renderUpdate: function(update) {
+        EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
+        var removedChildren = update.getRemovedChildren();
+        for (var i = 0; i < removedChildren.length; i++) {
+            var child = removedChildren[i];
+            Echo.Render.renderComponentDispose(update, child, null);
+            this.extComponent.items.remove( child.peer.extComponent);
+            child.peer.extComponent.destroy();
+        }
+        
+        var addedChildren = update.getAddedChildren();
+        for (var i = 0; i < addedChildren.length; i++) {
+            var child = addedChildren[i];
+            Echo.Render.renderComponentAdd(update, child, null); // null because ext components create the necessary extra divs themselves
+    
+            // add the ext component created by the peer to the child items array
+            var childExtComponent = child.peer.extComponent;
+            if (childExtComponent == null) {
+                throw new Error("No child ext component was created during renderAdd for component type: " + child.componentType);
+            } 
+            else {
+                // toolbars fall in a heap if you call add before they have been rendered,
+                // so store them up and add them when it is rendered.
+                // toAdd.push(childExtComponent);
+                this.extComponent.add( childExtComponent);
+            }
+        }
+        
+        
+    },
+    
     _createChildItems: function(extComponent, update) {
         
         var toAdd = [];
