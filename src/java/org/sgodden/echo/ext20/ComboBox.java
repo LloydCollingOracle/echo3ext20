@@ -373,14 +373,16 @@ public class ComboBox extends ExtComponent implements AbstractListComponent {
             selectionModel.clearSelection();
         } else {
             int size = getModel().size();
+            int modelIndex = -1;
             for (int i = 0; i < size; i++) {
                 if ((getModel().get(i) == null && selectedItem == null) || (getModel().get(i) != null && getModel().get(i).equals(selectedItem))) {
                     selectionModel.setSelectedIndex(i, true);
+                    modelIndex = i;
                     break;
                 }
             }
             if(selectionModel.getMinSelectedIndex() != -1){
-                Object value = getCellRenderer().getListCellRendererComponent(this, selectedItem, -1);
+                Object value = getCellRenderer().getListCellRendererComponent(this, selectedItem, modelIndex);
                 setRawValue(String.valueOf(value));
             }
         }
