@@ -38,8 +38,11 @@ public abstract class AbstractButton extends ExtComponent {
     public static final String TOOLTIP_TEXT_PROPERTY = "tooltipText";
     public static final String ICON_CLASS = "iconClass";
     public static final String PRESSED_PROPERTY = "pressed";
+    public static final String ENABLE_TOGGLE = "enableToggle";
 
-    public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
+
+
+	public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
 
     private String actionCommand;
 
@@ -238,5 +241,8 @@ public abstract class AbstractButton extends ExtComponent {
             return (Boolean) ret;
         }
     }
-
+    
+    public void setEnableToggle(boolean enableToggle) {
+		set(ENABLE_TOGGLE, enableToggle);
+	}
 }

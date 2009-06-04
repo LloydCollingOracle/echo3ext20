@@ -1,5 +1,8 @@
 package org.sgodden.echo.ext20.testapp;
 
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
@@ -41,7 +44,9 @@ public class ButtonGroupTest extends Panel {
 
         add(menuButton);
 
-        Button iconButton = new Button();
+        final Button iconButton = new Button();
+        iconButton.setEnableToggle(true);
+
 
         iconButton.setIconClass("icon-accept");
         iconButton.setText("Icon button from CSS");

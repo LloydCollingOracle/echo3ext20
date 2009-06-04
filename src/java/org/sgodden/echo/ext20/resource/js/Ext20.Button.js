@@ -115,6 +115,8 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
         }
 
+        options['enableToggle'] = this.component.get("enableToggle");
+
         //if this button belongs to a toggle group we set the
         //toggleGroup name and set the enableToggle to true on the button.
         if (this.component.get("toggleGroup")){
@@ -125,6 +127,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
                 options['pressed'] = true;
             }
         }
+        
 
         var extComponent = this.newExtComponentInstance(options);
         
