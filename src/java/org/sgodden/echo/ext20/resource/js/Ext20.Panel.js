@@ -117,6 +117,67 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
          */
         notifyChildLayoutUpdate: function() {
             this._childLayoutUpdatesOccurred = true;
+        },
+    
+        /**
+         * Creates the passed children and adds them to the Ext.Panel.
+         * Overridden by classes such as EchoExt20.GridPanelSync that handle
+         * children differently.
+         */
+        _createChildItems: function(update, children) {
+            
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                
+                var childIndex = this.component.indexOf(child);
+                /*
+                 *  if this is not an ext20 component, we need to wrap it
+                 *  so that it can operate within an ext container.
+                 */
+                if (! (child instanceof EchoExt20.ExtComponent) ) {
+                    // we don't renderAdd here - ext does it lazily
+                    var childExtComponent = new EchoExt20.Echo3SyncWrapper(update, child);
+                    this._addExtComponentChild(child, childExtComponent, childIndex);
+                }
+                else if (child instanceof EchoExt20.Window) {
+                    this._createWindow(update, child);
+                }
+                else if (child instanceof EchoExt20.Menu) {
+                    Echo.Render.renderComponentAdd(update, child, null);
+                    this.contextMenu = child.peer.extComponent;
+                    if (this.contextMenu == null) {
+                        throw new Error("Context Menu not created for Panel");
+                    }
+                }
+                else if ( 
+                      (
+                        !(child instanceof EchoExt20.Button)
+                        || (child instanceof EchoExt20.Button && child.get("addToButtonBar") == false)
+                      )
+                      && !(child instanceof EchoExt20.Toolbar) // toolbars handled separately
+                    ) {
+                    Echo.Render.renderComponentAdd(update, child, null); 
+                    
+                    // add the ext component created by the peer to the child items array
+                    var childExtComponent = child.peer.extComponent;
+                    if (childExtComponent == null) {
+                        throw new Error("No child ext component was created during renderAdd for component type: " + child.componentType);
+                    } 
+                    else {
+                        // make sure we can get back to the echo component from the ext component
+                        childExtComponent.echoComponent = child;
+                        this._addExtComponentChild(child, childExtComponent, childIndex);
+                    }
+                }
+            }
+    
+            // now make sure that the child indexes are set, so that, for instance, when a certain
+            // tab is selected in a tabbed pane, it can work out what the index of the displayed component
+            // is.
+            for (var i = 0; i < this.component.getComponentCount(); i++) {
+                var child = this.component.getComponent(i);
+                child.childIndex = i;
+            }
         }
     },
     
@@ -783,65 +844,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
         else {
             return title;
-        }
-    },
-    
-    /**
-     * Creates the passed children and adds them to the ext panel.
-     */
-    _createChildItems: function(update, children) {
-        
-        for (var i = 0; i < children.length; i++) {
-            var child = children[i];
-            
-            var childIndex = this.component.indexOf(child);
-            /*
-             *  if this is not an ext20 component, we need to wrap it
-             *  so that it can operate within an ext container.
-             */
-            if (! (child instanceof EchoExt20.ExtComponent) ) {
-                // we don't renderAdd here - ext does it lazily
-                var childExtComponent = new EchoExt20.Echo3SyncWrapper(update, child);
-                this._addExtComponentChild(child, childExtComponent, childIndex);
-            }
-            else if (child instanceof EchoExt20.Window) {
-                this._createWindow(update, child);
-            }
-            else if (child instanceof EchoExt20.Menu) {
-                Echo.Render.renderComponentAdd(update, child, null);
-                this.contextMenu = child.peer.extComponent;
-                if (this.contextMenu == null) {
-                    throw new Error("Context Menu not created for Panel");
-                }
-            }
-            else if ( 
-                  (
-                    !(child instanceof EchoExt20.Button)
-                    || (child instanceof EchoExt20.Button && child.get("addToButtonBar") == false)
-                  )
-                  && !(child instanceof EchoExt20.Toolbar) // toolbars handled separately
-                ) {
-                Echo.Render.renderComponentAdd(update, child, null); 
-                
-                // add the ext component created by the peer to the child items array
-                var childExtComponent = child.peer.extComponent;
-                if (childExtComponent == null) {
-                    throw new Error("No child ext component was created during renderAdd for component type: " + child.componentType);
-                } 
-                else {
-                    // make sure we can get back to the echo component from the ext component
-                    childExtComponent.echoComponent = child;
-                    this._addExtComponentChild(child, childExtComponent, childIndex);
-                }
-            }
-        }
-
-        // now make sure that the child indexes are set, so that, for instance, when a certain
-        // tab is selected in a tabbed pane, it can work out what the index of the displayed component
-        // is.
-        for (var i = 0; i < this.component.getComponentCount(); i++) {
-            var child = this.component.getComponent(i);
-            child.childIndex = i;
         }
     },
     
