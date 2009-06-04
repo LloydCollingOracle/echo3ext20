@@ -20,6 +20,7 @@ public class MultiSelectTest extends Panel implements DeferredUiCreate {
 		createDemo(model, 1);
 		createDemo(model, 2);
 		createDemo(model, 3);
+		createDemo(model, 4);
 	}
 
 	private void createDemo(DefaultListModel model, int selectionMode) {
@@ -51,6 +52,11 @@ public class MultiSelectTest extends Panel implements DeferredUiCreate {
 			break;
 		case 3:
 			multiSelectComboBox.setMultiSelect( false);
+			multiSelectComboBox.setValue( "bbb");
+			break;
+		case 4:
+			multiSelectComboBox.setMultiSelect( false);
+			multiSelectComboBox.setRawValue( "haha");
 			break;
 		}
 	}

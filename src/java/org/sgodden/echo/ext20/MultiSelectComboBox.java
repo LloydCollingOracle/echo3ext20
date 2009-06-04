@@ -12,6 +12,7 @@ import nextapp.echo.app.list.ListSelectionModel;
 
 public class MultiSelectComboBox extends ExtComponent implements AbstractListComponent {
 
+	public static final String RAW_VALUE_CHANGED_PROPERTY = "rawValue";
 	public static final String VALUE_CHANGED_PROPERTY = "selectedValue";
 	public static final String MODEL_CHANGED_PROPERTY = "model";
 	public static final String INPUT_ACTION = "action";
@@ -91,26 +92,43 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
         super.processInput(inputName, inputValue);
         if (VALUE_CHANGED_PROPERTY.equals(inputName)) {
             setSelectedValue((String) inputValue);
+        } else if (RAW_VALUE_CHANGED_PROPERTY.equals(inputName)) {
+        	setRawValue((String) inputValue);
         }
     }
 	public String getValue() {
-    	int min = selectionModel.getMinSelectedIndex();
-    	int max = selectionModel.getMaxSelectedIndex();
-    	if ( max < 0) {
-    		return null;
-    	}
-    	if ( min == max) {
-    		return ""+ model.get( min);
-    	}
-    	String result = "";
-    	for ( int i=min; i<=max; i++) {
-    		if ( selectionModel.isSelectedIndex( i)) {
-	    		result += model.get(i);
-	    		if ( i<max) result += ",";
-    		}
-    	}
-        return result;
+		if ( getMultiSelect()) {
+			int min = selectionModel.getMinSelectedIndex();
+			int max = selectionModel.getMaxSelectedIndex();
+			if ( max < 0) {
+				return null;
+			}
+			if ( min == max) {
+				return ""+ model.get( min);
+			}
+			String result = "";
+			for ( int i=min; i<=max; i++) {
+				if ( selectionModel.isSelectedIndex( i)) {
+		    		result += model.get(i);
+		    		if ( i<max) result += ",";
+				}
+			}
+		    return result;
+		} else {
+			return getRawValue();
+		}
 	}
+	
+	public String getRawValue() {
+		System.out.println( "Getting Raw value");
+		return (String) get(RAW_VALUE_CHANGED_PROPERTY);
+	}
+	
+	public void setRawValue( String rawValue) {
+		System.out.println( "Raw value is " + rawValue);
+		set( RAW_VALUE_CHANGED_PROPERTY, rawValue);
+	}
+	
 	/**
 	 * @param value is a String contains the display value, seperated by comma
 	 */

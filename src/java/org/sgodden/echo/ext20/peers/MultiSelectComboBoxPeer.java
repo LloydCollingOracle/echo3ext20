@@ -21,6 +21,7 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
 */
 
 	public MultiSelectComboBoxPeer() {
+        addOutputProperty(MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY);
         addOutputProperty(MultiSelectComboBox.VALUE_CHANGED_PROPERTY);
         addOutputProperty(MultiSelectComboBox.MODEL_CHANGED_PROPERTY);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(MultiSelectComboBox.INPUT_ACTION, MultiSelectComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
@@ -55,6 +56,9 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
         if (MultiSelectComboBox.VALUE_CHANGED_PROPERTY.equals(propertyName)) {
             return String.class;
         }
+        if (MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+        	return String.class;
+        }
 		return super.getInputPropertyClass(propertyName);
 	}
 
@@ -79,6 +83,9 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
         	}
             return result;
         }
+        if ( MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+        	return comboBox.getRawValue();
+        }
         if ( MultiSelectComboBox.MODEL_CHANGED_PROPERTY.equals(propertyName)) {
             return new ListModelAdapter( comboBox);
         }
@@ -91,6 +98,8 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
         super.storeInputProperty(context, component, propertyName, index, newValue);
         if ( MultiSelectComboBox.VALUE_CHANGED_PROPERTY.equals(propertyName)) {
             clientUpdateManager.setComponentProperty(component, MultiSelectComboBox.VALUE_CHANGED_PROPERTY, newValue);
+        } else if ( MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+        	clientUpdateManager.setComponentProperty(component, MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY, newValue);
         }
     }
 

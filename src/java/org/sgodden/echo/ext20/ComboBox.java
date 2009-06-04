@@ -379,7 +379,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent {
                     break;
                 }
             }
-            if(selectionModel.getMinSelectedIndex() == -1){
+            if(selectionModel.getMinSelectedIndex() != -1){
                 Object value = getCellRenderer().getListCellRendererComponent(this, selectedItem, -1);
                 setRawValue(String.valueOf(value));
             }
