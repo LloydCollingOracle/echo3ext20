@@ -133,16 +133,18 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	 * @param value is a String contains the display value, seperated by comma
 	 */
 	public void setValue(String value) {
-		selectionModel.clearSelection();
-		if ( value == null || "".equals( value)) return;
-		
-		String[] splited = value.split( ",");
-		Set<String> values = new HashSet<String>( Arrays.asList( splited));
-		for ( int i=0; i<model.size(); i++) {
-			if ( values.contains( model.get( i))) {
-				selectionModel.setSelectedIndex( i, true);
+		if ( getMultiSelect()) {
+			selectionModel.clearSelection();
+			if ( value == null || "".equals( value)) return;
+			
+			String[] splited = value.split( ",");
+			Set<String> values = new HashSet<String>( Arrays.asList( splited));
+			for ( int i=0; i<model.size(); i++) {
+				if ( values.contains( model.get( i))) {
+					selectionModel.setSelectedIndex( i, true);
+				}
 			}
-		}
+		} else setRawValue( value);
 	}
 	
 	public void setMultiSelect( boolean multiSelect) {

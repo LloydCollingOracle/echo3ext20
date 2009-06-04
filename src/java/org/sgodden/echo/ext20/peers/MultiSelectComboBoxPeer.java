@@ -66,22 +66,26 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
     public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
     	MultiSelectComboBox comboBox = (MultiSelectComboBox)component;
         if (MultiSelectComboBox.VALUE_CHANGED_PROPERTY.equals(propertyName)) {
-        	int min = comboBox.getSelectionModel().getMinSelectedIndex();
-        	int max = comboBox.getSelectionModel().getMaxSelectedIndex();
-        	if ( max < 0) {
-        		return null;
+        	if ( comboBox.getMultiSelect()) {
+	        	int min = comboBox.getSelectionModel().getMinSelectedIndex();
+	        	int max = comboBox.getSelectionModel().getMaxSelectedIndex();
+	        	if ( max < 0) {
+	        		return null;
+	        	}
+	        	if ( min == max) {
+	        		return ""+min;
+	        	}
+	        	String result = "";
+	        	for ( int i=min; i<=max; i++) {
+	        		if ( comboBox.getSelectionModel().isSelectedIndex( i)) {
+	        			result += i;
+	            		if ( i<max) result += ",";
+	        		}
+	        	}
+	            return result;
+        	} else {
+        		return comboBox.getRawValue();
         	}
-        	if ( min == max) {
-        		return ""+min;
-        	}
-        	String result = "";
-        	for ( int i=min; i<=max; i++) {
-        		if ( comboBox.getSelectionModel().isSelectedIndex( i)) {
-        			result += i;
-            		if ( i<max) result += ",";
-        		}
-        	}
-            return result;
         }
         if ( MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY.equals(propertyName)) {
         	return comboBox.getRawValue();

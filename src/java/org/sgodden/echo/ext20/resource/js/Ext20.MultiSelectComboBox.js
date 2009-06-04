@@ -125,10 +125,6 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
             this
         );
         this.extComponent.setValue( this.component.get("selectedValue"));
-/**        if ( this.component.get("multiSelect") == false && this.component.get("rawValue") != null) {
-            this.extComponent.setRawValue( this.component.get("rawValue"));
-        }
-        */
         return this.extComponent;
     },
         

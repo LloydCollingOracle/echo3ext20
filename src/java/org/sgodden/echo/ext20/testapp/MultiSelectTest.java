@@ -56,7 +56,7 @@ public class MultiSelectTest extends Panel implements DeferredUiCreate {
 			break;
 		case 4:
 			multiSelectComboBox.setMultiSelect( false);
-			multiSelectComboBox.setRawValue( "haha");
+			multiSelectComboBox.setValue( "haha");
 			break;
 		}
 	}
