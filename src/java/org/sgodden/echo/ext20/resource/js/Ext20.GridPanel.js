@@ -79,6 +79,9 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     _reconfigureOnRender: false,
     _selectedRows: null,
     _model: null,
+    cellContextMenu: null,
+    rowContextMenu: null,
+    headerContextMenu: null,
     
     createExtComponent: function(update, options) {
         this._handleSortEvents = false;
@@ -180,15 +183,54 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         return ret;
     },
     
-    _createContextMenu: function() {
-    	var children = EchoExt20.PanelSync.prototype
-    			._createChildComponentArrayFromComponent.call(this);
-        for (var i = 0; i < children.length; i++) {
-        	var child = children[i];
-        	if (child instanceof EchoExt20.Menu) {
-        		// HERE
-                //ret.on("cellcontextmenu", this._handleContextMenu, this);
-        	}
+    
+    _createChildItems: function(update, children) {
+        var cellContextMenuIndex = -1;
+        var rowContextMenuIndex = -1;
+        var headerContextMenuIndex = -1;
+        
+        if (this.component.get("hasCellContextMenu") == true) {
+            cellContextMenuIndex++;
+            rowContextMenuIndex++;
+            headerContextMenuIndex++;
+        }
+        if (this.component.get("hasRowContextMenu") == true) {
+            rowContextMenuIndex++;
+            headerContextMenuIndex++;
+        } else {
+            rowContextMenuIndex = -1;
+        }
+        if (this.component.get("hasHeaderContextMenu") == true) {
+            headerContextMenuIndex++;
+        } else {
+            headerContextMenuIndex = -1;
+        }
+        
+        if (this.component.get("hasCellContextMenu") == true) {
+            var child = children[cellContextMenuIndex];
+            Echo.Render.renderComponentAdd(update, child, null);
+            this.cellContextMenu = child.peer.extComponent;
+            if (this.cellContextMenu == null) {
+                throw new Error("Cell Context Menu not created for Grid Panel");
+            }
+        }
+        
+        if (this.component.get("hasRowContextMenu") == true) {
+            var child = children[rowContextMenuIndex];
+            Echo.Render.renderComponentAdd(update, child, null);
+            this.rowContextMenu = child.peer.extComponent;
+            if (this.rowContextMenu == null) {
+                throw new Error("Row Context Menu not created for Grid Panel");
+            }
+        }
+        
+        if (this.component.get("hasHeaderContextMenu") == true) {
+            var child = children[headerContextMenuIndex];
+            Echo.Render.renderComponentAdd(update, child, null);
+            this.headerContextMenu = child.peer.extComponent;
+            if (this.headerContextMenu == null) {
+                throw new Error("Header Context Menu not created for Grid Panel");
+            }
         }
     },
     
@@ -266,11 +308,6 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     _handleColumnAdd : function() {
     	this.component.doColumnAdd();
     },
-    
-    _handleContextMenu: function(grid, rowIndex, columnIndex, evt) {
-    	// TODO - show any context menu defined for the grid
-    	alert("Right-click on row " + rowIndex);
-    },
 
     _handleKeyDownEvent: function(evt) {
         if (evt.keyCode == 17) {
@@ -290,6 +327,34 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
               this.component.get("columnModel")
             );
         }
+        if (this.cellContextMenu != null) {
+            this.extComponent.un('cellcontextmenu', this._handleCellContextMenu, this);
+            this.extComponent.on('cellcontextmenu', this._handleCellContextMenu, this);
+        }
+        if (this.rowContextMenu != null) {
+            this.extComponent.un('rowcontextmenu', this._handleRowContextMenu, this);
+            this.extComponent.on('rowcontextmenu', this._handleRowContextMenu, this);
+        }
+        if (this.headerContextMenu != null) {
+            this.extComponent.un('headercontextmenu', this._handleHeaderContextMenu, this);
+            this.extComponent.on('headercontextmenu', this._handleHeaderContextMenu, this);
+        }
+    },
+    
+    _handleCellContextMenu: function(grid, rowIndex, cellIndex, evt) {
+        evt.stopEvent();
+        this.cellContextMenu.showAt(evt.getXY());
+    },
+    
+    _handleRowContextMenu: function(grid, rowIndex, evt) {
+        evt.stopEvent();
+        this.extComponent.getSelectionModel().selectRow(rowIndex);
+        this.rowContextMenu.showAt(evt.getXY());
+    },
+    
+    _handleHeaderContextMenu: function(grid, colIndex, evt) {
+        evt.stopEvent();
+        this.headerContextMenu.showAt(evt.getXY());
     },
     
     _handleRowActivation: function() {

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;
@@ -31,6 +32,7 @@ import nextapp.echo.app.list.ListSelectionModel;
 import nextapp.echo.app.table.EditableTableModel;
 import nextapp.echo.app.table.TableModel;
 
+import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.Toolbar;
@@ -88,12 +90,18 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String HIDE_HEADERS = "hideHeaders";
     public static final String EDITCELLCONTENTS = "editcellcontents";
     public static final String PROPERTY_MODEL = "model";
+    public static final String HAS_HEADER_CONTEXT_MENU_PROPERTY = "hasHeaderContextMenu";
+    public static final String HAS_ROW_CONTEXT_MENU_PROPERTY = "hasRowContextMenu";
+    public static final String HAS_CELL_CONTEXT_MENU_PROPERTY = "hasCellContextMenu";
 
     private int pageSize;
     private ListSelectionModel selectionModel;
     private boolean suppressChangeNotifications;
     private boolean notifySelect = false;
     private GridCellRenderer gridCellRenderer = new DefaultGridCellRenderer();
+    private Menu headerContextMenu;
+    private Menu rowContextMenu;
+    private Menu cellContextMenu;
 
     /**
      * Sets the showCheckbox property which if enabled shows checkboxes on the
@@ -130,6 +138,7 @@ public class GridPanel extends Panel implements TableModelListener,
         setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
         setPageOffset(0);
         setComplexProperty(COLUMN_MODEL_PROPERTY, true);
+        setContextMenuStatusAndChildren();
     }
 
     /**
@@ -141,6 +150,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public GridPanel(ColumnModel columnModel) {
         this();
         setColumnModel(columnModel);
+        setContextMenuStatusAndChildren();
     }
 
     /**
@@ -154,6 +164,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public GridPanel(ColumnModel columnModel, TableModel tableModel) {
         this(columnModel);
         setModel(tableModel);
+        setContextMenuStatusAndChildren();
     }
 
     /**
@@ -766,6 +777,53 @@ public class GridPanel extends Panel implements TableModelListener,
 
     public void setHideHeaders(Boolean b) {
         set(HIDE_HEADERS, b);
+    }
+
+    public Menu getHeaderContextMenu() {
+        return headerContextMenu;
+    }
+
+    public void setHeaderContextMenu(Menu headerContextMenu) {
+        this.headerContextMenu = headerContextMenu;
+        setContextMenuStatusAndChildren();
+    }
+
+    public Menu getRowContextMenu() {
+        return rowContextMenu;
+    }
+
+    public void setRowContextMenu(Menu rowContextMenu) {
+        this.rowContextMenu = rowContextMenu;
+        setContextMenuStatusAndChildren();
+    }
+
+    public Menu getCellContextMenu() {
+        return cellContextMenu;
+    }
+
+    public void setCellContextMenu(Menu cellContextMenu) {
+        this.cellContextMenu = cellContextMenu;
+        setContextMenuStatusAndChildren();
+    }
+    
+    private void setContextMenuStatusAndChildren() {
+        set(HAS_CELL_CONTEXT_MENU_PROPERTY, Boolean.valueOf(cellContextMenu != null));
+        set(HAS_ROW_CONTEXT_MENU_PROPERTY, Boolean.valueOf(rowContextMenu != null));
+        set(HAS_HEADER_CONTEXT_MENU_PROPERTY, Boolean.valueOf(headerContextMenu != null));
+        
+        for (Component c : getComponents()) {
+            remove(c);
+        }
+        
+        if (cellContextMenu != null) {
+            add(cellContextMenu);
+        }
+        if (rowContextMenu != null) {
+            add(rowContextMenu);
+        }
+        if (headerContextMenu != null) {
+            add(headerContextMenu);
+        }
     }
 
 }

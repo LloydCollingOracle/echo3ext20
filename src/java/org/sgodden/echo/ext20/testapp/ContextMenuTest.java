@@ -25,16 +25,16 @@ public class ContextMenuTest
     public void createUI() {
         
         Panel outer = new Panel();
-        Panel inner = new Panel();
-        inner.setBorder(true);
-        inner.setWidth(400);
-        inner.setHeight(200);
+        Panel panelContextMenuPanel = new Panel();
+        panelContextMenuPanel.setBorder(true);
+        panelContextMenuPanel.setWidth(400);
+        panelContextMenuPanel.setHeight(200);
         Menu m = new Menu();
         m.add(new MenuItem("A menu item 1"));
         m.add(new MenuItem("A menu item 2"));
-        inner.setContextMenu(m);
-        inner.add(new Label("Right-Click in this panel to see a context menu"));
-        outer.add(inner);
+        panelContextMenuPanel.setContextMenu(m);
+        panelContextMenuPanel.add(new Label("Right-Click in this panel to see a context menu"));
+        outer.add(panelContextMenuPanel);
         add(outer);
     }
 

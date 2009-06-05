@@ -207,6 +207,16 @@ public class UserListPanel
                     }}
         );
         
+        Menu rowMenu = new Menu();
+        rowMenu.add(new MenuItem("Row Context Menu 1"));
+        rowMenu.add(new MenuItem("Row Context Menu 2"));
+        userGridPanel.setRowContextMenu(rowMenu);
+        
+        Menu headerMenu = new Menu();
+        headerMenu.add(new MenuItem("Header Context Menu 1"));
+        headerMenu.add(new MenuItem("Header Context Menu 2"));
+        userGridPanel.setHeaderContextMenu(headerMenu);
+        
         return userGridPanel;
         
     }
