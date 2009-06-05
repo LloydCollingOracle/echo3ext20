@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import nextapp.echo.app.Component;
-import nextapp.echo.app.Table;
 import nextapp.echo.app.table.EditableTableModel;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
@@ -180,7 +179,7 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
         if (PROPERTY_SELECTION.equals(propertyName)) {
             int[] selection = ListSelectionUtil.toIntArray((String) newValue);
             clientUpdateManager.setComponentProperty(component,
-                    Table.SELECTION_CHANGED_PROPERTY, selection);
+            		PROPERTY_SELECTION, selection);
         } else if (GridPanel.SORT_FIELD_PROPERTY.equals(propertyName)) {
             clientUpdateManager.setComponentProperty(component,
                     GridPanel.SORT_FIELD_PROPERTY, (String) newValue);

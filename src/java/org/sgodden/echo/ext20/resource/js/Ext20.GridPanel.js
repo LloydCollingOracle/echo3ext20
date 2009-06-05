@@ -322,6 +322,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
 
     _handleServerSelections: function() {
+        // clear select first
+        this.extComponent.getSelectionModel().clearSelections();
         this._selectedRows = {};
         var selectionString = this.component.get("selection");
         if (selectionString) {

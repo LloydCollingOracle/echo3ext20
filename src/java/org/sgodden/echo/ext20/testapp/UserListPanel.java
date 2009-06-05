@@ -303,7 +303,8 @@ public class UserListPanel
         button2.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
-                LOG.info("Button2 was pressed");
+            	userGridPanel.setSelectedIndices( new int[0]);
+                LOG.info("Button2 was pressed, clear selections");
             }
         });
 

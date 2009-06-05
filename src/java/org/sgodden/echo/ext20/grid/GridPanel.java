@@ -34,7 +34,6 @@ import nextapp.echo.app.table.TableModel;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.Toolbar;
-import org.sgodden.query.models.GroupingTableModel;
 
 /**
  * An ext GridPanel.
@@ -545,7 +544,7 @@ public class GridPanel extends Panel implements TableModelListener,
      * @param selectedIndices
      *            the indices to select
      */
-    private void setSelectedIndices(int[] selectedIndices) {
+    public void setSelectedIndices(int[] selectedIndices) {
         // Temporarily suppress the Tables selection event notifier.
         suppressChangeNotifications = true;
         selectionModel.clearSelection();
@@ -554,6 +553,7 @@ public class GridPanel extends Panel implements TableModelListener,
         }
         // End temporary suppression.
         suppressChangeNotifications = false;
+        firePropertyChange( SELECTION_CHANGED_PROPERTY, null, selectionModel);
     }
 
     /**
