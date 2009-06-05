@@ -136,10 +136,11 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
         if ( this.component.get("multiSelect") == false) {
             this.component.set("rawValue", this.extComponent.getRawValue());
             this.component.set("selectedValue", null);
+            this.component.doAction();
         } else { 
             this.component.set("selectedValue", this.extComponent.getValue());
+            this.component.doAction();
         }  
-        this.component.doAction();
     },
     
     _onChange: function() {
@@ -152,7 +153,6 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
         } else if ( this.component.get("multiSelect") == false) {
             this.component.set("rawValue", this.extComponent.getRawValue());
             this.component.set("selectedValue", null);
-            this.component.doAction();
         }
     },
     
