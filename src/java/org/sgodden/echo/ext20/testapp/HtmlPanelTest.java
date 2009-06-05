@@ -17,6 +17,9 @@ public class HtmlPanelTest extends HtmlPanel {
 		simplePanel.setLayoutData( new HtmlLayoutData( "simplePanel"));
 		add( simplePanel);
 		textField2.setLayoutData( new HtmlLayoutData( "field2"));
+		textField2.setRenderId("testfield2");
+		textField2.setToolTip("A Tool tip");
 		add( textField2);
+		
 	}
 }

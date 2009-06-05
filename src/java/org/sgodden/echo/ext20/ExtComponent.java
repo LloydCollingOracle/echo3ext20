@@ -40,6 +40,11 @@ public abstract class ExtComponent extends Component {
      */
     public static final String CONTAINER_REMOVE_EFFECTS = "containerRemoveFx";
     
+    /**
+     * The tooltip to apply to any ext component.
+     */
+    public static final String TOOL_TIP = "toolTip";
+    
     AddComponentFx addEffect = null;
     RemoveComponentFx removeEffect = null;
     
@@ -118,5 +123,9 @@ public abstract class ExtComponent extends Component {
     public void setRemoveEffect(RemoveComponentFx effect) {
         removeEffect = effect;
         set(CONTAINER_REMOVE_EFFECTS, removeEffect.toString());
+    }
+    
+    public void setToolTip(String toolTip){
+    	set(TOOL_TIP, toolTip);
     }
 }

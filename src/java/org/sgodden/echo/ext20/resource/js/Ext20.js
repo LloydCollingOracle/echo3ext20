@@ -374,6 +374,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 update,
                 options
             );
+            if (this.component.get("toolTip")) {
+                this.extComponent.on("render", this._addToolTip, this);
+            }
             
             if (this.component.get("alignTo") != null) {
                 this.extComponent.on("render", function(){
@@ -384,6 +387,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             this._addBeforeRenderListener();
             
             this._parentElement = null;
+            
+
+            
         }
         else {
             /*
@@ -475,14 +481,15 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             if (this.component.get("containerCssClass")) {
                 options.ctCls = this.component.get("containerCssClass");
             }
-            
             if (this instanceof EchoExt20.PanelSync) {
                 options.renderTo = this._parentElement;
             }
+            
             this.extComponent = this.createExtComponent(
                 this._update,
                 options
             );
+
         	/*
         	 * If this is not a panel, then we need to surround it
         	 * with a panel, to ensure that child dimensions are set
@@ -506,6 +513,19 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     },
     
     /**
+     * Sets the tooltip on this component.
+     */
+    _addToolTip: function(component) {
+        if (this.component.get("toolTip")) {
+            var toolTip = new Ext.ToolTip({
+                target: component.el,
+                html: this.component.get("toolTip")
+            });
+            toolTip.enable();
+        }
+    },
+    
+    /**
      * Convenience method to debug out a set of options.
      */
     _debugOptions: function(prefix, options) {
@@ -518,7 +538,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     
     renderDisplay: function(update) {
         this._maybeCreateComponent();
-
+        
         // FIXME - only do this if necessary
         if (this.component.renderId == "c_resizePanel") {
             if (this.extComponent.getEl()) {
