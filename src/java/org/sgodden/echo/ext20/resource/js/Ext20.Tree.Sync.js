@@ -42,6 +42,11 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     $load: function() {
         Echo.Render.registerPeer("Ext20Tree", this);
     },
+    
+    /**
+     * The Tree's context menu
+     */
+    contextMenu: null,
 
     $virtual: {
         newExtComponentInstance: function(options) {
@@ -85,6 +90,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     	
     	this.extComponent = this.newExtComponentInstance(options);
     	this.extComponent.columns = options['columns'];
+        this.extComponent.on("render", this._doOnExtRender, this);
     	
         var ext20RootNode = this._renderNode(update, rootNode);
         this.extComponent.setRootNode(ext20RootNode);
@@ -93,8 +99,26 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (selection && this._selectionEnabled) {
             this._setSelectedFromProperty(selection);
         }
+        
+        var children = this._createChildComponentArrayFromComponent();
+        if (children.length > 0) {
+            this._createChildItems(update, children);
+        }
     	
     	return this.extComponent;
+    },
+    
+    _doOnExtRender: function() {
+        
+        this.extComponent.un('contextmenu', this._doOnContextMenu, this);
+        if (this.contextMenu != null) {
+            this.extComponent.on('contextmenu', this._doOnContextMenu, this);
+        }
+    },
+    
+    _doOnContextMenu: function(node, evt) {
+        evt.stopEvent();
+        this.contextMenu.showAt(evt.getXY());
     },
     
     _renderColumns: function(update, headerNode) {
@@ -469,6 +493,28 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         	ownerCt.doLayout();
         }
         
+        // check the added and removed children, in case the context menu has been changed
+        if (update.hasRemovedChildren()) {
+            var removedChildren = update.getRemovedChildren();
+            for (var i = 0; i < removedChildren.length; i++) {
+                var child = removedChildren[i];
+                
+                // if the removed child is our context menu, hide it and then unset it
+                if (child instanceof EchoExt20.Menu) {
+                    if (this.contextMenu.isVisible()) {
+                        this.contextMenu.hide();
+                        this.contextMenu.destroy();
+                    }
+                    this.contextMenu = null;
+                }
+            }
+        }
+       
+        if (update.hasAddedChildren()) {
+            var addedChildren = update.getAddedChildren();
+            this._createChildItems(update, addedChildren);
+        }
+        
         return true;
     },
     
@@ -495,6 +541,33 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
                 this._treeStructure.addOrUpdateNode(updateRootNode);
             }
             this._renderNode(update, node);
+        }
+    },
+    
+    /**
+     * Creates an array of the children of the current component.
+     */
+    _createChildComponentArrayFromComponent: function() {
+        var componentCount = this.component.getComponentCount();
+        var children = new Array(componentCount);
+        for (var i = 0; i < componentCount; i++) {
+            children[i] = this.component.getComponent(i);
+        }
+        return children;
+    },
+    
+    _createChildItems: function(update, children) {
+        
+        for (var i = 0; i < children.length; i++) {
+            var child = children[i];
+            
+            if (child instanceof EchoExt20.Menu) {
+                Echo.Render.renderComponentAdd(update, child, null);
+                this.contextMenu = child.peer.extComponent;
+                if (this.contextMenu == null) {
+                    throw new Error("Context Menu not created for Tree");
+                }
+            }
         }
     }
 });

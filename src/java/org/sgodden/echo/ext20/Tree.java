@@ -11,9 +11,12 @@ import nextapp.echo.extras.app.tree.TreeModel;
  * @author Lloyd Colling.
  *
  */
+@SuppressWarnings("serial")
 public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionListener {
     
     public static final String HAS_BORDER_PROPERTY = "hasBorder";
+    
+    private Menu contextMenu;
     
     public Tree() {
         this(null);
@@ -66,5 +69,38 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
 
     public void treeExpanded(TreeExpansionEvent arg0) {
         invalidate();
+    }
+    
+    public Menu getContextMenu() {
+        return contextMenu;
+    }
+    
+    public void setContextMenu(Menu menu) {
+        if (contextMenu != null)
+            remove(contextMenu);
+        this.contextMenu = menu;
+        if (menu != null)
+            add(contextMenu);
+    }
+    
+    @Override
+    protected Renderer createRenderer() {
+        return new ContextMenuAwareRenderer();
+    }
+    
+    @SuppressWarnings("serial")
+    protected class ContextMenuAwareRenderer extends Renderer {
+
+        @Override
+        protected void fullUpdate() {
+            init();
+            removeAll();
+            if (contextMenu != null)
+                add(contextMenu);
+            treePathToComponentCache.clear();
+            rowToTreePathCache.clear();
+            row = 0;
+            doRender();
+        }
     }
 }

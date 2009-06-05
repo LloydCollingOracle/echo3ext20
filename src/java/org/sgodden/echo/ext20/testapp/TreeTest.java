@@ -33,6 +33,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.DeferredUiCreate;
+import org.sgodden.echo.ext20.Menu;
+import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TabbedPane;
 import org.sgodden.echo.ext20.Tree;
@@ -81,6 +83,11 @@ public class TreeTest extends Panel implements DeferredUiCreate, ChangeListener,
         testTree.getSelectionModel().addChangeListener(this);
         testTree.addActionListener(this);
         outer.add(testTree);
+        
+        Menu treeMenu = new Menu();
+        treeMenu.add(new MenuItem("Tree Menu Item 1"));
+        treeMenu.add(new MenuItem("Tree Menu Item 2"));
+        testTree.setContextMenu(treeMenu);
     }
 
     public void stateChanged(ChangeEvent arg0) {
