@@ -27,12 +27,11 @@ import org.sgodden.echo.ext20.testapp.layout.TableLayoutTest2;
  *
  */
 @SuppressWarnings({"serial"})
-public class LayoutTest 
-        extends Panel
-        implements DeferredUiCreate {
+public class LayoutTest extends Panel {
     
     public LayoutTest(){
         super(new FitLayout(), "Layouts");
+        createUI();
     }
 
     public void createUI() {

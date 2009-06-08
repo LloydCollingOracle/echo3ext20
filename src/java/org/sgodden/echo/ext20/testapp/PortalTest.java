@@ -35,13 +35,14 @@ import org.sgodden.echo.ext20.testapp.regression.RemoveEchoFromExtTest;
  * @author sgodden
  */
 @SuppressWarnings("serial")
-public class PortalTest extends Portal implements DeferredUiCreate {
+public class PortalTest extends Portal {
     
     //private static final transient Log log = LogFactory.getLog(PortalTest.class);
 
     public PortalTest() {
         super();
         setTitle("Portal");
+        createUI();
     }
 
     /*

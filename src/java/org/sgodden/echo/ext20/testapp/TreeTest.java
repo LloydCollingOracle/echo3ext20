@@ -50,7 +50,7 @@ import org.sgodden.echo.ext20.layout.TableLayout;
  * 
  */
 @SuppressWarnings({"serial"})
-public class TreeTest extends Panel implements DeferredUiCreate, ChangeListener, ActionListener {
+public class TreeTest extends Panel implements ChangeListener, ActionListener {
 
     private static final transient Log log = LogFactory
             .getLog(TreeTest.class);
@@ -58,6 +58,7 @@ public class TreeTest extends Panel implements DeferredUiCreate, ChangeListener,
     public TreeTest() {
         super(new FitLayout(), "Tree");
         setRenderId("treeTest");
+        createUI();
     }
 
     public void createUI() {

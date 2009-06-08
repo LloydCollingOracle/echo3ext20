@@ -1,6 +1,5 @@
 package org.sgodden.echo.ext20.testapp;
 
-import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
@@ -14,12 +13,11 @@ import org.sgodden.echo.ext20.layout.FitLayout;
  *
  */
 @SuppressWarnings({"serial"})
-public class ContextMenuTest 
-        extends Panel
-        implements DeferredUiCreate {
+public class ContextMenuTest extends Panel {
     
     public ContextMenuTest(){
         super(new FitLayout(), "Context Menus");
+        createUI();
     }
 
     public void createUI() {

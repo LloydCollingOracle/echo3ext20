@@ -29,82 +29,91 @@ import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.layout.FitLayout;
 
 /**
- * A panel which toggles between a list of users, and an edit panel
- * for the individual user.
+ * A panel which toggles between a list of users, and an edit panel for the
+ * individual user.
+ * 
  * @author sgodden
  */
-@SuppressWarnings({"serial"})
-public class UserPanel 
-        extends Panel
-        implements DeferredUiCreate {
-    
-    /**
-     * The list panel.
-     */
-    private UserListPanel listPanel;
-    
-    public UserPanel(boolean setTitle){
-        super(new FitLayout());
-        if (setTitle) {
-            setTitle("Grid and form");
-        }
-    }
+@SuppressWarnings( { "serial" })
+public class UserPanel extends Panel {
 
-    /*
-     * (non-Javadoc)
-     * @see org.sgodden.echo.ext20.DeferredUiCreate#createUI()
-     */
-    public void createUI() {
-           switchToListPanel();
-    }
-    
-    /**
-     * Switches to the list panel.
-     */
-    private void switchToListPanel() {
-        if (getComponentCount() > 0) {
-            remove(0);
-        }
-        
-        if (listPanel == null) {
-            listPanel = new UserListPanel();
-            listPanel.getGridPanel().addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent arg0) {
-                	if ( listPanel.getSelectedIndex() < 0) return;
-                    switchToEditPanel(listPanel.getSelectedRow());
-                    listPanel.getGridPanel().getSelectionModel().clearSelection();
-                }
-            });
-        }
-        
-        add(listPanel);
-        
-    }
-    
-    /**
-     * Switched to the edit panel.
-     * 
-     * @param data the data representing the user to edit.
-     */
-    private void switchToEditPanel(Object[] data) {
-        remove(0);
-        
-        AppInstance app = (AppInstance) ApplicationInstance.getActive();
-        Component editPanel = (Component) app.getGroovyObjectInstance(
-                "org.sgodden.echo.ext20.testapp.groovy.UserEditPanel");
-        add(editPanel);
-        try {
-           Method m = editPanel.getClass().getMethod("setData", Object[].class);
-           m.invoke(editPanel, new Object[]{listPanel.getSelectedRow()});
-        } catch (Exception ex) {
-            throw new Error(ex);
-        }
-        
-        ((ActionListenable)editPanel).addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                switchToListPanel();
-            }
-        });
-    }
-    
+	/**
+	 * The list panel.
+	 */
+	private UserListPanel listPanel;
+
+	public UserPanel() {
+		this(true);
+	}
+
+	public UserPanel(boolean setTitle) {
+		super(new FitLayout());
+		if (setTitle) {
+			setTitle("Grid and form");
+		}
+		createUI();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.sgodden.echo.ext20.DeferredUiCreate#createUI()
+	 */
+	public void createUI() {
+		switchToListPanel();
+	}
+
+	/**
+	 * Switches to the list panel.
+	 */
+	private void switchToListPanel() {
+		if (getComponentCount() > 0) {
+			remove(0);
+		}
+
+		if (listPanel == null) {
+			listPanel = new UserListPanel();
+			listPanel.getGridPanel().addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if (listPanel.getSelectedIndex() < 0)
+						return;
+					switchToEditPanel(listPanel.getSelectedRow());
+					listPanel.getGridPanel().getSelectionModel()
+							.clearSelection();
+				}
+			});
+		}
+
+		add(listPanel);
+
+	}
+
+	/**
+	 * Switched to the edit panel.
+	 * 
+	 * @param data
+	 *            the data representing the user to edit.
+	 */
+	private void switchToEditPanel(Object[] data) {
+		remove(0);
+
+		AppInstance app = (AppInstance) ApplicationInstance.getActive();
+		Component editPanel = (Component) app
+				.getGroovyObjectInstance("org.sgodden.echo.ext20.testapp.groovy.UserEditPanel");
+		add(editPanel);
+		try {
+			Method m = editPanel.getClass()
+					.getMethod("setData", Object[].class);
+			m.invoke(editPanel, new Object[] { listPanel.getSelectedRow() });
+		} catch (Exception ex) {
+			throw new Error(ex);
+		}
+
+		((ActionListenable) editPanel).addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				switchToListPanel();
+			}
+		});
+	}
+
 }

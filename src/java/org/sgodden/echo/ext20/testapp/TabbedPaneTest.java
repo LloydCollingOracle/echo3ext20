@@ -37,7 +37,7 @@ import org.sgodden.echo.ext20.layout.TableLayout;
  * 
  */
 @SuppressWarnings({"serial"})
-public class TabbedPaneTest extends Panel implements DeferredUiCreate {
+public class TabbedPaneTest extends Panel {
 
     private static final transient Log log = LogFactory
             .getLog(TabbedPaneTest.class);
@@ -45,6 +45,7 @@ public class TabbedPaneTest extends Panel implements DeferredUiCreate {
     public TabbedPaneTest() {
         super(new FitLayout(), "Tabbed pane");
         setRenderId("tabbedPaneTest");
+        createUI();
     }
 
     public void createUI() {

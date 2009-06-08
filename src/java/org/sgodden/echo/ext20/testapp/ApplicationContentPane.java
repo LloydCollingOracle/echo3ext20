@@ -90,7 +90,7 @@ public class ApplicationContentPane
         centreContainer.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
         mainPanel.add(centreContainer);
         
-        showCentreComponent(new MainTestSuite());
+        showCentreComponent(new WelcomePanel());
     }
     
     private Panel createNorthPanel() {
@@ -139,6 +139,7 @@ public class ApplicationContentPane
         
         final Panel coreEcho3Panel = new Panel("Test suites");
         coreEcho3Panel.setBodyTransparent(true);
+        coreEcho3Panel.setAutoScroll(true);
         ret.add(coreEcho3Panel);
         
         final Column col = new Column();
@@ -146,23 +147,26 @@ public class ApplicationContentPane
         col.setCellSpacing(new Extent(5));
         coreEcho3Panel.add(col);
         
-        final nextapp.echo.app.Button button = makeEchoButton("Bloated test suite");
-        col.add(button);
-        
-        button.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent arg0) {
-                showCentreComponent(new MainTestSuite());
-            }
-        });
-        
-        final nextapp.echo.app.Button focusableButtonTest = makeEchoButton("Non-focusable buttons");
-        col.add(focusableButtonTest);
-        
-        focusableButtonTest.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent arg0) {
-                showCentreComponent(new FocusableButtonTest());
-            }
-        });
+        col.add(makeTestButton("Time field", TimeFieldTest.class));
+        col.add(makeTestButton("Grid and form", UserPanel.class));
+        col.add(makeTestButton("HTML Panel", HtmlPanelTest.class));
+        col.add(makeTestButton("HTML Editor", HtmlEditorTest.class));
+        col.add(makeTestButton("Multi select", MultiSelectTest.class));
+        col.add(makeTestButton("Change toolbar buttons", ToolbarButtonChangingTest.class));
+        col.add(makeTestButton("Window", WindowTest.class));
+        col.add(makeTestButton("Portal", PortalTest.class));
+        col.add(makeTestButton("Tab panel", TabbedPaneTest.class));
+        col.add(makeTestButton("Layouts", LayoutTest.class));
+        col.add(makeTestButton("Stylesheet", StylesheetTest.class));
+        col.add(makeTestButton("Groovy", GroovyTest.class));
+        col.add(makeTestButton("Tree", TreeTest.class));
+        col.add(makeTestButton("Field group", FieldGroupTest.class));
+        col.add(makeTestButton("Combo list", ComboListTest.class));
+        col.add(makeTestButton("Button group", ButtonGroupTest.class));
+        col.add(makeTestButton("Effects", EffectsTest.class));
+        col.add(makeTestButton("Context menu", ContextMenuTest.class));
+        col.add(makeTestButton("Non-focusable buttons", FocusableButtonTest.class));
+        col.add(makeTestButton("Bloated test suite", MainTestSuite.class));
         
         Panel regressionPanel = new Panel("Regression tests");
         ret.add(regressionPanel);
@@ -172,39 +176,11 @@ public class ApplicationContentPane
         regressionPanel.add(col2);
         col2.setInsets(new Insets(5));
         
-        final nextapp.echo.app.Button button2 = makeEchoButton("Removal bug 1");
-        col2.add(button2);
-        button2.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                showCentreComponent(new RemoveEchoFromExtTest());
-            }});
-        
-        final nextapp.echo.app.Button button3 = makeEchoButton("Lazy render bug 1");
-        col2.add(button3);
-        button3.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                showCentreComponent(makeGroovyComponent("org.sgodden.echo.ext20.testapp.regression.UpdatedNonRenderedGridTest"));
-            }});
-        
-        final nextapp.echo.app.Button button4 = makeEchoButton("Combo box model update");
-        col2.add(button4);
-        button4.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                showCentreComponent(makeGroovyComponent("org.sgodden.echo.ext20.testapp.regression.ComboBoxModelUpdatePanel"));
-            }});
-        final nextapp.echo.app.Button button5 = makeEchoButton("Button in BorderLayout, issue 28");
-        col2.add(button5);
-        button5.addActionListener(new ActionListener(){
-        	public void actionPerformed(ActionEvent e) {
-        		showCentreComponent( new BorderLayoutTest());
-        	}});
-        final nextapp.echo.app.Button button6 = makeEchoButton("TextField Action, issue 29");
-        col2.add(button6);
-        button6.addActionListener(new ActionListener(){
-        	public void actionPerformed(ActionEvent e) {
-        		showCentreComponent( new TextFieldActionTest());
-        	}});
-        
+        col2.add(makeTestButton("Removal bug 1", RemoveEchoFromExtTest.class));
+        col2.add(makeTestButton("Lazy render bug 1", "org.sgodden.echo.ext20.testapp.regression.UpdatedNonRenderedGridTest"));
+        col2.add(makeTestButton("Combo box model update", "org.sgodden.echo.ext20.testapp.regression.ComboBoxModelUpdatePanel"));
+        col2.add(makeTestButton("Button in BorderLayout, issue 28", BorderLayoutTest.class));
+        col2.add(makeTestButton("TextField Action, issue 29", TextFieldActionTest.class));
 
         return ret;
     }
@@ -217,11 +193,35 @@ public class ApplicationContentPane
         centreContainer.add(c);
     }
     
-    private nextapp.echo.app.Button makeEchoButton(String text) {
+    private nextapp.echo.app.Button makeTestButton(String text, final Class < ? extends Component > testClass) {
         nextapp.echo.app.Button button = new nextapp.echo.app.Button(text);
         button.setInsets(new Insets(2));
         button.setBackground(Color.LIGHTGRAY);
         button.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
+        button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					showCentreComponent(testClass.newInstance());
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}});
+        return button;
+    }
+    
+    private nextapp.echo.app.Button makeTestButton(String text, final String groovyClassName) {
+        nextapp.echo.app.Button button = new nextapp.echo.app.Button(text);
+        button.setInsets(new Insets(2));
+        button.setBackground(Color.LIGHTGRAY);
+        button.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
+        button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					showCentreComponent(makeGroovyComponent(groovyClassName));
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}});
         return button;
     }
     

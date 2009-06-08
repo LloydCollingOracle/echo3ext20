@@ -6,14 +6,15 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.Button;
-import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TimeField;
 
-public class TimeFieldTest extends Panel implements DeferredUiCreate {
+@SuppressWarnings("serial")
+public class TimeFieldTest extends Panel {
 	public TimeFieldTest() {
 		super( "TimeFieldTest");
+		createUI();
 	}
 
 	public void createUI() {

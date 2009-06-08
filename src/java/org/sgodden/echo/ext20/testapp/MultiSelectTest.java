@@ -10,9 +10,10 @@ import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.MultiSelectComboBox;
 import org.sgodden.echo.ext20.Panel;
 
-public class MultiSelectTest extends Panel implements DeferredUiCreate {
+public class MultiSelectTest extends Panel {
 	public MultiSelectTest() {
 		super( "Multi Select Test");
+		createUI();
 	}
 
 	public void createUI() {
