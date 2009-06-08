@@ -511,6 +511,8 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public void setColumnModel(final ColumnModel columnModel) {
         set(COLUMN_MODEL_PROPERTY, columnModel);
+        // ensure listeners are notified of a column model change
+        firePropertyChange(COLUMN_MODEL_PROPERTY, null, columnModel);
     }
 
     /**
