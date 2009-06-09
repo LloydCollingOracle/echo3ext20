@@ -36,6 +36,7 @@ import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 import org.sgodden.echo.ext20.layout.TableLayoutData;
 import org.sgodden.echo.ext20.testapp.regression.BorderLayoutTest;
+import org.sgodden.echo.ext20.testapp.regression.FocusTextAreaTest;
 import org.sgodden.echo.ext20.testapp.regression.RemoveEchoFromExtTest;
 import org.sgodden.echo.ext20.testapp.regression.TextFieldActionTest;
 
@@ -176,6 +177,7 @@ public class ApplicationContentPane
         regressionPanel.add(col2);
         col2.setInsets(new Insets(5));
         
+        col2.add(makeTestButton("Focus Text Areas", FocusTextAreaTest.class));
         col2.add(makeTestButton("Removal bug 1", RemoveEchoFromExtTest.class));
         col2.add(makeTestButton("Lazy render bug 1", "org.sgodden.echo.ext20.testapp.regression.UpdatedNonRenderedGridTest"));
         col2.add(makeTestButton("Combo box model update", "org.sgodden.echo.ext20.testapp.regression.ComboBoxModelUpdatePanel"));
