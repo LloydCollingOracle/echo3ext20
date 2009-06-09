@@ -16,21 +16,22 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.peers;
 
-import org.sgodden.echo.ext20.Panel;
-
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
+
+import org.sgodden.echo.ext20.ExtComponent;
+import org.sgodden.echo.ext20.TextField;
 
 /**
  * Abstract sync peer for all ext components.
  */
 public abstract class ExtComponentPeer extends AbstractComponentSynchronizePeer {
-    
+
     /**
      * Default constructor.
      */
     public ExtComponentPeer() {
         super();
-        addOutputProperty(Panel.BASE_CSS_CLASS);
+        addOutputProperty(TextField.BLANK_TEXT_PROPERTY);
+        addOutputProperty(ExtComponent.TOOL_TIP);
     }
-
 }

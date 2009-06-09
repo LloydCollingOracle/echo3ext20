@@ -145,6 +145,13 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
 
     $virtual: {
         renderFocus: function() {
+
+		    if (this.component.get("toolTip")){
+		        if (this.component.get("toolTip")){
+		            //this.extComponent.toggle(this.component.get("pressed"));
+		        }
+		    }
+
             if (this.extComponent.rendered) {
                 try {
                     this.extComponent.focus();
@@ -519,6 +526,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         if (this.component.get("toolTip")) {
             var toolTip = new Ext.ToolTip({
                 target: component.el,
+                dismissDelay: 0,
                 html: this.component.get("toolTip")
             });
             toolTip.enable();
@@ -571,7 +579,16 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     },
     
     renderUpdate: function(update) {
-		
+
+        if (this.component.get("toolTip")) {
+            var toolTip = new Ext.ToolTip({
+                target: this.extComponent.getEl(),
+                dismissDelay: 0,
+                html: this.component.get("toolTip")
+            });
+            toolTip.enable();
+        }
+        
         if (update.hasAddedChildren() || update.hasRemovedChildren()) {
                 this._notifyLayoutChanges();
         }
