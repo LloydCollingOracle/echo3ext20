@@ -146,12 +146,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     $virtual: {
         renderFocus: function() {
 
-		    if (this.component.get("toolTip")){
-		        if (this.component.get("toolTip")){
-		            //this.extComponent.toggle(this.component.get("pressed"));
-		        }
-		    }
-
             if (this.extComponent.rendered) {
                 try {
                     this.extComponent.focus();
