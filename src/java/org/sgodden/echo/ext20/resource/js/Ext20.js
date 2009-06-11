@@ -376,7 +376,11 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 options
             );
             if (this.component.get("toolTip")) {
-                this.extComponent.on("render", this._addToolTip, this);
+                if (this.component.get("showToolTip") != null){
+                    if(this.component.get("showToolTip")){
+                        this.extComponent.on("render", this._addToolTip, this);
+                    }
+                }
             }
             
             if (this.component.get("alignTo") != null) {
@@ -575,12 +579,18 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     renderUpdate: function(update) {
 
         if (this.component.get("toolTip")) {
-            var toolTip = new Ext.ToolTip({
-                target: this.extComponent.getEl(),
-                dismissDelay: 0,
-                html: this.component.get("toolTip")
-            });
-            toolTip.enable();
+            if (this.component.get("showToolTip") != null){
+                if(this.component.get("showToolTip")){
+                    var toolTip = new Ext.ToolTip({
+                       target: this.extComponent.getEl(),
+                        dismissDelay: 0,
+                        html: this.component.get("toolTip")
+                    });
+                    toolTip.enable();
+                }
+            }else{
+                toolTip.disable();
+            }
         }
         
         if (update.hasAddedChildren() || update.hasRemovedChildren()) {
