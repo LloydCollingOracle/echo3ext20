@@ -101,9 +101,6 @@ public class DateFieldPeer
     @Override
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
         if (propertyName.equals(DateField.DATE_CHANGED_PROPERTY)) {
-            if (newValue == null) {
-                newValue = ""; // prevent NPE in SimpleDateForm.parse
-            }
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
             clientUpdateManager.setComponentProperty(component, DateField.DATE_CHANGED_PROPERTY, newValue);
         }

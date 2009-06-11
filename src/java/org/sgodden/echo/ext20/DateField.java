@@ -59,7 +59,8 @@ public class DateField
      */
     public DateField() {
         super();
-        setLocale(ApplicationInstance.getActive().getLocale());
+        if (ApplicationInstance.getActive() != null)
+            setLocale(ApplicationInstance.getActive().getLocale());
     }
 
     /**
@@ -200,12 +201,12 @@ public class DateField
     @Override
     public void processInput(String inputName, Object inputValue) {
         if (DATE_CHANGED_PROPERTY.equals(inputName)) {
-            if (!(inputValue instanceof Date)) {
-                // must have been an invalid date on the client side
-                this.clientInputValid = false;
-            } else if (inputValue == null) {
+            if (inputValue == null) {
                 calendar = null;
                 setCalendar(null);
+            } else if (!(inputValue instanceof Date)) {
+                // must have been an invalid date on the client side
+                this.clientInputValid = false;
             } else {
                 this.clientInputValid = true;
                 
