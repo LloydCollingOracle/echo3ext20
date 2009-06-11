@@ -1,5 +1,7 @@
 package org.sgodden.echo.ext20.buttons;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import nextapp.echo.app.Window;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
+import org.sgodden.echo.ext20.AbstractButton;
 import org.sgodden.echo.ext20.Button;
 
 /**
@@ -15,7 +18,7 @@ import org.sgodden.echo.ext20.Button;
  * @author rcharlton
  */
 @SuppressWarnings("serial")
-public class ToggleGroup implements ActionListener {
+public class ToggleGroup implements PropertyChangeListener {
 
     private String toggleGroupName;
 
@@ -51,7 +54,7 @@ public class ToggleGroup implements ActionListener {
      */
     public void addButton(Button button) {
         button.setToggleGroup(toggleGroupName);
-        button.addActionListener(this);
+        button.addPropertyChangeListener(AbstractButton.PRESSED_PROPERTY, this);
         buttons.add(button);
     }
 
@@ -64,14 +67,16 @@ public class ToggleGroup implements ActionListener {
     }
 
     /**
-     * Handles the clicking of a button in this toggle group
+     * Ensures that only one button in the toggle group may have property
+     * pressed as true at any one time.
      */
-    public void actionPerformed(ActionEvent arg0) {
+    public void propertyChange(PropertyChangeEvent arg0) {
         Button source = (Button)arg0.getSource();
-        source.setPressed(true);
-        for (Button b : buttons) {
-            if (b != source) {
-                b.setPressed(false);
+        if (Boolean.TRUE.equals(arg0.getNewValue())) {
+            for (Button b : buttons) {
+                if (b != source) {
+                    b.setPressed(false);
+                }
             }
         }
     }
