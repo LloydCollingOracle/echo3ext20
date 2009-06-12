@@ -544,6 +544,17 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             if (this.extComponent.rendered) {
                 this.extComponent.getColumnModel().removeListener("hiddenchange", this._handleColumnHide, this);
                 var colModel = this.component.get("columnModel");
+                // apply the column renderers!
+                for (var i = 0; i < colModel.config.length; i++) {
+                    var thisCol = colModel.config[i];
+                    
+                    if (thisCol instanceof Ext.grid.CheckColumn) {
+                        options["plugins"][pluginIndex] = thisCol;
+                        pluginIndex++;
+                    } else {
+                        thisCol.renderer = this._renderColumn.createDelegate(this);
+                    }
+                }
                 this.extComponent.reconfigure(
                   this._makeStore(),
                   colModel
