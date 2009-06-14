@@ -309,6 +309,7 @@
 	<target name="mvn-install-unix" if="is-unix" description="Installs the jar into the local maven repository">
 		<exec executable="mvn">
 			<arg value="install:install-file" />
+			<arg value="-DpomFile=maven/pom.xml" />
 			<arg value="-DgroupId=org.sgodden" />
 			<arg value="-DartifactId=echo3ext20" />
 			<arg value="-Dversion=1.0-SNAPSHOT" />
@@ -354,6 +355,39 @@
 			<arg value="/c" />
 			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_App.jar" />
 			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_WebContainer.jar" />
+		</exec>
+	</target>
+
+	<target name="mvn-install-echo3extras" depends="os-detect" description="Builds and installs into the local maven repository">
+		<antcall target="mvn-install-echo3extras-unix" />
+		<antcall target="mvn-install-echo3extras-windows" />
+	</target>
+
+
+	<target name="mvn-install-echo3extras-unix" if="is-unix" description="Installs the echo3 jars into the local maven repository">
+		<exec executable="mvn">
+			<arg value="install:install-file" />
+			<arg value="-DgroupId=com.nextapp" />
+			<arg value="-DartifactId=echo3extras-app" />
+			<arg value="-Dversion=1.0-SNAPSHOT" />
+			<arg value="-Dpackaging=jar" />
+			<arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_Extras_App.jar" />
+		</exec>
+		<exec executable="mvn">
+			<arg value="install:install-file" />
+			<arg value="-DgroupId=com.nextapp" />
+			<arg value="-DartifactId=echo3-webcontainer" />
+			<arg value="-Dversion=1.0-SNAPSHOT" />
+			<arg value="-Dpackaging=jar" />
+			<arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_Extras_WebContainer.jar" />
+		</exec>
+	</target>
+
+	<target name="mvn-install-echo3extras-windows" if="is-windows" description="Installs the echo3 jars into the local maven repository (windows environment)">
+		<exec executable="cmd">
+			<arg value="/c" />
+			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3extras-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_Extras_App.jar" />
+			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3extras-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_Extras_WebContainer.jar" />
 		</exec>
 	</target>
 
