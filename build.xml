@@ -166,6 +166,7 @@
 				<include name="Ext20.Window.js" />
 				<include name="Ext20.HtmlPanel.js" />
 				<include name="Ext20.MultiSelectComboBox.js" />
+				<include name="Ext20.CustomComboBox.js" />
 				<include name="Select.js" />
 			</fileset>
 			<fileset dir="src/java">
