@@ -18,13 +18,7 @@ EchoExt20.CustomComboBox = Core.extend(EchoExt20.ExtComponent, {
         Echo.ComponentFactory.registerType("E2CCB", this);
     },
     focusable: true,
-    componentType : "Ext20CustomComboBox",
-/**    $virtual: {
-        doAction: function() {
-            this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
-        }
-    }
-    */
+    componentType : "Ext20CustomComboBox"
 });
 
 EchoExt20.CustomComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
