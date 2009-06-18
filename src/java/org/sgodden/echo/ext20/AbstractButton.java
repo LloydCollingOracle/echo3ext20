@@ -131,7 +131,7 @@ public abstract class AbstractButton extends ExtComponent {
     /**
      * Fires an action event to all listeners.
      */
-    private void fireActionEvent() {
+    public void fireActionEvent() {
         if (!hasEventListenerList()) {
             return;
         }
