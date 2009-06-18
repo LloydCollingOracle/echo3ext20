@@ -22,7 +22,6 @@ public class CustomComboBoxPeer extends ExtComponentPeer {
 		return CustomComboBox.class;
 	}
 
-	@Override
 	public String getClientComponentType(boolean shortType) {
 		return shortType ? "E2CCB" : "Ext20CustomComboBox";
 	}
