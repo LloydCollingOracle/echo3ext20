@@ -96,7 +96,6 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         
         options["plugins"] = [];
         options["plugins"][0] = new EchoExt20.GridColAddRemove();
-        var pluginIndex = 1;
 
         this._model = this.component.render("model");
         options["store"] = this._makeStore();
@@ -115,8 +114,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             var thisCol = options["cm"].config[i];
             
             if (thisCol instanceof Ext.grid.CheckColumn) {
-                options["plugins"][pluginIndex] = thisCol;
-                pluginIndex++;
+                options["plugins"][1] = thisCol;
             } else {
                 thisCol.renderer = this._renderColumn.createDelegate(this);
             }
@@ -547,11 +545,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 // apply the column renderers!
                 for (var i = 0; i < colModel.config.length; i++) {
                     var thisCol = colModel.config[i];
-                    
-                    if (thisCol instanceof Ext.grid.CheckColumn) {
-                        options["plugins"][pluginIndex] = thisCol;
-                        pluginIndex++;
-                    } else {
+                    if (!(thisCol instanceof Ext.grid.CheckColumn)
+                    		&& !(thisCol instanceof Ext.grid.AbstractSelectionModel)) {
                         thisCol.renderer = this._renderColumn.createDelegate(this);
                     }
                 }
