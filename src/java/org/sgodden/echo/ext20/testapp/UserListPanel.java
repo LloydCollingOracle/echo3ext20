@@ -107,6 +107,11 @@ public class UserListPanel
                 startIndex += 10;
                 rows +=10;
                 userGridPanel.setModel(makeTableModel());
+                /*
+                 * Force refresh of column model to test checkbox
+                 * bug.
+                 */
+                userGridPanel.setColumnModel(makeColumnModel());
             }});
         
         Button changeIconButton = new Button("Change the button icon");
@@ -133,6 +138,48 @@ public class UserListPanel
     }
     
     private GridPanel makeGridPanel() {
+        
+        userGridPanel = new GridPanel(makeColumnModel());
+        userGridPanel.setPageSize(20);
+        userGridPanel.setModel(makeTableModel());
+        userGridPanel.setToolbar(makeToolbar());
+        userGridPanel.setBottomToolbar(new PagingToolbar());
+        /*
+         * Don't bother with grouping for now since the models
+         * don't play properly with it, rendering it effectively useless
+         */
+        //userGridPanel.setGroupField("role");
+        userGridPanel.setSortField("userid");
+        // ensure list selections are notified immediately
+        userGridPanel.setNotifySelect(true);
+        // don't allow multiple row selection
+        userGridPanel.setSelectionMode(SelectionMode.SINGLE_SELECTION);
+        //
+        userGridPanel.setShowCheckbox(true);
+        userGridPanel.setEditCellContents(true);
+        
+        userGridPanel.getSelectionModel().addChangeListener(
+                new ChangeListener(){
+                    public void stateChanged(ChangeEvent e) {
+                        LOG.info("A row was selected or deselected");
+                    }}
+        );
+        
+        Menu rowMenu = new Menu();
+        rowMenu.add(new MenuItem("Row Context Menu 1"));
+        rowMenu.add(new MenuItem("Row Context Menu 2"));
+        userGridPanel.setRowContextMenu(rowMenu);
+        
+        Menu headerMenu = new Menu();
+        headerMenu.add(new MenuItem("Header Context Menu 1"));
+        headerMenu.add(new MenuItem("Header Context Menu 2"));
+        userGridPanel.setHeaderContextMenu(headerMenu);
+        
+        return userGridPanel;
+        
+    }
+    
+    private ColumnModel makeColumnModel() {
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
         
         cols.add(new DefaultColumnConfiguration("User ID", 200, true, "userid", false));
@@ -180,45 +227,7 @@ public class UserListPanel
         birthdayCol.setEditorComponent( new DateField());
         cols.add( birthdayCol);
         ColumnModel columnModel = new DefaultColumnModel(cols);
-        
-        userGridPanel = new GridPanel(columnModel);
-        userGridPanel.setPageSize(20);
-        userGridPanel.setModel(makeTableModel());
-        userGridPanel.setToolbar(makeToolbar());
-        userGridPanel.setBottomToolbar(new PagingToolbar());
-        /*
-         * Don't bother with grouping for now since the models
-         * don't play properly with it, rendering it effectively useless
-         */
-        //userGridPanel.setGroupField("role");
-        userGridPanel.setSortField("userid");
-        // ensure list selections are notified immediately
-        userGridPanel.setNotifySelect(true);
-        // don't allow multiple row selection
-        userGridPanel.setSelectionMode(SelectionMode.SINGLE_SELECTION);
-        //
-        userGridPanel.setShowCheckbox(true);
-        userGridPanel.setEditCellContents(true);
-        
-        userGridPanel.getSelectionModel().addChangeListener(
-                new ChangeListener(){
-                    public void stateChanged(ChangeEvent e) {
-                        LOG.info("A row was selected or deselected");
-                    }}
-        );
-        
-        Menu rowMenu = new Menu();
-        rowMenu.add(new MenuItem("Row Context Menu 1"));
-        rowMenu.add(new MenuItem("Row Context Menu 2"));
-        userGridPanel.setRowContextMenu(rowMenu);
-        
-        Menu headerMenu = new Menu();
-        headerMenu.add(new MenuItem("Header Context Menu 1"));
-        headerMenu.add(new MenuItem("Header Context Menu 2"));
-        userGridPanel.setHeaderContextMenu(headerMenu);
-        
-        return userGridPanel;
-        
+    	return columnModel;
     }
     
     private TableModel makeTableModel() {
@@ -352,5 +361,8 @@ public class UserListPanel
         });
 
         return ret;
+    }
+    
+    private void changeColumnModel() {
     }
 }

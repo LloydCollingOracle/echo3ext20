@@ -82,6 +82,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     cellContextMenu: null,
     rowContextMenu: null,
     headerContextMenu: null,
+    _sm: null,
     
     createExtComponent: function(update, options) {
         this._handleSortEvents = false;
@@ -108,31 +109,22 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         });
         options["view"] = view;
         
-        options["cm"] = this.component.get("columnModel");
-        // apply the column renderers!
-        for (var i = 0; i < options["cm"].config.length; i++) {
-            var thisCol = options["cm"].config[i];
-            
-            if (thisCol instanceof Ext.grid.CheckColumn) {
-                options["plugins"][1] = thisCol;
-            } else {
-                thisCol.renderer = this._renderColumn.createDelegate(this);
-            }
-        }
-        
         // ext does not support multiple interval selection
         var smode = this.component.get("selectionMode");
         var ss = true;
         if (smode != "S") {
             ss = false;
         }
-        var sm;
         if (this.component.get("showCheckbox")){
         	sm = new Ext.grid.CheckboxSelectionModel({singleSelect: ss});
-        	options["cm"].config.unshift(sm);
         }else{
         	sm = new Ext.grid.RowSelectionModel({singleSelect: ss});
         }
+        this._sm = sm;
+        
+        // configure the column model
+        options["cm"] = this.component.get("columnModel");
+        this._configureColumnModel(options.cm, sm, options);
         
         if (this.component.get("hideHeaders")) {
             view.templates = {};
@@ -527,12 +519,38 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 this._handleKeyUpEvent);
     },
     
+    _configureColumnModel: function(colModel, selectionModel, options) {
+        // apply the column renderers!
+        for (var i = 0; i < colModel.config.length; i++) {
+            var thisCol = colModel.config[i];
+            
+            if (thisCol instanceof Ext.grid.CheckColumn) {
+            	if (options != null) {
+            		options["plugins"][1] = thisCol;
+            	}
+            } else {
+                thisCol.renderer = this._renderColumn.createDelegate(this);
+            }
+        }
+        
+        if (this.component.get("showCheckbox")){
+        	colModel.config.unshift(selectionModel);
+        }
+
+    },
+    
     renderUpdate: function(update) {
         EchoExt20.PanelSync.prototype.renderUpdate.call(this, update);
 
         // suspend event handling while we are manipulating
         this._handleSortEvents = false;
         this._handleSelectionEvents = false;
+        
+        // reconfigure the column model if it has been updated
+        var updatedColumnModel = update.getUpdatedProperty("columnModel");
+        if (updatedColumnModel != null) {
+        	this._configureColumnModel(this.component.get("columnModel"), this._sm, null);
+        }
         
         var updatedStore = update.getUpdatedProperty("model");
         if (updatedStore != null) {
@@ -545,6 +563,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 // apply the column renderers!
                 for (var i = 0; i < colModel.config.length; i++) {
                     var thisCol = colModel.config[i];
+                    // the col model may have changed - if checkboxes are needed
+                    // then put the selection model back in as first column
                     if (!(thisCol instanceof Ext.grid.CheckColumn)
                     		&& !(thisCol instanceof Ext.grid.AbstractSelectionModel)) {
                         thisCol.renderer = this._renderColumn.createDelegate(this);
