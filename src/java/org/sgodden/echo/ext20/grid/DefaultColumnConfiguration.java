@@ -46,8 +46,9 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
     private String sortDirection;
     private EventListenerList listenerList = new EventListenerList();
     private Component editorComponent;
+    private boolean menuDisabled = false;
 
-    /**
+	/**
      * Default constructor.
      */
     public DefaultColumnConfiguration() {
@@ -287,5 +288,13 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
     public void setEditorComponent(Component c) {
         this.editorComponent = c;
     }
+
+    public boolean isMenuDisabled() {
+		return menuDisabled;
+	}
+
+	public void setMenuDisabled(boolean menuDisabled) {
+		this.menuDisabled = menuDisabled;
+	}
 
 }

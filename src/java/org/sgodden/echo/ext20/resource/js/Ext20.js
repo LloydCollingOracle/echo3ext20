@@ -968,7 +968,11 @@ EchoExt20.PropertyTranslator.ColumnModel = {
             }
         }
         
-        return new EchoExt20.ColumnModel(obj.columns);
+        return new EchoExt20.ColumnModel({
+        	defaultSortable: obj.defaultSortable,
+        	defaultWidth: obj.defaultWidth,
+        	columns: obj.columns
+        });
     },
     toXml: function(client, propertyElement, propertyValue) {
         var colObject = new Object();
@@ -986,6 +990,12 @@ EchoExt20.PropertyTranslator.ColumnModel = {
             config.sortable = propEl.sortable;
             config.width = propEl.width;
             config.grouping = propEl.grouping;
+            if (propEl.menuDisabled) {
+            	config.menuDisabled = true;
+            }
+            else {
+            	config.menuDisabled = false;
+            }
             colObject.columns.push(config);
         }
         var json = Ext.util.JSON.encode(colObject);

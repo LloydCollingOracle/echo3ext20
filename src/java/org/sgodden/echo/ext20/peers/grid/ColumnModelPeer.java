@@ -131,6 +131,8 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                 }
             }
             attributes.put("sortable", new JSONBoolean(cc.getSortable()));
+            System.out.println("Disabled: " + cc.isMenuDisabled());
+            attributes.put("menuDisabled", new JSONBoolean(cc.isMenuDisabled()));
             if (cc.getDataIndex() != null)
                 attributes.put("dataIndex", new JSONString(cc.getDataIndex()));
                 attributes.put("hidden", new JSONBoolean(cc.getHidden()));
@@ -189,12 +191,13 @@ public class ColumnModelPeer implements SerialPropertyPeer {
             boolean hidden = getBooleanValue(jsonCol.get("hidden"));
             boolean sortable = getBooleanValue(jsonCol.get("sortable"));
             boolean grouping = getBooleanValue(jsonCol.get("grouping"));
+            boolean menuDisabled = getBooleanValue(jsonCol.get("menuDisabled"));
             String sortDirection = getStringValue(jsonCol
                     .get("sortDirection"));
             int width = getIntegerValue(jsonCol.get("width"));
 
             // set the data on the column
-            ColumnConfiguration thisCol = new DefaultColumnConfiguration();
+            DefaultColumnConfiguration thisCol = new DefaultColumnConfiguration();
             thisCol.setAttributePath(attributePath);
             thisCol.setDataIndex(dataIndex);
             thisCol.setDisplaySequence(displaySequence);
@@ -204,6 +207,8 @@ public class ColumnModelPeer implements SerialPropertyPeer {
             thisCol.setSortDirection(sortDirection);
             thisCol.setWidth(width);
             thisCol.setGrouping(grouping);
+            thisCol.setMenuDisabled(menuDisabled);
+            
             
             return thisCol;
         }

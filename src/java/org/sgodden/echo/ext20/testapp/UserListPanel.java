@@ -183,7 +183,7 @@ public class UserListPanel
         List<ColumnConfiguration> cols = new ArrayList<ColumnConfiguration>();
         
         cols.add(new DefaultColumnConfiguration("User ID", 200, true, "userid", false));
-        ColumnConfiguration nameCol = new DefaultColumnConfiguration("Name",
+        DefaultColumnConfiguration nameCol = new DefaultColumnConfiguration("Name",
                 100, true, "name", false) {
             @Override
             public Class getColumnClass() {
@@ -191,6 +191,7 @@ public class UserListPanel
             }
         };
         nameCol.setEditorComponent(new TextField());
+        nameCol.setMenuDisabled(true);
         cols.add(nameCol);
 
         ColumnConfiguration adminCol = new DefaultColumnConfiguration(
@@ -226,7 +227,7 @@ public class UserListPanel
         };
         birthdayCol.setEditorComponent( new DateField());
         cols.add( birthdayCol);
-        ColumnModel columnModel = new DefaultColumnModel(cols);
+        DefaultColumnModel columnModel = new DefaultColumnModel(cols);
     	return columnModel;
     }
     

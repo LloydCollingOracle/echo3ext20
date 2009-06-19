@@ -175,5 +175,17 @@ public interface ColumnConfiguration {
      * @return
      */
     public Component getEditorComponent();
+    
+    /**
+     * Returns whether the column menu is disabled for this column.
+     * @return whether the column menu is disabled for this column.
+     */
+    public boolean isMenuDisabled();
+    
+    /**
+     * Sets whether the column menu is disabled for this column.
+     * @param disabled whether the column menu is disabled for this column.
+     */
+    public void setMenuDisabled(boolean disabled);
 
 }
