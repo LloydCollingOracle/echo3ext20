@@ -592,7 +592,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                     toolTip.enable();
                 }else{
                     this._toolTip.disable();
-                    this._toolTip = null;I ha
+                    this._toolTip = null;
                 }
             }
         }
