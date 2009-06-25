@@ -6,7 +6,7 @@ import org.sgodden.echo.ext20.TextField;
 
 public class HtmlPanelTest extends HtmlPanel {
     private TextField textField1 = new TextField("HtmlPanel");
-    private TextField textField2 = new TextField("Hello from field2");
+    private final TextField textField2 = new TextField("Hello from field2");
     private SimplePanelWithLabelAndField simplePanel = new SimplePanelWithLabelAndField();
 
     public HtmlPanelTest() {
@@ -18,8 +18,6 @@ public class HtmlPanelTest extends HtmlPanel {
         add(simplePanel);
         textField2.setLayoutData(new HtmlLayoutData("field2"));
         textField2.setRenderId("testfield2");
-        textField2.setShowToolTip(true);
-        textField2.setToolTip("A Tool tip");
         add(textField2);
 
     }

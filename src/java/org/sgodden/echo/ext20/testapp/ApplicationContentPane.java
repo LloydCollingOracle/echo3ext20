@@ -47,10 +47,10 @@ import org.sgodden.echo.ext20.testapp.regression.TextFieldActionTest;
  * @author sgodden
  */
 @SuppressWarnings("serial")
-public class ApplicationContentPane
-        extends ContentPane {
+public class ApplicationContentPane extends ContentPane {
 
-    //private static final Log log = LogFactory.getLog(ApplicationContentPane.class);
+    // private static final Log log =
+    // LogFactory.getLog(ApplicationContentPane.class);
     /**
      * The component being displayed in the centre.
      */
@@ -71,9 +71,8 @@ public class ApplicationContentPane
     private void addViewport() {
 
         /*
-         * For some reason, this is all only working
-         * if the outer panel has fit layout.  Border layout
-         * just seems to go wrong.
+         * For some reason, this is all only working if the outer panel has fit
+         * layout. Border layout just seems to go wrong.
          */
         Panel outer = new Panel(new FitLayout());
         outer.setBorder(false);
@@ -85,16 +84,17 @@ public class ApplicationContentPane
         mainPanel.setRenderId("main");
 
         mainPanel.add(createNorthPanel());
-        
+
         mainPanel.add(createWestPanel());
-        
+
         centreContainer = new Panel(new FitLayout());
-        centreContainer.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
+        centreContainer
+                .setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
         mainPanel.add(centreContainer);
-        
+
         showCentreComponent(new WelcomePanel());
     }
-    
+
     private Panel createNorthPanel() {
         Panel ret = new Panel();
         ret.setHeight(52);
@@ -104,58 +104,61 @@ public class ApplicationContentPane
         ret.setLayout(layout);
         ret.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
         ret.setBodyBackground(new Color(84, 84, 84));
-        
+
         Panel imagePanel = new Panel();
         TableLayoutData tld = new TableLayoutData();
         tld.setCellAlign("left");
         imagePanel.setLayoutData(tld);
         imagePanel.setBodyTransparent(true);
         imagePanel.setBorder(false);
-        imagePanel.setHtml(
-                "<a href='http://echo.nextapp.com'><img style='float: left;' src='http://demo.nextapp.com/echo3csjs/image/Logo.png'></img></a>");
+        imagePanel
+                .setHtml("<a href='http://echo.nextapp.com'><img style='float: left;' src='http://demo.nextapp.com/echo3csjs/image/Logo.png'></img></a>");
         imagePanel.setRenderId("northImagePanel");
         ret.add(imagePanel);
-        
-        ApplicationWaitIndicator wait= new ApplicationWaitIndicator();
+
+        ApplicationWaitIndicator wait = new ApplicationWaitIndicator();
         tld = new TableLayoutData();
         tld.setCellAlign("right");
         wait.setLayoutData(tld);
         ret.add(wait);
-        
+
         return ret;
     }
 
     /**
      * Creates a silly panel for the west region.
+     * 
      * @return
      */
     private Panel createWestPanel() {
         Panel ret = new Panel(new AccordionLayout());
         ret.setBodyBackground(new Color(220, 220, 220));
         ret.setTitle("Navigation");
-        ret.setWidth(143); 
+        ret.setWidth(143);
         ret.setCollapsible(true);
         ret.setBorder(true);
         ret.setLayoutData(new BorderLayoutData(BorderLayout.WEST));
         ret.setRenderId("westPanel");
-        
+
         final Panel coreEcho3Panel = new Panel("Test suites");
         coreEcho3Panel.setBodyTransparent(true);
         coreEcho3Panel.setAutoScroll(true);
         ret.add(coreEcho3Panel);
-        
+
         final Column col = new Column();
         col.setInsets(new Insets(5));
         col.setCellSpacing(new Extent(5));
         coreEcho3Panel.add(col);
-        
+
+        col.add(makeTestButton("ToolTips", ToolTipTest.class));
         col.add(makeTestButton("CustomComboBox", CustomComboBoxTest.class));
         col.add(makeTestButton("Time field", TimeFieldTest.class));
         col.add(makeTestButton("Grid and form", UserPanel.class));
         col.add(makeTestButton("HTML Panel", HtmlPanelTest.class));
         col.add(makeTestButton("HTML Editor", HtmlEditorTest.class));
         col.add(makeTestButton("Multi select", MultiSelectTest.class));
-        col.add(makeTestButton("Change toolbar buttons", ToolbarButtonChangingTest.class));
+        col.add(makeTestButton("Change toolbar buttons",
+                ToolbarButtonChangingTest.class));
         col.add(makeTestButton("Window", WindowTest.class));
         col.add(makeTestButton("Portal", PortalTest.class));
         col.add(makeTestButton("Tab panel", TabbedPaneTest.class));
@@ -168,28 +171,35 @@ public class ApplicationContentPane
         col.add(makeTestButton("Button group", ButtonGroupTest.class));
         col.add(makeTestButton("Effects", EffectsTest.class));
         col.add(makeTestButton("Context menu", ContextMenuTest.class));
-        col.add(makeTestButton("Non-focusable buttons", FocusableButtonTest.class));
+        col.add(makeTestButton("Non-focusable buttons",
+                FocusableButtonTest.class));
         col.add(makeTestButton("Form grid", FormGridTest.class));
         col.add(makeTestButton("Bloated test suite", MainTestSuite.class));
-        
+
         Panel regressionPanel = new Panel("Regression tests");
         ret.add(regressionPanel);
         regressionPanel.setBodyTransparent(true);
-        
+
         Column col2 = new Column();
         regressionPanel.add(col2);
         col2.setInsets(new Insets(5));
-        
+
         col2.add(makeTestButton("Focus Text Areas", FocusTextAreaTest.class));
         col2.add(makeTestButton("Removal bug 1", RemoveEchoFromExtTest.class));
-        col2.add(makeTestButton("Lazy render bug 1", "org.sgodden.echo.ext20.testapp.regression.UpdatedNonRenderedGridTest"));
-        col2.add(makeTestButton("Combo box model update", "org.sgodden.echo.ext20.testapp.regression.ComboBoxModelUpdatePanel"));
-        col2.add(makeTestButton("Button in BorderLayout, issue 28", BorderLayoutTest.class));
-        col2.add(makeTestButton("TextField Action, issue 29", TextFieldActionTest.class));
+        col2
+                .add(makeTestButton("Lazy render bug 1",
+                        "org.sgodden.echo.ext20.testapp.regression.UpdatedNonRenderedGridTest"));
+        col2
+                .add(makeTestButton("Combo box model update",
+                        "org.sgodden.echo.ext20.testapp.regression.ComboBoxModelUpdatePanel"));
+        col2.add(makeTestButton("Button in BorderLayout, issue 28",
+                BorderLayoutTest.class));
+        col2.add(makeTestButton("TextField Action, issue 29",
+                TextFieldActionTest.class));
 
         return ret;
     }
-    
+
     private void showCentreComponent(Component c) {
         if (centreComponent != null) {
             centreContainer.remove(centreComponent);
@@ -197,39 +207,43 @@ public class ApplicationContentPane
         centreComponent = c;
         centreContainer.add(c);
     }
-    
-    private nextapp.echo.app.Button makeTestButton(String text, final Class < ? extends Component > testClass) {
+
+    private nextapp.echo.app.Button makeTestButton(String text,
+            final Class<? extends Component> testClass) {
         nextapp.echo.app.Button button = new nextapp.echo.app.Button(text);
         button.setInsets(new Insets(2));
         button.setBackground(Color.LIGHTGRAY);
         button.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
-        button.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					showCentreComponent(testClass.newInstance());
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}});
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    showCentreComponent(testClass.newInstance());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         return button;
     }
-    
-    private nextapp.echo.app.Button makeTestButton(String text, final String groovyClassName) {
+
+    private nextapp.echo.app.Button makeTestButton(String text,
+            final String groovyClassName) {
         nextapp.echo.app.Button button = new nextapp.echo.app.Button(text);
         button.setInsets(new Insets(2));
         button.setBackground(Color.LIGHTGRAY);
         button.setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_SOLID));
-        button.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					showCentreComponent(makeGroovyComponent(groovyClassName));
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}});
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    showCentreComponent(makeGroovyComponent(groovyClassName));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         return button;
     }
-    
+
     private Component makeGroovyComponent(String className) {
         AppInstance app = (AppInstance) ApplicationInstance.getActive();
         return (Component) app.getGroovyObjectInstance(className);

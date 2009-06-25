@@ -265,6 +265,8 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
      */
     fxRemoveContainer: null,
     
+    _toolTip: null,
+    
     /**
      * Notifies the root container that layout changes
      * occurred, and that it therefore needs to redo its
@@ -586,10 +588,12 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                         dismissDelay: 0,
                         html: this.component.get("toolTip")
                     });
+                    this._toolTip = toolTip;
                     toolTip.enable();
+                }else{
+                    this._toolTip.disable();
+                    this._toolTip = null;I ha
                 }
-            }else{
-                toolTip.disable();
             }
         }
         
