@@ -29,7 +29,6 @@ import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.ApplicationWaitIndicator;
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.grid.GridPanelTest;
 import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
