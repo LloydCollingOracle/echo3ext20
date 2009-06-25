@@ -29,6 +29,7 @@ import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.ApplicationWaitIndicator;
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.grid.GridPanelTest;
 import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
@@ -168,6 +169,7 @@ public class ApplicationContentPane
         col.add(makeTestButton("Effects", EffectsTest.class));
         col.add(makeTestButton("Context menu", ContextMenuTest.class));
         col.add(makeTestButton("Non-focusable buttons", FocusableButtonTest.class));
+        col.add(makeTestButton("Form grid", FormGridTest.class));
         col.add(makeTestButton("Bloated test suite", MainTestSuite.class));
         
         Panel regressionPanel = new Panel("Regression tests");

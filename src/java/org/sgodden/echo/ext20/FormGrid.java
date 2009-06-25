@@ -33,8 +33,24 @@ public class FormGrid extends Panel {
      *            the number of columns of form fields.
      */
     public FormGrid(int cols) {
+        this(cols, null);
+    }
+
+    /**
+     * Creates a new form panel to hold the specified number of columns of form
+     * fields. If there are more than one columns, a vertical rule separator is
+     * specified.
+     * 
+     * @param cols
+     *            the number of columns of form fields.
+     * @param columnWidths the width, in pixels of each column.  The length of
+     * this array should <code>cols * 2</code>, because a form grid creates
+     * two columns per column of fields, one for the label, and one for the field
+     * itself.
+     */
+    public FormGrid(int cols, int[] columnWidths) {
         super();
-        setColumns(cols);
+        setColumns(cols, columnWidths);
         if (getBaseCssClass() != null)
             setBaseCssClass(getBaseCssClass());
     }
@@ -154,12 +170,15 @@ public class FormGrid extends Panel {
      * @param columns
      *            the number of columns of form components.
      */
-    public void setColumns(int columns) {
+    public void setColumns(int columns, int[] columnWidths) {
         int columnsRequired;
         columnsRequired = columns * 2;
         TableLayout tl = new TableLayout(columnsRequired);
         tl.setFullWidth(false);
         tl.setCellSpacing(10);
+        if (columnWidths != null) {
+        	tl.setColumnWidths(columnWidths);
+        }
         setLayout(tl);
     }
 
