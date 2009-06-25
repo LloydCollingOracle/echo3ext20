@@ -57,6 +57,12 @@ public class ToggleGroup implements PropertyChangeListener {
         button.addPropertyChangeListener(AbstractButton.PRESSED_PROPERTY, this);
         buttons.add(button);
     }
+    
+    public void removeButton(Button button) {
+        button.setToggleGroup(null);
+        button.removePropertyChangeListener(AbstractButton.PRESSED_PROPERTY, this);
+        buttons.remove(button);
+    }
 
     /**
      * @return buttons All the buttons that have been added to this toggle
