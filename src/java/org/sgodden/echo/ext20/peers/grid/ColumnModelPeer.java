@@ -131,7 +131,6 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                 }
             }
             attributes.put("sortable", new JSONBoolean(cc.getSortable()));
-            System.out.println("Disabled: " + cc.isMenuDisabled());
             attributes.put("menuDisabled", new JSONBoolean(cc.isMenuDisabled()));
             if (cc.getDataIndex() != null)
                 attributes.put("dataIndex", new JSONString(cc.getDataIndex()));
