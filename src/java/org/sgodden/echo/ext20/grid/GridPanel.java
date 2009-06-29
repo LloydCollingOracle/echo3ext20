@@ -450,8 +450,11 @@ public class GridPanel extends Panel implements TableModelListener,
                 ascending[index] = "ASCENDING".equals(cc.getSortDirection())
                         || "ASC".equals(cc.getSortDirection());
             }
+            suppressChangeNotifications = true;
             ((SortableTableModel) getModel()).sort(columnIndices, ascending);
-                     
+            suppressChangeNotifications = false;
+            firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel()); // a
+
             // used for retrieving the size of the groups in the model
 //            if (group != null && getModel() instanceof GroupingTableModel) {
 //                ((GroupingTableModel)getModel()).doGrouping(true);
@@ -535,7 +538,6 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public void setPageOffset(int pageOffset) {
         set(PAGE_OFFSET_PROPERTY, pageOffset);
-        tableChanged(null);
     }
 
     /**
@@ -693,14 +695,11 @@ public class GridPanel extends Panel implements TableModelListener,
         return Boolean.TRUE.equals(get(EDITCELLCONTENTS));
     }
 
-    boolean firingTableChanged = false;
-
     /**
      * Forces a client-side refresh of the table when the table model changes.
      */
     public void tableChanged(TableModelEvent e) {
-        if (!firingTableChanged) {
-            firingTableChanged = true;
+        if (!suppressChangeNotifications) {
             firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel()); // a
             // bodge
             // but
@@ -712,7 +711,6 @@ public class GridPanel extends Panel implements TableModelListener,
             // new
             // values
             // anyway
-            firingTableChanged = false;
         }
     }
 

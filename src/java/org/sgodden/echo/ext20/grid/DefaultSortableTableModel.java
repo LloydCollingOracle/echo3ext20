@@ -75,6 +75,7 @@ public class DefaultSortableTableModel extends DefaultTableModel implements
         }
 
         Object[][] rowData = new Object[getRowCount()][getColumnCount()];
+        
         for (int row = 0; row < getRowCount(); row++) {
             for (int col = 0; col < getColumnCount(); col++) {
                 rowData[row][col] = getValueAt(col, row);
@@ -87,7 +88,10 @@ public class DefaultSortableTableModel extends DefaultTableModel implements
         Arrays.sort(rowData, new ArrayColumnComparator(columnIndex, ascending));
 
         for (int i = 0; i < rowData.length; i++) {
-            addRow(rowData[i]);
+        	Object[] row = rowData[i];
+        	for (int j = 0; j < row.length; j++) {
+                setValueAt(row[j], j, i);
+        	}
         }
     }
 

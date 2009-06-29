@@ -28,7 +28,7 @@ import org.sgodden.echo.ext20.buttons.PreviousPageButton;
  * @author sgodden
  */
 @SuppressWarnings("serial")
-public class PagingToolbar extends Toolbar {
+public class PagingToolbar extends Toolbar implements TableModelListener {
 
     private Button firstButton;
     private Button previousButton;
@@ -256,17 +256,19 @@ public class PagingToolbar extends Toolbar {
      * @param model
      */
     public void setTableModel(TableModel model) {
-        this.model = model;
     
         /**
          * Adds this as a listener to the model change event and refreshes
          * the toolbar attributes accordingly.
          */
-        model.addTableModelListener(new TableModelListener(){
-            public void tableChanged(TableModelEvent arg0) {
-                refreshPagingToolBar();
-            }
-        });
+    	if (!model.equals(this.model)) {
+    		if (this.model != null) {
+    			this.model.removeTableModelListener(this);
+    		}
+    		model.addTableModelListener(this);
+    	}
+
+        this.model = model;
         
         setPageOffset(0);
         maxPageOffset = ( (model.getRowCount() -1) / pageSize)
@@ -336,5 +338,9 @@ public class PagingToolbar extends Toolbar {
     public void setToText(String toText) {
         this.toText = toText;
     }
+
+	public void tableChanged(TableModelEvent arg0) {
+        refreshPagingToolBar();
+	}
 
 }
