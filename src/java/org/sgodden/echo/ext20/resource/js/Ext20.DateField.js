@@ -78,7 +78,7 @@ EchoExt20.DateFieldSync = Core.extend(EchoExt20.FormFieldSync, {
 		}
         this.component.set("date", value);
     },
-    
+
     renderDisplay: function(update) {
         EchoExt20.FormFieldSync.prototype.renderDisplay.call(this, update);
         this.extComponent.setValue(this.component.get("date"));
@@ -87,6 +87,14 @@ EchoExt20.DateFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             	this.extComponent.markInvalid(this.component.get("invalidText"));
             }
         }
+    },
+
+    renderUpdate: function(update){
+        EchoExt20.FormFieldSync.prototype.renderUpdate.call(this, update);
+        if ( !(this.component.isEnabled()) ) {
+            this.extComponent.setDisabled(true);
+        } else {
+            this.extComponent.setDisabled(false);
+        }
     }
-    
 });
