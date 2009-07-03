@@ -213,5 +213,27 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
                 this.extComponent.toggle(this.component.get("pressed"));
             }
         }
+        
+        if (update.hasRemovedChildren()) {
+            this.extComponent.hideMenu();
+            this.extComponent.menu = null;
+        }
+        
+        if (update.hasAddedChildren()) {
+            if (this.component.getComponentCount() == 1) {
+                var child = this.component.getComponent(0);
+                if (child instanceof EchoExt20.Menu) {
+                    Echo.Render.renderComponentAdd(update, child, null);
+                    var menu = child.peer.extComponent;
+                    if (menu == null) {
+                        throw new Error("Menu not created for button");
+                    }
+                    this.extComponent.menu = menu;
+                }
+                else {
+                    throw new Error("Illegal child added to a button");
+                }
+            }
+        }
     }
 });

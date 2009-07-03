@@ -27,10 +27,10 @@ public class ButtonGroupTest extends Panel {
         add(createButton("button 1", "buttonGroup"));
         add(createButton("button 2", "buttonGroup"));
 
-        Button menuButton = new Button();
+        final Button menuButton = new Button();
         menuButton.isHoverMenu(true);
         menuButton.setText("Hover menu button");
-        Menu adminMenu = new Menu();
+        final Menu adminMenu = new Menu();
         // adminMenu.
         menuButton.add(adminMenu);
 
@@ -41,8 +41,32 @@ public class ButtonGroupTest extends Panel {
         mi = new MenuItem();
         mi.setText("item2");
         adminMenu.add(mi);
+        
+        final Menu adminMenu2 = new Menu();
+
+        mi = new MenuItem();
+        mi.setText("item3");
+        adminMenu2.add(mi);
+
+        mi = new MenuItem();
+        mi.setText("item4");
+        adminMenu2.add(mi);
 
         add(menuButton);
+        
+        final Button changeMenuButton = new Button("Change Hover Menu");
+        changeMenuButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent arg0) {
+                if (menuButton.getComponent(0) == adminMenu) {
+                    menuButton.remove(adminMenu);
+                    menuButton.add(adminMenu2);
+                } else if (menuButton.getComponent(0) == adminMenu2) {
+                    menuButton.remove(adminMenu2);
+                    menuButton.add(adminMenu);
+                }
+            }});
+        add(changeMenuButton);
 
         final Button iconButton = new Button();
         iconButton.setEnableToggle(true);
