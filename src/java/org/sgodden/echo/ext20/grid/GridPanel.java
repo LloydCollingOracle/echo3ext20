@@ -538,6 +538,7 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public void setPageOffset(int pageOffset) {
         set(PAGE_OFFSET_PROPERTY, pageOffset);
+        tableChanged(null);
     }
 
     /**
