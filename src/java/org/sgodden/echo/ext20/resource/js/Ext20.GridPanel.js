@@ -124,7 +124,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         
         // configure the column model
         options["cm"] = this.component.get("columnModel");
-        this._configureColumnModel(options.cm, sm, options);
+        this._configureColumnModel(options.cm, sm, options, false);
         
         if (this.component.get("hideHeaders")) {
             view.templates = {};
@@ -519,12 +519,12 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 this._handleKeyUpEvent);
     },
     
-    _configureColumnModel: function(colModel, selectionModel, options) {
+    _configureColumnModel: function(colModel, selectionModel, options, checkboxChanged) {
         // apply the column renderers!
         for (var i = 0; i < colModel.config.length; i++) {
             var thisCol = colModel.config[i];
             
-            if (thisCol instanceof Ext.grid.CheckColumn) {
+            if (thisCol instanceof Ext.grid.CheckColumn || thisCol.id == 'checker') {
             	if (options != null) {
             		options["plugins"][1] = thisCol;
             	}
@@ -533,8 +533,14 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             }
         }
         
+        
+        
         if (this.component.get("showCheckbox")){
-        	colModel.config.unshift(selectionModel);
+            if (checkboxChanged == false && this.extComponent != null)
+                colModel.config.shift();
+            colModel.config.unshift(selectionModel);
+        } else if (checkboxChanged) {
+            colModel.config.shift();
         }
 
     },
@@ -549,7 +555,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         // reconfigure the column model if it has been updated
         var updatedColumnModel = update.getUpdatedProperty("columnModel");
         if (updatedColumnModel != null) {
-        	this._configureColumnModel(this.component.get("columnModel"), this._sm, null);
+        	this._configureColumnModel(this.component.get("columnModel"), this._sm, null, update.getUpdatedProperty("showCheckbox") != null);
         }
         
         var updatedStore = update.getUpdatedProperty("model");

@@ -192,7 +192,7 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
             ColumnModel clientModel = (ColumnModel) newValue;
             
             GridPanel p = (GridPanel)component;
-            boolean ignoreFirstCol = p.getShowCheckbox();
+            boolean ignoreFirstCol = false;
 
             int x = ignoreFirstCol ? 1 : 0;
             
