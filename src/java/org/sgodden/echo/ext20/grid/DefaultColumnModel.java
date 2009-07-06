@@ -45,7 +45,9 @@ public class DefaultColumnModel
     /**
      * Constructs a new empty column model.
      */
-    public DefaultColumnModel(){}
+    public DefaultColumnModel(){
+        setDefaultWidth(Integer.valueOf(100));
+    }
 
     /**
      * Constructs a new column model using the specified
@@ -54,6 +56,7 @@ public class DefaultColumnModel
      */
     public DefaultColumnModel(List<ColumnConfiguration> columns) {
         super();
+        setDefaultWidth(Integer.valueOf(100));
         this.columns.addAll(columns);
         for (ColumnConfiguration c : columns) {
             c.addChangeListener(this);
