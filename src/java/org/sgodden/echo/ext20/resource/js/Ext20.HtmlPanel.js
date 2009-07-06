@@ -39,6 +39,7 @@ EchoExt20.HtmlPanelSync = Core.extend(EchoExt20.PanelSync, {
                 throw new Error("For HTML component, child must specify the HtmlLayoutdata");
             }
             var locationName = layoutData["locationName"];
+            var element = this.extComponent.getEl();
 
             if (child.peer.isExtComponent) {
                 var childExtComponent = child.peer.extComponent;
@@ -46,17 +47,18 @@ EchoExt20.HtmlPanelSync = Core.extend(EchoExt20.PanelSync, {
                     throw new Error("No child ext component was created during renderAdd for component type: "+ child.componentType);
                 }
 
-                var locationElement = Ext.get(locationName);
+                var locationElement = element.child( "div#" + locationName);
                 if (locationElement == null) {
                     throw new Error("Can't find element have id " + locationName + " at the template");
                 }
-
-                childExtComponent.render(locationName);
+                var toBeReplaced = element.createChild( {id: "Sub"+Echo.Application.generateUid()});
+                locationElement.appendChild( toBeReplaced);
+                childExtComponent.render( toBeReplaced);
             } else {
                 // if it's an echoComponent, remove it frist, then add to the container.
                 // child.peer._containerElement.removeChild( child.peer._node);
                 Echo.Render.renderComponentDispose(update, child);
-                Echo.Render.renderComponentAdd(update, child, Ext.getDom(locationName));
+                Echo.Render.renderComponentAdd(update, child, element.child( "div#" + locationName, true));
             }
         }
         this._childRendered = true;
