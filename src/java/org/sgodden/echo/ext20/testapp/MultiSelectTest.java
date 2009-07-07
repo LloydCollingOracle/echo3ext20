@@ -22,6 +22,7 @@ public class MultiSelectTest extends Panel {
 		createDemo(model, 2);
 		createDemo(model, 3);
 		createDemo(model, 4);
+		createDemo(model, 5);
 	}
 
 	private void createDemo(DefaultListModel model, int selectionMode) {
@@ -53,11 +54,16 @@ public class MultiSelectTest extends Panel {
 			break;
 		case 3:
 			multiSelectComboBox.setMultiSelect( false);
-			multiSelectComboBox.setValue( "bbb");
+			multiSelectComboBox.setValue( "bbb"); // in the list
 			break;
 		case 4:
 			multiSelectComboBox.setMultiSelect( false);
-			multiSelectComboBox.setValue( "haha");
+			multiSelectComboBox.setValue( "haha"); // not in the list
+			break;
+		case 5:
+			multiSelectComboBox.setMultiSelect( false);
+			multiSelectComboBox.setEditable( false);
+			multiSelectComboBox.setValue( "bbb"); // in the list
 			break;
 		}
 	}

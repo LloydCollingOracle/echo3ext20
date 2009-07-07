@@ -18,6 +18,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	public static final String INPUT_ACTION = "action";
 	public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
 	public static final String MULTI_SELECT_PROPERTY = "multiSelect";
+	public static final String EDITABLE_PROPERTY = "editable";
 	
 	private ListModel model;
 	private ListSelectionModel selectionModel;
@@ -155,5 +156,15 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 		Object multiSelect = get( MULTI_SELECT_PROPERTY);
 		//default is true
 		return multiSelect == null ? true : (Boolean)multiSelect;
+	}
+	
+	public void setEditable(boolean editable) {
+		set( EDITABLE_PROPERTY, editable);
+	}
+	
+	public boolean getEditable() {
+		Object editable = get( EDITABLE_PROPERTY);
+		//default is true
+		return editable == null ? true : (Boolean)editable;
 	}
 }
