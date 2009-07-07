@@ -79,7 +79,7 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
 	        	for ( int i=min; i<=max; i++) {
 	        		if ( comboBox.getSelectionModel().isSelectedIndex( i)) {
 	        			result += i;
-	            		if ( i<max) result += ",";
+	            		if ( i<max) result += comboBox.getSeparator();
 	        		}
 	        	}
 	            return result;

@@ -117,6 +117,10 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
         } else {
             options['editable']=true;
         }
+        if (this.component.get("separator") != null) {
+            options['separator']=this.component.get("separator");
+            options['displaySeparator']=this.component.get("separator");
+        } 
         options['mode'] = 'local';
         this.extComponent = this.newExtComponentInstance(options);
         this.extComponent.on(

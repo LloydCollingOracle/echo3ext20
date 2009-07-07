@@ -5,7 +5,6 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.list.DefaultListModel;
 
 import org.sgodden.echo.ext20.Button;
-import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.MultiSelectComboBox;
 import org.sgodden.echo.ext20.Panel;
@@ -23,6 +22,7 @@ public class MultiSelectTest extends Panel {
 		createDemo(model, 3);
 		createDemo(model, 4);
 		createDemo(model, 5);
+		createDemo(model, 6);
 	}
 
 	private void createDemo(DefaultListModel model, int selectionMode) {
@@ -64,6 +64,10 @@ public class MultiSelectTest extends Panel {
 			multiSelectComboBox.setMultiSelect( false);
 			multiSelectComboBox.setEditable( false);
 			multiSelectComboBox.setValue( "bbb"); // in the list
+			break;
+		case 6:
+			multiSelectComboBox.setSeparator( ";"); 
+			multiSelectComboBox.setValue( "bbb"); 
 			break;
 		}
 	}

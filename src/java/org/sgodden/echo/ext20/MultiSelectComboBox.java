@@ -19,6 +19,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
 	public static final String MULTI_SELECT_PROPERTY = "multiSelect";
 	public static final String EDITABLE_PROPERTY = "editable";
+	public static final String SEPARATOR_PROPERTY = "separator";	
 	
 	private ListModel model;
 	private ListSelectionModel selectionModel;
@@ -76,7 +77,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 		set( VALUE_CHANGED_PROPERTY, value);
 		selectionModel.clearSelection();
 		if ( value == null || "".equals( value)) return;
-		String[] splitedValue = value.split( ",");
+		String[] splitedValue = value.split( getSeparator());
 		for (String v : splitedValue) {
 			selectionModel.setSelectedIndex( Integer.parseInt( v), true);
 		}
@@ -111,7 +112,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 			for ( int i=min; i<=max; i++) {
 				if ( selectionModel.isSelectedIndex( i)) {
 		    		result += model.get(i);
-		    		if ( i<max) result += ",";
+		    		if ( i<max) result += getSeparator();
 				}
 			}
 		    return result;
@@ -138,7 +139,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 			selectionModel.clearSelection();
 			if ( value == null || "".equals( value)) return;
 			
-			String[] splited = value.split( ",");
+			String[] splited = value.split( getSeparator());
 			Set<String> values = new HashSet<String>( Arrays.asList( splited));
 			for ( int i=0; i<model.size(); i++) {
 				if ( values.contains( model.get( i))) {
@@ -166,5 +167,14 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 		Object editable = get( EDITABLE_PROPERTY);
 		//default is true
 		return editable == null ? true : (Boolean)editable;
+	}
+	
+	public void setSeparator( String separator) {
+		set( SEPARATOR_PROPERTY, separator);
+	}
+	
+	public String getSeparator() {
+		Object separator = get(SEPARATOR_PROPERTY);
+		return separator == null ? "," : (String) separator;
 	}
 }
