@@ -20,7 +20,9 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	public static final String MULTI_SELECT_PROPERTY = "multiSelect";
 	public static final String EDITABLE_PROPERTY = "editable";
 	public static final String SEPARATOR_PROPERTY = "separator";	
-	
+    public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
+    public static final String BLANK_TEXT_PROPERTY = "blankText";
+
 	private ListModel model;
 	private ListSelectionModel selectionModel;
 	private ListCellRenderer cellRenderer = DEFAULT_LIST_CELL_RENDERER;
@@ -177,4 +179,33 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 		Object separator = get(SEPARATOR_PROPERTY);
 		return separator == null ? "," : (String) separator;
 	}
+
+	/**
+     * Gets allow blank property
+     */
+    public boolean getAllowBlank(){
+        return (Boolean) get(ALLOW_BLANK_PROPERTY);
+        
+    }
+    
+    /**
+     * Sets whether a blank value is allowed.
+     * 
+     * @param allowBlank
+     *            whether a blank value is allowed.
+     */
+    public void setAllowBlank(boolean allowBlank) {
+        set(ALLOW_BLANK_PROPERTY, allowBlank);
+    }
+
+    /**
+     * Sets the text to be displayed when the isBlankAllowed test fails.
+     * 
+     * @param value
+     *            the value of the field.
+     */
+    public void setBlankText(String blankText) {
+        set(BLANK_TEXT_PROPERTY, blankText);
+    }
+
 }

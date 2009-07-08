@@ -23,6 +23,7 @@ public class MultiSelectTest extends Panel {
 		createDemo(model, 4);
 		createDemo(model, 5);
 		createDemo(model, 6);
+		createDemo(model, 7);
 	}
 
 	private void createDemo(DefaultListModel model, int selectionMode) {
@@ -67,6 +68,11 @@ public class MultiSelectTest extends Panel {
 			break;
 		case 6:
 			multiSelectComboBox.setSeparator( ";"); 
+			multiSelectComboBox.setValue( "bbb"); 
+			break;
+		case 7:
+			multiSelectComboBox.setAllowBlank( false);
+			multiSelectComboBox.setBlankText( "Can't be blank");
 			multiSelectComboBox.setValue( "bbb"); 
 			break;
 		}

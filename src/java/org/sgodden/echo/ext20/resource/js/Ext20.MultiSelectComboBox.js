@@ -121,6 +121,13 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
             options['separator']=this.component.get("separator");
             options['displaySeparator']=this.component.get("separator");
         } 
+        if (this.component.get("allowBlank") != null) {
+            options['allowBlank'] = this.component.get("allowBlank");
+        }
+        if (this.component.get("blankText") != null) {
+            options['blankText'] = this.component.get("blankText");
+        }
+        
         options['mode'] = 'local';
         this.extComponent = this.newExtComponentInstance(options);
         this.extComponent.on(
