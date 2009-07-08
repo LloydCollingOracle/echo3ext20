@@ -2,6 +2,7 @@ package org.sgodden.echo.ext20.buttons;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import org.sgodden.echo.ext20.Button;
  * @author rcharlton
  */
 @SuppressWarnings("serial")
-public class ToggleGroup implements PropertyChangeListener {
+public class ToggleGroup implements PropertyChangeListener, Serializable {
 
     private String toggleGroupName;
 
