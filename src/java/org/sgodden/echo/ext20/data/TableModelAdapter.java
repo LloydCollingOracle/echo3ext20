@@ -18,8 +18,11 @@ package org.sgodden.echo.ext20.data;
 
 import java.io.Serializable;
 
+import nextapp.echo.app.Component;
 import nextapp.echo.app.table.TableModel;
 
+import org.sgodden.echo.ext20.componentgrid.ComponentGridPanel;
+import org.sgodden.echo.ext20.grid.GridCellRenderer;
 import org.sgodden.echo.ext20.grid.GridPanel;
 
 /**
@@ -44,13 +47,20 @@ public class TableModelAdapter
      */
     public TableModelAdapter(GridPanel gridPanel) {
         TableModel tableModel = gridPanel.getModel();
-        int offset = gridPanel.getPageOffset();
-        int limit = gridPanel.getPageSize();
+        doConstruct(gridPanel.getPageOffset(), gridPanel.getPageSize(), tableModel, gridPanel.getGridCellRenderer(), gridPanel);
+    }
+
+    public TableModelAdapter(ComponentGridPanel gridPanel) {
+        TableModel tableModel = gridPanel.getModel();
+        doConstruct(gridPanel.getPageOffset(), gridPanel.getPageSize(), tableModel, gridPanel.getModelValueRenderer(), gridPanel);
+    }
+
+    private void doConstruct(int offset, int pageSize, TableModel tableModel, GridCellRenderer renderer, Component grid) {
         
         int rows = tableModel.getRowCount();
-        if (gridPanel.getPageSize() > 0)
-            rows = offset + limit < tableModel.getRowCount()
-                    ? limit : tableModel.getRowCount() - offset;
+        if (pageSize > 0)
+            rows = offset + pageSize < tableModel.getRowCount()
+                    ? pageSize : tableModel.getRowCount() - offset;
         int cols = tableModel.getColumnCount();
         
         data = new String[rows][cols];
@@ -60,8 +70,8 @@ public class TableModelAdapter
             Object[] row = data[rowIndex];
             Object[] renderedRow = renderedData[rowIndex];
             for (int colIndex = 0; colIndex < tableModel.getColumnCount(); colIndex++) {
-                row[colIndex] = gridPanel.getGridCellRenderer().getModelValue(gridPanel, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
-                renderedRow[colIndex] = gridPanel.getGridCellRenderer().getClientSideValueRendererScript(gridPanel, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
+                row[colIndex] = renderer.getModelValue(grid, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
+                renderedRow[colIndex] = renderer.getClientSideValueRendererScript(grid, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
             }
         }
         makeFields(tableModel);

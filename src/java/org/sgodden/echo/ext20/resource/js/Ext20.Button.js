@@ -182,7 +182,9 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     _onRender: function() {
-        this._setIconUrl();
+        if (this.extComponent.rendered == true) {
+            this._setIconUrl();
+        }
     },
 
     /**

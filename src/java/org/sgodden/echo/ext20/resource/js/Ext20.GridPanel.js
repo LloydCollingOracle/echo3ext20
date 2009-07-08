@@ -84,6 +84,89 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     headerContextMenu: null,
     _sm: null,
     
+    
+    $virtual: {
+        _renderColumn: function(value, metadata, record, rowIndex, colIndex, store) {
+            var renderedValue = null;
+            if (this.component.get("showCheckbox")){
+                eval(this._model.renderedData[rowIndex][colIndex - 1]);
+            } else {
+                eval(this._model.renderedData[rowIndex][colIndex]);
+            }
+            return renderedValue;
+        },
+        
+        _getContextMenuIndices: function() {
+            var cellContextMenuIndex = -1;
+            var rowContextMenuIndex = -1;
+            var headerContextMenuIndex = -1;
+            
+            var menus = new Array();
+            for (var i = 0; i < this.component.getComponentCount(); i++) {
+                if (this.component.getComponent(i) instanceof EchoExt20.Menu) {
+                    menus[menus.length] = i;
+                }
+            }
+            var menuIndex = 0;
+            
+            if (this.component.get("hasCellContextMenu") == true) {
+                cellContextMenuIndex = menus[menuIndex++];
+            }
+            if (this.component.get("hasRowContextMenu") == true) {
+                rowContextMenuIndex = menus[menuIndex++];
+            }
+            if (this.component.get("hasHeaderContextMenu") == true) {
+                headerContextMenuIndex = menus[menuIndex++];
+            }
+            
+            var ret = new Array();
+            ret[0] = cellContextMenuIndex;
+            ret[1] = rowContextMenuIndex;
+            ret[2] = headerContextMenuIndex;
+            
+            return ret;
+        },
+        
+        _handleOnRender: function() {
+            this._handleServerSelections();
+            if (this._reconfigureOnRender) {
+                this.extComponent.reconfigure(
+                  this._makeStore(),
+                  this.component.get("columnModel")
+                );
+            }
+            if (this.cellContextMenu != null) {
+                this.extComponent.un('cellcontextmenu', this._handleCellContextMenu, this);
+                this.extComponent.on('cellcontextmenu', this._handleCellContextMenu, this);
+            }
+            if (this.rowContextMenu != null) {
+                this.extComponent.un('rowcontextmenu', this._handleRowContextMenu, this);
+                this.extComponent.on('rowcontextmenu', this._handleRowContextMenu, this);
+            }
+            if (this.headerContextMenu != null) {
+                this.extComponent.un('headercontextmenu', this._handleHeaderContextMenu, this);
+                this.extComponent.on('headercontextmenu', this._handleHeaderContextMenu, this);
+            }
+        },
+        
+        /**
+         * Configures a column
+         */
+        _configureColumn: function(thisCol) {
+            if (thisCol instanceof Ext.grid.CheckColumn || thisCol.id == 'checker') {
+                if (options != null) {
+                    options["plugins"][1] = thisCol;
+                }
+            } else {
+                thisCol.renderer = this._renderColumn.createDelegate(this);
+            }
+        },
+        
+        updateCompleted: function(update) {
+            
+        }
+    },
+    
     createExtComponent: function(update, options) {
         this._handleSortEvents = false;
         this._handleSelectionEvents = false;
@@ -173,66 +256,60 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         return ret;
     },
     
+    /**
+     * Overridden handling of children; we only care about toolbars
+     */
+    _createChildComponentArrayFromComponent: function() {
+        var componentCount = this.component.getComponentCount();
+        var children = new Array();
+        var childIndex = 0;
+        for (var i = 0; i < componentCount; i++) {
+            var thisChild = this.component.getComponent(i);
+            if (thisChild instanceof EchoExt20.Toolbar || thisChild instanceof EchoExt20.Menu) {
+                children[childIndex++] = this.component.getComponent(i);
+            }
+        }
+        return children;
+    },
     
     _createChildItems: function(update, children) {
-        var cellContextMenuIndex = -1;
-        var rowContextMenuIndex = -1;
-        var headerContextMenuIndex = -1;
+        var indices = this._getContextMenuIndices();
         
         if (this.component.get("hasCellContextMenu") == true) {
-            cellContextMenuIndex++;
-            rowContextMenuIndex++;
-            headerContextMenuIndex++;
-        }
-        if (this.component.get("hasRowContextMenu") == true) {
-            rowContextMenuIndex++;
-            headerContextMenuIndex++;
-        } else {
-            rowContextMenuIndex = -1;
-        }
-        if (this.component.get("hasHeaderContextMenu") == true) {
-            headerContextMenuIndex++;
-        } else {
-            headerContextMenuIndex = -1;
-        }
-        
-        if (this.component.get("hasCellContextMenu") == true) {
-            var child = children[cellContextMenuIndex];
-            Echo.Render.renderComponentAdd(update, child, null);
-            this.cellContextMenu = child.peer.extComponent;
-            if (this.cellContextMenu == null) {
-                throw new Error("Cell Context Menu not created for Grid Panel");
+            var child = this.component.getComponent(indices[0]);
+            if (this.cellContextMenu == null || this.cellContextMenu != child.peer.extComponent) {
+                Echo.Render.renderComponentAdd(update, child, null);
+                this.cellContextMenu = child.peer.extComponent;
+                if (this.cellContextMenu == null) {
+                    throw new Error("Cell Context Menu not created for Grid Panel");
+                }
             }
         }
         
         if (this.component.get("hasRowContextMenu") == true) {
-            var child = children[rowContextMenuIndex];
-            Echo.Render.renderComponentAdd(update, child, null);
-            this.rowContextMenu = child.peer.extComponent;
-            if (this.rowContextMenu == null) {
-                throw new Error("Row Context Menu not created for Grid Panel");
+            var child = this.component.getComponent(indices[1]);
+            if (this.rowContextMenu == null || this.rowContextMenu != child.peer.extComponent) {
+                Echo.Render.renderComponentAdd(update, child, null);
+                this.rowContextMenu = child.peer.extComponent;
+                if (this.rowContextMenu == null) {
+                    throw new Error("Row Context Menu not created for Grid Panel");
+                }
             }
         }
         
         if (this.component.get("hasHeaderContextMenu") == true) {
-            var child = children[headerContextMenuIndex];
-            Echo.Render.renderComponentAdd(update, child, null);
-            this.headerContextMenu = child.peer.extComponent;
-            if (this.headerContextMenu == null) {
-                throw new Error("Header Context Menu not created for Grid Panel");
+            var child = this.component.getComponent(indices[2]);
+            if (this.headerContextMenu == null || this.headerContextMenu != child.peer.extComponent) {
+                Echo.Render.renderComponentAdd(update, child, null);
+                this.headerContextMenu = child.peer.extComponent;
+                if (this.headerContextMenu == null) {
+                    throw new Error("Header Context Menu not created for Grid Panel");
+                }
             }
         }
     },
     
-    _renderColumn: function(value, metadata, record, rowIndex, colIndex, store) {
-        var renderedValue = null;
-        if (this.component.get("showCheckbox")){
-            eval(this._model.renderedData[rowIndex][colIndex - 1]);
-        } else {
-            eval(this._model.renderedData[rowIndex][colIndex]);
-        }
-        return renderedValue;
-    },
+    
 
     doSort: function(fieldName, sortDirection) {
         this.component.set("sortField", fieldName);
@@ -309,28 +386,6 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         this._ctrlKeyDown = false;
     },
 
-    _handleOnRender: function() {
-        this._handleServerSelections();
-        if (this._reconfigureOnRender) {
-            this.extComponent.reconfigure(
-              this._makeStore(),
-              this.component.get("columnModel")
-            );
-        }
-        if (this.cellContextMenu != null) {
-            this.extComponent.un('cellcontextmenu', this._handleCellContextMenu, this);
-            this.extComponent.on('cellcontextmenu', this._handleCellContextMenu, this);
-        }
-        if (this.rowContextMenu != null) {
-            this.extComponent.un('rowcontextmenu', this._handleRowContextMenu, this);
-            this.extComponent.on('rowcontextmenu', this._handleRowContextMenu, this);
-        }
-        if (this.headerContextMenu != null) {
-            this.extComponent.un('headercontextmenu', this._handleHeaderContextMenu, this);
-            this.extComponent.on('headercontextmenu', this._handleHeaderContextMenu, this);
-        }
-    },
-    
     _handleCellContextMenu: function(grid, rowIndex, cellIndex, evt) {
         evt.stopEvent();
         this.cellContextMenu.showAt(evt.getXY());
@@ -524,16 +579,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         for (var i = 0; i < colModel.config.length; i++) {
             var thisCol = colModel.config[i];
             
-            if (thisCol instanceof Ext.grid.CheckColumn || thisCol.id == 'checker') {
-            	if (options != null) {
-            		options["plugins"][1] = thisCol;
-            	}
-            } else {
-                thisCol.renderer = this._renderColumn.createDelegate(this);
-            }
+            this._configureColumn(thisCol);
         }
-        
-        
         
         if (this.component.get("showCheckbox")){
             if (checkboxChanged == false && this.extComponent != null)
@@ -542,7 +589,6 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         } else if (checkboxChanged) {
             colModel.config.shift();
         }
-
     },
     
     renderUpdate: function(update) {
@@ -572,7 +618,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                     // the col model may have changed - if checkboxes are needed
                     // then put the selection model back in as first column
                     if (!(thisCol instanceof Ext.grid.CheckColumn)
-                    		&& !(thisCol instanceof Ext.grid.AbstractSelectionModel)) {
+                            && !(thisCol instanceof Ext.grid.AbstractSelectionModel)) {
                         thisCol.renderer = this._renderColumn.createDelegate(this);
                     }
                 }
@@ -581,6 +627,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                   colModel
                 );
                 this.extComponent.getColumnModel().addListener("hiddenchange", this._handleColumnHide, this);
+                this.updateCompleted(update);
             }
             else {
                 /*

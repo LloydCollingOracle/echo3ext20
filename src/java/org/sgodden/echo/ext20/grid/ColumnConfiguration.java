@@ -1,5 +1,7 @@
 package org.sgodden.echo.ext20.grid;
 
+import org.sgodden.echo.ext20.componentgrid.ComponentGridCellRenderer;
+
 import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ChangeListener;
 
@@ -187,5 +189,12 @@ public interface ColumnConfiguration {
      * @param disabled whether the column menu is disabled for this column.
      */
     public void setMenuDisabled(boolean disabled);
+
+    /**
+     * Returns the renderer for this column, or null if it should use the default
+     * renderer from the ComponentGridPanel.
+     * @return
+     */
+    public ComponentGridCellRenderer getGridCellRenderer();
 
 }

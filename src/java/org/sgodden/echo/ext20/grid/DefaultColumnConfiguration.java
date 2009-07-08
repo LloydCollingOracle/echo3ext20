@@ -19,6 +19,8 @@ package org.sgodden.echo.ext20.grid;
 import java.io.Serializable;
 import java.util.EventListener;
 
+import org.sgodden.echo.ext20.componentgrid.ComponentGridCellRenderer;
+
 import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
@@ -296,5 +298,9 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
 	public void setMenuDisabled(boolean menuDisabled) {
 		this.menuDisabled = menuDisabled;
 	}
+
+    public ComponentGridCellRenderer getGridCellRenderer() {
+        return null;
+    }
 
 }

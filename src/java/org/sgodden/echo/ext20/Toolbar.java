@@ -59,7 +59,7 @@ public class Toolbar
      * Sets the toolbar's position (either top or bottom).
      * @param position the position.
      */
-    void setPosition(Position position) {
+    public void setPosition(Position position) {
         switch (position) {
             case TOP:
                 set(POSITION_PROPERTY, "top");
@@ -72,7 +72,7 @@ public class Toolbar
         }
     }
     
-    static enum Position {
+    public static enum Position {
         TOP,
         BOTTOM
     }

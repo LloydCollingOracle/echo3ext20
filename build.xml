@@ -130,6 +130,7 @@
 			</fileset>
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.Portal.js" />
+                <include name="Ext20.ComponentGridPanel.js" />
 			</fileset>
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.PortalColumn.js" />

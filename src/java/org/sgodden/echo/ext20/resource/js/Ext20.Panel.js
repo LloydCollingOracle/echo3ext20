@@ -178,6 +178,19 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 var child = this.component.getComponent(i);
                 child.childIndex = i;
             }
+        },
+    
+        /**
+         * Creates an array of the children of the current component.
+         * Overridden by children such as GridPanel for their custom processing of children
+         */
+        _createChildComponentArrayFromComponent: function() {
+            var componentCount = this.component.getComponentCount();
+            var children = new Array(componentCount);
+            for (var i = 0; i < componentCount; i++) {
+                children[i] = this.component.getComponent(i);
+            }
+            return children;
         }
     },
     
@@ -212,7 +225,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 var child = removedChildren[i];
                 
                 // if the removed child is our context menu, hide it and then unset it
-                if (child instanceof EchoExt20.Menu) {
+                if (child instanceof EchoExt20.Menu && this.contextMenu != null && this.contextMenu.renderId == child.renderId) {
                     if (this.contextMenu.isVisible()) {
                         this.contextMenu.hide();
                         this.contextMenu.destroy();
@@ -766,18 +779,6 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
         }
         return doLayout;
-    },
-    
-    /**
-     * Creates an array of the children of the current component.
-     */
-    _createChildComponentArrayFromComponent: function() {
-        var componentCount = this.component.getComponentCount();
-        var children = new Array(componentCount);
-        for (var i = 0; i < componentCount; i++) {
-            children[i] = this.component.getComponent(i);
-        }
-        return children;
     },
     
     /**

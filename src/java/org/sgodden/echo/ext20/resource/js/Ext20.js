@@ -296,6 +296,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
      * Called upon initial creation of the component.
      */
     renderAdd: function(update, parentElement) {
+        if (this.extComponent != null) {
+            throw new Error("Attempting to renderAdd a component when it already has an extComponent created for it!");
+        }
         this._update = update;
         
         if (this.component.get("containerAddFx") != null) {
