@@ -22,7 +22,6 @@ import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 
 import org.sgodden.echo.ext20.ComboBox;
-import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.data.ListModelAdapter;
 
 @SuppressWarnings({"unchecked"})
@@ -41,6 +40,7 @@ public class ComboBoxPeer
         addOutputProperty(ComboBox.SELECTION_CHANGED_PROPERTY);
         addOutputProperty(ComboBox.MODEL_CHANGED_PROPERTY);
         addOutputProperty(ComboBox.RAW_VALUE_CHANGED_PROPERTY);
+        setOutputPropertyReferenced(ComboBox.MODEL_CHANGED_PROPERTY, true);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(ComboBox.INPUT_ACTION, ComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {

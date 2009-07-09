@@ -17,7 +17,9 @@
 package org.sgodden.echo.ext20.data;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.sgodden.echo.ext20.AbstractListComponent;
 import org.sgodden.echo.ext20.ListImageCellRenderer;
 
@@ -39,6 +41,7 @@ public class ListModelAdapter
     private Object[][] data;
     private Integer id;
     private String[] fields;
+    ListModel model;
     
     public ListModelAdapter(){}
     
@@ -47,7 +50,7 @@ public class ListModelAdapter
      * @param model the model from which to take the data.
      */
     public ListModelAdapter(AbstractListComponent component) {
-        ListModel model = component.getModel();
+        this.model = component.getModel();
         ListCellRenderer cellRenderer = component.getCellRenderer();
         boolean isImageCellRenderer = cellRenderer instanceof ListImageCellRenderer;
         
@@ -126,4 +129,31 @@ public class ListModelAdapter
         return data.length;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (! (other instanceof ListModelAdapter))
+            return false;
+        
+        if (this == other)
+            return true;
+
+        ListModelAdapter o = (ListModelAdapter)other;
+        
+        if (this.model.equals(o.model))
+            return true;
+        
+        String[] fields = o.getFields();
+        if (!Arrays.equals(this.fields, fields)) {
+            return false;
+        }
+        
+        Object[][] otherData = o.getData();
+        
+        return ArrayUtils.isEquals(otherData, this.getData());
+    }
+    
+    @Override
+    public int hashCode() {
+        return ArrayUtils.hashCode(fields) + ArrayUtils.hashCode(data);
+    }
 }

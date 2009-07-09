@@ -46,6 +46,7 @@ public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
         addOutputProperty(MultiSelect.SELECTION_CHANGED_PROPERTY);
         addOutputProperty(MultiSelect.MODEL_CHANGED_PROPERTY);
         addOutputProperty(MultiSelect.COMPLEX_PROPERTY);
+        setOutputPropertyReferenced(MultiSelect.MODEL_CHANGED_PROPERTY, true);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(MultiSelect.INPUT_ACTION, MultiSelect.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {

@@ -14,6 +14,7 @@ public class ComboListTest extends Panel{
 	
 	private Panel p = new Panel(new TableLayout(1));
 	private ComboBox cb;
+    private ComboBox cb2;
 	public ComboListTest(){
 		
 		setLayout(new FitLayout());
@@ -31,6 +32,11 @@ public class ComboListTest extends Panel{
 			}
 		});
 		p.add(cb);
+		
+		cb2 = new ComboBox();
+		cb2.setModel(cb.getModel());
+		p.add(cb2);
+		
 		add(p);
 		
 	}
