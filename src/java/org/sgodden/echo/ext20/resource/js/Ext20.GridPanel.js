@@ -152,9 +152,13 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         /**
          * Configures a column
          */
-        _configureColumn: function(thisCol) {
+        _configureColumn: function(thisCol, options) {
             if (thisCol instanceof Ext.grid.CheckColumn || thisCol.id == 'checker') {
                 if (options != null) {
+                	if (!options["plugins"]) {
+                        options["plugins"] = [];
+                        options["plugins"][0] = new EchoExt20.GridColAddRemove();
+                	}
                     options["plugins"][1] = thisCol;
                 }
             } else {
@@ -579,7 +583,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         for (var i = 0; i < colModel.config.length; i++) {
             var thisCol = colModel.config[i];
             
-            this._configureColumn(thisCol);
+            this._configureColumn(thisCol, options);
         }
         
         if (this.component.get("showCheckbox")){

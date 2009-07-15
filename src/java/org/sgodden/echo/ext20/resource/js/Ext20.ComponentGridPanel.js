@@ -123,7 +123,7 @@ EchoExt20.ComponentGridPanelSync = Core.extend(EchoExt20.GridPanelSync, {
      * Overridden configure column as with components we don't
      * want to use the check column renderer function
      */
-    _configureColumn: function(thisCol) {
+    _configureColumn: function(thisCol, options) {
         thisCol.renderer = this._renderColumn.createDelegate(this);
     }
 });
