@@ -10,7 +10,7 @@ import nextapp.echo.app.list.ListCellRenderer;
 import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
-public class MultiSelectComboBox extends ExtComponent implements AbstractListComponent {
+public class MultiSelectComboBox extends ExtComponent implements AbstractListComponent, Field {
 
 	public static final String RAW_VALUE_CHANGED_PROPERTY = "rawValue";
 	public static final String VALUE_CHANGED_PROPERTY = "selectedValue";
@@ -22,6 +22,8 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	public static final String SEPARATOR_PROPERTY = "separator";	
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
     public static final String BLANK_TEXT_PROPERTY = "blankText";
+	public static final String INVALID_TEXT_PROPERTY = "invalidText";
+	public static final String VALID_PROPERTY = "isValid";
 
 	private ListModel model;
 	private ListSelectionModel selectionModel;
@@ -207,5 +209,25 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
     public void setBlankText(String blankText) {
         set(BLANK_TEXT_PROPERTY, blankText);
     }
+
+	/**
+	 * Sets the invalid text property.
+	 * 
+	 * @param invalidText
+	 *            the invalid text.
+	 */
+	public void setInvalidText(String invalidText) {
+		set(INVALID_TEXT_PROPERTY, invalidText);
+	}
+
+	/**
+	 * Sets whether the field value is valid.
+	 * 
+	 * @param isValid
+	 *            whether the field value is valid.
+	 */
+	public void setIsValid(boolean isValid) {
+		set(VALID_PROPERTY, isValid);
+	}
 
 }

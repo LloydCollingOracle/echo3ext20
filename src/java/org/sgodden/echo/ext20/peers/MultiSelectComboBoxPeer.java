@@ -5,7 +5,6 @@ import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 
-import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.MultiSelectComboBox;
 import org.sgodden.echo.ext20.data.ListModelAdapter;
 
@@ -25,6 +24,9 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
         addOutputProperty(MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY);
         addOutputProperty(MultiSelectComboBox.VALUE_CHANGED_PROPERTY);
         addOutputProperty(MultiSelectComboBox.MODEL_CHANGED_PROPERTY);
+        addOutputProperty(MultiSelectComboBox.VALID_PROPERTY);
+        addOutputProperty(MultiSelectComboBox.INVALID_TEXT_PROPERTY);
+
         setOutputPropertyReferenced(MultiSelectComboBox.MODEL_CHANGED_PROPERTY, true);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(MultiSelectComboBox.INPUT_ACTION, MultiSelectComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override

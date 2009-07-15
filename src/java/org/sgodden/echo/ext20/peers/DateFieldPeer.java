@@ -22,13 +22,9 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
-import nextapp.echo.webcontainer.Service;
-import nextapp.echo.webcontainer.WebContainerServlet;
-import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.DateField;
-import org.sgodden.echo.ext20.TextField;
 
 @SuppressWarnings({"unchecked"})
 public class DateFieldPeer
@@ -46,7 +42,9 @@ public class DateFieldPeer
     public DateFieldPeer() {
         super();
         addOutputProperty(DateField.DATE_CHANGED_PROPERTY);
-        
+        addOutputProperty(DateField.VALID_PROPERTY);
+        addOutputProperty(DateField.INVALID_TEXT_PROPERTY);
+
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(DateField.DATE_CHANGED_PROPERTY, ComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {

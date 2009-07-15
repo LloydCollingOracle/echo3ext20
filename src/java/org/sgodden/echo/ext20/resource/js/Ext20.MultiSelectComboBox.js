@@ -189,6 +189,14 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
         if (this.component.get("selectedValue") != null) {
             this.extComponent.setValue(this.component.get("selectedValue"));
         }
+        if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
+            if(this.component.get("invalidText") != null) {
+                this._invalidValue = this.component.get("value");
+                this.extComponent.invalidText = this.component.get("invalidText");
+                this.extComponent.markInvalid(this.component.get("invalidText"));
+            }
+        }
+        
         this._suspendEvents = false;
     },
     
