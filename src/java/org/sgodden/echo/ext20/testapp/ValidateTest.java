@@ -7,7 +7,7 @@ import org.sgodden.echo.ext20.layout.FormLayout;
 
 public class ValidateTest extends Panel {
 	public ValidateTest() {
-		super( "Validate Test");
+		super( "Validate Test and Long Title Test");
 		setLayout( new FormLayout());
 		createUI();
 	}

@@ -13,6 +13,8 @@ public class MainTestSuite extends TabbedPane {
     public MainTestSuite() {
         super();
         setRenderId("mainTabs");
+		setShowFullTitle( true);
+
         add(new WelcomePanel());
         
         add( new TimeFieldTest());

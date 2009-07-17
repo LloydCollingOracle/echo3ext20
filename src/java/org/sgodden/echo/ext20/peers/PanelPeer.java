@@ -22,7 +22,6 @@ import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.util.InsertEntities;
 
 
@@ -38,6 +37,7 @@ public class PanelPeer
 //    }
     
     public PanelPeer() {
+    	addOutputProperty( Panel.PROPERTY_SHOW_FULL_TITLE);
         addEvent(
             new AbstractComponentSynchronizePeer.EventPeer(
                     Panel.INPUT_KEYPRESS_ACTION, 

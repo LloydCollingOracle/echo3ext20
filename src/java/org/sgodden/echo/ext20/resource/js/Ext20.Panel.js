@@ -66,6 +66,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
     _makeVisibleRef: null,
     
     /**
+     * Show full title, without shortTitle
+     */ 
+    _showFullTitle: false,
+    
+    /**
      * The x position to set the panel to (used in absolute positioning only)
      */
     positionX: null,
@@ -443,6 +448,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         if ( tabTip != null) {
             options['tabTip'] = tabTip;
         }
+
+        var showFullTitle = this.component.get( "showFullTitle");
+        if ( showFullTitle != null) {
+            this._showFullTitle = showFullTitle;
+        }
         
         var width = this.component.render("width");
         if (width != null) {
@@ -813,7 +823,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 return;
             }
         }
-        if (child.parent != null) {
+        if ( !this._showFullTitle && child.parent != null) {
             if (child.parent instanceof EchoExt20.TabbedPane) {
                 var tabTitle = childExtComponent.title.toString();
                 var maxLength = 20;
