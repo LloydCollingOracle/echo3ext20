@@ -405,7 +405,7 @@ public class TextField extends ExtComponent implements Field {
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
     }
 
-	public void setMashRe(String value) {
+	public void setMaskRe(String value) {
 		set( MASKRE_PROPERTY, value);
 	}
 }

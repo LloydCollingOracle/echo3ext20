@@ -20,7 +20,7 @@ public class ValidateTest extends Panel {
 		add( field);
 
 		TextField field2 = new TextField();
-		field2.setMashRe( "^\\d*$");
+		field2.setMaskRe( "^\\d*$");
 		field2.setRegexpFailureText( "Digits only");
 		field2.setFieldLabel( "digits only, can't input");
 		add( field2);
