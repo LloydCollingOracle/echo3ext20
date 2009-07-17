@@ -106,7 +106,6 @@ public class Panel extends ExtComponent {
      */
     public static final String PROPERTY_BODY_TRANSPARENT = "bodyTransparent";
     
-    public static final String PROPERTY_SHOW_FULL_TITLE = "showFullTitle";
     /**
      * The width of the panel, in pixels.
      * <p>
@@ -770,11 +769,7 @@ public class Panel extends ExtComponent {
     public void setRelativeAnchorPosition(RelativeAnchorPosition anchor) {
         set(RELATIVE_ANCHOR_POSITION, anchor.name());
     }
-    
-    public void setShowFullTitle( boolean value) {
-    	set( PROPERTY_SHOW_FULL_TITLE, value);
-    }
-    
+        
     public Menu getContextMenu() {
         return contextMenu;
     }

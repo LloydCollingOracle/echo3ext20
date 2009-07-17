@@ -37,7 +37,6 @@ public class PanelPeer
 //    }
     
     public PanelPeer() {
-    	addOutputProperty( Panel.PROPERTY_SHOW_FULL_TITLE);
         addEvent(
             new AbstractComponentSynchronizePeer.EventPeer(
                     Panel.INPUT_KEYPRESS_ACTION, 

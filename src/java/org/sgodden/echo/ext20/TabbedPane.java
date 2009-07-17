@@ -57,6 +57,8 @@ public class TabbedPane extends Panel {
      */
     public static final String DISABLED_STRIP_BACKGROUND_PROPERTY = "plain";
     
+    public static final String PROPERTY_SHOW_FULL_TITLE = "showFullTitle";
+
     private Set<String> initialisedChildIds = new HashSet<String>();
     
     /**
@@ -220,4 +222,7 @@ public class TabbedPane extends Panel {
         set(DISABLED_STRIP_BACKGROUND_PROPERTY, disabled);
     }
 
+    public void setShowFullTitle( boolean value) {
+    	set( PROPERTY_SHOW_FULL_TITLE, value);
+    }
 }

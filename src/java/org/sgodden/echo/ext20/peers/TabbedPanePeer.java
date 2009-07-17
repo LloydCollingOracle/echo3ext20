@@ -20,9 +20,6 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
-import nextapp.echo.webcontainer.Service;
-import nextapp.echo.webcontainer.WebContainerServlet;
-import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.TabbedPane;
 
@@ -39,7 +36,8 @@ extends ExtComponentPeer {
     
     public TabbedPanePeer() {
         super();
-        
+    	addOutputProperty( TabbedPane.PROPERTY_SHOW_FULL_TITLE);
+
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(
                 TabbedPane.ACTIVE_TAB_CHANGE_EVENT, 
                 TabbedPane.TAB_CHANGE_LISTENERS_CHANGED_PROPERTY) {
