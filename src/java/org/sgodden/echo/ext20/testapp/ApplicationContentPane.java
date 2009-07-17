@@ -156,6 +156,7 @@ public class ApplicationContentPane extends ContentPane {
         col.add(makeTestButton("HTML Panel", HtmlPanelTest.class));
         col.add(makeTestButton("HTML Editor", HtmlEditorTest.class));
         col.add(makeTestButton("Multi select", MultiSelectTest.class));
+        col.add(makeTestButton("Validate", ValidateTest.class));
         col.add(makeTestButton("Change toolbar buttons",
                 ToolbarButtonChangingTest.class));
         col.add(makeTestButton("Window", WindowTest.class));

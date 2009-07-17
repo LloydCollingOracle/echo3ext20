@@ -48,6 +48,7 @@ public class TextField extends ExtComponent implements Field {
     public static final String PROPERTY_SIZE = "size";
     public static final String REGEXP_FAILURETEXT_PROPERTY = "regExpFailureText";
     public static final String REGEXP_PROPERTY = "regExp";
+    public static final String MASKRE_PROPERTY = "maskRe";
     public static final String MIN_LENGTH = "minLength";
     public static final String MIN_LENGTH_TEXT = "minLengthText";
     public static final String MAX_LENGTH = "maxLength";
@@ -403,4 +404,8 @@ public class TextField extends ExtComponent implements Field {
         // existence of hasActionListeners() method.
         firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
     }
+
+	public void setMashRe(String value) {
+		set( MASKRE_PROPERTY, value);
+	}
 }

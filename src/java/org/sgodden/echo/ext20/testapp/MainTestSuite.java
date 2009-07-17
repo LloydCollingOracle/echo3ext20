@@ -1,6 +1,5 @@
 package org.sgodden.echo.ext20.testapp;
 
-import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TabbedPane;
 
 /**
@@ -22,6 +21,7 @@ public class MainTestSuite extends TabbedPane {
         add( new HtmlPanelTest());
         add(new HtmlEditorTest());
         add( new MultiSelectTest());
+        add( new ValidateTest());
         add( new ToolbarButtonChangingTest());
         add(new WindowTest());
         add(new PortalTest());
