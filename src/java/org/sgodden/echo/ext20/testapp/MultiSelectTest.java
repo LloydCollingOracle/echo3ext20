@@ -15,7 +15,7 @@ public class MultiSelectTest extends Panel {
 		createUI();
 	}
 
-	public void createUI() {
+	public void createUI() {		
 		DefaultListModel model = new DefaultListModel( new String[]{ "aaaa", "bbb", "ccc"});
 		createDemo(model, 1);
 		createDemo(model, 2);
@@ -24,6 +24,7 @@ public class MultiSelectTest extends Panel {
 		createDemo(model, 5);
 		createDemo(model, 6);
 		createDemo(model, 7);
+		
 	}
 
 	private void createDemo(DefaultListModel model, int selectionMode) {
@@ -73,7 +74,6 @@ public class MultiSelectTest extends Panel {
 		case 7:
 			multiSelectComboBox.setAllowBlank( false);
 			multiSelectComboBox.setBlankText( "Can't be blank");
-			multiSelectComboBox.setValue( "bbb"); 
 			break;
 		}
 	}

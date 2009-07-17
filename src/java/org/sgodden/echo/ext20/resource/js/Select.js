@@ -517,8 +517,11 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 	 * @param {Mixed} value The value to match
 	 */
 	setValue:function(v){
-	   if ( v == null) return;
-	   if ( (typeof v == 'string') && v == "") return;
+	    if ( v == null || ((typeof v == 'string') && v == "")) {
+	       // let the allowEmpty validator works fine.
+	       this.commonChangeValue('', '', [], []);
+	       return;
+	    }
 		var result = [],
 				resultRaw = [];
 		if (!(v instanceof Array)){
