@@ -94,6 +94,7 @@ public class FormGrid extends Panel {
         } else {
             l = new Label(" ");
         }
+        l.setLabelFor(c);
         TableLayoutData tld = new TableLayoutData();
         tld.setCellAlign("left");
         tld.setCellVAlign("top");
@@ -126,6 +127,9 @@ public class FormGrid extends Panel {
         if (getFieldLabelColumnCssCls() != null)
             tld.setCellCls(getFieldLabelColumnCssCls());
         fieldLabel.setLayoutData(tld);
+        if (fieldLabel instanceof Label) {
+            ((Label)fieldLabel).setLabelFor(c);
+        }
         super.add(fieldLabel);
 
         tld = new TableLayoutData();
