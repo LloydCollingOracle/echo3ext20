@@ -43,4 +43,8 @@ public class Label extends ExtComponent {
     public Component getLabelFor() {
         return this.component;
     }
+    
+    public String getText() {
+        return (String)get(TEXT_PROPERTY);
+    }
 }
