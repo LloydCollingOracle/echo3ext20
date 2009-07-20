@@ -615,7 +615,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
              */
             if (this.extComponent.rendered) {
                 this.extComponent.getColumnModel().removeListener("hiddenchange", this._handleColumnHide, this);
-                var colModel = this.component.get("columnModel");
+                var colModel = this.extComponent.getColumnModel();
                 // apply the column renderers!
                 for (var i = 0; i < colModel.config.length; i++) {
                     var thisCol = colModel.config[i];
