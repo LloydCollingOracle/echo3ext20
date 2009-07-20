@@ -87,7 +87,7 @@ public class FormGrid extends Panel {
      * @param fieldLabel
      *            the field label, or <code>null</code> for no field label.
      */
-    public void add(Component c, String fieldLabel) {
+    public Label add(Component c, String fieldLabel) {
         Label l;
         if (fieldLabel != null) {
             l = new Label(fieldLabel + ":");
@@ -110,6 +110,7 @@ public class FormGrid extends Panel {
         c.setLayoutData(tld);
         super.add(c);
 
+        return l;
     }
 
     /**
