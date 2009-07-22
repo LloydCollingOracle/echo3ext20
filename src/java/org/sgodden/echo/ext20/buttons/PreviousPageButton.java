@@ -13,6 +13,7 @@ public class PreviousPageButton extends Button {
     public PreviousPageButton() {
         super();
         setIconClass("x-tbar-page-prev");
+        setId("previousPage");
     }
 
 }

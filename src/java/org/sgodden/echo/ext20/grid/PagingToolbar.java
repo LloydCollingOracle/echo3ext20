@@ -58,7 +58,9 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
     
     public static final String MODEL_CHANGED_PROPERTY="model";
 
-    public PagingToolbar() { }
+    public PagingToolbar() { 
+        setId("pagingToolbar");
+    }
 
     /**
      * Must be called to initialise the toolbar before it is displayed.
@@ -93,7 +95,7 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 
         addSeparator();
 
-        addTextItem(pageText + ":");
+        addTextItem(pageText).setId("page");
 
         Panel p = new Panel();
         add(p);
@@ -106,7 +108,7 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
         currentPageTextField = new TextField(3);
         p.add(currentPageTextField);
 
-        addTextItem(ofText);
+        addTextItem(ofText).setId("ofPages");
         totalPagesTextItem = new ToolbarTextItem();
         add(totalPagesTextItem);
 
@@ -122,7 +124,7 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 
         addSeparator();
 
-        addTextItem(rowsPerPageText + ":");
+        addTextItem(rowsPerPageText).setId("rowsPerPage");
 
         p = new Panel();
         add(p);
@@ -139,13 +141,13 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
         // add the "Displaying items..." information
         addSeparator();
 
-        addTextItem(displayingItemsText);
+        addTextItem(displayingItemsText).setId("displayingItems");
         firstDisplayItemIndex = new ToolbarTextItem();
         add(firstDisplayItemIndex);
-        addTextItem(toText);
+        addTextItem(toText).setId("toItem");
         lastDisplayItemIndex = new ToolbarTextItem();
         add(lastDisplayItemIndex);
-        addTextItem(ofText);
+        addTextItem(ofText).setId("ofItems");
         totalItems = new ToolbarTextItem();
         add(totalItems);
 

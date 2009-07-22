@@ -13,6 +13,7 @@ public class NextPageButton extends Button {
     public NextPageButton() {
         super();
         setIconClass("x-tbar-page-next");
+        setId("nextPage");
     }
 
 }

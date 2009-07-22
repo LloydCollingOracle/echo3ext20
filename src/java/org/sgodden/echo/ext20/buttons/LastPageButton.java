@@ -13,6 +13,7 @@ public class LastPageButton extends Button {
     public LastPageButton() {
         super();
         setIconClass("x-tbar-page-last");
+        setId("lastPage");
     }
 
 }
