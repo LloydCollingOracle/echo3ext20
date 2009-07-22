@@ -110,6 +110,7 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 
         addTextItem(ofText).setId("ofPages");
         totalPagesTextItem = new ToolbarTextItem();
+        totalPagesTextItem.setId("static");
         add(totalPagesTextItem);
 
         addSeparator();
@@ -143,12 +144,15 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 
         addTextItem(displayingItemsText).setId("displayingItems");
         firstDisplayItemIndex = new ToolbarTextItem();
+        firstDisplayItemIndex.setId("static");
         add(firstDisplayItemIndex);
         addTextItem(toText).setId("toItem");
         lastDisplayItemIndex = new ToolbarTextItem();
+        lastDisplayItemIndex.setId("static");
         add(lastDisplayItemIndex);
         addTextItem(ofText).setId("ofItems");
         totalItems = new ToolbarTextItem();
+        totalItems.setId("static");
         add(totalItems);
 
         /*
