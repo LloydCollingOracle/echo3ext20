@@ -49,7 +49,8 @@ public class LayoutTest extends Panel {
         tabs.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
         outer.add(tabs);
         
-        tabs.add(new AccordionLayoutTest());
+        tabs.add(new AccordionLayoutTest( false));
+        tabs.add(new AccordionLayoutTest( true));
         tabs.add(new ColumnLayoutTest());
         tabs.add(new TableLayoutTest());
         tabs.add(new TableLayoutTest2());
@@ -60,8 +61,8 @@ public class LayoutTest extends Panel {
             extends Panel
             {
         
-        private AccordionLayoutTest(){
-            super(new AccordionLayout(), "Accordion");
+        private AccordionLayoutTest( boolean hideCollapseTool){
+            super(new AccordionLayout( hideCollapseTool), "Accordion");
             createUI();
         }
 

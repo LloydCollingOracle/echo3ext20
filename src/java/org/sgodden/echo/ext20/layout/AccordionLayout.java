@@ -26,4 +26,23 @@ package org.sgodden.echo.ext20.layout;
 public class AccordionLayout 
         implements Layout {
 
+	/**
+	 * True to hide the contained panels' collapse/expand toggle buttons, false to display them (defaults to false).
+	 */
+	private boolean hideCollapseTool = false;
+
+	public AccordionLayout() {}
+	
+	public AccordionLayout(boolean hideCollapseTool) {
+		this.hideCollapseTool = hideCollapseTool;
+	}
+
+	public boolean isHideCollapseTool() {
+		return hideCollapseTool;
+	}
+
+	public void setHideCollapseTool(boolean hideCollapseTool) {
+		this.hideCollapseTool = hideCollapseTool;
+	}
+	
 }

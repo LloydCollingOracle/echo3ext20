@@ -528,6 +528,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (layout != null) {
             if (layout instanceof EchoExt20.AccordionLayout) {
                 options['layout'] = 'accordion';
+                options.layoutConfig = {};
+                options.layoutConfig.hideCollapseTool = layout.hideCollapseTool;
                 //options['layoutConfig'] = {titleCollapse: true, animate: true};
             }
             else if (layout instanceof EchoExt20.BorderLayout) {

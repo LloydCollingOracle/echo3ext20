@@ -21,6 +21,7 @@ import nextapp.echo.app.serial.SerialException;
 import nextapp.echo.app.serial.SerialPropertyPeer;
 import nextapp.echo.app.util.Context;
 
+import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("unchecked")
@@ -35,7 +36,8 @@ implements SerialPropertyPeer {
         SerialContext serialContext = (SerialContext) context.get(SerialContext.class);
         propertyElement.setAttribute("t", 
                 (serialContext.getFlags() & SerialContext.FLAG_RENDER_SHORT_NAMES) == 0 ? "Ext20AccordionLayout" : "E2AL");
-
+        AccordionLayout layout = (AccordionLayout) propertyValue;
+        propertyElement.setAttribute( "hct", layout.isHideCollapseTool() ? "1" : "0");
     }
 
 }

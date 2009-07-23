@@ -767,6 +767,10 @@ EchoExt20.PropertyTranslator = {
  * An accordion layout (see Ext.layout.Accordion).
  */
 EchoExt20.AccordionLayout = Core.extend({
+    hideCollapseTool : false,
+    $construct: function( hideCollapseTool) {
+        this.hideCollapseTool = hideCollapseTool;
+    }
 });
 
 /**
@@ -774,7 +778,8 @@ EchoExt20.AccordionLayout = Core.extend({
  */
 EchoExt20.PropertyTranslator.AccordionLayout = {
     toProperty: function(client, propertyElement) {
-        return new EchoExt20.AccordionLayout();
+        var hideCollapseTool = propertyElement.getAttribute('hct') == "1" ? true : false;
+        return new EchoExt20.AccordionLayout( hideCollapseTool);
     }
 }
 
