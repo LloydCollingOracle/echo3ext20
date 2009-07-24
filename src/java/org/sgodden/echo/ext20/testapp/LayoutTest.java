@@ -68,17 +68,24 @@ public class LayoutTest extends Panel {
             add(createPanel("Panel 1"));
             add(createPanel("Panel 2"));
             add(createPanel("Panel 3"));
-            String text = "This panel will not expand";
-            Panel dontExpandPanel = new Panel( text);
-            dontExpandPanel.setBaseCssClass("customcss");
-            dontExpandPanel.setHtml(text);
-            dontExpandPanel.addBeforeExpandListener( new ActionListener() {
+            add( createBeforeExpandEventPanel( false));
+            add( createBeforeExpandEventPanel( true));
+            
+        }
+
+		private Panel createBeforeExpandEventPanel( boolean expansible) {
+			String text = "This panel will "+ (expansible?"":"not ") + "expand";
+            Panel panel = new Panel( text);
+            panel.setBaseCssClass("customcss");
+            panel.setHtml(text);
+            panel.setExpansible( expansible);
+            panel.addBeforeExpandListener( new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					System.out.println( "I am clicked, but I will not expand!");
+					System.out.println( "I am clicked, I got the event!");
 				}
 			});
-            add( dontExpandPanel);
-        }
+			return panel;
+		}
         
         private Panel createPanel(String text) {
             Panel ret = new Panel(text);

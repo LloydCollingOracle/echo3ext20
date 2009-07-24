@@ -119,6 +119,7 @@ public class Panel extends ExtComponent {
     public static final String PROPERTY_TITLE = "title";
     
     public static final String COLLAPSIBLE_PROPERTY = "collapsible";
+    public static final String EXPANSIBLE_PROPERTY = "expansible";
     public static final String HTML_PROPERTY = "html";
     public static final String LAYOUT_PROPERTY = "layout";
     public static final String SPLIT_PROPERTY = "split";
@@ -127,12 +128,12 @@ public class Panel extends ExtComponent {
     public static final String INPUT_KEY_PRESSED = "keyPressed";
     public static final String INPUT_KEYPRESS_ACTION = "keyPress";
     public static final String INPUT_TOOLCLICK_ACTION = "toolClick";
-    public static final String BEFORE_EXPAND_ACTION = "dontexpand";
+    public static final String BEFORE_EXPAND_ACTION = "beforeexpand";
     public static final String INPUT_TOOLID_CLICKED = "toolIdClicked";
     public static final String KEYPRESS_LISTENERS_CHANGED_PROPERTY = "keyPressListeners";
     public static final String REGISTERED_KEY_PRESSES_PROPERTY="registeredKeyPresses";
     public static final String TOOLCLICK_LISTENERS_CHANGED_PROPERTY = "toolclickListeners";
-    public static final String BEFOREEXPAND_LISTENERS_CHANGED_PROPERTY = "dontexpandListeners";
+    public static final String BEFOREEXPAND_LISTENERS_CHANGED_PROPERTY = "beforeexpandListeners";
     /**
      * Whether the panel should be drawn with rounded borders.
      * <p>
@@ -805,5 +806,9 @@ public class Panel extends ExtComponent {
 	public boolean hasBeforeExpandListeners() {
 		if ( beforeExpandListeners == null) return false;
 		return beforeExpandListeners.size() > 0;
+	}
+	
+	public void setExpansible( boolean expansible) {
+		set( EXPANSIBLE_PROPERTY, expansible);
 	}
 }

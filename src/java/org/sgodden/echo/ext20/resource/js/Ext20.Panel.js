@@ -44,12 +44,13 @@ EchoExt20.Panel = Core.extend(EchoExt20.ExtComponent, {
     },
     
     /**
-     * Prevent the panel be expaneded.
+     * fire the event beforeexpand.
      */
     doBeforeExpand: function() {
-        if ( this.component._listenerList && this.component._listenerList.hasListeners("dontexpand")) {
-            this.component.fireEvent({type: "dontexpand", source: this.component});
-            return false;
+        if ( this.component._listenerList && this.component._listenerList.hasListeners("beforeexpand")) {
+            this.component.fireEvent({type: "beforeexpand", source: this.component});
+
+            return this.component.render("expansible");
         }    
     }
     
