@@ -24,6 +24,7 @@ public class MultiSelectTest extends Panel {
 		createDemo(model, 5);
 		createDemo(model, 6);
 		createDemo(model, 7);
+		createDemo(model, 8);
 		
 	}
 
@@ -74,6 +75,11 @@ public class MultiSelectTest extends Panel {
 		case 7:
 			multiSelectComboBox.setAllowBlank( false);
 			multiSelectComboBox.setBlankText( "Can't be blank");
+			break;
+		case 8:
+			multiSelectComboBox.setMultiSelect( false);
+			multiSelectComboBox.setValue( "Read only!"); 
+			multiSelectComboBox.setEnabled( false);
 			break;
 		}
 	}

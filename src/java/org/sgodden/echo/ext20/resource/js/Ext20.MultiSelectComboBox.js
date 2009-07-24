@@ -66,6 +66,11 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
         if(this.component.get("rawValue") != null) {
             options['rawValue'] = this.component.get("rawValue");
         }
+
+        if ( !(this.component.isEnabled()) ) {
+            options['disabled'] = true;
+            this.component.focusable = false;
+        }
         /*
          * Get the model.
          */
