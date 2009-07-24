@@ -1,13 +1,11 @@
 package org.sgodden.echo.ext20.testapp;
 
-import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Label;
 import nextapp.echo.app.Window;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.Button;
-import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TabbedPane;
 import org.sgodden.echo.ext20.command.DoPanelLayoutCommand;
@@ -70,6 +68,16 @@ public class LayoutTest extends Panel {
             add(createPanel("Panel 1"));
             add(createPanel("Panel 2"));
             add(createPanel("Panel 3"));
+            String text = "This panel will not expand";
+            Panel dontExpandPanel = new Panel( text);
+            dontExpandPanel.setBaseCssClass("customcss");
+            dontExpandPanel.setHtml(text);
+            dontExpandPanel.addBeforeExpandListener( new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					System.out.println( "I am clicked, but I will not expand!");
+				}
+			});
+            add( dontExpandPanel);
         }
         
         private Panel createPanel(String text) {

@@ -56,6 +56,15 @@ public class PanelPeer
                     return ((Panel) component).hasToolListeners();
                 }
         });
+        addEvent(
+        		new AbstractComponentSynchronizePeer.EventPeer(
+        				Panel.BEFORE_EXPAND_ACTION, 
+        				Panel.BEFOREEXPAND_LISTENERS_CHANGED_PROPERTY) {
+        			@Override
+        			public boolean hasListeners(Context context, Component component) {
+        				return ((Panel) component).hasBeforeExpandListeners();
+        			}
+        		});
 
     }
 

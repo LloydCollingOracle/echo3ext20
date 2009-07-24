@@ -40,7 +40,17 @@ EchoExt20.Panel = Core.extend(EchoExt20.ExtComponent, {
      * Fires an event when one of the tools is clicked.
      */
     doToolClick: function() {
-            this.fireEvent({type: "toolClick", source: this});
+        this.fireEvent({type: "toolClick", source: this});
+    },
+    
+    /**
+     * Prevent the panel be expaneded.
+     */
+    doBeforeExpand: function() {
+        if ( this.component._listenerList && this.component._listenerList.hasListeners("dontexpand")) {
+            this.component.fireEvent({type: "dontexpand", source: this.component});
+            return false;
+        }    
     }
     
 });
@@ -589,6 +599,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         this._registerKeyPresses(update, options);
         
         this.extComponent = this.newExtComponentInstance(options);
+        this.extComponent.on("beforeexpand", this.component.doBeforeExpand, this);
         this.extComponent.on("render", this._doOnExtRender, this);
         this.extComponent.on("afterlayout", this._doChildAddEffects, this);
         this.extComponent.on("beforeremove", this._doChildRemoveEffects, this);
@@ -603,7 +614,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
         
         return this.extComponent;
-    },
+    },   
     
     _doChildAddEffects: function() {
         for (var i = 0; i < this.component.getComponentCount(); i++) {

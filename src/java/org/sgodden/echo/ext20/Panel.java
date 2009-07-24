@@ -16,8 +16,10 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -125,10 +127,12 @@ public class Panel extends ExtComponent {
     public static final String INPUT_KEY_PRESSED = "keyPressed";
     public static final String INPUT_KEYPRESS_ACTION = "keyPress";
     public static final String INPUT_TOOLCLICK_ACTION = "toolClick";
+    public static final String BEFORE_EXPAND_ACTION = "dontexpand";
     public static final String INPUT_TOOLID_CLICKED = "toolIdClicked";
     public static final String KEYPRESS_LISTENERS_CHANGED_PROPERTY = "keyPressListeners";
     public static final String REGISTERED_KEY_PRESSES_PROPERTY="registeredKeyPresses";
     public static final String TOOLCLICK_LISTENERS_CHANGED_PROPERTY = "toolclickListeners";
+    public static final String BEFOREEXPAND_LISTENERS_CHANGED_PROPERTY = "dontexpandListeners";
     /**
      * Whether the panel should be drawn with rounded borders.
      * <p>
@@ -214,6 +218,7 @@ public class Panel extends ExtComponent {
     
     private Map<String, Set<ActionListener>> keyPressListeners;
     private Map<Tool, Set<ActionListener>> toolListeners;
+    private List<ActionListener> beforeExpandListeners;
     
     private Toolbar topToolbar;
     private Toolbar bottomToolbar;
@@ -576,13 +581,22 @@ public class Panel extends ExtComponent {
         }
         else if (INPUT_TOOLCLICK_ACTION.equals(inputName)) {
             fireToolClickEvent();
+        } else if ( BEFORE_EXPAND_ACTION.equals( inputName)) {
+        	fireBeforeExpandEvent();
         }
         else {
             super.processInput(inputName, inputValue);
         }
     }
         
-    /**
+    private void fireBeforeExpandEvent() {
+    	for ( ActionListener listener : beforeExpandListeners) {
+    		listener.actionPerformed( null);
+    	}
+		
+	}
+
+	/**
      * Adds a listener to be notified when the passed key is pressed and this
      * component either has the focus, or is the ancestor of the focused
      * component.
@@ -631,6 +645,12 @@ public class Panel extends ExtComponent {
         for (ActionListener listener : keyPressListeners.get(keyPressed)) {
             listener.actionPerformed(e);
         }
+    }
+    
+    public void addBeforeExpandListener( ActionListener listener) {
+    	beforeExpandListeners = new ArrayList<ActionListener>();
+    	beforeExpandListeners.add( listener);
+    	firePropertyChange(BEFOREEXPAND_LISTENERS_CHANGED_PROPERTY, null, listener);
     }
     
     /**
@@ -781,4 +801,9 @@ public class Panel extends ExtComponent {
         if (menu != null)
             add(contextMenu);
     }
+
+	public boolean hasBeforeExpandListeners() {
+		if ( beforeExpandListeners == null) return false;
+		return beforeExpandListeners.size() > 0;
+	}
 }
