@@ -587,7 +587,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         }
         
         if (this.component.get("showCheckbox")){
-            if (checkboxChanged == false && this.extComponent != null)
+            if (((colModel.config[0] instanceof Ext.grid.AbstractSelectionModel)) && checkboxChanged == false && this.extComponent != null)
                 colModel.config.shift();
             colModel.config.unshift(selectionModel);
         } else if (checkboxChanged) {
@@ -616,6 +616,10 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             if (this.extComponent.rendered) {
                 this.extComponent.getColumnModel().removeListener("hiddenchange", this._handleColumnHide, this);
                 var colModel = this.extComponent.getColumnModel();
+
+                if (updatedColumnModel != null) {
+                	colModel = this.component.get("columnModel");
+                }
                 // apply the column renderers!
                 for (var i = 0; i < colModel.config.length; i++) {
                     var thisCol = colModel.config[i];
