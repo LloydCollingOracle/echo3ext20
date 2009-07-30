@@ -56,21 +56,6 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         var extComponent = new Ext.form.Radio(options);
         extComponent.setValue(selected);
         extComponent.on('check', this._handleCheckEvent, this);
-
-        extComponent.on(
-            "render",
-            function() {
-                extComponent.getEl().on(
-                    "click",
-                    function(){
-                        this.component.application.setFocusedComponent(
-                            this.component);
-                    },
-                    this
-                    );
-            },
-            this
-            );
         
         return extComponent;
     },
@@ -78,6 +63,7 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     _handleCheckEvent: function() {
         var oldValue = this.component.get("selected"); 
         this.component.set("selected", this.extComponent.getValue());
+        this.component.application.setFocusedComponent(this.component);
         if (this.disableActions == false && this.extComponent.getValue() == true)
             this.component.doAction();
     },
