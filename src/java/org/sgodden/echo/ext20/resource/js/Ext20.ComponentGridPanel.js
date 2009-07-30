@@ -63,7 +63,11 @@ EchoExt20.ComponentGridPanelSync = Core.extend(EchoExt20.GridPanelSync, {
     },
     
     _renderColumn: function(value, metadata, record, rowIndex, colIndex, store) {
-        var renderedValue = '<div id="' + this.component.renderId + '' + rowIndex + ':' + (colIndex - 1) + '"></div>';
+        var cIndex = colIndex;
+        if (this.component.get("showCheckbox")) {
+        	cIndex = colIndex - 1;
+        }
+        var renderedValue = '<div id="' + this.component.renderId + '' + rowIndex + ':' + cIndex + '"></div>';
         return renderedValue;
     },
 

@@ -17,7 +17,7 @@ public class DefaultComponentGridCellRenderer implements
 
     public Component renderCell(Component gridPanel, Object modelValue,
             int colIndex, int rowIndex) {
-        return new Label(modelValue.toString());
+        return new Label(modelValue == null ? "" : modelValue.toString());
     }
 
 }
