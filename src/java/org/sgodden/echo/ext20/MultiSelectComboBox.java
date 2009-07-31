@@ -1,9 +1,12 @@
 package org.sgodden.echo.ext20;
 
 import java.util.Arrays;
+import java.util.EventListener;
 import java.util.HashSet;
 import java.util.Set;
 
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.list.DefaultListModel;
 import nextapp.echo.app.list.DefaultListSelectionModel;
 import nextapp.echo.app.list.ListCellRenderer;
@@ -11,7 +14,6 @@ import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
 public class MultiSelectComboBox extends ExtComponent implements AbstractListComponent, Field {
-
 	public static final String RAW_VALUE_CHANGED_PROPERTY = "rawValue";
 	public static final String VALUE_CHANGED_PROPERTY = "selectedValue";
 	public static final String MODEL_CHANGED_PROPERTY = "model";
@@ -100,6 +102,8 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
             setSelectedValue((String) inputValue);
         } else if (RAW_VALUE_CHANGED_PROPERTY.equals(inputName)) {
         	setRawValue((String) inputValue);
+        }  else if (INPUT_ACTION.equals(inputName)) {
+            fireActionEvent();
         }
     }
 	public String getValue() {
@@ -229,5 +233,63 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	public void setIsValid(boolean isValid) {
 		set(VALID_PROPERTY, isValid);
 	}
+
+	/**
+     * Adds an <code>ActionListener</code> to the button.
+     * <code>ActionListener</code>s will be invoked when the combo box is
+     * selected.
+     * 
+     * @param l
+     *            the <code>ActionListener</code> to add
+     */
+    public void addActionListener(ActionListener l) {
+        getEventListenerList().addListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+    }
+
+    /**
+     * Fires an action event to all listeners.
+     */
+    private void fireActionEvent() {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        EventListener[] listeners = getEventListenerList().getListeners(
+                ActionListener.class);
+        ActionEvent e = null;
+        for (int i = 0; i < listeners.length; ++i) {
+            if (e == null) {
+                e = new ActionEvent(this, null);
+            }
+            ((ActionListener) listeners[i]).actionPerformed(e);
+        }
+    }
+    
+    /**
+     * Returns whether any <code>ActionListener</code>s are registered.
+     * 
+     * @return true if any action listeners are registered
+     */
+    public boolean hasActionListeners() {
+        return getEventListenerList().getListenerCount(ActionListener.class) != 0;
+    }
+
+    /**
+     * Removes the specified action listener.
+     * 
+     * @param l
+     *            the listener to remove.
+     */
+    public void removeActionListener(ActionListener l) {
+        if (!hasEventListenerList()) {
+            return;
+        }
+        getEventListenerList().removeListener(ActionListener.class, l);
+        // Notification of action listener changes is provided due to
+        // existence of hasActionListeners() method.
+        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+    }
 
 }

@@ -31,7 +31,7 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(MultiSelectComboBox.INPUT_ACTION, MultiSelectComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {
-                return true;
+                return ((MultiSelectComboBox)component).hasActionListeners();
             }
         });
 
