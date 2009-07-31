@@ -49,6 +49,7 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
     private EventListenerList listenerList = new EventListenerList();
     private Component editorComponent;
     private boolean menuDisabled = false;
+    private ComponentGridCellRenderer gridCellRenderer;
 
 	/**
      * Default constructor.
@@ -300,7 +301,11 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
 	}
 
     public ComponentGridCellRenderer getGridCellRenderer() {
-        return null;
+        return gridCellRenderer;
+    }
+
+    public void setGridCellRenderer(ComponentGridCellRenderer gridCellRenderer) {
+        this.gridCellRenderer = gridCellRenderer;
     }
 
 }
