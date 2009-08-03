@@ -32,11 +32,11 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
     public GridPanelPeer() {
         super();
         addOutputProperty(PROPERTY_SELECTION);
-        addOutputProperty(GridPanel.PAGE_OFFSET_PROPERTY); // FIXME - why do we
+        addOutputProperty(GridPanel.PROPERTY_PAGE_OFFSET); // FIXME - why do we
         // have to manually
         // add the output
         // property?
-        addOutputProperty(GridPanel.SET_SIZE_COLUMNS_TO_GRID_PROPERTY);
+        addOutputProperty(GridPanel.PROPERTY_SET_SIZE_COLUMNS_TO_GRID);
         addOutputProperty(PROPERTY_COLUMN_MODEL);
         addOutputProperty(GridPanel.PROPERTY_MODEL);
         
@@ -125,13 +125,13 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
         if (PROPERTY_SELECTION.equals(propertyName)) {
             return String.class;
         }
-        if (GridPanel.SORT_FIELD_PROPERTY.equals(propertyName)) {
+        if (GridPanel.PROPERTY_SORT_FIELD.equals(propertyName)) {
             return String.class;
         }
-        if (GridPanel.SORT_ORDER_PROPERTY.equals(propertyName)) {
+        if (GridPanel.PROPERTY_SORT_ORDER.equals(propertyName)) {
             return String.class;
         }
-        if (GridPanel.COLUMN_MODEL_PROPERTY.equals(propertyName)) {
+        if (GridPanel.PROPERTY_COLUMN_MODEL.equals(propertyName)) {
             return DefaultColumnModel.class;
         }
         if (GridPanel.PROPERTY_MODEL.equals(propertyName)) {
@@ -180,13 +180,13 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
             int[] selection = ListSelectionUtil.toIntArray((String) newValue);
             clientUpdateManager.setComponentProperty(component,
             		PROPERTY_SELECTION, selection);
-        } else if (GridPanel.SORT_FIELD_PROPERTY.equals(propertyName)) {
+        } else if (GridPanel.PROPERTY_SORT_FIELD.equals(propertyName)) {
             clientUpdateManager.setComponentProperty(component,
-                    GridPanel.SORT_FIELD_PROPERTY, (String) newValue);
-        } else if (GridPanel.SORT_ORDER_PROPERTY.equals(propertyName)) {
+                    GridPanel.PROPERTY_SORT_FIELD, (String) newValue);
+        } else if (GridPanel.PROPERTY_SORT_ORDER.equals(propertyName)) {
             clientUpdateManager.setComponentProperty(component,
-                    GridPanel.SORT_ORDER_PROPERTY, (String) newValue);
-        } else if (GridPanel.COLUMN_MODEL_PROPERTY.equals(propertyName)) {
+                    GridPanel.PROPERTY_SORT_ORDER, (String) newValue);
+        } else if (GridPanel.PROPERTY_COLUMN_MODEL.equals(propertyName)) {
 
             ColumnModel serverModel = ((GridPanel) component).getColumnModel();
             ColumnModel clientModel = (ColumnModel) newValue;
@@ -211,7 +211,7 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
                 serverColumn.setGrouping(clientColumn.getGrouping());
             }
             clientUpdateManager.setComponentProperty(component,
-                    GridPanel.COLUMN_MODEL_PROPERTY, serverModel);
+                    GridPanel.PROPERTY_COLUMN_MODEL, serverModel);
         } else if (GridPanel.PROPERTY_MODEL.equals(propertyName)) {
             TableModelAdapter tma = (TableModelAdapter)newValue;
             GridPanel p = (GridPanel)component;

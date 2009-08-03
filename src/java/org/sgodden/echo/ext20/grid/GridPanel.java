@@ -69,24 +69,24 @@ public class GridPanel extends Panel implements TableModelListener,
 
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
-    public static final String COLUMN_MODEL_PROPERTY = "columnModel";
+    public static final String PROPERTY_COLUMN_MODEL = "columnModel";
     public static final String INPUT_ACTION = "action";
-    public static final String MODEL_CHANGED_PROPERTY = "model";
-    public static final String PAGE_OFFSET_PROPERTY = "pageOffset";
+    public static final String PROPERTY_MODEL_CHANGED = "model";
+    public static final String PROPERTY_PAGE_OFFSET = "pageOffset";
     public static final String SELECT_ACTION = "select";
-    public static final String SELECTION_CHANGED_PROPERTY = "selection";
+    public static final String PROPERTY_SELECTION_CHANGED = "selection";
     public static final String SELECTION_MODE = "selectionMode";
-    public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
+    public static final String PROPERTY_SELECTION_MODEL_CHANGED = "selectionModel";
     public static final String SORT_ACTION = "sort";
-    public static final String SORT_FIELD_PROPERTY = "sortField";
+    public static final String PROPERTY_SORT_FIELD = "sortField";
     public static final String SORT_LISTENERS_PROPERTY = "sort";
-    public static final String SORT_ORDER_PROPERTY = "sortDirection";
-    public static final String SET_SIZE_COLUMNS_TO_GRID_PROPERTY = "forceFit";
+    public static final String PROPERTY_SORT_ORDER = "sortDirection";
+    public static final String PROPERTY_SET_SIZE_COLUMNS_TO_GRID = "forceFit";
     public static final String COLUMN_ADDED = "columnAdd";
     public static final String COLUMN_REMOVED = "columnRemove";
     public static final String COLUMN_LISTENERS = "columnListeners";
     public static final String GROUP_ACTION = "group";
-    public static final String SHOW_CHECKBOX = "showCheckbox";
+    public static final String PROPERTY_SHOW_CHECKBOX = "showCheckbox";
     public static final String HIDE_HEADERS = "hideHeaders";
     public static final String EDITCELLCONTENTS = "editcellcontents";
     public static final String PROPERTY_MODEL = "model";
@@ -108,12 +108,12 @@ public class GridPanel extends Panel implements TableModelListener,
      * GridPanel.
      */
     public void setShowCheckbox(Boolean showCheckbox) {
-        set(SHOW_CHECKBOX, showCheckbox);
+        set(PROPERTY_SHOW_CHECKBOX, showCheckbox);
         setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
     }
 
     public boolean getShowCheckbox() {
-        Boolean b = (Boolean) get(SHOW_CHECKBOX);
+        Boolean b = (Boolean) get(PROPERTY_SHOW_CHECKBOX);
         return (b == null) ? false : b.booleanValue();
     }
 
@@ -123,7 +123,7 @@ public class GridPanel extends Panel implements TableModelListener,
     private ChangeListener listSelectionListener = new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
             if (!suppressChangeNotifications) {
-                firePropertyChange(SELECTION_CHANGED_PROPERTY, null, null);
+                firePropertyChange(PROPERTY_SELECTION_CHANGED, null, null);
             }
         }
     };
@@ -137,7 +137,7 @@ public class GridPanel extends Panel implements TableModelListener,
         setSelectionModel(new DefaultListSelectionModel());
         setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
         setPageOffset(0);
-        setComplexProperty(COLUMN_MODEL_PROPERTY, true);
+        setComplexProperty(PROPERTY_COLUMN_MODEL, true);
         setContextMenuStatusAndChildren();
     }
 
@@ -216,7 +216,7 @@ public class GridPanel extends Panel implements TableModelListener,
      * @return the column model for the table.
      */
     public ColumnModel getColumnModel() {
-        return ((ColumnModel) get(COLUMN_MODEL_PROPERTY));
+        return ((ColumnModel) get(PROPERTY_COLUMN_MODEL));
     }
 
     /**
@@ -236,7 +236,7 @@ public class GridPanel extends Panel implements TableModelListener,
      * @return the offset to the current page.
      */
     public int getPageOffset() {
-        return (Integer) get(PAGE_OFFSET_PROPERTY);
+        return (Integer) get(PROPERTY_PAGE_OFFSET);
     }
 
     /**
@@ -305,7 +305,7 @@ public class GridPanel extends Panel implements TableModelListener,
      * @return the name of the field by which the data should be sorted.
      */
     public String getSortField() {
-        return (String) get(SORT_FIELD_PROPERTY);
+        return (String) get(PROPERTY_SORT_FIELD);
     }
 
     /**
@@ -317,7 +317,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public boolean getSortOrder() {
         boolean ret = true;
 
-        String sortString = (String) get(SORT_ORDER_PROPERTY);
+        String sortString = (String) get(PROPERTY_SORT_ORDER);
         if ("ASC".equals(sortString)) {
             ret = true;
         } else if ("DESC".equals(sortString)) {
@@ -333,7 +333,7 @@ public class GridPanel extends Panel implements TableModelListener,
      * @return is the grid forceFit.
      */
     public boolean getSetSizeColumnsToGrid() {
-        return (Boolean) get(SET_SIZE_COLUMNS_TO_GRID_PROPERTY);
+        return (Boolean) get(PROPERTY_SET_SIZE_COLUMNS_TO_GRID);
     }
 
     /**
@@ -370,13 +370,13 @@ public class GridPanel extends Panel implements TableModelListener,
     @Override
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
-        if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
+        if (inputName.equals(PROPERTY_SELECTION_CHANGED)) {
             setSelectedIndices((int[]) inputValue);
         } else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
-        } else if (SORT_FIELD_PROPERTY.equals(inputName)) {
+        } else if (PROPERTY_SORT_FIELD.equals(inputName)) {
             setSortField((String) inputValue);
-        } else if (SORT_ORDER_PROPERTY.equals(inputName)) {
+        } else if (PROPERTY_SORT_ORDER.equals(inputName)) {
             String value = (String) inputValue;
             if (value.equals("ASC")) {
                 setSortAscending(true);
@@ -453,7 +453,7 @@ public class GridPanel extends Panel implements TableModelListener,
             suppressChangeNotifications = true;
             ((SortableTableModel) getModel()).sort(columnIndices, ascending);
             suppressChangeNotifications = false;
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel()); // a
+            firePropertyChange(PROPERTY_MODEL_CHANGED, null, getModel()); // a
 
             // used for retrieving the size of the groups in the model
 //            if (group != null && getModel() instanceof GroupingTableModel) {
@@ -513,9 +513,9 @@ public class GridPanel extends Panel implements TableModelListener,
      *            the column model for the table.
      */
     public void setColumnModel(final ColumnModel columnModel) {
-        set(COLUMN_MODEL_PROPERTY, columnModel);
+        set(PROPERTY_COLUMN_MODEL, columnModel);
         // ensure listeners are notified of a column model change
-        firePropertyChange(COLUMN_MODEL_PROPERTY, null, columnModel);
+        firePropertyChange(PROPERTY_COLUMN_MODEL, null, columnModel);
     }
 
     /**
@@ -537,7 +537,7 @@ public class GridPanel extends Panel implements TableModelListener,
      *            the offset to the first record in the model.
      */
     public void setPageOffset(int pageOffset) {
-        set(PAGE_OFFSET_PROPERTY, pageOffset);
+        set(PROPERTY_PAGE_OFFSET, pageOffset);
         tableChanged(null);
     }
 
@@ -569,7 +569,7 @@ public class GridPanel extends Panel implements TableModelListener,
         }
         // End temporary suppression.
         suppressChangeNotifications = false;
-        firePropertyChange( SELECTION_CHANGED_PROPERTY, null, selectionModel);
+        firePropertyChange( PROPERTY_SELECTION_CHANGED, null, selectionModel);
     }
 
     /**
@@ -611,7 +611,7 @@ public class GridPanel extends Panel implements TableModelListener,
         }
         newValue.addChangeListener(listSelectionListener);
         selectionModel = newValue;
-        firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
+        firePropertyChange(PROPERTY_SELECTION_MODEL_CHANGED, oldValue, newValue);
     }
 
     /**
@@ -620,7 +620,7 @@ public class GridPanel extends Panel implements TableModelListener,
      * @param setSizeColumnsToGrid
      */
     public void setSetSizeColumnsToGrid(Boolean setSizeColumnsToGrid) {
-        set(SET_SIZE_COLUMNS_TO_GRID_PROPERTY, setSizeColumnsToGrid);
+        set(PROPERTY_SET_SIZE_COLUMNS_TO_GRID, setSizeColumnsToGrid);
     }
 
     /**
@@ -631,7 +631,7 @@ public class GridPanel extends Panel implements TableModelListener,
      *            the name of the field to sort by.
      */
     public void setSortField(String sortField) {
-        set(SORT_FIELD_PROPERTY, sortField);
+        set(PROPERTY_SORT_FIELD, sortField);
         setSortAscending(true);
     }
 
@@ -645,9 +645,9 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public void setSortAscending(boolean ascending) {
         if (ascending) {
-            set(SORT_ORDER_PROPERTY, "ASC");
+            set(PROPERTY_SORT_ORDER, "ASC");
         } else {
-            set(SORT_ORDER_PROPERTY, "DESC");
+            set(PROPERTY_SORT_ORDER, "DESC");
         }
     }
 
@@ -661,11 +661,16 @@ public class GridPanel extends Panel implements TableModelListener,
         if (tableModel == null) {
             throw new IllegalArgumentException("table model may not be null");
         }
+        boolean tableChanging = tableModel != getModel();
 
         set(PROPERTY_MODEL, tableModel);
         tableModel.removeTableModelListener(this); // just in case they set the
         // same table model
         tableModel.addTableModelListener(this);
+        if (tableChanging) {
+            setSortField(getColumnModel().getColumn(0).getDataIndex());
+            setSortAscending("ASC".equals(getColumnModel().getColumn(0).getSortDirection()));
+        }
 
         tableChanged(null); // always
         // force
@@ -701,7 +706,7 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public void tableChanged(TableModelEvent e) {
         if (!suppressChangeNotifications) {
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel()); // a
+            firePropertyChange(PROPERTY_MODEL_CHANGED, null, getModel()); // a
             // bodge
             // but
             // we're
