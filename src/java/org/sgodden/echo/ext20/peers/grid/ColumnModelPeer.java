@@ -148,7 +148,7 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                 Class<?> componentClass = c.getClass();
                 do {
                     if (editorClassToType.containsKey(componentClass)) {
-                        attributes2.put("type", new JSONString(editorClassToType.get(c.getClass())));
+                        attributes2.put("type", new JSONString(editorClassToType.get( componentClass)));
                     }
                     componentClass = componentClass.getSuperclass();
                 } while (!Component.class.equals(componentClass) && !attributes2.containsKey("type"));
