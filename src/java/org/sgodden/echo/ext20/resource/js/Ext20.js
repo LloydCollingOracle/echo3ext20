@@ -976,6 +976,11 @@ EchoExt20.PropertyTranslator.ColumnModel = {
                     config['store'] = thisCol.editorConfig.modelValues;
                     config['triggerAction'] = 'all';
                     thisCol.editor = new Ext.form.ComboBox(config);
+                } else if ( thisCol.editorConfig.type == 'Ext.ux.Andrie.Select') {
+                    config['store'] = thisCol.editorConfig.modelValues;
+                    config['triggerAction'] = 'all';
+                    config['multiSelect']= thisCol.editorConfig.multiSelect;
+                    thisCol.editor = new Ext.ux.Andrie.Select(config);
                 } else {
                     eval("thisCol.editor = new " + config.type + "(config);");
                 }

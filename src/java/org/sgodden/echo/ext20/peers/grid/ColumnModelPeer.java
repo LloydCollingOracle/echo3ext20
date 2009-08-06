@@ -18,6 +18,7 @@ import nextapp.echo.app.util.Context;
 import org.sgodden.echo.ext20.CheckboxField;
 import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.DateField;
+import org.sgodden.echo.ext20.MultiSelectComboBox;
 import org.sgodden.echo.ext20.TextArea;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.grid.ColumnConfiguration;
@@ -54,6 +55,7 @@ public class ColumnModelPeer implements SerialPropertyPeer {
         editorClassToType.put(TextArea.class, "Ext.form.TextArea");
         editorClassToType.put(CheckboxField.class, "Ext.form.Checkbox");
         editorClassToType.put(ComboBox.class, "Ext.form.ComboBox");
+        editorClassToType.put(MultiSelectComboBox.class, "Ext.ux.Andrie.Select");
         editorClassToType.put(DateField.class, "Ext.form.DateField");
     }
 
@@ -162,6 +164,16 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                 		values[i] = model.get(i);
                 	}
                 	attributes2.put( "modelValues", JSONMapper.toJSON( values));
+                }
+                if ( attributes2.get( "type").toString().contains("Ext.ux.Andrie.Select")) {
+                	MultiSelectComboBox combo = (MultiSelectComboBox)c;
+                	ListModel model = combo.getModel();
+                	Object[] values = new Object[model.size()];
+                	for ( int i=0; i<model.size(); i++) {
+                		values[i] = model.get(i);
+                	}
+                	attributes2.put( "modelValues", JSONMapper.toJSON( values));
+                	attributes2.put( "multiSelect", JSONMapper.toJSON( combo.getMultiSelect()));
                 }
                 for (Iterator it = c.getLocalStyle().getPropertyNames(); it.hasNext();) {
                     String name = (String)it.next();

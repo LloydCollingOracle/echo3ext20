@@ -38,6 +38,7 @@ import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.DateField;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
+import org.sgodden.echo.ext20.MultiSelectComboBox;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.SplitButton;
@@ -227,6 +228,17 @@ public class UserListPanel
         };
         birthdayCol.setEditorComponent( new DateField());
         cols.add( birthdayCol);
+        ColumnConfiguration favorSports = new DefaultColumnConfiguration( "Favor Sports", 200, true, "favorSports", false) {
+			@Override
+			public Class<?> getColumnClass() {
+				return String.class;
+			}
+        };
+        MultiSelectComboBox combo = new MultiSelectComboBox( new DefaultListModel( new String[]{ "Tennis", "Swing", "Running", "Boxing"}));
+        favorSports.setEditorComponent( combo);
+        cols.add( favorSports);
+
+        
         DefaultColumnModel columnModel = new DefaultColumnModel(cols);
     	return columnModel;
     }
@@ -248,7 +260,7 @@ public class UserListPanel
     }
     
     private String[] makeColumnNames() {
-        return new String[] {"userid", "name", "isadmin", "sex", "motto", "birthday"};
+        return new String[] {"userid", "name", "isadmin", "sex", "motto", "birthday", "favorSports"};
     }
 
     /**
@@ -289,13 +301,14 @@ public class UserListPanel
         Object[][] data = new Object[rows][];
 
         for (int i = 0; i < data.length; i++) {
-            Object[] row = new Object[6];
+            Object[] row = new Object[7];
             row[0] = "User id  " + (startIndex + i);
             row[1] = "Name " + (startIndex + i);
             row[2] = Boolean.valueOf(i % 2 == 0);
             row[3] = i % 2 == 0 ? "male" : "female";
             row[4] = "A long long long words, \n with many many many \nlines";
             row[5] = Calendar.getInstance().getTime();
+            row[6] = "Swing,Boxing";
             data[i] = row;
         }
 
