@@ -830,6 +830,11 @@ public class GridPanel extends Panel implements TableModelListener,
         if (headerContextMenu != null) {
             add(headerContextMenu);
         }
+        
+        if (getToolbar() != null)
+            add(getToolbar());
+        if (getBottomToolbar() != null)
+            add(getBottomToolbar());
     }
 
 }
