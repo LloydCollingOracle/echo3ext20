@@ -195,6 +195,10 @@ public abstract class AbstractButton extends ExtComponent {
     public void setText(String text) {
         set(TEXT_PROPERTY, text);
     }
+    
+    public String getText() {
+        return (String)get(TEXT_PROPERTY);
+    }
 
     /**
      * Sets the icon displayed in the button.

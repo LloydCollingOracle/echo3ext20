@@ -211,6 +211,7 @@
 		<patch patchfile="contrib/patches/ext-2.2.1/ExtBase.getXY2.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
 		<patch patchfile="contrib/patches/ext-2.2.1/TableLayout.RemoveCells.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
         <patch patchfile="contrib/patches/ext-2.2.1/BorderLayoutUndefinedPos.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+        <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabCls.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 	</target>
 
 	<target name="war" depends="jar">
