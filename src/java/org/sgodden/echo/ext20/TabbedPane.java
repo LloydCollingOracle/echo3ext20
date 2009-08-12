@@ -225,4 +225,19 @@ public class TabbedPane extends Panel {
     public void setShowFullTitle( boolean value) {
     	set( PROPERTY_SHOW_FULL_TITLE, value);
     }
+    
+    /**
+     * Checks that all panel children have titles
+     */
+    @Override
+    public void validate() {
+        super.validate();
+        for (Component c : getComponents()) {
+            if (c instanceof Panel) {
+                if (((Panel) c).getTitle() == null) {
+                    throw new IllegalStateException("All children of tabbed pane must have a non-null title");
+                }
+            }
+        }
+    }
 }
