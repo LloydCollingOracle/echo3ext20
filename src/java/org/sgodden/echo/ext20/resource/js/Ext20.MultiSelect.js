@@ -87,17 +87,19 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
               this._selectedRows = this.component.get("selection").split(",");
               var toData = [[]];
               var fromData = [[]];
+              var fromIndex = 0;
+              var toIndex = 0;
                 for( var z=0 ; z<store.data.length; z++ ) {
                     found = false;
                   for( var x=0; x<this._selectedRows.length; x++ ) {
                         if (this._selectedRows[x].toString() == store.data[z][1].toString()) {
-                              toData.push(store.data[z]);
+                              toData[toIndex++] = store.data[z];
                             found = true;
                           break;
                         }
                     }
                     if (!found) {
-                        fromData.push(store.data[z]);
+                        fromData[fromIndex++] = store.data[z];
                   }
               }
               options.fromData = fromData;
@@ -156,7 +158,18 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
             this.extComponent.setDisabled(!this.component.get("editable"));
         }
         EchoExt20.FormFieldSync.prototype.renderUpdate.call(this, update);
-        this._handleSelectEventSimple;
+        if(_renderedComplex) {
+            var selectionString = this.component.get("selection");
+            if(selectionString == "") {
+                this.extComponent.reset();
+            }
+            else if(selectionString) {
+                this._handleSelectEventComplex(this, selectionString);
+            }
+        }
+        else {
+            this._handleSelectEventSimple(this, this.component.get("selection"));
+        }
     },
     
     _handleSelectEventSimple: function(ms, val) {

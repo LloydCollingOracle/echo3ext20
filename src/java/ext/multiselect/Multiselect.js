@@ -514,7 +514,6 @@ Ext.ux.ItemSelector = Ext.extend(Ext.form.Field,  {
 	getValue : function() {
 		return this.hiddenField.dom.value;
 	},
-	
 	onRowDblClick : function(vw, index, node, e) {
 		return this.fireEvent('rowdblclick', vw, index, node, e);
 	},

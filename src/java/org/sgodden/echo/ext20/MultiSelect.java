@@ -66,7 +66,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
     private ChangeListener listSelectionListener = new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
             if (!suppressChangeNotifications) {
-                firePropertyChange(SELECTION_CHANGED_PROPERTY, null, null);
+                firePropertyChange(SELECTION_CHANGED_PROPERTY, null, getSelectedItems());
             }
         }
     };
