@@ -1,0 +1,12 @@
+--- ext-all-debug.js	2009-08-25 11:00:15.000000000 +0100
++++ ext-all-debug.js	2009-08-25 14:25:08.000000000 +0100
+@@ -19902,6 +19902,9 @@
+         }
+         if (this.items.indexOf(item) == (this.items.getCount() - 1)) {
+             cls += ' x-tab-last';
++            if (this.items.getCount() > 1) {
++                this.items.get(this.items.getCount() - 2).tabEl.removeClass("x-tab-last");
++            }
+         }
+ 
+         var p = {
