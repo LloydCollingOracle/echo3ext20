@@ -38,6 +38,11 @@ Ext.ux.Multiselect = Ext.extend(Ext.form.Field,  {
 			'drop' : true
 		});		
 	},
+	focus: function() {
+	    if (this.view) {
+	        this.view.focus();
+	    }
+	},
     onRender: function(ct, position){
 		var fs, cls, tpl;
 		Ext.ux.Multiselect.superclass.onRender.call(this, ct, position);

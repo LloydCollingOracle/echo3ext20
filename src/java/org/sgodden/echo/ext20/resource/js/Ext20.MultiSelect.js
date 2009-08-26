@@ -237,6 +237,15 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
             selectionString += row;
         }
         this.component.set("selection", selectionString);
+    },
+    
+    renderFocus: function() {
+         if( this.component.get("complex") ) {
+            this.extComponent.fromMultiselect.focus();
+        }
+        else{
+            this.extComponent.focus();
+        }
     }
 
 });
