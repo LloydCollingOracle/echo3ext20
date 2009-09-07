@@ -144,6 +144,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	 */
 	public void setValue(String value) {
 		if ( getMultiSelect()) {
+            set( VALUE_CHANGED_PROPERTY, value);
 			selectionModel.clearSelection();
 			if ( value == null || "".equals( value)) return;
 			

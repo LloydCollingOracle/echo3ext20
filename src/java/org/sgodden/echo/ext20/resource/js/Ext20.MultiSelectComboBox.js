@@ -190,11 +190,11 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
         if (update.getUpdatedProperty("model")) {
             this._updateStore(this.component.get("model"))
         }
-        if (this.component.get("selectedValue") != null) {
-            this.extComponent.setValue(this.component.get("selectedValue"));
+        if (update.getUpdatedProperty("selectedValue") != null) {
+            this.extComponent.setValue(update.getUpdatedProperty("selectedValue").newValue);
         }
         if (update.getUpdatedProperty("rawValue") != null) {
-            this.extComponent.setValue(this.component.get("rawValue"));
+            this.extComponent.setValue(update.getUpdatedProperty("rawValue").newValue);
         }
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             if(this.component.get("invalidText") != null) {

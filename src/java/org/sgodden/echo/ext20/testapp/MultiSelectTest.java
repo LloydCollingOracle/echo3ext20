@@ -20,10 +20,12 @@ public class MultiSelectTest extends Panel {
 		for( int mode=1; mode<11; mode++)
 			createDemo(model, mode);		
 	}
-	private MultiSelectComboBox slaveCombo;
+	private MultiSelectComboBox slaveSingleCombo;
+	private MultiSelectComboBox slaveMultiCombo;
 	private void createDemo(DefaultListModel model, int mode) {
 		final MultiSelectComboBox multiSelectComboBox = new MultiSelectComboBox( model);
-		if ( mode == 5) slaveCombo = multiSelectComboBox;
+		if ( mode == 2) slaveMultiCombo = multiSelectComboBox;
+		if ( mode == 5) slaveSingleCombo = multiSelectComboBox;
  		Label label = new Label( "Selected value is: ");
 
 		setSelection(multiSelectComboBox, mode, label);
@@ -89,7 +91,8 @@ public class MultiSelectTest extends Panel {
 			multiSelectComboBox.addActionListener( new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {			
 					label.setText( "Multi select with action listener, The data is changed to " + multiSelectComboBox.getValue() +". Result: ");
-					slaveCombo.setValue( "slave value");
+					slaveSingleCombo.setValue( "slave value" + multiSelectComboBox.getValue());
+					slaveMultiCombo.setValue( multiSelectComboBox.getValue());
 				}
 			});
 			break;
