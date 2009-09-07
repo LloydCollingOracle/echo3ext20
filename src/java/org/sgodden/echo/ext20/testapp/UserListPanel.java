@@ -194,6 +194,19 @@ public class UserListPanel
         nameCol.setEditorComponent(new TextField());
         nameCol.setMenuDisabled(true);
         cols.add(nameCol);
+        
+        DefaultColumnConfiguration scoreCol = new DefaultColumnConfiguration("Score",
+                100, true, "score", false) {
+            @Override
+            public Class getColumnClass() {
+                return Double.class;
+            }
+        };
+        TextField scoreEdit = new TextField();
+        scoreEdit.setMaskRe( "^\\d*$");
+        scoreEdit.setNotifyImmediately( true);
+        scoreCol.setEditorComponent( scoreEdit);
+        cols.add(scoreCol);
 
         ColumnConfiguration adminCol = new DefaultColumnConfiguration(
                 "Is Admin?", 200, true, "isadmin", false) {
@@ -260,7 +273,7 @@ public class UserListPanel
     }
     
     private String[] makeColumnNames() {
-        return new String[] {"userid", "name", "isadmin", "sex", "motto", "birthday", "favorSports"};
+        return new String[] {"userid", "name", "score", "isadmin", "sex", "motto", "birthday", "favorSports"};
     }
 
     /**
@@ -301,14 +314,15 @@ public class UserListPanel
         Object[][] data = new Object[rows][];
 
         for (int i = 0; i < data.length; i++) {
-            Object[] row = new Object[7];
+            Object[] row = new Object[8];
             row[0] = "User id  " + (startIndex + i);
             row[1] = "Name " + (startIndex + i);
-            row[2] = Boolean.valueOf(i % 2 == 0);
-            row[3] = i % 2 == 0 ? "male" : "female";
-            row[4] = "A long long long words, \n with many many many \nlines";
-            row[5] = Calendar.getInstance().getTime();
-            row[6] = "Swing,Boxing";
+            row[2] = Math.random();
+            row[3] = Boolean.valueOf(i % 2 == 0);
+            row[4] = i % 2 == 0 ? "male" : "female";
+            row[5] = "A long long long words, \n with many many many \nlines";
+            row[6] = Calendar.getInstance().getTime();
+            row[7] = "Swing,Boxing";
             data[i] = row;
         }
 

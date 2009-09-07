@@ -966,6 +966,12 @@ EchoExt20.PropertyTranslator.ColumnModel = {
             if (thisCol.editorConfig) {
                 var config = thisCol.editorConfig;
                 if (thisCol.editorConfig.type == 'Ext.form.TextField') {
+                    if ( config['maskRe']) {
+                        config['maskRe'] = new RegExp(config['maskRe']);
+                    }
+                    if ( config['regExp']) {
+                        config['regExp'] = new RegExp(config['regExp']);
+                    }
                     thisCol.editor = new Ext.form.TextField(config);
                 } else if (thisCol.editorConfig.type == 'Ext.form.Checkbox') {
                     delete thisCol.renderer;
