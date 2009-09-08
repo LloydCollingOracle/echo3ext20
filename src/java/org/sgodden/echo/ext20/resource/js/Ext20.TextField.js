@@ -66,6 +66,11 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     _invalidValue: null,
     
     /**
+     * The last value from the server
+     */
+    _initialValue: null,
+    
+    /**
      * The message being displayed when the field is invalid
      */
     _invalidMsg: null,
@@ -74,6 +79,9 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+        options['enableKeyEvents'] = true;
+        this._initialValue = this._getComponentValue();
+        
         if (this.component.get('value') != null) {
             options['value'] = this.component.get("value");
         }
@@ -145,16 +153,6 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             this._doOnRender,
             this);
 
-        /**
-        * Sends the field value back to the server on key up
-        * with a given delay. Requires focus to be false
-        * or the user would overwrite the value after each
-        * delay.
-        */
-        if (this.component.get("notifyValueImmediate")){
-            extComponent.focus = false;
-            extComponent.on("valid", this._handleValidEvent, this);
-        }
     	return extComponent;
     },
     
@@ -185,6 +183,17 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
                 this.component.get("size");
         }
         this.extComponent.validate.defer(100, this.extComponent);
+        
+        /**
+        * Sends the field value back to the server on key up
+        * with a given delay. Requires focus to be false
+        * or the user would overwrite the value after each
+        * delay.
+        */
+        if (this.component.get("notifyValueImmediate")){
+            this.extComponent.focus = false;
+            this.extComponent.on("valid", this._handleValidEvent, this);
+        }
     },
     
      /**
@@ -224,7 +233,12 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     * notification. 
     */
     _handleValidEvent: function() {
-          this.component.doAction();
+        var oldValue = this._initialValue;
+        if (typeof oldValue == 'undefined')
+            oldValue = '';
+        
+        if (oldValue != this.extComponent.getValue())
+            this.component.doAction();
     },
 
     /**
@@ -239,6 +253,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         	this.extComponent.setDisabled(false);
     	}
         this.extComponent.setValue(this.component.get("value"));
+        this._initialValue = this.component.get("value");
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             if(this.component.get("invalidText") != null) {
                 this._invalidValue = this.component.get("value");

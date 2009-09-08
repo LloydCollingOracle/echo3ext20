@@ -43,6 +43,7 @@ public class TextFieldPeer
         addOutputProperty(TextField.VALID_PROPERTY);
         addOutputProperty(TextField.INVALID_TEXT_PROPERTY);
         addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);
+        addOutputProperty(TextField.NOTIFY_VALUE_IMMEDIATE_PROPERTY);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(TextField.INPUT_ACTION,  TextField.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
@@ -78,6 +79,9 @@ public class TextFieldPeer
         else if(TextField.VALID_PROPERTY.equals(propertyName)){
         	return Boolean.class;
         }
+        else if(TextField.NOTIFY_VALUE_IMMEDIATE_PROPERTY.equals(propertyName)){
+            return Boolean.class;
+        }
         return null;
     }
 
@@ -91,6 +95,8 @@ public class TextFieldPeer
         	getClientUpdateManager(context).setComponentProperty(component, TextField.VALID_PROPERTY, newValue);
         }else if(propertyName.equals(TextField.INVALID_TEXT_PROPERTY)){
             getClientUpdateManager(context).setComponentProperty(component, TextField.INVALID_TEXT_PROPERTY, newValue);
+        }else if(propertyName.equals(TextField.NOTIFY_VALUE_IMMEDIATE_PROPERTY)){
+            getClientUpdateManager(context).setComponentProperty(component, TextField.NOTIFY_VALUE_IMMEDIATE_PROPERTY, newValue);
         }
     }
     

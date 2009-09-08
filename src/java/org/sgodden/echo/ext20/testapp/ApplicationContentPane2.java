@@ -16,6 +16,8 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Date;
 
 import nextapp.echo.app.Button;
@@ -193,8 +195,15 @@ public class ApplicationContentPane2
         userEditPanel.setRenderId("userEditPanel");
         
         userEditPanel.add(new Label("Code"));
-        final TextField codeField = new TextField();
-        codeField.setText((String)data[1]);
+        final org.sgodden.echo.ext20.TextField codeField = new org.sgodden.echo.ext20.TextField();
+        codeField.setNotifyImmediately(true);
+        codeField.addPropertyChangeListener(org.sgodden.echo.ext20.TextField.VALUE_CHANGED_PROPERTY, new PropertyChangeListener() {
+            
+            public void propertyChange(PropertyChangeEvent arg0) {
+                log.info("Code field value changed to: " + codeField.getValue());
+            }
+        });
+        codeField.setValue((String)data[1]);
         userEditPanel.add(codeField);
         
         userEditPanel.add(new Label("Name"));
@@ -236,7 +245,7 @@ public class ApplicationContentPane2
             public void actionPerformed(ActionEvent e) {
                 // print out field values to make sure they have transferred correctly
                 log.info("Save button pressed:");
-                log.info("  codeField: " + codeField.getText());
+                log.info("  codeField: " + codeField.getValue());
                 log.info("  nameField: " + nameField.getText());
                 log.info("  enabled: " + enabledField.isSelected());
                 
