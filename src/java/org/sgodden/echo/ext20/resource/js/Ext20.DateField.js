@@ -91,6 +91,10 @@ EchoExt20.DateFieldSync = Core.extend(EchoExt20.FormFieldSync, {
 
     renderUpdate: function(update){
         EchoExt20.FormFieldSync.prototype.renderUpdate.call(this, update);
+        if (update.getUpdatedProperty("date") != null) {
+            this.extComponent.setValue(update.getUpdatedProperty("date").newValue);
+        }
+        
         if ( !(this.component.isEnabled()) ) {
             this.extComponent.setDisabled(true);
         } else {

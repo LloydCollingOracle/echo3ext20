@@ -144,6 +144,7 @@ public class DateField
      */
     public void setCalendar(Calendar cal) {
         this.calendar = cal;
+        set(DATE_CHANGED_PROPERTY, cal);
     }
 
     /**
@@ -202,7 +203,6 @@ public class DateField
     public void processInput(String inputName, Object inputValue) {
         if (DATE_CHANGED_PROPERTY.equals(inputName)) {
             if (inputValue == null) {
-                calendar = null;
                 setCalendar(null);
             } else if (!(inputValue instanceof Date)) {
                 // must have been an invalid date on the client side
@@ -210,7 +210,7 @@ public class DateField
             } else {
                 this.clientInputValid = true;
                 
-                if(calendar == null) {
+                if( calendar == null) {
                     calendar = Calendar.getInstance(getLocale());
                     calendar.set(Calendar.HOUR_OF_DAY, 0);
                     calendar.set(Calendar.MINUTE, 0);

@@ -23,7 +23,6 @@ import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 
-import org.sgodden.echo.ext20.ComboBox;
 import org.sgodden.echo.ext20.DateField;
 
 @SuppressWarnings({"unchecked"})
@@ -45,7 +44,7 @@ public class DateFieldPeer
         addOutputProperty(DateField.VALID_PROPERTY);
         addOutputProperty(DateField.INVALID_TEXT_PROPERTY);
 
-        addEvent(new AbstractComponentSynchronizePeer.EventPeer(DateField.DATE_CHANGED_PROPERTY, ComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(DateField.DATE_CHANGED_PROPERTY, DateField.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {
                 return ((DateField) component).hasActionListeners();
@@ -64,18 +63,14 @@ public class DateFieldPeer
     @Override
     public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
         Object ret = null;
-        
         if (propertyName.equals(DateField.DATE_CHANGED_PROPERTY)) {
             DateField df = (DateField) component;
-            if(df.getCalendar() == null){
+            if ( df.getCalendar() == null){
             	return null;
-            }
-            else{
+            } else {
             	return df.getCalendar().getTime();	
             }
-            
-        }
-        else {
+        } else {
             ret = super.getOutputProperty(context, component, propertyName, propertyIndex);
         }
         

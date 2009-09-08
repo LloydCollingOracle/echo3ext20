@@ -6,6 +6,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.DateField;
 import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TimeField;
@@ -18,6 +19,23 @@ public class TimeFieldTest extends Panel {
 	}
 
 	public void createUI() {
+	    final DateField dateField = new DateField( Calendar.getInstance());
+	    add( dateField);
+	    Button nextDay = new Button( "Next Day");
+	    nextDay.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                Calendar cal = dateField.getCalendar();
+                // Make a copy. So that it will fire property change when 
+                // the cal is changed.
+                Calendar copy = Calendar.getInstance();
+                copy.setTime( cal.getTime());
+                copy.add( Calendar.DAY_OF_MONTH, 1);
+
+                dateField.setCalendar( copy);
+            }
+        });
+	    add( nextDay);
+	    
 		final TimeField timeField = new TimeField( Calendar.getInstance());
 		add( timeField);
 		final Label label = new Label( "Result is");
