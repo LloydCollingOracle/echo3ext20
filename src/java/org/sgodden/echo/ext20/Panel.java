@@ -218,7 +218,7 @@ public class Panel extends ExtComponent {
     }
     
     private Map<String, Set<ActionListener>> keyPressListeners;
-    private Map<Tool, Set<ActionListener>> toolListeners;
+    private Map<String, Set<ActionListener>> toolListeners;
     private List<ActionListener> beforeExpandListeners;
     
     private Toolbar topToolbar;
@@ -513,9 +513,9 @@ public class Panel extends ExtComponent {
      * @param tool the tool to add.
      * @param listener the listener to respond to the click event.
      */
-    public void addToolListener(Tool tool, ActionListener listener) {
+    public void addToolListener(String tool, ActionListener listener) {
         if (toolListeners == null) {
-            toolListeners = new HashMap<Tool, Set<ActionListener>>();
+            toolListeners = new HashMap<String, Set<ActionListener>>();
         }
         
         Set<ActionListener> listeners = toolListeners.get(tool);
@@ -527,14 +527,18 @@ public class Panel extends ExtComponent {
         listeners.add(listener);
         
         StringBuffer sb = new StringBuffer();
-        for (Tool theTool : toolListeners.keySet()) {
+        for (String theTool : toolListeners.keySet()) {
             if (sb.length() > 0) {
                 sb.append(',');
             }
-            sb.append(theTool.toString().toLowerCase());
+            sb.append(theTool.toLowerCase());
         }
         set(TOOL_IDS_PROPERTY, sb.toString());
         firePropertyChange(TOOLCLICK_LISTENERS_CHANGED_PROPERTY, null, listener);
+    }
+    
+    public void addToolListener(Tool tool, ActionListener listener) {
+        addToolListener(tool.name(), listener);
     }
     
     /**
@@ -685,7 +689,7 @@ public class Panel extends ExtComponent {
      * Fires tool click events to registered listeners.
      */
     private void fireToolClickEvent() {
-        Tool tool = Tool.valueOf(toolIdClicked.toUpperCase());
+        String tool = toolIdClicked.toUpperCase();
         if (!(toolListeners.containsKey(tool))) {
             throw new IllegalStateException("Too click event fired when no listener registered: " + toolIdClicked);
         }
