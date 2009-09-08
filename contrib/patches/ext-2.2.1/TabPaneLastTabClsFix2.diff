@@ -6,8 +6,8 @@
              if (this.items.getCount() > 1) {
 -                this.items.get(this.items.getCount() - 2).tabEl.removeClass("x-tab-last");
 +                var oldLastItem = this.items.get(this.items.getCount() - 2);
-+                if (oldLastItem && oldLastItem.tabEl && oldLastItem.tabEl.removeClass) {
-+                    oldLastItem.tabEl.removeClass("x-tab-last");
++                if (oldLastItem && oldLastItem.tabEl && Ext.get(oldLastItem.tabEl).removeClass) {
++                    Ext.get(oldLastItem.tabEl).removeClass("x-tab-last");
 +                }
              }
          }
