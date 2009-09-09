@@ -154,7 +154,10 @@ public class UserListPanel
         // ensure list selections are notified immediately
         userGridPanel.setNotifySelect(true);
         // don't allow multiple row selection
-        userGridPanel.setSelectionMode(SelectionMode.SINGLE_SELECTION);
+        userGridPanel.setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
+        for (int i = 0; i < userGridPanel.getModel().getRowCount(); i++) {
+            userGridPanel.getSelectionModel().setSelectedIndex(i, true);
+        }
         //
         userGridPanel.setShowCheckbox(true);
         userGridPanel.setEditCellContents(true);

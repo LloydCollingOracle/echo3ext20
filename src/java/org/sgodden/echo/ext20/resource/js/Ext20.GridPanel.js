@@ -127,14 +127,17 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             return ret;
         },
         
+        /**
+         * Performs post-render updating
+         */
         _handleOnRender: function() {
-            this._handleServerSelections();
             if (this._reconfigureOnRender) {
                 this.extComponent.reconfigure(
                   this._makeStore(),
                   this.component.get("columnModel")
                 );
             }
+        
             if (this.cellContextMenu != null) {
                 this.extComponent.un('cellcontextmenu', this._handleCellContextMenu, this);
                 this.extComponent.on('cellcontextmenu', this._handleCellContextMenu, this);
@@ -147,6 +150,18 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 this.extComponent.un('headercontextmenu', this._handleHeaderContextMenu, this);
                 this.extComponent.on('headercontextmenu', this._handleHeaderContextMenu, this);
             }
+            /*
+             * Defer this call because the ExtJS grid uses innerHTML in order to render itself.
+             * 
+             * The use of innerHTML means that the dom nodes will not be created until after the 
+             * current thread of execution completes. Since the selection of rows requires that 
+             * the dom nodes be available, we defer this call for a few moments to allow the 
+             * browser to create the dom nodes, ready to be updated with the selection.
+             * 
+             * FIXME - racy, should check that dom element this.extComponent.getView().mainBody 
+             * has at least one child node.
+             */
+            this._handleServerSelections.defer(50, this);
         },
         
         /**
@@ -226,7 +241,6 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                     "</div>"
                 );
         }
-        
         
         sm.on("rowselect", this._handleRowSelectEvent, this);
         sm.on("rowdeselect", this._handleRowDeselectEvent, this);
@@ -435,9 +449,26 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         }
     },
 
+    /**
+     * Handles the selection sent by the server for the component.
+     */
     _handleServerSelections: function() {
+        this._handleSelectionEvents = false;
         // clear select first
         this.extComponent.getSelectionModel().clearSelections();
+        this._extractSelectedRowsFromComponent();
+
+        var first = this.component.get("pageOffset");
+        var last = first + this.extComponent.getStore().getCount();
+        this._applySelectionToModel(this.extComponent.getSelectionModel(), first, last);
+        this._handleSelectionEvents = true;
+    },
+    
+    /**
+     * Retrieves the selection sent by the server, and sets the (sparse) array
+     * this._selectedRows to have value true for each index that is selected
+     */
+    _extractSelectedRowsFromComponent: function() {
         this._selectedRows = {};
         var selectionString = this.component.get("selection");
         if (selectionString) {
@@ -447,15 +478,20 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 this._selectedRows[row] = true;
             }
         }
-
-        var first = this.component.get("pageOffset");
-        var last = first + this.extComponent.getStore().getCount();
+    },
+    
+    /**
+     * Applies the selections where first <= selection < last in this._selectedRows 
+     * to the specified selection model, replacing any existing selections.
+     */
+    _applySelectionToModel: function(selModel, first, last) {
+        var selectedRowIndices = [];
         for (var row in this._selectedRows) {
             if (row >= first && row < last) {
-                this.extComponent.getSelectionModel().selectRow(
-                        row - first, true);
+                selectedRowIndices[selectedRowIndices.length] = row;
             }
         }
+        selModel.selectRows(selectedRowIndices, false);
     },
     
     _handleModelChanged: function(editEvent) {
