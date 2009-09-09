@@ -93,6 +93,7 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 		};
 		
 		Ext.ux.Andrie.Select.superclass.initComponent.call(this);
+		this.addEvents( 'clearValue');
 		if (this.multiSelect){
 			this.typeAhead = false;
 			this.editable = false;
@@ -123,6 +124,7 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 	
 	onTrigger1Click:function(){
 		this.clearValue();
+		this.fireEvent('clearValue', this, this.oldValue, this.getRawValue());
 	},
 	
 	initList:function(){
@@ -357,7 +359,6 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 	onSingleFocus:function(){
 		this.oldValue = this.getRawValue();
 	},
-	
 	// private
 	onSingleBlur:function(){
 		var r = this.findRecord(this.displayField, this.getRawValue());
@@ -378,9 +379,9 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 			return;
 		}
 		if (this.getValue() != ''){
-			this.triggers[0].show();
+			if ( this.triggers[0].isVisible() == false) this.triggers[0].show();
 		}else{
-			this.triggers[0].hide();
+			if ( this.triggers[0].isVisible() == true) this.triggers[0].hide();
 		}
 	},
 
@@ -522,8 +523,7 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 	       this.commonChangeValue('', '', [], []);
 	       return;
 	    }
-		var result = [],
-				resultRaw = [];
+		var result = [],resultRaw = [];
 		if (!(v instanceof Array)){
 			if (this.separator && this.separator !== true && typeof v == 'string'){
 				v = v.split(String(this.separator));
@@ -561,22 +561,20 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 			this.selectByValue(this.valueArray);
 		}
 	},
-	
 	// private
 	commonChangeValue:function(v, text, result, resultRaw){
-		this.lastSelectionText = text;
-		this.valueArray = result;
-		this.rawValueArray = resultRaw;
-		if(this.hiddenField){
-			this.hiddenField.value = v;
-		}
-		Ext.form.ComboBox.superclass.setValue.call(this, text);
-		this.value = v;
-		
-		if (this.oldValueArray != this.valueArray){
-			this.fireEvent('change', this, this.oldValueArray, this.valueArray);
-		}
-		this.oldValueArray = Ext.apply([], this.valueArray);
+        this.lastSelectionText = text;
+        this.valueArray = result;
+        this.rawValueArray = resultRaw;
+        if(this.hiddenField){
+            this.hiddenField.value = v;
+        }
+        Ext.form.ComboBox.superclass.setValue.call(this, text);
+        this.value = v;
+        if (this.oldValueArray != this.valueArray){
+            this.fireEvent('change', this, this.oldValueArray, this.valueArray);
+        }
+        this.oldValueArray = Ext.apply([], this.valueArray);
 	},
 
 	validateValue:function(value){

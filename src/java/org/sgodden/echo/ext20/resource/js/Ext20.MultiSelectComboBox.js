@@ -63,10 +63,6 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
         if (this.component.get("emptyText") != null) {
             options['emptyText'] = this.component.get("emptyText");
         }
-        if(this.component.get("rawValue") != null) {
-            options['rawValue'] = this.component.get("rawValue");
-        }
-
         if ( !(this.component.isEnabled()) ) {
             options['disabled'] = true;
             this.component.focusable = false;
@@ -145,8 +141,27 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
             this._onChange,
             this
         );
-        this.extComponent.setValue( this.component.get("selectedValue"));
+        this.extComponent.on(
+            "clearValue",
+            this._onClearValue,
+            this
+        );
+        this._setExtComponentValue();
         return this.extComponent;
+    },
+    _setExtComponentValue: function() {
+        if ( this.component.get("multiSelect") == false) {
+            this.extComponent.setValue( this.component.get("rawValue"));
+        } else {
+            this.extComponent.setValue( this.component.get("selectedValue"));
+        }
+    },
+    _setComponentValue: function() {
+        if ( this.component.get("multiSelect") == false) {
+            this.component.set( "rawValue", this.extComponent.getRawValue());
+        } else {
+            this.component.set( "selectedValue", this.extComponent.getValue());
+        }
     },
         
     /**
@@ -154,26 +169,16 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
      * if the selected value is not null.
      */
     _handleCollapseEvent: function() {
-        if ( this.component.get("multiSelect") == false) {
-            this.component.set("rawValue", this.extComponent.getRawValue());
-            this.component.set("selectedValue", null);
-        } else { 
-            this.component.set("selectedValue", this.extComponent.getValue());
-        }
+        this._setComponentValue();
         this.component.doAction();  
     },
     
     _onChange: function() {
-        // only deal with the clear action.
-        var v = this.extComponent.getValue();
-        if ( v == null || v == "") {
-            this.component.set("selectedValue", v);
-            this.component.set("rawValue", v);
-            this.component.doAction();
-        } else if ( this.component.get("multiSelect") == false) {
-            this.component.set("rawValue", this.extComponent.getRawValue());
-            this.component.set("selectedValue", null);
-        }
+        this._setComponentValue();
+    },
+    _onClearValue: function() {
+        this._setComponentValue();
+        this.component.doAction();
     },
     
 
@@ -190,11 +195,14 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
         if (update.getUpdatedProperty("model")) {
             this._updateStore(this.component.get("model"))
         }
-        if (update.getUpdatedProperty("selectedValue") != null) {
-            this.extComponent.setValue(update.getUpdatedProperty("selectedValue").newValue);
-        }
-        if (update.getUpdatedProperty("rawValue") != null) {
-            this.extComponent.setValue(update.getUpdatedProperty("rawValue").newValue);
+        if ( this.component.get("multiSelect") == false) {
+            if (update.getUpdatedProperty("rawValue") != null) {
+                this.extComponent.setValue(update.getUpdatedProperty("rawValue").newValue);
+            }
+        } else {
+            if (update.getUpdatedProperty("selectedValue") != null) {
+                this.extComponent.setValue(update.getUpdatedProperty("selectedValue").newValue);
+            }
         }
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             if(this.component.get("invalidText") != null) {
