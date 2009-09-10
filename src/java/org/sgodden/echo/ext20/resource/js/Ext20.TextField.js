@@ -254,11 +254,13 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     	}
         this.extComponent.setValue(this.component.get("value"));
         this._initialValue = this.component.get("value");
-        if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
-            if(this.component.get("invalidText") != null) {
-                this._invalidValue = this.component.get("value");
-                this.extComponent.invalidText = this.component.get("invalidText");
-            	this.extComponent.markInvalid(this.component.get("invalidText"));
+        if (update.getUpdatedProperty("isValid") != null) { // only change it when the server update it.
+            if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
+                if(this.component.get("invalidText") != null) {
+                    this._invalidValue = this.component.get("value");
+                    this.extComponent.invalidText = this.component.get("invalidText");
+                	this.extComponent.markInvalid(this.component.get("invalidText"));
+                }
             }
         }
     }
