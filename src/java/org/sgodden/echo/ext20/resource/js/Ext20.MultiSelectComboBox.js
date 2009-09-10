@@ -124,6 +124,7 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
         } 
         if (this.component.get("allowBlank") != null) {
             options['allowBlank'] = this.component.get("allowBlank");
+            options["plugins"] = [Ext.ux.MandatoryField];
         }
         if (this.component.get("blankText") != null) {
             options['blankText'] = this.component.get("blankText");

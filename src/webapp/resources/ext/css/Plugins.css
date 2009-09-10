@@ -6,6 +6,9 @@ label.ux-mandatory {
 .x-form-field-wrap label.ux-mandatory {
 	margin-left: 17px;
 }
+.x-wrap-multiselect label.ux-mandatory {
+	margin-left: 0px;
+}
 /* position label to the right of the multiselect */
 div.ux-mandatory fieldset {
 	float: left;

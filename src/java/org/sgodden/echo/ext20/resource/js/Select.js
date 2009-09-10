@@ -113,7 +113,35 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 	
 	getTrigger:Ext.form.TwinTriggerField.prototype.getTrigger,
 	
-	initTrigger:Ext.form.TwinTriggerField.prototype.initTrigger,
+	initTrigger : function(){
+        var ts = this.trigger.select('.x-form-trigger', true);
+        // copy from Ext.form.TwinTriggerField, to support the ux-mandatory plugin 
+        // this.wrap.setStyle('overflow', 'hidden');
+        this.wrap.addClass('x-wrap-multiselect');
+
+        var triggerField = this;
+        ts.each(function(t, all, index){
+            t.hide = function(){
+                var w = triggerField.wrap.getWidth();
+                this.dom.style.display = 'none';
+                triggerField.el.setWidth(w-triggerField.trigger.getWidth());
+            };
+            t.show = function(){
+                var w = triggerField.wrap.getWidth();
+                this.dom.style.display = '';
+                triggerField.el.setWidth(w-triggerField.trigger.getWidth());
+            };
+            var triggerIndex = 'Trigger'+(index+1);
+
+            if(this['hide'+triggerIndex]){
+                t.dom.style.display = 'none';
+            }
+            t.on("click", this['on'+triggerIndex+'Click'], this, {preventDefault:true});
+            t.addClassOnOver('x-form-trigger-over');
+            t.addClassOnClick('x-form-trigger-click');
+        }, this);
+        this.triggers = ts.elements;
+    },
 	
 	trigger1Class:'x-form-clear-trigger',
 	trigger2Class:'x-form-arrow-trigger',
@@ -127,7 +155,7 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 		this.fireEvent('clearValue', this, this.oldValue, this.getRawValue());
 	},
 	
-	initList:function(){
+	initList : function(){
 		if(!this.list){
 			var cls = 'x-combo-list';
 
@@ -146,9 +174,9 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 			}
 
 			this.innerList = this.list.createChild({cls:cls+'-inner'});
-						this.innerList.on('mouseover', this.onViewOver, this);
+			this.innerList.on('mouseover', this.onViewOver, this);
 			this.innerList.on('mousemove', this.onViewMove, this);
-			this.innerList.setWidth(lw - this.list.getFrameWidth('lr'))
+			this.innerList.setWidth(lw - this.list.getFrameWidth('lr'));
 
 			if(this.pageSize){
 				this.footer = this.list.createChild({cls:cls+'-ft'});
@@ -210,7 +238,7 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 			}
 		}
 	},
-	
+
 	// private
 	initEvents:function(){
 		Ext.form.ComboBox.superclass.initEvents.call(this);
