@@ -12,12 +12,13 @@ import org.sgodden.echo.ext20.Panel;
 public class MultiSelectTest extends Panel {
 	public MultiSelectTest() {
 		super( "Multi Select Test");
+		setAutoScroll( true);
 		createUI();
 	}
 
 	public void createUI() {		
 		DefaultListModel model = new DefaultListModel( new String[]{ "aaaa", "bbb", "ccc"});
-		for( int mode=1; mode<11; mode++)
+		for( int mode=1; mode<15; mode++)
 			createDemo(model, mode);		
 	}
 	private MultiSelectComboBox slaveSingleCombo;
@@ -104,7 +105,25 @@ public class MultiSelectTest extends Panel {
 					label.setText( "Single select with action listener, The data is changed to " + multiSelectComboBox.getValue() +". Result: ");
 				}
 			});
-			
+			break;
+		case 11:
+		    label.setText("ComboBox with number as value, single select");
+		    multiSelectComboBox.setModel( new DefaultListModel( new Integer[]{ 1, 2, 3}));
+		    multiSelectComboBox.setMultiSelect( false);
+		    break;
+		case 12:
+            label.setText("ComboBox with number string as value, single select");
+            multiSelectComboBox.setModel( new DefaultListModel( new String[]{ "1", "2", "3"}));
+            multiSelectComboBox.setMultiSelect( false);
+		    break;
+		case 13:
+		    label.setText("ComboBox with number as value, multi select");
+		    multiSelectComboBox.setModel( new DefaultListModel( new Integer[]{ 1, 2, 3}));
+		    break;
+		case 14:
+		    label.setText("ComboBox with number string as value, multi select");
+		    multiSelectComboBox.setModel( new DefaultListModel( new String[]{ "1", "2", "3"}));
+		    break;
 		}
 	}
 }

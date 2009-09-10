@@ -347,7 +347,9 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 	// private
 	onSelect:function(record, index){
 		if(this.fireEvent('beforeselect', this, record, index) !== false){
-			this.addValue(record.data[this.valueField || this.displayField]);
+		    if ( this.multiSelect) 
+			     this.addValue(record.data[this.valueField || this.displayField]);
+			else this.addValue(record.data[this.displayField]);
 			this.fireEvent('select', this, record, index);
 			if (!this.multiSelect){
 				this.collapse();
@@ -530,15 +532,15 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 			}else{
 				v = [v];
 			}
-		}
-		else if (!this.multiSelect){
+		} else if (!this.multiSelect){
 			v = v.slice(0,1);
 		} 
 		for (var i=0, len=v.length; i<len; i++){
 			var value = v[i];
 			var text = value;
 			if(this.valueField){
-				var r = this.findRecord(this.valueField || this.displayField, value);
+				if ( this.multiSelect) var r = this.findRecord( this.valueField || this.displayField, value);
+				else var r = this.findRecord( this.displayField, value);
 				if(r){
 					text = r.data[this.displayField];
 				}else if(this.forceSelection){
@@ -658,7 +660,9 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 			var result = [];
 			for (var i=0, len=v.length; i<len; i++){
 				var value = v[i];
-				var r = this.findRecord(this.valueField || this.displayField, value);
+				if ( this.multiSelect)
+				    var r = this.findRecord(this.valueField || this.displayField, value);
+				else var r = this.findRecord(this.displayField, value);
 				if(r){
 					this.select(this.store.indexOf(r), scrollIntoView);
 					result.push(value);
