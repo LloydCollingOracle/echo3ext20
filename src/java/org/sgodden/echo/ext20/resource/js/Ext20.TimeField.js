@@ -59,6 +59,7 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             options['disabled'] = true;
         }
         
+        options['autoCreate']={tag: "input", type: "text", size: "5", autocomplete: "off"};
         var extComponent = new Ext.form.TimeField(options);
 
         var time = this.component.get("time");

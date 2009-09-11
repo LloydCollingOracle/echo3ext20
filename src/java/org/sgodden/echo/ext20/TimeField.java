@@ -101,9 +101,15 @@ public class TimeField
     /**
      * Sets whether a blank value is allowed.
      * @param blankAllowed whether a blank value is allowed.
+     * use allowBlank() method instead.
      */
+    @Deprecated
     public void setBlankAllowed(boolean blankAllowed) {
         set(ALLOW_BLANK_PROPERTY, blankAllowed);
+    }
+    
+    public void setAllowBlank( boolean allowBlank) {
+        set(ALLOW_BLANK_PROPERTY, allowBlank);
     }
     
     /**
