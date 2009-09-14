@@ -92,3 +92,13 @@ button.templated {
 .custombuttoncss {
     background-color:red !important;
 }
+
+.x-text-icon-templated-button {
+    background-position: 0 2px !important;
+    background-repeat: no-repeat !important;
+    padding-left:18px !important;
+    padding-top:3px !important;
+    padding-bottom:2pxv!important;
+    padding-right:0 !important;
+    color:#000000 !important;
+}

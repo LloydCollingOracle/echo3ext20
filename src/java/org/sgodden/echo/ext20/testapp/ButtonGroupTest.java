@@ -1,5 +1,6 @@
 package org.sgodden.echo.ext20.testapp;
 
+import nextapp.echo.app.HttpImageReference;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
@@ -68,6 +69,13 @@ public class ButtonGroupTest extends Panel {
             }});
         add(changeMenuButton);
 
+        Button iconTextButton = new Button( "Icon text button", new HttpImageReference( "resources/images/fam/icons/delete.png"));
+        add( iconTextButton);
+        
+        Button iconTemplatedButton = new Button( "Icon templated text button", new HttpImageReference( "resources/images/fam/icons/delete.png"));
+        iconTemplatedButton.setTemplate( "<table><tbody><tr><td><em unselectable=\"on\"><button class=\"x-text-icon-templated-button\" type=\"{1}\">{0}</button></em></td></tr></tbody></table>");
+        add( iconTemplatedButton);
+        
         final Button iconButton = new Button();
         iconButton.setEnableToggle(true);
 
