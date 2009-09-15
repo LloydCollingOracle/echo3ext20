@@ -39,6 +39,7 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
         addOutputProperty(GridPanel.PROPERTY_SET_SIZE_COLUMNS_TO_GRID);
         addOutputProperty(PROPERTY_COLUMN_MODEL);
         addOutputProperty(GridPanel.PROPERTY_MODEL);
+        addOutputProperty(GridPanel.PROPERTY_STRIPE_ROWS);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(
                 GridPanel.INPUT_ACTION,

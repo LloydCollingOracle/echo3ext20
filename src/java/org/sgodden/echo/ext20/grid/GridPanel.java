@@ -81,6 +81,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String PROPERTY_SORT_FIELD = "sortField";
     public static final String SORT_LISTENERS_PROPERTY = "sort";
     public static final String PROPERTY_SORT_ORDER = "sortDirection";
+    public static final String PROPERTY_STRIPE_ROWS = "stripeRows";
     public static final String PROPERTY_SET_SIZE_COLUMNS_TO_GRID = "forceFit";
     public static final String COLUMN_ADDED = "columnAdd";
     public static final String COLUMN_REMOVED = "columnRemove";
@@ -837,4 +838,11 @@ public class GridPanel extends Panel implements TableModelListener,
             add(getBottomToolbar());
     }
 
+    public void setStripeRows( boolean stripeRows) {
+        set( PROPERTY_STRIPE_ROWS, stripeRows);
+    }
+    
+    public boolean getStripeRows() {
+        return (Boolean) get( PROPERTY_STRIPE_ROWS);
+    }
 }

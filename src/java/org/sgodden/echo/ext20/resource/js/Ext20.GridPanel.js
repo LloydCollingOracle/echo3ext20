@@ -223,6 +223,9 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         	sm = new Ext.grid.RowSelectionModel({singleSelect: ss});
         }
         this._sm = sm;
+        if (this.component.get("stripeRows")){
+            options["stripeRows"] = this.component.get("stripeRows");
+        }
         
         // configure the column model
         options["cm"] = this.component.get("columnModel");

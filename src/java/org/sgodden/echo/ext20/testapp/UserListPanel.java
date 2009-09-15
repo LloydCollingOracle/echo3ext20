@@ -179,6 +179,8 @@ public class UserListPanel
         headerMenu.add(new MenuItem("Header Context Menu 2"));
         userGridPanel.setHeaderContextMenu(headerMenu);
         
+        userGridPanel.setStripeRows( true);
+        
         return userGridPanel;
         
     }
