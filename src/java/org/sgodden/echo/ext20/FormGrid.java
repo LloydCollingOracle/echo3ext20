@@ -88,13 +88,24 @@ public class FormGrid extends Panel {
      *            the field label, or <code>null</code> for no field label.
      */
     public Label add(Component c, String fieldLabel) {
+    	return add(c, fieldLabel, 1);
+    }
+    
+    /**
+     * Adds the specified component, with the specified label.
+     * @param component the component.
+     * @param fieldLabel the label for the component.
+     * @param componentColspan the colspan of the component.
+     * @return the Label component created for the field label.
+     */
+    public Label add(Component component, String fieldLabel, int componentColspan) {
         Label l;
         if (fieldLabel != null) {
             l = new Label(fieldLabel + ":");
         } else {
             l = new Label(" ");
         }
-        l.setLabelFor(c);
+        l.setLabelFor(component);
         TableLayoutData tld = new TableLayoutData();
         tld.setCellAlign("left");
         tld.setCellVAlign("top");
@@ -105,12 +116,13 @@ public class FormGrid extends Panel {
 
         tld = new TableLayoutData();
         tld.setCellVAlign("top");
+        tld.setColSpan(componentColspan);
         if (getComponentColumnCssCls() != null)
             tld.setCellCls(getComponentColumnCssCls());
-        c.setLayoutData(tld);
-        super.add(c);
+        component.setLayoutData(tld);
+        super.add(component);
 
-        return l;
+        return l;    	
     }
 
     /**
@@ -122,6 +134,16 @@ public class FormGrid extends Panel {
      *            the field label, or <code>null</code> for no field label.
      */
     public void add(Component c, Component fieldLabel) {
+    	add(c, fieldLabel, 1);
+    }
+    
+    /**
+     * Adds the specified component, with the specified label.
+     * @param component the component.
+     * @param fieldLabel the label for the component.
+     * @param componentColspan the colspan of the component.
+     */
+    public void add(Component c, Component fieldLabel, int componentColspan) {
         TableLayoutData tld = new TableLayoutData();
         tld.setCellAlign("left");
         tld.setCellVAlign("top");
@@ -134,6 +156,7 @@ public class FormGrid extends Panel {
         super.add(fieldLabel);
 
         tld = new TableLayoutData();
+        tld.setColSpan(componentColspan);
         tld.setCellVAlign("top");
         if (getComponentColumnCssCls() != null)
             tld.setCellCls(getComponentColumnCssCls());
