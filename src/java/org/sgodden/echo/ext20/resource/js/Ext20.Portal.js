@@ -15,23 +15,57 @@
 #
 # ================================================================= */
 EchoExt20.Portal = Core.extend(EchoExt20.ExtComponent, {
-    
+
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20Portal", this);
         Echo.ComponentFactory.registerType("E2PT", this);
     },
     
-    componentType: "Ext20Portal"
+    componentType: "Ext20Portal",
+
+    $virtual: {
+        doAction: function() {
+            this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+        }
+    }
 });
 
 EchoExt20.PortalSync = Core.extend(EchoExt20.PanelSync, {
-    
+
     $load: function() {
         Echo.Render.registerPeer("Ext20Portal", this);
     },
+
     
+    /**
+     * Called by the base class to create the ext component.
+     */
+    createExtComponent: function(update, options) {
+        var extComponent = EchoExt20.PanelSync.prototype.createExtComponent.call(this, update, options);
+        extComponent.on('drop', this._handleDropEvent, this);
+        return extComponent;
+    },
+
     newExtComponentInstance: function(options) {
         return new Ext.ux.Portal(options);
-    }    
-    
+    }, 
+
+    /**
+    * Triggered when a portlet is moved
+    */
+    _handleDropEvent: function() {
+        var col = 0;
+        for (var x = 0; x < this.extComponent.items.length; x++) {
+            var column = this.extComponent.items.get(x);
+            var row = 0;
+            for (var i = 0; i < column.items.length; i++) {
+                var portlet = column.items.get(i);
+                portlet.echoComponent.set('column', col);
+                portlet.echoComponent.set('row', row);
+                row++;
+            }
+            col++;
+        }
+        this.component.doAction();
+    }
 });

@@ -28,8 +28,44 @@ package org.sgodden.echo.ext20;
 public class Portlet 
         extends Panel {
     
+    /**
+     * The column in which the portlet resides.
+     */
+    public static final String PROPERTY_COLUMN = "column";
+    /**
+     * The row in which the portlet resides.
+     */
+    public static final String PROPERTY_ROW = "row";
+    
     public Portlet(){
         super();
+    }
+    
+    public Integer getColumn() {
+        return (Integer)get(PROPERTY_COLUMN);
+    }
+    
+    public void setColumn(Integer column) {
+        set(PROPERTY_COLUMN, column);
+    }
+    
+    public Integer getRow() {
+        return (Integer)get(PROPERTY_ROW);
+    }
+    
+    public void setRow(Integer row) {
+        set(PROPERTY_ROW, row);
+    }
+    
+    @Override
+    public void processInput(String inputName, Object inputValue) {
+        super.processInput(inputName, inputValue);
+        if (PROPERTY_COLUMN.equals(inputName)) {
+            setColumn((Integer) inputValue);
+        }
+        else if (PROPERTY_ROW.equals(inputName)) {
+            setRow((Integer) inputValue);
+        }
     }
 
 }

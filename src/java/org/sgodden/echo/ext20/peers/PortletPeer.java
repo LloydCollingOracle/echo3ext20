@@ -17,12 +17,14 @@
 package org.sgodden.echo.ext20.peers;
 
 import nextapp.echo.app.Component;
+import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import org.sgodden.echo.ext20.Portlet;
+import org.sgodden.echo.ext20.TextField;
 
 @SuppressWarnings({"unchecked"})
 public class PortletPeer
@@ -58,5 +60,32 @@ public class PortletPeer
         super.init(context, c);
     //ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
     //serverMessage.addLibrary(PANEL_SERVICE.getId());
+    }
+    
+    /**
+     * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
+     */
+    public Class getInputPropertyClass(String propertyName) {
+        if (Portlet.PROPERTY_COLUMN.equals(propertyName)) {
+            return Integer.class;
+        }
+        if (Portlet.PROPERTY_ROW.equals(propertyName)) {
+            return Integer.class;
+        }
+        return null;
+    }
+    
+    /**
+     * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#storeInputProperty(Context, Component, String, int, Object)
+     */
+    public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
+        if (propertyName.equals(Portlet.PROPERTY_COLUMN)) {
+            getClientUpdateManager(context).setComponentProperty(component, Portlet.PROPERTY_COLUMN, newValue);
+        }else if(propertyName.equals(Portlet.PROPERTY_ROW)){
+            getClientUpdateManager(context).setComponentProperty(component, Portlet.PROPERTY_ROW, newValue);
+        }
+    }
+    private ClientUpdateManager getClientUpdateManager(Context context){
+        return (ClientUpdateManager) context.get(ClientUpdateManager.class);
     }
 }

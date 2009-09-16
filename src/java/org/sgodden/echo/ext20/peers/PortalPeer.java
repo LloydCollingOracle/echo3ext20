@@ -18,10 +18,12 @@ package org.sgodden.echo.ext20.peers;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.util.Context;
+import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
+import org.sgodden.echo.ext20.AbstractButton;
 import org.sgodden.echo.ext20.Portal;
 
 @SuppressWarnings({"unchecked"})
@@ -37,6 +39,12 @@ public class PortalPeer
     
     public PortalPeer() {
         super();
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(Portal.INPUT_ACTION, Portal.ACTION_LISTENERS_CHANGED_PROPERTY) {
+            @Override
+            public boolean hasListeners(Context context, Component component) {
+                return ((Portal) component).hasActionListeners();
+            }
+        });
     }
 
     @Override
@@ -55,7 +63,5 @@ public class PortalPeer
      */
     public void init(Context context, Component c) {
         super.init(context, c);
-    //ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-    //serverMessage.addLibrary(PANEL_SERVICE.getId());
     }
 }

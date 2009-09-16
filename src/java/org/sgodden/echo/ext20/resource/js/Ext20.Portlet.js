@@ -31,7 +31,9 @@ EchoExt20.PortletSync = Core.extend(EchoExt20.PanelSync, {
     },
     
     newExtComponentInstance: function(options) {
-        return new Ext.ux.Portlet(options);
+        var ret = new Ext.ux.Portlet(options);
+        ret.echoComponent = this.component;
+        return ret;
     }
     
 });
