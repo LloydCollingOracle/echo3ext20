@@ -143,6 +143,8 @@ public abstract class ExtComponent extends Component {
 
     public void setToolTip(String toolTip) {
         set(TOOL_TIP, toolTip);
+        //if we have set the tooltip on a component then it should be visible
+        setShowToolTip(true);
     }
 
     public void setShowToolTip(boolean showToolTip) {
