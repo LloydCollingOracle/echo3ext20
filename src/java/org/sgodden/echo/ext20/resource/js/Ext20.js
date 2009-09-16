@@ -383,7 +383,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             if (this.component.get("toolTip")) {
                 if (this.component.get("showToolTip") != null){
                     if(this.component.get("showToolTip")){
-                        this.extComponent.on("render", this._addToolTip, this);
+                        if(typeof this.extComponent.on == 'function'){
+                            this.extComponent.on("render", this._addToolTip, this);
+                        }
                     }
                 }
             }
