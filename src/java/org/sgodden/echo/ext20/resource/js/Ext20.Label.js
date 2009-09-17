@@ -38,6 +38,7 @@ EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Render update implementation.
      */
     renderUpdate: function(update){
+        EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
         // check for any property updates
         if (update.getUpdatedProperty("text") != null) {
             this.extComponent.setText(this.component.get("text"), false);
