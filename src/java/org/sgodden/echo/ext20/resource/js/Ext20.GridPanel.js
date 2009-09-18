@@ -435,6 +435,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 delete this._selectedRows[index];
             }
             this._updateRowSelection();
+            this.component.doSelect();
         }
     },
     
