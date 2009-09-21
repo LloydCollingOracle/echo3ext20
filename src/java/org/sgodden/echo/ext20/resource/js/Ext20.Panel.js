@@ -225,6 +225,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 this.extComponent.setWidth(this.component.get("width"));
         }
         
+        if (update.getUpdatedProperty("collapse") != null) {
+                this.extComponent.setCollapsed(this.component.get("collapse"));
+        }
+        
         if (update.getUpdatedProperty("height") != null) {
                 this.extComponent.setHeight(this.component.get("height"));
         }
@@ -440,6 +444,11 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['collapsible'] = collapsible;
         }
         
+        var collapsed = this.component.get("collapsed");
+        if (collapsed != null) {
+            options['collapsed'] = collapsed;
+        }
+        
         var height = this.component.render("height");
         if (height != null) {
             options['height'] = height;
@@ -602,7 +611,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         this.extComponent = this.newExtComponentInstance(options);
         this.extComponent.on("beforeexpand", this.component.doBeforeExpand, this);
         this.extComponent.on("render", this._doOnExtRender, this);
-        this.extComponent.on("afterlayout", this._doChildAddEffects, this);
+        this.extComponent.on("afterlayout", this._doChildAddEffects.createDelegate(this), this);
         this.extComponent.on("beforeremove", this._doChildRemoveEffects, this);
         if (this.component.get("floating")) {
             this.extComponent.setPagePosition(this.positionX, this.positionY);

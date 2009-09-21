@@ -35,7 +35,7 @@ import org.sgodden.echo.ext20.testapp.regression.RemoveEchoFromExtTest;
  * @author sgodden
  */
 @SuppressWarnings("serial")
-public class PortalTest extends Portal implements ActionListener{
+public class PortalTest extends Portal{
     
     //private static final transient Log log = LogFactory.getLog(PortalTest.class);
 
@@ -43,7 +43,6 @@ public class PortalTest extends Portal implements ActionListener{
         super();
         setTitle("Portal");
         createUI();
-        addActionListener(this);
     }
 
     /*
@@ -112,10 +111,4 @@ public class PortalTest extends Portal implements ActionListener{
         ret.setHeight(200);
         return ret;
     }
-
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-    }
-
 }

@@ -19,26 +19,30 @@ package org.sgodden.echo.ext20.peers;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
-import nextapp.echo.webcontainer.Service;
-import nextapp.echo.webcontainer.WebContainerServlet;
-import nextapp.echo.webcontainer.service.JavaScriptService;
+import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 
 import org.sgodden.echo.ext20.Portlet;
-import org.sgodden.echo.ext20.TextField;
 
-@SuppressWarnings({"unchecked"})
-public class PortletPeer
-        extends PanelPeer {
+@SuppressWarnings( { "unchecked" })
+public class PortletPeer extends PanelPeer {
 
-//    protected static final Service PORTLET_SERVICE = JavaScriptService.forResource("EchoExt20.Portlet",
-//            "org/sgodden/echo/ext20/resource/js/Ext20.Portlet.js");
-//
-//    static {
-//        WebContainerServlet.getServiceRegistry().add(PORTLET_SERVICE);
-//    }
-    
+    // protected static final Service PORTLET_SERVICE =
+    // JavaScriptService.forResource("EchoExt20.Portlet",
+    // "org/sgodden/echo/ext20/resource/js/Ext20.Portlet.js");
+    //
+    // static {
+    // WebContainerServlet.getServiceRegistry().add(PORTLET_SERVICE);
+    // }
+
     public PortletPeer() {
         super();
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(
+                Portlet.INPUT_ACTION, Portlet.ACTION_LISTENERS_CHANGED_PROPERTY) {
+            @Override
+            public boolean hasListeners(Context context, Component component) {
+                return ((Portlet) component).hasActionListeners();
+            }
+        });
     }
 
     @Override
@@ -50,7 +54,6 @@ public class PortletPeer
     public String getClientComponentType(boolean shortType) {
         return shortType ? "E2PTL" : "Ext20Portlet";
     }
-    
 
     /**
      * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#init(Context)
@@ -58,10 +61,11 @@ public class PortletPeer
     @Override
     public void init(Context context, Component c) {
         super.init(context, c);
-    //ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-    //serverMessage.addLibrary(PANEL_SERVICE.getId());
+        // ServerMessage serverMessage = (ServerMessage)
+        // context.get(ServerMessage.class);
+        // serverMessage.addLibrary(PANEL_SERVICE.getId());
     }
-    
+
     /**
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
      */
@@ -72,20 +76,31 @@ public class PortletPeer
         if (Portlet.PROPERTY_ROW.equals(propertyName)) {
             return Integer.class;
         }
+        if (Portlet.PROPERTY_COLLAPSED.equals(propertyName)) {
+            return Boolean.class;
+        }
         return null;
     }
-    
+
     /**
-     * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#storeInputProperty(Context, Component, String, int, Object)
+     * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#storeInputProperty(Context,
+     *      Component, String, int, Object)
      */
-    public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
+    public void storeInputProperty(Context context, Component component,
+            String propertyName, int propertyIndex, Object newValue) {
         if (propertyName.equals(Portlet.PROPERTY_COLUMN)) {
-            getClientUpdateManager(context).setComponentProperty(component, Portlet.PROPERTY_COLUMN, newValue);
-        }else if(propertyName.equals(Portlet.PROPERTY_ROW)){
-            getClientUpdateManager(context).setComponentProperty(component, Portlet.PROPERTY_ROW, newValue);
+            getClientUpdateManager(context).setComponentProperty(component,
+                    Portlet.PROPERTY_COLUMN, newValue);
+        } else if (propertyName.equals(Portlet.PROPERTY_ROW)) {
+            getClientUpdateManager(context).setComponentProperty(component,
+                    Portlet.PROPERTY_ROW, newValue);
+        } else if (propertyName.equals(Portlet.PROPERTY_COLLAPSED)) {
+            getClientUpdateManager(context).setComponentProperty(component,
+                    Portlet.PROPERTY_COLLAPSED, newValue);
         }
     }
-    private ClientUpdateManager getClientUpdateManager(Context context){
+
+    private ClientUpdateManager getClientUpdateManager(Context context) {
         return (ClientUpdateManager) context.get(ClientUpdateManager.class);
     }
 }
