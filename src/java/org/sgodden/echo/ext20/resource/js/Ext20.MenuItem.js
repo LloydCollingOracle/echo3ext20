@@ -65,6 +65,22 @@ EchoExt20.MenuItemSync = Core.extend(EchoExt20.ExtComponentSync, {
         options['disabled'] = true;
         this.component.focusable = false;
     }
+
+        // see if we have a menu child item
+        if (this.component.getComponentCount() == 1) {
+            var child = this.component.getComponent(0);
+            if (child instanceof EchoExt20.Menu) {
+                Echo.Render.renderComponentAdd(update, child, null);
+                var menu = child.peer.extComponent;
+                if (menu == null) {
+                    throw new Error("Menu not created for menu item");
+                }
+                options['menu'] = menu;
+            }
+            else {
+                throw new Error("Illegal child added to a menu item");
+            }
+        }
     
     	var extComponent = this.newExtComponentInstance(options);
     	extComponent.on('click', this._handleClickEventRef);
