@@ -55,25 +55,36 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             return new Ext.Button(options);
         },
         _setIconUrl: function() {
-                var iconUrl = null;
-                if (this.component.isEnabled() || this.component.get("disabledIcon") == null) {
-                    iconUrl = Echo.Sync.ImageReference.getUrl(
-                    this.component.render("icon"));
+            var iconUrl = null;
+            if (this.component.isEnabled() || this.component.get("disabledIcon") == null) {
+                iconUrl = Echo.Sync.ImageReference.getUrl(
+                this.component.render("icon"));
+            } else {
+                iconUrl = Echo.Sync.ImageReference.getUrl(
+                this.component.render("disabledIcon"));
+            }
+            if (iconUrl != null) {
+                var el = this.extComponent.getEl().down("////button"); // the left button td
+                el.dom.style.backgroundImage = "url(" + iconUrl + ")";
+                el = el.up("table");
+                if (this.component.get("text")) {
+                    el.addClass("x-btn-text-icon");        
                 } else {
-                    iconUrl = Echo.Sync.ImageReference.getUrl(
-                    this.component.render("disabledIcon"));
+                    el.addClass("x-btn-icon");        
                 }
-                if (iconUrl != null) {
-                   var el = this.extComponent.getEl().down("////button"); // the left button td
-                   el.dom.style.backgroundImage = "url(" + iconUrl + ")";
-                   el = el.up("table");
-                   if (this.component.get("text")) {
-                     el.addClass("x-btn-text-icon");        
-                   } else {
-                     el.addClass("x-btn-icon");        
-                   }
-                }
-          }
+            }
+        },
+   
+        /**
+        * Handles the click event by requesting the component to fire
+        * its action event.
+        */
+        _handleClickEvent: function() {
+            if (this.component.get("focusable")) {
+                this.component.application.setFocusedComponent(this.component);
+            }
+            this.component.doAction();
+        }
     },
     
     /**
@@ -161,17 +172,6 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         if(this.component.get("hoverMenu")){
             this.extComponent.hideMenu();
         }
-    },
-   
-    /**
-     * Handles the click event by requesting the component to fire
-     * its action event.
-     */
-    _handleClickEvent: function() {
-    	if (this.component.get("focusable")) {
-    		this.component.application.setFocusedComponent(this.component);
-    	}
-        this.component.doAction();
     },
     
     /**
