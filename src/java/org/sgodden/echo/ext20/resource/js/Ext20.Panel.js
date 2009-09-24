@@ -565,6 +565,23 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             else if (layout instanceof EchoExt20.ColumnLayout) {
                 options['layout'] = 'column';
             }
+            else if (layout instanceof EchoExt20.FitColumnLayout) {
+                options['layout'] = 'fitcolumn';
+                options.layoutConfig = {};
+                if (layout.fitHeight) {
+                    options.layoutConfig.fitHeight = true;
+                } else if (!layout.fitHeight) {
+                    options.layoutConfig.fitHeight = false;
+                }
+                if (layout.split) {
+                    options.layoutConfig.split = true;
+                } else if (!layout.split) {
+                    options.layoutConfig.split = false;
+                }
+                if (layout.margin) {
+                    options.layoutConfig.margin = layout.margin;
+                }
+            }
             else if (layout instanceof EchoExt20.TableLayout) {
                 options.layout = 'table';
                 options.layoutConfig = {};
@@ -803,7 +820,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     _conditionalDoLayout: function(children) {
         var doLayout = false;
-        if (this.extComponent.getLayout() instanceof Ext.layout.ColumnLayout)
+        if (this.extComponent.getLayout() instanceof Ext.layout.ColumnLayout || this.extComponent.getLayout() instanceof Ext.ux.ColumnLayout)
             doLayout = true;
         for (var i = 0; i < children.length && !doLayout; i++) {
             var layout = children[i].get("layout");

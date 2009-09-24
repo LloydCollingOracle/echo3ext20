@@ -92,6 +92,9 @@
 			<fileset dir="src/java/ext">
 				<include name="multiselect/DDView.js" />
 			</fileset>
+            <fileset dir="src/java/ext">
+                <include name="FitColumnLayout.js" />
+            </fileset>
 		</stripAndZipJS>
 
 		<stripAndZipJS destFile="${classes.dir}/js/echo3ext20-all.js">

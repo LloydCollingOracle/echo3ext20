@@ -677,6 +677,11 @@ EchoExt20.LayoutProcessor = {
                     options['columnWidth'] = parseFloat(layoutData.columnWidth);
                 }
             }
+            else if (layout instanceof EchoExt20.FitColumnLayout) {
+                if (layoutData != null) {
+                    options['columnWidth'] = parseFloat(layoutData.columnWidth);
+                }
+            }
             else if (layout instanceof EchoExt20.FormLayout) {
                 if (layoutData != null) {
                     options['anchor'] = layoutData.anchor;
@@ -841,6 +846,40 @@ EchoExt20.PropertyTranslator.ColumnLayout = {
 
 Echo.Serial.addPropertyTranslator("Ext20ColumnLayout", EchoExt20.PropertyTranslator.ColumnLayout);
 Echo.Serial.addPropertyTranslator("E2CL", EchoExt20.PropertyTranslator.ColumnLayout);
+
+/**
+ * A fit column layout (see Ext.ux.ColumnLayout).
+ */
+EchoExt20.FitColumnLayout = Core.extend({
+    fitHeight: true,
+    margin: 0,
+    split: false
+});
+
+/**
+ * Property translator for fit column layout.
+ */
+EchoExt20.PropertyTranslator.FitColumnLayout = {
+    toProperty: function(client, propertyElement) {
+        var fitHeight = propertyElement.getAttribute('fh');
+        var margin = propertyElement.getAttribute('m');
+        var split = propertyElement.getAttribute('s');
+        var ret = new EchoExt20.FitColumnLayout();
+        if (fitHeight) {
+            ret.fitHeight = fitHeight;
+        }
+        if (margin) {
+            ret.margin = margin;
+        }
+        if (split) {
+            ret.split = split;
+        }
+        return ret;
+    }
+}
+
+Echo.Serial.addPropertyTranslator("Ext20FitColumnLayout", EchoExt20.PropertyTranslator.FitColumnLayout);
+Echo.Serial.addPropertyTranslator("E2FCL", EchoExt20.PropertyTranslator.FitColumnLayout);
 
 /**
  * A form layout (see Ext.layout.FormLayout).
