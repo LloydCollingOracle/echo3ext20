@@ -94,6 +94,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String HAS_HEADER_CONTEXT_MENU_PROPERTY = "hasHeaderContextMenu";
     public static final String HAS_ROW_CONTEXT_MENU_PROPERTY = "hasRowContextMenu";
     public static final String HAS_CELL_CONTEXT_MENU_PROPERTY = "hasCellContextMenu";
+    public static final String PROPERTY_LOADING_MESSAGE = "loadingMsg";
 
     private int pageSize;
     private ListSelectionModel selectionModel;
@@ -140,6 +141,7 @@ public class GridPanel extends Panel implements TableModelListener,
         setPageOffset(0);
         setComplexProperty(PROPERTY_COLUMN_MODEL, true);
         setContextMenuStatusAndChildren();
+        setLoadingMsg("Loading...");
     }
 
     /**
@@ -844,5 +846,13 @@ public class GridPanel extends Panel implements TableModelListener,
     
     public boolean getStripeRows() {
         return (Boolean) get( PROPERTY_STRIPE_ROWS);
+    }
+
+    public String getLoadingMsg() {
+        return (String)get(PROPERTY_LOADING_MESSAGE);
+    }
+
+    public void setLoadingMsg(String loadingMsg) {
+        set(PROPERTY_LOADING_MESSAGE, loadingMsg);
     }
 }

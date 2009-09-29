@@ -83,6 +83,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     rowContextMenu: null,
     headerContextMenu: null,
     _sm: null,
+    _selectionTask: null,
+    _loadMask: null,
     
     
     $virtual: {
@@ -150,6 +152,12 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 this.extComponent.un('headercontextmenu', this._handleHeaderContextMenu, this);
                 this.extComponent.on('headercontextmenu', this._handleHeaderContextMenu, this);
             }
+            
+            var loadMaskOptions = {};
+            loadMaskOptions.msg = this.component.get("loadingMsg");
+            
+            this._loadMask = new Ext.LoadMask(this.extComponent.el, loadMaskOptions);
+            
             /*
              * Defer this call because the ExtJS grid uses innerHTML in order to render itself.
              * 
@@ -191,6 +199,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         this._handleSelectionEvents = false;
         
         this._selectedRows = {};
+        
+        this._selectionTask = new Ext.util.DelayedTask(this._doSelect, this);
 
         Ext.state.Manager.clear(this.component.renderId);
         var existingComponent = Ext.ComponentMgr.get(this.component.renderId);
@@ -375,6 +385,21 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         }
         return null;
     },
+    
+    _doSelect: function() {
+        if (this.component) {
+            if (this.client && this.client._transactionInProgress) {
+                this._selectionTask.delay(250, this._doSelect, this);
+                return;
+            } else {
+                if (this.component._listenerList.hasListeners("select")) {
+                    this._loadMask.enable();
+                    this._loadMask.show();
+                    this.component.doSelect();
+                }
+            }
+        }
+    },
 
     _handleColumnMove: function(oldIndex, newIndex) {
         this.component.set("columnModel", this.extComponent.getColumnModel());
@@ -435,7 +460,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 delete this._selectedRows[index];
             }
             this._updateRowSelection();
-            this.component.doSelect();
+            this._selectionTask.delay(350, this._doSelect, this);
         }
     },
     
@@ -449,7 +474,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             }
             this._selectedRows[index] = true;
             this._updateRowSelection();
-            this.component.doSelect();
+            this._selectionTask.delay(350, this._doSelect, this);
         }
     },
 
@@ -686,6 +711,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         }
 
         this._handleServerSelections();
+        this._loadMask.hide();
 
         // resume event handling
         this._handleSortEvents = true;
