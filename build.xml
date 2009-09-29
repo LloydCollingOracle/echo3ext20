@@ -144,6 +144,7 @@
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.RadioButton.js" />
 				<include name="Ext20.SplitButton.js" />
+				<include name="Ext20.PrintButton.js" />
 				<include name="Ext20.TabbedPane.js" />
 				<include name="Ext20.TimeField.js" />
 				<include name="Ext20.TriggerField.js" />
@@ -156,6 +157,7 @@
 				<include name="Ext20.WaitIndicator.js" />
 				<include name="Ext20.ScrollIntoView.js" />
 				<include name="Ext20.Command.DoPanelLayout.js" />
+                <include name="Ext20.Command.DoPrintLayout.js" />
 				<include name="Ext20.Command.FocusBrowserWindow.js" />
 			</fileset>
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">

@@ -1,6 +1,5 @@
-package org.sgodden.echo.ext20.buttons;
+package org.sgodden.echo.ext20;
 
-import org.sgodden.echo.ext20.Button;
 
 /**
  * A button representing an action to

@@ -35,7 +35,6 @@ public abstract class AbstractButton extends ExtComponent {
     public static final String PROPERTY_ENABLED_ICON = "icon";
     public static final String INPUT_ACTION = "action";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
-    public static final String TOOLTIP_TEXT_PROPERTY = "tooltipText";
     public static final String ICON_CLASS = "iconClass";
     public static final String PRESSED_PROPERTY = "pressed";
     public static final String ENABLE_TOGGLE = "enableToggle";
@@ -208,15 +207,6 @@ public abstract class AbstractButton extends ExtComponent {
      */
     public void setIcon(ImageReference newValue) {
         set(PROPERTY_ENABLED_ICON, newValue);
-    }
-
-    /**
-     * Sets the passed text as the tool tip for the component.
-     * 
-     * @param tooltip
-     */
-    public void setTooltip(String tooltip) {
-        set(TOOLTIP_TEXT_PROPERTY, tooltip);
     }
 
     /**
