@@ -1,5 +1,6 @@
 package org.sgodden.echo.ext20.grid;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import nextapp.echo.app.event.ChangeListener;
  * @author Lloyd Colling
  *
  */
-public interface ColumnModel extends Iterable<ColumnConfiguration>{
+public interface ColumnModel extends Iterable<ColumnConfiguration>, Serializable{
 
     /**
      * Adds a column configuration.

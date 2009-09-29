@@ -1,5 +1,7 @@
 package org.sgodden.echo.ext20.grid;
 
+import java.io.Serializable;
+
 import nextapp.echo.app.Component;
 
 /**
@@ -9,7 +11,7 @@ import nextapp.echo.app.Component;
  * @author Lloyd Colling
  *
  */
-public abstract class AbstractGridCellRenderer implements GridCellRenderer {
+public abstract class AbstractGridCellRenderer implements GridCellRenderer, Serializable {
 
     public abstract String getModelValue(Component gridPanel, Object valueAt,
             int colIndex, int rowIndex);
