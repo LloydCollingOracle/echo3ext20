@@ -79,7 +79,9 @@ public class PortletPeer extends PanelPeer {
         if (Portlet.PROPERTY_COLLAPSED.equals(propertyName)) {
             return Boolean.class;
         }
-        return null;
+        else {
+        	return super.getInputPropertyClass(propertyName);
+        }
     }
 
     /**
@@ -97,6 +99,8 @@ public class PortletPeer extends PanelPeer {
         } else if (propertyName.equals(Portlet.PROPERTY_COLLAPSED)) {
             getClientUpdateManager(context).setComponentProperty(component,
                     Portlet.PROPERTY_COLLAPSED, newValue);
+        } else {
+        	super.storeInputProperty(context, component, propertyName, propertyIndex, newValue);
         }
     }
 
