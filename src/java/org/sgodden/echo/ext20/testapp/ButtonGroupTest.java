@@ -88,7 +88,6 @@ public class ButtonGroupTest extends Panel {
         Button templatedButton = new Button();
         templatedButton.setTemplate( "<em unselectable=\"on\"><button class=\"x-btn-text\" type=\"{1}\">{0}</button></em>");
         templatedButton.setIconClass( "templated");
-        templatedButton.setTooltip( "A templatedButton");
         add( templatedButton);
         
         RadioButton radioButton1 = new RadioButton( true);

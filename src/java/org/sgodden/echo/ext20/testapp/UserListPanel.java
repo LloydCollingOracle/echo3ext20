@@ -340,7 +340,6 @@ public class UserListPanel
         tbButton = new ToolbarButton();
         tbButton.setIcon(ref1);
         currentImageRef = ref1;
-        tbButton.setTooltip("Show configuration options");
         tbButton.setText("Configure");
         
         tbButton.addActionListener(new ActionListener() {
