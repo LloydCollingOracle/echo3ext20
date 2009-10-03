@@ -87,7 +87,7 @@ EchoExt20.ContainerSync = Core.extend(EchoExt20.ExtComponentSync, {
             for (var i = 0; i < children.length; i++) {
                 var child = children[i];
                 var childIndex = this.component.indexOf(child);
-                this._createChildItem(child, childIndex);
+                this._createChildItem(update, child, childIndex);
             }
     
             // now make sure that the child indexes are set, so that, for instance, when a certain
@@ -99,7 +99,7 @@ EchoExt20.ContainerSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
         },
         
-        _createChildItem: function(child, childIndex) {
+        _createChildItem: function(update, child, childIndex) {
             /*
              *  if this is not an ext20 component, we need to wrap it
              *  so that it can operate within an ext container.
