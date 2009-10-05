@@ -45,6 +45,7 @@ Ext.tree.ColumnTree = Ext.extend(Ext.tree.TreePanel, {
     lines:false,
     borderWidth: Ext.isBorderBox ? 0 : 2, // the combined left/right border for each cell
     cls:'x-column-tree',
+    showCheckBoxes : false,
     
     onRender : function(){
         Ext.tree.ColumnTree.superclass.onRender.apply(this, arguments);
@@ -53,6 +54,17 @@ Ext.tree.ColumnTree = Ext.extend(Ext.tree.TreePanel, {
 
         var cols = this.columns, c;
         var totalWidth = 0;
+        
+        if (this.showCheckBoxes) {
+            totalWidth = 17;
+            this.headers.createChild({
+                 cls:'x-tree-hd',
+                 cn: {
+                     cls:'x-tree-hd-text'
+                 },
+                 style:'width:15px'
+            });
+        }
 
         for(var i = 0, len = cols.length; i < len; i++){
              c = cols[i];
@@ -127,12 +139,20 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     renderElements : function(n, a, targetNode, bulkRender){
         this.indentMarkup = n.parentNode ? n.parentNode.ui.getChildIndent() : '';
 
+        var cb = typeof a.checked == 'boolean';
+
         var t = n.getOwnerTree();
         var bw = t.borderWidth;
         var c = t.getColumns()[0];
+        
+        if (cb) {
+            cb = t.showCheckBoxes;
+        }
 
         var buf = [
              '<li class="x-tree-node"><div ext:tree-node-id="',n.id,'" class="x-tree-node-el x-tree-node-leaf ', a.cls,'">',
+                cb ? ('<div class="x-tree-col" style="width:15px"><input class="x-tree-node-cb" type="checkbox" ' + (a.checked ? 'checked="checked" /></div>' : '/></div>')) : '',
+                (!cb) && t.showCheckBoxes ? '<div class="x-tree-col" style="width:15px; height: 1px;"></div>' : '',
                 '<div class="x-tree-col" style="width:',c.width-bw,'px;" style="vertical-align:middle">',
                     '<span class="x-tree-node-indent">',this.indentMarkup,"</span>",
                     '<img src="', this.emptyIcon, '" class="x-tree-ec-icon x-tree-elbow">',
@@ -184,12 +204,20 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
 
         this.elNode = this.wrap.childNodes[0];
         this.ctNode = this.wrap.childNodes[1];
-        var cs = this.elNode.firstChild.childNodes;
+        var cs = this.elNode.childNodes[0].childNodes;
+        if (cb || t.showCheckBoxes) {
+            cs = this.elNode.childNodes[1].childNodes;
+        }
         this.indentNode = cs[0];
         this.ecNode = cs[1];
         this.iconNode = cs[2];
         this.anchor = cs[2];
         this.textNode = cs[2].firstChild;
+        
+        
+        if(cb){
+            this.checkbox = this.elNode.childNodes[0].childNodes[0];
+        }
         
         if (n.isSelected()) {
         	this.addClass("x-tree-selected");

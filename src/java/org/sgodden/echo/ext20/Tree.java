@@ -9,12 +9,15 @@ import nextapp.echo.extras.app.tree.TreeModel;
 /**
  * Implementation of an Ext tree component.
  * @author Lloyd Colling.
+ * 
+ * @TODO implement multi-select using the checkboxes on the client
  *
  */
 @SuppressWarnings("serial")
 public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionListener {
     
     public static final String HAS_BORDER_PROPERTY = "hasBorder";
+    public static final String PROPERTY_SHOW_CHECKBOXES = "showCheckBoxes";
     
     private Menu contextMenu;
     
@@ -102,5 +105,13 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
             row = 0;
             doRender();
         }
+    }
+
+    public boolean isShowCheckBoxes() {
+        return Boolean.TRUE.equals(PROPERTY_SHOW_CHECKBOXES);
+    }
+
+    public void setShowCheckBoxes(boolean showCheckBoxes) {
+        set(PROPERTY_SHOW_CHECKBOXES, Boolean.valueOf(showCheckBoxes));
     }
 }

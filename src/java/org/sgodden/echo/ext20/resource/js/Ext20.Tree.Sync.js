@@ -73,6 +73,10 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         options['headerVisible'] = this.component.render("headerVisible", true);
         this._headerVisible = options['headerVisible'];
         options['rootVisible'] = this.component.render("rootVisible", true);
+        
+        if (this.component.get("showCheckBoxes") != null) {
+            options['showCheckBoxes'] = this.component.get("showCheckBoxes");
+        }
     	
 
         this._selectionEnabled = this.component.render("selectionEnabled", true);
@@ -194,6 +198,10 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
 	        		isLeaf : node.isLeaf(),
 	        		echoNode : node
 	        };
+	        
+	        if (node.getChecked() != null) {
+	           thisExtNode.checked = node.getChecked();
+	        }
 	        
 	        var extNode = new Ext.tree.ColumnNode(thisExtNode);
 	        for (var i = 0; i < children.length; i++) {
@@ -561,7 +569,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         for (var i = 0; i < children.length; i++) {
             var child = children[i];
             
-            if (child instanceof EchoExt20.Menu) {
+            if (child instanceof EchoExt20.Menu && (!child.peer || child.peer.extComponent == null)) {
                 Echo.Render.renderComponentAdd(update, child, null);
                 this.contextMenu = child.peer.extComponent;
                 if (this.contextMenu == null) {

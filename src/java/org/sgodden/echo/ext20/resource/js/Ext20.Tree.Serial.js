@@ -16,7 +16,11 @@ EchoExt20.Serial.Tree.TreeStructure = {
             var childElement = children[i];
             var id = childElement.getAttribute("i");
             var parentId = childElement.getAttribute("p");
-            var node = new Extras.RemoteTree.TreeNode(id, parentId);
+            var node = new EchoExt20.Serial.TreeNode(id, parentId);
+            if (childElement.hasAttribute("ck")) {
+                var checked = childElement.getAttribute("ck") == "1";
+                node.setChecked(checked);
+            }
             var expandedState = childElement.getAttribute("ex") == "1";
             var root = childElement.getAttribute("r") == "1";
             node.setExpanded(expandedState);
@@ -51,8 +55,20 @@ EchoExt20.Serial.Tree.TreeStructure = {
         return structures;
     }
 };
+EchoExt20.Serial.TreeNode = Core.extend(Extras.RemoteTree.TreeNode, {
 
-Echo.Serial.addPropertyTranslator("EchoExt20.Serial.TreeStructure", EchoExt20.Serial.Tree.TreeStructure);
+    _checked: null,
+    
+    setChecked : function(isChecked) {
+        this._checked = isChecked;
+    },
+    
+    getChecked : function() {
+        return this._checked;
+    }
+});
+
+Echo.Serial.addPropertyTranslator("EchoExt20.Serial.Tree.TreeStructure", EchoExt20.Serial.Tree.TreeStructure);
 
 EchoExt20.Serial.Tree.SelectionUpdate = {
     

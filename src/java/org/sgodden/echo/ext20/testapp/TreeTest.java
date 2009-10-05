@@ -32,6 +32,7 @@ import nextapp.echo.extras.app.tree.TreeNodeModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.DefaultCheckBoxMutableTreeNode;
 import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
@@ -65,10 +66,10 @@ public class TreeTest extends Panel implements ChangeListener, ActionListener {
         Panel outer = new Panel(new FitLayout());
         add(outer);
 
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode();
-        DefaultMutableTreeNode foo = new DefaultMutableTreeNode();
-        DefaultMutableTreeNode bar = new DefaultMutableTreeNode();
-        DefaultMutableTreeNode blah = new DefaultMutableTreeNode();
+        DefaultCheckBoxMutableTreeNode root = new DefaultCheckBoxMutableTreeNode();
+        DefaultCheckBoxMutableTreeNode foo = new DefaultCheckBoxMutableTreeNode();
+        DefaultCheckBoxMutableTreeNode bar = new DefaultCheckBoxMutableTreeNode();
+        DefaultCheckBoxMutableTreeNode blah = new DefaultCheckBoxMutableTreeNode();
         
         root.addChild(blah);
         root.addChild(foo);
@@ -79,10 +80,14 @@ public class TreeTest extends Panel implements ChangeListener, ActionListener {
         bar.setColumnValues(getMap(new String[] {"0", "1"}, new Object[] {"BAR", "BAR"}));
         blah.setColumnValues(getMap(new String[] {"0", "1"}, new Object[] {"BLAH", "BLAH"}));
         
+        foo.setChecked(Boolean.TRUE);
+        blah.setChecked(Boolean.FALSE);
+        
         TreeNodeModel treeModel = new TreeNodeModel(root);
         Tree testTree = new Tree(treeModel);
         testTree.getSelectionModel().addChangeListener(this);
         testTree.addActionListener(this);
+        testTree.setShowCheckBoxes(true);
         outer.add(testTree);
         
         Menu treeMenu = new Menu();

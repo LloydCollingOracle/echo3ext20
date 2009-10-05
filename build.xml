@@ -166,11 +166,11 @@
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.ApplicationWaitIndicator.js" />
 			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+			<!-- <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.Tree.Application.js" />
 				<include name="Ext20.Tree.Serial.js" />
 				<include name="Ext20.Tree.Sync.js" />
-			</fileset>
+			</fileset> -->
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.Window.js" />
 				<include name="Ext20.HtmlPanel.js" />
