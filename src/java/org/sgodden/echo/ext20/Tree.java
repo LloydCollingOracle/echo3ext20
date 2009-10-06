@@ -18,6 +18,7 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
     
     public static final String HAS_BORDER_PROPERTY = "hasBorder";
     public static final String PROPERTY_SHOW_CHECKBOXES = "showCheckBoxes";
+    public static final String PROPERTY_SHOW_ROOT_NODE = "showRootNode";
     
     private Menu contextMenu;
     
@@ -113,5 +114,13 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
 
     public void setShowCheckBoxes(boolean showCheckBoxes) {
         set(PROPERTY_SHOW_CHECKBOXES, Boolean.valueOf(showCheckBoxes));
+    }
+
+    public boolean isShowRootNode() {
+        return Boolean.TRUE.equals(PROPERTY_SHOW_ROOT_NODE);
+    }
+
+    public void setShowRootNode(boolean showRootNode) {
+        set(PROPERTY_SHOW_ROOT_NODE, Boolean.valueOf(showRootNode));
     }
 }

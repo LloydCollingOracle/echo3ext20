@@ -77,6 +77,9 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (this.component.get("showCheckBoxes") != null) {
             options['showCheckBoxes'] = this.component.get("showCheckBoxes");
         }
+        if (this.component.get("showRootNode") != null) {
+            options['rootVisible'] = this.component.get("showRootNode");
+        }
     	
 
         this._selectionEnabled = this.component.render("selectionEnabled", true);
