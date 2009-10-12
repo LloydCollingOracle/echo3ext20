@@ -44,6 +44,8 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     $load: function() {
         Echo.Render.registerPeer("Ext20Button", this);
     },
+    
+    _keyMap : null,
 
     $virtual: {
         /**
@@ -143,9 +145,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         var extComponent = this.newExtComponentInstance(options);
         
         extComponent.on('click', this._handleClickEvent, this);
-        if (this.component.render("icon")) {
-            extComponent.on("render", this._onRender, this);
-        }
+        extComponent.on("render", this._onRender, this);
 
         extComponent.on('menutriggerover', this._handleMenuTriggerOver, this);
         //extComponent.on('menutriggerout', this._handleMenuTriggerOut, this);
@@ -183,7 +183,32 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     _onRender: function() {
         if (this.extComponent.rendered == true) {
-            this._setIconUrl();
+            if (this.component.render("icon")) {
+                this._setIconUrl();
+            }
+            
+            
+            if (this.component.getComponentCount() == 1) {
+                var child = this.component.getComponent(0);
+                if (child instanceof EchoExt20.Menu) {
+                    _keyMap = new Ext.KeyMap(this.extComponent.getEl(), {
+                        key: Ext.EventObject.CONTEXT_MENU,
+                        handler: this._toggleMenu,
+                        scope: this,
+                        stopEvent: true
+                    });
+                }
+            }
+        }
+    },
+    
+    _toggleMenu: function(key, e) {
+        e.stopEvent();
+        
+        if (this.extComponent.hasVisibleMenu()) {
+            this.extComponent.hideMenu();
+        } else {
+            this.extComponent.showMenu();
         }
     },
 
