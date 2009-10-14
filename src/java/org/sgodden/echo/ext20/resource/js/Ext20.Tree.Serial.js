@@ -17,7 +17,7 @@ EchoExt20.Serial.Tree.TreeStructure = {
             var id = childElement.getAttribute("i");
             var parentId = childElement.getAttribute("p");
             var node = new EchoExt20.Serial.TreeNode(id, parentId);
-            if (childElement.hasAttribute("ck")) {
+            if (childElement.getAttribute("ck") != null) {
                 var checked = childElement.getAttribute("ck") == "1";
                 node.setChecked(checked);
             }
