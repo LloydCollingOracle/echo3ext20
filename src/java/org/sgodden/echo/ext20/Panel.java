@@ -31,7 +31,13 @@ import nextapp.echo.app.event.ActionListener;
 import org.sgodden.echo.ext20.layout.Layout;
 
 /**
- * The main container component for Ext.
+ * <p>A more complex Container implementation with additional functionality.</p>
+ * <p>A Panel is a container with additional functionality and hence a greater demand
+ * of resources on the client. In general, you should use Container in preference to
+ * a Panel where-ever possible to reduce the amount of work the client-side renderer
+ * has to perform.</p>
+ * <p>Compared to a Container, a Panel will create two more div elements with a total of six
+ * additional css classes.</p>
  * 
  * @author goddens
  *

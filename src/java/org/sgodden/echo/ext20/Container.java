@@ -21,7 +21,11 @@ import nextapp.echo.app.Component;
 import org.sgodden.echo.ext20.layout.Layout;
 
 /**
- * A lightweight container.
+ * <p>A lightweight container.</p>
+ * <p>Containers may be used simply to contain other components, 
+ * or to show a piece of html text - not both.</p>
+ * <p>Containers may not be used as the first component in a ContentPane
+ * as they will not size correctly.</p>
  * 
  * @author goddens
  *
