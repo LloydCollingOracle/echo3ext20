@@ -1,0 +1,210 @@
+diff -r cc69558d9767 -r 94b42a82eb7c src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.OpenEcho3Window.js
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.OpenEcho3Window.js	Fri Oct 16 15:41:43 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.OpenEcho3Window.js	Fri Oct 16 15:53:09 2009 +0100
+@@ -10,8 +10,20 @@
+             if (!commandData.uri) {
+                 throw new Error("URI not specified in OpenEcho3WindowCommand.");
+             }
+-            
+-            window.open(commandData.uri, "_blank");
++
++            var DelayedMessageRunnable = Core.extend(Core.Web.Scheduler.Runnable, {
++
++                _message: null,
++
++                $construct: function(message) {
++                    this._message = message;
++                },
++
++                run: function() {
++                    window.open(this._message, "_blank");
++                }
++            });
++            Core.Web.Scheduler.add(new DelayedMessageRunnable(commandData.uri));
+         }
+      },
+      
+diff -r cc69558d9767 -r 94b42a82eb7c src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	Fri Oct 16 15:41:43 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/resource/RemoteClient.js	Fri Oct 16 15:53:09 2009 +0100
+@@ -513,7 +513,7 @@
+     _removeLoadingScreen: function() {
+         var loadingElement = document.getElementById("loadingDiv");
+         if (loadingElement) {
+-            loadingElement.style.display = "none";
++            loadingElement.parentNode.removeChild(loadingElement);
+         }
+     },
+     
+diff -r cc69558d9767 -r 94b42a82eb7c src/server-java/webcontainer/nextapp/echo/webcontainer/service/CSSStyleSheetService.java
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/service/CSSStyleSheetService.java	Fri Oct 16 15:41:43 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/CSSStyleSheetService.java	Fri Oct 16 15:53:09 2009 +0100
+@@ -14,6 +14,17 @@
+  */
+ public class CSSStyleSheetService implements Service {
+ 
++    public static final int ALL = 1;
++    public static final int BRAILLE = 2;
++    public static final int EMBOSSED = 4;
++    public static final int HANDHELD = 8;
++    public static final int PRINT = 16;
++    public static final int PROJECTION = 32;
++    public static final int SCREEN = 64;
++    public static final int SPEECH = 128;
++    public static final int TTY = 256;
++    public static final int TV = 512;
++
+     /**
+      * Creates a new <code>CSSStyleSheetService</code> based on the content in
+      * the specified <code>CLASSPATH</code> resource. A runtime exception will
+@@ -57,10 +68,59 @@
+         String content = Resource.getResourceAsString(resourceName);
+         return new CSSStyleSheetService(id, content, relativePath);
+     }
++    
++    /**
++     * Creates a new <code>CSSStyleSheetService</code> based on the content in
++     * the specified <code>CLASSPATH</code> resource. A runtime exception will
++     * be thrown in the event the resource does not exist (it generally should
++     * not be caught).
++     * 
++     * Please Note that all urls in the StyleSheet must be relative to the
++     * Servlet location when this method is used.
++     * 
++     * @param id
++     *            the <code>Service</code> identifier
++     * @param resourceName
++     *            the path to the content resource in the <code>CLASSPATH</code>
++     * @param relativePath
++     *            the relative path to the stylesheet from the servlet
++     * @param media
++                  the supported media
++     * @return the created <code>CSSStyleSheetService</code>
++     */
++    public static CSSStyleSheetService forResource(String id,
++            String resourceName, int media) {
++        String content = Resource.getResourceAsString(resourceName);
++        return new CSSStyleSheetService(id, content, media);
++    }
++
++    /**
++     * Creates a new <code>CSSStyleSheetService</code> based on the content in
++     * the specified <code>CLASSPATH</code> resource with any image URLs updated
++     * to reflect the relative location compared to the application Servlet. A
++     * runtime exception will be thrown in the event the resource does not exist
++     * (it generally should not be caught).
++     * 
++     * @param id
++     *            the <code>Service</code> identifier
++     * @param resourceName
++     *            the path to the content resource in the <code>CLASSPATH</code>
++     * @param relativePath
++     *            the relative path to the stylesheet from the servlet
++     * @param media
++                  the supported media
++     * @return the created <code>CSSStyleSheetService</code>
++     */
++    public static CSSStyleSheetService forResource(String id,
++            String resourceName, String relativePath, int media) {
++        String content = Resource.getResourceAsString(resourceName);
++        return new CSSStyleSheetService(id, content, relativePath, media);
++    }
+ 
+     private String id;
+     private String content;
+     private final String contentType = "text/css";
++    private int media = ALL;
+ 
+     public CSSStyleSheetService(String id, String content) {
+         super();
+@@ -69,12 +129,62 @@
+     }
+ 
+     public CSSStyleSheetService(String id, String content, String relativePath) {
+-        super();
+-        this.id = id;
+-        this.content = content;
++        this(id, content);
+         processImageURLs(relativePath);
+     }
+ 
++    public CSSStyleSheetService(String id, String content, int media) {
++        this(id, content);
++        this.media = media;
++    }
++
++    public CSSStyleSheetService(String id, String content, String relativePath, int media) {
++        this(id, content, relativePath);
++        this.media = media;
++    }
++
++    public String getMediaCSV() {
++        StringBuffer buffer = new StringBuffer();
++        if((media & ALL) == ALL) {
++            addToCSVBuffer(buffer, "all");
++        }
++        if((media & BRAILLE) == BRAILLE) {
++            addToCSVBuffer(buffer, "braille");
++        }
++        if((media & EMBOSSED) == EMBOSSED) {
++            addToCSVBuffer(buffer, "embossed");
++        }
++        if((media & HANDHELD) == HANDHELD) {
++            addToCSVBuffer(buffer, "handheld");
++        }
++        if((media & PRINT) == PRINT) {
++            addToCSVBuffer(buffer, "print");
++        }
++        if((media & PROJECTION) == PROJECTION) {
++            addToCSVBuffer(buffer, "projection");
++        }
++        if((media & SCREEN) == SCREEN) {
++            addToCSVBuffer(buffer, "screen");
++        }
++        if((media & SPEECH) == SPEECH) {
++            addToCSVBuffer(buffer, "speech");
++        }
++        if((media & TTY) == TTY) {
++            addToCSVBuffer(buffer, "tty");
++        }
++        if((media & TV) == TV) {
++            addToCSVBuffer(buffer, "tv");
++        }
++        return buffer.toString();
++    }
++
++    private void addToCSVBuffer(StringBuffer buffer, String media) {
++        if(buffer.length() > 0) {
++            buffer.append(", ");
++        }
++        buffer.append(media);
++    }
++
+     public String getId() {
+         return id;
+     }
+@@ -134,4 +244,12 @@
+         }
+         this.content = endContent.toString();
+     }
++
++    public void setMedia(int media) {
++        this.media = media;
++    }
++
++    public int getMedia() {
++        return media;
++    }
+ }
+diff -r cc69558d9767 -r 94b42a82eb7c src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	Fri Oct 16 15:41:43 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/WindowHtmlService.java	Fri Oct 16 15:53:09 2009 +0100
+@@ -237,6 +237,8 @@
+                 linkElement.setAttribute("rel", "StyleSheet");
+                 linkElement.setAttribute("type", "text/css");
+                 linkElement.setAttribute("href", userInstanceContainer.getServiceUri(styleSheetService, null));
++                if(styleSheetService instanceof CSSStyleSheetService)
++                    linkElement.setAttribute("MEDIA", ((CSSStyleSheetService)styleSheetService).getMediaCSV());
+                 headElement.appendChild(linkElement);
+                 
+                 Node linkTextNode = document.createTextNode(" ");

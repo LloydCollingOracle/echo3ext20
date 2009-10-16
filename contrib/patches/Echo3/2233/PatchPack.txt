@@ -1,0 +1,15 @@
+The patch pack diff contains changes for:
+
+Complex client-side property changes
+Server Update Completion Listener
+offline xhtml validation
+Complex server-side property changes
+Minor performance enhancements to do with class loading
+Introduce EditableTableModel interface
+Use resource html file for initial page inc. loading message
+Handle inherited styles
+Allow addition of CSS Stylesheets to application html
+Add Service for CSSStylesheets to be loaded from resource files
+Allow for pre-compressed javascript
+Handle the Label JS Service already being registered
+Handle transient fields being null when in a cluster (IdTable)
