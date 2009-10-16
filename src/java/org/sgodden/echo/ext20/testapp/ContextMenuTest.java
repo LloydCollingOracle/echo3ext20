@@ -1,5 +1,6 @@
 package org.sgodden.echo.ext20.testapp;
 
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
@@ -22,7 +23,7 @@ public class ContextMenuTest extends Panel {
 
     public void createUI() {
         
-        Panel outer = new Panel();
+        Container outer = new Panel();
         Panel panelContextMenuPanel = new Panel();
         panelContextMenuPanel.setBorder(true);
         panelContextMenuPanel.setWidth(400);

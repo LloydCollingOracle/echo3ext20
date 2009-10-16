@@ -209,7 +209,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
      * whether it is the very first ext container in the DOM.
      * <p>
      * This container is responsible for calling doLayout on itself
-     * and other root containers which had chilren added or removed
+     * and other root containers which had children added or removed
      * during a server update.
      * <p/>
      */
@@ -326,7 +326,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             this.renderDisplayCompleteRef = Core.method(this, this._rootRenderDisplayComplete);
             Echo.Render.addRenderDisplayCompleteListener(this.renderDisplayCompleteRef);
             
-            if (this instanceof EchoExt20.PanelSync) {
+            if (this instanceof EchoExt20.PanelSync || this instanceof EchoExt20.ContainerSync) {
                 this._isARootContainer = true;
                 /*
                  * If the root root container is not already set,
@@ -493,7 +493,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             if (this.component.get("containerCssClass")) {
                 options.ctCls = this.component.get("containerCssClass");
             }
-            if (this instanceof EchoExt20.PanelSync) {
+            if (this instanceof EchoExt20.PanelSync || this instanceof EchoExt20.ContainerSync) {
                 options.renderTo = this._parentElement;
             }
             
@@ -507,7 +507,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         	 * with a panel, to ensure that child dimensions are set
         	 * correctly.
         	 */
-        	if (!(this instanceof EchoExt20.PanelSync)) {
+        	if (!(this instanceof EchoExt20.PanelSync || this instanceof EchoExt20.ContainerSync)) {
         		var container = new Ext.Panel({
         		    //layout: 'fit',
         		    border: false,

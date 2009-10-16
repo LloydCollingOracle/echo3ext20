@@ -2,6 +2,7 @@ package org.sgodden.echo.ext20.testapp.layout;
 
 import nextapp.echo.app.Label;
 
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.layout.ColumnLayout;
 import org.sgodden.echo.ext20.layout.ColumnLayoutData;
@@ -17,13 +18,13 @@ public class ColumnLayoutTest
     public ColumnLayoutTest(){
         super(new ColumnLayout(), "Column");
         
-        Panel left = new Panel();
+        Container left = new Panel();
         add(left);
         
         left.setLayoutData(new ColumnLayoutData(.5));
         left.add(new Label("Left-hand side"));
         
-        Panel right = new Panel();
+        Container right = new Panel();
         add(right);
         
         right.setLayoutData(new ColumnLayoutData(.5));

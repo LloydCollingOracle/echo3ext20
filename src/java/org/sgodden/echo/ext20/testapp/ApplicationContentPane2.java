@@ -35,6 +35,7 @@ import nextapp.echo.app.event.ActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.grid.GridPanel;
 
@@ -95,13 +96,13 @@ public class ApplicationContentPane2
         Column ret = new Column();
         ret.setRenderId("westPanel");
         
-        Panel imagePanel = new Panel();
+        Container imagePanel = new Panel();
         imagePanel.setHtml(
                 "<img src='http://demo.nextapp.com/echo3csjs/image/Logo.png'></img>");
         imagePanel.setRenderId("northImagePanel");
         ret.add(imagePanel);
         
-        Panel titlePanel = new Panel();
+        Container titlePanel = new Panel();
         titlePanel.setHtml("Some navigation here");
         titlePanel.setRenderId("northTitlePanel");
         titlePanel.setPadding("5px");

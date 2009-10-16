@@ -6,13 +6,14 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.list.DefaultListModel;
 
 import org.sgodden.echo.ext20.ComboBox;
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.layout.FitLayout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
 public class ComboListTest extends Panel{
 	
-	private Panel p = new Panel(new TableLayout(1));
+	private Container p = new Panel(new TableLayout(1));
 	private ComboBox cb;
     private ComboBox cb2;
 	public ComboListTest(){

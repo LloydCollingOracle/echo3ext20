@@ -28,6 +28,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.ApplicationWaitIndicator;
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.layout.AccordionLayout;
 import org.sgodden.echo.ext20.layout.BorderLayout;
@@ -57,7 +58,7 @@ public class ApplicationContentPane extends ContentPane {
     /**
      * The container for the centre component.
      */
-    private Panel centreContainer;
+    private Container centreContainer;
 
     public ApplicationContentPane() {
         super();
@@ -73,12 +74,13 @@ public class ApplicationContentPane extends ContentPane {
          * For some reason, this is all only working if the outer panel has fit
          * layout. Border layout just seems to go wrong.
          */
-        Panel outer = new Panel(new FitLayout());
-        outer.setBorder(false);
+//       Container outer = new Container(new FitLayout());
+       Container outer = new Panel(new FitLayout());
+//        outer.setBorder(false);
         outer.setRenderId("viewport");
         add(outer);
 
-        Panel mainPanel = new Panel(new BorderLayout());
+        Container mainPanel = new Container(new BorderLayout());
         outer.add(mainPanel);
         mainPanel.setRenderId("main");
 
@@ -94,24 +96,24 @@ public class ApplicationContentPane extends ContentPane {
         showCentreComponent(new WelcomePanel());
     }
 
-    private Panel createNorthPanel() {
-        Panel ret = new Panel();
+    private Container createNorthPanel() {
+        Container ret = new Panel();
         ret.setHeight(52);
-        ret.setBorder(false);
+//        ret.setBorder(false);
         TableLayout layout = new TableLayout();
         layout.setFullWidth(true);
         ret.setLayout(layout);
         ret.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
-        ret.setBodyBackground(new Color(84, 84, 84));
+//        ret.setBodyBackground(new Color(84, 84, 84));
 
         Panel imagePanel = new Panel();
         TableLayoutData tld = new TableLayoutData();
         tld.setCellAlign("left");
         imagePanel.setLayoutData(tld);
-        imagePanel.setBodyTransparent(true);
-        imagePanel.setBorder(false);
+//        imagePanel.setBodyTransparent(true);
+//        imagePanel.setBorder(false);
         imagePanel
-                .setHtml("<a href='http://echo.nextapp.com'><img style='float: left;' src='http://demo.nextapp.com/echo3csjs/image/Logo.png'></img></a>");
+                .setHtml("<a href='http://echo.nextapp.com'><img style='float: left;' src='http://demo.nextapp.com/echo3csjs/image/workspace/Logo.png'></img></a>");
         imagePanel.setRenderId("northImagePanel");
         ret.add(imagePanel);
 
@@ -129,7 +131,7 @@ public class ApplicationContentPane extends ContentPane {
      * 
      * @return
      */
-    private Panel createWestPanel() {
+    private Container createWestPanel() {
         Panel ret = new Panel(new AccordionLayout());
         ret.setBodyBackground(new Color(220, 220, 220));
         ret.setTitle("Navigation");

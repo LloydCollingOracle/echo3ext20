@@ -36,7 +36,7 @@ import org.sgodden.echo.ext20.layout.Layout;
  * @author goddens
  *
  */
-public class Panel extends ExtComponent {
+public class Panel extends Container {
 
     private static final long serialVersionUID = 20090324L;
 
@@ -73,13 +73,6 @@ public class Panel extends ExtComponent {
      */
     public static final String PROPERTY_BODY_BORDER = "bodyBorder";
     /**
-     * Padding for the overall panel.
-     * <p>
-     * Type: String in CSS padding specification style.
-     * </p>
-     */
-    public static final String PROPERTY_PADDING = "padding";
-    /**
      * The background color for the panel body.
      * <p>
      * Type: Color.
@@ -94,13 +87,6 @@ public class Panel extends ExtComponent {
      */
     public static final String PROPERTY_BODY_PADDING = "bodyPadding";
     /**
-     * The height of the panel, in pixels.
-     * <p>
-     * Type: Integer.
-     * </p>
-     */
-    public static final String PROPERTY_HEIGHT = "height";
-    /**
      * Whether the panel should have a transparent background.
      * <p>
      * Type: Boolean.
@@ -108,20 +94,10 @@ public class Panel extends ExtComponent {
      */
     public static final String PROPERTY_BODY_TRANSPARENT = "bodyTransparent";
     
-    /**
-     * The width of the panel, in pixels.
-     * <p>
-     * Type: Integer.
-     * </p>
-     */
-    public static final String PROPERTY_WIDTH = "width";
-    
     public static final String PROPERTY_TITLE = "title";
     
     public static final String COLLAPSIBLE_PROPERTY = "collapsible";
     public static final String EXPANSIBLE_PROPERTY = "expansible";
-    public static final String HTML_PROPERTY = "html";
-    public static final String LAYOUT_PROPERTY = "layout";
     public static final String SPLIT_PROPERTY = "split";
     public static final String TOOL_IDS_PROPERTY = "toolIds";
     
@@ -261,7 +237,7 @@ public class Panel extends ExtComponent {
      */
     public Panel(Layout layout, String title) {
         super();
-        set(LAYOUT_PROPERTY, layout);
+        set(PROPERTY_LAYOUT, layout);
         setTitle(title);
     }
 
@@ -299,7 +275,7 @@ public class Panel extends ExtComponent {
             if (key.equals(PROPERTY_TITLE)) {
                 setTitle((String)options.get(key));
             }
-            else if (key.equals(HTML_PROPERTY)) {
+            else if (key.equals(PROPERTY_HTML)) {
                 setHtml((String)options.get(key));
             }
             else {
@@ -390,16 +366,6 @@ public class Panel extends ExtComponent {
     }
     
     /**
-     * Specified some arbitrary HTML to show as the panel's contents.
-     * <p/>
-     * Note that this cannot be used in conjunction with the {@link #add(Component)} method.
-     * @param html the HTML to show as the panel's contents.
-     */
-    public void setHtml(String html) {
-        set(HTML_PROPERTY, html);
-    }
-    
-    /**
      * Sets the width of the panel in pixels.
      * @param pixels the width of the panel in pixels.
      */
@@ -444,7 +410,7 @@ public class Panel extends ExtComponent {
      * @return the layout in use by this panel.
      */
     public Layout getLayout() {
-        return (Layout) get(LAYOUT_PROPERTY);
+        return (Layout) get(PROPERTY_LAYOUT);
     }
     
     /**
@@ -452,7 +418,7 @@ public class Panel extends ExtComponent {
      * @param layout the layout to use in the panel.
      */
     public void setLayout(Layout layout) {
-        set(LAYOUT_PROPERTY, layout);
+        set(PROPERTY_LAYOUT, layout);
     }
     
     /**

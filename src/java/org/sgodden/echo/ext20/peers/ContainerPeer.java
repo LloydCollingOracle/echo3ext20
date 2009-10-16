@@ -26,8 +26,8 @@ import org.sgodden.echo.ext20.Container;
 public class ContainerPeer
         extends ExtComponentPeer {
 
-//    protected static final Service PANEL_SERVICE = JavaScriptService.forResource("EchoExt20.Panel",
-//            "org/sgodden/echo/ext20/resource/js/Ext20.Panel.js");
+//    protected static final Service PANEL_SERVICE = JavaScriptService.forResource("EchoExt20.Container",
+//            "org/sgodden/echo/ext20/resource/js/Ext20.Container.js");
 //
 //    static {
 //        WebContainerServlet.getServiceRegistry().add(PANEL_SERVICE);

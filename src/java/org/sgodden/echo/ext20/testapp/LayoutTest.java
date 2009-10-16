@@ -6,6 +6,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TabbedPane;
 import org.sgodden.echo.ext20.command.DoPanelLayoutCommand;
@@ -34,10 +35,10 @@ public class LayoutTest extends Panel {
 
     public void createUI() {
         
-        Panel outer = new Panel(new BorderLayout());
+        Container outer = new Panel(new BorderLayout());
         add(outer);
         
-        Panel north = new Panel();
+        Container north = new Panel();
         
         north.setHtml("The tabs below contain examples of the supported layouts");
         north.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
@@ -73,7 +74,7 @@ public class LayoutTest extends Panel {
             
         }
 
-		private Panel createBeforeExpandEventPanel( boolean expansible) {
+		private Container createBeforeExpandEventPanel( boolean expansible) {
 			String text = "This panel will "+ (expansible?"":"not ") + "expand";
             Panel panel = new Panel( text);
             panel.setBaseCssClass("customcss");
@@ -87,7 +88,7 @@ public class LayoutTest extends Panel {
 			return panel;
 		}
         
-        private Panel createPanel(String text) {
+        private Container createPanel(String text) {
             Panel ret = new Panel(text);
             ret.setBaseCssClass("customcss");
             ret.setHtml(text);
@@ -105,17 +106,17 @@ public class LayoutTest extends Panel {
         }
 
         public void createUI() {
-            final Panel northPanel = new Panel(new TableLayout(1));
+            final Container northPanel = new Panel(new TableLayout(1));
             northPanel.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
             add(northPanel);
             
-            Panel centerPanel = new Panel();
+            Container centerPanel = new Panel();
             centerPanel.add(new Label("This is the center panel!"));
             centerPanel.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
             add(centerPanel);
             
             Button addRemoveExtraPanelButton = new Button("Add/Remove Panel");
-            final Panel childPanel = new Panel();
+            final Container childPanel = new Panel();
             childPanel.add(new Label("Child Panel"));
             addRemoveExtraPanelButton.addActionListener(new ActionListener() {
 

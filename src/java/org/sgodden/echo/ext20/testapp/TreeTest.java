@@ -32,6 +32,7 @@ import nextapp.echo.extras.app.tree.TreeNodeModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.DefaultCheckBoxMutableTreeNode;
 import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Menu;
@@ -63,7 +64,7 @@ public class TreeTest extends Panel implements ChangeListener, ActionListener {
     }
 
     public void createUI() {
-        Panel outer = new Panel(new FitLayout());
+        Container outer = new Panel(new FitLayout());
         add(outer);
 
         DefaultCheckBoxMutableTreeNode root = new DefaultCheckBoxMutableTreeNode();

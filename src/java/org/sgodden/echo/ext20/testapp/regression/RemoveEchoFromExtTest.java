@@ -9,6 +9,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.DateField;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TextField;
@@ -26,7 +27,7 @@ import org.sgodden.echo.ext20.layout.FitLayout;
 public class RemoveEchoFromExtTest extends Panel {
     
     private int clicks;
-    private Panel form;
+    private Container form;
     
     public RemoveEchoFromExtTest() {
         super(new FitLayout());
@@ -58,9 +59,9 @@ public class RemoveEchoFromExtTest extends Panel {
         addButton(button);
     }
     
-    private Panel makeExtForm() {
+    private Container makeExtForm() {
         
-        Panel ct = new Panel(new FitLayout());
+        Container ct = new Panel(new FitLayout());
         
         Grid ret = new Grid(1);
         ct.add(ret);

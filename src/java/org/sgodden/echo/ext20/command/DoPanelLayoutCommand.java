@@ -2,7 +2,7 @@ package org.sgodden.echo.ext20.command;
 
 import nextapp.echo.app.Command;
 
-import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.Container;
 
 /**
  * A Web Application <code>Command</code> to 
@@ -15,7 +15,7 @@ implements Command {
      */
     private String panelId;
     
-    public DoPanelLayoutCommand(Panel panelToLayout) {
+    public DoPanelLayoutCommand(Container panelToLayout) {
         super();
         this.panelId = panelToLayout.getContainingWindow().getId() + "." + panelToLayout.getRenderId();
     }

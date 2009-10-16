@@ -4,6 +4,7 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.CustomComboBox;
 import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.Panel;
@@ -16,7 +17,7 @@ public class CustomComboBoxTest extends Panel {
 	}
 
 	private void createUI() {
-		Panel panel = new Panel();
+		Container panel = new Panel();
 		final CustomComboBox box = new CustomComboBox( panel);
 		box.setValue( "ABC");
 		add( box);

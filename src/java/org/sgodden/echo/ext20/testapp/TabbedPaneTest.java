@@ -22,6 +22,7 @@ import nextapp.echo.app.event.ActionListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TabbedPane;
@@ -49,14 +50,14 @@ public class TabbedPaneTest extends Panel {
     }
 
     public void createUI() {
-        Panel outer = new Panel(new BorderLayout());
+        Container outer = new Panel(new BorderLayout());
         add(outer);
 
         final TabbedPane tabs = new TabbedPane();
         tabs.setRenderId("tabbedPaneTestTabs");
         addPanel(tabs);
 
-        Panel northPanel = new Panel(new TableLayout(2));
+        Container northPanel = new Panel(new TableLayout(2));
         northPanel.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
         outer.add(northPanel);
 

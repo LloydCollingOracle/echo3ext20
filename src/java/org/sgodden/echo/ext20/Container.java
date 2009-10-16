@@ -16,10 +16,12 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
+import nextapp.echo.app.Component;
+
 import org.sgodden.echo.ext20.layout.Layout;
 
 /**
- * A lighweight container.
+ * A lightweight container.
  * 
  * @author goddens
  *
@@ -51,7 +53,9 @@ public class Container extends ExtComponent {
      */
     public static final String PROPERTY_WIDTH = "width";
     
-    public static final String LAYOUT_PROPERTY = "layout";
+    public static final String PROPERTY_LAYOUT = "layout";
+
+    public static final String PROPERTY_HTML = "html";
     
 
     /**
@@ -67,7 +71,7 @@ public class Container extends ExtComponent {
      */
     public Container(Layout layout) {
         super();
-        set(LAYOUT_PROPERTY, layout);
+        set(PROPERTY_LAYOUT, layout);
     }
     
     /**
@@ -99,7 +103,7 @@ public class Container extends ExtComponent {
      * @return the layout in use by this panel.
      */
     public Layout getLayout() {
-        return (Layout) get(LAYOUT_PROPERTY);
+        return (Layout) get(PROPERTY_LAYOUT);
     }
     
     /**
@@ -107,7 +111,17 @@ public class Container extends ExtComponent {
      * @param layout the layout to use in the panel.
      */
     public void setLayout(Layout layout) {
-        set(LAYOUT_PROPERTY, layout);
+        set(PROPERTY_LAYOUT, layout);
+    }
+
+    /**
+     * Specified some arbitrary HTML to show as the panel's contents.
+     * <p/>
+     * Note that this cannot be used in conjunction with the {@link #add(Component)} method.
+     * @param html the HTML to show as the panel's contents.
+     */
+    public void setHtml(String html) {
+        set(PROPERTY_HTML, html);
     }
 
 }

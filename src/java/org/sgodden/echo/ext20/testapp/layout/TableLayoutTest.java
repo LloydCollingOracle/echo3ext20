@@ -5,6 +5,7 @@ import nextapp.echo.app.Color;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Label;
 
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.layout.TableLayout;
 import org.sgodden.echo.ext20.layout.TableLayoutData;
@@ -78,7 +79,7 @@ public class TableLayoutTest
         
     }
     
-    private Panel makeTablePanel() {
+    private Container makeTablePanel() {
         Panel ret = new Panel();
         ret.setPadding("10px");
         
@@ -92,7 +93,7 @@ public class TableLayoutTest
         return ret;
     }
     
-    private Panel makePanel2() {
+    private Container makePanel2() {
         Panel ret = new Panel();
         ret.setBorder(true);
         ret.setHeight(100);

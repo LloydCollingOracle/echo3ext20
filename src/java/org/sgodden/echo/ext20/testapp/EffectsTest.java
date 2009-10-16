@@ -6,6 +6,7 @@ import nextapp.echo.app.event.ActionListener;
 
 import org.sgodden.echo.ext20.AddComponentFx;
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.RemoveComponentFx;
 import org.sgodden.echo.ext20.layout.FitLayout;
@@ -25,10 +26,10 @@ public class EffectsTest extends Panel {
         super(new FitLayout(), "Effects");
         setAutoScroll(true);
         
-        final Panel container = new Panel();
+        final Container container = new Panel();
         add(container);
         
-        final Panel buttonPanel = new Panel(new TableLayout());
+        final Container buttonPanel = new Panel(new TableLayout());
         buttonPanel.setRenderId("EffectsButtonPanel");
         buttonPanel.setHeight(100);
         container.add(buttonPanel);

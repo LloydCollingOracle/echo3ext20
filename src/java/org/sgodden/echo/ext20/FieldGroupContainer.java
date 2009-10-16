@@ -133,14 +133,14 @@ public class FieldGroupContainer extends Panel {
         // if we're going down to one group, remove the remove button from the
         // remaining group
         if (containedGroups.size() == 2) {
-            Panel lastGroup = containedGroups.get(index == 0 ? 1 : 0);
+            Container lastGroup = containedGroups.get(index == 0 ? 1 : 0);
             for (Component c : lastGroup.getComponents()) {
                 if (c instanceof RemoveButton)
                     lastGroup.remove(c);
             }
         }
         
-        Panel p = containedGroups.remove(index);
+        Container p = containedGroups.remove(index);
         remove(p);
     }
 

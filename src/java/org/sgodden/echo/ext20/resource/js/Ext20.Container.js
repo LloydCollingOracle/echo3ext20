@@ -268,6 +268,13 @@ EchoExt20.ContainerSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     createExtComponent: function(update, options) {
         // process basic properties
+        
+        options['autoEl'] = {tag: 'div'};
+        
+        var html = this.component.get("html");
+        if (html != null) {
+            options['autoEl'].html = html;
+        }
 
         if (this.component.render("padding")) {
             options.style.padding = this.component.render("padding");

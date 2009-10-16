@@ -17,9 +17,9 @@ public class TabbedPaneTest extends TestCase {
     public void testActiveIndexChangeWhenRemovingComponent() throws Exception {
         TabbedPane p = new TabbedPane();
         
-        Panel a = new Panel();
-        Panel b = new Panel();
-        Panel c = new Panel();
+        Container a = new Panel();
+        Container b = new Panel();
+        Container c = new Panel();
         p.add(a);
         p.add(b);
         p.add(c);
