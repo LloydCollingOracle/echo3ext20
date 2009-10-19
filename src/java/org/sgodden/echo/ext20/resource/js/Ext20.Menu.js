@@ -24,7 +24,7 @@ EchoExt20.Menu = Core.extend(EchoExt20.ExtComponent, {
     componentType: "Ext20Menu"
 });
 
-EchoExt20.ToolbarSync = Core.extend(EchoExt20.ExtComponentSync, {
+EchoExt20.MenuSync = Core.extend(EchoExt20.ExtComponentSync, {
 
     $load: function() {
         Echo.Render.registerPeer("Ext20Menu", this);
