@@ -339,6 +339,7 @@ public class UserListPanel
 
         tbButton = new ToolbarButton();
         tbButton.setIcon(ref1);
+        tbButton.isHoverMenu(true);
         currentImageRef = ref1;
         tbButton.setText("Configure");
         

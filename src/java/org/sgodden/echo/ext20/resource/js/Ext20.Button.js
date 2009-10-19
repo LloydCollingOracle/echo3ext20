@@ -148,7 +148,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         extComponent.on("render", this._onRender, this);
 
         extComponent.on('menutriggerover', this._handleMenuTriggerOver, this);
-        //extComponent.on('menutriggerout', this._handleMenuTriggerOut, this);
+        extComponent.on('menutriggerout', this._handleMenuTriggerOut, this);
         extComponent.on('toggle', this._handleToggle, this);
         
         return extComponent;
@@ -160,7 +160,15 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     */
     _handleMenuTriggerOver: function() {
          if(this.component.get("hoverMenu")){
-             this.extComponent.showMenu();
+        	 this._isMenuTriggerOver = true;
+             var task = new Ext.util.DelayedTask(
+                 function() {
+                     if (this._isMenuTriggerOver == true) {
+                         this.extComponent.showMenu();
+                     }
+                 },
+                 this);
+             task.delay(100);
          }
     },
     
@@ -169,9 +177,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
      * hover menu button.
      */
     _handleMenuTriggerOut: function() {
-        if(this.component.get("hoverMenu")){
-            this.extComponent.hideMenu();
-        }
+        this._isMenuTriggerOver = false;
     },
     
     /**
