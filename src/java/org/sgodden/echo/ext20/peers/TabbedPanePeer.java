@@ -78,7 +78,9 @@ extends ExtComponentPeer {
 
     @Override
     public Class getEventDataClass(String eventType) {
-        if ("tabClose".equals(eventType)){
+        if (TabbedPane.TAB_CLOSE_EVENT.equals(eventType)){
+            return Integer.class;
+        } else if (TabbedPane.ACTIVE_TAB_CHANGE_EVENT.equals(eventType)){
             return Integer.class;
         } else {
             return super.getEventDataClass(eventType);

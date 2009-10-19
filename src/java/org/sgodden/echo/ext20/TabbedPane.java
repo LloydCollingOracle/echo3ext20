@@ -20,6 +20,8 @@ import java.util.EventListener;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.sgodden.echo.ext20.TabChangeListener.TabChangeEvent;
+
 import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -66,10 +68,10 @@ public class TabbedPane extends Panel {
      */
     public TabbedPane() {
         super();
-        setActiveTabIndex(0);
+        setActiveTabIndex(0, false);
         
         addTabChangeListener(new TabChangeListener(){
-            public void actionPerformed(ActionEvent arg0) {
+            public boolean tabChanged(TabChangeEvent arg0) {
                 // get the component at the new index
                 Component c = getComponent(getActiveTabIndex());
                 // if it's a deferred ui component, tell it to create it now
@@ -80,6 +82,7 @@ public class TabbedPane extends Panel {
                         initialisedChildIds.add(c.getRenderId());
                     }
                 }
+                return true;
             }
         });
     }
@@ -89,8 +92,22 @@ public class TabbedPane extends Panel {
      * @param tabIndex the index of the active tab.
      */
     public void setActiveTabIndex(int tabIndex) {
+        int oldTab = getActiveTabIndex();
         set(ACTIVE_TAB_INDEX_PROPERTY, tabIndex);
-        fireTabChangeEvent();
+        fireTabChangingEvent(oldTab, tabIndex);
+    }
+    
+    /**
+     * Sets the index of the active tab.
+     * @param tabIndex the index of the active tab.
+     */
+    public void setActiveTabIndex(int tabIndex, boolean fireEvent) {
+        int oldTab = -1;
+        if (fireEvent)
+            oldTab = getActiveTabIndex();
+        set(ACTIVE_TAB_INDEX_PROPERTY, tabIndex);
+        if (fireEvent)
+            fireTabChangingEvent(oldTab, tabIndex);
     }
 
     /**
@@ -116,11 +133,12 @@ public class TabbedPane extends Panel {
             if (fireTabClosingEvent(closingTab)) {
                 remove(tab);
             }
+        } else if (ACTIVE_TAB_CHANGE_EVENT.equals(inputName)) {
+            int changingTab = ((Integer)inputValue).intValue();
+            if (fireTabChangingEvent(getActiveTabIndex(), changingTab)) {
+                setActiveTabIndex(changingTab, false);
+            }
         }
-        /* 
-         * we don't handle the change event because listeners are
-         * already notified in setActiveIndex.
-         */
         
     }
     
@@ -174,18 +192,20 @@ public class TabbedPane extends Panel {
     /**
      * Fires an action event to all listeners.
      */
-    private void fireTabChangeEvent() {
+    private boolean fireTabChangingEvent(int oldTab, int newTab) {
         if (!hasEventListenerList()) {
-            return;
+            return true;
         }
         EventListener[] listeners = getEventListenerList().getListeners(TabChangeListener.class);
-        ActionEvent e = null;
+        TabChangeEvent e = null;
+        boolean doTabChange = true;
         for (int i = 0; i < listeners.length; ++i) {
             if (e == null) {
-                e = new ActionEvent(this, null);
+                e = new TabChangeEvent(this, oldTab, newTab);
             }
-            ((ActionListener) listeners[i]).actionPerformed(e);
+            doTabChange = ((TabChangeListener) listeners[i]).tabChanged(e) && doTabChange;
         }
+        return doTabChange;
     }
 
     

@@ -23,10 +23,11 @@ EchoExt20.TabbedPane = Core.extend(EchoExt20.Panel, {
     
     componentType: "Ext20TabbedPane",
     
-    doActiveTabChange: function(){
+    doActiveTabChange: function(newTab){
         this.fireEvent({
             type: "activeTabChangeEvent",
-            source: this
+            source: this,
+            data: newTab
         });
     },
         
@@ -65,17 +66,15 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
 
         var ret = new Ext.TabPanel(options);
 
+        
         ret.on(
             "beforetabchange", 
             function(tabPanel, newTab, oldTab){
                 if (!(this._tabChangeNotificationSuspended)) {
-                    this.component.set(
-                        "activeTabIndex",
-                        newTab.echoComponent.childIndex
-                    );
-                    this.component.doActiveTabChange();
+                    this.component.doActiveTabChange(newTab.echoComponent.childIndex);
+                    return false;
                 }
-                                    
+                
                 this._tabChangeNotificationSuspended = false;
                 },
             this

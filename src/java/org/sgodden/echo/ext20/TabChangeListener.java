@@ -16,13 +16,48 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import nextapp.echo.app.event.ActionListener;
+import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * Listener to be notified after the active tab index changes on a tabbed pane.
  * @author sgodden
  */
 public interface TabChangeListener 
-    extends ActionListener {
+    extends EventListener {
 
+    /**
+     * Notification that a tab pane wishes to change the displayed tab.
+     * Returning false will veto the tab change.
+     * @param e
+     * @return
+     */
+    public boolean tabChanged(TabChangeEvent e);
+    
+    /**
+     * Event generated when changing tab
+     * @author Lloyd Colling
+     *
+     */
+    public static class TabChangeEvent extends EventObject {
+        
+        private static final long serialVersionUID = 20091019;
+        
+        int oldIndex;
+        int newIndex;
+        
+        public TabChangeEvent(Object source, int oldTab, int newTab) {
+            super(source);
+            this.oldIndex = oldTab;
+            this.newIndex = newTab;
+        }
+
+        public int getOldIndex() {
+            return oldIndex;
+        }
+
+        public int getNewIndex() {
+            return newIndex;
+        }
+    }
 }

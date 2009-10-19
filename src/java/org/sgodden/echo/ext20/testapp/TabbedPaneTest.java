@@ -16,15 +16,19 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
+import nextapp.echo.app.CheckBox;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.CheckboxField;
 import org.sgodden.echo.ext20.Container;
 import org.sgodden.echo.ext20.DeferredUiCreate;
+import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.Panel;
+import org.sgodden.echo.ext20.TabChangeListener;
 import org.sgodden.echo.ext20.TabbedPane;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
@@ -57,7 +61,7 @@ public class TabbedPaneTest extends Panel {
         tabs.setRenderId("tabbedPaneTestTabs");
         addPanel(tabs);
 
-        Container northPanel = new Panel(new TableLayout(2));
+        Container northPanel = new Panel(new TableLayout(4));
         northPanel.setLayoutData(new BorderLayoutData(BorderLayout.NORTH));
         outer.add(northPanel);
 
@@ -80,6 +84,16 @@ public class TabbedPaneTest extends Panel {
                 }
             }
         });
+        
+        final CheckboxField allowTabChange = new CheckboxField(true);
+        northPanel.add(new Label("Allow tab Change?"));
+        northPanel.add(allowTabChange);
+        
+        tabs.addTabChangeListener(new TabChangeListener() {
+
+            public boolean tabChanged(TabChangeEvent e) {
+                return allowTabChange.getSelected();
+            }});
 
         tabs.setLayoutData(new BorderLayoutData(BorderLayout.CENTER));
         outer.add(tabs);
