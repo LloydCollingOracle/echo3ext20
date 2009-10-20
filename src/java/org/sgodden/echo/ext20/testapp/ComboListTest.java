@@ -28,10 +28,13 @@ public class ComboListTest extends Panel{
 		cb.addActionListener(new ActionListener() {
 		
 			public void actionPerformed(ActionEvent arg0) {
-				p.add(new Label(cb.getSelectedItem().toString()));
-		
+			    if (cb.getSelectedItem() != null)
+			        p.add(new Label(cb.getSelectedItem().toString()));
+			    else
+			        p.add(new Label("Raw Value: " + cb.getRawValue()));
 			}
 		});
+		cb.setTypeAhead(true);
 		p.add(cb);
 		
 		cb2 = new ComboBox();

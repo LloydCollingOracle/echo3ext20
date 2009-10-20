@@ -356,7 +356,8 @@ public class ComboBox extends ExtComponent implements AbstractListComponent {
      */
     private void processSelectionInput(int selectedIndex) {
         selectionModel.clearSelection();
-        selectionModel.setSelectedIndex(selectedIndex, true);
+        if (selectedIndex >= 0)
+            selectionModel.setSelectedIndex(selectedIndex, true);
     }
 
     /**

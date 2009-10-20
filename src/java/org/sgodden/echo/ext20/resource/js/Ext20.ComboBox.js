@@ -206,7 +206,16 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
      * Update the component's value from the value in the ext text field.
      */
     _handleRawValueChangeEvent: function() {
+        if (this.extComponent.getRawValue() == this.component.get("rawValue"))
+            return;
         this.component.set("rawValue", this.extComponent.getRawValue());
+        this.component.set("selection", -1);
+        for (var i = 0; i < this._store.getCount(); i++) {
+            if (this._store.getAt(i).get("display") == this.extComponent.getRawValue()) {
+                this.component.set("selection", this._store.getAt(i).get("value"));
+            }
+        }
+        this.component.doAction();
     },
     
     /**
@@ -224,7 +233,6 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
      * its action event.
      */
    _handleExpandEvent: function() {
-        this.extComponent.setValue(null);
     },
 
     /**
@@ -234,16 +242,16 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     _handleSelectEvent: function(combo, record, index) {
         if (!this._suspendEvents) {
             if (typeof index != "undefined") {
-                this.component.set("selection", index);
-                this.component.set("rawValue", null);
+                this.component.set("selection", record.get("value"));
+                this.component.set("rawValue", this.extComponent.getRawValue());
                 this.component.doAction();
+                combo.focus(true, true);
             }
-            this.extComponent.focus(true, true);
         }
     },
     
     /**
-     * Callled by super.createExtComponent to actually create the 
+     * Called by super.createExtComponent to actually create the 
      * ext component of the correct type.
      */
     newExtComponentInstance: function(options) {
