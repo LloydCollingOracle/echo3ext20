@@ -73,7 +73,7 @@ public class TabbedPane extends Panel {
         addTabChangeListener(new TabChangeListener(){
             public boolean tabChanged(TabChangeEvent arg0) {
                 // get the component at the new index
-                Component c = getComponent(getActiveTabIndex());
+                Component c = getComponent(arg0.getNewIndex());
                 // if it's a deferred ui component, tell it to create it now
                 if (c instanceof DeferredUiCreate) {
                     // ensure we don't ask children to create their UI more than once.
