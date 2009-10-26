@@ -47,6 +47,11 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
      * The Tree's context menu
      */
     contextMenu: null,
+    
+    /**
+     * Whether we are ignoring selection events at the moment
+     */
+    _ignoreSelectionEvents: false,
 
     $virtual: {
         newExtComponentInstance: function(options) {
@@ -125,6 +130,29 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     _doOnContextMenu: function(node, evt) {
         evt.stopEvent();
+        this._ignoreSelectionEvents = this.component.get("selectOnContext");
+        if (this._ignoreSelectionEvents == null)
+            this._ignoreSelectionEvents = false;
+        node.select();
+        this._ignoreSelectionEvents = false;
+        
+        if (this.contextMenu == null) {
+            var componentCount = this.component.getComponentCount();
+            for (var i = 0; i < componentCount; i++) {
+                var child = this.component.getComponent(i);
+                if (child instanceof EchoExt20.Menu) {
+                    if (!child.peer || child.peer.extComponent == null) {
+                        Echo.Render.renderComponentAdd(update, child, null);
+                    }
+                    this.contextMenu = child.peer.extComponent;
+                    if (this.contextMenu == null) {
+                        throw new Error("Context Menu not created for Tree");
+                    }
+                }
+            }
+        }
+        if (this.contextMenu == null)
+            return;
         this.contextMenu.showAt(evt.getXY());
     },
     
@@ -405,7 +433,9 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         }
         var echoNode = extNode.getEchoNode();
         this._doSelection(echoNode, event);
-        this.component.doAction();
+        if (!this._ignoreSelectionEvents) {
+            this.component.doAction();
+        }
         return true;
     },
     

@@ -19,6 +19,12 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
     public static final String HAS_BORDER_PROPERTY = "hasBorder";
     public static final String PROPERTY_SHOW_CHECKBOXES = "showCheckBoxes";
     public static final String PROPERTY_SHOW_ROOT_NODE = "showRootNode";
+    /**
+     * Whether a select event should be generated when
+     * the user right clicks on an unselected row to bring up
+     * the context menu.
+     */
+    public static final String PROPERTY_SELECT_ON_CONTEXT = "selectOnContext";
     
     private Menu contextMenu;
     
@@ -122,5 +128,19 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
 
     public void setShowRootNode(boolean showRootNode) {
         set(PROPERTY_SHOW_ROOT_NODE, Boolean.valueOf(showRootNode));
+    }
+
+    /**
+     * Determines whether a select event should be generated when
+     * the user right clicks on an unselected row to bring up
+     * the context menu.
+     * @return
+     */
+    public boolean isSelectOnContext() {
+        return Boolean.TRUE.equals(PROPERTY_SELECT_ON_CONTEXT);
+    }
+
+    public void setSelectOnContext(boolean selectOnContext) {
+        set(PROPERTY_SELECT_ON_CONTEXT, Boolean.valueOf(selectOnContext));
     }
 }

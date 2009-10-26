@@ -27,6 +27,7 @@ public class TreePeer extends
         addOutputProperty(Tree.HAS_BORDER_PROPERTY);
         addOutputProperty(Tree.PROPERTY_SHOW_CHECKBOXES);
         addOutputProperty(Tree.PROPERTY_SHOW_ROOT_NODE);
+        addOutputProperty(Tree.PROPERTY_SELECT_ON_CONTEXT);
     }
 
     /**
