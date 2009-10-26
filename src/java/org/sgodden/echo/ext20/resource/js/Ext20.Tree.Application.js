@@ -156,7 +156,7 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
                 '<div class="x-tree-col" style="width:',c.width-bw,'px;" style="vertical-align:middle">',
                     '<span class="x-tree-node-indent">',this.indentMarkup,"</span>",
                     '<img src="', this.emptyIcon, '" class="x-tree-ec-icon x-tree-elbow">',
-                    '<table style="display:inline',Ext.isIE ? '' : '-table',';vertical-align:middle;cellSpacing:0px;cellPadding:0px" id="tbl',n.id,'" cellspacing="0"><tr><td id="t',n.id,'">', n.text ? n.text : '',"</td></tr></table>",
+                    '<span class="x-tree-col-text" ', ' id="tbl',n.id,'"></span>',
                 "</div>"];
          for(var i = 1, len = t.getColumns().length; i < len; i++){
              c = t.getColumns()[i];
@@ -177,25 +177,29 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
             this.wrap = Ext.DomHelper.insertHtml("beforeEnd", targetNode, buf.join(""));
         }
         
-        var nodeTextSpan = document.getElementById("t" + n.id);
+        var nodeTextSpan = document.getElementById("tbl" + n.id);
         var textComponent = a['application'].getComponentByRenderId(a.columns[0]);
         if (! (textComponent instanceof EchoExt20.ExtComponent) ) {
             // we don't renderAdd here - ext does it lazily
             var wrapper = new EchoExt20.Echo3SyncWrapper(c.update, textComponent);
+            wrapper.wrappedRootElement.style.display='inline';
             nodeTextSpan.appendChild(wrapper.wrappedRootElement);
         } else {
-       	 	Echo.Render.renderComponentAdd(c.update, textComponent, nodeTextSpan);
+            Echo.Render.renderComponentAdd(c.update, textComponent, nodeTextSpan);
+            textComponent.peer.extComponent.render(nodeTextSpan);
         }
 
         for(var i = 1, len = t.getColumns().length; i < len; i++){
-        	var thisColDiv = document.getElementById('' + n.id + i);
-        	var columnComponent = a['application'].getComponentByRenderId(a.columns[i]);
+            var thisColDiv = document.getElementById('' + n.id + i);
+            var columnComponent = a['application'].getComponentByRenderId(a.columns[i]);
             if (! (columnComponent instanceof EchoExt20.ExtComponent) ) {
                 // we don't renderAdd here - ext does it lazily
                 var wrapper = new EchoExt20.Echo3SyncWrapper(c.update, columnComponent);
+                wrapper.wrappedRootElement.style.display='inline';
                 thisColDiv.appendChild(wrapper.wrappedRootElement);
             } else {
-            	Echo.Render.renderComponentAdd(a['update'], columnComponent, thisColDiv);
+                Echo.Render.renderComponentAdd(a['update'], columnComponent, thisColDiv);
+                textComponent.peer.extComponent.render(thisColDiv);
             }
         }
         
