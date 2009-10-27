@@ -37,6 +37,25 @@ Ext.ux.MandatoryField = {
                         }
                     }
                 }
+            },
+            beforedestroy: {
+                fn: function(){
+                    if (!field.allowBlank) {
+                        switch (field.getXType()) {
+                            case "multiselect":
+                                // use this in plugins.css to apply a float:left to the fieldset
+                                Ext.DomHelper.overwrite(field.el, "");
+                                break;
+                            case "textarea":
+                                // ensure asterisk appears at the top right of a TextArea
+                                var el = field.el.parent();
+                                Ext.DomHelper.overwrite(el, "");
+                                break;
+                            default:
+                                Ext.DomHelper.overwrite(field.el.parent(), "");
+                        }
+                    }
+                }
             }
         });
     }

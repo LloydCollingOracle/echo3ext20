@@ -15,18 +15,4 @@ public class DefaultGridCellRenderer extends AbstractGridCellRenderer {
             int colIndex, int rowIndex) {
         return valueAt == null ? null : String.valueOf(valueAt);
     }
-
-    public String getClientSideValueRendererScript(Component gridPanel, Object valueAt,
-            int colIndex, int rowIndex) {
-        if (valueAt instanceof Boolean) {
-            return "if (value === true || value === \"true\") {" +
-                    "    renderedValue = '<div class=\"x-grid3-check-col-on\" width=\"16\" height=\"16\"/>';" +
-                    "} else {" +
-                    "    renderedValue = '<div class=\"x-grid3-check-col\" width=\"16\" height=\"16\"/>';" +
-                    "}";
-        } else {
-            return super.getClientSideValueRendererScript(gridPanel, valueAt, colIndex, rowIndex);
-        }
-    }
-
 }
