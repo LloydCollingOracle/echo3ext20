@@ -104,9 +104,17 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
         @Override
         protected void fullUpdate() {
             init();
-            removeAll();
+            int remaining = 0;
             if (contextMenu != null)
-                add(contextMenu);
+                remaining++;
+            
+            while (getComponentCount() > remaining) {
+                if (getComponent(0) != contextMenu) {
+                    remove(getComponent(0));
+                } else {
+                    remove(getComponent(1));
+                }
+            }
             treePathToComponentCache.clear();
             rowToTreePathCache.clear();
             row = 0;

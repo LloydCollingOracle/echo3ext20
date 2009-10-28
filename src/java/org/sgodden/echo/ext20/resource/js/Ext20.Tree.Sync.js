@@ -132,8 +132,9 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         evt.stopEvent();
         this._ignoreSelectionEvents = this.component.get("selectOnContext");
         if (this._ignoreSelectionEvents == null)
-            this._ignoreSelectionEvents = false;
+            this._ignoreSelectionEvents = true;
         node.select();
+        this._selectionHandler(node, evt);
         this._ignoreSelectionEvents = false;
         
         if (this.contextMenu == null) {
@@ -332,15 +333,30 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     _setSelectionState: function(node, selectionState) {
         this.selectionModel.setSelectionState(node, selectionState);
         var nodeId = node.getId();
-        var extNode = this.extComponent.getNodeById(nodeId);
+        var extNode = this._getNodeById(this.extComponent.root, nodeId);
+        
         // if we're doing a full update then this won't work
-        if (typeof extNode == 'undefined')
+        if (typeof extNode == 'undefined' || extNode == null)
         	return;
         if (selectionState)
         	extNode.select();
         else
         	extNode.unselect();
         this.extComponent.doLayout();
+    },
+    
+    /**
+     * Retrieves a node from the tree with the given id
+     */
+    _getNodeById: function (node, nodeId) {
+        if (node.id == nodeId)
+            return node;
+        
+        var ret = null;
+        for (var i = 0; i < node.childNodes.length & ret == null; i++) {
+            ret = this._getNodeById(node.childNodes[i], nodeId);
+        }
+        return ret;
     },
     
     /**

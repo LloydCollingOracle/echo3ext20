@@ -69,5 +69,5 @@ EchoExt20.SpanSync = Core.extend(Echo.Render.ComponentSync, {
         containerElement.removeChild(element);
         this.renderAdd(update, containerElement);
         return false; // Child elements not supported: safe to return false.
-    },
+    }
 });

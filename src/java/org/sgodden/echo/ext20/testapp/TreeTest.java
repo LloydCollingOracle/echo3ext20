@@ -28,6 +28,7 @@ import nextapp.echo.extras.app.tree.AbstractTreeModel;
 import nextapp.echo.extras.app.tree.DefaultMutableTreeNode;
 import nextapp.echo.extras.app.tree.TreeModel;
 import nextapp.echo.extras.app.tree.TreeNodeModel;
+import nextapp.echo.extras.app.tree.TreePath;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -92,9 +93,27 @@ public class TreeTest extends Panel implements ChangeListener, ActionListener {
         outer.add(testTree);
         
         Menu treeMenu = new Menu();
-        treeMenu.add(new MenuItem("Tree Menu Item 1"));
-        treeMenu.add(new MenuItem("Tree Menu Item 2"));
+        MenuItem mi1 = new MenuItem("Tree Menu Item 1");
+        MenuItem mi2 = new MenuItem("Tree Menu Item 2");
+        treeMenu.add(mi1);
+        treeMenu.add(mi2);
         testTree.setContextMenu(treeMenu);
+        
+        mi1.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent arg0) {
+                System.out.println("Select 1");
+            }
+        });
+        mi2.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent arg0) {
+                System.out.println("Select 2");
+            }
+        });
+        
+        TreePath path = new TreePath(new Object[] {root, foo});
+        testTree.getSelectionModel().setSelectionPath(path);
     }
 
     public void stateChanged(ChangeEvent arg0) {
