@@ -95,6 +95,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String HAS_ROW_CONTEXT_MENU_PROPERTY = "hasRowContextMenu";
     public static final String HAS_CELL_CONTEXT_MENU_PROPERTY = "hasCellContextMenu";
     public static final String PROPERTY_LOADING_MESSAGE = "loadingMsg";
+    public static final String PROPERTY_ALLOW_GROUPING = "allowGrouping";
 
     private int pageSize;
     private ListSelectionModel selectionModel;
@@ -142,6 +143,7 @@ public class GridPanel extends Panel implements TableModelListener,
         setComplexProperty(PROPERTY_COLUMN_MODEL, true);
         setContextMenuStatusAndChildren();
         setLoadingMsg("Loading...");
+        setAllowGrouping(true);
     }
 
     /**
@@ -854,5 +856,13 @@ public class GridPanel extends Panel implements TableModelListener,
 
     public void setLoadingMsg(String loadingMsg) {
         set(PROPERTY_LOADING_MESSAGE, loadingMsg);
+    }
+
+    public boolean getAllowGrouping() {
+        return Boolean.TRUE.equals(get(PROPERTY_ALLOW_GROUPING));
+    }
+
+    public void setAllowGrouping(boolean allowGrouping) {
+        set(PROPERTY_ALLOW_GROUPING, Boolean.valueOf(allowGrouping));
     }
 }

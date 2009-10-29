@@ -180,9 +180,15 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 if (options != null) {
                 	if (!options["plugins"]) {
                         options["plugins"] = [];
-                        options["plugins"][0] = new EchoExt20.GridColAddRemove();
+                        if (this.component.get('allowGrouping')) {
+                            options["plugins"][0] = new EchoExt20.GridColAddRemove();
+                        }
                 	}
-                    options["plugins"][1] = thisCol;
+                	if (this.component.get('allowGrouping')) {
+                        options["plugins"][1] = thisCol;
+                    } else {
+                        options["plugins"][0] = thisCol;
+                    }
                 }
             } else {
                 thisCol.renderer = this._renderColumn.createDelegate(this);
@@ -208,17 +214,26 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             Ext.ComponentMgr.unregister(existingComponent);
         
         options["plugins"] = [];
-        options["plugins"][0] = new EchoExt20.GridColAddRemove();
+        if (this.component.get('allowGrouping')) {
+            options["plugins"][0] = new EchoExt20.GridColAddRemove();
+        }
 
         this._model = this.component.render("model");
         options["store"] = this._makeStore();
                 
-        var view = new Ext.grid.GroupingView({
-            forceFit:this.component.get("forceFit"),
-            enableGroupingMenu:true,
-            enableNoGroups:true,
-            groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
-        });
+        var view = null;
+        if (this.component.get('allowGrouping')) {
+            view = new Ext.grid.GroupingView({
+                forceFit:this.component.get("forceFit"),
+                enableGroupingMenu:true,
+                enableNoGroups:true,
+                groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
+            });
+        } else {
+            view = new Ext.grid.GridView({
+                forceFit:this.component.get("forceFit")
+            });
+        }
         options["view"] = view;
         
         // ext does not support multiple interval selection
@@ -589,10 +604,12 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         };
 
         var groupField = null;
-        var columns = colModel.getColumnsBy(function(columnConfig, index) { return true; });
-        for (var i = 0; i < columns.length; i++) {
-            if (columns[i].grouping == true)
-                groupField = columns[i].dataIndex;
+        if (this.component.get('allowGrouping')) {
+            var columns = colModel.getColumnsBy(function(columnConfig, index) { return true; });
+            for (var i = 0; i < columns.length; i++) {
+                if (columns[i].grouping == true)
+                    groupField = columns[i].dataIndex;
+            }
         }
         if (groupField != null) {
             store = new Ext.data.GroupingStore({

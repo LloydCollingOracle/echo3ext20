@@ -41,6 +41,7 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
         addOutputProperty(GridPanel.PROPERTY_MODEL);
         addOutputProperty(GridPanel.PROPERTY_STRIPE_ROWS);
         addOutputProperty(GridPanel.PROPERTY_LOADING_MESSAGE);
+        addOutputProperty(GridPanel.PROPERTY_ALLOW_GROUPING);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(
                 GridPanel.INPUT_ACTION,
@@ -193,7 +194,6 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
             ColumnModel serverModel = ((GridPanel) component).getColumnModel();
             ColumnModel clientModel = (ColumnModel) newValue;
             
-            GridPanel p = (GridPanel)component;
             boolean ignoreFirstCol = false;
 
             int x = ignoreFirstCol ? 1 : 0;

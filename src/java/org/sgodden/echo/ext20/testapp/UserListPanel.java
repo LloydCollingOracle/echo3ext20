@@ -160,6 +160,7 @@ public class UserListPanel
         }
         //
         userGridPanel.setShowCheckbox(true);
+        userGridPanel.setAllowGrouping(false);
         userGridPanel.setEditCellContents(true);
         
         userGridPanel.getSelectionModel().addChangeListener(
@@ -250,6 +251,11 @@ public class UserListPanel
 			@Override
 			public Class<?> getColumnClass() {
 				return String.class;
+			}
+			
+			@Override
+			public boolean getGrouping() {
+			    return true;
 			}
         };
         MultiSelectComboBox combo = new MultiSelectComboBox( new DefaultListModel( new String[]{ "Tennis", "Swing", "Running", "Boxing"}));
