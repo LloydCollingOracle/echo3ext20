@@ -103,6 +103,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     	this.extComponent = this.newExtComponentInstance(options);
     	this.extComponent.columns = options['columns'];
         this.extComponent.on("render", this._doOnExtRender, this);
+        this.extComponent.getSelectionModel().on('selectionchange', this._handleSelectionChange, this);
     	
         var ext20RootNode = this._renderNode(update, rootNode);
         this.extComponent.setRootNode(ext20RootNode);
@@ -231,17 +232,12 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
 	        		echoNode : node
 	        };
 	        
-	        if (node.getChecked() != null) {
-	           thisExtNode.checked = node.getChecked();
-	        }
-	        
 	        var extNode = new Ext.tree.ColumnNode(thisExtNode);
 	        for (var i = 0; i < children.length; i++) {
 	        	extNode.appendChild(children[i]);
 	        }
 	        extNode.on('beforeexpand', this._expansionHandler, this);
 	        extNode.on('beforecollapse', this._expansionHandler, this);
-	        extNode.on('click', this._selectionHandler, this);
 	        
 	        return extNode;
         } else if (this.extComponent != null && this.extComponent.getNodeById(node.getId()) != null) {
@@ -334,6 +330,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         this.selectionModel.setSelectionState(node, selectionState);
         var nodeId = node.getId();
         var extNode = this._getNodeById(this.extComponent.root, nodeId);
+        extNode.updateCheckBox(selectionState);
         
         // if we're doing a full update then this won't work
         if (typeof extNode == 'undefined' || extNode == null)
@@ -443,30 +440,59 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     	return nodesBelow;
     },
     
-    _selectionHandler: function(extNode, event) {
+    _handleSelectionChange: function(selectModel, extNode) {
         if (!this.client || !this.client.verifyInput(this.component)) {
             return;
         }
-        var echoNode = extNode.getEchoNode();
-        this._doSelection(echoNode, event);
-        if (!this._ignoreSelectionEvents) {
-            this.component.doAction();
+        if (extNode == null) {
+                
+            var update = new Extras.RemoteTree.SelectionUpdate();
+            
+            if (!this.selectionModel.isSelectionEmpty() && (this.selectionModel.isSingleSelection())) {
+                update.clear = true;
+                this._clearSelected();
+            }
+            this.component.set("selectionUpdate", update);
+            if (!this._ignoreSelectionEvents) {
+                this.component.doAction();
+            }
+            return true;
+        }
+        
+        if (Ext.isArray(extNode)) {
+            for (var i = 0; i < extNode.length; i++) {
+                var echoNode = extNode[i].getEchoNode();
+                this._doSelection(extNode, echoNode);
+            }
+            if (!this._ignoreSelectionEvents) {
+                this.component.doAction();
+            }
+        } else {
+            var echoNode = extNode == null ? null : extNode.getEchoNode();
+            if (this._doSelection(extNode, echoNode)) {
+                if (!this._ignoreSelectionEvents) {
+                    this.component.doAction();
+                }
+            }
         }
         return true;
     },
     
-    _doSelection: function(node, e) {
+    _doSelection: function(extNode, node) {
+        if (!node.getCheckable()) {
+            extNode.unselect();
+            return false;
+        }
         var rowIndex = this._getRowIndexForNode(node);
                 
         var update = new Extras.RemoteTree.SelectionUpdate();
         
-        var specialKey = e.shiftKey || e.ctrlKey || e.metaKey || e.altKey;    
-        if (!this.selectionModel.isSelectionEmpty() && (this.selectionModel.isSingleSelection() || !(specialKey))) {
+        if (!this.selectionModel.isSelectionEmpty() && (this.selectionModel.isSingleSelection())) {
             update.clear = true;
             this._clearSelected();
         }
     
-        if (!this.selectionModel.isSingleSelection() && e.shiftKey && this.lastSelectedNode) {
+        if (!this.selectionModel.isSingleSelection() && this.lastSelectedNode) {
             if (this.lastSelectedNode.equals(node)) {
                 return;
             }

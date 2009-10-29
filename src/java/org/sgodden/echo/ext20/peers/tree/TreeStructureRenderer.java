@@ -5,7 +5,7 @@ import nextapp.echo.app.util.Context;
 import nextapp.echo.extras.app.Tree;
 import nextapp.echo.extras.app.tree.TreePath;
 
-import org.sgodden.echo.ext20.CheckboxTreeNode;
+import org.sgodden.echo.ext20.ExtendedTreeNode;
 import org.w3c.dom.Element;
 
 public class TreeStructureRenderer
@@ -20,11 +20,9 @@ public class TreeStructureRenderer
     protected Element doRenderNode(TreePath path, Component component, Context context,
             Object value, boolean isRoot) {
         Element eElement = super.doRenderNode(path, component, context, value, isRoot);
-        if (path != null && path.getLastPathComponent() instanceof CheckboxTreeNode) {
-            CheckboxTreeNode treeNode = (CheckboxTreeNode)path.getLastPathComponent();
-            if (treeNode.getChecked() != null) {
-                eElement.setAttribute("ck", Boolean.TRUE.equals(treeNode.getChecked()) ? "1" : "0");
-            }
+        if (path != null && path.getLastPathComponent() instanceof ExtendedTreeNode) {
+            ExtendedTreeNode treeNode = (ExtendedTreeNode)path.getLastPathComponent();
+            eElement.setAttribute("ck", treeNode.canBeSelected() ? "1" : "0");
         }
         return eElement;
     }

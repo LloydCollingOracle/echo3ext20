@@ -98,7 +98,6 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
         return new ContextMenuAwareRenderer();
     }
     
-    @SuppressWarnings("serial")
     protected class ContextMenuAwareRenderer extends Renderer {
 
         @Override

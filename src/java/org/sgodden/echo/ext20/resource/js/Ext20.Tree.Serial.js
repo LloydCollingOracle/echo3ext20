@@ -18,9 +18,10 @@ EchoExt20.Serial.Tree.TreeStructure = {
             var parentId = childElement.getAttribute("p");
             var node = new EchoExt20.Serial.TreeNode(id, parentId);
             if (childElement.getAttribute("ck") != null) {
-                var checked = childElement.getAttribute("ck") == "1";
-                node.setChecked(checked);
+                var checkable = childElement.getAttribute("ck") == "1";
+                node.setCheckable(checkable);
             }
+            
             var expandedState = childElement.getAttribute("ex") == "1";
             var root = childElement.getAttribute("r") == "1";
             node.setExpanded(expandedState);
@@ -57,14 +58,14 @@ EchoExt20.Serial.Tree.TreeStructure = {
 };
 EchoExt20.Serial.TreeNode = Core.extend(Extras.RemoteTree.TreeNode, {
 
-    _checked: null,
+    _checkable: true,
     
-    setChecked : function(isChecked) {
-        this._checked = isChecked;
+    setCheckable : function(isCheckable) {
+        this._checkable = isCheckable;
     },
     
-    getChecked : function() {
-        return this._checked;
+    getCheckable : function() {
+        return this._checkable;
     }
 });
 

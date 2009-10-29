@@ -130,6 +130,30 @@ Ext.extend(Ext.tree.ColumnNode, Ext.tree.TreeNode, {
 	
 	getEchoNode : function() {
 		return this.echoNode;
+	},
+	
+	/**
+	 * Handles notification that the user changed the
+	 * value of the checkbox by syncing the selection
+	 */
+	checkBoxChanged: function() {
+	   if (this.getUI().checkbox.checked) {
+	       this.select();
+	       this.getUI().checkbox.checked = true;
+	   } else {
+	       this.unselect();
+           this.getUI().checkbox.checked = false;
+	   }
+	},
+	
+	/**
+	 * Updates the checkbox to match the nodes selection
+	 * status
+	 */
+	updateCheckBox: function(selected) {
+	   if (this.getUI() && this.getUI().checkbox) {
+	       this.getUI().checkbox.checked = selected;
+	   }
 	}
 });
 
@@ -139,20 +163,17 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     renderElements : function(n, a, targetNode, bulkRender){
         this.indentMarkup = n.parentNode ? n.parentNode.ui.getChildIndent() : '';
 
-        var cb = typeof a.checked == 'boolean';
-
         var t = n.getOwnerTree();
         var bw = t.borderWidth;
         var c = t.getColumns()[0];
         
-        if (cb) {
-            cb = t.showCheckBoxes;
-        }
+        var cb = n.isSelected();
+        var canBeSelected = n.getEchoNode().getCheckable();
 
         var buf = [
              '<li class="x-tree-node"><div ext:tree-node-id="',n.id,'" class="x-tree-node-el x-tree-node-leaf ', a.cls,'">',
-                cb ? ('<div class="x-tree-col" style="width:15px"><input class="x-tree-node-cb" type="checkbox" ' + (a.checked ? 'checked="checked" /></div>' : '/></div>')) : '',
-                (!cb) && t.showCheckBoxes ? '<div class="x-tree-col" style="width:15px; height: 1px;"></div>' : '',
+                t.showCheckBoxes && canBeSelected ? ('<div class="x-tree-col" style="width:15px"><input class="x-tree-node-cb" type="checkbox" ' + (cb ? 'checked="checked" /></div>' : '/></div>')) : '',
+                t.showCheckBoxes && !canBeSelected? '<div class="x-tree-col" style="width:15px; height: 1px;">&nbsp;</div>' : '',
                 '<div class="x-tree-col" style="width:',c.width-bw,'px;" style="vertical-align:middle">',
                     '<span class="x-tree-node-indent">',this.indentMarkup,"</span>",
                     '<img src="', this.emptyIcon, '" class="x-tree-ec-icon x-tree-elbow">',
@@ -209,7 +230,7 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
         this.elNode = this.wrap.childNodes[0];
         this.ctNode = this.wrap.childNodes[1];
         var cs = this.elNode.childNodes[0].childNodes;
-        if (cb || t.showCheckBoxes) {
+        if (t.showCheckBoxes) {
             cs = this.elNode.childNodes[1].childNodes;
         }
         this.indentNode = cs[0];
@@ -219,8 +240,9 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
         this.textNode = cs[2].firstChild;
         
         
-        if(cb){
+        if(t.showCheckBoxes && canBeSelected){
             this.checkbox = this.elNode.childNodes[0].childNodes[0];
+            Ext.fly(this.checkbox).on('click', n.checkBoxChanged, n);
         }
         
         if (n.isSelected()) {

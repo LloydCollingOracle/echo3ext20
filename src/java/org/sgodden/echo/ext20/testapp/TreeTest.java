@@ -19,32 +19,23 @@ package org.sgodden.echo.ext20.testapp;
 import java.util.HashMap;
 import java.util.Map;
 
-import nextapp.echo.app.Extent;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
-import nextapp.echo.extras.app.tree.AbstractTreeModel;
 import nextapp.echo.extras.app.tree.DefaultMutableTreeNode;
-import nextapp.echo.extras.app.tree.TreeModel;
 import nextapp.echo.extras.app.tree.TreeNodeModel;
 import nextapp.echo.extras.app.tree.TreePath;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Container;
-import org.sgodden.echo.ext20.DefaultCheckBoxMutableTreeNode;
-import org.sgodden.echo.ext20.DeferredUiCreate;
+import org.sgodden.echo.ext20.DefaultExtendedMutableTreeNode;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.MenuItem;
 import org.sgodden.echo.ext20.Panel;
-import org.sgodden.echo.ext20.TabbedPane;
 import org.sgodden.echo.ext20.Tree;
-import org.sgodden.echo.ext20.layout.BorderLayout;
-import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.sgodden.echo.ext20.layout.FitLayout;
-import org.sgodden.echo.ext20.layout.TableLayout;
 
 /**
  * Provides tests for the {@link Tree} component.
@@ -68,22 +59,21 @@ public class TreeTest extends Panel implements ChangeListener, ActionListener {
         Container outer = new Panel(new FitLayout());
         add(outer);
 
-        DefaultCheckBoxMutableTreeNode root = new DefaultCheckBoxMutableTreeNode();
-        DefaultCheckBoxMutableTreeNode foo = new DefaultCheckBoxMutableTreeNode();
-        DefaultCheckBoxMutableTreeNode bar = new DefaultCheckBoxMutableTreeNode();
-        DefaultCheckBoxMutableTreeNode blah = new DefaultCheckBoxMutableTreeNode();
+        DefaultExtendedMutableTreeNode root = new DefaultExtendedMutableTreeNode();
+        DefaultMutableTreeNode foo = new DefaultMutableTreeNode();
+        DefaultMutableTreeNode bar = new DefaultMutableTreeNode();
+        DefaultMutableTreeNode blah = new DefaultMutableTreeNode();
         
         root.addChild(blah);
         root.addChild(foo);
         foo.addChild(bar);
         
+        root.setCanBeSelected(false);
+        
         root.setColumnValues(getMap(new String[] {"0", "1"}, new Object[] {"ROOT", "ROOT"}));
         foo.setColumnValues(getMap(new String[] {"0", "1"}, new Object[] {"FOO", "FOO"}));
         bar.setColumnValues(getMap(new String[] {"0", "1"}, new Object[] {"BAR", "BAR"}));
         blah.setColumnValues(getMap(new String[] {"0", "1"}, new Object[] {"BLAH", "BLAH"}));
-        
-        foo.setChecked(Boolean.TRUE);
-        blah.setChecked(Boolean.FALSE);
         
         TreeNodeModel treeModel = new TreeNodeModel(root);
         Tree testTree = new Tree(treeModel);
