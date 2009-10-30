@@ -227,4 +227,24 @@ public class FormGrid extends Panel {
          */
         ABOVE
     }
+
+    /**
+     * Adds the specified component without field label and sets 
+     * the colspan of the component to the supplied colspan.
+     */
+    public void addFieldWithoutLabel(Component c, int componentColspan){
+        TableLayoutData tld = new TableLayoutData();
+        tld.setColSpan(componentColspan);
+        tld.setCellVAlign("top");
+        c.setLayoutData(tld);
+        super.add(c);
+    }
+    
+    /**
+     * Adds the specified component without field label and sets 
+     * the colspan of the component to 2.
+     */
+    public void addFieldWithoutLabel(Component c){
+        addFieldWithoutLabel(c, 2);
+    }
 }
