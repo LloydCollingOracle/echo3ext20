@@ -176,6 +176,7 @@ public class ApplicationContentPane extends ContentPane {
         col.add(makeTestButton("Non-focusable buttons",
                 FocusableButtonTest.class));
         col.add(makeTestButton("Form grid", FormGridTest.class));
+        col.add(makeTestButton("MultiLevel Menu", MultiLevelMenuTest.class));
         col.add(makeTestButton("Bloated test suite", MainTestSuite.class));
 
         Panel regressionPanel = new Panel("Regression tests");
