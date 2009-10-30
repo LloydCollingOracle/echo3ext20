@@ -603,7 +603,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 }
             }
         }
-        
         if (update.hasAddedChildren() || update.hasRemovedChildren()) {
                 this._notifyLayoutChanges();
         }
@@ -613,6 +612,12 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             if (alignToUpdate != null) {
                 var alignToString = alignToUpdate.newValue;
                 this.alignTo(alignToString);
+            }
+            var cssUpdate = update.getUpdatedProperty("cssClass");
+            if (cssUpdate != null && this.extComponent.getEl()) {
+                var extEl = this.extComponent.getEl();
+                extEl.removeClass(cssUpdate.oldValue);
+                extEl.addClass(cssUpdate.newValue);
             }
         }
     },

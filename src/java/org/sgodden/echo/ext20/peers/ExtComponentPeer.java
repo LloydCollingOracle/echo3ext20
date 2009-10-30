@@ -34,5 +34,6 @@ public abstract class ExtComponentPeer extends AbstractComponentSynchronizePeer 
         addOutputProperty(TextField.BLANK_TEXT_PROPERTY);
         addOutputProperty(ExtComponent.TOOL_TIP);
         addOutputProperty(ExtComponent.SHOW_TOOL_TIP);
+        addOutputProperty(ExtComponent.CSS_CLASS);
     }
 }
