@@ -54,6 +54,32 @@ EchoExt20.MenuSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
         }
         
+    },
+    
+    renderUpdate: function(update){
+        EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
+        if (update.hasRemovedChildren()) {
+            var removedChildren = update.getRemovedChildren();
+            for (var i = 0; i < removedChildren.length; i++) {
+            	var removedChild = removedChildren[i]; // the echo component
+            	var extMenuItem = removedChild.peer.extComponent; // the ext menu item
+            	this.extComponent.remove(extMenuItem);
+            }
+        }
+        if (update.hasAddedChildren()) {
+            var addedChildren = update.getAddedChildren();
+            for (var i = 0; i < addedChildren.length; i++) {
+            	var addedChild = addedChildren[i]; // the new echo component
+                Echo.Render.renderComponentAdd(update, addedChild, null); 
+                var extMenuItem = addedChild.peer.extComponent;
+                if (extMenuItem == null) {
+                    throw new Error("No menu item was created during renderAdd for component type: " + child.componentType);
+                }
+                else {
+                	this.extComponent.add(extMenuItem);
+                }
+            }
+        }
     }
 
 });
