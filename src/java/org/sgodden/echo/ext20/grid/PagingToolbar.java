@@ -219,7 +219,7 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
         pageSize = Integer.parseInt(rowsPerPageTextField.getValue());
         client.setPageSize(pageSize);
         // reset back to the start
-        setTableModel(model);
+        setTableModel(model, false);
     }
 
     public void setPageSize(int pageSize) {
@@ -262,6 +262,15 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
      * @param model
      */
     public void setTableModel(TableModel model) {
+    	setTableModel(model, true);
+    }
+
+    /**
+     * Sets the attributes of the paging toolbar according to the model.
+     * @param model the model
+     * @param doReset true if reset required
+     */
+    public void setTableModel(TableModel model, boolean doReset) {
     
         /**
          * Adds this as a listener to the model change event and refreshes
@@ -275,6 +284,9 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
     	}
 
         this.model = model;
+        
+        if (!doReset)
+        	return;
         
         setPageOffset(0);
         maxPageOffset = ( (model.getRowCount() -1) / pageSize)

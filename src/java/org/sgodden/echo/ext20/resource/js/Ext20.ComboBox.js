@@ -89,17 +89,31 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         if (this.component.get("model") != null) {
             var model = this.component.get("model");
             if (model.data.length > 0 && model.data[0].length == 3) {
-                // create the constructor of a record object to parse the model data
-                this._record = Ext.data.Record.create([
-                    {name:'display', mapping:'display'},
-                    {name:'value', mapping:'value'},
-                    {name:'icon', mapping:'icon'}
-                ]);
-                this._store = new Ext.data.SimpleStore({
-                    fields: ["display","value", "icon"],
-                    id: 1
-                   });
-                options["plugins"] = new EchoExt20.IconCombo();
+//            	if (model.fields[2] == "icon") {
+//                    // create the constructor of a record object to parse the model data
+//                    this._record = Ext.data.Record.create([
+//                        {name:'display', mapping:'display'},
+//                        {name:'value', mapping:'value'},
+//                        {name:'icon', mapping:'icon'}
+//                    ]);
+//                    this._store = new Ext.data.SimpleStore({
+//                        fields: ["display","value", "icon"],
+//                        id: 1
+//                       });
+//                    options["plugins"] = new EchoExt20.IconCombo();
+//            	} else {
+                    // create the constructor of a record object to parse the model data
+                    this._record = Ext.data.Record.create([
+                        {name:'display', mapping:'display'},
+                        {name:'value', mapping:'value'},
+                        {name:'popup', mapping:'popup'}
+                    ]);
+                    this._store = new Ext.data.SimpleStore({
+                        fields: ["display","value", "popup"],
+                        id: 1
+                       });
+                    options['tpl'] = '<tpl for="."><div class="x-combo-list-item">{popup}</div></tpl>';
+//                }
             } else {
                 // create the constructor of a record object to parse the model data
                 this._record = Ext.data.Record.create([
@@ -302,11 +316,19 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
                 });
                 this._store.add(newRecord);
             } else {
-                var newRecord = new this._record({
-                    display: row[0],
-                    value: row[1],
-                    icon: row[2]
-                });
+//            	if (model.fields[2] == "icon") {
+//                    var newRecord = new this._record({
+//                        display: row[0],
+//                        value: row[1],
+//                        icon: row[2]
+//                    });
+//            	} else {
+                    var newRecord = new this._record({
+                        display: row[0],
+                        value: row[1],
+                        popup: row[2]
+                    });
+//            	}
                 this._store.add(newRecord);
             }
         }

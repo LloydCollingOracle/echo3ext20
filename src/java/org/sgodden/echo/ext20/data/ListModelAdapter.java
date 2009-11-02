@@ -22,6 +22,7 @@ import java.util.Arrays;
 import org.apache.commons.lang.ArrayUtils;
 import org.sgodden.echo.ext20.AbstractListComponent;
 import org.sgodden.echo.ext20.ListImageCellRenderer;
+import org.sgodden.echo.ext20.PopupListCellRenderer;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.list.ListCellRenderer;
@@ -53,21 +54,34 @@ public class ListModelAdapter
         this.model = component.getModel();
         ListCellRenderer cellRenderer = component.getCellRenderer();
         boolean isImageCellRenderer = cellRenderer instanceof ListImageCellRenderer;
+        boolean isPopupListCellRenderer = cellRenderer instanceof PopupListCellRenderer;
         
         int rows = model.size();
+        int noOfDataFields;
+        
+        if (isImageCellRenderer || isPopupListCellRenderer) {
+        	noOfDataFields = 3;
+        } else {
+        	noOfDataFields = 2;
+        }
 
-        data = new Object[rows][isImageCellRenderer ? 3 : 2];
+        data = new Object[rows][noOfDataFields];
 
         for (int i = 0; i < rows; i++) {
             Object[] row = data[i];
             row[0] = cellRenderer.getListCellRendererComponent((Component)component, model.get(i), i);
             row[1] = i;
-            if (isImageCellRenderer)
+            if (isImageCellRenderer) {
                 row[2] = ((ListImageCellRenderer)cellRenderer).getImageLocation((Component)component, model.get(i), i);
+            } else if (isPopupListCellRenderer) {
+                row[2] = ((PopupListCellRenderer)cellRenderer).getPopupRenderedHtml((Component)component, model.get(i), i);
+            }
         }
         
         if (isImageCellRenderer)
             fields = new String[]{"display","value", "icon"};
+        else if (isPopupListCellRenderer)
+            fields = new String[]{"display","value", "popup"};
         else
             fields = new String[]{"display","value"};
     }
