@@ -117,8 +117,19 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (children.length > 0) {
             this._createChildItems(update, children);
         }
+        
+        this.extComponent.on('dblclick', this._handleDblClick, this);
     	
     	return this.extComponent;
+    },
+    
+    _handleDblClick: function(node, e) {
+        if (this.component.get("showCheckBoxes")) {
+            if (node && node.ui && node.ui.checkbox) {
+                node.ui.checkbox.checked = true;
+            }
+        }
+        this.component.doAction();
     },
     
     _doOnExtRender: function() {
@@ -394,7 +405,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         var rowIndex = this._getRowIndexForNode(echoNode);
         this.component.set("expansion", rowIndex);
-        this.component.doAction();
+        this.component.doExpand();
         return true;
     },
     
@@ -453,7 +464,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
                 this._clearSelected();
             }
             this.component.set("selectionUpdate", update);
-            if (!this._ignoreSelectionEvents) {
+            if (!this._ignoreSelectionEvents && this.component.get("doActionOnSelect")) {
                 this.component.doAction();
             }
             return true;
@@ -464,13 +475,13 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
                 var echoNode = extNode[i].getEchoNode();
                 this._doSelection(extNode, echoNode);
             }
-            if (!this._ignoreSelectionEvents) {
+            if (!this._ignoreSelectionEvents && this.component.get("doActionOnSelect")) {
                 this.component.doAction();
             }
         } else {
             var echoNode = extNode == null ? null : extNode.getEchoNode();
             if (this._doSelection(extNode, echoNode)) {
-                if (!this._ignoreSelectionEvents) {
+                if (!this._ignoreSelectionEvents && this.component.get("doActionOnSelect")) {
                     this.component.doAction();
                 }
             }

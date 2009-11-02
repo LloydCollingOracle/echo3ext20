@@ -29,6 +29,9 @@ EchoExt20.Tree = Core.extend(EchoExt20.ExtComponent, {
     $virtual: {
         doAction: function() {
             this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+        },
+        doExpand: function() {
+            this.fireEvent({type: "expand", source: this});
         }
     }
 	
@@ -220,7 +223,7 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
                 thisColDiv.appendChild(wrapper.wrappedRootElement);
             } else {
                 Echo.Render.renderComponentAdd(a['update'], columnComponent, thisColDiv);
-                textComponent.peer.extComponent.render(thisColDiv);
+                columnComponent.peer.extComponent.render(thisColDiv);
             }
         }
         

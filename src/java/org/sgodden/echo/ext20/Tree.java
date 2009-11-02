@@ -15,10 +15,14 @@ import nextapp.echo.extras.app.tree.TreeModel;
  */
 @SuppressWarnings("serial")
 public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionListener {
+
+    public static final String INPUT_EXPAND = "expand";
+    public static final String EXPANSION_LISTENERS_CHANGED_PROPERTY = "expansionListeners";
     
     public static final String HAS_BORDER_PROPERTY = "hasBorder";
     public static final String PROPERTY_SHOW_CHECKBOXES = "showCheckBoxes";
     public static final String PROPERTY_SHOW_ROOT_NODE = "showRootNode";
+    public static final String PROPERTY_ACTION_ON_SELECT = "doActionOnSelect";
     /**
      * Whether a select event should be generated when
      * the user right clicks on an unselected row to bring up
@@ -39,8 +43,15 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
     public Tree(TreeModel treeModel, TreeColumnModel columnModel) {
         super(treeModel, columnModel);
         setHeaderVisible(true);
+        setActionOnSelect(true);
         setCellRenderer(new DefaultTreeCellRenderer());
         addTreeExpansionListener(this);
+    }
+    
+    @Override
+    public void addTreeExpansionListener(TreeExpansionListener l) {
+        super.addTreeExpansionListener(l);
+        firePropertyChange(EXPANSION_LISTENERS_CHANGED_PROPERTY, null, l);
     }
     
     /**
@@ -149,5 +160,17 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
 
     public void setSelectOnContext(boolean selectOnContext) {
         set(PROPERTY_SELECT_ON_CONTEXT, Boolean.valueOf(selectOnContext));
+    }
+
+    /**
+     * Determines whether a selection change should generate an action event
+     * @return
+     */
+    public boolean isActionOnSelect() {
+        return Boolean.TRUE.equals(get(PROPERTY_ACTION_ON_SELECT));
+    }
+
+    public void setActionOnSelect(boolean actionOnSelect) {
+        set(PROPERTY_ACTION_ON_SELECT, Boolean.valueOf(actionOnSelect));
     }
 }
