@@ -57,6 +57,11 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         extComponent.setValue(selected);
         extComponent.on('check', this._handleCheckEvent, this);
         
+        // override the broken definition of focus for radio buttons
+        extComponent.focus = function() {
+        	extComponent.getEl().up("div").focus();
+        }
+        
         return extComponent;
     },
     
@@ -67,12 +72,17 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (this.disableActions == false && this.extComponent.getValue() == true)
             this.component.doAction();
     },
+    
     renderUpdate: function(update) {
         var selected = this.component.get("selected");
         this.disableActions = true;
         this.extComponent.setValue(selected);
         this.disableActions = false;
-    }
+    },
     
+    renderFocus: function() {
+    	this.extComponent.focus();
+    },
+
     
 });

@@ -73,6 +73,10 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
             this
             );
 
+        // override the broken definition of focus for checkbox fields
+        extComponent.focus = function() {
+        	extComponent.getEl().up("div").focus();
+        }
         
         return extComponent;
     },
@@ -89,6 +93,10 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         this.extComponent.setValue(selected);
     },
     
+    renderFocus: function() {
+    	this.extComponent.focus();
+    },
+    
     /**
      * Handles (de)selection of the checkbox by updating the component
      * selected value, and firing the event in case there are any
@@ -101,5 +109,4 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
             this.component.doAction();
         }
     }
-    
 });
