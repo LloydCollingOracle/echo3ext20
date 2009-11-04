@@ -52,6 +52,12 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Whether we are ignoring selection events at the moment
      */
     _ignoreSelectionEvents: false,
+    
+    /**
+     * The scrolling position of the tree before the last
+     * event was sent to the server
+     */
+    _scrollPosition: null,
 
     $virtual: {
         newExtComponentInstance: function(options) {
@@ -123,12 +129,17 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     	return this.extComponent;
     },
     
+    _storeScrollPosition: function() {
+        this._scrollPosition = this.extComponent.body.getScroll().top;
+    },
+    
     _handleDblClick: function(node, e) {
         if (this.component.get("showCheckBoxes")) {
             if (node && node.ui && node.ui.checkbox) {
                 node.ui.checkbox.checked = true;
             }
         }
+        this._storeScrollPosition();
         this.component.doAction();
     },
     
@@ -405,6 +416,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         
         var rowIndex = this._getRowIndexForNode(echoNode);
         this.component.set("expansion", rowIndex);
+        this._storeScrollPosition();
         this.component.doExpand();
         return true;
     },
@@ -465,6 +477,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
             }
             this.component.set("selectionUpdate", update);
             if (!this._ignoreSelectionEvents && this.component.get("doActionOnSelect")) {
+                this._storeScrollPosition();
                 this.component.doAction();
             }
             return true;
@@ -476,12 +489,14 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
                 this._doSelection(extNode, echoNode);
             }
             if (!this._ignoreSelectionEvents && this.component.get("doActionOnSelect")) {
+                this._storeScrollPosition();
                 this.component.doAction();
             }
         } else {
             var echoNode = extNode == null ? null : extNode.getEchoNode();
             if (this._doSelection(extNode, echoNode)) {
                 if (!this._ignoreSelectionEvents && this.component.get("doActionOnSelect")) {
+                    this._storeScrollPosition();
                     this.component.doAction();
                 }
             }
@@ -607,6 +622,12 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (update.hasAddedChildren()) {
             var addedChildren = update.getAddedChildren();
             this._createChildItems(update, addedChildren);
+        }
+        
+        if (this._scrollPosition != null) {
+            var pos = this._scrollPosition;
+            this._scrollPosition = null;
+            this.extComponent.body.scrollTo('top', pos);
         }
         
         return true;
