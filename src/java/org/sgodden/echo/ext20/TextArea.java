@@ -61,5 +61,21 @@ public class TextArea
         set(PROPERTY_WIDTH, width);
         set(PROPERTY_HEIGHT, height);
     }
+    
+    public void setHeight(int height) {
+    	set(PROPERTY_HEIGHT, height);
+    }
+    
+    public void setWidth(int width) {
+    	set(PROPERTY_WIDTH, width);
+    }
+    
+    public int getHeight() {
+    	return (Integer) get(PROPERTY_HEIGHT);
+    }
+    
+    public int getWidth() {
+    	return (Integer) get(PROPERTY_WIDTH);
+    }
 
 }
