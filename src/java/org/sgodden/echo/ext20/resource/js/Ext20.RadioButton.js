@@ -82,7 +82,6 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     renderFocus: function() {
     	this.extComponent.focus();
-    },
-
+    }
     
 });
