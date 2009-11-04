@@ -22,6 +22,7 @@ public class ComboListTest extends Panel{
 		setTitle("Combo List Test");
 		
 		cb = new ComboBox();
+		cb.setRenderId("comboBox1");
 		String[] roles = {"test 1","test 2","test 3"};
 		cb.setModel(new DefaultListModel(roles));
 		//cb.setCellRenderer(new RoleListCellRenderer());
@@ -32,12 +33,14 @@ public class ComboListTest extends Panel{
 			        p.add(new Label(cb.getSelectedItem().toString()));
 			    else
 			        p.add(new Label("Raw Value: " + cb.getRawValue()));
+			    cb2.setSelectedItem(null);
 			}
 		});
 		cb.setTypeAhead(true);
 		p.add(cb);
 		
 		cb2 = new ComboBox();
+		cb2.setRenderId("comboBox2");
 		cb2.setModel(cb.getModel());
 		p.add(cb2);
 		

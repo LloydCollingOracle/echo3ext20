@@ -70,7 +70,10 @@ public class ComboBox extends ExtComponent implements AbstractListComponent {
 
         public void stateChanged(ChangeEvent e) {
             if (!suppressChangeNotifications) {
-                firePropertyChange(SELECTION_CHANGED_PROPERTY, null, null);
+                firePropertyChange(SELECTION_CHANGED_PROPERTY, null, selectionModel);
+                if (selectionModel.isSelectionEmpty()) {
+                	setRawValue(null);
+                }
             }
         }
     };
