@@ -61,6 +61,8 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
      */
     _store: null,
     
+    _lastServerSelection: null,
+    
     /**
      * Called by the base class to create the ext component.
      */
@@ -147,6 +149,8 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         }
         options['mode'] = 'local';
         
+        this._lastServerSelection = this.component.get("selection");
+        
         // and then call the superclass method
         var ret = EchoExt20.TextFieldSync.prototype.createExtComponent.call(
             this, update, options);
@@ -229,6 +233,8 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
                 this.component.set("selection", this._store.getAt(i).get("value"));
             }
         }
+        if (this.component.get("selection") != -1 && this.component.get("selection") == this._lastServerSelection)
+            return;
         this.component.doAction();
     },
     
@@ -278,6 +284,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         if (update.getUpdatedProperty("model")) {
             this._updateStore(this.component.get("model"))
         }
+        this._lastServerSelection = this.component.get("selection");
         this._setSelection();
         
         if(this.component.get("rawValue")) {
