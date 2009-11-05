@@ -153,30 +153,14 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     _doOnContextMenu: function(node, evt) {
         evt.stopEvent();
+        if (this.contextMenu == null)
+            return;
         this._ignoreSelectionEvents = this.component.get("selectOnContext");
         if (this._ignoreSelectionEvents == null)
             this._ignoreSelectionEvents = true;
         node.select();
-        this._selectionHandler(node, evt);
         this._ignoreSelectionEvents = false;
-        
-        if (this.contextMenu == null) {
-            var componentCount = this.component.getComponentCount();
-            for (var i = 0; i < componentCount; i++) {
-                var child = this.component.getComponent(i);
-                if (child instanceof EchoExt20.Menu) {
-                    if (!child.peer || child.peer.extComponent == null) {
-                        Echo.Render.renderComponentAdd(update, child, null);
-                    }
-                    this.contextMenu = child.peer.extComponent;
-                    if (this.contextMenu == null) {
-                        throw new Error("Context Menu not created for Tree");
-                    }
-                }
-            }
-        }
-        if (this.contextMenu == null)
-            return;
+
         this.contextMenu.showAt(evt.getXY());
     },
     
