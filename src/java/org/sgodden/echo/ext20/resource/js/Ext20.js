@@ -1050,6 +1050,9 @@ EchoExt20.PropertyTranslator.ColumnModel = {
         colObject.columns = new Array();
         for(var x = 0; x < propertyValue.config.length; x++){
             var propEl = propertyValue.config[x];
+            if (!propEl.header)
+                propEl.header = '';
+            
             if (propEl.header.indexOf('x-grid3-hd-checker') == -1) {
                 var config = new Object();
                 config.attributePath = propEl.attributePath;

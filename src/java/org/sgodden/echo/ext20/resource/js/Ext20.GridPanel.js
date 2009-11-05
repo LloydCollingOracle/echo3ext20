@@ -89,12 +89,11 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     
     $virtual: {
         _renderColumn: function(value, metadata, record, rowIndex, colIndex, store) {
+            var dataIndex = this.extComponent.getColumnModel().getDataIndex(colIndex);
+            var actualIndex = record.fields.indexOfKey(dataIndex);
+            
             var renderedValue = null;
-            if (this.component.get("showCheckbox")){
-                eval(this._model.renderedData[rowIndex][colIndex - 1]);
-            } else {
-                eval(this._model.renderedData[rowIndex][colIndex]);
-            }
+                eval(this._model.renderedData[rowIndex][actualIndex]);
             return renderedValue;
         },
         
