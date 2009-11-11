@@ -67,13 +67,9 @@ public class ComboBox extends ExtComponent implements AbstractListComponent {
      * Local handler for list selection events.
      */
     private ChangeListener listSelectionListener = new ChangeListener() {
-
         public void stateChanged(ChangeEvent e) {
             if (!suppressChangeNotifications) {
                 firePropertyChange(SELECTION_CHANGED_PROPERTY, null, selectionModel);
-                if (selectionModel.isSelectionEmpty()) {
-                	setRawValue(null);
-                }
             }
         }
     };
@@ -375,6 +371,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent {
         Object oldValue = getSelectedItem();
         if (selectedItem == null) {
             selectionModel.clearSelection();
+            setRawValue(null);
         } else {
             int size = getModel().size();
             int modelIndex = -1;
