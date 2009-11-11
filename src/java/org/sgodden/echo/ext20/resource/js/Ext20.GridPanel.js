@@ -735,6 +735,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         }
 
         this._handleServerSelections();
+        this._applyHeaderCheckedIfNeeded();
         this._applyHeaderCheckedIfNeeded(this.extComponent);
         this._loadMask.hide();
 
