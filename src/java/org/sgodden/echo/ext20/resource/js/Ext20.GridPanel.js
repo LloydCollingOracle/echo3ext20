@@ -169,6 +169,9 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
              * has at least one child node.
              */
             this._handleServerSelections.defer(50, this);
+            if (this.component.get("showCheckbox")) {
+                this._applyHeaderCheckedIfNeeded.defer(55, this);
+            }
         },
         
         /**
@@ -291,6 +294,19 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         options["cm"].on("hiddenchange", this._handleColumnHide, this);
         
         return ret;
+    },
+    
+    _applyHeaderCheckedIfNeeded: function() {
+        var header = Ext.fly(this.extComponent.getView().innerHd).child(".x-grid3-hd-checker");
+        if (!header) {
+            header = Ext.fly(this.extComponent.getView().innerHd).child(".x-grid3-hd-checker-on");
+        }
+        if (this.extComponent.getSelectionModel().getCount() == this.extComponent.getStore().getCount()) {
+            header.addClass("x-grid3-hd-checker-on");
+        } else {
+            header.removeClass("x-grid3-hd-checker-on");
+        }
+        header.addClass("x-grid3-hd-checker");
     },
     
     /**
@@ -719,6 +735,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         }
 
         this._handleServerSelections();
+        this._applyHeaderCheckedIfNeeded(this.extComponent);
         this._loadMask.hide();
 
         // resume event handling
