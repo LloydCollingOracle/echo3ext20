@@ -71,7 +71,7 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
             "beforetabchange", 
             function(tabPanel, newTab, oldTab){
                 if (!(this._tabChangeNotificationSuspended)) {
-                    this.component.doActiveTabChange(newTab.echoComponent.childIndex);
+                    this.component.doActiveTabChange(this.extComponent.items.indexOf(newTab));
                     return false;
                 }
                 
