@@ -44,6 +44,7 @@ public class TextFieldPeer
         addOutputProperty(TextField.INVALID_TEXT_PROPERTY);
         addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);
         addOutputProperty(TextField.NOTIFY_VALUE_IMMEDIATE_PROPERTY);
+        addOutputProperty(TextField.PROPERTY_STRIP_WHITESPACE);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(TextField.INPUT_ACTION,  TextField.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override

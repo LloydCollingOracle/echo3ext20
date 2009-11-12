@@ -376,6 +376,7 @@ public class UserListPanel
 
         TextField tf = new TextField();
         tf.setEmptyText("Enter search criteria");
+        tf.setStripWhitespace(true);
         ret.add(tf);
         
         ToolbarButton tbButton2 = new ToolbarButton("Menu 2");

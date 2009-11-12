@@ -57,6 +57,7 @@ public class TextField extends ExtComponent implements Field {
     public static final String VALIDATION_DELAY = "validationDelay";
     public static final String VALUE_CHANGED_PROPERTY = "value";
     public static final String VALID_PROPERTY = "isValid";
+    public static final String PROPERTY_STRIP_WHITESPACE = "stripWhitespace";
 
     private String actionCommand;
 
@@ -408,4 +409,12 @@ public class TextField extends ExtComponent implements Field {
 	public void setMaskRe(String value) {
 		set( MASKRE_PROPERTY, value);
 	}
+
+    public boolean isStripWhitespace() {
+        return Boolean.TRUE.equals(get(PROPERTY_STRIP_WHITESPACE));
+    }
+
+    public void setStripWhitespace(boolean stripWhitespace) {
+        set(PROPERTY_STRIP_WHITESPACE, Boolean.valueOf(stripWhitespace));
+    }
 }

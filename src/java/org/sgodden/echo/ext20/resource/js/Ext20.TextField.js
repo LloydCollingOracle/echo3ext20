@@ -134,6 +134,9 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             }
         }
         options["validator"] = this._checkMatchesInitialValue.createDelegate(this);
+        if (this.component.get("stripWhitespace")) {
+            options['stripCharsRe'] = /(^\s+|\s+$)/g
+        }
         /**
          * boolean logic has been reversed due to property in ext being readOnly rather than
          * the more consistent property of editable.
