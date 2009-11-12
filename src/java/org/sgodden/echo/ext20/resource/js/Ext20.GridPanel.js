@@ -707,7 +707,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 var colModel = this.extComponent.getColumnModel();
 
                 if (updatedColumnModel != null) {
-                	colModel = this.component.get("columnModel");
+                    colModel = this.component.get("columnModel");
                 }
                 // apply the column renderers!
                 for (var i = 0; i < colModel.config.length; i++) {
@@ -735,8 +735,9 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         }
 
         this._handleServerSelections();
-        this._applyHeaderCheckedIfNeeded();
-        this._applyHeaderCheckedIfNeeded(this.extComponent);
+        if (this.component.get("showCheckbox")) {
+            this._applyHeaderCheckedIfNeeded();
+        }
         this._loadMask.hide();
 
         // resume event handling
