@@ -49,7 +49,7 @@ import org.sgodden.echo.ext20.grid.GridCellRenderer;
 import org.sgodden.echo.ext20.grid.PagingToolbar;
 import org.sgodden.echo.ext20.grid.PagingToolbarClient;
 import org.sgodden.echo.ext20.grid.RemoveColumnEvent;
-import org.sgodden.echo.ext20.grid.SortableTableModel;
+import org.sgodden.query.models.SortableTableModel;
 
 /**
  * <p>A GridPanel that renders its contents as components.</p>

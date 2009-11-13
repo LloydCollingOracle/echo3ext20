@@ -1,5 +1,7 @@
 package org.sgodden.echo.ext20.grid;
 
+import org.sgodden.query.models.SortableTableModel;
+
 /**
  * A sortable table model that allows for the maintenance of selection values
  * for a specific GridPanel.

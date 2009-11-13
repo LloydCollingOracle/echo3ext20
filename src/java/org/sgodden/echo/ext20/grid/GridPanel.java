@@ -36,6 +36,7 @@ import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.Toolbar;
+import org.sgodden.query.models.SortableTableModel;
 
 /**
  * An ext GridPanel.

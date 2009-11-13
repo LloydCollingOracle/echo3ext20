@@ -9,6 +9,7 @@ import nextapp.echo.app.table.DefaultTableModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.sgodden.query.models.SortableTableModel;
 
 /**
  * An extension of
