@@ -93,9 +93,10 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         _renderColumn: function(value, metadata, record, rowIndex, colIndex, store) {
             var dataIndex = this.extComponent.getColumnModel().getDataIndex(colIndex);
             var actualIndex = record.fields.indexOfKey(dataIndex);
+            var renderFuncIndex = this._model.renderedData[rowIndex][actualIndex];
             
             var renderedValue = null;
-                eval(this._model.renderedData[rowIndex][actualIndex]);
+            eval(this._model.renderFunctions[renderFuncIndex]);
             return renderedValue;
         },
         
@@ -188,7 +189,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                             options["plugins"][0] = new EchoExt20.GridColAddRemove();
                         }
                 	}
-                	if (_showColAddRemove) {
+                	if (this._showColAddRemove) {
                 	    options["plugins"][1] = thisCol;
                 	} else {
                         options["plugins"][0] = thisCol;

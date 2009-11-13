@@ -17,6 +17,8 @@
 package org.sgodden.echo.ext20.data;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.table.TableModel;
@@ -39,6 +41,7 @@ public class TableModelAdapter
     private Object[][] renderedData;
     private Integer id;
     private String[] fields;
+    private String[] renderFunctions;
     
     public TableModelAdapter(){}
     
@@ -64,16 +67,22 @@ public class TableModelAdapter
         int cols = tableModel.getColumnCount();
         
         data = new String[rows][cols];
-        renderedData = new String[rows][cols];
+        renderedData = new Integer[rows][cols];
+        List<String> renderFunctions = new LinkedList<String>();
 
         for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
             Object[] row = data[rowIndex];
             Object[] renderedRow = renderedData[rowIndex];
             for (int colIndex = 0; colIndex < tableModel.getColumnCount(); colIndex++) {
                 row[colIndex] = renderer.getModelValue(grid, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
-                renderedRow[colIndex] = renderer.getClientSideValueRendererScript(grid, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
+                String renderedFunction = renderer.getClientSideValueRendererScript(grid, tableModel.getValueAt(colIndex, rowIndex + offset), colIndex, rowIndex + offset);
+                if (!renderFunctions.contains(renderedFunction)) {
+                    renderFunctions.add(renderedFunction);
+                }
+                renderedRow[colIndex] = Integer.valueOf(renderFunctions.indexOf(renderedFunction));
             }
         }
+        this.renderFunctions = renderFunctions.toArray(new String[0]);
         makeFields(tableModel);
     }
 
@@ -142,5 +151,13 @@ public class TableModelAdapter
         for (int i = 0; i < tableModel.getColumnCount(); i++) {
             fields[i] = tableModel.getColumnName(i);
         }
+    }
+
+    public String[] getRenderFunctions() {
+        return renderFunctions;
+    }
+
+    public void setRenderFunctions(String[] renderFunctions) {
+        this.renderFunctions = renderFunctions;
     }
 }
