@@ -185,7 +185,10 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             this.extComponent.getEl().dom.size =
                 this.component.get("size");
         }
-        this.extComponent.validate.defer(100, this.extComponent);
+        
+        if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
+        	this.extComponent.validate.defer(100, this.extComponent);
+        }
         
         /**
         * Sends the field value back to the server on key up
