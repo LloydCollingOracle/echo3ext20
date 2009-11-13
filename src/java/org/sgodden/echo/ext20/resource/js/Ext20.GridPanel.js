@@ -85,6 +85,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     _sm: null,
     _selectionTask: null,
     _loadMask: null,
+    _storedSelections: null,
+    _showColAddRemove: true,
     
     
     $virtual: {
@@ -182,9 +184,15 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 if (options != null) {
                 	if (!options["plugins"]) {
                         options["plugins"] = [];
+                        if (this._showColAddRemove) {
                             options["plugins"][0] = new EchoExt20.GridColAddRemove();
+                        }
                 	}
-                    options["plugins"][1] = thisCol;
+                	if (_showColAddRemove) {
+                	    options["plugins"][1] = thisCol;
+                	} else {
+                        options["plugins"][0] = thisCol;
+                	}
                 }
             } else {
                 thisCol.renderer = this._renderColumn.createDelegate(this);
@@ -199,6 +207,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     createExtComponent: function(update, options) {
         this._handleSortEvents = false;
         this._handleSelectionEvents = false;
+        this._showColAddRemove = this.component._listenerList.getListenerCount("columnAdd") > 0;
         
         this._selectedRows = {};
         
@@ -210,7 +219,9 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             Ext.ComponentMgr.unregister(existingComponent);
         
         options["plugins"] = [];
-        options["plugins"][0] = new EchoExt20.GridColAddRemove();
+        if (this._showColAddRemove) {
+            options["plugins"][0] = new EchoExt20.GridColAddRemove();
+        }
 
         this._model = this.component.render("model");
         options["store"] = this._makeStore();

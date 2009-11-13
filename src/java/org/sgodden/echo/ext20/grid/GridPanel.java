@@ -456,7 +456,15 @@ public class GridPanel extends Panel implements TableModelListener,
                         || "ASC".equals(cc.getSortDirection());
             }
             suppressChangeNotifications = true;
+            Object maintainedSelection = null;
+            if (getModel() instanceof SelectionMaintainerModel) {
+                maintainedSelection = ((SelectionMaintainerModel)getModel()).getPersistentSelection(this);
+            }
             ((SortableTableModel) getModel()).sort(columnIndices, ascending);
+
+            if (getModel() instanceof SelectionMaintainerModel) {
+                ((SelectionMaintainerModel)getModel()).applyPersistentSelection(this, maintainedSelection);
+            }
             suppressChangeNotifications = false;
             firePropertyChange(PROPERTY_MODEL_CHANGED, null, getModel()); // a
 
