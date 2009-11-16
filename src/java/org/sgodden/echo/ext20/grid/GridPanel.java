@@ -127,7 +127,7 @@ public class GridPanel extends Panel implements TableModelListener,
     private ChangeListener listSelectionListener = new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
             if (!suppressChangeNotifications) {
-                firePropertyChange(PROPERTY_SELECTION_CHANGED, null, null);
+                firePropertyChange(PROPERTY_SELECTION_CHANGED, null, selectionModel);
             }
         }
     };
