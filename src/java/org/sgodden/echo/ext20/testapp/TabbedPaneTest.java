@@ -16,7 +16,7 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.testapp;
 
-import nextapp.echo.app.CheckBox;
+import nextapp.echo.app.Window;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
@@ -25,14 +25,15 @@ import org.apache.commons.logging.LogFactory;
 import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.CheckboxField;
 import org.sgodden.echo.ext20.Container;
-import org.sgodden.echo.ext20.DeferredUiCreate;
 import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TabChangeListener;
 import org.sgodden.echo.ext20.TabbedPane;
+import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.layout.BorderLayout;
 import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.sgodden.echo.ext20.layout.FitLayout;
+import org.sgodden.echo.ext20.layout.FormLayout;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
 /**
@@ -50,7 +51,11 @@ public class TabbedPaneTest extends Panel {
     public TabbedPaneTest() {
         super(new FitLayout(), "Tabbed pane");
         setRenderId("tabbedPaneTest");
-        createUI();
+    }
+    
+    @Override
+    public void init() {
+    	createUI();
     }
 
     public void createUI() {
@@ -59,6 +64,7 @@ public class TabbedPaneTest extends Panel {
 
         final TabbedPane tabs = new TabbedPane();
         tabs.setRenderId("tabbedPaneTestTabs");
+        addPanel(tabs);
         addPanel(tabs);
 
         Container northPanel = new Panel(new TableLayout(4));
@@ -103,13 +109,19 @@ public class TabbedPaneTest extends Panel {
         Panel newPanel = new Panel();
         int index = tabs.getComponentCount() + 1;
         newPanel.setTitle("Tab " + index);
-        newPanel.setHtml("Text for tab " + index);
+        newPanel.setLayout(new FormLayout());
+        TextField tf = new TextField("I should focus properly");
+        tf.setFieldLabel("Tab " + index);
+        newPanel.add(tf);
+        
+        if (index == 1) {
+        	getContainingWindow().setFocusedComponent(tf);
+        }
 
         tabs.add(newPanel);
 
         log.info(tabs.getComponentCount());
 
-        tabs.setActiveTabIndex(tabs.getComponentCount() - 1);
     }
 
 }

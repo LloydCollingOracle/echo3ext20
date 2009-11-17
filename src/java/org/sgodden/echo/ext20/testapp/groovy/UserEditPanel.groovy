@@ -84,7 +84,7 @@ class UserEditPanel extends Panel implements ActionListenable {
             makeChangeRoleButton()
         ]
         
-        //ApplicationInstance.getActive().setFocusedComponent(codeField)
+        nextapp.echo.app.Window.getActive().setFocusedComponent(nameField)
     }
 
     public void setData(Object[] data) {
@@ -269,6 +269,7 @@ class UserEditPanel extends Panel implements ActionListenable {
             text: "Save",
             actionPerformed: { evt -> doSave(evt) }
         )
+        
     }
 
     private void doSave(ActionEvent evt) {
