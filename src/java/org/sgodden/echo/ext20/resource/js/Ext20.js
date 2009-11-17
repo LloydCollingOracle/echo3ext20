@@ -147,24 +147,12 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         renderFocus: function() {
 
             if (this.extComponent.rendered) {
-                try {
-                    this.extComponent.focus();
-                    if (this.extComponent.selectText) {
-                        this.extComponent.selectText();
-                    }
-                } catch (ex) {
-                    this.extComponent.el.focus();
-                }
+            	this.doRenderFocus();
             }
             else {
                 this.extComponent.on(
                     "render",
-                    function(){ 
-                        this.extComponent.focus()
-                        if (this.extComponent.selectText) {
-                            this.extComponent.selectText();
-                        }
-                    },
+                    this.doRenderFocus,
                     this)
             }
         }
@@ -266,6 +254,17 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     fxRemoveContainer: null,
     
     _toolTip: null,
+    
+    doRenderFocus: function() {
+        try {
+            this.extComponent.focus();
+            if (this.extComponent.selectText) {
+                this.extComponent.selectText();
+            }
+        } catch (ex) {
+            this.extComponent.el.focus();
+        }
+    },
     
     /**
      * Notifies the root container that layout changes
