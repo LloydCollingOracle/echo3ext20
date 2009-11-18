@@ -134,9 +134,9 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             }
         }
         options["validator"] = this._checkMatchesInitialValue.createDelegate(this);
-        if (this.component.get("stripWhitespace")) {
-            options['stripCharsRe'] = /(^\s+|\s+$)/g
-        }
+//        if (this.component.get("stripWhitespace")) {
+//            options['stripCharsRe'] = /(^\s+|\s+$)/g
+//        }
         /**
          * boolean logic has been reversed due to property in ext being readOnly rather than
          * the more consistent property of editable.
@@ -215,6 +215,10 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             if (this.component.get("caseRestriction") == "LOWER"){
                 newVal = this.extComponent.getValue().toLowerCase();
             }
+            this.extComponent.setValue(newVal)
+        }
+        if (this.component.get("stripWhitespace")) {
+            newVal = newVal.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
             this.extComponent.setValue(newVal)
         }
         this.component.set("value", newVal);
