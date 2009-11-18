@@ -13,6 +13,7 @@ public class RemoveButton extends Button {
     public RemoveButton() {
         super();
         setActionCommand("REMOVE");
+        setCssClass("remove-button");
     }
 
 }

@@ -13,6 +13,7 @@ public class AddButton extends Button {
     public AddButton() {
         super();
         setActionCommand("ADD");
+        setCssClass("add-button");
     }
 
 }

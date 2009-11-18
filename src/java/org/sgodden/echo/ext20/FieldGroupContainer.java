@@ -47,6 +47,14 @@ public class FieldGroupContainer extends Panel {
     public FieldGroupContainer() {
         super(new ColumnLayout());
     }
+    
+    public Panel getContainedGroup(int index) {
+        return containedGroups.get(index);
+    }
+    
+    public int getContainedGroupCount() {
+        return containedGroups.size();
+    }
 
     @Override
     public void init() {
