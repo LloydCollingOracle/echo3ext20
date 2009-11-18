@@ -91,7 +91,8 @@ public class TextFieldPeer
      */
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
         if (propertyName.equals(TextField.VALUE_CHANGED_PROPERTY)) {
-            if (((TextField)component).isStripWhitespace() && newValue != null) {
+            
+            if (component instanceof TextField && ((TextField)component).isStripWhitespace() && newValue != null) {
                 getClientUpdateManager(context).setComponentProperty(component, TextField.VALUE_CHANGED_PROPERTY, ((String)newValue).trim());
             } else {
                 getClientUpdateManager(context).setComponentProperty(component, TextField.VALUE_CHANGED_PROPERTY, newValue);
