@@ -82,6 +82,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent {
         super();
         setSelectionModel(new DefaultListSelectionModel());
         setTypeAhead(false);
+        setIsValid(true);
     }
 
     /**

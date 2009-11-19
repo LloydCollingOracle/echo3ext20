@@ -285,12 +285,13 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             this._updateStore(this.component.get("model"))
         }
         this._lastServerSelection = this.component.get("selection");
-        this._setSelection();
+        this._doSetSelection(false);
         
         if(this.component.get("rawValue")) {
             this.extComponent.setRawValue(this.component.get("rawValue"));
         }
         
+        this.extComponent.clearInvalid();
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
             this.extComponent.markInvalid(this.component.get("invalidText"));
         }
@@ -298,6 +299,10 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     },
 
     _setSelection: function() {
+        this._doSetSelection.defer(50, this, [true]);
+    },
+
+    _doSetSelection: function(resetInvalid) {
         if (this.component.get("selection") > -1) {
             this.extComponent.setValue(this.component.get("selection"));
         }
@@ -308,6 +313,13 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             else{
                 this.extComponent.clearValue();
                 this.extComponent.value = null;
+            }
+        }
+        
+        if (resetInvalid) {
+            this.extComponent.clearInvalid();
+            if (this.component.get("isValid") === false){
+                this.extComponent.markInvalid(this.component.get("invalidText"));
             }
         }
     },
