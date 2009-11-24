@@ -48,5 +48,16 @@ public class TimeFieldTest extends Panel {
 			}
 		});
 		add( button);
+		
+		final DateField disableField = new DateField( Calendar.getInstance());
+		disableField.setEnabled( false);
+		add( disableField);
+		Button enable = new Button( "Enable it");
+		enable.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                disableField.setEnabled( true);
+            }
+        });
+		add( enable);
 	}
 }

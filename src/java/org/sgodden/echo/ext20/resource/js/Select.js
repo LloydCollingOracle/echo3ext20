@@ -408,6 +408,7 @@ Ext.extend(Ext.ux.Andrie.Select, Ext.form.ComboBox, {
 		if (!this.clearTrigger){
 			return;
 		}
+		if ( this.disabled) return;
 		if (this.getValue() != ''){
 			if ( this.triggers[0].isVisible() == false) this.triggers[0].show();
 		}else{

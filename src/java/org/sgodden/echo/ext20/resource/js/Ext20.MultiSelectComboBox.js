@@ -193,6 +193,14 @@ EchoExt20.MultiSelectComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
 
     renderUpdate: function(update) {
         this._suspendEvents = true;
+        if ( !(this.component.isEnabled()) ) {
+            this.extComponent.setDisabled(true);
+            if ( this.extComponent.triggers[0].isVisible() == true) this.extComponent.triggers[0].hide();
+        } else {
+            this.extComponent.setDisabled(false);
+            if ( this.extComponent.triggers[0].isVisible() == false) this.extComponent.triggers[0].show();
+        }
+        
         if (update.getUpdatedProperty("model")) {
             this._updateStore(this.component.get("model"))
         }
