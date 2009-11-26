@@ -206,7 +206,7 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
         if (! (textComponent instanceof EchoExt20.ExtComponent) ) {
             // we don't renderAdd here - ext does it lazily
             var wrapper = new EchoExt20.Echo3SyncWrapper(c.update, textComponent);
-            wrapper.wrappedRootElement.style.display='inline';
+            wrapper.wrappedRootElement.style.display='inline-block';
             nodeTextSpan.appendChild(wrapper.wrappedRootElement);
         } else {
             Echo.Render.renderComponentAdd(c.update, textComponent, nodeTextSpan);
@@ -219,7 +219,7 @@ Ext.tree.ColumnNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
             if (! (columnComponent instanceof EchoExt20.ExtComponent) ) {
                 // we don't renderAdd here - ext does it lazily
                 var wrapper = new EchoExt20.Echo3SyncWrapper(c.update, columnComponent);
-                wrapper.wrappedRootElement.style.display='inline';
+                wrapper.wrappedRootElement.style.display='inline-block';
                 thisColDiv.appendChild(wrapper.wrappedRootElement);
             } else {
                 Echo.Render.renderComponentAdd(a['update'], columnComponent, thisColDiv);
