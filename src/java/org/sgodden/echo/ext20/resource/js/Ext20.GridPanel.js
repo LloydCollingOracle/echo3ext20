@@ -95,9 +95,11 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             var actualIndex = record.fields.indexOfKey(dataIndex);
             var renderFuncIndex = this._model.renderedData[rowIndex][actualIndex];
             
-            var renderedValue = null;
-            eval(this._model.renderFunctions[renderFuncIndex]);
-            return renderedValue;
+//            var renderedValue = null;
+//            eval(this._model.renderFunctions[renderFuncIndex]);
+//            return renderedValue;
+            if (value == null || value == "") { return "";}
+            return value;
         },
         
         _getContextMenuIndices: function() {
