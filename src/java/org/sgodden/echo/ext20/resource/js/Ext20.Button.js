@@ -70,9 +70,9 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
                 el.dom.style.backgroundImage = "url(" + iconUrl + ")";
                 el = el.up("table");
                 if (this.component.get("text")) {
-                    el.addClass("x-btn-text-icon");        
+                    el.addClass("x-btn-text-icon");
                 } else {
-                    el.addClass("x-btn-icon");        
+                    el.addClass("x-btn-icon");
                 }
             }
         },
@@ -136,11 +136,11 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['enableToggle'] = true;
             options['allowDepress'] = false;
             options['toggleGroup'] = this.component.get("toggleGroup");
-            if (this.component.get("pressed")){
-                options['pressed'] = true;
-            }
         }
-        
+
+        if (this.component.get("pressed")){
+            options['pressed'] = true;
+        }
 
         var extComponent = this.newExtComponentInstance(options);
         
