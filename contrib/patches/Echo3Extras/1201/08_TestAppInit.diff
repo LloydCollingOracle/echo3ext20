@@ -1,0 +1,12 @@
+diff -r a017ea8950cc src/server-java/testapp-interactive/lib/nextapp/echo/extras/testapp/InteractiveApp.java
+--- a/src/server-java/testapp-interactive/lib/nextapp/echo/extras/testapp/InteractiveApp.java	Wed Nov 11 11:36:31 2009 +0000
++++ b/src/server-java/testapp-interactive/lib/nextapp/echo/extras/testapp/InteractiveApp.java	Tue Dec 01 08:52:48 2009 +0000
+@@ -141,7 +141,7 @@
+     /**
+      * @see nextapp.echo.app.ApplicationInstance#init()
+      */
+-    public Window init(Map requestParameters) {
++    public Window init() {
+         setStyleSheet(Styles.DEFAULT_STYLE_SHEET);
+         mainWindow = new Window(this);
+         mainWindow.setTitle("NextApp Echo3 Extras Test Application");

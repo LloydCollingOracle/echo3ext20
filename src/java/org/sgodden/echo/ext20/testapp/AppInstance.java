@@ -64,7 +64,8 @@ public class AppInstance extends ApplicationInstance {
         }
     }
 
-    public Window init(Map parameters) {
+    @Override
+    public Window init() {
         setStyleSheet(DEFAULT_STYLE_SHEET);
 
         Window ret = new Window(this);

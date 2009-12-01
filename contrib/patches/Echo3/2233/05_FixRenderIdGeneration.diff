@@ -1,0 +1,131 @@
+diff -r 6b900b5000bf -r 9d7a787154b6 src/server-java/app/nextapp/echo/app/ApplicationInstance.java
+--- a/src/server-java/app/nextapp/echo/app/ApplicationInstance.java	Fri Oct 23 13:53:04 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/ApplicationInstance.java	Wed Oct 28 10:18:46 2009 +0000
+@@ -147,6 +147,13 @@
+      * The system-generated id of the default window
+      */
+     private String defaultWindowId = null;
++    
++    /**
++     * The next available sequentially generated 
++     * <code>Window</code>-unique identifier value.
++     * @see #generateId()
++     */
++    private long nextId;
+ 
+     /**
+      * Creates an <code>ApplicationInstance</code>. 
+@@ -261,6 +268,20 @@
+         propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+     }
+     
++
++    
++    /**
++     * Generates an identifier which is unique within this 
++     * <code>ApplicationInstance</code>.  This identifier should not be
++     * used outside of the context of this  <code>ApplicationInstance</code>.
++     * 
++     * @return the unique identifier
++     * @see #generateSystemId()
++     */
++    public String generateId() {
++        return Long.toString(nextId++);
++    }
++    
+     /**
+      * Returns the value of a contextual property.
+      * Contextual properties are typically set by an application
+diff -r 6b900b5000bf -r 9d7a787154b6 src/server-java/app/nextapp/echo/app/Window.java
+--- a/src/server-java/app/nextapp/echo/app/Window.java	Fri Oct 23 13:53:04 2009 +0100
++++ b/src/server-java/app/nextapp/echo/app/Window.java	Wed Oct 28 10:18:46 2009 +0000
+@@ -34,6 +34,7 @@
+ import java.util.HashMap;
+ import java.util.HashSet;
+ import java.util.Iterator;
++import java.util.LinkedList;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Set;
+@@ -117,11 +118,10 @@
+     private Map renderIdToComponentMap;
+     
+     /**
+-     * The next available sequentially generated 
+-     * <code>Window</code>-unique identifier value.
+-     * @see #generateId()
++     * A list of components removed in the current request
++     * @return
+      */
+-    private long nextId;
++    private List componentsToRemove;
+     
+     /**
+      * The current transactionId.  Used to ensure incoming ClientMessages reflect
+@@ -188,7 +188,7 @@
+      * @see #generateSystemId()
+      */
+     public String generateId() {
+-        return Long.toString(nextId++);
++        return getApplicationInstance().generateId();
+     }
+     
+     /**
+@@ -644,18 +644,39 @@
+     }
+ 
+     /**
+-     * Unregisters a component from the <code>ApplicationInstance</code>.
++     * Enqueues a component to be unregistered from the <code>Window</code>.
+      * <p>
+-     * This method is invoked by <code>Component.setApplicationInstance()</code>.
+-     * 
++     * Component removals are enqueued in case the component is removed by one
++     * update and a later update references the component.
++     * </p>
++     * <p>
++     * This method is invoked by <code>Component.setContainingWindow()</code>.
++     * </p>
+      * @param component the component to unregister
+      * @see Component#register(ApplicationInstance)
+      */
+     void unregisterComponent(Component component) {
+-        renderIdToComponentMap.remove(component.getRenderId());
+-        if (component instanceof ModalSupport && ((ModalSupport) component).isModal()) {
+-            setModal(component, false);
+-        }
++    	if (componentsToRemove == null) {
++    		componentsToRemove = new LinkedList();
++    	}
++    	componentsToRemove.add(component);
++    }
++    
++    /**
++     * Actually performs the unregister of each component.
++     */
++    public void processComponentRemovals() {
++    	if (componentsToRemove != null) {
++    		Iterator i = componentsToRemove.iterator();
++    		while (i.hasNext()) {
++    			Component component = (Component)i.next();
++    	        renderIdToComponentMap.remove(component.getRenderId());
++    	        if (component instanceof ModalSupport && ((ModalSupport) component).isModal()) {
++    	            setModal(component, false);
++    	        }
++    		}
++    		componentsToRemove = null;
++    	}
+     }
+ 
+     /**
+diff -r 6b900b5000bf -r 9d7a787154b6 src/server-java/webcontainer/nextapp/echo/webcontainer/Synchronization.java
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/Synchronization.java	Fri Oct 23 13:53:04 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/Synchronization.java	Wed Oct 28 10:18:46 2009 +0000
+@@ -134,6 +134,7 @@
+                             ws[i].getUpdateManager().applyAsyncUpdates();
+                         }
+                     }
++                    ws[i].processComponentRemovals();
+                 }
+ 
+                 // if this window is closing, de-reference it so we don't leak memory

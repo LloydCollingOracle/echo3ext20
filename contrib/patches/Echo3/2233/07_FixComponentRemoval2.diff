@@ -1,0 +1,307 @@
+diff -r 5eaaef296cc8 src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java
+--- a/src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java	Thu Nov 05 09:44:17 2009 +0000
++++ b/src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java	Fri Nov 06 09:43:44 2009 +0000
+@@ -30,7 +30,9 @@
+ package nextapp.echo.app.test;
+ 
+ import java.util.Arrays;
++import java.util.Iterator;
+ import java.util.List;
++import java.util.Map;
+ 
+ import nextapp.echo.app.Alignment;
+ import nextapp.echo.app.ApplicationInstance;
+@@ -102,7 +104,7 @@
+         assertEquals(1, componentUpdates.length);
+         addedChildren = componentUpdates[0].getAddedChildren();
+         assertEquals(1, addedChildren.length);
+-        assertEquals(0, componentUpdates[0].getRemovedChildren().length);
++        assertEquals(0, componentUpdates[0].getRemovedChildren().size());
+         assertEquals(column1, addedChildren[0]);
+         
+         // Add a label to column.
+@@ -113,7 +115,7 @@
+         assertEquals(1, componentUpdates.length);
+         addedChildren = componentUpdates[0].getAddedChildren();
+         assertEquals(1, addedChildren.length);
+-        assertEquals(0, componentUpdates[0].getRemovedChildren().length);
++        assertEquals(0, componentUpdates[0].getRemovedChildren().size());
+         assertEquals(column1, addedChildren[0]);
+ 
+         // Add another column.
+@@ -127,7 +129,7 @@
+         assertEquals(1, componentUpdates.length);
+         addedChildren = componentUpdates[0].getAddedChildren();
+         assertEquals(2, addedChildren.length);
+-        assertEquals(0, componentUpdates[0].getRemovedChildren().length);
++        assertEquals(0, componentUpdates[0].getRemovedChildren().size());
+         
+         List addedChildrenList = Arrays.asList(addedChildren);
+         assertTrue(addedChildrenList.contains(column1));
+@@ -313,7 +315,7 @@
+         assertEquals(columnApp.getLabel(), componentUpdates[0].getParent());
+         assertEquals(1, componentUpdates.length);
+         assertEquals(0, componentUpdates[0].getAddedChildren().length);
+-        assertEquals(0, componentUpdates[0].getRemovedChildren().length);
++        assertEquals(0, componentUpdates[0].getRemovedChildren().size());
+         
+         String[] updatedPropertyNames = componentUpdates[0].getUpdatedPropertyNames(); 
+         assertEquals(1, updatedPropertyNames.length);
+@@ -420,13 +422,13 @@
+         assertEquals(true, componentUpdates[0].hasRemovedChildren());
+         assertEquals(true, componentUpdates[0].hasRemovedDescendants());
+         
+-        Component[] removedChildren = componentUpdates[0].getRemovedChildren();
+-        assertEquals(1, removedChildren.length);
+-        assertEquals(column, removedChildren[0]);
++        Map removedChildren = componentUpdates[0].getRemovedChildren();
++        assertEquals(1, removedChildren.size());
++        assertEquals(column, ((Map.Entry)removedChildren.entrySet().iterator().next()).getValue());
+         
+-        Component[] removedDescendants = componentUpdates[0].getRemovedDescendants();
+-        assertEquals(1, removedDescendants.length);
+-        assertEquals(label, removedDescendants[0]);
++        Map removedDescendants = componentUpdates[0].getRemovedDescendants();
++        assertEquals(1, removedDescendants.size());
++        assertEquals(label, ((Map.Entry)removedDescendants.entrySet().iterator().next()).getValue());
+     }
+ 
+     /**
+@@ -469,14 +471,17 @@
+         assertEquals(true, componentUpdates[0].hasRemovedChildren());
+         assertEquals(true, componentUpdates[0].hasRemovedDescendants());
+         
+-        Component[] removedChildren = componentUpdates[0].getRemovedChildren();
+-        assertEquals(1, removedChildren.length);
+-        assertEquals(column1, removedChildren[0]);
++        Map removedChildren = componentUpdates[0].getRemovedChildren();
++        assertEquals(1, removedChildren.size());
++        assertEquals(column1, ((Map.Entry)removedChildren.entrySet().iterator().next()).getValue());
+         
+-        Component[] removedDescendants = componentUpdates[0].getRemovedDescendants();
+-        assertEquals(2, removedDescendants.length);
+-        assertTrue(removedDescendants[0].equals(column2) || removedDescendants[1].equals(column2));
+-        assertTrue(removedDescendants[0].equals(label) || removedDescendants[1].equals(label));
++        Map removedDescendants = componentUpdates[0].getRemovedDescendants();
++        assertEquals(2, removedDescendants.size());
++        Iterator i = removedDescendants.entrySet().iterator();
++        Component zero = (Component)((Map.Entry)i.next()).getValue();
++        Component one = (Component)((Map.Entry)i.next()).getValue();
++        assertTrue(zero.equals(column2) || one.equals(column2));
++        assertTrue(zero.equals(label) || one.equals(label));
+     }
+ 
+     /**
+@@ -556,9 +561,9 @@
+         assertEquals(Component.CHILD_VISIBLE_CHANGED_PROPERTY, componentUpdates[0].getUpdatedPropertyNames()[0]);
+         assertFalse(componentUpdates[0].hasUpdatedLayoutDataChildren());
+         
+-        Component[] components = componentUpdates[0].getRemovedChildren();
+-        assertEquals(1, components.length);
+-        assertEquals(label1, components[0]);
++        Map components = componentUpdates[0].getRemovedChildren();
++        assertEquals(1, components.size());
++        assertEquals(label1, ((Map.Entry)components.entrySet().iterator().next()).getValue());
+         
+         manager.purge();
+         
+@@ -573,9 +578,9 @@
+         assertEquals(Component.CHILD_VISIBLE_CHANGED_PROPERTY, componentUpdates[0].getUpdatedPropertyNames()[0]);
+         assertFalse(componentUpdates[0].hasUpdatedLayoutDataChildren());
+ 
+-        components = componentUpdates[0].getAddedChildren();
+-        assertEquals(1, components.length);
+-        assertEquals(label2, components[0]);
++        Component[] addedComponents = componentUpdates[0].getAddedChildren();
++        assertEquals(1, addedComponents.length);
++        assertEquals(label2, addedComponents[0]);
+         
+         label1.setVisible(true);
+     }
+diff -r 5eaaef296cc8 src/server-java/app/nextapp/echo/app/Window.java
+--- a/src/server-java/app/nextapp/echo/app/Window.java	Thu Nov 05 09:44:17 2009 +0000
++++ b/src/server-java/app/nextapp/echo/app/Window.java	Fri Nov 06 09:43:44 2009 +0000
+@@ -709,7 +709,7 @@
+             }
+ 
+             for (int i = 0; i < updates.length; ++i) {
+-                if (updates[i].hasRemovedDescendant(component)) {
++                if (updates[i].hasRemovedDescendant(component.getRenderId())) {
+                     it.remove();
+                     continue;
+                 }
+diff -r 5eaaef296cc8 src/server-java/app/nextapp/echo/app/update/ServerComponentUpdate.java
+--- a/src/server-java/app/nextapp/echo/app/update/ServerComponentUpdate.java	Thu Nov 05 09:44:17 2009 +0000
++++ b/src/server-java/app/nextapp/echo/app/update/ServerComponentUpdate.java	Fri Nov 06 09:43:44 2009 +0000
+@@ -30,6 +30,7 @@
+ package nextapp.echo.app.update;
+ 
+ import java.io.Serializable;
++import java.util.Collections;
+ import java.util.HashMap;
+ import java.util.HashSet;
+ import java.util.Map;
+@@ -55,6 +56,7 @@
+ 
+     private static final Component[] EMPTY_COMPONENT_ARRAY = new Component[0];
+     private static final String[] EMPTY_STRING_ARRAY = new String[0];
++    private static final Map EMPTY_COMPONENT_MAP = Collections.unmodifiableMap(Collections.EMPTY_MAP);
+     
+     /** The set of child <code>Component</code>s added to the <code>parent</code>. */
+     private Set addedChildren;
+@@ -65,11 +67,11 @@
+     /**A mapping between property names of the <code>parent</code> component and <code>PropertyUpdate</code>s. */
+     private Map propertyUpdates;
+     
+-    /** The set of child <code>Component</code>s removed from the <code>parent</code>. */
+-    private Set removedChildren;
++    /** The Map of child renderIds to child <code>Component</code>s removed from the <code>parent</code>. */
++    private Map removedChildren;
+     
+     /** The set of descendant <code>Component</code>s which are implicitly removed as they were children of removed children. */
+-    private Set removedDescendants;
++    private Map removedDescendants;
+ 
+     /** The set of child <code>Component</code>s whose <code>LayoutData</code> was updated. */
+     private Set updatedLayoutDataChildren;
+@@ -127,16 +129,16 @@
+         // Append removed descendants.
+         if (update.removedDescendants != null) {
+             if (removedDescendants == null) {
+-                removedDescendants = new HashSet();
++                removedDescendants = new HashMap();
+             }
+-            removedDescendants.addAll(update.removedDescendants);
++            removedDescendants.putAll(update.removedDescendants);
+         }
+         // Append removed children.
+         if (update.removedChildren != null) {
+             if (removedDescendants == null) {
+-                removedDescendants = new HashSet();
++                removedDescendants = new HashMap();
+             }
+-            removedDescendants.addAll(update.removedChildren);
++            removedDescendants.putAll(update.removedChildren);
+         }
+     }
+     
+@@ -172,11 +174,11 @@
+      * @return the removed child components
+      * @see #getRemovedDescendants()
+      */
+-    public Component[] getRemovedChildren() {
++    public Map getRemovedChildren() {
+         if (removedChildren == null) {
+-            return EMPTY_COMPONENT_ARRAY;
++            return EMPTY_COMPONENT_MAP;
+         } else {
+-            return (Component[]) removedChildren.toArray(new Component[removedChildren.size()]);
++            return Collections.unmodifiableMap(removedChildren);
+         }
+     }
+     
+@@ -192,11 +194,11 @@
+      * @return the removed descendant components
+      * @see #getRemovedChildren()
+      */
+-    public Component[] getRemovedDescendants() {
++    public Map getRemovedDescendants() {
+         if (removedDescendants == null) {
+-            return EMPTY_COMPONENT_ARRAY;
++            return EMPTY_COMPONENT_MAP;
+         } else {
+-            return (Component[]) removedDescendants.toArray(new Component[removedDescendants.size()]);
++            return Collections.unmodifiableMap(removedDescendants);
+         }
+     }
+     
+@@ -266,8 +268,8 @@
+      * @param component the potentially removed child
+      * @return true if the child was removed
+      */
+-    public boolean hasRemovedChild(Component component) {
+-        return removedChildren != null && removedChildren.contains(component);
++    public boolean hasRemovedChild(String renderId) {
++        return removedChildren != null && removedChildren.containsKey(renderId);
+     }
+     
+     /**
+@@ -286,9 +288,9 @@
+      * @param component the potentially removed child/descendant
+      * @return true if the component is a removed child/descendant
+      */
+-    public boolean hasRemovedDescendant(Component component) {
+-        return removedChildren != null && (removedChildren.contains(component) || 
+-                (removedDescendants != null && removedDescendants.contains(component)));
++    public boolean hasRemovedDescendant(String renderId) {
++        return removedChildren != null && (removedChildren.containsKey(renderId) || 
++                (removedDescendants != null && removedDescendants.containsKey(renderId)));
+     }
+     
+     /**
+@@ -349,9 +351,9 @@
+             updatedLayoutDataChildren.remove(child);
+         }
+         if (removedChildren == null) {
+-            removedChildren = new HashSet();
++            removedChildren = new HashMap();
+         }
+-        removedChildren.add(child);
++        removedChildren.put(child.getRenderId(), child);
+         
+         Component[] descendants = child.getComponents();
+         for (int i = 0; i < descendants.length; ++i) {
+@@ -367,9 +369,9 @@
+      */
+     public void removeDescendant(Component descendant) {
+         if (removedDescendants == null) {
+-            removedDescendants = new HashSet();
++            removedDescendants = new HashMap();
+         }
+-        removedDescendants.add(descendant);
++        removedDescendants.put(descendant.getRenderId(), descendant);
+         Component[] descendants = descendant.getComponents();
+         for (int i = 0; i < descendants.length; ++i) {
+             removeDescendant(descendants[i]);
+diff -r 5eaaef296cc8 src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java	Thu Nov 05 09:44:17 2009 +0000
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/OutputProcessor.java	Fri Nov 06 09:43:44 2009 +0000
+@@ -400,17 +400,21 @@
+             Component parentComponent = componentUpdates[i].getParent();
+             setComponentId(rmElement, parentComponent);
+                 
+-            Component[] removedChildren = componentUpdates[i].getRemovedChildren();
++            Map removedChildren = componentUpdates[i].getRemovedChildren();
+             Set removedIdSet = new HashSet(); // Set containing removed ids, to avoid removing same id multiple times.
+             StringBuffer out = new StringBuffer();
+-            for (int j = 0; j < removedChildren.length; ++j) {
+-                String renderId = userInstance.getWindowClientRenderId(removedChildren[j], Window.getActive());
++            int j = 0;
++            for (Iterator it = removedChildren.entrySet().iterator(); it.hasNext();) {
++            	Map.Entry thisEntry = (Map.Entry)it.next();
++            	String renderId = (String)thisEntry.getKey();
++            	renderId = userInstance.getWindowClientRenderId(renderId, Window.getActive());
+                 if (removedIdSet.contains(renderId)) {
+                     continue;
+                 }
+                 if (j > 0) {
+                     out.append(",");
+                 }
++                j++;
+                 out.append(renderId);
+                 removedIdSet.add(renderId);
+             }
+diff -r 5eaaef296cc8 src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java	Thu Nov 05 09:44:17 2009 +0000
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java	Fri Nov 06 09:43:44 2009 +0000
+@@ -244,6 +244,10 @@
+     public String getWindowClientRenderId(Component component, Window w) {
+         return "C." + w.getId() + "." + component.getRenderId();
+     }
++
++	public String getWindowClientRenderId(String renderId, Window w) {
++		return "C." + w.getId() + "." + renderId;
++	}
+     
+     /**
+      * Retrieves the <code>Component</code> with the specified client-side render id.

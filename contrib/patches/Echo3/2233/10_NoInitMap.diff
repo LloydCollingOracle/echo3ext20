@@ -1,0 +1,261 @@
+diff -r f6075a15e5ca src/server-java/app-test/nextapp/echo/app/test/ApplicationInstanceTest.java
+--- a/src/server-java/app-test/nextapp/echo/app/test/ApplicationInstanceTest.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/app-test/nextapp/echo/app/test/ApplicationInstanceTest.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -105,7 +105,7 @@
+         ColumnApp columnApp = new ColumnApp();
+         ApplicationInstance.setActive(columnApp);
+         
+-        Window window = columnApp.doInit(null, true, "windowId");
++        Window window = columnApp.doInit(true, "windowId");
+         assertTrue(window.isRegistered());
+         assertTrue(columnApp.getColumn().isRegistered());
+         Label label = new Label();
+@@ -129,7 +129,7 @@
+     public void testRegistrationLifecycle() {
+         ColumnApp columnApp = new ColumnApp();
+         ApplicationInstance.setActive(columnApp);
+-        columnApp.doInit(null, true, "windowId");
++        columnApp.doInit(true, "windowId");
+         Column column = columnApp.getColumn();
+ 
+         RegistrationTestComponent rtc = new RegistrationTestComponent();
+@@ -163,14 +163,14 @@
+         
+         ColumnApp columnApp = new ColumnApp(){
+         
+-            public Window init(Map parameters) {
+-                Window window = super.init(parameters);
++            public Window init() {
++                Window window = super.init();
+                 getColumn().add(rtc);
+                 return window;
+             }
+         };
+         ApplicationInstance.setActive(columnApp);
+-        columnApp.doInit(null, true, "windowId");
++        columnApp.doInit(true, "windowId");
+ 
+         assertEquals(1, rtc.initCount);
+         assertEquals(0, rtc.disposeCount);
+@@ -185,8 +185,8 @@
+     public void testValidation() {
+         final ValidatingLabel validatingLabel = new ValidatingLabel();
+         ColumnApp app = new ColumnApp() {
+-            public Window init(Map parameters) {
+-                Window window = super.init(parameters);
++            public Window init() {
++                Window window = super.init();
+                 getColumn().add(validatingLabel);
+                 return window;
+             }
+@@ -196,7 +196,7 @@
+         
+         ApplicationInstance.setActive(app);
+         
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+         
+         // Test for initial validation.
+         assertTrue(validatingLabel.valid);
+diff -r f6075a15e5ca src/server-java/app-test/nextapp/echo/app/test/ApplicationStyleTest.java
+--- a/src/server-java/app-test/nextapp/echo/app/test/ApplicationStyleTest.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/app-test/nextapp/echo/app/test/ApplicationStyleTest.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -46,7 +46,7 @@
+         ColumnApp app = new ColumnApp();
+         ApplicationInstance.setActive(app);
+         
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+         assertTrue(app.getLabel().isRegistered());
+         
+         MutableStyleSheet styleSheet = new MutableStyleSheet();
+diff -r f6075a15e5ca src/server-java/app-test/nextapp/echo/app/test/ColumnApp.java
+--- a/src/server-java/app-test/nextapp/echo/app/test/ColumnApp.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/app-test/nextapp/echo/app/test/ColumnApp.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -53,7 +53,7 @@
+     /**
+      * @see nextapp.echo.app.ApplicationInstance#init()
+      */
+-    public Window init(Map parameters) {
++    public Window init() {
+         window = new Window(this);
+         contentPane = window.getContent();
+         column = new Column();
+diff -r f6075a15e5ca src/server-java/app-test/nextapp/echo/app/test/ComponentTest.java
+--- a/src/server-java/app-test/nextapp/echo/app/test/ComponentTest.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/app-test/nextapp/echo/app/test/ComponentTest.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -327,7 +327,7 @@
+     public void testLifecycleSingleComponent() {
+         ColumnApp app = new ColumnApp();
+         ApplicationInstance.setActive(app);
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+         
+         LifecycleTestComponent ltc1 = new LifecycleTestComponent();
+         assertEquals(0, ltc1.getInitCount());
+@@ -361,7 +361,7 @@
+     public void testLifecycleComponentHierarchy() {
+         ColumnApp app = new ColumnApp();
+         ApplicationInstance.setActive(app);
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+         
+         LifecycleTestComponent ltc1 = new LifecycleTestComponent();
+         LifecycleTestComponent ltc2 = new LifecycleTestComponent();
+@@ -431,7 +431,7 @@
+     public void testLifecycleRemoveDuringInit() {
+         ColumnApp app = new ColumnApp();
+         ApplicationInstance.setActive(app);
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+         
+         LifecycleTestComponent special = new LifecycleTestComponent(){
+         
+@@ -459,7 +459,7 @@
+     public void testLifecycleAddDuringDispose() {
+         ColumnApp app = new ColumnApp();
+         ApplicationInstance.setActive(app);
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+         
+         LifecycleTestComponent special = new LifecycleTestComponent(){
+         
+@@ -566,7 +566,7 @@
+     public void testRenderId() {
+         ColumnApp app1 = new ColumnApp();
+         ApplicationInstance.setActive(app1);
+-        app1.doInit(null, true, "windowId");
++        app1.doInit(true, "windowId");
+         NullComponent component1 = new NullComponent();
+         assertNull(component1.getRenderId());
+         app1.getColumn().add(component1);
+@@ -576,7 +576,7 @@
+ 
+         ColumnApp app2 = new ColumnApp();
+         ApplicationInstance.setActive(app2);
+-        app2.doInit(null, true, "windowId");
++        app2.doInit(true, "windowId");
+         NullComponent component2 = new NullComponent();
+         assertNull(component2.getRenderId());
+         app2.getColumn().add(component2);
+@@ -604,7 +604,7 @@
+     public void testRenderEnabled() {
+         ColumnApp app = new ColumnApp();
+         ApplicationInstance.setActive(app);
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+         assertTrue(app.getContentPane().isRenderEnabled());
+         assertTrue(app.getColumn().isRenderEnabled());
+         assertTrue(app.getLabel().isRenderEnabled());
+@@ -633,7 +633,7 @@
+     public void testRenderVisible() {
+         ColumnApp app = new ColumnApp();
+         ApplicationInstance.setActive(app);
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+         assertTrue(app.getContentPane().isRenderVisible());
+         assertTrue(app.getColumn().isRenderVisible());
+         assertTrue(app.getLabel().isRenderVisible());
+diff -r f6075a15e5ca src/server-java/app-test/nextapp/echo/app/test/FocusTraversalTest.java
+--- a/src/server-java/app-test/nextapp/echo/app/test/FocusTraversalTest.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/app-test/nextapp/echo/app/test/FocusTraversalTest.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -38,7 +38,7 @@
+     public void test1() {
+         ColumnApp app = new ColumnApp();
+         ApplicationInstance.setActive(app);
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+         Button a = new Button();
+         a.setRenderId("a");
+         app.getColumn().add(a);
+diff -r f6075a15e5ca src/server-java/app-test/nextapp/echo/app/test/HelloWorldApp.java
+--- a/src/server-java/app-test/nextapp/echo/app/test/HelloWorldApp.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/app-test/nextapp/echo/app/test/HelloWorldApp.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -48,7 +48,7 @@
+     /**
+      * @see nextapp.echo.app.ApplicationInstance#init()
+      */
+-    public Window init(Map parameters) {
++    public Window init() {
+         window = new Window(this);
+         content = window.getContent();
+         label = new Label("Hello, world!");
+diff -r f6075a15e5ca src/server-java/app-test/nextapp/echo/app/test/LayoutDirectionTest.java
+--- a/src/server-java/app-test/nextapp/echo/app/test/LayoutDirectionTest.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/app-test/nextapp/echo/app/test/LayoutDirectionTest.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -54,7 +54,7 @@
+     public void setUp() {
+         app = new ColumnApp();
+         ApplicationInstance.setActive(app);        
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+     }
+     
+     /**
+diff -r f6075a15e5ca src/server-java/app-test/nextapp/echo/app/test/ModalTest.java
+--- a/src/server-java/app-test/nextapp/echo/app/test/ModalTest.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/app-test/nextapp/echo/app/test/ModalTest.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -49,7 +49,7 @@
+     public void setUp() {
+         app = new ColumnApp();
+         ApplicationInstance.setActive(app);
+-        app.doInit(null, true, "windowId");
++        app.doInit(true, "windowId");
+     }
+     
+     /**
+diff -r f6075a15e5ca src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java
+--- a/src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/app-test/nextapp/echo/app/test/UpdateManagerTest.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -75,7 +75,7 @@
+     public void setUp() {
+         columnApp = new ColumnApp();
+         ApplicationInstance.setActive(columnApp);        
+-        columnApp.doInit(null, true, "windowId");
++        columnApp.doInit(true, "windowId");
+         manager = columnApp.getWindow(0).getUpdateManager();
+     }
+     
+diff -r f6075a15e5ca src/server-java/app/nextapp/echo/app/ApplicationInstance.java
+--- a/src/server-java/app/nextapp/echo/app/ApplicationInstance.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/app/nextapp/echo/app/ApplicationInstance.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -219,14 +219,14 @@
+      * @throws IllegalStateException in the event that the current thread is not
+      *         permitted to update the state of the user interface
+      */
+-    public final Window doInit(Map parameters, boolean allowAsyncWindowUpdates, String defaultWindowId) {
++    public final Window doInit(boolean allowAsyncWindowUpdates, String defaultWindowId) {
+         if (this != activeInstance.get()) {
+             throw new IllegalStateException(
+                     "Attempt to update state of application user interface outside of user interface thread.");
+         }
+         this.allowAsyncWindowUpdates = allowAsyncWindowUpdates;
+         this.defaultWindowId = defaultWindowId;
+-        Window window = init(parameters);
++        Window window = init();
+         addWindow(window);
+         doValidation();
+         return window;
+@@ -355,10 +355,9 @@
+      * Invoked to initialize the default top-level window of the application.
+      * The returned window must be visible.
+      *
+-     * @param parameters The initial parameters passed via the connection url
+      * @return the default top-level window of the application
+      */
+-    public abstract Window init(Map parameters);
++    public abstract Window init();
+     
+     /**
+      * Invoked before the application is passivated (such that its state may
+diff -r f6075a15e5ca src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java	Tue Nov 17 14:36:27 2009 +0000
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstance.java	Tue Dec 01 08:43:54 2009 +0000
+@@ -448,7 +448,6 @@
+         if (!applicationInitialized) {
+             try {
+                 applicationInstance.doInit(
+-                    WebContainerServlet.getActiveConnection().getRequest().getParameterMap(), 
+                     WebContainerServlet.getActiveConnection().getServlet().getAllowAsyncWindowUpdates(),
+                     applicationWindowId
+                 );

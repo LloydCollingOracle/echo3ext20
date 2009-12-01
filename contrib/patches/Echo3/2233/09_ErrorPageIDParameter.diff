@@ -1,0 +1,20 @@
+diff -r 4060f7ebb3c6 src/client/echo/Client.js
+--- a/src/client/echo/Client.js	Mon Nov 09 16:44:46 2009 +0000
++++ b/src/client/echo/Client.js	Tue Nov 17 14:36:17 2009 +0000
+@@ -482,8 +482,15 @@
+             this.dispose();
+         } finally {
+             if (this.configuration["StopError.URI"]) {
++                var eid = detail.substring(detail.indexOf("ID: ") + 4);
++                var url = this.configuration["StopError.URI"];
++                if (url.indexOf('?') > -1) {
++                    url = url + "&eid=" + eid;
++                } else {
++                    url = url + "?eid=" + eid;
++                }
+                 // Redirect.
+-                window.location.href = this.configuration["StopError.URI"];
++                window.location.href = url;
+             } else {
+                 // Display error.
+                 this.displayError(element, this.configuration["StopError.Message"], detail, this.configuration["Action.Restart"], 

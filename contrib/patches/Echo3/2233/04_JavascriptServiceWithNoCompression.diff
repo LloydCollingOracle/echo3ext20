@@ -1,0 +1,45 @@
+diff -r ee336dc2405f src/server-java/webcontainer/nextapp/echo/webcontainer/service/JavaScriptService.java
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/service/JavaScriptService.java	Mon Oct 19 10:22:08 2009 +0100
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/service/JavaScriptService.java	Mon Oct 19 13:40:19 2009 +0100
+@@ -29,6 +29,7 @@
+ 
+ package nextapp.echo.webcontainer.service;
+ 
++import java.io.ByteArrayInputStream;
+ import java.io.IOException;
+ 
+ import nextapp.echo.webcontainer.Connection;
+@@ -66,6 +67,24 @@
+         return new JavaScriptService(id, out.toString());
+     }
+ 
++    /**
++     * Creates JavaScript services from the specified resources
++     * @param id the <code>Service</code> id
++     * @param resourceNames the <code>CLASSPATH</code> resource name containing
++     *        the JavaScript content
++     * @param strip the javascript of comments and whitespace
++     * @param zip compress the javascript
++     * @return the created <code>JavaScriptService</code>
++     */
++    public static JavaScriptService forResources(String id, String[] resourceNames, boolean strip, boolean zip) {
++        StringBuffer out = new StringBuffer();
++        for (int i = 0; i < resourceNames.length; ++i) {
++            out.append(Resource.getResourceAsString(resourceNames[i]));
++            out.append("\n\n");
++        }
++        return new JavaScriptService(id, out.toString(), strip, zip);
++    }
++
+     /** <code>Service</code> identifier. */
+     private String id;
+     
+@@ -146,7 +165,7 @@
+     public void service(Connection conn) 
+     throws IOException {
+         String userAgent = conn.getRequest().getHeader("user-agent");
+-        if (userAgent == null || userAgent.indexOf("MSIE") != -1) {
++        if (userAgent == null || userAgent.indexOf("MSIE") != -1 || gzipContent == null) {
+             // Due to behavior detailed Microsoft Knowledge Base Article Id 312496, 
+             // all HTTP compression support is disabled for this browser.
+             // Due to the fact that ClientProperties information is not necessarily 

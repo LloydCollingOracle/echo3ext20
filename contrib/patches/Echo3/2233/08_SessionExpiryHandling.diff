@@ -1,0 +1,40 @@
+diff -r 69f6a8921db7 src/server-java/webcontainer/nextapp/echo/webcontainer/Connection.java
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/Connection.java	Fri Nov 06 09:43:50 2009 +0000
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/Connection.java	Mon Nov 09 16:44:33 2009 +0000
+@@ -105,7 +105,7 @@
+      * Disposes of the <code>UserInstance</code> associated with this 
+      * <code>Connection</code>.
+      */
+-    void disposeUserInstance() {
++    public void disposeUserInstance() {
+         if (userInstanceContainer != null && userInstance != null) {
+             userInstanceContainer.unloadUserInstance(userInstance);
+         }
+diff -r 69f6a8921db7 src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstanceContainer.java
+--- a/src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstanceContainer.java	Fri Nov 06 09:43:50 2009 +0000
++++ b/src/server-java/webcontainer/nextapp/echo/webcontainer/UserInstanceContainer.java	Mon Nov 09 16:44:33 2009 +0000
+@@ -111,6 +111,15 @@
+     }
+     
+     /**
++     * Whether this container still has at least one UserInstance that is preparing
++     * to start up, or is already started.
++     * @return
++     */
++    public synchronized boolean hasActiveInstances() {
++        return initIdToInitialRequestParameterMap.size() > 0 || clientWindowIdToUserInstance.size() > 0;
++    }
++    
++    /**
+      * Creates or retrieves a <code>UserInstance</code> for the specified client window identifier and 
+      * initial request identifier.  Invoked when a window is loaded for the first time or reloaded.
+      * 
+@@ -140,7 +149,7 @@
+             } else {
+                 uiid = null;
+             }
+-            Map initialRequestParameterMap = (Map) initIdToInitialRequestParameterMap.remove(initId);
++            Map initialRequestParameterMap = (Map) initIdToInitialRequestParameterMap.remove(uiid);
+             userInstance = createUserInstance(uiid, clientWindowId, initialRequestParameterMap); 
+             clientWindowIdToUserInstance.put(clientWindowId, userInstance);
+             idToUserInstance.put(userInstance.getId(), userInstance);
