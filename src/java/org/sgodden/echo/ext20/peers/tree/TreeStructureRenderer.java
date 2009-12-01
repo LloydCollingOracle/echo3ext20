@@ -1,5 +1,7 @@
 package org.sgodden.echo.ext20.peers.tree;
 
+import java.io.Serializable;
+
 import nextapp.echo.app.Component;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.extras.app.Tree;
@@ -18,7 +20,7 @@ public class TreeStructureRenderer
 
     @Override
     protected Element doRenderNode(TreePath path, Component component, Context context,
-            Object value, boolean isRoot) {
+            Serializable value, boolean isRoot) {
         Element eElement = super.doRenderNode(path, component, context, value, isRoot);
         if (path != null && path.getLastPathComponent() instanceof ExtendedTreeNode) {
             ExtendedTreeNode treeNode = (ExtendedTreeNode)path.getLastPathComponent();
