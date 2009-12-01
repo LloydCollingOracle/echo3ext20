@@ -1,0 +1,12 @@
+diff -r 2533a0dbdc8d src/server-java/app/nextapp/echo/app/ApplicationInstance.java
+--- a/src/server-java/app/nextapp/echo/app/ApplicationInstance.java	Tue Dec 01 08:44:01 2009 +0000
++++ b/src/server-java/app/nextapp/echo/app/ApplicationInstance.java	Tue Dec 01 12:57:41 2009 +0000
+@@ -303,6 +303,8 @@
+      * @return the <code>Window</code>
+      */
+     public Window getWindow(int index) {
++    	if (activeWindows == null)
++    		return null;
+         return activeWindows[index];
+     }
+     
