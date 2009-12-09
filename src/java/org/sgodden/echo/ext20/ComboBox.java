@@ -23,7 +23,7 @@ import nextapp.echo.app.list.ListSelectionModel;
  * @author sgodden
  */
 @SuppressWarnings( { "serial" })
-public class ComboBox extends ExtComponent implements AbstractListComponent {
+public class ComboBox extends ExtComponent implements AbstractListComponent, Field {
 
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
