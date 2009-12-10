@@ -93,7 +93,7 @@ public class FieldGroupContainer extends Panel {
             doAddFieldGroup(i);
     }
 
-    protected void doAddFieldGroup(int index) {
+    protected void doAddFieldGroup(final int index) {
         // if we're going from one group to more then add remove button to first
         // group
         if (index == 1) {
@@ -126,8 +126,8 @@ public class FieldGroupContainer extends Panel {
         removeButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
-                if (fireWillRemove(0)) {
-                    doRemoveGroup(0);
+                if (fireWillRemove(index)) {
+                    doRemoveGroup(index);
                 }
             }
         });
