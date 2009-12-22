@@ -173,8 +173,8 @@ public class ApplicationContentPane extends ContentPane {
         col.add(makeTestButton("Button group", ButtonGroupTest.class));
         col.add(makeTestButton("Effects", EffectsTest.class));
         col.add(makeTestButton("Context menu", ContextMenuTest.class));
-        col.add(makeTestButton("Non-focusable buttons",
-                FocusableButtonTest.class));
+        col.add(makeTestButton("Focus",
+                FocusTest.class));
         col.add(makeTestButton("Form grid", FormGridTest.class));
         col.add(makeTestButton("Menu", MenuTest.class));
         col.add(makeTestButton("Bloated test suite", MainTestSuite.class));
