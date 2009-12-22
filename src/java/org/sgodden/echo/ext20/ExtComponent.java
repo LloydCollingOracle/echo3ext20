@@ -2,6 +2,7 @@ package org.sgodden.echo.ext20;
 
 import nextapp.echo.app.Command;
 import nextapp.echo.app.Component;
+import nextapp.echo.app.Window;
 
 import org.sgodden.echo.ext20.command.ScrollIntoViewCommand;
 
@@ -149,5 +150,12 @@ public abstract class ExtComponent extends Component {
 
     public void setShowToolTip(boolean showToolTip) {
         set(SHOW_TOOL_TIP, showToolTip);
+    }
+    
+    /**
+     * Focuses the component in the active window.
+     */
+    public void focus() {
+    	Window.getActive().setFocusedComponent(this);
     }
 }
