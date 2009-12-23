@@ -369,6 +369,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             if (this.component.get("containerCssClass")) {
                 options.ctCls = this.component.get("containerCssClass");
             }
+            if (this.component.get("cssString")) {
+            	options.style = this.component.get("cssString");
+            }
            
             /*
              * Add the necessary layout options.

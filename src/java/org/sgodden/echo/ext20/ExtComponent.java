@@ -54,6 +54,11 @@ public abstract class ExtComponent extends Component {
      * The tooltip to apply to any ext component.
      */
     public static final String SHOW_TOOL_TIP = "showToolTip";
+    
+    /**
+     * A string of arbitrary extra CSS styles to apply to the element's container.
+     */
+    public static final String PROPERTY_CSS_STRING = "cssString";
 
     AddComponentFx addEffect = null;
     RemoveComponentFx removeEffect = null;
@@ -157,5 +162,21 @@ public abstract class ExtComponent extends Component {
      */
     public void focus() {
     	Window.getActive().setFocusedComponent(this);
+    }
+    
+    /**
+     * Sets a string of arbitrary CSS to be set on the component's element.
+     * @param cssString the string of css.
+     */
+    public void setCssString(String cssString) {
+    	set(PROPERTY_CSS_STRING, cssString);
+    }
+
+    /**
+     * Returns the arbitrary CSS applied to this component's element.
+     * @return the string of CSS.
+     */
+    public String getCssString() {
+    	return (String) get(PROPERTY_CSS_STRING);
     }
 }
