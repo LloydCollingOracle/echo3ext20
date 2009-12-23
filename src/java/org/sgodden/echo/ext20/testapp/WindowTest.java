@@ -37,6 +37,7 @@ public class WindowTest
     public WindowTest(){
         super("Window");
         add(makeWindowTestButton());
+        add(makeWindowTestButtonNotResizable());
         add(makeModalWindowTestButton());
     }
     
@@ -45,7 +46,19 @@ public class WindowTest
         
         ret.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                WindowTest.this.add(makeTestWindow());
+                WindowTest.this.add(makeTestWindow(true));
+            }
+        });
+        
+        return ret;
+    }
+    
+    private Button makeWindowTestButtonNotResizable(){
+        Button ret = new Button("Open window (not resizable)");
+        
+        ret.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                WindowTest.this.add(makeTestWindow(false));
             }
         });
         
@@ -64,8 +77,9 @@ public class WindowTest
         return ret;
     }
     
-    private TestWindow makeTestWindow() {
+    private TestWindow makeTestWindow(boolean resizable) {
         TestWindow ret = new TestWindow();
+        ret.setResizable(resizable);
         return ret;
     }
     

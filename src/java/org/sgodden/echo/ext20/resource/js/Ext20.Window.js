@@ -48,14 +48,18 @@ EchoExt20.WindowSync = Core.extend(EchoExt20.PanelSync, {
     
     newExtComponentInstance: function(options) {
         
-        options['onEsc'] = Ext.emptyFn;
+        options.onEsc = Ext.emptyFn;
         
         if (this.component.get("modal") != null) {
-            options['modal'] = this.component.get("modal");
+            options.modal = this.component.get("modal");
         }
         
         if (this.component.get("closable") != null) {
-            options['closable'] = this.component.get("closable");
+            options.closable = this.component.get("closable");
+        }
+        
+        if (this.component.get("resizable") != null) {
+            options.resizable = this.component.get("resizable");
         }
         
     	var extComponent = new Ext.Window(options);

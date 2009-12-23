@@ -73,6 +73,7 @@ public class Window
     public static final String INPUT_WINDOW_CLOSING = "windowClosing";
     
     public static final String MODAL_PROPERTY = "modal";
+    public static final String PROPERTY_RESIZABLE = "resizable";
 
     /**
      * Creates a new window.
@@ -133,6 +134,14 @@ public class Window
      */
     public void setModal(boolean modal) {
         set(MODAL_PROPERTY, modal);
+    }
+    
+    /**
+     * Sets whether the user can resize this window (defaults to true).
+     * @param resizable whether the user can resize this window.
+     */
+    public void setResizable(boolean resizable) {
+    	set(PROPERTY_RESIZABLE, resizable);
     }
     
     /**
