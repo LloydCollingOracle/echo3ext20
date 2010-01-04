@@ -1,0 +1,36 @@
+--- ext-all-debug.js	2009-12-09 08:34:47.000000000 +0000
++++ ext-all-debug.js	2009-12-09 17:03:59.000000000 +0000
+@@ -2610,15 +2610,33 @@
+ 
+     
+     addClass : function(className){
++        var originalClassName = this.dom.className;
++        var start = new Date().getTime();
++        var classAdded = false;
++        var isArray = false;
+         if(Ext.isArray(className)){
++            isArray = true;
+             for(var i = 0, len = className.length; i < len; i++) {
+             	this.addClass(className[i]);
+             }
+         }else{
+             if(className && !this.hasClass(className)){
++                classAdded = true;
+                 this.dom.className = this.dom.className + " " + className;
+             }
+         }
++        Core.Debug.consoleWrite(['addClass id:'
++                , this.id 
++                , ", classes: " 
++                , originalClassName 
++                , ", newClass: " 
++                , className 
++                , ", time: " 
++                , (new Date().getTime() - start) 
++                , "ms, clsAdded? "
++                , classAdded
++                , ", isArray? "
++                , isArray].join(""));
+         return this;
+     },
+ 
