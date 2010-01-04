@@ -27,21 +27,9 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
 //                    "org/sgodden/echo/ext20/resource/js/Ext20.GridPanel.js");
 
     private static final String PROPERTY_SELECTION = "selection";
-    private static final String PROPERTY_COLUMN_MODEL = "columnModel";
 
     public GridPanelPeer() {
         super();
-        addOutputProperty(PROPERTY_SELECTION);
-        addOutputProperty(GridPanel.PROPERTY_PAGE_OFFSET); // FIXME - why do we
-        // have to manually
-        // add the output
-        // property?
-        addOutputProperty(GridPanel.PROPERTY_SET_SIZE_COLUMNS_TO_GRID);
-        addOutputProperty(PROPERTY_COLUMN_MODEL);
-        addOutputProperty(GridPanel.PROPERTY_MODEL);
-        addOutputProperty(GridPanel.PROPERTY_STRIPE_ROWS);
-        addOutputProperty(GridPanel.PROPERTY_LOADING_MESSAGE);
-        addOutputProperty(GridPanel.PROPERTY_ALLOW_GROUPING);
         
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(
                 GridPanel.INPUT_ACTION,

@@ -34,10 +34,10 @@ import nextapp.echo.app.event.ActionListener;
 public class RadioButton
         extends ExtComponent {
 
-    public static final String SELECTED_CHANGED_PROPERTY = "selected";
-    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
-    public static final String BOX_LABEL_PROPERTY = "boxLabel";
-    public static final String NAME_PROPERTY = "name";
+    public static final String PROPERTY_SELECTED = "selected";
+    public static final String PROPERTY_FIELD_LABEL = "fieldLabel";
+    public static final String PROPERTY_BOX_LABEL = "boxLabel";
+    public static final String PROPERTY_NAME = "name";
     public static final String INPUT_ACTION = "action";
     public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
@@ -135,14 +135,14 @@ public class RadioButton
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) get(FIELD_LABEL_PROPERTY);
+        return (String) get(PROPERTY_FIELD_LABEL);
     }
     /**
      * Returns the boxLabel.
      * @return the boxLabel.
      */
     public String getBoxLabel() {
-    	return (String) get(BOX_LABEL_PROPERTY);
+    	return (String) get(PROPERTY_BOX_LABEL);
     }
 
     /**
@@ -150,7 +150,7 @@ public class RadioButton
      * @param selected whether the button is selected.
      */
     public void setSelected(boolean selected) {
-        set(SELECTED_CHANGED_PROPERTY, selected);
+        set(PROPERTY_SELECTED, selected);
     }
 
     /**
@@ -158,7 +158,7 @@ public class RadioButton
      * @return whether the button is selected.
      */
     public boolean getSelected() {
-        return (Boolean) get(SELECTED_CHANGED_PROPERTY);
+        return (Boolean) get(PROPERTY_SELECTED);
     }
 
     /**
@@ -166,7 +166,7 @@ public class RadioButton
      * @param fieldLabel the field label to be used in forms.
      */
     public void setFieldLabel(String fieldLabel) {
-        set(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(PROPERTY_FIELD_LABEL, fieldLabel);
     }
     
     /**
@@ -174,7 +174,7 @@ public class RadioButton
      * @param boxLabel the field label to be used in forms.
      */
     public void setBoxLabel(String boxLabel) {
-    	set(BOX_LABEL_PROPERTY, boxLabel);
+    	set(PROPERTY_BOX_LABEL, boxLabel);
     }
     
     /**
@@ -184,7 +184,7 @@ public class RadioButton
      * @param name the name.
      */
     public void setName(String name) {
-        set(NAME_PROPERTY, name);
+        set(PROPERTY_NAME, name);
     }
     
     /**
@@ -192,12 +192,12 @@ public class RadioButton
      * @return the name of the button group.
      */
     public String getName() {
-        return (String) get(NAME_PROPERTY);
+        return (String) get(PROPERTY_NAME);
     }
 
     @Override
     public void processInput(String inputName, Object inputValue) {
-        if (SELECTED_CHANGED_PROPERTY.equals(inputName)) {
+        if (PROPERTY_SELECTED.equals(inputName)) {
             setSelected((Boolean) inputValue);
         }
         if (INPUT_ACTION.equals(inputName)) {

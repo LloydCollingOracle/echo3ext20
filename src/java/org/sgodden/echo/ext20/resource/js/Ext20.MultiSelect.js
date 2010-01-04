@@ -240,11 +240,11 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
     },
     
     renderFocus: function() {
-         if( this.component.get("complex") ) {
-            this.extComponent.fromMultiselect.focus();
+        if( this.component.get("complex") ) {
+            this.extComponent.fromMultiselect.focus.defer(100, this.extComponent.fromMultiselect);
         }
         else{
-            this.extComponent.focus();
+            this.extComponent.focus.defer(100, this.extComponent);
         }
     }
 

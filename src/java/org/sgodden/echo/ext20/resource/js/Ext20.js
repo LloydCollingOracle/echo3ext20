@@ -145,16 +145,10 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
 
     $virtual: {
         renderFocus: function() {
-
-            if (this.extComponent.rendered) {
-            	this.doRenderFocus();
-            }
-            else {
-                this.extComponent.on(
-                    "render",
-                    this.doRenderFocus,
-                    this)
-            }
+    		/*
+    		 * Must defer to ensure focus is called when the component is ready for it.
+    		 */
+    		this.extComponent.focus.defer(100, this.extComponent);
         }
     },
     
@@ -457,7 +451,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
      * phase is complete.
      */
     _rootRenderDisplayComplete: function() {
-
         this._maybeCreateComponent();
     },
     
@@ -478,6 +471,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             }
             this._containersRequiringLayout = null;
         }
+        
     },
 
     _maybeCreateComponent: function() {

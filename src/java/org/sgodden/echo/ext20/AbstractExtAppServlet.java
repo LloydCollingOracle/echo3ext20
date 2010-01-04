@@ -16,8 +16,6 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import nextapp.echo.extras.webcontainer.CommonResources;
-import nextapp.echo.extras.webcontainer.sync.component.TreePeer;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.CSSStyleSheetService;

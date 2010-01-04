@@ -8,6 +8,7 @@ import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.Window;
+import org.sgodden.echo.ext20.WindowListener;
 import org.sgodden.echo.ext20.layout.TableLayout;
 
 @SuppressWarnings("serial")
@@ -19,7 +20,7 @@ public class FocusTest extends Panel
 	private Button displayDialogButton;
 	
 	public FocusTest() {
-		super("Focusable / non-focusable button test");
+		super("Focus test");
 		TableLayout tl = new TableLayout(1);
 		tl.setCellPadding(10);
 		tl.setCellSpacing(10);
@@ -38,13 +39,21 @@ public class FocusTest extends Panel
 		add(focusable);
 		
 		displayDialogButton = new Button("Dialog focus test");
+		displayDialogButton.setRenderId("displayDialogButton");
 		displayDialogButton.addActionListener(this);
 		add(displayDialogButton);
+		displayDialogButton.focus();
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource().equals(displayDialogButton)) {
-			add(new FocusTestDialog());
+			Window w = new FocusTestDialog();
+			w.addWindowListener(new WindowListener() {
+				public void windowClosing(ActionEvent event) {
+					displayDialogButton.focus();
+				}
+			});
+			add(w);
 		}
 		else {
 			LOG.info("Focused component is: " + nextapp.echo.app.Window.getActive().getFocusedComponent());
@@ -53,8 +62,13 @@ public class FocusTest extends Panel
 	
 	public static class FocusTestDialog extends Window {
 		private TextField textField;
-		public void init() {
+		
+		public FocusTestDialog() {
 			setTitle("Focus test dialog");
+			setRenderId("focusDialog");
+		}
+		
+		public void init() {
 			TableLayout tl = new TableLayout(1);
 			tl.setCellPadding(10);
 			tl.setCellSpacing(10);
@@ -64,14 +78,21 @@ public class FocusTest extends Panel
 			add(textField);
 			//textField.focus();
 			
-			Button closeButton = new Button("Close");
+			final Button closeButton = new Button("Close");
+			closeButton.setRenderId("closeButton");
 			closeButton.addActionListener(new ActionListener(){
-				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					close();
 				}});
 			addButton(closeButton);
 			closeButton.focus();
+
+            Button focusButton = new Button("Focus the close button");
+			focusButton.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent arg0) {
+					closeButton.focus();
+				}});
+            addButton(focusButton);
 		}
 	}
 }

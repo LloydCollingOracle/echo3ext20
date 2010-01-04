@@ -40,9 +40,6 @@ public class RadioButtonPeer
 
     public RadioButtonPeer() {
         super();
-        addOutputProperty(RadioButton.FIELD_LABEL_PROPERTY);
-        addOutputProperty(RadioButton.SELECTED_CHANGED_PROPERTY);
-        addOutputProperty(RadioButton.NAME_PROPERTY);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(RadioButton.INPUT_ACTION, RadioButton.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {
@@ -64,7 +61,7 @@ public class RadioButtonPeer
      */
     @Override
     public Class getInputPropertyClass(String propertyName) {
-        if (RadioButton.SELECTED_CHANGED_PROPERTY.equals(propertyName)) {
+        if (RadioButton.PROPERTY_SELECTED.equals(propertyName)) {
             return Boolean.class;
         }
         return null;
@@ -75,9 +72,9 @@ public class RadioButtonPeer
      */
     @Override
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-        if (propertyName.equals(RadioButton.SELECTED_CHANGED_PROPERTY)) {
+        if (propertyName.equals(RadioButton.PROPERTY_SELECTED)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-            clientUpdateManager.setComponentProperty(component, RadioButton.SELECTED_CHANGED_PROPERTY, newValue);
+            clientUpdateManager.setComponentProperty(component, RadioButton.PROPERTY_SELECTED, newValue);
         }
     }
 

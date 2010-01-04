@@ -93,10 +93,6 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         this.extComponent.setValue(selected);
     },
     
-    renderFocus: function() {
-    	this.extComponent.focus();
-    },
-    
     /**
      * Handles (de)selection of the checkbox by updating the component
      * selected value, and firing the event in case there are any

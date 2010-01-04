@@ -735,41 +735,119 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     _registerKeyPresses: function(update, options) {
         if (this.component.get("registeredKeyPresses") != null) {
-            // FIXME - implement this properly
-            options['keys'] = [];
+            options.keys = [];
             
-            var keyString = this.component.get("registeredKeyPresses");
-            if (keyString == "enter") {
-                options['keys'].push({
-                    key: Ext.EventObject.ENTER,
-                    fn: this._handleKeyPress,
-                    scope: this
-                });
+            var keyStringProperty = this.component.get("registeredKeyPresses");
+            var keyStrings = keyStringProperty.split(",");
+            for (var i = 0; i < keyStrings.length; i++) {
+            	var keyString = keyStrings[i];
+            	
+            	var keyElements = keyString.split("+");
+            	
+            	var extMapping = {};
+            	
+            	for (var i2 = 0; i2 < keyElements.length; i2++) {
+            		var keyElement = keyElements[i2];
+            		switch (keyElement) {
+            		case "alt":
+            			extMapping.alt = true;
+            			break;
+            		case "shift":
+            			extMapping.shift = true;
+            			break;
+            		case "ctrl":
+            			extMapping.ctrl = true;
+            			break;
+            		default:
+            			// not a modifier, run through special keys
+            			// FIXME - mapping of function keys and other special keys
+            			switch(keyElement) {
+            			case "enter":
+            				extMapping.key = Ext.EventObject.ENTER;
+            				break;
+            			case "esc":
+            				extMapping.key = Ext.EventObject.ESC;
+            				break;
+            			case "page_up":
+            				extMapping.key = Ext.EventObject.PAGE_UP;
+            				break;
+            			case "page_down":
+            				extMapping.key = Ext.EventObject.PAGE_DOWN;
+            				break;
+            			case "home":
+            				extMapping.key = Ext.EventObject.HOME;
+            				break;
+            			case "end":
+            				extMapping.key = Ext.EventObject.END;
+            				break;
+            			case "space":
+            				extMapping.key = Ext.EventObject.SPACE;
+            				break;
+            			case "left":
+            				extMapping.key = Ext.EventObject.LEFT;
+            				break;
+            			case "up":
+            				extMapping.key = Ext.EventObject.UP;
+            				break;
+            			case "right":
+            				extMapping.key = Ext.EventObject.RIGHT;
+            				break;
+            			case "down":
+            				extMapping.key = Ext.EventObject.DOWN;
+            				break;
+            			case "f1":
+            				extMapping.key = Ext.EventObject.F1;
+            				break;
+            			case "f2":
+            				extMapping.key = Ext.EventObject.F2;
+            				break;
+            			case "f3":
+            				extMapping.key = Ext.EventObject.F3;
+            				break;
+            			case "f4":
+            				extMapping.key = Ext.EventObject.F4;
+            				break;
+            			case "f5":
+            				extMapping.key = Ext.EventObject.F5;
+            				break;
+            			case "f6":
+            				extMapping.key = Ext.EventObject.F6;
+            				break;
+            			case "f7":
+            				extMapping.key = Ext.EventObject.F7;
+            				break;
+            			case "f8":
+            				extMapping.key = Ext.EventObject.F8;
+            				break;
+            			case "f9":
+            				extMapping.key = Ext.EventObject.F9;
+            				break;
+            			case "f10":
+            				extMapping.key = Ext.EventObject.F10;
+            				break;
+            			case "f11":
+            				extMapping.key = Ext.EventObject.F11;
+            				break;
+            			case "f12":
+            				extMapping.key = Ext.EventObject.F12;
+            				break;
+            			default:
+            				extMapping.key = keyElement;
+            			}
+            		}
+            	}
+            	extMapping.fn = function(key, evt) {
+            		evt.stopEvent();
+            		this.peer.component.set("keyPressed", this.keyString);
+            		this.peer.component.doKeyPress();
+            	}
+            	extMapping.keyString = keyString;
+            	extMapping.peer = this;
+            	extMapping.scope = extMapping;
+            	
+            	options.keys.push(extMapping);
             }
-            else if (keyString == "esc") {
-                options['keys'].push({
-                    key: Ext.EventObject.ESC,
-                    fn: this._handleKeyPress,
-                    scope: this
-                });
-            }
         }
-    },
-    
-    /**
-     * Handles a particular key press by setting that key as pressed
-     * on the component, and asking the component to fire the key press
-     * event.
-     */
-    _handleKeyPress: function(key, evt) {
-        if (key == Ext.EventObject.ENTER) {
-            this.component.set("keyPressed", "enter");
-        }
-        else if (key == Ext.EventObject.ESC) {
-            this.component.set("keyPressed", "esc");
-        }
-        evt.stopEvent();
-        this.component.doKeyPress();
     },
     
     /**

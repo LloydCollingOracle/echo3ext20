@@ -12,7 +12,7 @@ public class Label extends ExtComponent {
     /**
      * The text to display in the label.
      */
-    public static final String TEXT_PROPERTY = "text";
+    public static final String PROPERTY_TEXT = "text";
     private Component component;
 
     /**
@@ -29,11 +29,11 @@ public class Label extends ExtComponent {
      */
     public Label(String labelText) {
         super();
-        set(TEXT_PROPERTY, labelText);
+        set(PROPERTY_TEXT, labelText);
     }
 
     public void setText(String labelText) {
-        set(TEXT_PROPERTY, labelText);
+        set(PROPERTY_TEXT, labelText);
     }
 
     public void setLabelFor(Component component) {
@@ -45,6 +45,6 @@ public class Label extends ExtComponent {
     }
     
     public String getText() {
-        return (String)get(TEXT_PROPERTY);
+        return (String)get(PROPERTY_TEXT);
     }
 }

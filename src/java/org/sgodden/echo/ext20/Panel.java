@@ -577,11 +577,38 @@ public class Panel extends Container {
      * Adds a listener to be notified when the passed key is pressed and this
      * component either has the focus, or is the ancestor of the focused
      * component.
-     * <p/>
-     * TODO - document the keyPress format.
+     * <p>
+     * Take a look at the documentation for <code>Ext.KeyMap</code> for information
+     * on the binding strings.  Those binding strings are represented slightly
+     * differently here, for instance, to register a listener for ctrl + s, you
+     * would use a <code>keyPress</code> value of <code>ctrl+s</code>.  To register
+     * a listener for ctrl + shift + s, you would use a <code>keyPress</code> value
+     * of <code>ctrl+shift+s</code>.
+     * </p>
+     * <p>
+     * The sequence of the modifiers is not important, but the actual key press must
+     * always come last.
+     * </p>
+     * <p>
+     * Here is a list of special keys:
+     * <ul>
+     * <li>enter</li>
+     * <li>esc</li>
+     * <li>f1 to f12</li>
+     * <li>page_up</li>
+     * <li>page_down</li>
+     * <li>home</li>
+     * <li>end</li>
+     * <li>left</li>
+     * <li>up</li>
+     * <li>right</li>
+     * <li>down</li>
+     * <li>space</li>
+     * </ul>
+     * </p>
      * 
      * @param keyPress the key press the listener wants to be notified of.
-     * @param listener the listener to notify.
+     * @param listener the listener to invoke.
      */
     public void addKeyPressListener(String keyPress, ActionListener listener) {
         if (keyPressListeners == null) {
@@ -604,7 +631,7 @@ public class Panel extends Container {
         
         for (String keyPress : keyPressListeners.keySet()) {
             if (sb.length() > 0) {
-                sb.append(':');
+                sb.append(',');
             }
             sb.append(keyPress);
         }
