@@ -197,7 +197,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         * delay.
         */
         if (this.component.get("notifyValueImmediate")){
-            this.extComponent.focus = false;
+//            this.extComponent.focus = false;
             this.extComponent.on("valid", this._handleValidEvent, this);
         }
     },
