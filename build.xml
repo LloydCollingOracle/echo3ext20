@@ -160,6 +160,7 @@
 				<include name="Ext20.ToolbarTextItem.js" />
 				<include name="Ext20.WaitIndicator.js" />
 				<include name="Ext20.ScrollIntoView.js" />
+				<include name="Ext20.Command.AddWindowUnloadHandler.js" />
 				<include name="Ext20.Command.DoPanelLayout.js" />
                 <include name="Ext20.Command.DoPrintLayout.js" />
 				<include name="Ext20.Command.FocusBrowserWindow.js" />
