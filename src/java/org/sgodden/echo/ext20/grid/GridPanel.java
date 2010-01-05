@@ -377,6 +377,9 @@ public class GridPanel extends Panel implements TableModelListener,
         super.processInput(inputName, inputValue);
         if (inputName.equals(PROPERTY_SELECTION_CHANGED)) {
             doSetSelectedIndices((int[]) inputValue);
+            if (notifySelect) {
+                fireActionEvent();
+            }
         } else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
         } else if (PROPERTY_SORT_FIELD.equals(inputName)) {
