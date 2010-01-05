@@ -703,6 +703,9 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         this._handleSortEvents = false;
         this._handleSelectionEvents = false;
         
+        // clear select first
+        this.extComponent.getSelectionModel().clearSelections();
+        
         // reconfigure the column model if it has been updated
         var updatedColumnModel = update.getUpdatedProperty("columnModel");
         if (updatedColumnModel != null) {

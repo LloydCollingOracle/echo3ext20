@@ -720,6 +720,8 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public void tableChanged(TableModelEvent e) {
         if (!suppressChangeNotifications) {
+            getSelectionModel().clearSelection();
+            firePropertyChange(PROPERTY_SELECTION_CHANGED, null, selectionModel);
             firePropertyChange(PROPERTY_MODEL_CHANGED, null, getModel()); // a
             // bodge
             // but
