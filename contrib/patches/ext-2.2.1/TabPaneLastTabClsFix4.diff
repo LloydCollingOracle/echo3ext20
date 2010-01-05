@@ -1,0 +1,19 @@
+--- ext-all-debug.js	2010-01-05 09:37:24.000000000 +0000
++++ ext-all-debug.js	2010-01-05 09:38:48.000000000 +0000
+@@ -19976,10 +19976,12 @@
+ 
+     // private
+     onRemove : function(tp, item){
+-		var prevItem = this.items.get(this.items.getCount() - 1);
+-		var prevItemTabEl = this.getTabEl(prevItem);
+-		Ext.fly(prevItemTabEl).addClass('x-tab-last');
+-		
++        if (this.items.getCount() > 0) {
++            var prevItem = this.items.get(this.items.getCount() - 1);
++            var prevItemTabEl = this.getTabEl(prevItem);
++            Ext.fly(prevItemTabEl).addClass('x-tab-last');
++        }
++
+         Ext.destroy(Ext.get(this.getTabEl(item)));
+         this.stack.remove(item);
+         item.un('disable', this.onItemDisabled, this);
