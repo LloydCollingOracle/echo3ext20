@@ -141,7 +141,6 @@ public class GridPanel extends Panel implements TableModelListener,
         setSelectionModel(new DefaultListSelectionModel());
         setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
         setPageOffset(0);
-        setComplexProperty(PROPERTY_COLUMN_MODEL, true);
         setContextMenuStatusAndChildren();
         setLoadingMsg("Loading...");
         setAllowGrouping(true);
@@ -377,7 +376,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
         if (inputName.equals(PROPERTY_SELECTION_CHANGED)) {
-            setSelectedIndices((int[]) inputValue);
+            doSetSelectedIndices((int[]) inputValue);
         } else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
         } else if (PROPERTY_SORT_FIELD.equals(inputName)) {
@@ -400,6 +399,8 @@ public class GridPanel extends Panel implements TableModelListener,
             fireColumnRemovedEvent((Integer) inputValue);
         } else if (GROUP_ACTION.equals(inputName)) {
             doSort();
+        } else if (PROPERTY_COLUMN_MODEL.equals(inputName)) {
+            setColumnModel((ColumnModel)inputValue);
         }
     }
 
@@ -575,6 +576,11 @@ public class GridPanel extends Panel implements TableModelListener,
      *            the indices to select
      */
     public void setSelectedIndices(int[] selectedIndices) {
+        doSetSelectedIndices(selectedIndices);
+        firePropertyChange( PROPERTY_SELECTION_CHANGED, null, selectionModel);
+    }
+    
+    private void doSetSelectedIndices(int[] selectedIndices) {
         // Temporarily suppress the Tables selection event notifier.
         suppressChangeNotifications = true;
         selectionModel.clearSelection();
@@ -583,7 +589,6 @@ public class GridPanel extends Panel implements TableModelListener,
         }
         // End temporary suppression.
         suppressChangeNotifications = false;
-        firePropertyChange( PROPERTY_SELECTION_CHANGED, null, selectionModel);
     }
 
     /**

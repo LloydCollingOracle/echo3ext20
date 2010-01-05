@@ -145,7 +145,6 @@ public class ComponentGridPanel extends Panel implements TableModelListener,
         setSelectionModel(new DefaultListSelectionModel());
         setSelectionMode(SelectionMode.MULTIPLE_INTERVAL_SELECTION);
         setPageOffset(0);
-        setComplexProperty(COLUMN_MODEL_PROPERTY, true);
         setContextMenuStatusAndChildren();
     }
 
