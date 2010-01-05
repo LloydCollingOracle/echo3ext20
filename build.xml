@@ -121,6 +121,9 @@
 				<include name="Ext20.TextField.js" />
 			</fileset>
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+				<include name="Ext20.NumberField.js" />
+			</fileset>
+			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.TextArea.js" />
 			</fileset>
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
