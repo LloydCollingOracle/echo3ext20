@@ -214,9 +214,6 @@ EchoExt20.ContainerSync = Core.extend(EchoExt20.ExtComponentSync, {
                     }
                 }
                 if (doHide) {
-                	var dom = this.extComponent.getEl().dom; 
-//                    dom.style.visibility = 'hidden';
-
                     // and add a server update complete listener to show ourselves again, if we haven't already
                     if (this._makeVisibleRef == null) {
                         this._makeVisibleRef = Core.method(this, this._makeVisible);
