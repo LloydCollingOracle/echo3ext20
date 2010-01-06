@@ -37,6 +37,19 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
     $load: function() {
         Echo.Render.registerPeer("Ext20NumberField", this);
     },
+    
+    /**
+     * Called by the base class to create the ext component.
+     */
+    createExtComponent: function(update, options) {
+	    if (this.component.get("decimalPrecision")){
+            options['decimalPrecision'] = this.component.get("decimalPrecision");
+        }
+        
+    	var extComponent = EchoExt20.TextFieldSync.prototype.createExtComponent.call(this,update,options);
+
+    	return extComponent;
+    },
 
     $virtual: {
         /**
