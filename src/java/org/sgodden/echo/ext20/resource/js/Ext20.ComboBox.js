@@ -224,7 +224,12 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
      * Update the component's value from the value in the ext text field.
      */
     _handleRawValueChangeEvent: function() {
-        if (this.extComponent.getRawValue() == this.component.get("rawValue"))
+    	var localValue = this.extComponent.getRawValue();
+    	var remoteValue = this.component.get("rawValue");
+    	if (typeof remoteValue == 'undefined') {
+    		remoteValue = '';
+    	}
+        if (localValue == remoteValue)
             return;
         this.component.set("rawValue", this.extComponent.getRawValue());
         this.component.set("selection", -1);

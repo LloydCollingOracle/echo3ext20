@@ -201,6 +201,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
         if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
+            setIsValid(true);
             if (inputValue == null) {
                 selectionModel.clearSelection();
 
