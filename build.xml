@@ -125,6 +125,7 @@
 			</fileset>
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.TextArea.js" />
+				<include name="Ext20.RichTextArea.js" />
 			</fileset>
 			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
 				<include name="Ext20.ComboBox.js" />

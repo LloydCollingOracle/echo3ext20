@@ -38,11 +38,13 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
     private static final Service extExtensionsService;
     private static final Service echoLabelService;
     private static final Service echoExtService;
+    private static final Service aarRichTextService;
 
     static {
         extService = new JavaScriptService("Ext20", Resource.getResourceAsString("js/ext-all.js"), Resource.getResourceAsByteArray("js/ext-all.js.gz"));
         extExtensionsService = new JavaScriptService("Ext20Ext", Resource.getResourceAsString("js/ext20ext-all.js"), Resource.getResourceAsByteArray("js/ext20ext-all.js.gz"));
         echoLabelService = JavaScriptService.forResource("Echo.Label", "nextapp/echo/webcontainer/resource/Sync.Label.js");
+        aarRichTextService = new JavaScriptService("Aar.FCKRichTextArea", Resource.getResourceAsString("org/aarboard/echo/resource/Aar.FCKRichTextArea.js"));
         echoExtService = new JavaScriptService("EchoExt20", Resource.getResourceAsString("js/echo3ext20-all.js"), Resource.getResourceAsByteArray("js/echo3ext20-all.js.gz"));
         
     }
@@ -52,6 +54,7 @@ public abstract class AbstractExtAppServlet extends WebContainerServlet {
         addInitScript(extService);
         addInitScript(extExtensionsService);
         addInitScript(echoLabelService);
+        addInitScript(aarRichTextService);
         addInitScript(echoExtService);
         addInitStyleSheet(CSSStyleSheetService.forResource("ExtAllCSS", "ext/css/ext-all.css", "resources/ext/css/"));
         addInitStyleSheet(CSSStyleSheetService.forResource("ExtPortalCSS", "ext/css/portal.css", "resources/ext/css/"));
