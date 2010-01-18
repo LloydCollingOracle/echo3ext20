@@ -316,7 +316,9 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
                 this.extComponent.setRawValue(this.component.get("rawValue"));
             }
             else{
-                this.extComponent.clearValue();
+            	if (this.extComponent.rendered) {
+            		this.extComponent.clearValue();
+            	}
                 this.extComponent.value = null;
             }
         }

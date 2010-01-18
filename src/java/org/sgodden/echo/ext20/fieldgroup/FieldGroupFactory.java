@@ -1,5 +1,7 @@
 package org.sgodden.echo.ext20.fieldgroup;
 
+import java.io.Serializable;
+
 import nextapp.echo.app.Component;
 
 /**
@@ -9,7 +11,7 @@ import nextapp.echo.app.Component;
  * @author Lloyd Colling
  *
  */
-public interface FieldGroupFactory {
+public interface FieldGroupFactory extends Serializable {
 
     public Component getFieldGroup(int index);
 }
