@@ -218,7 +218,13 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
         // check for any property updates
         if (update.getUpdatedProperty("title") != null) {
-                this.extComponent.setTitle(this.component.get("title"));
+                if (!this._showFullTitle) {
+                    var tabTitle = this.component.get("title");
+                    var maxLength = 20;
+                    if(tabTitle.length > maxLength) {
+                        this.extComponent.setTitle(this._getShortTitle(tabTitle, maxLength));
+                    }
+                }
         }
         
         if (update.getUpdatedProperty("width") != null) {
