@@ -22,7 +22,7 @@ Ext.ux.MandatoryField = {
                                 Ext.DomHelper.append(el, {
                                     tag: "label",
                                     cls: " ux-mandatory",
-									style: "position:relative;top:-" + ((field.height || el.getHeight()) - 17) + "px;",
+									style: "position:absolute;",
                                     htmlFor: field.id,
                                     html: "*"
                                 });
