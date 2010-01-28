@@ -400,7 +400,9 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      */
     _makeVisible: function() {
     	this.extComponent.doLayout();
-        this.extComponent.getEl().dom.style.visibility = 'visible';
+    	if (this.extComponent.rendered) {
+    		this.extComponent.getEl().dom.style.visibility = 'visible';
+    	}
     },
     
     /**
