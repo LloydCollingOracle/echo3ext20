@@ -1,6 +1,7 @@
 package org.sgodden.echo.ext20.testapp;
 
 import org.sgodden.echo.ext20.Button;
+import org.sgodden.echo.ext20.NumberField;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.TextField;
 import org.sgodden.echo.ext20.layout.FormLayout;
@@ -24,8 +25,13 @@ public class ValidateTest extends Panel {
 		field2.setRegexpFailureText( "Digits only");
 		field2.setFieldLabel( "digits only, can't input");
 		add( field2);
-		
-		Button button = new Button("ok");
-		add( button);
+
+		NumberField numberField = new NumberField();
+		numberField.setFieldLabel("Must be a number in the range 1 to 24");
+		numberField.setMinValue(1);
+		numberField.setMinText("value too small");
+		numberField.setMaxValue(24);
+		numberField.setMaxText("value too large");
+		add( numberField);
 	}
 }
