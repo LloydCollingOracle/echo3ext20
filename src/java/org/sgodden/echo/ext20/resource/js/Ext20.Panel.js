@@ -242,6 +242,12 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             this.extComponent.setIconClass(this.component.get("iconCssClass"));
         }
         
+        if (update.getUpdatedProperty("html") != null) {
+        	if (this.extComponent.rendered) {
+        		this.extComponent.body.dom.innerHTML = this.component.get("html");
+        	}
+        }
+        
         var needsLayout = false;
         
         if (update.hasRemovedChildren()) {
