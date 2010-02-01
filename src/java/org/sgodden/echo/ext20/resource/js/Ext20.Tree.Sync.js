@@ -490,8 +490,15 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     _doSelection: function(extNode, node) {
         if (!node.getCheckable()) {
-            extNode.unselect();
-            return false;
+        	if (this._ignoreSelectionEvents) {
+	            extNode.unselect();
+	            return false;
+        	} else {
+        		this._ignoreSelectionEvents = true;
+                extNode.unselect();
+                this._ignoreSelectionEvents = false;
+                return false;
+        	}
         }
         var rowIndex = this._getRowIndexForNode(node);
                 
