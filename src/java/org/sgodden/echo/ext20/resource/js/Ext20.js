@@ -663,6 +663,7 @@ EchoExt20.LayoutProcessor = {
                 }
                 var region = EchoExt20.LayoutProcessor._convertToExtRegion(layoutData.region);
                 options['region'] = region;
+                options['split'] = layoutData.split;
                 // if we are in the north, and have no height set, then we need autoHeight true.
                 // FIXME - how about handling width in west and east, and height in south?
                 if (region == 'north') {

@@ -30,6 +30,7 @@ public class BorderLayoutData
         implements LayoutData {
 
     private int region;
+    private boolean split;
 
     /**
      * Creates a new border layout data object, with the region, as specified
@@ -55,5 +56,13 @@ public class BorderLayoutData
             default:
                 throw new IllegalArgumentException("Unknown border region: " + region);
         }
+    }
+
+    public boolean getSplit() {
+        return split;
+    }
+
+    public void setSplit(boolean split) {
+        this.split = split;
     }
 }

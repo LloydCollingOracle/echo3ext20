@@ -35,6 +35,7 @@ public class BorderLayoutDataPeer extends LayoutDataPeer {
         propertyElement.setAttribute("t", 
                 (serialContext.getFlags() & SerialContext.FLAG_RENDER_SHORT_NAMES) == 0 ? "LayoutData" : "L");
         SerialUtil.toXml(context, BorderLayoutData.class, propertyElement, "region", layoutData.getRegion());
+        SerialUtil.toXml(context, BorderLayoutData.class, propertyElement, "split", layoutData.getSplit());
     }
 
 }
