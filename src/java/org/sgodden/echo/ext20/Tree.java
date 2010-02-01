@@ -133,7 +133,7 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
     }
 
     public boolean isShowCheckBoxes() {
-        return Boolean.TRUE.equals(PROPERTY_SHOW_CHECKBOXES);
+        return Boolean.TRUE.equals(get(PROPERTY_SHOW_CHECKBOXES));
     }
 
     public void setShowCheckBoxes(boolean showCheckBoxes) {
@@ -141,7 +141,7 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
     }
 
     public boolean isShowRootNode() {
-        return Boolean.TRUE.equals(PROPERTY_SHOW_ROOT_NODE);
+        return Boolean.TRUE.equals(get(PROPERTY_SHOW_ROOT_NODE));
     }
 
     public void setShowRootNode(boolean showRootNode) {
@@ -155,7 +155,7 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
      * @return
      */
     public boolean isSelectOnContext() {
-        return Boolean.TRUE.equals(PROPERTY_SELECT_ON_CONTEXT);
+        return Boolean.TRUE.equals(get(PROPERTY_SELECT_ON_CONTEXT));
     }
 
     public void setSelectOnContext(boolean selectOnContext) {
