@@ -213,7 +213,9 @@ class UserEditPanel extends Panel implements ActionListenable {
         
         
         roleCombo = makeRoleCombo()
+        roleCombo.autoWidth = false;
         roleCombo.allowBlank = false;
+        roleCombo.resizable = true;
         fieldSetForm.add(roleCombo, "Role combo");
 
         dateField = new DateField()

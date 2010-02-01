@@ -72,6 +72,8 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         options["valueField"] = "value";
         options["iconField"] = "icon";
         options["triggerAction"] = "all";
+        options["autoWidth"] = this.component.get("autoWidth");
+        options["resizable"] = this.component.get("resizable");
 
         if (this.component.get("editable") != null) {
             options["editable"] = this.component.get("editable");

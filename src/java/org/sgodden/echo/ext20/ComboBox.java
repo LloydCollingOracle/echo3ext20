@@ -42,6 +42,9 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
     public static final String WIDTH_PROPERTY = "width";
     public static final String VALID_PROPERTY = "isValid";
     public static final String RAW_VALUE_CHANGED_PROPERTY = "rawValue";
+    
+    public static final String PROPERTY_AUTOWIDTH = "autoWidth";
+    public static final String PROPERTY_RESIZABLE = "resizable";
 
     private ListSelectionModel selectionModel;
     private ListCellRenderer cellRenderer = DEFAULT_LIST_CELL_RENDERER;
@@ -83,6 +86,8 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         setSelectionModel(new DefaultListSelectionModel());
         setTypeAhead(false);
         setIsValid(true);
+        setAutoWidth(false);
+        setResizable(false);
     }
 
     /**
@@ -443,5 +448,21 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
     public void setCellRenderer(ListCellRenderer newValue) {
         cellRenderer = newValue;
     }
+	
+	public final void setAutoWidth(boolean autoWidth) {
+		set(PROPERTY_AUTOWIDTH, autoWidth);
+	}
+	
+	public final boolean getAutoWidth() {
+		return (Boolean) get(PROPERTY_AUTOWIDTH);
+	}
+	
+	public final void setResizable(boolean resizable) {
+		set(PROPERTY_RESIZABLE, resizable);
+	}
+	
+	public final boolean getResizable() {
+		return (Boolean) get(PROPERTY_RESIZABLE);
+	}
 
 }
