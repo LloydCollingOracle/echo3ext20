@@ -183,7 +183,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     			columns[c] = {
     				width: widthPx,
 	            	update: update,
-	            	columnComponent:  this.component.application.getComponentByRenderId(headerNode.getId()),
+	            	columnComponent:  headerNode == null ? null : this.component.application.getComponentByRenderId(headerNode.getId()),
 	            	dataIndex: c + 'DataIndex'
 	            };
     		} else {
@@ -191,7 +191,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
 	            columns[c] = {
 	            	width: widthPx,
 	            	update: update,
-	            	columnComponent:  this.component.application.getComponentByRenderId(headerNode.getColumn(c - 1)),
+	            	columnComponent:  headerNode == null ? null : this.component.application.getComponentByRenderId(headerNode.getColumn(c - 1)),
 	            	dataIndex: c + 'DataIndex'
 	            };
     		}
