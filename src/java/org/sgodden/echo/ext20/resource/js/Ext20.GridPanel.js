@@ -449,7 +449,16 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
     
     _handleColumnRemove : function(columnIndex) {
-    	this.component.doColumnRemove(columnIndex);
+    	// columnIndex is the original index of the column in the model;
+    	// we need to convert it to the current index.
+    	var cm = this.extComponent.colModel;
+    	var dataIndex = -1;
+    	for (var i = 0; i < cm.columns.length; i++) {
+    		if (cm.columns[i].id == columnIndex) {
+    			dataIndex = i;
+    		}
+    	}
+    	this.component.doColumnRemove(dataIndex - 1);
     },
     
     _handleColumnAdd : function() {
