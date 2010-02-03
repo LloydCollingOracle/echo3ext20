@@ -219,7 +219,7 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
         pageSize = Integer.parseInt(rowsPerPageTextField.getValue());
         client.setPageSize(pageSize);
         // reset back to the start
-        setTableModel(model, false);
+        setTableModel(model, true);
     }
 
     public void setPageSize(int pageSize) {
