@@ -97,6 +97,9 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String HAS_CELL_CONTEXT_MENU_PROPERTY = "hasCellContextMenu";
     public static final String PROPERTY_LOADING_MESSAGE = "loadingMsg";
     public static final String PROPERTY_ALLOW_GROUPING = "allowGrouping";
+    public static final String PROPERTY_FORCE_FIT = "forceFit";
+    public static final String PROPERTY_AUTO_EXPAND_COLUMN = "autoExpandColumn";
+    public static final String PROPERTY_AUTO_FILL = "autoFill";
 
     private int pageSize;
     private ListSelectionModel selectionModel;
@@ -144,6 +147,8 @@ public class GridPanel extends Panel implements TableModelListener,
         setContextMenuStatusAndChildren();
         setLoadingMsg("Loading...");
         setAllowGrouping(true);
+        setForceFit(false);
+        setAutoFill(false);
     }
 
     /**
@@ -883,5 +888,29 @@ public class GridPanel extends Panel implements TableModelListener,
 
     public void setAllowGrouping(boolean allowGrouping) {
         set(PROPERTY_ALLOW_GROUPING, Boolean.valueOf(allowGrouping));
+    }
+    
+    public boolean getForceFit() {
+        return Boolean.TRUE.equals(get(PROPERTY_FORCE_FIT));
+    }
+
+    public void setForceFit(boolean forceFit) {
+        set(PROPERTY_FORCE_FIT, Boolean.valueOf(forceFit));
+    }
+    
+    public String getAutoExpandColumn() {
+    	return (String) get(PROPERTY_AUTO_EXPAND_COLUMN);
+    }
+    
+    public void setAutoExpandColumn(String columnId) {
+    	set(PROPERTY_AUTO_EXPAND_COLUMN, columnId);
+    }
+    
+    public boolean getAutoFill() {
+        return Boolean.TRUE.equals(get(PROPERTY_AUTO_FILL));
+    }
+
+    public void setAutoFill(boolean autoFill) {
+        set(PROPERTY_AUTO_FILL, Boolean.valueOf(autoFill));
     }
 }

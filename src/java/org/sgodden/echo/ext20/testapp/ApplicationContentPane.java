@@ -141,14 +141,15 @@ public class ApplicationContentPane extends ContentPane {
         ret.setLayoutData(new BorderLayoutData(BorderLayout.WEST));
         ret.setRenderId("westPanel");
 
+        /*
+         * Main tests.
+         */
         final Panel coreEcho3Panel = new Panel("Test suites");
         coreEcho3Panel.setBodyTransparent(true);
         coreEcho3Panel.setAutoScroll(true);
         ret.add(coreEcho3Panel);
 
-        final Column col = new Column();
-        col.setInsets(new Insets(5));
-        col.setCellSpacing(new Extent(5));
+        final Column col = new AccordionColumn();
         coreEcho3Panel.add(col);
 
         col.add(makeTestButton("ToolTips", ToolTipTest.class));
@@ -180,14 +181,27 @@ public class ApplicationContentPane extends ContentPane {
         col.add(makeTestButton("Key press", KeyPressTest.class));
         col.add(makeTestButton("CSS String", ArbitraryCssTest.class));
         col.add(makeTestButton("Bloated test suite", MainTestSuite.class));
+        
+        /*
+         * Grid-specific tests.
+         */
+        Panel gridPanel = new Panel("Grid Panel");
+        ret.add(gridPanel);
+        gridPanel.setBodyTransparent(true);
+        Column col3 = new AccordionColumn();
+        gridPanel.add(col3);
+        col3.add(makeTestButton("Force fit", GridPanelForceFitTest.class));
+        col3.add(makeTestButton("Auto fill", GridPanelAutoFillTest.class));
 
+        /*
+         * Regression tests.
+         */
         Panel regressionPanel = new Panel("Regression tests");
         ret.add(regressionPanel);
         regressionPanel.setBodyTransparent(true);
 
-        Column col2 = new Column();
+        Column col2 = new AccordionColumn();
         regressionPanel.add(col2);
-        col2.setInsets(new Insets(5));
 
         col2.add(makeTestButton("Focus Text Areas", FocusTextAreaTest.class));
         col2.add(makeTestButton("Removal bug 1", RemoveEchoFromExtTest.class));
@@ -252,5 +266,12 @@ public class ApplicationContentPane extends ContentPane {
     private Component makeGroovyComponent(String className) {
         AppInstance app = (AppInstance) ApplicationInstance.getActive();
         return (Component) app.getGroovyObjectInstance(className);
+    }
+    
+    private static class AccordionColumn extends Column {
+    	private AccordionColumn() {
+            setInsets(new Insets(5));
+            setCellSpacing(new Extent(5));
+    	}
     }
 }

@@ -230,6 +230,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         var view = null;
         if (this.component.get('allowGrouping')) {
             view = new Ext.grid.GroupingView({
+                autoFill:this.component.get("autoFill"),
                 forceFit:this.component.get("forceFit"),
                 enableGroupingMenu:true,
                 enableNoGroups:true,
@@ -237,10 +238,15 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             });
         } else {
             view = new Ext.grid.GridView({
+                autoFill:this.component.get("autoFill"),
                 forceFit:this.component.get("forceFit")
             });
         }
         options["view"] = view;
+        
+        if (this.component.get('autoExpandColumn')) {
+        	options.autoExpandColumn = this.component.get('autoExpandColumn');
+        }
         
         // ext does not support multiple interval selection
         var smode = this.component.get("selectionMode");
