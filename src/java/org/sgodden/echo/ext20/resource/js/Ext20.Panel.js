@@ -218,13 +218,22 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
         // check for any property updates
         if (update.getUpdatedProperty("title") != null) {
-                if (!this._showFullTitle) {
-                    var tabTitle = this.component.get("title");
-                    var maxLength = 20;
-                    if(tabTitle.length > maxLength) {
-                        this.extComponent.setTitle(this._getShortTitle(tabTitle, maxLength));
-                    }
+            var title = this.component.get("title");
+            if (!this._showFullTitle) {
+                var maxLength = 20;
+                if(title.length > maxLength) {
+                    title = this._getShortTitle(title, maxLength);
+                    this.extComponent.setTitle(title);
                 }
+            }
+            else {
+                this.extComponent.setTitle(title);
+            }
+            if(this.extComponent.findParentByType('tabpanel')) {
+                var tabPanel = this.extComponent.findParentByType('tabpanel');
+                var activeTab = tabPanel.getActiveTab();
+                activeTab.setTitle(title);
+            }
         }
         
         if (update.getUpdatedProperty("width") != null) {
