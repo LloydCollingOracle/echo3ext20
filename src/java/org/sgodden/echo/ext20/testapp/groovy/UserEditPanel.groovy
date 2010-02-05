@@ -59,6 +59,7 @@ class UserEditPanel extends Panel implements ActionListenable {
 
     def cancelButton
     def saveButton
+    def hideFieldSetButton
     
     def formGrid2
 
@@ -81,7 +82,8 @@ class UserEditPanel extends Panel implements ActionListenable {
         buttons = [
             cancelButton,
             saveButton,
-            makeChangeRoleButton()
+            makeChangeRoleButton(),
+            makeHideFieldSetButton()
         ]
         
         nextapp.echo.app.Window.getActive().setFocusedComponent(nameField)
@@ -327,6 +329,16 @@ class UserEditPanel extends Panel implements ActionListenable {
             }
         )
         return ret;
+    }
+    
+    private Button makeHideFieldSetButton() {
+    	Button ret = new Button(
+    		text: "Hide / show the field set",
+    		actionPerformed: {
+    			fieldSet.visible = !fieldSet.visible;
+    		}
+    	)
+    	return ret
     }
 
     /**
