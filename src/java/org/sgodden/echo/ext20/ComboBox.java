@@ -86,8 +86,10 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         setSelectionModel(new DefaultListSelectionModel());
         setTypeAhead(false);
         setIsValid(true);
-        setAutoWidth(false);
+        setAutoWidth(true);
         setResizable(false);
+        set(LIST_WIDTH_PROPERTY, "auto");
+        set(WIDTH_PROPERTY, "auto");
     }
 
     /**
@@ -451,6 +453,9 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
 	
 	public final void setAutoWidth(boolean autoWidth) {
 		set(PROPERTY_AUTOWIDTH, autoWidth);
+		if (autoWidth) {
+		    set(WIDTH_PROPERTY, "auto");
+		}
 	}
 	
 	public final boolean getAutoWidth() {
