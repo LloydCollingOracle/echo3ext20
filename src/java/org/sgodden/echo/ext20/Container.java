@@ -16,8 +16,14 @@
 # ================================================================= */
 package org.sgodden.echo.ext20;
 
-import nextapp.echo.app.Component;
+import java.util.ArrayList;
+import java.util.List;
 
+import nextapp.echo.app.Component;
+import nextapp.echo.app.LayoutData;
+
+import org.sgodden.echo.ext20.layout.BorderLayout;
+import org.sgodden.echo.ext20.layout.BorderLayoutData;
 import org.sgodden.echo.ext20.layout.Layout;
 
 /**
@@ -128,4 +134,35 @@ public class Container extends ExtComponent {
         set(PROPERTY_HTML, html);
     }
 
+    @Override
+    public void validate() {
+        super.validate();
+        if (getLayout() instanceof BorderLayout) {
+            boolean hasCenter = false;
+            List<Integer> missingLayouts = new ArrayList<Integer>();
+            for (int i = 0; i < getComponentCount(); i++) {
+                if (getComponent(i).isVisible()) {
+                    LayoutData ld = getComponent(i).getLayoutData();
+                    if (ld == null || !(ld instanceof BorderLayoutData)) {
+                        missingLayouts.add(Integer.valueOf(i));
+                    } else if (ld != null && ld instanceof BorderLayoutData) {
+                        hasCenter = hasCenter || "c".equals(((BorderLayoutData)ld).getRegion());
+                    }
+                }
+            }
+            if (!hasCenter || missingLayouts.size() > 0) {
+                String error = "";
+                if (!hasCenter) {
+                    error += "No visible child with CENTER layout";
+                }
+                for(Integer i : missingLayouts) {
+                    if (error.length() > 0) {
+                        error += "\n";
+                    }
+                    error += "Child at index " + i + " is missing BorderLayoutData";
+                }
+                throw new IllegalStateException(error);
+            }
+        }
+    }
 }

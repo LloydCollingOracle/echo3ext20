@@ -22,7 +22,9 @@ Ext.override(Ext.form.ComboBox, {
 	        this.innerList.on('mousemove', this.onViewMove, this);
 	        // this.innerList.setWidth(lw - this.list.getFrameWidth('lr'));
 	        var lw = this.listWidth || Math.max(this.wrap.getWidth(), this.minListWidth);
-	        this.innerList.dom.style.minWidth = lw+"px";
+	        if (lw != "auto") {
+	            this.innerList.dom.style.minWidth = lw+"px";
+	        }
 	
 	        if(this.pageSize){
 	            this.footer = this.list.createChild({cls:cls+'-ft'});
@@ -78,7 +80,6 @@ Ext.override(Ext.form.ComboBox, {
 	
 	        this.bindStore(this.store, true);
 	
-	        var lw;
             if(this.resizable || this.listWidth === 'auto'){
                 var rect = 0;
                 if(Ext.isIE){
