@@ -1,0 +1,84 @@
+--- ext-all-debug.js	2010-02-10 10:59:09.000000000 +0000
++++ ext-all-debug.js	2010-02-10 11:02:11.000000000 +0000
+@@ -15237,44 +15237,52 @@
+ 
+         if(n && n.isVisible()){
+             var b = n.getSize();
+-            var m = n.getMargins();
+-            b.width = w - (m.left+m.right);
+-            b.x = m.left;
+-            b.y = m.top;
+-            centerY = b.height + b.y + m.bottom;
+-            centerH -= centerY;
+-            n.applyLayout(b);
++            if (b.width != 0 || b.height != 0) {
++	            var m = n.getMargins();
++	            b.width = w - (m.left+m.right);
++	            b.x = m.left;
++	            b.y = m.top;
++	            centerY = b.height + b.y + m.bottom;
++	            centerH -= centerY;
++	            n.applyLayout(b);
++            }
+         }
+         if(s && s.isVisible()){
+             var b = s.getSize();
+-            var m = s.getMargins();
+-            b.width = w - (m.left+m.right);
+-            b.x = m.left;
+-            var totalHeight = (b.height + m.top + m.bottom);
+-            b.y = h - totalHeight + m.top;
+-            centerH -= totalHeight;
+-            s.applyLayout(b);
++            if (b.width != 0 || b.height != 0) {
++	            var m = s.getMargins();
++	            b.width = w - (m.left+m.right);
++	            b.x = m.left;
++	            var totalHeight = (b.height + m.top + m.bottom);
++	            b.y = h - totalHeight + m.top;
++	            centerH -= totalHeight;
++	            s.applyLayout(b);
++            }
+         }
+         if(west && west.isVisible()){
+             var b = west.getSize();
+-            var m = west.getMargins();
+-            b.height = centerH - (m.top+m.bottom);
+-            b.x = m.left;
+-            b.y = centerY + m.top;
+-            var totalWidth = (b.width + m.left + m.right);
+-            centerX += totalWidth;
+-            centerW -= totalWidth;
+-            west.applyLayout(b);
++            if (b.width != 0 || b.height != 0) {
++	            var m = west.getMargins();
++	            b.height = centerH - (m.top+m.bottom);
++	            b.x = m.left;
++	            b.y = centerY + m.top;
++	            var totalWidth = (b.width + m.left + m.right);
++	            centerX += totalWidth;
++	            centerW -= totalWidth;
++	            west.applyLayout(b);
++            }
+         }
+         if(e && e.isVisible()){
+             var b = e.getSize();
+-            var m = e.getMargins();
+-            b.height = centerH - (m.top+m.bottom);
+-            var totalWidth = (b.width + m.left + m.right);
+-            b.x = w - totalWidth + m.left;
+-            b.y = centerY + m.top;
+-            centerW -= totalWidth;
+-            e.applyLayout(b);
++            if (b.width != 0 || b.height != 0) {
++	            var m = e.getMargins();
++	            b.height = centerH - (m.top+m.bottom);
++	            var totalWidth = (b.width + m.left + m.right);
++	            b.x = w - totalWidth + m.left;
++	            b.y = centerY + m.top;
++	            centerW -= totalWidth;
++	            e.applyLayout(b);
++            }
+         }
+ 
+         if(c){
