@@ -1,0 +1,25 @@
+--- ext-all-debug.js	2010-02-19 16:27:11.000000000 +0000
++++ ext-all-debug.js	2010-02-19 16:31:47.000000000 +0000
+@@ -16273,13 +16273,15 @@
+                      * of the internal cells variable, removing
+                      * the row if it becomes empty.
+                      * FIXME - does not work for colspan / rowspan
+-                     */
+-                    this.cells[this.cells.length-1].pop();
+-                    if (this.cells[this.cells.length-1].length == 0) {
+-                        this.cells.pop();
+-                        if (this.currentRow > 0) {
+-                        	this.currentRow--;
+-                        }
++                     */
++                    if (this.cells.length > 0) {
++                        this.cells[this.cells.length-1].pop();
++                        if (this.cells[this.cells.length-1].length == 0) {
++                            this.cells.pop();
++                            if (this.currentRow > 0) {
++                                this.currentRow--;
++                            }
++                        }
+                     }
+                 }
+             }
