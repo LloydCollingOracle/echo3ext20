@@ -219,7 +219,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         // check for any property updates
         if (update.getUpdatedProperty("title") != null) {
             var title = this.component.get("title");
-            if (!this._showFullTitle) {
+            if (!this._showFullTitle && title != null) {
                 var maxLength = 20;
                 if(title.length > maxLength) {
                     title = this._getShortTitle(title, maxLength);
@@ -229,10 +229,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             else {
                 this.extComponent.setTitle(title);
             }
-            if(this.extComponent.findParentByType('tabpanel')) {
-                var tabPanel = this.extComponent.findParentByType('tabpanel');
+            var tabPanel = this.extComponent.findParentByType('tabpanel');
+            if(tabPanel && tabPanel.items.contains(this.extComponent)) {
                 var activeTab = tabPanel.getActiveTab();
-                activeTab.setTitle(title);
+                activeTab.setTitle(title == null ? "" : title);
             }
         }
         
