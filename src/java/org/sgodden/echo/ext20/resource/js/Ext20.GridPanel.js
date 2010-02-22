@@ -432,7 +432,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 this._selectionTask.delay(250, this._doSelect, this);
                 return;
             } else {
-                if (this.component._listenerList.hasListeners("select")) {
+                if (this.component._listenerList != null && this.component._listenerList.hasListeners("select")) {
                     this._loadMask.enable();
                     this._loadMask.show();
                     this.component.doSelect();

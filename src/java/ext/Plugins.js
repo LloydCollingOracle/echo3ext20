@@ -40,7 +40,7 @@ Ext.ux.MandatoryField = {
             },
             beforedestroy: {
                 fn: function(){
-                    if (!field.allowBlank) {
+                    if (field && field.rendered && !field.allowBlank) {
                         switch (field.getXType()) {
                             case "multiselect":
                                 // use this in plugins.css to apply a float:left to the fieldset
@@ -52,7 +52,9 @@ Ext.ux.MandatoryField = {
                                 Ext.DomHelper.overwrite(el, "");
                                 break;
                             default:
-                                Ext.DomHelper.overwrite(field.el.parent(), "");
+                            	if (field && field.el && field.el.parent()) {
+                            		Ext.DomHelper.overwrite(field.el.parent(), "");
+                            	}
                         }
                     }
                 }
