@@ -122,6 +122,9 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         if (this.component.get("maxLengthText")){
             options["maxLengthText"] = this.component.get("maxLengthText");
         }
+        if (this.component.get("grow")){
+            options["grow"] = this.component.get("grow");
+        }
         if (this.component.get("validationDelay")){
             options["validationDelay"] = this.component.get("validationDelay");
         }

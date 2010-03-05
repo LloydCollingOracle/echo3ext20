@@ -58,6 +58,7 @@ public class TextField extends ExtComponent implements Field {
     public static final String VALUE_CHANGED_PROPERTY = "value";
     public static final String VALID_PROPERTY = "isValid";
     public static final String PROPERTY_STRIP_WHITESPACE = "stripWhitespace";
+    public static final String PROPERTY_GROW = "grow";
 
     private String actionCommand;
 
@@ -68,6 +69,7 @@ public class TextField extends ExtComponent implements Field {
         super();
         setIsValid(true);
         setNotifyImmediately(false);
+        setGrow(false);
     }
 
     /**
@@ -416,5 +418,17 @@ public class TextField extends ExtComponent implements Field {
 
     public void setStripWhitespace(boolean stripWhitespace) {
         set(PROPERTY_STRIP_WHITESPACE, Boolean.valueOf(stripWhitespace));
+    }
+
+    public boolean getGrow() {
+        return Boolean.TRUE.equals(get(PROPERTY_GROW));
+    }
+
+    public boolean isGrow() {
+        return Boolean.TRUE.equals(get(PROPERTY_GROW));
+    }
+
+    public void setGrow(boolean grow) {
+        set(PROPERTY_GROW, Boolean.valueOf(grow));
     }
 }
