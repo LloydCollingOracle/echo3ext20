@@ -180,7 +180,7 @@ public class ApplicationContentPane extends ContentPane {
         col.add(makeTestButton("Menu", MenuTest.class));
         col.add(makeTestButton("Key press", KeyPressTest.class));
         col.add(makeTestButton("CSS String", ArbitraryCssTest.class));
-        col.add(makeTestButton("Bloated test suite", MainTestSuite.class));
+        col.add(makeTestButton("Bloated Suite", MainTestSuite.class));
         
         /*
          * Grid-specific tests.

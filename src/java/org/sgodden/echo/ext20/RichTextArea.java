@@ -23,7 +23,7 @@ package org.sgodden.echo.ext20;
  */
 @SuppressWarnings({"serial"})
 public class RichTextArea 
-        extends org.aarboard.echo.RichTextArea {
+        extends echopoint.Fckeditor {
     
     public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
 

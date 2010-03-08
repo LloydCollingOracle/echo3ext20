@@ -12,7 +12,7 @@ import nextapp.echo.webcontainer.SynchronizePeerFactory;
 import org.sgodden.echo.ext20.RichTextArea;
 
 @SuppressWarnings({"unchecked"})
-public class RichTextAreaPeer extends org.aarboard.echo.RichTextAreaPeer {
+public class RichTextAreaPeer extends echopoint.FckeditorPeer {
     
 	/** Set of <code>Component</code> <code>Class</code>es whose peers must be initialized in order for the component to render. */
     private Set requiredComponentClasses;

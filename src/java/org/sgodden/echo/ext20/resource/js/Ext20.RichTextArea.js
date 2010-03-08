@@ -17,7 +17,7 @@
 /**
  * Component implementation for Ext.form.RichTextArea.
  */
-EchoExt20.RichTextArea = Core.extend(Aar.FCKRichTextArea, {
+EchoExt20.RichTextArea = Core.extend(Aar.Fckeditor, {
 
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20RichTextArea", this);
@@ -30,7 +30,7 @@ EchoExt20.RichTextArea = Core.extend(Aar.FCKRichTextArea, {
 /**
  * Synchronisation peer for text area.
  */
-EchoExt20.RichTextAreaSync = Core.extend(Aar.FCKRichTextArea.Sync, {
+EchoExt20.RichTextAreaSync = Core.extend(Aar.Fckeditor.Sync, {
 
     $load: function() {
         Echo.Render.registerPeer("Ext20RichTextArea", this);
@@ -38,7 +38,7 @@ EchoExt20.RichTextAreaSync = Core.extend(Aar.FCKRichTextArea.Sync, {
 
     renderAdd : function(update, parentElement) {
         // invoke super class method
-        Aar.FCKRichTextArea.Sync.prototype.renderAdd.call(this, update, parentElement);
+        Aar.Fckeditor.Sync.prototype.renderAdd.call(this, update, parentElement);
         
         // if not allowed blank show a "*" next to the rich text area at the top right
         var allowBlank = this.component.get("allowBlank");
