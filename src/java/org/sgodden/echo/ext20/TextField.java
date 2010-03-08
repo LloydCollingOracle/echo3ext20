@@ -59,6 +59,8 @@ public class TextField extends ExtComponent implements Field {
     public static final String VALID_PROPERTY = "isValid";
     public static final String PROPERTY_STRIP_WHITESPACE = "stripWhitespace";
     public static final String PROPERTY_GROW = "grow";
+    public static final String PROPERTY_GROW_MIN = "growMin";
+    public static final String PROPERTY_GROW_MAX = "growMax";
 
     private String actionCommand;
 
@@ -420,6 +422,10 @@ public class TextField extends ExtComponent implements Field {
         set(PROPERTY_STRIP_WHITESPACE, Boolean.valueOf(stripWhitespace));
     }
 
+    /**
+     * Whether this field will grow in size as content is added
+     * @return
+     */
     public boolean getGrow() {
         return Boolean.TRUE.equals(get(PROPERTY_GROW));
     }
@@ -430,5 +436,31 @@ public class TextField extends ExtComponent implements Field {
 
     public void setGrow(boolean grow) {
         set(PROPERTY_GROW, Boolean.valueOf(grow));
+    }
+
+    /**
+     * What the minimum size (width/height in pixels) of this field is when shortening.
+     * For TextFields, default value is 30 (pixels width). For TextAreas, default value is 60 (pixels height).
+     * @return
+     */
+    public Integer getGrowMin() {
+        return (Integer)get(PROPERTY_GROW_MIN);
+    }
+
+    public void setGrowMin(Integer growMin) {
+        set(PROPERTY_GROW_MIN, growMin);
+    }
+
+    /**
+     * What the maximum size (width/height in pixels) of this field is when growing.
+     * For TextFields, default value is 800 (pixels width). For TextAreas, default value is 1000 (pixels height).
+     * @return
+     */
+    public Integer getGrowMax() {
+        return (Integer)get(PROPERTY_GROW_MAX);
+    }
+
+    public void setGrowMax(Integer growMax) {
+        set(PROPERTY_GROW_MAX, growMax);
     }
 }
