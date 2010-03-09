@@ -338,7 +338,13 @@ public class TextField extends ExtComponent implements Field {
     }
 
     public String getMaxLength() {
-        return (String) get(MAX_LENGTH);
+        Object maxL = get(MAX_LENGTH);
+        if (maxL == null)
+            return null;
+        if (maxL instanceof String)
+            return (String)maxL;
+        else
+            return String.valueOf(maxL);
     }
 
     /**
