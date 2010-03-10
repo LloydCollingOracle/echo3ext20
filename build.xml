@@ -234,6 +234,7 @@
         <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabClsFix4.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
         <patch patchfile="contrib/patches/ext-2.2.1/BorderLayoutSplitLayout.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
         <patch patchfile="contrib/patches/ext-2.2.1/TableLayout.onLayout2.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+        <patch patchfile="contrib/patches/ext-2.2.1/RemoveClassDebug.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
         <!-- <patch patchfile="contrib/patches/ext-2.2.1/ColumnLayoutDashBoardFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
 	</target>
 

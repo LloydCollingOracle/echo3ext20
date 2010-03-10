@@ -1,0 +1,21 @@
+--- ext-all-debug.js	2010-03-10 09:16:05.000000000 +0000
++++ ext-all-debug.js	2010-03-10 09:17:29.000000000 +0000
+@@ -2625,18 +2625,6 @@
+                 this.dom.className = this.dom.className + " " + className;
+             }
+         }
+-        Core.Debug.consoleWrite(['addClass id:'
+-                , this.id 
+-                , ", classes: " 
+-                , originalClassName 
+-                , ", newClass: " 
+-                , className 
+-                , ", time: " 
+-                , (new Date().getTime() - start) 
+-                , "ms, clsAdded? "
+-                , classAdded
+-                , ", isArray? "
+-                , isArray].join(""));
+         return this;
+     },
+ 
