@@ -161,6 +161,8 @@ public interface ColumnConfiguration {
      * @return
      */
     public Class<?> getColumnClass();
+
+    public void setColumnClass(Class <?> columnClass);
     
     /**
      * Sets the editor component to use for editing this column.

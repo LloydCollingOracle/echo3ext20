@@ -50,6 +50,7 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
     private Component editorComponent;
     private boolean menuDisabled = false;
     private ComponentGridCellRenderer gridCellRenderer;
+    private Class<?> columnClass;
 
 	/**
      * Default constructor.
@@ -71,11 +72,7 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
      */
     public DefaultColumnConfiguration(String header, Integer width, Boolean sortable,
             String dataIndex) {
-        super();
-        this.header = header;
-        this.width = width;
-        this.sortable = sortable;
-        this.dataIndex = dataIndex;
+        this(header, width, sortable, dataIndex, false);
     }
 
     /**
@@ -94,12 +91,7 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
      */
     public DefaultColumnConfiguration(String header, Integer width, Boolean sortable,
             String dataIndex, boolean hidden) {
-        super();
-        this.header = header;
-        this.width = width;
-        this.sortable = sortable;
-        this.dataIndex = dataIndex;
-        this.hidden = hidden;
+    	this(header, width, sortable, dataIndex, hidden, Object.class);
     }
 
     /**
@@ -114,6 +106,34 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
         this(header, null, true, dataIndex);
     }
 
+    /**
+     * Constructs a new column configuration.
+     * 
+     * @param header
+     *            the header text.
+     * @param width
+     *            a specific width for the column.
+     * @param sortable
+     *            whether the column is sortable.
+     * @param dataIndex
+     *            the id of the column in the store to which this column maps.
+     * @param hidden
+     *            whether the column is hidden.
+     * @param columnClass
+     *            the class of the column.
+     */
+    
+    public DefaultColumnConfiguration(String header, Integer width, Boolean sortable,
+            String dataIndex, boolean hidden, Class <?> columnClass) {
+        super();
+        this.header = header;
+        this.width = width;
+        this.sortable = sortable;
+        this.dataIndex = dataIndex;
+        this.hidden = hidden;
+        this.columnClass = columnClass;
+    }
+    
     /* (non-Javadoc)
      * @see org.sgodden.echo.ext20.grid.ColumnConfiguration#getAttributePath()
      */
@@ -280,8 +300,12 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
         this.grouping = grouping;
     }
 
+    public void setColumnClass(Class<?> columnClass) {
+        this.columnClass = columnClass;
+    }
+
     public Class<?> getColumnClass() {
-        return Object.class;
+        return columnClass;
     }
 
     public Component getEditorComponent() {
