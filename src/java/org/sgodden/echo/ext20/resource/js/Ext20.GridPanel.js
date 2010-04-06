@@ -754,6 +754,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                   colModel
                 );
                 this.extComponent.getColumnModel().addListener("hiddenchange", this._handleColumnHide, this);
+                this.extComponent.getView().scrollToTop();
                 this.updateCompleted(update);
             }
             else {
