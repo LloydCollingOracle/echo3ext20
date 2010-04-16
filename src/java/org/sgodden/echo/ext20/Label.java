@@ -9,17 +9,19 @@ import nextapp.echo.app.Component;
  */
 @SuppressWarnings("serial")
 public class Label extends ExtComponent {
+	
     /**
      * The text to display in the label.
      */
     public static final String PROPERTY_TEXT = "text";
+    
     private Component component;
 
     /**
      * Constructs a blank label
      */
     public Label() {
-        this(null);
+    	this(null);
     }
 
     /**
@@ -29,7 +31,7 @@ public class Label extends ExtComponent {
      */
     public Label(String labelText) {
         super();
-        set(PROPERTY_TEXT, labelText);
+        setText(labelText);
     }
 
     public void setText(String labelText) {

@@ -52,9 +52,16 @@ EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
         // process basic properties
         var labelText = this.component.get("text");
         if (labelText != null) {
-            options['html'] = labelText;
+            options['text'] = labelText;
         }
-        this.extComponent = this.newExtComponentInstance(options);
-        return this.extComponent;
+        var htmlText = this.component.get("html");
+        if (htmlText != null) {
+            options['html'] = htmlText;
+        }
+        
+        var extComponent = this.newExtComponentInstance(options);
+        
+        return extComponent;
     }
+    
 });

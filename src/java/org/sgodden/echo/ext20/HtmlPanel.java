@@ -10,7 +10,15 @@ public class HtmlPanel extends Panel {
 	public HtmlPanel(String title) {
 		super( title);
 	}
-
+	
+	 /**
+     * Creates a new HTML panel.
+     * @param layout the layout for the panel.
+     */
+    public HtmlPanel(Layout layout) {
+        super(layout);
+    }
+    
 	@Override
 	public void setLayout(Layout layout) {
 		throw new RuntimeException( "Don't need layout here");
