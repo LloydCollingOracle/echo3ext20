@@ -719,6 +719,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         this._handleSelectionEvents = false;
         
         // clear select first
+        this.extComponent.getSelectionModel().grid = this.extComponent;
         this.extComponent.getSelectionModel().clearSelections();
         
         // reconfigure the column model if it has been updated
@@ -769,7 +770,9 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         if (this.component.get("showCheckbox")) {
             this._applyHeaderCheckedIfNeeded();
         }
-        this._loadMask.hide();
+        if (this._loadMask != null){
+            this._loadMask.hide();
+        }
 
         // resume event handling
         this._handleSortEvents = true;
