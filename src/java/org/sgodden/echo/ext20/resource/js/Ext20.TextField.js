@@ -272,6 +272,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     	} else {
         	this.extComponent.setDisabled(false);
     	}
+        this.extComponent.setValue(this.component.get("value"));
         this._initialValue = this.component.get("value");
         if (update.getUpdatedProperty("isValid") != null) { // only change it when the server update it.
             if (this.component.get("isValid") != null) {
