@@ -1,0 +1,437 @@
+--- ext-all-debug.js	2010-04-26 16:17:31.000000000 +0100
++++ ext-all-debug.js	2010-04-27 15:39:33.000000000 +0100
+@@ -5888,6 +5888,17 @@
+ 
+ (function() {
+ 
++	/**
++	 * Global flag which determines if strict date parsing should be used.
++	 * Strict date parsing will not roll-over invalid dates, which is the
++	 * default behaviour of javascript Date objects.
++	 * (see {@link #parseDate} for more information)
++	 * Defaults to <tt>false</tt>.
++	 * @static
++	 * @type Boolean
++	*/
++	Date.useStrict = true;
++
+ // create private copy of Ext's String.format() method
+ // - to remove unnecessary dependency
+ // - to resolve namespace conflict with M$-Ajax's implementation
+@@ -5923,9 +5934,24 @@
+ 
+ Ext.apply(Date, {
+     // private
+-    parseFunctions: {count:0},
++    parseFunctions: {
++		"M$": function(input, strict) {
++		    // note: the timezone offset is ignored since the M$ Ajax server sends
++		    // a UTC milliseconds-since-Unix-epoch value (negative values are allowed)
++		    var re = new RegExp('\\/Date\\(([-+])?(\\d+)(?:[+-]\\d{4})?\\)\\/');
++		    var r = (input || '').match(re);
++		    return r? new Date(((r[1] || '') + r[2]) * 1) : null;
++		},
++		count:1
++	},
+     parseRegexes: [],
+-    formatFunctions: {count:0},
++    formatFunctions: {
++        "M$": function() {
++        	// UTC milliseconds since Unix epoch (M$-AJAX serialized date format (MRSF))
++        	return '\\/Date(' + this.getTime() + ')\\/';
++    	},
++    	count:1
++    },
+     daysInMonth : [31,28,31,30,31,30,31,31,30,31,30,31],
+     y2kYear : 50,
+ 
+@@ -5950,6 +5976,7 @@
+     
+     YEAR : "y",
+ 
++    defaults: {},
+     
+     dayNames : [
+         "Sunday",
+@@ -6053,14 +6080,43 @@
+         U: "Math.round(this.getTime() / 1000)"
+     },
+ 
++    /**
++     * Checks if the passed Date parameters will cause a javascript Date "rollover".
++     * @param {Number} year 4-digit year
++     * @param {Number} month 1-based month-of-year
++     * @param {Number} day Day of month
++     * @param {Number} hour (optional) Hour
++     * @param {Number} minute (optional) Minute
++     * @param {Number} second (optional) Second
++     * @param {Number} millisecond (optional) Millisecond
++     * @return {Boolean} true if the passed parameters do not cause a Date "rollover", false otherwise.
++     * @static
++     */
++    isValid : function(y, m, d, h, i, s, ms) {
++        // setup defaults
++        h = h || 0;
++        i = i || 0;
++        s = s || 0;
++        ms = ms || 0;
++
++        var dt = new Date(y, m - 1, d, h, i, s, ms);
++
++        return y == dt.getFullYear() &&
++            m == dt.getMonth() + 1 &&
++            d == dt.getDate() &&
++            h == dt.getHours() &&
++            i == dt.getMinutes() &&
++            s == dt.getSeconds() &&
++            ms == dt.getMilliseconds();
++    },
++
+     
+-    parseDate : function(input, format) {
++    parseDate : function(input, format, strict) {
+         var p = Date.parseFunctions;
+         if (p[format] == null) {
+             Date.createParser(format);
+         }
+-        var func = p[format];
+-        return Date[func](input);
++        return p[format](input, (typeof strict !== 'undefined') ? strict : Date.useStrict);
+     },
+ 
+     // private
+@@ -6068,7 +6124,7 @@
+         var f = Date.formatCodes[character];
+ 
+         if (f) {
+-          f = Ext.type(f) == 'function'? f() : f;
++            f = typeof f == 'function'? f() : f;
+           Date.formatCodes[character] = f; // reassign function result to prevent repeated execution
+         }
+ 
+@@ -6078,100 +6134,119 @@
+ 
+     // private
+     createNewFormat : function(format) {
+-        var funcName = "format" + Date.formatFunctions.count++,
+-            code = "Date.prototype." + funcName + " = function(){return ",
++        Date.createFormat(format);
++    },
++
++    // private
++    createFormat : function(format) {
++        var code = [],
+             special = false,
+             ch = '';
+ 
+-        Date.formatFunctions[format] = funcName;
+-
+         for (var i = 0; i < format.length; ++i) {
+             ch = format.charAt(i);
+             if (!special && ch == "\\") {
+                 special = true;
+-            }
+-            else if (special) {
++            } else if (special) {
+                 special = false;
+-                code += "'" + String.escape(ch) + "' + ";
+-            }
+-            else {
+-                code += Date.getFormatCode(ch) + " + ";
++                code.push("'" + String.escape(ch) + "'");
++            } else {
++                code.push(Date.getFormatCode(ch))
+             }
+         }
+-        eval(code.substring(0, code.length - 3) + ";}");
++        Date.formatFunctions[format] = new Function("return " + code.join('+'));
+     },
+ 
+     // private
+     createParser : function() {
+         var code = [
+-            "Date.{0} = function(input){",
+-                "var y, m, d, h = 0, i = 0, s = 0, ms = 0, o, z, u, v;",
+-                "input = String(input);",
+-                "d = new Date();",
+-                "y = d.getFullYear();",
+-                "m = d.getMonth();",
+-                "d = d.getDate();",
+-                "var results = input.match(Date.parseRegexes[{1}]);",
+-                "if(results && results.length > 0){",
+-                    "{2}",
+-                    "if(u){",
+-                        "v = new Date(u * 1000);", // give top priority to UNIX time
+-                    "}else if (y >= 0 && m >= 0 && d > 0 && h >= 0 && i >= 0 && s >= 0 && ms >= 0){",
+-                        "v = new Date(y, m, d, h, i, s, ms);",
+-                    "}else if (y >= 0 && m >= 0 && d > 0 && h >= 0 && i >= 0 && s >= 0){",
+-                        "v = new Date(y, m, d, h, i, s);",
+-                    "}else if (y >= 0 && m >= 0 && d > 0 && h >= 0 && i >= 0){",
+-                        "v = new Date(y, m, d, h, i);",
+-                    "}else if (y >= 0 && m >= 0 && d > 0 && h >= 0){",
+-                        "v = new Date(y, m, d, h);",
+-                    "}else if (y >= 0 && m >= 0 && d > 0){",
+-                        "v = new Date(y, m, d);",
+-                    "}else if (y >= 0 && m >= 0){",
+-                        "v = new Date(y, m);",
+-                    "}else if (y >= 0){",
+-                        "v = new Date(y);",
++                    "var dt, y, m, d, h, i, s, ms, o, z, zz, u, v,",
++                        "def = Date.defaults,",
++                        "results = String(input).match(Date.parseRegexes[{0}]);", // either null, or an array of matched strings
++
++                    "if(results){",
++                        "{1}",
++
++                        "if(u != null){", // i.e. unix time is defined
++                            "v = new Date(u * 1000);", // give top priority to UNIX time
++                        "}else{",
++                            // create Date object representing midnight of the current day;
++                            // this will provide us with our date defaults
++                            // (note: clearTime() handles Daylight Saving Time automatically)
++                            "dt = (new Date()).clearTime();",
++
++                            // date calculations (note: these calculations create a dependency on Ext.num())
++                            "y = Ext.num(y, Ext.num(def.y, dt.getFullYear()));",
++                            "m = Ext.num(m, Ext.num(def.m - 1, dt.getMonth()));",
++                            "d = Ext.num(d, Ext.num(def.d, dt.getDate()));",
++
++                            // time calculations (note: these calculations create a dependency on Ext.num())
++                            "h  = Ext.num(h, Ext.num(def.h, dt.getHours()));",
++                            "i  = Ext.num(i, Ext.num(def.i, dt.getMinutes()));",
++                            "s  = Ext.num(s, Ext.num(def.s, dt.getSeconds()));",
++                            "ms = Ext.num(ms, Ext.num(def.ms, dt.getMilliseconds()));",
++
++                            "if(z >= 0 && y >= 0){",
++                                // both the year and zero-based day of year are defined and >= 0.
++                                // these 2 values alone provide sufficient info to create a full date object
++
++                                // create Date object representing January 1st for the given year
++                                "v = new Date(y, 0, 1, h, i, s, ms);",
++
++                                // then add day of year, checking for Date "rollover" if necessary
++                                "v = !strict? v : (strict === true && (z <= 364 || (v.isLeapYear() && z <= 365))? v.add(Date.DAY, z) : null);",
++                            "}else if(strict === true && !Date.isValid(y, m + 1, d, h, i, s, ms)){", // check for Date "rollover"
++                                "v = null;", // invalid date, so return null
++                            "}else{",
++                                // plain old Date object
++                                "v = new Date(y, m, d, h, i, s, ms);",
++                            "}",
++                        "}",
++                    "}",
++
++                    "if(v){",
++                        // favour UTC offset over GMT offset
++                        "if(zz != null){",
++                            // reset to UTC, then add offset
++                            "v = v.add(Date.SECOND, -v.getTimezoneOffset() * 60 - zz);",
++                        "}else if(o){",
++                            // reset to GMT, then add offset
++                            "v = v.add(Date.MINUTE, -v.getTimezoneOffset() + (sn == '+'? -1 : 1) * (hr * 60 + mn));",
++                        "}",
+                     "}",
+-                "}",
+-                "return (v && (z != null || o != null))?" // favour UTC offset over GMT offset
+-                    + " (Ext.type(z) == 'number' ? v.add(Date.SECOND, -v.getTimezoneOffset() * 60 - z) :" // reset to UTC, then add offset
+-                    + " v.add(Date.MINUTE, -v.getTimezoneOffset() + (sn == '+'? -1 : 1) * (hr * 60 + mn))) : v;", // reset to GMT, then add offset
+-            "}"
+-        ].join('\n');
+-
+-        return function(format) {
+-            var funcName = "parse" + Date.parseFunctions.count++,
+-                regexNum = Date.parseRegexes.length,
+-                currentGroup = 1,
+-                calc = "",
+-                regex = "",
+-                special = false,
+-                ch = "";
+-
+-            Date.parseFunctions[format] = funcName;
+-
+-            for (var i = 0; i < format.length; ++i) {
+-                ch = format.charAt(i);
+-                if (!special && ch == "\\") {
+-                    special = true;
+-                }
+-                else if (special) {
+-                    special = false;
+-                    regex += String.escape(ch);
+-                }
+-                else {
+-                    var obj = $f(ch, currentGroup);
+-                    currentGroup += obj.g;
+-                    regex += obj.s;
+-                    if (obj.g && obj.c) {
+-                        calc += obj.c;
++
++                    "return v;"
++                ].join('\n');
++
++                return function(format) {
++                    var regexNum = Date.parseRegexes.length,
++                        currentGroup = 1,
++                        calc = [],
++                        regex = [],
++                        special = false,
++                        ch = "";
++
++                    for (var i = 0; i < format.length; ++i) {
++                        ch = format.charAt(i);
++                        if (!special && ch == "\\") {
++                            special = true;
++                        } else if (special) {
++                            special = false;
++                            regex.push(String.escape(ch));
++                        } else {
++                            var obj = $f(ch, currentGroup);
++                            currentGroup += obj.g;
++                            regex.push(obj.s);
++                            if (obj.g && obj.c) {
++                                calc.push(obj.c);
++                            }
++                        }
+                     }
+-                }
+-            }
+ 
+-            Date.parseRegexes[regexNum] = new RegExp("^" + regex + "$", "i");
+-            eval(xf(code, funcName, regexNum, calc));
+-        }
+-    }(),
++                    Date.parseRegexes[regexNum] = new RegExp("^" + regex.join('') + "$");
++                    Date.parseFunctions[format] = new Function("input", "strict", xf(code, regexNum, calc.join('')));
++                }
++            }(),
+ 
+     // private
+     parseCodes : {
+@@ -6398,8 +6473,7 @@
+         if (Date.formatFunctions[format] == null) {
+             Date.createNewFormat(format);
+         }
+-        var func = Date.formatFunctions[format];
+-        return this[func]();
++        return Date.formatFunctions[format].call(this);
+     },
+ 
+     
+@@ -6572,19 +6646,36 @@
+ 
+ // private
+ // safari setMonth is broken
+-if(Ext.isSafari){
+-    Date.brokenSetMonth = Date.prototype.setMonth;
+-    Date.prototype.setMonth = function(num){
+-        if(num <= -1){
+-            var n = Math.ceil(-num);
+-            var back_year = Math.ceil(n/12);
+-            var month = (n % 12) ? 12 - n % 12 : 0 ;
+-            this.setFullYear(this.getFullYear() - back_year);
+-            return Date.brokenSetMonth.call(this, month);
+-        } else {
+-            return Date.brokenSetMonth.apply(this, arguments);
++if(Ext.isSafari && (navigator.userAgent.match(/WebKit\/(\d+)/)[1] || NaN) < 420){
++    Ext.apply(Date.prototype, {
++        _xMonth : Date.prototype.setMonth,
++        _xDate  : Date.prototype.setDate,
++
++        // Bug in Safari 1.3, 2.0 (WebKit build < 420)
++        // Date.setMonth does not work consistently if iMonth is not 0-11
++        setMonth : function(num) {
++            if (num <= -1) {
++                var n = Math.ceil(-num),
++                    back_year = Math.ceil(n / 12),
++                    month = (n % 12) ? 12 - n % 12 : 0;
++
++                this.setFullYear(this.getFullYear() - back_year);
++
++                return this._xMonth(month);
++            } else {
++                return this._xMonth(num);
++            }
++        },
++
++        // Bug in setDate() method (resolved in WebKit build 419.3, so to be safe we target Webkit builds < 420)
++        // The parameter for Date.setDate() is converted to a signed byte integer in Safari
++        // http://brianary.blogspot.com/2006/03/safari-date-bug.html
++        setDate : function(d) {
++            // use setTime() to workaround setDate() bug
++            // subtract current day of month in milliseconds, then add desired day of month in milliseconds
++            return this.setTime(this.getTime() - (this.getDate() - d) * 864e5);
+         }
+-    };
++    });
+ }
+ 
+ Ext.util.DelayedTask = function(fn, scope, args){
+@@ -28424,6 +28515,25 @@
+     // private
+     defaultAutoCreate : {tag: "input", type: "text", size: "10", autocomplete: "off"},
+ 
++    // in the absence of a time value, a default value of 12 noon will be used
++    // (note: 12 noon was chosen because it steers well clear of all DST timezone changes)
++    initTime: '12', // 24 hour format
++
++    initTimeFormat: 'H',
++
++    // PUBLIC -- to be documented
++    safeParse : function(value, format) {
++        if (/[gGhH]/.test(format.replace(/(\\.)/g, ''))) {
++            // if parse format contains hour information, no DST adjustment is necessary
++            return Date.parseDate(value, format);
++        } else {
++            // set time to 12 noon, then clear the time
++            var parsedDate = Date.parseDate(value + ' ' + this.initTime, format + ' ' + this.initTimeFormat);
++            
++            if (parsedDate) return parsedDate.clearTime();
++        }
++    },
++
+     initComponent : function(){
+         Ext.form.DateField.superclass.initComponent.call(this);
+         
+@@ -28442,6 +28552,17 @@
+         this.initDisabledDays();
+     },
+ 
++    initEvents: function() {
++        Ext.form.DateField.superclass.initEvents.call(this);
++        this.keyNav = new Ext.KeyNav(this.el, {
++            "down": function(e) {
++                this.onTriggerClick();
++            },
++            scope: this,
++            forceKeyDown: true
++        });
++    },
++
+     // private
+     initDisabledDays : function(){
+         if(this.disabledDates){
+@@ -28550,15 +28671,17 @@
+         if(!value || Ext.isDate(value)){
+             return value;
+         }
+-        var v = Date.parseDate(value, this.format);
+-        if(!v && this.altFormats){
+-            if(!this.altFormatsArray){
+-                this.altFormatsArray = this.altFormats.split("|");
+-            }
+-            for(var i = 0, len = this.altFormatsArray.length; i < len && !v; i++){
+-                v = Date.parseDate(value, this.altFormatsArray[i]);
+-            }
+-        }
++        var v = this.safeParse(value, this.format),
++        af = this.altFormats,
++        afa = this.altFormatsArray;
++
++	    if (!v && af) {
++	        afa = afa || af.split("|");
++	
++	        for (var i = 0, len = afa.length; i < len && !v; i++) {
++	            v = this.safeParse(value, afa[i]);
++	        }
++	    }
+         return v;
+     },
+ 

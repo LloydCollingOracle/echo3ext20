@@ -1,5 +1,5 @@
 --- ext-all-debug.js	2010-03-10 09:16:05.000000000 +0000
-+++ ext-all-debug.js	2010-03-10 09:17:29.000000000 +0000
++++ ext-all-debug.js	2010-03-10 13:44:12.000000000 +0000
 @@ -2625,18 +2625,6 @@
                  this.dom.className = this.dom.className + " " + className;
              }
@@ -19,3 +19,67 @@
          return this;
      },
  
+@@ -14806,6 +14794,7 @@
+ 
+     // private
+     layout : function(){
++		Core.Debug.consoleWrite("Doing layout on " + this.container.getId());
+         var target = this.container.getLayoutTarget();
+         this.onLayout(this.container, target);
+         this.container.fireEvent('afterlayout', this.container, this);
+@@ -14813,6 +14802,7 @@
+ 
+     // private
+     onLayout : function(ct, target){
++		Core.Debug.consoleWrite("    Doing container layout");
+         this.renderAll(ct, target);
+     },
+ 
+@@ -14922,6 +14912,7 @@
+     // private
+     onLayout : function(ct, target){
+         Ext.layout.FitLayout.superclass.onLayout.call(this, ct, target);
++		Core.Debug.consoleWrite("    Doing Fit layout");
+         if(!this.container.collapsed){
+             this.setItemSize(this.activeItem || ct.items.itemAt(0), target.getStyleSize());
+         }
+@@ -14980,6 +14971,7 @@
+     // private
+     onLayout : function(ct, target){
+         Ext.layout.AnchorLayout.superclass.onLayout.call(this, ct, target);
++		Core.Debug.consoleWrite("    Doing anchor layout");
+ 
+         var size = this.getAnchorViewSize(ct, target);
+ 
+@@ -15090,6 +15082,7 @@
+ 
+     // private
+     onLayout : function(ct, target){
++		Core.Debug.consoleWrite("    Doing column layout");
+         var cs = ct.items.items, len = cs.length, c, i;
+ 
+         if(!this.innerCt){
+@@ -15167,6 +15160,7 @@
+ 
+     // private
+     onLayout : function(ct, target){
++	Core.Debug.consoleWrite("    Doing border layout");
+         var collapsed;
+         if(!this.rendered){
+             target.position();
+@@ -16215,6 +16209,7 @@
+ 
+     // private
+     onLayout : function(ct, target){
++		Core.Debug.consoleWrite("    Doing table layout");
+         var cs = ct.items.items, len = cs.length, c, i;
+ 
+         if(!this.table){
+@@ -16434,6 +16429,7 @@
+     onLayout : function(ct, target){
+         if(this.isForm){ ct.body.position(); } else { target.position(); }
+         Ext.layout.AbsoluteLayout.superclass.onLayout.call(this, ct, target);
++		Core.Debug.consoleWrite("    Doing absolute layout");
+     },
+ 
+     // private
