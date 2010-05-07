@@ -40,6 +40,7 @@ public class HtmlLabel extends Label {
      * @param text the HTML markup to set on this label
      */
     public void setText(String text) {
+    	
         set(PROPERTY_HTML, text);
     }
 

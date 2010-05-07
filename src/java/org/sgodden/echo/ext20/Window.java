@@ -209,5 +209,5 @@ public class Window
     public void windowClosing(ActionEvent event) {
         this.close();
     }
-    
+
 }

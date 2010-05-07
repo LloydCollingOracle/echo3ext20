@@ -35,6 +35,7 @@ public class Label extends ExtComponent {
     }
 
     public void setText(String labelText) {
+    	
         set(PROPERTY_TEXT, labelText);
     }
 

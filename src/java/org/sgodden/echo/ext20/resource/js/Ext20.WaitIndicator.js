@@ -22,7 +22,8 @@ EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
         var waitEl = EchoExt20.WaitIndicator.appWaitIndicator;
         if (waitEl != null) {
             waitEl.firstChild.src = EchoExt20.waitIconUrl;
-            Ext.get("body").applyStyles("cursor:wait");
+            var bdy = Ext.get("body");
+            if (bdy != null) bdy.applyStyles("cursor:wait");
         }
         this._applyLoadMask();
     },
@@ -31,7 +32,8 @@ EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
         var waitEl = EchoExt20.WaitIndicator.appWaitIndicator;
         if (waitEl != null) {
             waitEl.firstChild.src = EchoExt20.noWaitIconUrl;
-            Ext.get("body").applyStyles("cursor:default");
+            var bdy = Ext.get("body");
+            if (bdy != null) bdy.applyStyles("cursor:default");
         }
         this._removeLoadMask();	
     },
