@@ -238,6 +238,7 @@
         <patch patchfile="contrib/patches/ext-2.2.1/StrictDates.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
         <!-- <patch patchfile="contrib/patches/ext-2.2.1/LayoutPerformance.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
         <!-- <patch patchfile="contrib/patches/ext-2.2.1/ColumnLayoutDashBoardFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
+		<patch patchfile="contrib/patches/ext-2.2.1/buttonFocus.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 	</target>
 
 	<target name="war" depends="jar">
