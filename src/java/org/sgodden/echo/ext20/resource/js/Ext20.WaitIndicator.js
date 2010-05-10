@@ -24,6 +24,7 @@ EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
             waitEl.firstChild.src = EchoExt20.waitIconUrl;
             var bdy = Ext.get("body");
             if (bdy != null) bdy.applyStyles("cursor:wait");
+            return;
         }
         this._applyLoadMask();
     },
@@ -34,6 +35,7 @@ EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
             waitEl.firstChild.src = EchoExt20.noWaitIconUrl;
             var bdy = Ext.get("body");
             if (bdy != null) bdy.applyStyles("cursor:default");
+            return;
         }
         this._removeLoadMask();	
     },
