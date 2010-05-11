@@ -289,7 +289,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
      * Called upon initial creation of the component.
      */
     renderAdd: function(update, parentElement) {
-        if (this.extComponent != null && !(this instanceof EchoExt20.TreeSync)) {
+        if (this.extComponent != null && EchoExt20.TreeSync != null && !(this instanceof EchoExt20.TreeSync)) {
             throw new Error("Attempting to renderAdd a component when it already has an extComponent created for it!");
         }
         this._update = update;
