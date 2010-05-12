@@ -12,7 +12,11 @@ Echo.RemoteClient.CommandExec.DoPanelLayout = Core.extend(Echo.RemoteClient.Comm
             }
             var panelId = commandData.panelId;
             var extComponent = Ext.ComponentMgr.get("C." + panelId);
-            extComponent.doLayout.defer(10, extComponent); 
+            if (extComponent != null) {
+                extComponent.doLayout.defer(10, extComponent);
+            } else {
+                Core.Debug.consoleWrite("Requested to layout on non-existent component: C." + panelId);
+            }
         }
     },
     
