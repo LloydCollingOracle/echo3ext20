@@ -11,16 +11,20 @@ import org.sgodden.echo.ext20.Container;
 public class DoPanelLayoutCommand 
 implements Command {
     /**
-     * The id of the panel to call layout on
+     * The panel to call layout on
      */
-    private String panelId;
+    private Container panel;
     
     public DoPanelLayoutCommand(Container panelToLayout) {
         super();
-        this.panelId = panelToLayout.getContainingWindow().getId() + "." + panelToLayout.getRenderId();
+        this.panel = panelToLayout;
     }
     
     public String getPanelId(){
-        return this.panelId;
+        return panel.getContainingWindow().getId() + "." + panel.getRenderId();
+    }
+    
+    public Container getPanel() {
+        return panel;
     }
 }
