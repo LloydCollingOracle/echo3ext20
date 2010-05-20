@@ -57,6 +57,10 @@ public class TableModelAdapter
         TableModel tableModel = gridPanel.getModel();
         doConstruct(gridPanel.getPageOffset(), gridPanel.getPageSize(), tableModel, gridPanel.getModelValueRenderer(), gridPanel);
     }
+    
+    public TableModelAdapter(TableModel tableModel, Component modelComponent, GridCellRenderer renderer, int offset, int pageSize) {
+        doConstruct(offset, pageSize, tableModel, renderer, modelComponent);
+    }
 
     private void doConstruct(int offset, int pageSize, TableModel tableModel, GridCellRenderer renderer, Component grid) {
         
