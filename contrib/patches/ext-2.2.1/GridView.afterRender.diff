@@ -1,0 +1,17 @@
+--- ext-all-debug.js	2010-06-09 15:55:37.808728796 +0100
++++ ext-all-debug.js	2010-06-09 16:36:44.199737596 +0100
+@@ -32871,6 +32871,14 @@
+     },
+ 
+     afterRender: function(){
++        // check that the grid component is still in the dom
++        if (this.mainBody == null 
++        		|| this.mainBody.dom == null 
++        		|| this.mainBody.dom.parentNode == null 
++        		|| this.mainBody.dom.parentNode.parentNode == null) {
++            // we've been removed from the dom, so don't do any further work
++            return;
++        }
+         this.mainBody.dom.innerHTML = this.renderRows();
+         this.processRows(0, true);
+ 

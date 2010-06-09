@@ -167,9 +167,6 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
              * current thread of execution completes. Since the selection of rows requires that 
              * the dom nodes be available, we defer this call for a few moments to allow the 
              * browser to create the dom nodes, ready to be updated with the selection.
-             * 
-             * FIXME - racy, should check that dom element this.extComponent.getView().mainBody 
-             * has at least one child node.
              */
             this._handleServerSelections.defer(50, this);
             if (this.component.get("showCheckbox")) {
@@ -318,6 +315,11 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         var header = Ext.fly(this.extComponent.getView().innerHd).child(".x-grid3-hd-checker");
         if (!header) {
             header = Ext.fly(this.extComponent.getView().innerHd).child(".x-grid3-hd-checker-on");
+        }
+        // header should only be null if a grid that has been removed 
+        // was previously scheduled for layout and it ran a deferred render
+        if (header == null) {
+            return;
         }
         if (this.extComponent.getSelectionModel().getCount() == this.extComponent.getStore().getCount()) {
             header.addClass("x-grid3-hd-checker-on");
@@ -531,6 +533,15 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
      * Handles the selection sent by the server for the component.
      */
     _handleServerSelections: function() {
+    	/*
+    	 * check that dom element this.extComponent.getView().mainBody 
+         * has at least one child node, to avoid attempting to set the
+         * server selections before we're rendered
+         */
+    	if (!this.extComponent.getView().mainBody.dom.hasChildNodes()) {
+    		this._handleServerSelections.defer(50, this);
+    		return;
+    	}
         this._handleSelectionEvents = false;
         // clear select first
         this.extComponent.getSelectionModel().clearSelections();
