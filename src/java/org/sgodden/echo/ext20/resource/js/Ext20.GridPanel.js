@@ -538,7 +538,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
          * has at least one child node, to avoid attempting to set the
          * server selections before we're rendered
          */
-    	if (!this.extComponent.getView().mainBody.dom.hasChildNodes()) {
+    	if (!(this.extComponent.getView().mainBody) || !this.extComponent.getView().mainBody.dom.hasChildNodes()) {
     		this._handleServerSelections.defer(50, this);
     		return;
     	}

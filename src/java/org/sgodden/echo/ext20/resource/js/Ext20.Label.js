@@ -43,6 +43,9 @@ EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (update.getUpdatedProperty("text") != null) {
             this.extComponent.setText(this.component.get("text"), false);
         }
+        if (update.getUpdatedProperty("html") != null) {
+            this.extComponent.setText(this.component.get("html"), false);
+        }
     },
 
     /**

@@ -14,6 +14,11 @@ public class Label extends ExtComponent {
      * The text to display in the label.
      */
     public static final String PROPERTY_TEXT = "text";
+
+    /**
+     * The HTML markup to display in the label.
+     */
+    public static final String PROPERTY_HTML = "html";
     
     private Component component;
 

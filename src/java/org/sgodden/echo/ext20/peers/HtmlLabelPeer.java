@@ -1,11 +1,13 @@
 package org.sgodden.echo.ext20.peers;
 
 import org.sgodden.echo.ext20.HtmlLabel;
+import org.sgodden.echo.ext20.Label;
 
 public class HtmlLabelPeer extends ExtComponentPeer {
 
     public HtmlLabelPeer() {
         super();
+        addOutputProperty(Label.PROPERTY_HTML);
     }
 
     @Override

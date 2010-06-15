@@ -120,7 +120,7 @@ public abstract class ExtComponent extends Component {
                 isScrollable = ((Panel) parent).getAutoScroll();
                 if (isScrollable) {
                     Command command = new ScrollIntoViewCommand(this, parent);
-                    nextapp.echo.app.Window.getActive().enqueueCommand(command);
+                    getContainingWindow().enqueueCommand(command);
                     ((ExtComponent) parent).scrollIntoView();
                     break;
                 }
@@ -161,7 +161,10 @@ public abstract class ExtComponent extends Component {
      * Focuses the component in the active window.
      */
     public void focus() {
-    	Window.getActive().setFocusedComponent(this);
+        if (getContainingWindow() != null)
+            getContainingWindow().setFocusedComponent(this);
+        else
+            Window.getActive().setFocusedComponent(this);
     }
     
     /**

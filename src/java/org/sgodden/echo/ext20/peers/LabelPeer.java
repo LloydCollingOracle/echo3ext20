@@ -6,6 +6,7 @@ public class LabelPeer extends ExtComponentPeer {
 
     public LabelPeer() {
         super();
+        addOutputProperty(Label.PROPERTY_HTML);
     }
 
     @SuppressWarnings("unchecked")

@@ -13,12 +13,7 @@ public class HtmlLabel extends Label {
 	
 	private static final long serialVersionUID = 1L;
 	
-	 /**
-     * The HTML markup to display in the label.
-     */
-    public static final String PROPERTY_HTML = "html";
-    
-    private Component component;
+	 private Component component;
 
     /**
      * Constructs a blank label
@@ -40,7 +35,6 @@ public class HtmlLabel extends Label {
      * @param text the HTML markup to set on this label
      */
     public void setText(String text) {
-    	
         set(PROPERTY_HTML, text);
     }
 
