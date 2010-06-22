@@ -7,18 +7,12 @@ Echo.RemoteClient.CommandExec.DoPrintLayout = Core.extend(Echo.RemoteClient.Comm
 
         /** @see Echo.RemoteClient.CommandExecProcessor#execute */
         execute: function(client, commandData) {
-            if(Ext.isIE) {
-                window.document.body.parentNode.style.overflow = "auto";
-                window.document.body.style.height = "auto";
                 element = window.document.getElementById('approot');
-                element.style.height = "auto";
-                element.style.position = "static";
+                element.className+=element.className? ' print-approot':'print-approot';
                 element = element.childNodes[0];
-                element.style.height = "auto";
-                element.style.position = "static";
+                element.className+=element.className? ' print-approot-child-1':'print-approot-child-1';
                 element = element.childNodes[0];
-                element.style.position = "static";
-            }
+                element.className+=element.className? ' print-approot-child-2':'print-approot-child-2';
         }
     },
     
