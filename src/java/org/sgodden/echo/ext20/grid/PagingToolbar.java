@@ -22,343 +22,369 @@ import org.sgodden.echo.ext20.buttons.PreviousPageButton;
 /**
  * A toolbar which contains paging controls for a grid.
  * <p>
- * This control contains various pieces of text, which default to
- * english.  These can be overriden using the appropriate methods.
+ * This control contains various pieces of text, which default to english. These
+ * can be overriden using the appropriate methods.
  * </p>
+ * 
  * @author sgodden
  */
 @SuppressWarnings("serial")
 public class PagingToolbar extends Toolbar implements TableModelListener {
 
-    private Button firstButton;
-    private Button previousButton;
-    private Button nextButton;
-    private Button lastButton;
-    
-    private TextField currentPageTextField;
-    private ToolbarTextItem totalPagesTextItem;
-    private TextField rowsPerPageTextField;
+	private static final String NUMERIC_INPUT_MASK = "([0-9])";
+	private static final String ZERO = "0";
 
-    private ToolbarTextItem firstDisplayItemIndex;
-    private ToolbarTextItem lastDisplayItemIndex;
-    private ToolbarTextItem totalItems;
+	private Button firstButton;
+	private Button previousButton;
+	private Button nextButton;
+	private Button lastButton;
 
-    private int pageOffset;
-    private int maxPageOffset;
-    private int pageSize;
+	private TextField currentPageTextField;
+	private ToolbarTextItem totalPagesTextItem;
+	private TextField rowsPerPageTextField;
 
-    private String pageText = "Page";
-    private String ofText = "of";
-    private String rowsPerPageText = "Rows per page";
-    private String displayingItemsText = "Displaying items";
-    private String toText = "to";
+	private ToolbarTextItem firstDisplayItemIndex;
+	private ToolbarTextItem lastDisplayItemIndex;
+	private ToolbarTextItem totalItems;
 
-    private PagingToolbarClient client;
-    private TableModel model;
-    
-    public static final String MODEL_CHANGED_PROPERTY="model";
+	private int pageOffset;
+	private int maxPageOffset;
+	private int pageSize;
 
-    public PagingToolbar() { 
-        setId("pagingToolbar");
-    }
+	private String pageText = "Page";
+	private String ofText = "of";
+	private String rowsPerPageText = "Rows per page";
+	private String displayingItemsText = "Displaying items";
+	private String toText = "to";
 
-    /**
-     * Must be called to initialise the toolbar before it is displayed.
-     * @param model the underlying table model.
-     * @param pageSize the page size.
-     * @param client the client which will handle callbacks.
-     */
-    public void initialise(
-            TableModel model,
-            int pageSize,
-            PagingToolbarClient client) {
+	private PagingToolbarClient client;
+	private TableModel model;
 
-        this.pageOffset = 0;
-        this.pageSize = pageSize;
-        this.client = client;
-        this.model = model;
+	public static final String MODEL_CHANGED_PROPERTY = "model";
 
-        createComponents();
-        setTableModel(model);
-        
-    }
+	public PagingToolbar() {
+		setId("pagingToolbar");
+	}
 
-    private void createComponents() {
+	/**
+	 * Must be called to initialise the toolbar before it is displayed.
+	 * 
+	 * @param model
+	 *            the underlying table model.
+	 * @param pageSize
+	 *            the page size.
+	 * @param client
+	 *            the client which will handle callbacks.
+	 */
+	public void initialise(TableModel model, int pageSize,
+			PagingToolbarClient client) {
 
-        // Add the paging controls
+		this.pageOffset = 0;
+		this.pageSize = pageSize;
+		this.client = client;
+		this.model = model;
 
-        firstButton = new FirstPageButton();
-        add(firstButton);
+		createComponents();
+		setTableModel(model);
 
-        previousButton = new PreviousPageButton();
-        add(previousButton);
+	}
 
-        addSeparator();
+	private void createComponents() {
 
-        addTextItem(pageText).setId("page");
+		// Add the paging controls
 
-        Panel p = new Panel();
-        add(p);
+		firstButton = new FirstPageButton();
+		add(firstButton);
 
-        p.addKeyPressListener("enter", new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                setPage();
-            }
-        });
-        currentPageTextField = new TextField(3);
-        p.add(currentPageTextField);
+		previousButton = new PreviousPageButton();
+		add(previousButton);
 
-        addTextItem(ofText).setId("ofPages");
-        totalPagesTextItem = new ToolbarTextItem();
-        totalPagesTextItem.setId("static");
-        add(totalPagesTextItem);
+		addSeparator();
 
-        addSeparator();
+		addTextItem(pageText).setId("page");
 
-        nextButton = new NextPageButton();
-        add(nextButton);
+		Panel p = new Panel();
+		add(p);
 
-        lastButton = new LastPageButton();
-        add(lastButton);
+		p.addKeyPressListener("enter", new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setPage();
+			}
+		});
+		currentPageTextField = new TextField(3);
+		currentPageTextField.setInputMask(NUMERIC_INPUT_MASK);
+		p.add(currentPageTextField);
 
-        // add the rows per page control
+		addTextItem(ofText).setId("ofPages");
+		totalPagesTextItem = new ToolbarTextItem();
+		totalPagesTextItem.setId("static");
+		add(totalPagesTextItem);
 
-        addSeparator();
+		addSeparator();
 
-        addTextItem(rowsPerPageText).setId("rowsPerPage");
+		nextButton = new NextPageButton();
+		add(nextButton);
 
-        p = new Panel();
-        add(p);
-        rowsPerPageTextField = new TextField(
-                String.valueOf(client.getPageSize()));
-        p.add(rowsPerPageTextField);
-        rowsPerPageTextField.setSize(3);
-        p.addKeyPressListener("enter", new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                applyPageSize();
-            }
-        });
+		lastButton = new LastPageButton();
+		add(lastButton);
 
-        // add the "Displaying items..." information
-        addSeparator();
+		// add the rows per page control
 
-        addTextItem(displayingItemsText).setId("displayingItems");
-        firstDisplayItemIndex = new ToolbarTextItem();
-        firstDisplayItemIndex.setId("static");
-        add(firstDisplayItemIndex);
-        addTextItem(toText).setId("toItem");
-        lastDisplayItemIndex = new ToolbarTextItem();
-        lastDisplayItemIndex.setId("static");
-        add(lastDisplayItemIndex);
-        addTextItem(ofText).setId("ofItems");
-        totalItems = new ToolbarTextItem();
-        totalItems.setId("static");
-        add(totalItems);
+		addSeparator();
 
-        /*
-         * Since we start on the first page, the previous button will
-         * be disabled to start with.
-         */
-        firstButton.setEnabled(false);
-        previousButton.setEnabled(false);
-        
-        firstButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent arg0) {
-                setPageOffset(0);
-                currentPageTextField.setValue("1");
-                enableButtons();
-          }});
+		addTextItem(rowsPerPageText).setId("rowsPerPage");
 
-        previousButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                setPageOffset(pageOffset - pageSize);
-                currentPageTextField.setValue(
-                        String.valueOf((pageOffset / pageSize) + 1));
-                enableButtons();
-            }
-        });
+		p = new Panel();
+		add(p);
+		rowsPerPageTextField = new TextField(String.valueOf(client
+				.getPageSize()));
+		p.add(rowsPerPageTextField);
+		rowsPerPageTextField.setSize(3);
+		rowsPerPageTextField.setInputMask(NUMERIC_INPUT_MASK);
+		p.addKeyPressListener("enter", new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				applyPageSize();
+			}
+		});
 
-        nextButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                setPageOffset(pageOffset + pageSize);
-                currentPageTextField.setValue(
-                        String.valueOf((pageOffset / pageSize) + 1));
-                enableButtons();
-            }
-        });
+		// add the "Displaying items..." information
+		addSeparator();
 
-        lastButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                setPageOffset(
-                        ( (model.getRowCount() -1) / pageSize)
-                        * pageSize
-                    );
-                currentPageTextField.setValue(
-                        String.valueOf((pageOffset / pageSize) + 1));
-                enableButtons();
-            }
-        });
-    }
+		addTextItem(displayingItemsText).setId("displayingItems");
+		firstDisplayItemIndex = new ToolbarTextItem();
+		firstDisplayItemIndex.setId("static");
+		add(firstDisplayItemIndex);
+		addTextItem(toText).setId("toItem");
+		lastDisplayItemIndex = new ToolbarTextItem();
+		lastDisplayItemIndex.setId("static");
+		add(lastDisplayItemIndex);
+		addTextItem(ofText).setId("ofItems");
+		totalItems = new ToolbarTextItem();
+		totalItems.setId("static");
+		add(totalItems);
 
-    private void setPage() {
-        int requestedPage = Integer.parseInt(currentPageTextField.getValue());
-        int requestedPageOffset = (requestedPage - 1) * pageSize;
-        if (requestedPageOffset > maxPageOffset) {
-            requestedPageOffset = maxPageOffset;
-            currentPageTextField.setValue(
-                    String.valueOf( (maxPageOffset / pageSize) + 1) ) ;
-        }
-        setPageOffset(requestedPageOffset);
-        enableButtons();
-    }
+		/*
+		 * Since we start on the first page, the previous button will be
+		 * disabled to start with.
+		 */
+		firstButton.setEnabled(false);
+		previousButton.setEnabled(false);
 
-    private void applyPageSize() {
-        if (rowsPerPageTextField.getValue() == null) {
-            rowsPerPageTextField.setValue(String.valueOf(pageSize));
-        }
-        pageSize = Integer.parseInt(rowsPerPageTextField.getValue());
-        client.setPageSize(pageSize);
-        // reset back to the start
-        setTableModel(model, true);
-    }
+		firstButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setPageOffset(0);
+				currentPageTextField.setValue("1");
+				enableButtons();
+			}
+		});
 
-    public void setPageSize(int pageSize) {
-        rowsPerPageTextField.setValue(String.valueOf(pageSize));
-        this.pageSize = pageSize;
-        client.setPageSize(pageSize);
-        // reset back to the start
-        setTableModel(model);
-    }
+		previousButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setPageOffset(pageOffset - pageSize);
+				currentPageTextField.setValue(String
+						.valueOf((pageOffset / pageSize) + 1));
+				enableButtons();
+			}
+		});
 
-    private void enableButtons() {
-        // disable them all
-        firstButton.setEnabled(false);
-        previousButton.setEnabled(false);
-        nextButton.setEnabled(false);
-        lastButton.setEnabled(false);
-        
-        if (pageOffset > 0) {
-            firstButton.setEnabled(true);
-            previousButton.setEnabled(true);
-        }
-        
-        if (pageOffset < maxPageOffset) {
-            nextButton.setEnabled(true);
-            lastButton.setEnabled(true);
-        }
-    }
+		nextButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setPageOffset(pageOffset + pageSize);
+				currentPageTextField.setValue(String
+						.valueOf((pageOffset / pageSize) + 1));
+				enableButtons();
+			}
+		});
 
-    private void setPageOffset(int pageOffset) {
-        this.pageOffset = pageOffset;
-        client.setPageOffset(pageOffset);
-        firstDisplayItemIndex.setText(String.valueOf(pageOffset +1));
-        int last = pageOffset + pageSize < model.getRowCount()
-                ? pageOffset + pageSize : model.getRowCount();
-        lastDisplayItemIndex.setText(String.valueOf(last));
-    }
+		lastButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setPageOffset(((model.getRowCount() - 1) / pageSize) * pageSize);
+				currentPageTextField.setValue(String
+						.valueOf((pageOffset / pageSize) + 1));
+				enableButtons();
+			}
+		});
+	}
 
-    /**
-     * Sets the attributes of the paging toolbar according to the model.
-     * @param model
-     */
-    public void setTableModel(TableModel model) {
-    	setTableModel(model, true);
-    }
+	private void setPage() {
+		validateNumericInput(currentPageTextField, 1);
+		int requestedPage = Integer.parseInt(currentPageTextField.getValue());
+		int requestedPageOffset = (requestedPage - 1) * pageSize;
+		if (requestedPageOffset > maxPageOffset) {
+			requestedPageOffset = maxPageOffset;
+			currentPageTextField.setValue(String
+					.valueOf((maxPageOffset / pageSize) + 1));
+		}
+		setPageOffset(requestedPageOffset);
+		enableButtons();
 
-    /**
-     * Sets the attributes of the paging toolbar according to the model.
-     * @param model the model
-     * @param doReset true if reset required
-     */
-    public void setTableModel(TableModel model, boolean doReset) {
-    
-        /**
-         * Adds this as a listener to the model change event and refreshes
-         * the toolbar attributes accordingly.
-         */
-    	if (!model.equals(this.model)) {
-    		if (this.model != null) {
-    			this.model.removeTableModelListener(this);
-    		}
-    		model.addTableModelListener(this);
-    	}
+	}
 
-        this.model = model;
-        
-        if (!doReset)
-        	return;
-        
-        setPageOffset(0);
-        maxPageOffset = ( (model.getRowCount() -1) / pageSize)
-                        * pageSize;
+	private void applyPageSize() {
+		validateNumericInput(rowsPerPageTextField, pageSize);
+		pageSize = Integer.parseInt(rowsPerPageTextField.getValue());
+		client.setPageSize(pageSize);
+		// reset back to the start
+		setTableModel(model, true);
+	}
 
-        firstButton.setEnabled(false);
-        previousButton.setEnabled(false);
-        nextButton.setEnabled(true);
-        lastButton.setEnabled(true);
+	private void validateNumericInput(TextField textField, int defaultValue) {
+		if (textField.getValue() == null || ZERO.equals(textField.getValue())
+				|| textField.getValue().startsWith(ZERO)) {
+			textField.setValue(String.valueOf(defaultValue));
+		}
+	}
 
-        totalItems.setText(String.valueOf(model.getRowCount()));
+	public void setPageSize(int pageSize) {
+		rowsPerPageTextField.setValue(String.valueOf(pageSize));
+		this.pageSize = pageSize;
+		client.setPageSize(pageSize);
+		// reset back to the start
+		setTableModel(model);
+	}
 
-        currentPageTextField.setValue("1");
+	private void enableButtons() {
+		// disable them all
+		firstButton.setEnabled(false);
+		previousButton.setEnabled(false);
+		nextButton.setEnabled(false);
+		lastButton.setEnabled(false);
 
-        int totalPages = (model.getRowCount() / pageSize);
-        if (model.getRowCount() % pageSize > 0) {
-            totalPages++;
-        }
+		if (pageOffset > 0) {
+			firstButton.setEnabled(true);
+			previousButton.setEnabled(true);
+		}
 
-        totalPagesTextItem.setText(String.valueOf(totalPages));
-        enableButtons();
-    }
+		if (pageOffset < maxPageOffset) {
+			nextButton.setEnabled(true);
+			lastButton.setEnabled(true);
+		}
+	}
 
-    /**
-     * Refreshes the paging toolbar.
-     */
-    protected void refreshPagingToolBar() {
-        this.setTableModel(model);
-    }
+	private void setPageOffset(int pageOffset) {
+		this.pageOffset = pageOffset;
+		client.setPageOffset(pageOffset);
+		firstDisplayItemIndex.setText(String.valueOf(pageOffset + 1));
+		int last = pageOffset + pageSize < model.getRowCount() ? pageOffset
+				+ pageSize : model.getRowCount();
+		lastDisplayItemIndex.setText(String.valueOf(last));
+	}
 
-    /**
-     * Sets the text to be used in place of the english "Displaying items".
-     * @param displayingItemsString the text to use.
-     */
-    public void setDisplayingItemsText(String displayingItemsText) {
-        this.displayingItemsText = displayingItemsText;
-    }
+	/**
+	 * Sets the attributes of the paging toolbar according to the model.
+	 * 
+	 * @param model
+	 */
+	public void setTableModel(TableModel model) {
+		setTableModel(model, true);
+	}
 
-    /**
-     * Sets the text to be used in place of the english "to".
-     * @param ofString the text to use.
-     */
-    public void setOfText(String ofText) {
-        this.ofText = ofText;
-    }
+	/**
+	 * Sets the attributes of the paging toolbar according to the model.
+	 * 
+	 * @param model
+	 *            the model
+	 * @param doReset
+	 *            true if reset required
+	 */
+	public void setTableModel(TableModel model, boolean doReset) {
 
-    /**
-     * Sets the text to be used in place of the english "Page".
-     * @param pageString the text to use.
-     */
-    public void setPageText(String pageText) {
-        this.pageText = pageText;
-    }
+		/**
+		 * Adds this as a listener to the model change event and refreshes the
+		 * toolbar attributes accordingly.
+		 */
+		if (!model.equals(this.model)) {
+			if (this.model != null) {
+				this.model.removeTableModelListener(this);
+			}
+			model.addTableModelListener(this);
+		}
 
-    /**
-     * Sets the text to be used in place of the english "Rows per page".
-     * @param rowsPerPageString the text to use.
-     */
-    public void setRowsPerPageText(String rowsPerPageText) {
-        this.rowsPerPageText = rowsPerPageText;
-    }
+		this.model = model;
 
-    /**
-     * Sets the text to be used in place of the english "to".
-     * @param toString the text to use.
-     */
-    public void setToText(String toText) {
-        this.toText = toText;
-    }
+		if (!doReset)
+			return;
+
+		setPageOffset(0);
+		maxPageOffset = ((model.getRowCount() - 1) / pageSize) * pageSize;
+
+		firstButton.setEnabled(false);
+		previousButton.setEnabled(false);
+		nextButton.setEnabled(true);
+		lastButton.setEnabled(true);
+
+		totalItems.setText(String.valueOf(model.getRowCount()));
+
+		currentPageTextField.setValue("1");
+
+		int totalPages = (model.getRowCount() / pageSize);
+		if (model.getRowCount() % pageSize > 0) {
+			totalPages++;
+		}
+
+		totalPagesTextItem.setText(String.valueOf(totalPages));
+		enableButtons();
+	}
+
+	/**
+	 * Refreshes the paging toolbar.
+	 */
+	protected void refreshPagingToolBar() {
+		this.setTableModel(model);
+	}
+
+	/**
+	 * Sets the text to be used in place of the english "Displaying items".
+	 * 
+	 * @param displayingItemsString
+	 *            the text to use.
+	 */
+	public void setDisplayingItemsText(String displayingItemsText) {
+		this.displayingItemsText = displayingItemsText;
+	}
+
+	/**
+	 * Sets the text to be used in place of the english "to".
+	 * 
+	 * @param ofString
+	 *            the text to use.
+	 */
+	public void setOfText(String ofText) {
+		this.ofText = ofText;
+	}
+
+	/**
+	 * Sets the text to be used in place of the english "Page".
+	 * 
+	 * @param pageString
+	 *            the text to use.
+	 */
+	public void setPageText(String pageText) {
+		this.pageText = pageText;
+	}
+
+	/**
+	 * Sets the text to be used in place of the english "Rows per page".
+	 * 
+	 * @param rowsPerPageString
+	 *            the text to use.
+	 */
+	public void setRowsPerPageText(String rowsPerPageText) {
+		this.rowsPerPageText = rowsPerPageText;
+	}
+
+	/**
+	 * Sets the text to be used in place of the english "to".
+	 * 
+	 * @param toString
+	 *            the text to use.
+	 */
+	public void setToText(String toText) {
+		this.toText = toText;
+	}
 
 	public void tableChanged(TableModelEvent arg0) {
-        refreshPagingToolBar();
+		refreshPagingToolBar();
 	}
 
 }
