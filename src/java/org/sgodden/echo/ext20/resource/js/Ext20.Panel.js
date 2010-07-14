@@ -141,7 +141,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
          * children differently.
          */
         _createChildItems: function(update, children) {
-            
+            var hasNonWindowChildren = false;
             for (var i = 0; i < children.length; i++) {
                 var child = children[i];
                 
@@ -154,6 +154,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                     // we don't renderAdd here - ext does it lazily
                     var childExtComponent = new EchoExt20.Echo3SyncWrapper(update, child);
                     this._addExtComponentChild(child, childExtComponent, childIndex);
+                    hasNonWindowChildren = true;
                 }
                 else if (child instanceof EchoExt20.Window) {
                     this._createWindow(update, child);
@@ -184,6 +185,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                         childExtComponent.echoComponent = child;
                         this._addExtComponentChild(child, childExtComponent, childIndex);
                     }
+                    hasNonWindowChildren = true;
                 }
             }
     
@@ -194,6 +196,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 var child = this.component.getComponent(i);
                 child.childIndex = i;
             }
+            return hasNonWindowChildren;
         },
     
         /**
@@ -323,7 +326,10 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             var addedChildren = update.getAddedChildren();
             //Needs layout if any components have been added to the panel.
             needsLayout = true;
-            this._createChildItems(update, addedChildren);
+            needsLayout = this._createChildItems(update, addedChildren);
+            if (needsLayout == null || typeof needsLayout == 'undefined') {
+                needsLayout = true;
+            }
             var buttons = this._createButtons(update, addedChildren);
             if (buttons.length > 0) {
                 var footer = this.extComponent.footer;

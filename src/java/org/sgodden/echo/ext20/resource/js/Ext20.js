@@ -623,7 +623,19 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 }
             }
         }
-        if (update.hasAddedChildren() || update.hasRemovedChildren()) {
+        // request layout if removedChildren or added a non-window child
+        var needsLayout = update.hasRemovedChildren();
+        if (!needsLayout) {
+	        var addedChildren = update.getAddedChildren();
+	        if (addedChildren != null) {
+		        for (var i = 0; i < addedChildren.length && !needsLayout; i++) {
+		        	if (addedChildren[i].componentType != "Ext20Window") {
+		        		needsLayout = true;
+		        	}
+		        }
+	        }
+        }
+        if (needsLayout) {
                 this.doChildrenModifiedLayout();
         }
 		
