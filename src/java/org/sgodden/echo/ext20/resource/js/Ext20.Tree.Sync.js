@@ -69,6 +69,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
     
     	// default options
     	options['autoScroll'] = true;
@@ -76,7 +77,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     	options['containerScroll'] = true;
     	
     	if (this.component.get("hasBorder") != null)
-    		options['border'] = this.component.get("hasBorder");
+    		options['border'] = this.component.render("hasBorder");
     	
     	if (this.component.get("lines") != null)
     		options['lines'] = this.component.get("lines") == 1;
@@ -85,11 +86,11 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         this._headerVisible = options['headerVisible'];
         options['rootVisible'] = this.component.render("rootVisible", true);
         
-        if (this.component.get("showCheckBoxes") != null) {
-            options['showCheckBoxes'] = this.component.get("showCheckBoxes");
+        if (this.component.render("showCheckBoxes") != null) {
+            options['showCheckBoxes'] = this.component.render("showCheckBoxes");
         }
-        if (this.component.get("showRootNode") != null) {
-            options['rootVisible'] = this.component.get("showRootNode");
+        if (this.component.render("showRootNode") != null) {
+            options['rootVisible'] = this.component.render("showRootNode");
         }
     	
 
@@ -114,7 +115,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
         var ext20RootNode = this._renderNode(update, rootNode);
         this.extComponent.setRootNode(ext20RootNode);
     
-        var selection = this.component.render("selection");
+        var selection = this.component.get("selection");
         if (selection && this._selectionEnabled) {
             this._setSelectedFromProperty(selection);
         }
@@ -626,7 +627,7 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     _renderSelectionUpdate : function() {
     	this.extComponent.registerAllNodes();
-    	var selection = this.component.render("selection");
+    	var selection = this.component.get("selection");
         if (selection && this._selectionEnabled) {
             this._setSelectedFromProperty(selection, false, true);
         }

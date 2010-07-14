@@ -32,7 +32,7 @@ EchoExt20.PortalColumnSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     createExtComponent: function(update, options) {
-		
+    	options["stateful"] = false;
 		if (this.component.get("padding") != null) {
 			options['style'] = "padding: " + this.component.get("padding"); 
 		}

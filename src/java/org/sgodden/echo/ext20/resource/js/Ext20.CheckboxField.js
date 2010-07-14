@@ -47,6 +47,7 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         var selected = this.component.get("selected");
         
         options['fieldLabel'] = this.component.get("fieldLabel");

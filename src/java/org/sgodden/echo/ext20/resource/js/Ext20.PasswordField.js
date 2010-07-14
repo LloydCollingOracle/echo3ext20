@@ -40,6 +40,7 @@ EchoExt20.PasswordFieldSync = Core.extend(EchoExt20.TextFieldSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         options.inputType = "password";
     	return EchoExt20.TextFieldSync.prototype.createExtComponent.call(this, update, options);
     }

@@ -148,7 +148,40 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     		/*
     		 * Must defer to ensure focus is called when the component is ready for it.
     		 */
-    		this.extComponent.focus.defer(100, this.extComponent);
+    		this.extComponent.focus.defer(1, this.extComponent);
+        },
+    
+        /**
+         * Called when children have been added or removed during an update
+         * to cause the component to lay itself out
+         */
+        doChildrenModifiedLayout: function() {
+        	this._notifyLayoutChanges();
+        },
+        
+        /**
+         * Notifies the root container that layout changes
+         * occurred, and that it therefore needs to redo its
+         * layout.
+         */
+        _notifyLayoutChanges: function() {
+            if (this._isARootContainer) {
+                /*
+                 * We are a root container - tell the overall root
+                 * container that we require layout when the
+                 * update has finished.
+                 */
+                if (EchoExt20.rootRootContainer._containersRequiringLayout == null) {
+                    EchoExt20.rootRootContainer._containersRequiringLayout = [];
+                }
+                if (EchoExt20.rootRootContainer._containersRequiringLayout.indexOf(this) == -1) {
+                    EchoExt20.rootRootContainer._containersRequiringLayout.push(this);
+                }
+            }
+            else {
+                // not a root, tell the parent
+                this.component.parent.peer._notifyLayoutChanges();
+            }
         }
     },
     
@@ -257,31 +290,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             }
         } catch (ex) {
             this.extComponent.el.focus();
-        }
-    },
-    
-    /**
-     * Notifies the root container that layout changes
-     * occurred, and that it therefore needs to redo its
-     * layout.
-     */
-    _notifyLayoutChanges: function() {
-        if (this._isARootContainer) {
-            /*
-             * We are a root container - tell the overall root
-             * container that we require layout when the
-             * update has finished.
-             */
-            if (EchoExt20.rootRootContainer._containersRequiringLayout == null) {
-                EchoExt20.rootRootContainer._containersRequiringLayout = [];
-            }
-            if (EchoExt20.rootRootContainer._containersRequiringLayout.indexOf(this) == -1) {
-                EchoExt20.rootRootContainer._containersRequiringLayout.push(this);
-            }
-        }
-        else {
-            // not a root, tell the parent
-            this.component.parent.peer._notifyLayoutChanges();
         }
     },
 
@@ -465,11 +473,24 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
          * it on them.
          */
         if (this._containersRequiringLayout != null) {
+
+            // Create map to contain removed components (for peer unloading).
+            Echo.Render._disposedComponents = {};
+            
             for (var i = 0; i < this._containersRequiringLayout.length; i++) {
                 var peer = this._containersRequiringLayout[i];
                 peer.extComponent.doLayout();
             }
             this._containersRequiringLayout = null;
+            
+            // Unload peers for truly removed components, destroy mapping.
+            for (var peerId in Echo.Render._disposedComponents) {
+                var component = Echo.Render._disposedComponents[peerId];
+                Echo.Render._unloadPeer(component);
+            }
+
+            // Clear disposed component list.
+            Echo.Render._disposedComponents = null;
         }
         
     },
@@ -577,6 +598,9 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             // update listener we added earlier
             Echo.Render.removeRenderDisplayCompleteListener(this.renderDisplayCompleteRef);
         }
+        if (this.extComponent != null) {
+        	Ext.ComponentMgr.unregister(this.extComponent);
+        }
     },
     
     renderUpdate: function(update) {
@@ -600,7 +624,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             }
         }
         if (update.hasAddedChildren() || update.hasRemovedChildren()) {
-                this._notifyLayoutChanges();
+                this.doChildrenModifiedLayout();
         }
 		
         if (update.hasUpdatedProperties()) {

@@ -266,6 +266,7 @@ EchoExt20.ContainerSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         // process basic properties
         
         options['autoEl'] = {tag: 'div'};
@@ -275,20 +276,20 @@ EchoExt20.ContainerSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['autoEl'].html = html;
         }
 
-        if (this.component.render("padding")) {
-            options.style.padding = this.component.render("padding");
+        if (this.component.get("padding")) {
+            options.style.padding = this.component.get("padding");
         }
 
-    	if (this.component.render("background") != null) {
-    	    options.style.backgroundColor =  this.component.render("background");
+    	if (this.component.get("background") != null) {
+    	    options.style.backgroundColor =  this.component.get("background");
     	}
         
-        var height = this.component.render("height");
+        var height = this.component.get("height");
         if (height != null) {
             options['height'] = height;
         }
         
-        var width = this.component.render("width");
+        var width = this.component.get("width");
         if (width != null) {
             options['width'] = width;
         }

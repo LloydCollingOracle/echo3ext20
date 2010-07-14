@@ -41,6 +41,7 @@ EchoExt20.PortalSync = Core.extend(EchoExt20.PanelSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         var extComponent = EchoExt20.PanelSync.prototype.createExtComponent.call(this, update, options);
         extComponent.on('drop', this._handleDropEvent, this);
         return extComponent;

@@ -47,6 +47,7 @@ EchoExt20.WindowSync = Core.extend(EchoExt20.PanelSync, {
     },
     
     newExtComponentInstance: function(options) {
+    	options["stateful"] = false;
         
         options.onEsc = Ext.emptyFn;
         

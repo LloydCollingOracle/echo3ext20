@@ -54,7 +54,7 @@ EchoExt20.MenuItemSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     createExtComponent: function(update, options) {
-        
+    	options["stateful"] = false;
 		if (this.component.get("iconClass") != null) {
 			  options['iconCls'] = this.component.get("iconClass");
 		}
@@ -85,7 +85,7 @@ EchoExt20.MenuItemSync = Core.extend(EchoExt20.ExtComponentSync, {
     	var extComponent = this.newExtComponentInstance(options);
     	extComponent.on('click', this._handleClickEventRef);
 
-        if (this.component.render("icon")) {
+        if (this.component.get("icon")) {
             extComponent.on("render", this._onRender, this);
         }
 
@@ -126,11 +126,11 @@ EchoExt20.MenuItemSync = Core.extend(EchoExt20.ExtComponentSync, {
     	var iconUrl = null;
     	if (this.component.isEnabled() || this.component.get("disabledIcon") == null) {
     		iconUrl = Echo.Sync.ImageReference.getUrl(
-                this.component.render("icon"));
+                this.component.get("icon"));
     	}
     	else {
     		iconUrl = Echo.Sync.ImageReference.getUrl(
-                this.component.render("disabledIcon"));
+                this.component.get("disabledIcon"));
     	}
     	if (iconUrl != null) {
             var el = this.extComponent.getEl().down("img");

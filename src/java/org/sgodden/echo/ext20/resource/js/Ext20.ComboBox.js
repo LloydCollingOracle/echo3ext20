@@ -188,7 +188,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
-        
+    	options["stateful"] = false;
         options["displayField"] = "display";
         options["valueField"] = "value";
         options["iconField"] = "icon";

@@ -45,11 +45,11 @@ EchoExt20.SplitButtonSync = Core.extend(EchoExt20.ButtonSync, {
    		var iconUrl = null;
    		if (this.component.isEnabled() || this.component.get("disabledIcon") == null) {
 	   		iconUrl = Echo.Sync.ImageReference.getUrl(
-               	this.component.render("icon"));
+               	this.component.get("icon"));
     	}
     	else {
     		iconUrl = Echo.Sync.ImageReference.getUrl(
-               	this.component.render("disabledIcon"));
+               	this.component.get("disabledIcon"));
    		}
     	if (iconUrl != null) {
            	var el = this.extComponent.getEl().down("///////button"); // the left button td

@@ -210,18 +210,13 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         this._selectedRows = {};
         
         this._selectionTask = new Ext.util.DelayedTask(this._doSelect, this);
-
-        Ext.state.Manager.clear(this.component.renderId);
-        var existingComponent = Ext.ComponentMgr.get(this.component.renderId);
-        if (existingComponent != null)
-            Ext.ComponentMgr.unregister(existingComponent);
         
         options["plugins"] = [];
         if (this._showColAddRemove) {
             options["plugins"][0] = new EchoExt20.GridColAddRemove();
         }
 
-        this._model = this.component.render("model");
+        this._model = this.component.get("model");
         options["store"] = this._makeStore();
                 
         var view = null;

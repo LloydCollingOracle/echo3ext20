@@ -43,7 +43,7 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.FormFieldSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
-        
+    	options["stateful"] = false;
         var timeFormat = this.component.get("timeFormat");
         if (timeFormat == null) {
             throw new Error("property 'timeFormat' must be specified on time fields");

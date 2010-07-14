@@ -42,7 +42,7 @@ EchoExt20.RadioButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     disableActions : false,
     
     createExtComponent: function(update, options) {
-        
+    	options["stateful"] = false;
         var selected = this.component.get("selected");
         
         options['fieldLabel'] = this.component.get("fieldLabel");

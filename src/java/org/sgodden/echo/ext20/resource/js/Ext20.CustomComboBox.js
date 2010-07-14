@@ -36,6 +36,7 @@ EchoExt20.CustomComboBoxSync = Core.extend( EchoExt20.ExtComponentSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         options["store"]=new Ext.data.SimpleStore({fields:[],data:[[]]});   
         options["editable"] = false;   
         options["mode"] = 'local';   

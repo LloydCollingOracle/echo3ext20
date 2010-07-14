@@ -32,7 +32,7 @@ EchoExt20.SpanSync = Core.extend(Echo.Render.ComponentSync, {
      * Appends rendered content to bounding element (<code>this.div</code>).
      */
     renderContent: function() {
-        var text = this.component.render("html");
+        var text = this.component.get("html");
         this.div.innerHTML = text;
     },
     
@@ -47,7 +47,7 @@ EchoExt20.SpanSync = Core.extend(Echo.Render.ComponentSync, {
         
         this.div = document.createElement('SPAN'); 
         this.div.id = this.component.renderId;
-        var text = this.component.render("html");
+        var text = this.component.get("html");
         this.div.innerHTML = text;
         
         parentElement.appendChild(this.div);

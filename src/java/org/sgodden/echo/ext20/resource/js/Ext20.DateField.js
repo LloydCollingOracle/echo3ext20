@@ -46,6 +46,7 @@ EchoExt20.DateFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     },
     
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         var date = this.component.get("date");
         options['value'] = date;
         

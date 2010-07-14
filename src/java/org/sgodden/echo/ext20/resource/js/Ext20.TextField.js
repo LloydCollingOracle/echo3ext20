@@ -79,6 +79,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         options['enableKeyEvents'] = true;
         this._initialValue = this._getComponentValue();
         

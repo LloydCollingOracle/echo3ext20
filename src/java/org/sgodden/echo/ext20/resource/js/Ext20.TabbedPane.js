@@ -49,6 +49,17 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
     $load: function() {
         Echo.Render.registerPeer("Ext20TabbedPane", this);
     },
+    
+
+    $virtual: {
+    
+        /**
+         * Called when children have been added or removed during an update
+         * to cause the component to lay itself out
+         */
+        doChildrenModifiedLayout: function() {
+        }
+    },
 	
     hideWhenAddingChildren: false,
 	
@@ -110,6 +121,7 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
     },
     
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         if (this.component.get('plain') != null) {
             options['plain'] = this.component.get("plain");
         }
@@ -119,7 +131,7 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
         return EchoExt20.PanelSync.prototype.createExtComponent.call(
                 this, update, options);
     },
-	
+
     renderUpdate: function(update) {
         var activeTabIndex = this.component.get("activeTabIndex");
         this._tabCloseNotificationSuspended = true;
@@ -133,7 +145,9 @@ EchoExt20.TabbedPaneSync = Core.extend(EchoExt20.PanelSync, {
         var activeExtComponent = this.extComponent.items.get(activeTabIndex);
 
         this._tabChangeNotificationSuspended = true;
+        this.extComponent.suspendEvents();
         this.extComponent.setActiveTab(activeExtComponent);
+        this.extComponent.resumeEvents();
         this._tabChangeNotificationSuspended = false;
     }
     

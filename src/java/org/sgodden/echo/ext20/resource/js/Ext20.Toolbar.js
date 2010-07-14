@@ -31,6 +31,7 @@ EchoExt20.ToolbarSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
     	var extComponent = new Ext.Toolbar(options);
         this._createChildItems(extComponent, update);
     	

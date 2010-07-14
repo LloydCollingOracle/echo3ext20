@@ -31,7 +31,7 @@ EchoExt20.MenuSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     createExtComponent: function(update, options) {
-    
+    	options["stateful"] = false;
     	var extComponent = new Ext.menu.Menu(options);
         this._createChildItems(extComponent, update);
     	

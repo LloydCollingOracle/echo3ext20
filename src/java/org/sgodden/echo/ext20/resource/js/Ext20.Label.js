@@ -52,6 +52,7 @@ EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         // process basic properties
         var labelText = this.component.get("text");
         if (labelText != null) {

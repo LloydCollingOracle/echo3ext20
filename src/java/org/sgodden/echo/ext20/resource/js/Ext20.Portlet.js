@@ -40,6 +40,7 @@ EchoExt20.PortletSync = Core.extend(EchoExt20.PanelSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         var extComponent = EchoExt20.PanelSync.prototype.createExtComponent.call(this, update, options);
         extComponent.on('collapse', this._handleCollapseEvent, this);
         extComponent.on('expand', this._handleExpandEvent, this);

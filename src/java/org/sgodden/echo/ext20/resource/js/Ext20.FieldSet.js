@@ -35,6 +35,7 @@ EchoExt20.FieldSetSync = Core.extend(EchoExt20.PanelSync, {
      * Configures the options for the new ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
     
 	options['autoHeight'] = true; // seems to be necessary to sort out various rendering problems
 		

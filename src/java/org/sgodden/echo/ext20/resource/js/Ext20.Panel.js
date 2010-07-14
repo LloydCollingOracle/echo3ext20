@@ -366,7 +366,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
          * progressive rendering visible to the user.
          */
         if (!doHide && needsLayout) {
-            this.extComponent.doLayout();
+            this.doChildrenModifiedLayout();
         } else if (!doHide) {
             this._doChildAddEffects();
         }
@@ -424,6 +424,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
         // process basic properties
         
         if (this.component.render("frame")) {
@@ -432,44 +433,44 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                 options.baseCls = 'x-box';
         }
         
-        if (this.component.render("titlePosition")) {
-            options.titlePosition = this.component.render("titlePosition");
+        if (this.component.get("titlePosition")) {
+            options.titlePosition = this.component.get("titlePosition");
         }
 
-        if (this.component.render("padding")) {
-            options.style.padding = this.component.render("padding");
+        if (this.component.get("padding")) {
+            options.style.padding = this.component.get("padding");
         }
 
-        if (this.component.render("bodyPadding")) {
-            options.bodyStyle.padding = this.component.render("bodyPadding");
+        if (this.component.get("bodyPadding")) {
+            options.bodyStyle.padding = this.component.get("bodyPadding");
         }
 
-    	if (this.component.render("background") != null
-    	   && this.component.render("bodyTransparent") == null) {
-    	    options.style.backgroundColor =  this.component.render("background");
+    	if (this.component.get("background") != null
+    	   && this.component.get("bodyTransparent") == null) {
+    	    options.style.backgroundColor =  this.component.get("background");
     	}
 
-    	if (this.component.render("bodyBackground")) {
-    	    options.bodyStyle.backgroundColor =  this.component.render("bodyBackground");
+    	if (this.component.get("bodyBackground")) {
+    	    options.bodyStyle.backgroundColor =  this.component.get("bodyBackground");
     	}
     
-    	if (this.component.render("bodyTransparent")) {
+    	if (this.component.get("bodyTransparent")) {
     	    options.bodyStyle.background = "transparent";
     	}
         
         options.border = this.component.render("border", false);
         
-        var collapsible = this.component.get("collapsible");
+        var collapsible = this.component.render("collapsible");
         if (collapsible != null) {
             options['collapsible'] = collapsible;
         }
         
-        var collapsed = this.component.get("collapsed");
+        var collapsed = this.component.render("collapsed");
         if (collapsed != null) {
             options['collapsed'] = collapsed;
         }
         
-        var height = this.component.render("height");
+        var height = this.component.get("height");
         if (height != null) {
             options['height'] = height;
         }
@@ -494,7 +495,7 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             this._showFullTitle = showFullTitle;
         }
         
-        var width = this.component.render("width");
+        var width = this.component.get("width");
         if (width != null) {
             options['width'] = width;
         }
@@ -512,8 +513,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
             options.autoScroll = this.component.render("autoScroll");
         }
         
-        if (this.component.get("floating")) {
-            options['floating'] = this.component.get("floating");
+        if (this.component.render("floating")) {
+            options['floating'] = this.component.render("floating");
             options['shadow'] = false;
             this.positionX = this.component.get("positionX");
             this.positionY = this.component.get("positionY");

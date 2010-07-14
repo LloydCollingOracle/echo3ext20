@@ -55,6 +55,7 @@ EchoExt20.MultiSelectSync = Core.extend(EchoExt20.FormFieldSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
       _renderedComplex = false;
       options["displayField"] = "display";
       options["valueField"] = "value";

@@ -40,6 +40,7 @@ EchoExt20.HtmlEditorSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     createExtComponent: function(update, options) {
+    	options["stateful"] = false;
     	this._text = this.component.get("text");
     	options['value'] = this._text;
     	options['title'] = 'Bogus title'; // FIXME - implement title

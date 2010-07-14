@@ -60,10 +60,10 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             var iconUrl = null;
             if (this.component.isEnabled() || this.component.get("disabledIcon") == null) {
                 iconUrl = Echo.Sync.ImageReference.getUrl(
-                this.component.render("icon"));
+                this.component.get("icon"));
             } else {
                 iconUrl = Echo.Sync.ImageReference.getUrl(
-                this.component.render("disabledIcon"));
+                this.component.get("disabledIcon"));
             }
             if (iconUrl != null) {
                 var el = this.extComponent.getEl().down("////button"); // the left button td
@@ -93,9 +93,9 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
-    
-        if (this.component.render("iconClass") != null) {
-                options['iconCls'] = this.component.render("iconClass");
+    	options["stateful"] = false;
+        if (this.component.get("iconClass") != null) {
+                options['iconCls'] = this.component.get("iconClass");
         }
         options['text'] = this.component.get("text");
   
@@ -108,8 +108,8 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             this.component.focusable = false;
         }
         // We can set the button's template
-        if ( this.component.render( "template") != null) {
-            options['template'] = new Ext.Template( this.component.render( "template"));
+        if ( this.component.get( "template") != null) {
+            options['template'] = new Ext.Template( this.component.get( "template"));
         }
 
         // see if we have a menu child item
@@ -189,7 +189,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
     
     _onRender: function() {
         if (this.extComponent.rendered == true) {
-            if (this.component.render("icon")) {
+            if (this.component.get("icon")) {
                 this._setIconUrl();
             }
             
@@ -267,6 +267,14 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
                     throw new Error("Illegal child added to a button");
                 }
             }
+        }
+    },
+    
+
+    renderDispose: function(update) {
+        EchoExt20.ExtComponentSync.prototype.renderDispose.call(this, update);
+        if (this.extComponent != null && this.extComponent.rendered) {
+            Ext.ButtonToggleMgr.unregister(this.extComponent);
         }
     }
 });
