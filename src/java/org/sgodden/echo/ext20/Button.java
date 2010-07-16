@@ -33,24 +33,24 @@ public class Button extends AbstractButton {
      * should go into the container's button bar, rather than being added
      * directly to its layout.
      */
-    public static final String ADD_TO_BUTTON_BAR_PROPERTY = "addToButtonBar";
+    public static final String PROPERTY_ADD_TO_BUTTON_BAR = "addToButtonBar";
 
     /**
      * The group that this toggle button is a member of
      */
-    public static final String TOGGLE_GROUP = "toggleGroup";
+    public static final String PROPERTY_TOGGLE_GROUP = "toggleGroup";
 
     /**
      * When set to true, tells the client to show the menu assoicated with the
      * button.
      */
-    public static final String HOVER_MENU = "hoverMenu";
+    public static final String PROPERTY_HOVER_MENU = "hoverMenu";
     /**
      * set the button's template
      */
-    public static final String TEMPLATE_PROPERTY = "template";
+    public static final String PROPERTY_TEMPLATE = "template";
     
-    public static final String FOCUSABLE = "focusable";
+    public static final String PROPERTY_FOCUSABLE = "focusable";
     
     private Menu menu;
 
@@ -72,24 +72,24 @@ public class Button extends AbstractButton {
     }
 
     /**
-     * See {@link #ADD_TO_BUTTON_BAR_PROPERTY}.
+     * See {@link #PROPERTY_ADD_TO_BUTTON_BAR}.
      * 
      * @param addToButtonBar
      *            whether to add this button to the button bar rather than the
      *            main panel body.
      */
     void setAddToButtonBar(boolean addToButtonBar) {
-        set(ADD_TO_BUTTON_BAR_PROPERTY, addToButtonBar);
+        set(PROPERTY_ADD_TO_BUTTON_BAR, addToButtonBar);
     }
 
     /**
-     * See {@link #ADD_TO_BUTTON_BAR_PROPERTY}.
+     * See {@link #PROPERTY_ADD_TO_BUTTON_BAR}.
      * 
      * @return whether this button is added to the button bar rather than the
      *         main panel body.
      */
     boolean isAddToButtonBar() {
-        return (Boolean) get(ADD_TO_BUTTON_BAR_PROPERTY);
+        return (Boolean) get(PROPERTY_ADD_TO_BUTTON_BAR);
     }
 
     /**
@@ -113,15 +113,15 @@ public class Button extends AbstractButton {
      * extjs property enableToggle to true for this button.
      */
     public void setToggleGroup(String toggleGroup) {
-        set(TOGGLE_GROUP, toggleGroup);
+        set(PROPERTY_TOGGLE_GROUP, toggleGroup);
     }
 
     public void setTemplate( String template) {
-    	set( TEMPLATE_PROPERTY, template);
+    	set( PROPERTY_TEMPLATE, template);
     }
     
     public static String getToggleGroup() {
-        return (String) TOGGLE_GROUP;
+        return (String) PROPERTY_TOGGLE_GROUP;
     }
 
     /**
@@ -130,7 +130,7 @@ public class Button extends AbstractButton {
      * @param true to show the menu on mouse over.
      */
     public void isHoverMenu(boolean hoverMenu) {
-        set(HOVER_MENU, hoverMenu);
+        set(PROPERTY_HOVER_MENU, hoverMenu);
     }
     
     /**
@@ -147,6 +147,6 @@ public class Button extends AbstractButton {
      * </p>
      */
     public void setFocusable(boolean focusable) {
-    	set(FOCUSABLE, focusable);
+    	set(PROPERTY_FOCUSABLE, focusable);
     }
 }

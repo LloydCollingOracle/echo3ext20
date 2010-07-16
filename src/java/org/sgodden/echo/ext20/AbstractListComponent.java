@@ -12,7 +12,7 @@ import nextapp.echo.app.list.ListSelectionModel;
  */
 public interface AbstractListComponent {
 
-    public static final String LIST_CELL_RENDERER_CHANGED_PROPERTY = "listCellRenderer";
+    public static final String PROPERTY_LIST_CELL_RENDERER_CHANGED = "listCellRenderer";
 
     public static final ListCellRenderer DEFAULT_LIST_CELL_RENDERER = new DefaultListCellRenderer();
 

@@ -72,7 +72,7 @@ public class Window
     public static final String WINDOW_LISTENERS_CHANGED_PROPERTY = "windowListeners";
     public static final String INPUT_WINDOW_CLOSING = "windowClosing";
     
-    public static final String MODAL_PROPERTY = "modal";
+    public static final String PROPERTY_MODAL = "modal";
     public static final String PROPERTY_RESIZABLE = "resizable";
 
     /**
@@ -133,7 +133,7 @@ public class Window
      * @param modal whether the window is modal.
      */
     public void setModal(boolean modal) {
-        set(MODAL_PROPERTY, modal);
+        set(PROPERTY_MODAL, modal);
     }
     
     /**

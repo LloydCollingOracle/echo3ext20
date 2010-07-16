@@ -29,15 +29,15 @@ import nextapp.echo.app.event.ActionListener;
 @SuppressWarnings("serial")
 public class CheckboxField extends ExtComponent implements Field {
 
-	public static final String EDITABLE_PROPERTY = "editable";
-	public static final String SELECTED_CHANGED_PROPERTY = "selected";
-	public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
+	public static final String PROPERTY_EDITABLE = "editable";
+	public static final String PROPERTY_SELECTED_CHANGED = "selected";
+	public static final String PROPERTY_FIELD_LABEL = "fieldLabel";
 
 	public static final String INPUT_ACTION = "action";
 
-	public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
-	public static final String INVALID_TEXT_PROPERTY = "invalidText";
-	public static final String VALID_PROPERTY = "isValid";
+	public static final String PROPERTY_ACTION_LISTENERS_CHANGED = "actionListeners";
+	public static final String PROPERTY_INVALID_TEXT = "invalidText";
+	public static final String PROPERTY_VALID = "isValid";
 
 	/**
 	 * Creates a new, unselected checkbox.
@@ -77,7 +77,7 @@ public class CheckboxField extends ExtComponent implements Field {
 	 * @return the field label.
 	 */
 	public String getFieldLabel() {
-		return (String) get(FIELD_LABEL_PROPERTY);
+		return (String) get(PROPERTY_FIELD_LABEL);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class CheckboxField extends ExtComponent implements Field {
 	 *            whether the checkbox is selected.
 	 */
 	public void setSelected(boolean selected) {
-		set(SELECTED_CHANGED_PROPERTY, selected);
+		set(PROPERTY_SELECTED_CHANGED, selected);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class CheckboxField extends ExtComponent implements Field {
 	 * @return whether the checkbox is selected.
 	 */
 	public boolean getSelected() {
-		return (Boolean) get(SELECTED_CHANGED_PROPERTY);
+		return (Boolean) get(PROPERTY_SELECTED_CHANGED);
 	}
 
 	/**
@@ -106,13 +106,13 @@ public class CheckboxField extends ExtComponent implements Field {
 	 *            the field label.
 	 */
 	public void setFieldLabel(String fieldLabel) {
-		set(FIELD_LABEL_PROPERTY, fieldLabel);
+		set(PROPERTY_FIELD_LABEL, fieldLabel);
 	}
 
 	@Override
 	public void processInput(String inputName, Object inputValue) {
 		super.processInput(inputName, inputValue);
-		if (SELECTED_CHANGED_PROPERTY.equals(inputName)) {
+		if (PROPERTY_SELECTED_CHANGED.equals(inputName)) {
 			setSelected((Boolean) inputValue);
 		}
 		if (INPUT_ACTION.equals(inputName)) {
@@ -141,7 +141,7 @@ public class CheckboxField extends ExtComponent implements Field {
 		getEventListenerList().addListener(ActionListener.class, l);
 		// Notification of action listener changes is provided due to
 		// existence of hasActionListeners() method.
-		firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+		firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, null, l);
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class CheckboxField extends ExtComponent implements Field {
 		getEventListenerList().removeListener(ActionListener.class, l);
 		// Notification of action listener changes is provided due to
 		// existence of hasActionListeners() method.
-		firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+		firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, null, l);
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class CheckboxField extends ExtComponent implements Field {
 	 *            the invalid text.
 	 */
 	public void setInvalidText(String invalidText) {
-		set(INVALID_TEXT_PROPERTY, invalidText);
+		set(PROPERTY_INVALID_TEXT, invalidText);
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class CheckboxField extends ExtComponent implements Field {
 	 *            whether the field value is valid.
 	 */
 	public void setIsValid(boolean isValid) {
-		set(VALID_PROPERTY, isValid);
+		set(PROPERTY_VALID, isValid);
 	}
 
 }

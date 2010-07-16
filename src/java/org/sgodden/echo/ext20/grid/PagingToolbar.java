@@ -60,7 +60,7 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 	private PagingToolbarClient client;
 	private TableModel model;
 
-	public static final String MODEL_CHANGED_PROPERTY = "model";
+	public static final String PROPERTY_MODEL_CHANGED = "model";
 
 	public PagingToolbar() {
 		setId("pagingToolbar");

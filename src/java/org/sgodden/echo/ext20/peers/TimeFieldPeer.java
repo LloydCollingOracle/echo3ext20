@@ -51,7 +51,7 @@ public class TimeFieldPeer
      */
     @Override
     public Class getInputPropertyClass(String propertyName) {
-        if (TimeField.TIME_CHANGED_PROPERTY.equals(propertyName)) {
+        if (TimeField.PROPERTY_TIME_CHANGED.equals(propertyName)) {
             return String.class;
         }
         return null;
@@ -63,8 +63,8 @@ public class TimeFieldPeer
      */
     @Override
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-       	if (propertyName.equals(TimeField.TIME_CHANGED_PROPERTY)) {            
-    		getClientUpdateManager(context).setComponentProperty(component, TimeField.TIME_CHANGED_PROPERTY, newValue);
+       	if (propertyName.equals(TimeField.PROPERTY_TIME_CHANGED)) {            
+    		getClientUpdateManager(context).setComponentProperty(component, TimeField.PROPERTY_TIME_CHANGED, newValue);
         }
     }
     

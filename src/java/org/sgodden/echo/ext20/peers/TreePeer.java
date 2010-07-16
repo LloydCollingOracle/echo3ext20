@@ -25,11 +25,6 @@ public class TreePeer extends
     
     public TreePeer() {
         super();
-        addOutputProperty(Tree.HAS_BORDER_PROPERTY);
-        addOutputProperty(Tree.PROPERTY_SHOW_CHECKBOXES);
-        addOutputProperty(Tree.PROPERTY_SHOW_ROOT_NODE);
-        addOutputProperty(Tree.PROPERTY_SELECT_ON_CONTEXT);
-        addOutputProperty(Tree.PROPERTY_ACTION_ON_SELECT);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(Tree.INPUT_EXPAND, Tree.EXPANSION_LISTENERS_CHANGED_PROPERTY));
     }
 

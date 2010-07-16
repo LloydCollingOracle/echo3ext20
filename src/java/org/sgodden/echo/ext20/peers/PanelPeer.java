@@ -40,7 +40,7 @@ public class PanelPeer
         addEvent(
             new AbstractComponentSynchronizePeer.EventPeer(
                     Panel.INPUT_KEYPRESS_ACTION, 
-                    Panel.KEYPRESS_LISTENERS_CHANGED_PROPERTY) {
+                    Panel.PROPERTY_KEYPRESS_LISTENERS_CHANGED) {
                 @Override
                 public boolean hasListeners(Context context, Component component) {
                     return ((Panel) component).hasKeyPressListeners();
@@ -50,7 +50,7 @@ public class PanelPeer
         addEvent(
             new AbstractComponentSynchronizePeer.EventPeer(
                     Panel.INPUT_TOOLCLICK_ACTION, 
-                    Panel.TOOLCLICK_LISTENERS_CHANGED_PROPERTY) {
+                    Panel.PROPERTY_TOOLCLICK_LISTENERS_CHANGED) {
                 @Override
                 public boolean hasListeners(Context context, Component component) {
                     return ((Panel) component).hasToolListeners();
@@ -59,7 +59,7 @@ public class PanelPeer
         addEvent(
         		new AbstractComponentSynchronizePeer.EventPeer(
         				Panel.BEFORE_EXPAND_ACTION, 
-        				Panel.BEFOREEXPAND_LISTENERS_CHANGED_PROPERTY) {
+        				Panel.PROPERTY_BEFOREEXPAND_LISTENERS_CHANGED) {
         			@Override
         			public boolean hasListeners(Context context, Component component) {
         				return ((Panel) component).hasBeforeExpandListeners();

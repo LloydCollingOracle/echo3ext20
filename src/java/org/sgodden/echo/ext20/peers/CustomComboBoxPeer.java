@@ -14,7 +14,6 @@ public class CustomComboBoxPeer extends ExtComponentPeer {
 	*/
 	public CustomComboBoxPeer() {
 		super();
-		addOutputProperty( CustomComboBox.PROPERTY_VALUE);
 	}
 
 	@Override

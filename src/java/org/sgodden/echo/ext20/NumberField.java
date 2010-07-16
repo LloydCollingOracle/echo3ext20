@@ -9,15 +9,15 @@ package org.sgodden.echo.ext20;
 @SuppressWarnings( { "serial" })
 public class NumberField extends TextField {
 	
-    public static final String DECIMAL_PRECISION = "decimalPrecision";
+    public static final String PROPERTY_DECIMAL_PRECISION = "decimalPrecision";
 	
-    public static final String MIN_VALUE = "minValue";
+    public static final String PROPERTY_MIN_VALUE = "minValue";
 	
-    public static final String MIN_TEXT = "minText";
+    public static final String PROPERTY_MIN_TEXT = "minText";
 	
-    public static final String MAX_VALUE = "maxValue";
+    public static final String PROPERTY_MAX_VALUE = "maxValue";
 	
-    public static final String MAX_TEXT = "maxText";
+    public static final String PROPERTY_MAX_TEXT = "maxText";
 	
 	public NumberField() {
 		super();
@@ -38,7 +38,7 @@ public class NumberField extends TextField {
      *            the maximum precision to display after the decimal separator.
      */
     public void setDecimalPrecision(int decimalPrecision) {
-        set(DECIMAL_PRECISION, decimalPrecision);
+        set(PROPERTY_DECIMAL_PRECISION, decimalPrecision);
     }
 	
     /**
@@ -47,7 +47,7 @@ public class NumberField extends TextField {
      * @param minValue the minimum value that is valid for this number.
      */
     public void setMinValue(int minValue) {
-        set(MIN_VALUE, minValue);
+        set(PROPERTY_MIN_VALUE, minValue);
     }
 	
     /**
@@ -56,7 +56,7 @@ public class NumberField extends TextField {
      * @param minText the error text to be displayed if the minimum value validation fails.
      */
     public void setMinText(String minText) {
-        set(MIN_TEXT, minText);
+        set(PROPERTY_MIN_TEXT, minText);
     }
 	
     /**
@@ -65,7 +65,7 @@ public class NumberField extends TextField {
      * @param maxValue the maximum value that is valid for this number.
      */
     public void setMaxValue(int maxValue) {
-        set(MAX_VALUE, maxValue);
+        set(PROPERTY_MAX_VALUE, maxValue);
     }
 	
     /**
@@ -74,6 +74,6 @@ public class NumberField extends TextField {
      * @param maxText the error text to be displayed if the maximum value validation fails.
      */
     public void setMaxText(String maxText) {
-        set(MAX_TEXT, maxText);
+        set(PROPERTY_MAX_TEXT, maxText);
     }
 }

@@ -36,8 +36,6 @@ extends ExtComponentPeer {
     
     public HtmlEditorPeer() {
         super();
-        addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);
-        
     }
 
     public Class getComponentClass() {
@@ -52,7 +50,7 @@ extends ExtComponentPeer {
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
      */
     public Class getInputPropertyClass(String propertyName) {
-        if (HtmlEditor.TEXT_CHANGED_PROPERTY.equals(propertyName)) {
+        if (HtmlEditor.PROPERTY_TEXT_CHANGED.equals(propertyName)) {
             return String.class;
         }
         return null;
@@ -62,9 +60,9 @@ extends ExtComponentPeer {
      * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#storeInputProperty(Context, Component, String, int, Object)
      */
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-        if (propertyName.equals(HtmlEditor.TEXT_CHANGED_PROPERTY)) {
+        if (propertyName.equals(HtmlEditor.PROPERTY_TEXT_CHANGED)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-            clientUpdateManager.setComponentProperty(component, HtmlEditor.TEXT_CHANGED_PROPERTY, newValue);
+            clientUpdateManager.setComponentProperty(component, HtmlEditor.PROPERTY_TEXT_CHANGED, newValue);
         }
     }
 

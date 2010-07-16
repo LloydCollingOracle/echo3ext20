@@ -39,7 +39,7 @@ public class RadioButton
     public static final String PROPERTY_BOX_LABEL = "boxLabel";
     public static final String PROPERTY_NAME = "name";
     public static final String INPUT_ACTION = "action";
-    public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
+    public static final String PROPERTY_ACTION_COMMAND = "actionCommand";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
 
     private String actionCommand;

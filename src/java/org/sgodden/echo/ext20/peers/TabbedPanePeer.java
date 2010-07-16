@@ -36,8 +36,6 @@ extends ExtComponentPeer {
     
     public TabbedPanePeer() {
         super();
-    	addOutputProperty( TabbedPane.PROPERTY_SHOW_FULL_TITLE);
-
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(
                 TabbedPane.ACTIVE_TAB_CHANGE_EVENT, 
                 TabbedPane.TAB_CHANGE_LISTENERS_CHANGED_PROPERTY) {
@@ -53,8 +51,6 @@ extends ExtComponentPeer {
                 return true;
             }
         });
-        addOutputProperty(TabbedPane.ACTIVE_TAB_INDEX_PROPERTY);
-
     }
 
     public Class getComponentClass() {
@@ -69,7 +65,7 @@ extends ExtComponentPeer {
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
      */
     public Class getInputPropertyClass(String propertyName) {
-        if (TabbedPane.ACTIVE_TAB_INDEX_PROPERTY.equals(propertyName)) {
+        if (TabbedPane.PROPERTY_ACTIVE_TAB_INDEX.equals(propertyName)) {
             return Integer.class;
         }
         return null;
@@ -91,9 +87,9 @@ extends ExtComponentPeer {
      * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#storeInputProperty(Context, Component, String, int, Object)
      */
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-        if (propertyName.equals(TabbedPane.ACTIVE_TAB_INDEX_PROPERTY)) {
+        if (propertyName.equals(TabbedPane.PROPERTY_ACTIVE_TAB_INDEX)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-            clientUpdateManager.setComponentProperty(component, TabbedPane.ACTIVE_TAB_INDEX_PROPERTY, newValue);    
+            clientUpdateManager.setComponentProperty(component, TabbedPane.PROPERTY_ACTIVE_TAB_INDEX, newValue);    
         }
     }
 

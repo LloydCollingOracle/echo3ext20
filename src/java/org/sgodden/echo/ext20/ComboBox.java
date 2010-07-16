@@ -25,23 +25,23 @@ import nextapp.echo.app.list.ListSelectionModel;
 @SuppressWarnings( { "serial" })
 public class ComboBox extends ExtComponent implements AbstractListComponent, Field {
 
-    public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
-    public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
-    public static final String EDITABLE_PROPERTY = "editable";
-    public static final String EMPTY_TEXT_PROPERTY = "emptyText";
-    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
-    public static final String FORCE_SELECTION_PROPERTY = "forceSelection";
+    public static final String PROPERTY_ACTION_LISTENERS_CHANGED = "actionListeners";
+    public static final String PROPERTY_ALLOW_BLANK = "allowBlank";
+    public static final String PROPERTY_EDITABLE = "editable";
+    public static final String PROPERTY_EMPTY_TEXT = "emptyText";
+    public static final String PROPERTY_FIELD_LABEL = "fieldLabel";
+    public static final String PROPERTY_FORCE_SELECTION = "forceSelection";
     public static final String INPUT_ACTION = "action";
-    public static final String INVALID_TEXT_PROPERTY = "invalidText";
-    public static final String LIST_WIDTH_PROPERTY = "listWidth";
-    public static final String MODEL_CHANGED_PROPERTY = "model";
-    public static final String SELECTION_CHANGED_PROPERTY = "selection";
-    public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
-    public static final String STORE_PROPERTY = "store";
-    public static final String TYPE_AHEAD_PROPERTY = "typeAhead";
-    public static final String WIDTH_PROPERTY = "width";
-    public static final String VALID_PROPERTY = "isValid";
-    public static final String RAW_VALUE_CHANGED_PROPERTY = "rawValue";
+    public static final String PROPERTY_INVALID_TEXT = "invalidText";
+    public static final String PROPERTY_LIST_WIDTH = "listWidth";
+    public static final String MODEL_CHANGED = "model";
+    public static final String PROPERTY_SELECTION_CHANGED = "selection";
+    public static final String PROPERTY_SELECTION_MODEL_CHANGED = "selectionModel";
+    public static final String PROPERTY_STORE = "store";
+    public static final String PROPERTY_TYPE_AHEAD = "typeAhead";
+    public static final String PROPERTY_WIDTH = "width";
+    public static final String PROPERTY_VALID = "isValid";
+    public static final String PROPERTY_RAW_VALUE_CHANGED = "rawValue";
     
     public static final String PROPERTY_AUTOWIDTH = "autoWidth";
     public static final String PROPERTY_RESIZABLE = "resizable";
@@ -55,15 +55,15 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      */
     private ListDataListener listDataListener = new ListDataListener() {
         public void intervalAdded(ListDataEvent e) {
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel());
+            firePropertyChange(MODEL_CHANGED, null, getModel());
         }
 
         public void intervalRemoved(ListDataEvent e) {
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel());
+            firePropertyChange(MODEL_CHANGED, null, getModel());
         }
 
         public void contentsChanged(ListDataEvent e) {
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, getModel());
+            firePropertyChange(MODEL_CHANGED, null, getModel());
         }
     };
     /**
@@ -72,7 +72,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
     private ChangeListener listSelectionListener = new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
             if (!suppressChangeNotifications) {
-                firePropertyChange(SELECTION_CHANGED_PROPERTY, null, selectionModel);
+                firePropertyChange(PROPERTY_SELECTION_CHANGED, null, selectionModel);
             }
         }
     };
@@ -88,8 +88,8 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         setIsValid(true);
         setAutoWidth(true);
         setResizable(false);
-        set(LIST_WIDTH_PROPERTY, "auto");
-        set(WIDTH_PROPERTY, "auto");
+        set(PROPERTY_LIST_WIDTH, "auto");
+        set(PROPERTY_WIDTH, "auto");
     }
 
     /**
@@ -127,7 +127,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         getEventListenerList().addListener(ActionListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+        firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, null, l);
     }
 
     /**
@@ -152,7 +152,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      * Gets allow blank property
      */
     public boolean getAllowBlank(){
-        return (Boolean) get(ALLOW_BLANK_PROPERTY);
+        return (Boolean) get(PROPERTY_ALLOW_BLANK);
         
     }
     
@@ -162,7 +162,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) get(FIELD_LABEL_PROPERTY);
+        return (String) get(PROPERTY_FIELD_LABEL);
     }
 
     /**
@@ -207,7 +207,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
     @Override
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
-        if (inputName.equals(SELECTION_CHANGED_PROPERTY)) {
+        if (inputName.equals(PROPERTY_SELECTION_CHANGED)) {
             setIsValid(true);
             if (inputValue == null) {
                 selectionModel.clearSelection();
@@ -224,7 +224,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         } else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
         }
-        else if (RAW_VALUE_CHANGED_PROPERTY.equals(inputName)) {
+        else if (PROPERTY_RAW_VALUE_CHANGED.equals(inputName)) {
             setRawValue((String) inputValue);
         }
     }
@@ -242,7 +242,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         getEventListenerList().removeListener(ActionListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+        firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, l, null);
 
     }
     
@@ -252,7 +252,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      * @return the value of the field.
      */
     public String getRawValue() {
-        return (String) get(RAW_VALUE_CHANGED_PROPERTY);
+        return (String) get(PROPERTY_RAW_VALUE_CHANGED);
     }
     
     /**
@@ -262,7 +262,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      *            the value of the field.
      */
     public void setRawValue(String rawValue) {
-        set(RAW_VALUE_CHANGED_PROPERTY, rawValue);
+        set(PROPERTY_RAW_VALUE_CHANGED, rawValue);
     }
     
     /**
@@ -272,7 +272,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      *            whether the combo box is editable.
      */
     public void setEditable(boolean editable) {
-        set(EDITABLE_PROPERTY, editable);
+        set(PROPERTY_EDITABLE, editable);
     }
 
     /**
@@ -283,14 +283,14 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      *            themselves.
      */
     public void setEmptyText(String emptyText) {
-        set(EMPTY_TEXT_PROPERTY, emptyText);
+        set(PROPERTY_EMPTY_TEXT, emptyText);
     }
 
     /**
      * Sets allow blank property
      */
     public void setAllowBlank(boolean allowBlank){
-        set(ALLOW_BLANK_PROPERTY, allowBlank);
+        set(PROPERTY_ALLOW_BLANK, allowBlank);
         
     }
     
@@ -301,7 +301,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      *            the field label.
      */
     public void setFieldLabel(String fieldLabel) {
-        set(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(PROPERTY_FIELD_LABEL, fieldLabel);
     }
 
     /**
@@ -311,7 +311,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      *            whether a selection is mandatory.
      */
     public void setForceSelection(boolean forceSelection) {
-        set(FORCE_SELECTION_PROPERTY, forceSelection);
+        set(PROPERTY_FORCE_SELECTION, forceSelection);
     }
 
     /**
@@ -321,7 +321,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      *            whether the field value is valid.
      */
     public void setIsValid(boolean isValid) {
-        set(VALID_PROPERTY, isValid);
+        set(PROPERTY_VALID, isValid);
     }
 
     /**
@@ -331,7 +331,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      *            the width.
      */
     public void setListWidth(int listWidth) {
-        set(LIST_WIDTH_PROPERTY, listWidth);
+        set(PROPERTY_LIST_WIDTH, listWidth);
     }
 
     public void setModel(ListModel model) {
@@ -342,7 +342,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         // just in case they set the same model...
         model.removeListDataListener(listDataListener);
         model.addListDataListener(listDataListener);
-        firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+        firePropertyChange(MODEL_CHANGED, null, model);
         selectionModel.clearSelection();
     }
 
@@ -353,7 +353,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      *            the invalid text.
      */
     public void setInvalidText(String invalidText) {
-        set(INVALID_TEXT_PROPERTY, invalidText);
+        set(PROPERTY_INVALID_TEXT, invalidText);
     }
 
     /**
@@ -396,7 +396,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
                 setRawValue(String.valueOf(value));
             }
         }
-        firePropertyChange(SELECTION_CHANGED_PROPERTY, oldValue, selectedItem);
+        firePropertyChange(PROPERTY_SELECTION_CHANGED, oldValue, selectedItem);
     }
 
     /**
@@ -416,7 +416,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         }
         newValue.addChangeListener(listSelectionListener);
         selectionModel = newValue;
-        firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
+        firePropertyChange(PROPERTY_SELECTION_MODEL_CHANGED, oldValue, newValue);
     }
 
     /**
@@ -426,7 +426,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      *            whether type ahead should be enabled.
      */
     public void setTypeAhead(boolean typeAhead) {
-        set(TYPE_AHEAD_PROPERTY, typeAhead);
+        set(PROPERTY_TYPE_AHEAD, typeAhead);
     }
 
     /**
@@ -436,7 +436,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      *            the width.
      */
     public void setWidth(int width) {
-        set(WIDTH_PROPERTY, width);
+        set(PROPERTY_WIDTH, width);
     }
 
     public ListCellRenderer getCellRenderer() {
@@ -454,7 +454,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
 	public final void setAutoWidth(boolean autoWidth) {
 		set(PROPERTY_AUTOWIDTH, autoWidth);
 		if (autoWidth) {
-		    set(WIDTH_PROPERTY, "auto");
+		    set(PROPERTY_WIDTH, "auto");
 		}
 	}
 	

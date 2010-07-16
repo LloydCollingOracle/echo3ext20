@@ -21,14 +21,8 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
 */
 
 	public MultiSelectComboBoxPeer() {
-        addOutputProperty(MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY);
-        addOutputProperty(MultiSelectComboBox.VALUE_CHANGED_PROPERTY);
-        addOutputProperty(MultiSelectComboBox.MODEL_CHANGED_PROPERTY);
-        addOutputProperty(MultiSelectComboBox.VALID_PROPERTY);
-        addOutputProperty(MultiSelectComboBox.INVALID_TEXT_PROPERTY);
-
-        setOutputPropertyReferenced(MultiSelectComboBox.MODEL_CHANGED_PROPERTY, true);
-        addEvent(new AbstractComponentSynchronizePeer.EventPeer(MultiSelectComboBox.INPUT_ACTION, MultiSelectComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
+        setOutputPropertyReferenced(MultiSelectComboBox.PROPERTY_MODEL_CHANGED, true);
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(MultiSelectComboBox.INPUT_ACTION, MultiSelectComboBox.PROPERTY_ACTION_LISTENERS_CHANGED) {
             @Override
             public boolean hasListeners(Context context, Component component) {
                 return ((MultiSelectComboBox)component).hasActionListeners();
@@ -57,10 +51,10 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
 	
     @Override
 	public Class getInputPropertyClass(String propertyName) {
-        if (MultiSelectComboBox.VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+        if (MultiSelectComboBox.PROPERTY_VALUE_CHANGED.equals(propertyName)) {
             return String.class;
         }
-        if (MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+        if (MultiSelectComboBox.PROPERTY_RAW_VALUE_CHANGED.equals(propertyName)) {
         	return String.class;
         }
 		return super.getInputPropertyClass(propertyName);
@@ -69,7 +63,7 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
 	@Override
     public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
     	MultiSelectComboBox comboBox = (MultiSelectComboBox)component;
-        if (MultiSelectComboBox.VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+        if (MultiSelectComboBox.PROPERTY_VALUE_CHANGED.equals(propertyName)) {
         	if ( comboBox.getMultiSelect()) {
 	        	int min = comboBox.getSelectionModel().getMinSelectedIndex();
 	        	int max = comboBox.getSelectionModel().getMaxSelectedIndex();
@@ -91,10 +85,10 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
         		return comboBox.getRawValue();
         	}
         }
-        if ( MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+        if ( MultiSelectComboBox.PROPERTY_RAW_VALUE_CHANGED.equals(propertyName)) {
         	return comboBox.getRawValue();
         }
-        if ( MultiSelectComboBox.MODEL_CHANGED_PROPERTY.equals(propertyName)) {
+        if ( MultiSelectComboBox.PROPERTY_MODEL_CHANGED.equals(propertyName)) {
             return new ListModelAdapter( comboBox);
         }
         return super.getOutputProperty(context, component, propertyName, propertyIndex);
@@ -104,10 +98,10 @@ public class MultiSelectComboBoxPeer extends ExtComponentPeer {
     public void storeInputProperty(Context context, Component component, String propertyName, int index, Object newValue) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
         super.storeInputProperty(context, component, propertyName, index, newValue);
-        if ( MultiSelectComboBox.VALUE_CHANGED_PROPERTY.equals(propertyName)) {
-            clientUpdateManager.setComponentProperty(component, MultiSelectComboBox.VALUE_CHANGED_PROPERTY, newValue);
-        } else if ( MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY.equals(propertyName)) {
-        	clientUpdateManager.setComponentProperty(component, MultiSelectComboBox.RAW_VALUE_CHANGED_PROPERTY, newValue);
+        if ( MultiSelectComboBox.PROPERTY_VALUE_CHANGED.equals(propertyName)) {
+            clientUpdateManager.setComponentProperty(component, MultiSelectComboBox.PROPERTY_VALUE_CHANGED, newValue);
+        } else if ( MultiSelectComboBox.PROPERTY_RAW_VALUE_CHANGED.equals(propertyName)) {
+        	clientUpdateManager.setComponentProperty(component, MultiSelectComboBox.PROPERTY_RAW_VALUE_CHANGED, newValue);
         }
     }
 

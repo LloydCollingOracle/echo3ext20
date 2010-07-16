@@ -68,7 +68,7 @@ import org.sgodden.query.models.SortableTableModel;
 public class GridPanel extends Panel implements TableModelListener,
         PagingToolbarClient {
 
-    public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
+    public static final String PROPERTY_ACTION_COMMAND = "actionCommand";
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String PROPERTY_COLUMN_MODEL = "columnModel";
     public static final String INPUT_ACTION = "action";
@@ -76,7 +76,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String PROPERTY_PAGE_OFFSET = "pageOffset";
     public static final String SELECT_ACTION = "select";
     public static final String PROPERTY_SELECTION_CHANGED = "selection";
-    public static final String SELECTION_MODE = "selectionMode";
+    public static final String PROPERTY_SELECTION_MODE = "selectionMode";
     public static final String PROPERTY_SELECTION_MODEL_CHANGED = "selectionModel";
     public static final String SORT_ACTION = "sort";
     public static final String PROPERTY_SORT_FIELD = "sortField";
@@ -89,12 +89,12 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String COLUMN_LISTENERS = "columnListeners";
     public static final String GROUP_ACTION = "group";
     public static final String PROPERTY_SHOW_CHECKBOX = "showCheckbox";
-    public static final String HIDE_HEADERS = "hideHeaders";
-    public static final String EDITCELLCONTENTS = "editcellcontents";
+    public static final String PROPERTY_HIDE_HEADERS = "hideHeaders";
+    public static final String PROPERTY_EDITCELLCONTENTS = "editcellcontents";
     public static final String PROPERTY_MODEL = "model";
-    public static final String HAS_HEADER_CONTEXT_MENU_PROPERTY = "hasHeaderContextMenu";
-    public static final String HAS_ROW_CONTEXT_MENU_PROPERTY = "hasRowContextMenu";
-    public static final String HAS_CELL_CONTEXT_MENU_PROPERTY = "hasCellContextMenu";
+    public static final String PROPERTY_HAS_HEADER_CONTEXT_MENU = "hasHeaderContextMenu";
+    public static final String PROPERTY_HAS_ROW_CONTEXT_MENU = "hasRowContextMenu";
+    public static final String PROPERTY_HAS_CELL_CONTEXT_MENU = "hasCellContextMenu";
     public static final String PROPERTY_LOADING_MESSAGE = "loadingMsg";
     public static final String PROPERTY_ALLOW_GROUPING = "allowGrouping";
     public static final String PROPERTY_FORCE_FIT = "forceFit";
@@ -204,7 +204,7 @@ public class GridPanel extends Panel implements TableModelListener,
         for (int i = 0; i < listeners.length; ++i) {
             if (e == null) {
                 e = new ActionEvent(this,
-                        (String) getRenderProperty(ACTION_COMMAND_PROPERTY));
+                        (String) getRenderProperty(PROPERTY_ACTION_COMMAND));
             }
             ((ActionListener) listeners[i]).actionPerformed(e);
         }
@@ -217,7 +217,7 @@ public class GridPanel extends Panel implements TableModelListener,
      * @return the action command
      */
     public String getActionCommand() {
-        return (String) get(ACTION_COMMAND_PROPERTY);
+        return (String) get(PROPERTY_ACTION_COMMAND);
     }
 
     /**
@@ -285,7 +285,7 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public SelectionMode getSelectionMode() {
         SelectionMode ret;
-        String mode = (String) get(SELECTION_MODE);
+        String mode = (String) get(PROPERTY_SELECTION_MODE);
         if (mode.equals("S")) {
             ret = SelectionMode.SINGLE_SELECTION;
         } else if (mode.equals("SI")) {
@@ -608,15 +608,15 @@ public class GridPanel extends Panel implements TableModelListener,
     public void setSelectionMode(SelectionMode mode) {
         switch (mode) {
         case SINGLE_SELECTION:
-            set(SELECTION_MODE, "S");
+            set(PROPERTY_SELECTION_MODE, "S");
             getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             break;
         case SINGLE_INTERVAL_SELECTION:
-            set(SELECTION_MODE, "SI");
+            set(PROPERTY_SELECTION_MODE, "SI");
             getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_SELECTION);
             break;
         case MULTIPLE_INTERVAL_SELECTION:
-            set(SELECTION_MODE, "MI");
+            set(PROPERTY_SELECTION_MODE, "MI");
             getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_SELECTION);
         }
     }
@@ -715,7 +715,7 @@ public class GridPanel extends Panel implements TableModelListener,
         if (!(getModel() instanceof EditableTableModel))
             throw new IllegalStateException(
                     "Cannot set a grid into editable mode without an editable table model");
-        set(EDITCELLCONTENTS, Boolean.valueOf(editCells));
+        set(PROPERTY_EDITCELLCONTENTS, Boolean.valueOf(editCells));
     }
 
     /**
@@ -725,7 +725,7 @@ public class GridPanel extends Panel implements TableModelListener,
      * @return
      */
     public boolean getEditCellContents() {
-        return Boolean.TRUE.equals(get(EDITCELLCONTENTS));
+        return Boolean.TRUE.equals(get(PROPERTY_EDITCELLCONTENTS));
     }
 
     /**
@@ -806,12 +806,12 @@ public class GridPanel extends Panel implements TableModelListener,
      * @return
      */
     public boolean getHideHeaders() {
-        Boolean b = (Boolean) get(HIDE_HEADERS);
+        Boolean b = (Boolean) get(PROPERTY_HIDE_HEADERS);
         return Boolean.TRUE.equals(b);
     }
 
     public void setHideHeaders(Boolean b) {
-        set(HIDE_HEADERS, b);
+        set(PROPERTY_HIDE_HEADERS, b);
     }
 
     public Menu getHeaderContextMenu() {
@@ -842,9 +842,9 @@ public class GridPanel extends Panel implements TableModelListener,
     }
     
     private void setContextMenuStatusAndChildren() {
-        set(HAS_CELL_CONTEXT_MENU_PROPERTY, Boolean.valueOf(cellContextMenu != null));
-        set(HAS_ROW_CONTEXT_MENU_PROPERTY, Boolean.valueOf(rowContextMenu != null));
-        set(HAS_HEADER_CONTEXT_MENU_PROPERTY, Boolean.valueOf(headerContextMenu != null));
+        set(PROPERTY_HAS_CELL_CONTEXT_MENU, Boolean.valueOf(cellContextMenu != null));
+        set(PROPERTY_HAS_ROW_CONTEXT_MENU, Boolean.valueOf(rowContextMenu != null));
+        set(PROPERTY_HAS_HEADER_CONTEXT_MENU, Boolean.valueOf(headerContextMenu != null));
         
         for (Component c : getComponents()) {
             remove(c);

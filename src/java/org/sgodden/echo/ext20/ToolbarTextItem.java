@@ -25,7 +25,7 @@ package org.sgodden.echo.ext20;
 public class ToolbarTextItem 
         extends ExtComponent {
     
-    public static final String TEXT_PROPERTY = "text";
+    public static final String PROPERTY_TEXT = "text";
 
     /**
      * Creates a new toolbar text item with no text.
@@ -48,7 +48,7 @@ public class ToolbarTextItem
      * @param text the text to disaplay.
      */
     public void setText(String text) {
-        set(TEXT_PROPERTY, text);
+        set(PROPERTY_TEXT, text);
     }
 
 }

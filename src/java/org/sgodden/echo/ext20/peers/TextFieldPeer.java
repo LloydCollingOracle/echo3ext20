@@ -39,13 +39,6 @@ public class TextFieldPeer
 
     public TextFieldPeer() {
         super();
-        addOutputProperty(TextField.BLANK_TEXT_PROPERTY);
-        addOutputProperty(TextField.VALID_PROPERTY);
-        addOutputProperty(TextField.INVALID_TEXT_PROPERTY);
-        addOutputProperty(TextField.VALUE_CHANGED_PROPERTY);
-        addOutputProperty(TextField.NOTIFY_VALUE_IMMEDIATE_PROPERTY);
-        addOutputProperty(TextField.PROPERTY_STRIP_WHITESPACE);
-        
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(TextField.INPUT_ACTION,  TextField.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {
@@ -71,16 +64,16 @@ public class TextFieldPeer
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
      */
     public Class getInputPropertyClass(String propertyName) {
-        if (TextField.VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+        if (TextField.PROPERTY_VALUE_CHANGED.equals(propertyName)) {
             return String.class;
         }
-        if (TextField.INVALID_TEXT_PROPERTY.equals(propertyName)) {
+        if (TextField.PROPERTY_INVALID_TEXT.equals(propertyName)) {
             return String.class;
         }
-        else if(TextField.VALID_PROPERTY.equals(propertyName)){
+        else if(TextField.PROPERTY_VALID.equals(propertyName)){
         	return Boolean.class;
         }
-        else if(TextField.NOTIFY_VALUE_IMMEDIATE_PROPERTY.equals(propertyName)){
+        else if(TextField.PROPERTY_NOTIFY_VALUE_IMMEDIATE.equals(propertyName)){
             return Boolean.class;
         }
         return null;
@@ -90,19 +83,19 @@ public class TextFieldPeer
      * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#storeInputProperty(Context, Component, String, int, Object)
      */
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-        if (propertyName.equals(TextField.VALUE_CHANGED_PROPERTY)) {
+        if (propertyName.equals(TextField.PROPERTY_VALUE_CHANGED)) {
             
             if (component instanceof TextField && ((TextField)component).isStripWhitespace() && newValue != null) {
-                getClientUpdateManager(context).setComponentProperty(component, TextField.VALUE_CHANGED_PROPERTY, ((String)newValue).trim());
+                getClientUpdateManager(context).setComponentProperty(component, TextField.PROPERTY_VALUE_CHANGED, ((String)newValue).trim());
             } else {
-                getClientUpdateManager(context).setComponentProperty(component, TextField.VALUE_CHANGED_PROPERTY, newValue);
+                getClientUpdateManager(context).setComponentProperty(component, TextField.PROPERTY_VALUE_CHANGED, newValue);
             }
-        }else if(propertyName.equals(TextField.VALID_PROPERTY)){
-        	getClientUpdateManager(context).setComponentProperty(component, TextField.VALID_PROPERTY, newValue);
-        }else if(propertyName.equals(TextField.INVALID_TEXT_PROPERTY)){
-            getClientUpdateManager(context).setComponentProperty(component, TextField.INVALID_TEXT_PROPERTY, newValue);
-        }else if(propertyName.equals(TextField.NOTIFY_VALUE_IMMEDIATE_PROPERTY)){
-            getClientUpdateManager(context).setComponentProperty(component, TextField.NOTIFY_VALUE_IMMEDIATE_PROPERTY, newValue);
+        }else if(propertyName.equals(TextField.PROPERTY_VALID)){
+        	getClientUpdateManager(context).setComponentProperty(component, TextField.PROPERTY_VALID, newValue);
+        }else if(propertyName.equals(TextField.PROPERTY_INVALID_TEXT)){
+            getClientUpdateManager(context).setComponentProperty(component, TextField.PROPERTY_INVALID_TEXT, newValue);
+        }else if(propertyName.equals(TextField.PROPERTY_NOTIFY_VALUE_IMMEDIATE)){
+            getClientUpdateManager(context).setComponentProperty(component, TextField.PROPERTY_NOTIFY_VALUE_IMMEDIATE, newValue);
         }
     }
     

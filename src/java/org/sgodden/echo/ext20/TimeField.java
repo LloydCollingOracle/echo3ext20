@@ -32,12 +32,12 @@ public class TimeField
     
     //private static final transient Log log = LogFactory.getLog(TimeField.class);
 
-    public static final String TIME_FORMAT_PROPERTY = "timeFormat";
-    public static final String TIME_CHANGED_PROPERTY = "time";
-    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
-    public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
-	public static final String INVALID_TEXT_PROPERTY = "invalidText";
-	public static final String VALID_PROPERTY = "isValid";
+    public static final String PROPERTY_TIME_FORMAT = "timeFormat";
+    public static final String PROPERTY_TIME_CHANGED = "time";
+    public static final String PROPERTY_FIELD_LABEL = "fieldLabel";
+    public static final String PROPERTY_ALLOW_BLANK = "allowBlank";
+	public static final String PROPERTY_INVALID_TEXT = "invalidText";
+	public static final String PROPERTY_VALID = "isValid";
     
     private Calendar calendar;
 
@@ -79,7 +79,7 @@ public class TimeField
         String hours = String.valueOf(cal.get(Calendar.HOUR_OF_DAY));
         String mins = String.valueOf(cal.get(Calendar.MINUTE));
         
-        set(TIME_CHANGED_PROPERTY, hours + ":" + mins);
+        set(PROPERTY_TIME_CHANGED, hours + ":" + mins);
     }
 
     /**
@@ -95,7 +95,7 @@ public class TimeField
      * @param fieldLabel the field label to be displayed in forms.
      */
     public void setFieldLabel(String fieldLabel) {
-        set(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(PROPERTY_FIELD_LABEL, fieldLabel);
     }
 
     /**
@@ -105,11 +105,11 @@ public class TimeField
      */
     @Deprecated
     public void setBlankAllowed(boolean blankAllowed) {
-        set(ALLOW_BLANK_PROPERTY, blankAllowed);
+        set(PROPERTY_ALLOW_BLANK, blankAllowed);
     }
     
     public void setAllowBlank( boolean allowBlank) {
-        set(ALLOW_BLANK_PROPERTY, allowBlank);
+        set(PROPERTY_ALLOW_BLANK, allowBlank);
     }
     
     /**
@@ -118,12 +118,12 @@ public class TimeField
      * the ext documentation for Date.parseDate.
      */
     private void setFormat(String format) { // private because we are not handling different formats properly yet
-        set(TIME_FORMAT_PROPERTY, format);
+        set(PROPERTY_TIME_FORMAT, format);
     }
 
     @Override
     public void processInput(String inputName, Object inputValue) {
-        if (TIME_CHANGED_PROPERTY.equals(inputName)) {
+        if (PROPERTY_TIME_CHANGED.equals(inputName)) {
             String timeValue = (String) inputValue;
             int hourOfDay = 0;
             int minute = 0;
@@ -144,7 +144,7 @@ public class TimeField
 	 *            the invalid text.
 	 */
 	public void setInvalidText(String invalidText) {
-		set(INVALID_TEXT_PROPERTY, invalidText);
+		set(PROPERTY_INVALID_TEXT, invalidText);
 	}
 
 	/**
@@ -154,6 +154,6 @@ public class TimeField
 	 *            whether the field value is valid.
 	 */
 	public void setIsValid(boolean isValid) {
-		set(VALID_PROPERTY, isValid);
+		set(PROPERTY_VALID, isValid);
 	}
 }

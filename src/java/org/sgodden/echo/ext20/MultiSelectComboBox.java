@@ -14,18 +14,18 @@ import nextapp.echo.app.list.ListModel;
 import nextapp.echo.app.list.ListSelectionModel;
 
 public class MultiSelectComboBox extends ExtComponent implements AbstractListComponent, Field {
-	public static final String RAW_VALUE_CHANGED_PROPERTY = "rawValue";
-	public static final String VALUE_CHANGED_PROPERTY = "selectedValue";
-	public static final String MODEL_CHANGED_PROPERTY = "model";
+	public static final String PROPERTY_RAW_VALUE_CHANGED = "rawValue";
+	public static final String PROPERTY_VALUE_CHANGED = "selectedValue";
+	public static final String PROPERTY_MODEL_CHANGED = "model";
 	public static final String INPUT_ACTION = "action";
-	public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
-	public static final String MULTI_SELECT_PROPERTY = "multiSelect";
-	public static final String EDITABLE_PROPERTY = "editable";
-	public static final String SEPARATOR_PROPERTY = "separator";	
-    public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
-    public static final String BLANK_TEXT_PROPERTY = "blankText";
-	public static final String INVALID_TEXT_PROPERTY = "invalidText";
-	public static final String VALID_PROPERTY = "isValid";
+	public static final String PROPERTY_ACTION_LISTENERS_CHANGED = "actionListeners";
+	public static final String PROPERTY_MULTI_SELECT = "multiSelect";
+	public static final String PROPERTY_EDITABLE = "editable";
+	public static final String PROPERTY_SEPARATOR = "separator";	
+    public static final String PROPERTY_ALLOW_BLANK = "allowBlank";
+    public static final String PROPERTY_BLANK_TEXT = "blankText";
+	public static final String PROPERTY_INVALID_TEXT = "invalidText";
+	public static final String PROPERTY_VALID = "isValid";
 
 	private ListModel model;
 	private ListSelectionModel selectionModel;
@@ -55,7 +55,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
             throw new IllegalArgumentException("Model may not be null");
         }
         this.model = model;
-        firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+        firePropertyChange(PROPERTY_MODEL_CHANGED, null, model);
         selectionModel.clearSelection();
     }
 
@@ -73,14 +73,14 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
     }
     
 	public String getSelectedValue() {
-		return (String) super.get( VALUE_CHANGED_PROPERTY);
+		return (String) super.get( PROPERTY_VALUE_CHANGED);
 	}
 	
 	/** 
 	 * @param value The selected items' index, seperated by comma
 	 */
 	public void setSelectedValue( String value) {
-		set( VALUE_CHANGED_PROPERTY, value);
+		set( PROPERTY_VALUE_CHANGED, value);
 		selectionModel.clearSelection();
 		if ( value == null || "".equals( value)) return;
 		String[] splitedValue = value.split( getSeparator());
@@ -98,9 +98,9 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
     @Override
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
-        if (VALUE_CHANGED_PROPERTY.equals(inputName)) {
+        if (PROPERTY_VALUE_CHANGED.equals(inputName)) {
             setSelectedValue((String) inputValue);
-        } else if (RAW_VALUE_CHANGED_PROPERTY.equals(inputName)) {
+        } else if (PROPERTY_RAW_VALUE_CHANGED.equals(inputName)) {
         	setRawValue((String) inputValue);
         }  else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
@@ -131,12 +131,12 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	
 	public String getRawValue() {
 		System.out.println( "Getting Raw value");
-		return (String) get(RAW_VALUE_CHANGED_PROPERTY);
+		return (String) get(PROPERTY_RAW_VALUE_CHANGED);
 	}
 	
 	public void setRawValue( String rawValue) {
 		System.out.println( "Raw value is " + rawValue);
-		set( RAW_VALUE_CHANGED_PROPERTY, rawValue);
+		set( PROPERTY_RAW_VALUE_CHANGED, rawValue);
 	}
 	
 	/**
@@ -144,7 +144,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	 */
 	public void setValue(String value) {
 		if ( getMultiSelect()) {
-            set( VALUE_CHANGED_PROPERTY, value);
+            set( PROPERTY_VALUE_CHANGED, value);
 			selectionModel.clearSelection();
 			if ( value == null || "".equals( value)) return;
 			
@@ -159,31 +159,31 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	}
 	
 	public void setMultiSelect( boolean multiSelect) {
-		set( MULTI_SELECT_PROPERTY, multiSelect);
+		set( PROPERTY_MULTI_SELECT, multiSelect);
 	}
 	
 	public boolean getMultiSelect() {
-		Object multiSelect = get( MULTI_SELECT_PROPERTY);
+		Object multiSelect = get( PROPERTY_MULTI_SELECT);
 		//default is true
 		return multiSelect == null ? true : (Boolean)multiSelect;
 	}
 	
 	public void setEditable(boolean editable) {
-		set( EDITABLE_PROPERTY, editable);
+		set( PROPERTY_EDITABLE, editable);
 	}
 	
 	public boolean getEditable() {
-		Object editable = get( EDITABLE_PROPERTY);
+		Object editable = get( PROPERTY_EDITABLE);
 		//default is true
 		return editable == null ? true : (Boolean)editable;
 	}
 	
 	public void setSeparator( String separator) {
-		set( SEPARATOR_PROPERTY, separator);
+		set( PROPERTY_SEPARATOR, separator);
 	}
 	
 	public String getSeparator() {
-		Object separator = get(SEPARATOR_PROPERTY);
+		Object separator = get(PROPERTY_SEPARATOR);
 		return separator == null ? "," : (String) separator;
 	}
 
@@ -191,7 +191,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
      * Gets allow blank property
      */
     public boolean getAllowBlank(){
-        return (Boolean) get(ALLOW_BLANK_PROPERTY);
+        return (Boolean) get(PROPERTY_ALLOW_BLANK);
         
     }
     
@@ -202,7 +202,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
      *            whether a blank value is allowed.
      */
     public void setAllowBlank(boolean allowBlank) {
-        set(ALLOW_BLANK_PROPERTY, allowBlank);
+        set(PROPERTY_ALLOW_BLANK, allowBlank);
     }
 
     /**
@@ -212,7 +212,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
      *            the value of the field.
      */
     public void setBlankText(String blankText) {
-        set(BLANK_TEXT_PROPERTY, blankText);
+        set(PROPERTY_BLANK_TEXT, blankText);
     }
 
 	/**
@@ -222,7 +222,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	 *            the invalid text.
 	 */
 	public void setInvalidText(String invalidText) {
-		set(INVALID_TEXT_PROPERTY, invalidText);
+		set(PROPERTY_INVALID_TEXT, invalidText);
 	}
 
 	/**
@@ -232,7 +232,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	 *            whether the field value is valid.
 	 */
 	public void setIsValid(boolean isValid) {
-		set(VALID_PROPERTY, isValid);
+		set(PROPERTY_VALID, isValid);
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
         getEventListenerList().addListener(ActionListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+        firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, null, l);
     }
 
     /**
@@ -290,7 +290,7 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
         getEventListenerList().removeListener(ActionListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+        firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, l, null);
     }
 
 }

@@ -47,7 +47,7 @@ public class TabbedPane extends Panel {
     
     //private static final transient Log log = LogFactory.getLog(TabbedPane.class);
     
-    public static final String ACTIVE_TAB_INDEX_PROPERTY = "activeTabIndex";
+    public static final String PROPERTY_ACTIVE_TAB_INDEX = "activeTabIndex";
 
     public static final String ACTIVE_TAB_CHANGE_EVENT = "activeTabChangeEvent";
     public static final String TAB_CHANGE_LISTENERS_CHANGED_PROPERTY = "tabChangeListeners";
@@ -57,7 +57,7 @@ public class TabbedPane extends Panel {
     /**
      * Should the tabbed pane have a plain background.
      */
-    public static final String DISABLED_STRIP_BACKGROUND_PROPERTY = "plain";
+    public static final String PROPERTY_DISABLED_STRIP_BACKGROUND = "plain";
     
     public static final String PROPERTY_SHOW_FULL_TITLE = "showFullTitle";
 
@@ -93,7 +93,7 @@ public class TabbedPane extends Panel {
      */
     public void setActiveTabIndex(int tabIndex) {
         int oldTab = getActiveTabIndex();
-        set(ACTIVE_TAB_INDEX_PROPERTY, tabIndex);
+        set(PROPERTY_ACTIVE_TAB_INDEX, tabIndex);
         fireTabChangingEvent(oldTab, tabIndex);
     }
     
@@ -105,7 +105,7 @@ public class TabbedPane extends Panel {
         int oldTab = -1;
         if (fireEvent)
             oldTab = getActiveTabIndex();
-        set(ACTIVE_TAB_INDEX_PROPERTY, tabIndex);
+        set(PROPERTY_ACTIVE_TAB_INDEX, tabIndex);
         if (fireEvent)
             fireTabChangingEvent(oldTab, tabIndex);
     }
@@ -115,13 +115,13 @@ public class TabbedPane extends Panel {
      * @return the index of the active tab.
      */
     public int getActiveTabIndex() {
-        return (Integer) get(ACTIVE_TAB_INDEX_PROPERTY);
+        return (Integer) get(PROPERTY_ACTIVE_TAB_INDEX);
     }
     
 
     @Override
     public void processInput(String inputName, Object inputValue) {
-        if (ACTIVE_TAB_INDEX_PROPERTY.equals(inputName)) {
+        if (PROPERTY_ACTIVE_TAB_INDEX.equals(inputName)) {
             int requestedIndex = ((Integer)inputValue).intValue();
             if (requestedIndex >= getComponentCount())
                 setActiveTabIndex(getComponentCount() - 1);
@@ -239,7 +239,7 @@ public class TabbedPane extends Panel {
      * @param disabled
      */
     public void setDisableStripBackground(boolean disabled){
-        set(DISABLED_STRIP_BACKGROUND_PROPERTY, disabled);
+        set(PROPERTY_DISABLED_STRIP_BACKGROUND, disabled);
     }
 
     public void setShowFullTitle( boolean value) {

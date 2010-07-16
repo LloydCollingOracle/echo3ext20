@@ -24,7 +24,7 @@ import org.sgodden.echo.ext20.layout.Layout;
 public class FieldSet 
         extends Panel {
     
-    public static final String CHECKBOX_TOGGLE_PROPERTY = "checkboxToggle";
+    public static final String PROPERTY_CHECKBOX_TOGGLE = "checkboxToggle";
     
     /**
      * Creates a new field set, using a form layout.
@@ -49,7 +49,7 @@ public class FieldSet
      * @param toggle whether to add a checkbox.
      */
     public void setCheckboxToggle(boolean toggle) {
-        set(CHECKBOX_TOGGLE_PROPERTY, toggle);
+        set(PROPERTY_CHECKBOX_TOGGLE, toggle);
     }
 
 }

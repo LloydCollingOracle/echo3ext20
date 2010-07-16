@@ -30,10 +30,10 @@ import nextapp.echo.app.event.ActionListener;
 public class TriggerField 
         extends TextField {
 
-    public static final String ACTION_COMMAND_PROPERTY = "actionCommand";    
+    public static final String PROPERTY_ACTION_COMMAND = "actionCommand";    
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
     public static final String INPUT_ACTION = "action";
-    public static final String SEARCH_ICON_PROPERTY = "useSearchTrigger";
+    public static final String PROPERTY_SEARCH_ICON = "useSearchTrigger";
     
     private String actionCommand;
 
@@ -127,10 +127,10 @@ public class TriggerField
     }
 
     public void setUseSearchIcon(Boolean useSearchIcon) {
-        set(SEARCH_ICON_PROPERTY, useSearchIcon);
+        set(PROPERTY_SEARCH_ICON, useSearchIcon);
     }
     
     public Boolean getUseSearchIcon() {
-        return (Boolean)get(SEARCH_ICON_PROPERTY);
+        return (Boolean)get(PROPERTY_SEARCH_ICON);
     }
 }

@@ -30,18 +30,18 @@ import nextapp.echo.app.event.ActionListener;
 @SuppressWarnings("serial")
 public abstract class AbstractButton extends ExtComponent {
 
-    public static final String TEXT_PROPERTY = "text";
+    public static final String PROPERTY_TEXT = "text";
     public static final String PROPERTY_DISABLED_ICON = "disabledIcon";
     public static final String PROPERTY_ENABLED_ICON = "icon";
     public static final String INPUT_ACTION = "action";
-    public static final String ACTION_COMMAND_PROPERTY = "actionCommand";
-    public static final String ICON_CLASS = "iconClass";
-    public static final String PRESSED_PROPERTY = "pressed";
-    public static final String ENABLE_TOGGLE = "enableToggle";
+    public static final String PROPERTY_ACTION_COMMAND = "actionCommand";
+    public static final String PROPERTY_ICON_CLASS = "iconClass";
+    public static final String PROPERTY_PRESSED = "pressed";
+    public static final String PROPERTY_ENABLE_TOGGLE = "enableToggle";
 
 
 
-	public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
+	public static final String PROPERTY_ACTION_LISTENERS_CHANGED = "actionListeners";
 
     private String actionCommand;
 
@@ -117,7 +117,7 @@ public abstract class AbstractButton extends ExtComponent {
         getEventListenerList().addListener(ActionListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+        firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, null, l);
     }
 
     /**
@@ -167,7 +167,7 @@ public abstract class AbstractButton extends ExtComponent {
         getEventListenerList().removeListener(ActionListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+        firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, l, null);
 
     }
 
@@ -192,11 +192,11 @@ public abstract class AbstractButton extends ExtComponent {
      *            the text.
      */
     public void setText(String text) {
-        set(TEXT_PROPERTY, text);
+        set(PROPERTY_TEXT, text);
     }
     
     public String getText() {
-        return (String)get(TEXT_PROPERTY);
+        return (String)get(PROPERTY_TEXT);
     }
 
     /**
@@ -213,21 +213,21 @@ public abstract class AbstractButton extends ExtComponent {
      * Sets the backgroud image of a button using a css class.
      */
     public void setIconClass(String iconClass) {
-        set(ICON_CLASS, iconClass);
+        set(PROPERTY_ICON_CLASS, iconClass);
     }
     
     /**
      * Sets the pressed / toggled state of the button.
      */
     public void setPressed(boolean pressed) {
-        set(PRESSED_PROPERTY, pressed);
+        set(PROPERTY_PRESSED, pressed);
     }
     
     /**
      * Gets the toggle state of the button.
      */
     public boolean getPressed(){
-        Object ret = get(PRESSED_PROPERTY);
+        Object ret = get(PROPERTY_PRESSED);
         if(ret == null){
             return false;
         }
@@ -237,6 +237,6 @@ public abstract class AbstractButton extends ExtComponent {
     }
     
     public void setEnableToggle(boolean enableToggle) {
-		set(ENABLE_TOGGLE, enableToggle);
+		set(PROPERTY_ENABLE_TOGGLE, enableToggle);
 	}
 }

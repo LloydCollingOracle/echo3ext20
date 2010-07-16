@@ -41,14 +41,14 @@ public class DateField
     
     //private static final transient Log log = LogFactory.getLog(DateField.class);
 
-	public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
-    public static final String DATE_FORMAT_PROPERTY = "dateFormat";
-    public static final String DATE_CHANGED_PROPERTY = "date";
-    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
-    public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
-	public static final String INVALID_TEXT_PROPERTY = "invalidText";
-	public static final String VALID_PROPERTY = "isValid";
-    public static final String BLANK_TEXT_PROPERTY = "blankText";
+	public static final String PROPERTY_ACTION_LISTENERS_CHANGED = "actionListeners";
+    public static final String PROPERTY_DATE_FORMAT = "dateFormat";
+    public static final String PROPERTY_DATE_CHANGED = "date";
+    public static final String PROPERTY_FIELD_LABEL = "fieldLabel";
+    public static final String PROPERTY_ALLOW_BLANK = "allowBlank";
+	public static final String PROPERTY_INVALID_TEXT = "invalidText";
+	public static final String PROPERTY_VALID = "isValid";
+    public static final String PROPERTY_BLANK_TEXT = "blankText";
     
     private Calendar calendar;
     
@@ -93,7 +93,7 @@ public class DateField
         getEventListenerList().addListener(ActionListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+        firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, null, l);
     }
     
     /**
@@ -127,14 +127,14 @@ public class DateField
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) get(FIELD_LABEL_PROPERTY);
+        return (String) get(PROPERTY_FIELD_LABEL);
     }
 
     /**
      * Gets allow blank property
      */
     public boolean getAllowBlank(){
-        return (Boolean) get(ALLOW_BLANK_PROPERTY);
+        return (Boolean) get(PROPERTY_ALLOW_BLANK);
         
     }
     
@@ -144,7 +144,7 @@ public class DateField
      */
     public void setCalendar(Calendar cal) {
         this.calendar = cal;
-        set(DATE_CHANGED_PROPERTY, cal);
+        set(PROPERTY_DATE_CHANGED, cal);
     }
 
     /**
@@ -160,7 +160,7 @@ public class DateField
      * @param fieldLabel the field label.
      */
     public void setFieldLabel(String fieldLabel) {
-        set(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(PROPERTY_FIELD_LABEL, fieldLabel);
     }
 
     /**
@@ -168,7 +168,7 @@ public class DateField
      * @param blankAllowed whether a blank value is allowed.
      */
     public void setAllowBlank(boolean allowBlank) {
-        set(ALLOW_BLANK_PROPERTY, allowBlank);
+        set(PROPERTY_ALLOW_BLANK, allowBlank);
     }
 
     /**
@@ -183,10 +183,10 @@ public class DateField
         super.setLocale(locale);
         // FIXME - we need a robust way of calculating the ext date format
         if (locale.getCountry().equals("GB")) {
-            set(DATE_FORMAT_PROPERTY, "d/m/y");
+            set(PROPERTY_DATE_FORMAT, "d/m/y");
         }
         else {
-            set(DATE_FORMAT_PROPERTY, "m/d/y");
+            set(PROPERTY_DATE_FORMAT, "m/d/y");
         }
     }
     
@@ -196,12 +196,12 @@ public class DateField
      * @param format the date format string, such as 'm/d/y'.
      */
     public void setDateFormat(String format) {
-        set(DATE_FORMAT_PROPERTY, format);
+        set(PROPERTY_DATE_FORMAT, format);
     }
 
     @Override
     public void processInput(String inputName, Object inputValue) {
-        if (DATE_CHANGED_PROPERTY.equals(inputName)) {
+        if (PROPERTY_DATE_CHANGED.equals(inputName)) {
             if (inputValue == null) {
                 setCalendar(null);
             } else if (!(inputValue instanceof Date)) {
@@ -251,7 +251,7 @@ public class DateField
         getEventListenerList().removeListener(ActionListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+        firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, l, null);
 
     }
     
@@ -262,7 +262,7 @@ public class DateField
 	 *            the invalid text.
 	 */
 	public void setInvalidText(String invalidText) {
-		set(INVALID_TEXT_PROPERTY, invalidText);
+		set(PROPERTY_INVALID_TEXT, invalidText);
 	}
 
 	/**
@@ -272,7 +272,7 @@ public class DateField
 	 *            whether the field value is valid.
 	 */
 	public void setIsValid(boolean isValid) {
-		set(VALID_PROPERTY, isValid);
+		set(PROPERTY_VALID, isValid);
 	}
     
     /**
@@ -282,6 +282,6 @@ public class DateField
      *            the value of the field.
      */
     public void setBlankText(String blankText) {
-        set(BLANK_TEXT_PROPERTY, blankText);
+        set(PROPERTY_BLANK_TEXT, blankText);
     }
 }

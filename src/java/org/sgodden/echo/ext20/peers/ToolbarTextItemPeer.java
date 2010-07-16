@@ -37,7 +37,7 @@ public class ToolbarTextItemPeer
 //    }
 
     public ToolbarTextItemPeer(){
-        addOutputProperty(ToolbarTextItem.TEXT_PROPERTY);
+        super();
     }
 
     public Class getComponentClass() {

@@ -49,11 +49,11 @@ public class Panel extends Container {
     /**
      * Sets the base css for this panel. (Defaults to 'x-panel')
      */
-    public static final String BASE_CSS_CLASS = "baseCssClass";
+    public static final String PROPERTY_BASE_CSS_CLASS = "baseCssClass";
     /**
      * A CSS class that will provide a background image to be used as the header icon (defaults to '').
      */
-    public static final String ICON_CSS_CLASS = "iconCssClass";
+    public static final String PROPERTY_ICON_CSS_CLASS = "iconCssClass";
     /**
      * Whether the panel show scroll its contents to handle overflow,
      * or clip overflowing contents (defaults to false, to clip).
@@ -102,32 +102,32 @@ public class Panel extends Container {
     
     public static final String PROPERTY_TITLE = "title";
     
-    public static final String COLLAPSIBLE_PROPERTY = "collapsible";
-    public static final String EXPANSIBLE_PROPERTY = "expansible";
-    public static final String SPLIT_PROPERTY = "split";
-    public static final String TOOL_IDS_PROPERTY = "toolIds";
+    public static final String PROPERTY_COLLAPSIBLE = "collapsible";
+    public static final String PROPERTY_EXPANSIBLE = "expansible";
+    public static final String PROPERTY_SPLIT = "split";
+    public static final String PROPERTY_TOOL_IDS = "toolIds";
     
     public static final String INPUT_KEY_PRESSED = "keyPressed";
     public static final String INPUT_KEYPRESS_ACTION = "keyPress";
     public static final String INPUT_TOOLCLICK_ACTION = "toolClick";
     public static final String BEFORE_EXPAND_ACTION = "beforeexpand";
     public static final String INPUT_TOOLID_CLICKED = "toolIdClicked";
-    public static final String KEYPRESS_LISTENERS_CHANGED_PROPERTY = "keyPressListeners";
-    public static final String REGISTERED_KEY_PRESSES_PROPERTY="registeredKeyPresses";
-    public static final String TOOLCLICK_LISTENERS_CHANGED_PROPERTY = "toolclickListeners";
-    public static final String BEFOREEXPAND_LISTENERS_CHANGED_PROPERTY = "beforeexpandListeners";
+    public static final String PROPERTY_KEYPRESS_LISTENERS_CHANGED = "keyPressListeners";
+    public static final String PROPERTY_REGISTERED_KEY_PRESSES="registeredKeyPresses";
+    public static final String PROPERTY_TOOLCLICK_LISTENERS_CHANGED = "toolclickListeners";
+    public static final String PROPERTY_BEFOREEXPAND_LISTENERS_CHANGED = "beforeexpandListeners";
     /**
      * Whether the panel should be drawn with rounded borders.
      * <p>
      * Type: Boolean.
      * </p>
      */
-    public static final String ROUNDED_BORDERS_PROPERTY = "frame";
+    public static final String PROPERTY_ROUNDED_BORDERS = "frame";
     
     /**
      * Whether the title bar should appear above or below the tool bar.
      */
-    public static final String TITLE_POSITION = "titlePosition";
+    public static final String PROPERTY_TITLE_POSITION = "titlePosition";
     
     /**
      * Whether the panel should be 'floating' (absolute positioning)
@@ -135,35 +135,35 @@ public class Panel extends Container {
      * Type: Boolean.
      * </p>
      */
-    public static final String FLOATING_PROPERTY = "floating";
+    public static final String PROPERTY_FLOATING = "floating";
     /**
      * The x position of the panel (used only when floating)
      * <p>
      * Type: Integer.
      * </p>
      */
-    public static final String POSITION_X = "positionX";
+    public static final String PROPERTY_POSITION_X = "positionX";
     /**
      * The y position of the panel (used only when floating)
      * <p>
      * Type: Integer.
      * </p>
      */
-    public static final String POSITION_Y = "positionY";
+    public static final String PROPERTY_POSITION_Y = "positionY";
     /**
      * The relative (to the panel's container) x position of the panel (used only when floating)
      * <p>
      * Type: Integer.
      * </p>
      */
-    public static final String RELATIVE_POSITION_X = "relativePositionX";
+    public static final String PROPERTY_RELATIVE_POSITION_X = "relativePositionX";
     /**
      * The relative (to the panel's container) y position of the panel (used only when floating)
      * <p>
      * Type: Integer.
      * </p>
      */
-    public static final String RELATIVE_POSITION_Y = "relativePositionY";
+    public static final String PROPERTY_RELATIVE_POSITION_Y = "relativePositionY";
     
     /**
      * The anchor position to which this panel works out it's relative position when floating.
@@ -172,7 +172,7 @@ public class Panel extends Container {
      * Type: String.
      * </p>
      */
-    public static final String RELATIVE_ANCHOR_POSITION = "relativeAnchorPosition";
+    public static final String PROPERTY_RELATIVE_ANCHOR_POSITION = "relativeAnchorPosition";
     
     public static enum TitlePosition{
         ABOVE_TOOLBAR, BELOW_TOOLBAR
@@ -408,7 +408,7 @@ public class Panel extends Container {
      * @param collapsible whether the panel should be collapsible.
      */
     public void setCollapsible(boolean collapsible) {
-        set(COLLAPSIBLE_PROPERTY, collapsible);
+        set(PROPERTY_COLLAPSIBLE, collapsible);
     }
     
     /**
@@ -505,8 +505,8 @@ public class Panel extends Container {
             }
             sb.append(theTool.toLowerCase());
         }
-        set(TOOL_IDS_PROPERTY, sb.toString());
-        firePropertyChange(TOOLCLICK_LISTENERS_CHANGED_PROPERTY, null, listener);
+        set(PROPERTY_TOOL_IDS, sb.toString());
+        firePropertyChange(PROPERTY_TOOLCLICK_LISTENERS_CHANGED, null, listener);
     }
     
     public void addToolListener(Tool tool, ActionListener listener) {
@@ -623,7 +623,7 @@ public class Panel extends Container {
         
         listeners.add(listener);
         updateRegisteredKeyPresses();
-        firePropertyChange(KEYPRESS_LISTENERS_CHANGED_PROPERTY, null, listener);
+        firePropertyChange(PROPERTY_KEYPRESS_LISTENERS_CHANGED, null, listener);
     }
     
     private void updateRegisteredKeyPresses(){
@@ -636,7 +636,7 @@ public class Panel extends Container {
             sb.append(keyPress);
         }
         
-        set(REGISTERED_KEY_PRESSES_PROPERTY, sb.toString());
+        set(PROPERTY_REGISTERED_KEY_PRESSES, sb.toString());
     }
 
     private void fireKeyEvent() {
@@ -654,7 +654,7 @@ public class Panel extends Container {
     public void addBeforeExpandListener( ActionListener listener) {
     	beforeExpandListeners = new ArrayList<ActionListener>();
     	beforeExpandListeners.add( listener);
-    	firePropertyChange(BEFOREEXPAND_LISTENERS_CHANGED_PROPERTY, null, listener);
+    	firePropertyChange(PROPERTY_BEFOREEXPAND_LISTENERS_CHANGED, null, listener);
     }
     
     /**
@@ -701,23 +701,23 @@ public class Panel extends Container {
     }
     
     public Boolean getRoundedBorders() {
-        return (Boolean)get(ROUNDED_BORDERS_PROPERTY);
+        return (Boolean)get(PROPERTY_ROUNDED_BORDERS);
     }
     
     public void setRoundedBorders(Boolean roundBorders) {
-        set(ROUNDED_BORDERS_PROPERTY, roundBorders);
+        set(PROPERTY_ROUNDED_BORDERS, roundBorders);
     }
     
     public String getTitlePosition() {
-        return (String)get(TITLE_POSITION);
+        return (String)get(PROPERTY_TITLE_POSITION);
     }
     
     public void setTitlePosition(TitlePosition titlePosition) {
-        set(TITLE_POSITION, titlePosition.toString());
+        set(PROPERTY_TITLE_POSITION, titlePosition.toString());
     }
     
     public String getBaseCssClass() {
-        return (String)get(BASE_CSS_CLASS);
+        return (String)get(PROPERTY_BASE_CSS_CLASS);
     }
     
     /**
@@ -725,7 +725,7 @@ public class Panel extends Container {
      * class should be defined in the css file for this application
      */
     public void setBaseCssClass(String baseCssClass) {
-        set(BASE_CSS_CLASS,baseCssClass);
+        set(PROPERTY_BASE_CSS_CLASS,baseCssClass);
     }
     
     /**
@@ -734,15 +734,15 @@ public class Panel extends Container {
      * @return
      */
     public String getIconCssClass() {
-        return (String)get(ICON_CSS_CLASS);
+        return (String)get(PROPERTY_ICON_CSS_CLASS);
     }
     
     public void setIconCssClass(String cls) {
-        set(ICON_CSS_CLASS, cls);
+        set(PROPERTY_ICON_CSS_CLASS, cls);
     }
     
     public boolean getFloating() {
-        Boolean isFloating = (Boolean)get(FLOATING_PROPERTY);
+        Boolean isFloating = (Boolean)get(PROPERTY_FLOATING);
         if (isFloating == null)
             return false;
         else
@@ -750,48 +750,48 @@ public class Panel extends Container {
     }
     
     public void setFloating(boolean floating) {
-        set(FLOATING_PROPERTY, Boolean.valueOf(floating));
+        set(PROPERTY_FLOATING, Boolean.valueOf(floating));
     }
     
     public Integer getPositionX() {
-        return (Integer)get(POSITION_X);
+        return (Integer)get(PROPERTY_POSITION_X);
     }
     
     public void setPositionX(Integer position) {
-        set(POSITION_X, position);
+        set(PROPERTY_POSITION_X, position);
     }
     
     public Integer getPositionY() {
-        return (Integer)get(POSITION_Y);
+        return (Integer)get(PROPERTY_POSITION_Y);
     }
     
     public void setPositionY(Integer position) {
-        set(POSITION_Y, position);
+        set(PROPERTY_POSITION_Y, position);
     }
     
     public Integer getRelativePositionX() {
-        return (Integer)get(RELATIVE_POSITION_X);
+        return (Integer)get(PROPERTY_RELATIVE_POSITION_X);
     }
     
     public void setRelativePositionX(Integer position) {
-        set(RELATIVE_POSITION_X, position);
+        set(PROPERTY_RELATIVE_POSITION_X, position);
     }
     
     public Integer getRelativePositionY() {
-        return (Integer)get(RELATIVE_POSITION_Y);
+        return (Integer)get(PROPERTY_RELATIVE_POSITION_Y);
     }
     
     public void setRelativePositionY(Integer position) {
-        set(RELATIVE_POSITION_Y, position);
+        set(PROPERTY_RELATIVE_POSITION_Y, position);
     }
 
     public RelativeAnchorPosition getRelativeAnchorPosition() {
-        String pos = (String)get(RELATIVE_ANCHOR_POSITION);
+        String pos = (String)get(PROPERTY_RELATIVE_ANCHOR_POSITION);
         return RelativeAnchorPosition.forName(pos);
     }
     
     public void setRelativeAnchorPosition(RelativeAnchorPosition anchor) {
-        set(RELATIVE_ANCHOR_POSITION, anchor.name());
+        set(PROPERTY_RELATIVE_ANCHOR_POSITION, anchor.name());
     }
         
     public Menu getContextMenu() {
@@ -812,6 +812,6 @@ public class Panel extends Container {
 	}
 	
 	public void setExpansible( boolean expansible) {
-		set( EXPANSIBLE_PROPERTY, expansible);
+		set( PROPERTY_EXPANSIBLE, expansible);
 	}
 }

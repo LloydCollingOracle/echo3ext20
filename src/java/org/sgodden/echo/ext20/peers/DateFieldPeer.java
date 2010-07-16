@@ -40,11 +40,7 @@ public class DateFieldPeer
 
     public DateFieldPeer() {
         super();
-        addOutputProperty(DateField.DATE_CHANGED_PROPERTY);
-        addOutputProperty(DateField.VALID_PROPERTY);
-        addOutputProperty(DateField.INVALID_TEXT_PROPERTY);
-
-        addEvent(new AbstractComponentSynchronizePeer.EventPeer(DateField.DATE_CHANGED_PROPERTY, DateField.ACTION_LISTENERS_CHANGED_PROPERTY) {
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(DateField.PROPERTY_DATE_CHANGED, DateField.PROPERTY_ACTION_LISTENERS_CHANGED) {
             @Override
             public boolean hasListeners(Context context, Component component) {
                 return ((DateField) component).hasActionListeners();
@@ -63,7 +59,7 @@ public class DateFieldPeer
     @Override
     public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
         Object ret = null;
-        if (propertyName.equals(DateField.DATE_CHANGED_PROPERTY)) {
+        if (propertyName.equals(DateField.PROPERTY_DATE_CHANGED)) {
             DateField df = (DateField) component;
             if ( df.getCalendar() == null){
             	return null;
@@ -82,7 +78,7 @@ public class DateFieldPeer
      */
     @Override
     public Class getInputPropertyClass(String propertyName) {
-        if (DateField.DATE_CHANGED_PROPERTY.equals(propertyName)) {
+        if (DateField.PROPERTY_DATE_CHANGED.equals(propertyName)) {
             return Date.class;
         }
         return null;
@@ -93,9 +89,9 @@ public class DateFieldPeer
      */
     @Override
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-        if (propertyName.equals(DateField.DATE_CHANGED_PROPERTY)) {
+        if (propertyName.equals(DateField.PROPERTY_DATE_CHANGED)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-            clientUpdateManager.setComponentProperty(component, DateField.DATE_CHANGED_PROPERTY, newValue);
+            clientUpdateManager.setComponentProperty(component, DateField.PROPERTY_DATE_CHANGED, newValue);
         }
     }
 

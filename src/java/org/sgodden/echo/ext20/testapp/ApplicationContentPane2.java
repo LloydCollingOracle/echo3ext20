@@ -198,7 +198,7 @@ public class ApplicationContentPane2
         userEditPanel.add(new Label("Code"));
         final org.sgodden.echo.ext20.TextField codeField = new org.sgodden.echo.ext20.TextField();
         codeField.setNotifyImmediately(true);
-        codeField.addPropertyChangeListener(org.sgodden.echo.ext20.TextField.VALUE_CHANGED_PROPERTY, new PropertyChangeListener() {
+        codeField.addPropertyChangeListener(org.sgodden.echo.ext20.TextField.PROPERTY_VALUE_CHANGED, new PropertyChangeListener() {
             
             public void propertyChange(PropertyChangeEvent arg0) {
                 log.info("Code field value changed to: " + codeField.getValue());

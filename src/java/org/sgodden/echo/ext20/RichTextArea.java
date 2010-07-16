@@ -25,7 +25,7 @@ package org.sgodden.echo.ext20;
 public class RichTextArea 
         extends echopoint.Fckeditor {
     
-    public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
+    public static final String PROPERTY_ALLOW_BLANK = "allowBlank";
 
     /**
      * Creates a new empty text area.
@@ -38,7 +38,7 @@ public class RichTextArea
      * Gets allow blank property
      */
     public boolean getAllowBlank(){
-        return (Boolean) get(ALLOW_BLANK_PROPERTY);
+        return (Boolean) get(PROPERTY_ALLOW_BLANK);
         
     }
     
@@ -49,6 +49,6 @@ public class RichTextArea
      *            whether a blank value is allowed.
      */
     public void setAllowBlank(boolean allowBlank) {
-        set(ALLOW_BLANK_PROPERTY, allowBlank);
+        set(PROPERTY_ALLOW_BLANK, allowBlank);
     }
 }

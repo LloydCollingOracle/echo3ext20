@@ -25,7 +25,7 @@ public class DateFieldTest extends TestCase {
         assertNotNull("Date Field is not using the passed calendar", df.getCalendar());
         assertEquals("Date Field value is not the value we originally passed", df.getCalendar().getTimeInMillis(), c.getTimeInMillis());
         
-        df.processInput(DateField.DATE_CHANGED_PROPERTY, null);
+        df.processInput(DateField.PROPERTY_DATE_CHANGED, null);
         
         assertNull("Date Field is not setting it's value to null when the client passes null as it's input", df.getCalendar());
     }

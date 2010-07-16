@@ -41,12 +41,7 @@ public class CheckboxFieldPeer
 
     public CheckboxFieldPeer() {
         super();
-        addOutputProperty(CheckboxField.FIELD_LABEL_PROPERTY);
-        addOutputProperty(CheckboxField.SELECTED_CHANGED_PROPERTY);
-        addOutputProperty(TextField.VALID_PROPERTY);
-        addOutputProperty(TextField.INVALID_TEXT_PROPERTY);
-        
-        addEvent(new AbstractComponentSynchronizePeer.EventPeer(AbstractButton.INPUT_ACTION, AbstractButton.ACTION_LISTENERS_CHANGED_PROPERTY) {
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(AbstractButton.INPUT_ACTION, AbstractButton.PROPERTY_ACTION_LISTENERS_CHANGED) {
             @Override
             public boolean hasListeners(Context context, Component component) {
                 return ((CheckboxField) component).hasActionListeners();
@@ -68,7 +63,7 @@ public class CheckboxFieldPeer
      */
     @Override
     public Class getInputPropertyClass(String propertyName) {
-        if (CheckboxField.SELECTED_CHANGED_PROPERTY.equals(propertyName)) {
+        if (CheckboxField.PROPERTY_SELECTED_CHANGED.equals(propertyName)) {
             return Boolean.class;
         }
         return null;
@@ -79,9 +74,9 @@ public class CheckboxFieldPeer
      */
     @Override
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-        if (propertyName.equals(CheckboxField.SELECTED_CHANGED_PROPERTY)) {
+        if (propertyName.equals(CheckboxField.PROPERTY_SELECTED_CHANGED)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-            clientUpdateManager.setComponentProperty(component, CheckboxField.SELECTED_CHANGED_PROPERTY, newValue);
+            clientUpdateManager.setComponentProperty(component, CheckboxField.PROPERTY_SELECTED_CHANGED, newValue);
         }
     }
 

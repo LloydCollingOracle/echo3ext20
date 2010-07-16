@@ -55,13 +55,13 @@ public class ToggleGroup implements PropertyChangeListener, Serializable {
      */
     public void addButton(Button button) {
         button.setToggleGroup(toggleGroupName);
-        button.addPropertyChangeListener(AbstractButton.PRESSED_PROPERTY, this);
+        button.addPropertyChangeListener(AbstractButton.PROPERTY_PRESSED, this);
         buttons.add(button);
     }
     
     public void removeButton(Button button) {
         button.setToggleGroup(null);
-        button.removePropertyChangeListener(AbstractButton.PRESSED_PROPERTY, this);
+        button.removePropertyChangeListener(AbstractButton.PROPERTY_PRESSED, this);
         buttons.remove(button);
     }
 

@@ -24,20 +24,20 @@ import nextapp.echo.app.list.ListSelectionModel;
 @SuppressWarnings( { "serial" })
 public class MultiSelect extends ExtComponent implements AbstractListComponent {
 
-    public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
-    public static final String COMPLEX_PROPERTY = "complex";
-    public static final String EDITABLE_PROPERTY = "editable";
-    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
-    public static final String FORCE_SELECTION_PROPERTY = "forceSelection";
-    public static final String FROM_LEGEND_PROPERTY = "fromLegend";
-    public static final String MODEL_CHANGED_PROPERTY = "model";
-    public static final String SELECTION_CHANGED_PROPERTY = "selection";
-    public static final String SELECTION_MODEL_CHANGED_PROPERTY = "selectionModel";
-    public static final String TO_LEGEND_PROPERTY = "toLegend";
+    public static final String PROPERTY_ALLOW_BLANK = "allowBlank";
+    public static final String PROPERTY_COMPLEX = "complex";
+    public static final String PROPERTY_EDITABLE = "editable";
+    public static final String PROPERTY_FIELD_LABEL = "fieldLabel";
+    public static final String PROPERTY_FORCE_SELECTION = "forceSelection";
+    public static final String PROPERTY_FROM_LEGEND = "fromLegend";
+    public static final String PROPERTY_MODEL_CHANGED = "model";
+    public static final String PROPERTY_SELECTION_CHANGED = "selection";
+    public static final String PROPERTY_SELECTION_MODEL_CHANGED = "selectionModel";
+    public static final String PROPERTY_TO_LEGEND = "toLegend";
     public static final String INPUT_ACTION = "action";
-    public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
-    public static final String HEIGHT_PROPERTY = "height";
-    public static final String WIDTH_PROPERTY = "width";
+    public static final String PROPERTY_ACTION_LISTENERS_CHANGED = "actionListeners";
+    public static final String PROPERTY_HEIGHT = "height";
+    public static final String PROPERTY_WIDTH = "width";
 
     private ListSelectionModel selectionModel;
     private int[] selectedIndices;
@@ -49,15 +49,15 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      */
     private ListDataListener listDataListener = new ListDataListener() {
         public void intervalAdded(ListDataEvent e) {
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+            firePropertyChange(PROPERTY_MODEL_CHANGED, null, model);
         }
 
         public void intervalRemoved(ListDataEvent e) {
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+            firePropertyChange(PROPERTY_MODEL_CHANGED, null, model);
         }
 
         public void contentsChanged(ListDataEvent e) {
-            firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+            firePropertyChange(PROPERTY_MODEL_CHANGED, null, model);
         }
     };
     /**
@@ -66,7 +66,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
     private ChangeListener listSelectionListener = new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
             if (!suppressChangeNotifications) {
-                firePropertyChange(SELECTION_CHANGED_PROPERTY, null, getSelectedItems());
+                firePropertyChange(PROPERTY_SELECTION_CHANGED, null, getSelectedItems());
             }
         }
     };
@@ -130,7 +130,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
         getEventListenerList().addListener(ActionListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, null, l);
+        firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, null, l);
     }
 
     /**
@@ -164,7 +164,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
         getEventListenerList().removeListener(ActionListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(ACTION_LISTENERS_CHANGED_PROPERTY, l, null);
+        firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, l, null);
 
     }
 
@@ -172,7 +172,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      * Gets allow blank property
      */
     public boolean getAllowBlank(){
-        return (Boolean) get(ALLOW_BLANK_PROPERTY);
+        return (Boolean) get(PROPERTY_ALLOW_BLANK);
         
     }
     
@@ -182,7 +182,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      * @return the complex boolean.
      */
     public String getComplex() {
-        return (String) get(COMPLEX_PROPERTY);
+        return (String) get(PROPERTY_COMPLEX);
     }
 
     /**
@@ -191,7 +191,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) get(FIELD_LABEL_PROPERTY);
+        return (String) get(PROPERTY_FIELD_LABEL);
     }
 
     /**
@@ -200,7 +200,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      * @return the from legend.
      */
     public String getFromLegend() {
-        return (String) get(FROM_LEGEND_PROPERTY);
+        return (String) get(PROPERTY_FROM_LEGEND);
     }
 
     /**
@@ -242,7 +242,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      * @return the to legend.
      */
     public String getToLegend() {
-        return (String) get(TO_LEGEND_PROPERTY);
+        return (String) get(PROPERTY_TO_LEGEND);
     }
 
     /**
@@ -261,7 +261,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      *            whether a blank value is allowed.
      */
     public void setAllowBlank(boolean allowBlank) {
-        set(ALLOW_BLANK_PROPERTY, allowBlank);
+        set(PROPERTY_ALLOW_BLANK, allowBlank);
     }
     
     /**
@@ -271,7 +271,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      * @param boolean complex.
      */
     public void setComplex(boolean complex) {
-        set(COMPLEX_PROPERTY, complex);
+        set(PROPERTY_COMPLEX, complex);
     }
 
     /**
@@ -281,7 +281,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      *            whether the multi select is editable.
      */
     public void setEditable(boolean editable) {
-        set(EDITABLE_PROPERTY, editable);
+        set(PROPERTY_EDITABLE, editable);
     }
 
     /**
@@ -291,7 +291,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      *            whether the multi select is enabled.
      */
     public void setEnabled(boolean enabled) {
-        set(EDITABLE_PROPERTY, enabled);
+        set(PROPERTY_EDITABLE, enabled);
     }
 
     /**
@@ -301,7 +301,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      *            the field label.
      */
     public void setFieldLabel(String fieldLabel) {
-        set(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(PROPERTY_FIELD_LABEL, fieldLabel);
     }
 
     /**
@@ -311,7 +311,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      *            whether a selection is mandatory.
      */
     public void setForceSelection(boolean forceSelection) {
-        set(FORCE_SELECTION_PROPERTY, forceSelection);
+        set(PROPERTY_FORCE_SELECTION, forceSelection);
     }
 
     /**
@@ -321,7 +321,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      *            the from legend.
      */
     public void setFromLegend(String fromLegend) {
-        set(FROM_LEGEND_PROPERTY, fromLegend);
+        set(PROPERTY_FROM_LEGEND, fromLegend);
     }
 
     public void setModel(ListModel model) {
@@ -332,7 +332,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
         // just in case they set the same model...
         model.removeListDataListener(listDataListener);
         model.addListDataListener(listDataListener);
-        firePropertyChange(MODEL_CHANGED_PROPERTY, null, model);
+        firePropertyChange(PROPERTY_MODEL_CHANGED, null, model);
         selectionModel.clearSelection();
     }
 
@@ -347,7 +347,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
     @Override
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
-        if (SELECTION_CHANGED_PROPERTY.equals(inputName)) {
+        if (PROPERTY_SELECTION_CHANGED.equals(inputName)) {
             setSelectedIndices((int[]) inputValue);
         } else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
@@ -426,7 +426,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
         newValue.addChangeListener(listSelectionListener);
         selectionModel = newValue;
         selectionModel.setSelectionMode(ListSelectionModel.MULTIPLE_SELECTION);
-        firePropertyChange(SELECTION_MODEL_CHANGED_PROPERTY, oldValue, newValue);
+        firePropertyChange(PROPERTY_SELECTION_MODEL_CHANGED, oldValue, newValue);
     }
 
     /**
@@ -436,7 +436,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
      *            the to legend.
      */
     public void setToLegend(String toLegend) {
-        set(TO_LEGEND_PROPERTY, toLegend);
+        set(PROPERTY_TO_LEGEND, toLegend);
     }
 
     public ListCellRenderer getCellRenderer() {
@@ -452,18 +452,18 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
     }
     
     public Integer getHeight() {
-        return (Integer)get(HEIGHT_PROPERTY);
+        return (Integer)get(PROPERTY_HEIGHT);
     }
     
     public void setHeight(Integer height) {
-        set(HEIGHT_PROPERTY, height);
+        set(PROPERTY_HEIGHT, height);
     }
     
     public Integer getWidth() {
-        return (Integer)get(WIDTH_PROPERTY);
+        return (Integer)get(PROPERTY_WIDTH);
     }
     
     public void setWidth(Integer width) {
-        set(WIDTH_PROPERTY, width);
+        set(PROPERTY_WIDTH, width);
     }
 }

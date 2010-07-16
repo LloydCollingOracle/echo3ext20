@@ -34,9 +34,7 @@ public abstract class AbstractButtonPeer extends ExtComponentPeer {
      */
     public AbstractButtonPeer() {
         super();
-        addOutputProperty(AbstractButton.TEXT_PROPERTY);
-        addOutputProperty(AbstractButton.PRESSED_PROPERTY);
-        addEvent(new AbstractComponentSynchronizePeer.EventPeer(AbstractButton.INPUT_ACTION, AbstractButton.ACTION_LISTENERS_CHANGED_PROPERTY) {
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(AbstractButton.INPUT_ACTION, AbstractButton.PROPERTY_ACTION_LISTENERS_CHANGED) {
             @Override
             public boolean hasListeners(Context context, Component component) {
                 return ((AbstractButton) component).hasActionListeners();
@@ -50,7 +48,7 @@ public abstract class AbstractButtonPeer extends ExtComponentPeer {
     @SuppressWarnings("unchecked")
     @Override
     public Class getInputPropertyClass(String propertyName) {
-        if (AbstractButton.PRESSED_PROPERTY.equals(propertyName)) {
+        if (AbstractButton.PROPERTY_PRESSED.equals(propertyName)) {
             return Boolean.class;
         }
         return null;
@@ -61,9 +59,9 @@ public abstract class AbstractButtonPeer extends ExtComponentPeer {
      */
     @Override
     public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
-        if (propertyName.equals(AbstractButton.PRESSED_PROPERTY)) {
+        if (propertyName.equals(AbstractButton.PROPERTY_PRESSED)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-            clientUpdateManager.setComponentProperty(component, AbstractButton.PRESSED_PROPERTY, newValue);
+            clientUpdateManager.setComponentProperty(component, AbstractButton.PROPERTY_PRESSED, newValue);
         }
     }
 

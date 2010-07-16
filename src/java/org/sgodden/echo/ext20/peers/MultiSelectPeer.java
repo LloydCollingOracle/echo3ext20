@@ -43,13 +43,10 @@ public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
 
     public MultiSelectPeer() {
         super();
-        addOutputProperty(MultiSelect.SELECTION_CHANGED_PROPERTY);
-        addOutputProperty(MultiSelect.MODEL_CHANGED_PROPERTY);
-        addOutputProperty(MultiSelect.COMPLEX_PROPERTY);
-        setOutputPropertyReferenced(MultiSelect.MODEL_CHANGED_PROPERTY, true);
+        setOutputPropertyReferenced(MultiSelect.PROPERTY_MODEL_CHANGED, true);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(
                 MultiSelect.INPUT_ACTION,
-                MultiSelect.ACTION_LISTENERS_CHANGED_PROPERTY) {
+                MultiSelect.PROPERTY_ACTION_LISTENERS_CHANGED) {
             @Override
             public boolean hasListeners(Context context, Component component) {
                 return ((MultiSelect) component).hasActionListeners();
@@ -74,7 +71,7 @@ public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
      */
     @Override
     public Class getInputPropertyClass(String propertyName) {
-        if (MultiSelect.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
+        if (MultiSelect.PROPERTY_SELECTION_CHANGED.equals(propertyName)) {
             return String.class;
         } else {
             return super.getInputPropertyClass(propertyName);
@@ -93,11 +90,11 @@ public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
     public Object getOutputProperty(Context context, Component component,
             String propertyName, int propertyIndex) {
         MultiSelect multiSelect = (MultiSelect) component;
-        if (MultiSelect.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
+        if (MultiSelect.PROPERTY_SELECTION_CHANGED.equals(propertyName)) {
             return ListSelectionUtil.toString(multiSelect.getSelectionModel(),
                     multiSelect.getModel().size());
         }
-        if (MultiSelect.MODEL_CHANGED_PROPERTY.equals(propertyName)) {
+        if (MultiSelect.PROPERTY_MODEL_CHANGED.equals(propertyName)) {
             return new ListModelAdapter(multiSelect);
         }
         return super.getOutputProperty(context, component, propertyName,
@@ -128,7 +125,7 @@ public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
             String propertyName, int index, Object newValue) {
         ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context
                 .get(ClientUpdateManager.class);
-        if (MultiSelect.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
+        if (MultiSelect.PROPERTY_SELECTION_CHANGED.equals(propertyName)) {
             int[] selection;
             if (newValue == null) {
                 selection = null;
@@ -137,7 +134,7 @@ public class MultiSelectPeer extends AbstractComponentSynchronizePeer {
             }
 
             clientUpdateManager.setComponentProperty(component,
-                    MultiSelect.SELECTION_CHANGED_PROPERTY, selection);
+                    MultiSelect.PROPERTY_SELECTION_CHANGED, selection);
         }
     }
 

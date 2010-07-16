@@ -33,30 +33,27 @@ import org.apache.log4j.Logger;
 @SuppressWarnings( { "serial" })
 public class TextField extends ExtComponent implements Field {
     
-    private static final Logger log = Logger.getLogger(TextField.class);
-
     public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
-    public static final String ALLOW_BLANK_PROPERTY = "allowBlank";
-    public static final String BLANK_TEXT_PROPERTY = "blankText";
-    public static final String CASE_RESTRICTION_PROPERTY = "caseRestriction";
-    public static final String EDITABLE = "editable";
-    public static final String EMPTY_TEXT_PROEPRTY = "emptyText";
-    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
+    public static final String PROPERTY_ALLOW_BLANK = "allowBlank";
+    public static final String PROPERTY_BLANK_TEXT = "blankText";
+    public static final String PROPERTY_CASE_RESTRICTION = "caseRestriction";
+    public static final String PROPERTY_EDITABLE = "editable";
+    public static final String PROPERTY_EMPTY_TEXT = "emptyText";
+    public static final String PROPERTY_FIELD_LABEL = "fieldLabel";
     public static final String INPUT_ACTION = "action";
-    public static final String INPUT_MASK = "maskRe";
-    public static final String INVALID_TEXT_PROPERTY = "invalidText";
+    public static final String PROPERTY_INPUT_MASK = "maskRe";
+    public static final String PROPERTY_INVALID_TEXT = "invalidText";
     public static final String PROPERTY_SIZE = "size";
-    public static final String REGEXP_FAILURETEXT_PROPERTY = "regExpFailureText";
-    public static final String REGEXP_PROPERTY = "regExp";
-    public static final String MASKRE_PROPERTY = "maskRe";
-    public static final String MIN_LENGTH = "minLength";
-    public static final String MIN_LENGTH_TEXT = "minLengthText";
-    public static final String MAX_LENGTH = "maxLength";
-    public static final String MAX_LENGTH_TEXT = "maxLengthText";
-    public static final String NOTIFY_VALUE_IMMEDIATE_PROPERTY = "notifyValueImmediate";
-    public static final String VALIDATION_DELAY = "validationDelay";
-    public static final String VALUE_CHANGED_PROPERTY = "value";
-    public static final String VALID_PROPERTY = "isValid";
+    public static final String PROPERTY_REGEXP_FAILURETEXT = "regExpFailureText";
+    public static final String PROPERTY_REGEXP = "regExp";
+    public static final String PROPERTY_MIN_LENGTH = "minLength";
+    public static final String PROPERTY_MIN_LENGTH_TEXT = "minLengthText";
+    public static final String PROPERTY_MAX_LENGTH = "maxLength";
+    public static final String PROPERTY_MAX_LENGTH_TEXT = "maxLengthText";
+    public static final String PROPERTY_NOTIFY_VALUE_IMMEDIATE = "notifyValueImmediate";
+    public static final String PROPERTY_VALIDATION_DELAY = "validationDelay";
+    public static final String PROPERTY_VALUE_CHANGED = "value";
+    public static final String PROPERTY_VALID = "isValid";
     public static final String PROPERTY_STRIP_WHITESPACE = "stripWhitespace";
     public static final String PROPERTY_GROW = "grow";
     public static final String PROPERTY_GROW_MIN = "growMin";
@@ -116,7 +113,7 @@ public class TextField extends ExtComponent implements Field {
      * @return the case restriction.
      */
     public String getCaseRestriction() {
-        return (String) get(CASE_RESTRICTION_PROPERTY);
+        return (String) get(PROPERTY_CASE_RESTRICTION);
     }
     
     /**
@@ -125,14 +122,14 @@ public class TextField extends ExtComponent implements Field {
      * @return the editable property
      */
     public boolean getEditable() {
-        return (Boolean) get(EDITABLE);
+        return (Boolean) get(PROPERTY_EDITABLE);
     }
 
     /**
      * Gets allow blank property
      */
     public boolean getAllowBlank(){
-        return (Boolean) get(ALLOW_BLANK_PROPERTY);
+        return (Boolean) get(PROPERTY_ALLOW_BLANK);
         
     }
     
@@ -142,14 +139,14 @@ public class TextField extends ExtComponent implements Field {
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) get(FIELD_LABEL_PROPERTY);
+        return (String) get(PROPERTY_FIELD_LABEL);
     }
     
     /**
      * Gets notify immediately property
      */
     public boolean getNotifyImmediately(){
-        return (Boolean) get(NOTIFY_VALUE_IMMEDIATE_PROPERTY);
+        return (Boolean) get(PROPERTY_NOTIFY_VALUE_IMMEDIATE);
         
     }
     
@@ -159,7 +156,7 @@ public class TextField extends ExtComponent implements Field {
      * @return the value of the field.
      */
     public String getValue() {
-        return (String) get(VALUE_CHANGED_PROPERTY);
+        return (String) get(PROPERTY_VALUE_CHANGED);
     }
 
     /**
@@ -169,7 +166,7 @@ public class TextField extends ExtComponent implements Field {
      *            whether a blank value is allowed.
      */
     public void setAllowBlank(boolean allowBlank) {
-        set(ALLOW_BLANK_PROPERTY, allowBlank);
+        set(PROPERTY_ALLOW_BLANK, allowBlank);
     }
     
     /**
@@ -179,7 +176,7 @@ public class TextField extends ExtComponent implements Field {
      *            the value of the field.
      */
     public void setBlankText(String blankText) {
-        set(BLANK_TEXT_PROPERTY, blankText);
+        set(PROPERTY_BLANK_TEXT, blankText);
     }
 
     /**
@@ -189,7 +186,7 @@ public class TextField extends ExtComponent implements Field {
      *            the case restriction.
      */
     public void setCaseRestriction(CaseRestriction caseRestriction) {
-        set(CASE_RESTRICTION_PROPERTY, caseRestriction.toString());
+        set(PROPERTY_CASE_RESTRICTION, caseRestriction.toString());
     }
     
     /**
@@ -199,7 +196,7 @@ public class TextField extends ExtComponent implements Field {
      */
     public void setEditable(boolean editable){
         if (!editable){
-            set(EDITABLE, editable);
+            set(PROPERTY_EDITABLE, editable);
         }
     }
     
@@ -211,7 +208,7 @@ public class TextField extends ExtComponent implements Field {
      *            themselves.
      */
     public void setEmptyText(String emptyText) {
-        set(EMPTY_TEXT_PROEPRTY, emptyText);
+        set(PROPERTY_EMPTY_TEXT, emptyText);
     }
 
     /**
@@ -221,7 +218,7 @@ public class TextField extends ExtComponent implements Field {
      *            the field label to be used in forms.
      */
     public void setFieldLabel(String fieldLabel) {
-        set(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(PROPERTY_FIELD_LABEL, fieldLabel);
     }
 
     /**
@@ -232,7 +229,7 @@ public class TextField extends ExtComponent implements Field {
      *            the input mask regular expression.
      */
     public void setInputMask(String inputMask) {
-        set(INPUT_MASK, inputMask);
+        set(PROPERTY_INPUT_MASK, inputMask);
     }
     
     /**
@@ -242,7 +239,7 @@ public class TextField extends ExtComponent implements Field {
      *            the invalid text.
      */
     public void setInvalidText(String invalidText) {
-        set(INVALID_TEXT_PROPERTY, invalidText);
+        set(PROPERTY_INVALID_TEXT, invalidText);
     }
     
     /**
@@ -252,7 +249,7 @@ public class TextField extends ExtComponent implements Field {
      *            whether the field value is valid.
      */
     public void setIsValid(boolean isValid) {
-        set(VALID_PROPERTY, isValid);
+        set(PROPERTY_VALID, isValid);
     }
     
     /**
@@ -262,7 +259,7 @@ public class TextField extends ExtComponent implements Field {
      *            the maximum length of the text field.
      */
     public void setMaxLength(int maxLength) {
-        set(MAX_LENGTH, maxLength);
+        set(PROPERTY_MAX_LENGTH, maxLength);
     }
     
     /**
@@ -271,7 +268,7 @@ public class TextField extends ExtComponent implements Field {
      * @param maxLenthText
      */
     public void setMaxLengthText(String maxLengthText){
-        set(MAX_LENGTH_TEXT, maxLengthText);
+        set(PROPERTY_MAX_LENGTH_TEXT, maxLengthText);
     }
     
     /**
@@ -281,7 +278,7 @@ public class TextField extends ExtComponent implements Field {
      *            the minimum length of the text field.
      */
     public void setMinLength(int minLength) {
-        set(MIN_LENGTH, minLength);
+        set(PROPERTY_MIN_LENGTH, minLength);
     }
     
     /**
@@ -290,7 +287,7 @@ public class TextField extends ExtComponent implements Field {
      * @param minLenthText
      */
     public void setMinLengthText(String minLengthText){
-        set(MIN_LENGTH_TEXT, minLengthText);
+        set(PROPERTY_MIN_LENGTH_TEXT, minLengthText);
     }
 
     /**
@@ -300,7 +297,7 @@ public class TextField extends ExtComponent implements Field {
      * @param notify
      */
     public void setNotifyImmediately(boolean notify) {
-        set(NOTIFY_VALUE_IMMEDIATE_PROPERTY, notify);
+        set(PROPERTY_NOTIFY_VALUE_IMMEDIATE, notify);
     }
 
     /**
@@ -310,11 +307,11 @@ public class TextField extends ExtComponent implements Field {
      *            the regular expression.
      */
     public void setRegExp(String regExp) {
-        set(REGEXP_PROPERTY, regExp);
+        set(PROPERTY_REGEXP, regExp);
     }
     
     public String getRegExp() {
-        return (String)get(REGEXP_PROPERTY);
+        return (String)get(PROPERTY_REGEXP);
     }
 
     /**
@@ -324,7 +321,7 @@ public class TextField extends ExtComponent implements Field {
      * @param delay the time delay to be applied
      */
     public void setValidationDelay(int delay) {
-        set(VALIDATION_DELAY, delay);
+        set(PROPERTY_VALIDATION_DELAY, delay);
     }
     
     /**
@@ -334,11 +331,11 @@ public class TextField extends ExtComponent implements Field {
      *            the value of the field.
      */
     public void setValue(String value) {
-        set(VALUE_CHANGED_PROPERTY, value);
+        set(PROPERTY_VALUE_CHANGED, value);
     }
 
     public String getMaxLength() {
-        Object maxL = get(MAX_LENGTH);
+        Object maxL = get(PROPERTY_MAX_LENGTH);
         if (maxL == null)
             return null;
         if (maxL instanceof String)
@@ -354,11 +351,11 @@ public class TextField extends ExtComponent implements Field {
      *            failure text.
      */
     public void setRegexpFailureText(String regExpFailureText) {
-        set(REGEXP_FAILURETEXT_PROPERTY, regExpFailureText);
+        set(PROPERTY_REGEXP_FAILURETEXT, regExpFailureText);
     }
     
     public String getRegexpFailureText() {
-        return (String)get(REGEXP_FAILURETEXT_PROPERTY);
+        return (String)get(PROPERTY_REGEXP_FAILURETEXT);
     }
 
     /**
@@ -373,13 +370,13 @@ public class TextField extends ExtComponent implements Field {
     @Override
     public void processInput(String inputName, Object inputValue) {
         super.processInput(inputName, inputValue);
-        if (VALUE_CHANGED_PROPERTY.equals(inputName)) {
+        if (PROPERTY_VALUE_CHANGED.equals(inputName)) {
             setValue((String) inputValue);
         }
         else if (INPUT_ACTION.equals(inputName)) {
             fireActionEvent();
         }
-        else if (VALID_PROPERTY.equals(inputName)) {
+        else if (PROPERTY_VALID.equals(inputName)) {
         	setIsValid((Boolean) inputValue);
         }
     }
@@ -417,7 +414,7 @@ public class TextField extends ExtComponent implements Field {
     }
 
 	public void setMaskRe(String value) {
-		set( MASKRE_PROPERTY, value);
+		setInputMask(value);
 	}
 
     public boolean isStripWhitespace() {

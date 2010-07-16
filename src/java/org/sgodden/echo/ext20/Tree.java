@@ -19,7 +19,7 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
     public static final String INPUT_EXPAND = "expand";
     public static final String EXPANSION_LISTENERS_CHANGED_PROPERTY = "expansionListeners";
     
-    public static final String HAS_BORDER_PROPERTY = "hasBorder";
+    public static final String PROPERTY_HAS_BORDER = "hasBorder";
     public static final String PROPERTY_SHOW_CHECKBOXES = "showCheckBoxes";
     public static final String PROPERTY_SHOW_ROOT_NODE = "showRootNode";
     public static final String PROPERTY_ACTION_ON_SELECT = "doActionOnSelect";
@@ -64,11 +64,11 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
     }
     
     public void setHasBorder(boolean b) {
-        set(HAS_BORDER_PROPERTY, b);
+        set(PROPERTY_HAS_BORDER, b);
     }
     
     public boolean hasBorder() {
-        return (Boolean)get(HAS_BORDER_PROPERTY);
+        return (Boolean)get(PROPERTY_HAS_BORDER);
     }
     
     /**

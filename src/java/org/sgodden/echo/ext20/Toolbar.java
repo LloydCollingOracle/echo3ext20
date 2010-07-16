@@ -28,7 +28,7 @@ public class Toolbar
     /**
      * The position (top or bottom) of the toolbar.
      */
-    public static final String POSITION_PROPERTY = "position";
+    public static final String PROPERTY_POSITION = "position";
 
     /**
      * Adds a greed (100% width) filler item.
@@ -62,10 +62,10 @@ public class Toolbar
     public void setPosition(Position position) {
         switch (position) {
             case TOP:
-                set(POSITION_PROPERTY, "top");
+                set(PROPERTY_POSITION, "top");
                 break;
             case BOTTOM:
-                set(POSITION_PROPERTY, "bottom");
+                set(PROPERTY_POSITION, "bottom");
                 break;                
             default:
                 throw new IllegalArgumentException("Unknown position: " + position);

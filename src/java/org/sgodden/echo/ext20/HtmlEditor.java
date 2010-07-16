@@ -32,8 +32,8 @@ package org.sgodden.echo.ext20;
 public class HtmlEditor 
         extends ExtComponent {
     
-    public static final String FIELD_LABEL_PROPERTY = "fieldLabel";
-    public static final String TEXT_CHANGED_PROPERTY = "text";
+    public static final String PROPERTY_FIELD_LABEL = "fieldLabel";
+    public static final String PROPERTY_TEXT_CHANGED = "text";
     
     /**
      * Creates a new empty html editor.
@@ -55,7 +55,7 @@ public class HtmlEditor
      * @return the field label.
      */
     public String getFieldLabel() {
-        return (String) get(FIELD_LABEL_PROPERTY);
+        return (String) get(PROPERTY_FIELD_LABEL);
     }
 
     /**
@@ -63,7 +63,7 @@ public class HtmlEditor
      * @param fieldLabel the field label to be used in forms.
      */
     public void setFieldLabel(String fieldLabel) {
-        set(FIELD_LABEL_PROPERTY, fieldLabel);
+        set(PROPERTY_FIELD_LABEL, fieldLabel);
     }
     
     /**
@@ -71,7 +71,7 @@ public class HtmlEditor
      * @param text the html content.
      */
     public void setText(String text) {
-        set(TEXT_CHANGED_PROPERTY, text);
+        set(PROPERTY_TEXT_CHANGED, text);
     }
     
     /**
@@ -79,12 +79,12 @@ public class HtmlEditor
      * @return the HTML content.
      */
     public String getText() {
-        return (String) get(TEXT_CHANGED_PROPERTY);
+        return (String) get(PROPERTY_TEXT_CHANGED);
     }
 
     @Override
     public void processInput(String inputName, Object inputValue) {
-        if (TEXT_CHANGED_PROPERTY.equals(inputName)) {
+        if (PROPERTY_TEXT_CHANGED.equals(inputName)) {
             setText((String)inputValue);
         }
     }

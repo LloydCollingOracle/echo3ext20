@@ -37,11 +37,9 @@ public class ComboBoxPeer
 
     public ComboBoxPeer() {
         super();
-        addOutputProperty(ComboBox.SELECTION_CHANGED_PROPERTY);
-        addOutputProperty(ComboBox.MODEL_CHANGED_PROPERTY);
-        addOutputProperty(ComboBox.RAW_VALUE_CHANGED_PROPERTY);
-        setOutputPropertyReferenced(ComboBox.MODEL_CHANGED_PROPERTY, true);
-        addEvent(new AbstractComponentSynchronizePeer.EventPeer(ComboBox.INPUT_ACTION, ComboBox.ACTION_LISTENERS_CHANGED_PROPERTY) {
+        addOutputProperty(ComboBox.MODEL_CHANGED);
+        setOutputPropertyReferenced(ComboBox.MODEL_CHANGED, true);
+        addEvent(new AbstractComponentSynchronizePeer.EventPeer(ComboBox.INPUT_ACTION, ComboBox.PROPERTY_ACTION_LISTENERS_CHANGED) {
             @Override
             public boolean hasListeners(Context context, Component component) {
                 return true;
@@ -65,10 +63,10 @@ public class ComboBoxPeer
      */
     @Override
     public Class getInputPropertyClass(String propertyName) {
-        if (ComboBox.RAW_VALUE_CHANGED_PROPERTY.equals(propertyName)) {
+        if (ComboBox.PROPERTY_RAW_VALUE_CHANGED.equals(propertyName)) {
             return String.class;
         }
-        if (ComboBox.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
+        if (ComboBox.PROPERTY_SELECTION_CHANGED.equals(propertyName)) {
             return Integer.class;
         }
         return super.getInputPropertyClass(propertyName);
@@ -81,10 +79,10 @@ public class ComboBoxPeer
     @Override
     public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
         ComboBox gridPanel = (ComboBox)component;
-        if (ComboBox.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
+        if (ComboBox.PROPERTY_SELECTION_CHANGED.equals(propertyName)) {
             return gridPanel.getSelectionModel().getMinSelectedIndex();
         }
-        if (ComboBox.MODEL_CHANGED_PROPERTY.equals(propertyName)) {
+        if (ComboBox.MODEL_CHANGED.equals(propertyName)) {
             return new ListModelAdapter(gridPanel);
         }
         return super.getOutputProperty(context, component, propertyName, propertyIndex);
@@ -109,11 +107,11 @@ public class ComboBoxPeer
     public void storeInputProperty(Context context, Component component, String propertyName, int index, Object newValue) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
         super.storeInputProperty(context, component, propertyName, index, newValue);
-        if (ComboBox.SELECTION_CHANGED_PROPERTY.equals(propertyName)) {
-            clientUpdateManager.setComponentProperty(component, ComboBox.SELECTION_CHANGED_PROPERTY, newValue);
+        if (ComboBox.PROPERTY_SELECTION_CHANGED.equals(propertyName)) {
+            clientUpdateManager.setComponentProperty(component, ComboBox.PROPERTY_SELECTION_CHANGED, newValue);
         }
-        else if (propertyName.equals(ComboBox.RAW_VALUE_CHANGED_PROPERTY)) {
-            clientUpdateManager.setComponentProperty(component, ComboBox.RAW_VALUE_CHANGED_PROPERTY, newValue);
+        else if (propertyName.equals(ComboBox.PROPERTY_RAW_VALUE_CHANGED)) {
+            clientUpdateManager.setComponentProperty(component, ComboBox.PROPERTY_RAW_VALUE_CHANGED, newValue);
         }
     }
 
