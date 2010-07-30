@@ -7,6 +7,7 @@ public class HtmlLabelPeer extends ExtComponentPeer {
 
     public HtmlLabelPeer() {
         super();
+        addOutputProperty(Label.PROPERTY_HTML);
     }
 
     @Override
