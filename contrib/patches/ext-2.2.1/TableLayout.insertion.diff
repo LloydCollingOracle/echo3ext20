@@ -1,0 +1,126 @@
+--- ext-all-debug.js	2010-08-02 10:58:30.777542408 +0100
++++ ext-all-debug.js	2010-08-02 13:18:26.809542617 +0100
+@@ -16373,11 +16373,37 @@
+             }
+             if (trow.childNodes.length == 0) {
+                 tbody.removeChild(trow);
++            } else {
++            	// if we have less cells than the number of columns, move cells from next row (if there is one)
++            	if (this.getRowLength(trow) < this.columns) {
++            		var rowToTake = i+1;
++            		while (this.getRowLength(trow) < this.columns && trows.length > rowToTake) {
++            			var nextRow = trows[rowToTake];
++            			if (nextRow.childNodes.length > 0) {
++            				var firstChild = nextRow.childNodes[0];
++            				nextRow.removeChild(firstChild);
++            				trow.appendChild(firstChild);
++            			} else {
++            				rowToTake++;
++            			}
++            		}
++            	}
+             }
+         }
+ 
+         this.renderAll(ct, target);
+     },
++    
++    getRowLength: function(tableRow) {
++    	var count = tableRow.childNodes.length;
++    	for (var i = 0; i < tableRow.childNodes.length; i++) {
++    	    var thisCell = tableRow.childNodes[i];
++    	    if (thisCell.colSpan) {
++    	    	count = count + (thisCell.colSpan - 1);
++    	    }
++    	}
++    	return count;
++    },
+ 
+     // private
+     getRow : function(index){
+@@ -16391,21 +16417,25 @@
+ 
+     // private
+     getNextCell : function(c, position){
+-    	var trElement;
++    	var trElement,rowNum,positionNonSpan, cellPosition;
+     	// detect attempts to insert a row, or column into a previous row
+     	if (position < this.renderedComponentCount) {
+-    	    var positionNonSpan = this.getPositionNonSpan(position);
+-    	    var cellPosition = positionNonSpan % this.columns;
+-    	    var rowNum = parseInt(positionNonSpan / this.columns);
++    	    positionNonSpan = this.getPositionNonSpan(position);
++    	    cellPosition = positionNonSpan % this.columns;
++    	    rowNum = parseInt(positionNonSpan / this.columns);
+     	    var tbody = this.table.tBodies[0];
+     	    if (cellPosition == 0) {
+-    	        trElement = this.table.insertRow(rowNum);
+-    	        // need to update the internal cells variable
+-    	        var newCellsRow = [];
+-    	        for (var i = 0; i < this.columns; i++) {
+-    	            newCellsRow.push(true);
++    	        trElement = tbody.childNodes[rowNum];
++    	        if (!trElement) {
++    	        	trElement = document.createElement('tr');
++    	        	tbody.appendChild(trElement);
++    	            // need to update the internal cells variable
++    	            var newCellsRow = [];
++    	            for (var i = 0; i < this.columns; i++) {
++    	            	newCellsRow.push(true);
++    	            }
++    	            this.cells.splice(rowNum, 0, newCellsRow);
+     	        }
+-    	        this.cells.splice(rowNum, 0, newCellsRow);
+     	    }
+     	    else {
+     	        trElement = tbody.childNodes[rowNum];
+@@ -16423,6 +16453,7 @@
+     	            this.cells[rowIndex][colIndex] = true;
+     	        }
+     	    }
++    	    rowNum = curRow;
+     	    trElement = this.getRow(curRow);
+     	}
+ 		var td = document.createElement('td');
+@@ -16449,7 +16480,40 @@
+         if (c.cellVAlign) {
+             td.vAlign = c.cellVAlign;
+         }
+-		trElement.appendChild(td);
++        if (cellPosition >= trElement.childNodes.length) {
++        	trElement.appendChild(td);
++        } else {
++        	var existingElement = trElement.childNodes[cellPosition];
++        	trElement.insertBefore(td, existingElement);
++        	// check if we've overflowed the columns and so need to re-arrange the rest of the table
++        	while (trElement.childNodes.length > this.columns) {
++        		var overflowed = [];
++        		for (var o = this.columns; o < trElement.childNodes.length; o++) {
++        			overflowed.push(trElement.childNodes[o]);
++        		}
++        		for (var o = 0; o < overflowed.length; o++) {
++        			trElement.removeChild(overflowed[o]);
++        		}
++        		
++        		if (trElement.nextSibling && trElement.nextSibling.nodeName && trElement.nextSibling.nodeName == "TR") {
++        			trElement = trElement.nextSibling;
++        		} else {
++        			var nextTr = document.createElement('tr');
++        			trElement.parentNode.appendChild(nextTr);
++        			trElement = nextTr;
++        		}
++        		if (trElement.childNodes.length == 0) {
++	        		for (var o = 0; o < overflowed.length; o++) {
++	        			trElement.appendChild(overflowed[o]);
++	        		}
++        		} else {
++        			var firstChild = trElement.childNodes[0];
++	        		for (var o = (overflowed.length - 1); o >= 0; o--) {
++	        			trElement.insertBefore(overflowed[o], firstChild);
++	        		}
++        		}
++        	}
++        }
+ 		return td;
+ 	},
+     
