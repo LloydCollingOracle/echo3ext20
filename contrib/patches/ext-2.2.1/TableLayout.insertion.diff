@@ -1,19 +1,94 @@
 --- ext-all-debug.js	2010-08-02 10:58:30.777542408 +0100
-+++ ext-all-debug.js	2010-08-02 13:18:26.809542617 +0100
-@@ -16373,11 +16373,37 @@
++++ ext-all-debug.js	2010-08-03 08:51:26.646711745 +0100
+@@ -16334,9 +16334,10 @@
+         // we are laying out
+         var tbody = this.table.tBodies[0];
+         // make a copy of the rows and loop through them
+-        var trows = [];
++        var trows = [], trowlengths = [];
+         for (var i = 0; i < tbody.childNodes.length; i++) {
+             trows.push(tbody.childNodes[i]);
++            trowlengths.push(0);
+         }
+         for (var i = 0; i < trows.length; i++) {
+             var trow = trows[i];
+@@ -16347,6 +16348,7 @@
              }
-             if (trow.childNodes.length == 0) {
+             for (var j = 0; j < tcells.length; j++) {
+                 var tcell = tcells[j];
++                // if the cell content has been removed, remove it from the row
+                 if (tcell.childNodes.length == 0) {
+                     trow.removeChild(tcell);
+                     this.renderedComponentCount--;
+@@ -16369,10 +16371,75 @@
+                             }
+                         }
+                     }
++                } else {
++                    // update the row lengths for this row and any following rows if it has rowSpan
++                    if (tcell.colSpan) {
++                    	trowlengths[i] = trowlengths[i] + tcell.colSpan;
++                    } else {
++                    	trowlengths[i] = trowlengths[i] + 1;
++                    }
++                    if (tcell.rowSpan) {
++                    	for (var o = i + 1; o < (i+tcell.rowSpan); o++) {
++                            if (tcell.colSpan) {
++                            	trowlengths[o] = trowlengths[o] + tcell.colSpan;
++                            } else {
++                            	trowlengths[o] = trowlengths[o] + 1;
++                            }
++                    	}
++                    }
+                 }
+             }
+-            if (trow.childNodes.length == 0) {
++            if (trowlengths[i] == 0) {
                  tbody.removeChild(trow);
 +            } else {
 +            	// if we have less cells than the number of columns, move cells from next row (if there is one)
-+            	if (this.getRowLength(trow) < this.columns) {
++            	if (trowlengths[i] < this.columns) {
 +            		var rowToTake = i+1;
-+            		while (this.getRowLength(trow) < this.columns && trows.length > rowToTake) {
++            		while (trowlengths[i] < this.columns && trows.length > rowToTake) {
 +            			var nextRow = trows[rowToTake];
 +            			if (nextRow.childNodes.length > 0) {
 +            				var firstChild = nextRow.childNodes[0];
-+            				nextRow.removeChild(firstChild);
-+            				trow.appendChild(firstChild);
++            				// if the cell content has been removed, remove it from the row
++                            if (firstChild.childNodes.length == 0) {
++	            				nextRow.removeChild(firstChild);
++                                this.renderedComponentCount--;
++                            } else {
++	            				nextRow.removeChild(firstChild);
++	            				trow.appendChild(firstChild);
++	            				// remove the columns from the lengths of the spanned rows
++	            				if (firstChild.rowSpan) {
++	            					for (var o = rowToTake + 1; o < (rowToTake+firstChild.rowSpan); o++) {
++	                                    if (tcell.colSpan) {
++	                                    	trowlengths[o] = trowlengths[o] - firstChild.colSpan;
++	                                    } else {
++	                                    	trowlengths[o] = trowlengths[o] - 1;
++	                                    }
++	                            	}
++	            				}
++	            				// remove the columns from the rowToTake and add to our columns
++	            				if (firstChild.colSpan) {
++	            					trowlengths[rowToTake] = trowlengths[rowToTake] - firstChild.colSpan;
++	            					trowlengths[i] = trowlengths[i] + firstChild.colSpan;
++	            				} else {
++	            					trowlengths[rowToTake] = trowlengths[rowToTake] - 1;
++	            					trowlengths[i] = trowlengths[i] + 1;
++	            				}
++	            				// add the columns to the length of the spanned rows
++	            				if (firstChild.rowSpan) {
++	            					for (var o = i + 1; o < (i+firstChild.rowSpan); o++) {
++	                                    if (tcell.colSpan) {
++	                                    	trowlengths[o] = trowlengths[o] + firstChild.colSpan;
++	                                    } else {
++	                                    	trowlengths[o] = trowlengths[o] + 1;
++	                                    }
++	                            	}
++	            				}
++                            }
 +            			} else {
 +            				rowToTake++;
 +            			}
@@ -22,23 +97,21 @@
              }
          }
  
-         this.renderAll(ct, target);
-     },
-+    
-+    getRowLength: function(tableRow) {
-+    	var count = tableRow.childNodes.length;
-+    	for (var i = 0; i < tableRow.childNodes.length; i++) {
-+    	    var thisCell = tableRow.childNodes[i];
-+    	    if (thisCell.colSpan) {
-+    	    	count = count + (thisCell.colSpan - 1);
-+    	    }
-+    	}
-+    	return count;
-+    },
+@@ -16381,31 +16448,36 @@
  
      // private
      getRow : function(index){
-@@ -16391,21 +16417,25 @@
+-        var row = this.table.tBodies[0].childNodes[index];
+-        if(!row){
++        var row = null, tbody = this.table.tBodies[0];
++        while (tbody.childNodes.length <= index) {
+             row = document.createElement('tr');
+-            this.table.tBodies[0].appendChild(row);
++            tbody.appendChild(row);
+         }
++        row = tbody.childNodes[index];
+         return row;
+     },
  
      // private
      getNextCell : function(c, position){
@@ -74,7 +147,7 @@
      	    }
      	    else {
      	        trElement = tbody.childNodes[rowNum];
-@@ -16423,6 +16453,7 @@
+@@ -16423,6 +16495,7 @@
      	            this.cells[rowIndex][colIndex] = true;
      	        }
      	    }
@@ -82,12 +155,12 @@
      	    trElement = this.getRow(curRow);
      	}
  		var td = document.createElement('td');
-@@ -16449,7 +16480,40 @@
+@@ -16449,7 +16522,40 @@
          if (c.cellVAlign) {
              td.vAlign = c.cellVAlign;
          }
 -		trElement.appendChild(td);
-+        if (cellPosition >= trElement.childNodes.length) {
++        if (typeof cellPosition == 'undefined' || cellPosition >= trElement.childNodes.length) {
 +        	trElement.appendChild(td);
 +        } else {
 +        	var existingElement = trElement.childNodes[cellPosition];
