@@ -118,6 +118,23 @@ Ext.override(Ext.form.ComboBox, {
 	}
 });
 
+Ext
+.override(
+		Ext.form.ComboBox,
+		{
+			// ability to delete value with keyboard, lastSelectedText check removed due to causing problems
+			doForce : function() {
+				if (this.el.dom.value.length > 0) {
+					if (this.el.dom.value == this.emptyText) {
+						this.clearValue();
+					} else if (!this.multiSelect) {
+						this.applyEmptyText();
+					}
+				}
+
+			}
+		});
+
 
 /* =================================================================
 # This library is free software; you can redistribute it and/or
