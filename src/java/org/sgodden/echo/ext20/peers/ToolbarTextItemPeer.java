@@ -22,6 +22,7 @@ import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
+import org.sgodden.echo.ext20.Label;
 import org.sgodden.echo.ext20.ToolbarSpacer;
 import org.sgodden.echo.ext20.ToolbarTextItem;
 
@@ -38,6 +39,7 @@ public class ToolbarTextItemPeer
 
     public ToolbarTextItemPeer(){
         super();
+        addOutputProperty(Label.PROPERTY_TEXT);
     }
 
     public Class getComponentClass() {
