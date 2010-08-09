@@ -1,4 +1,5 @@
 /* =================================================================
+
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
@@ -97,6 +98,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String PROPERTY_HAS_CELL_CONTEXT_MENU = "hasCellContextMenu";
     public static final String PROPERTY_LOADING_MESSAGE = "loadingMsg";
     public static final String PROPERTY_ALLOW_GROUPING = "allowGrouping";
+    public static final String PROPERTY_ALLOW_COLUMN_MOVE = "allowColumnMove";
     public static final String PROPERTY_FORCE_FIT = "forceFit";
     public static final String PROPERTY_AUTO_EXPAND_COLUMN = "autoExpandColumn";
     public static final String PROPERTY_AUTO_FILL = "autoFill";
@@ -147,6 +149,7 @@ public class GridPanel extends Panel implements TableModelListener,
         setContextMenuStatusAndChildren();
         setLoadingMsg("Loading...");
         setAllowGrouping(true);
+        setAllowColumnMove(false);
         setForceFit(false);
         setAutoFill(false);
     }
@@ -885,9 +888,19 @@ public class GridPanel extends Panel implements TableModelListener,
     public boolean getAllowGrouping() {
         return Boolean.TRUE.equals(get(PROPERTY_ALLOW_GROUPING));
     }
-
+    
     public void setAllowGrouping(boolean allowGrouping) {
         set(PROPERTY_ALLOW_GROUPING, Boolean.valueOf(allowGrouping));
+    }
+    
+    
+
+    public boolean getAllowColumnMove() {
+		return Boolean.TRUE.equals(get(PROPERTY_ALLOW_COLUMN_MOVE));
+	}
+    
+    public void setAllowColumnMove(boolean allowColumnMove) {
+        set(PROPERTY_ALLOW_COLUMN_MOVE, Boolean.valueOf(allowColumnMove));
     }
     
     public boolean getForceFit() {

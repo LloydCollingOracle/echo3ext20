@@ -240,6 +240,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         	options.autoExpandColumn = this.component.get('autoExpandColumn');
         }
         
+        options.enableColumnMove = this.component.get('allowColumnMove');
+        
         // ext does not support multiple interval selection
         var smode = this.component.get("selectionMode");
         var ss = true;
