@@ -1,0 +1,164 @@
+--- ext-all-debug.js	2010-09-08 09:44:18.198612751 +0100
++++ ext-all-debug.js	2010-09-08 09:51:23.914357688 +0100
+@@ -29579,11 +29579,11 @@
+ 
+     // private
+     initCheckEvents : function(){
+-        this.innerWrap.removeAllListeners();
++        //this.innerWrap.removeAllListeners();
+         this.innerWrap.addClassOnOver(this.overCls);
+         this.innerWrap.addClassOnClick(this.mouseDownCls);
+         this.innerWrap.on('click', this.onClick, this);
+-        this.innerWrap.on('keyup', this.onKeyUp, this);
++        //this.innerWrap.on('keyup', this.onKeyUp, this);
+     },
+ 
+     // private
+@@ -29592,13 +29592,19 @@
+         if(this.inputValue !== undefined){
+             this.el.dom.value = this.inputValue;
+         }
+-        this.el.addClass('x-hidden');
++        //this.el.addClass('x-hidden');
+ 
+         this.innerWrap = this.el.wrap({
+-            tabIndex: this.tabIndex,
++            //tabIndex: this.tabIndex,
+             cls: this.baseCls+'-wrap-inner'
+         });
+         this.wrap = this.innerWrap.wrap({cls: this.baseCls+'-wrap'});
++        this.imageEl = this.innerWrap.createChild({
++			tag: 'img',
++			src: Ext.BLANK_IMAGE_URL,
++			cls: this.baseCls
++		});
++
+ 
+         if(this.boxLabel){
+             this.labelEl = this.innerWrap.createChild({
+@@ -29609,11 +29615,11 @@
+             });
+         }
+ 
+-        this.imageEl = this.innerWrap.createChild({
+-            tag: 'img',
+-            src: Ext.BLANK_IMAGE_URL,
+-            cls: this.baseCls
+-        }, this.el);
++        //this.imageEl = this.innerWrap.createChild({
++        //    tag: 'img',
++        //    src: Ext.BLANK_IMAGE_URL,
++        //    cls: this.baseCls
++        //}, this.el);
+ 
+         if(this.checked){
+             this.setValue(true);
+@@ -29626,7 +29632,8 @@
+     // private
+     afterRender : function(){
+         Ext.form.Checkbox.superclass.afterRender.call(this);
+-        this.wrap[this.checked? 'addClass' : 'removeClass'](this.checkedCls);
++        //this.wrap[this.checked? 'addClass' : 'removeClass'](this.checkedCls);
++        this.imageEl[this.checked ? 'addClass' : 'removeClass'](this.checkedCls);
+     },
+ 
+     // private
+@@ -29640,13 +29647,15 @@
+     // private
+     onFocus: function(e) {
+         Ext.form.Checkbox.superclass.onFocus.call(this, e);
+-        this.el.addClass(this.focusCls);
++        //this.el.addClass(this.focusCls);
++        this.innerWrap.addClass(this.focusCls);
+     },
+ 
+     // private
+     onBlur: function(e) {
+         Ext.form.Checkbox.superclass.onBlur.call(this, e);
+-        this.el.removeClass(this.focusCls);
++        //this.el.removeClass(this.focusCls);
++        this.innerWrap.removeClass(this.focusCls);
+     },
+ 
+     // private
+@@ -29658,30 +29667,35 @@
+     },
+ 
+     // private
+-    onKeyUp : function(e){
+-        if(e.getKey() == Ext.EventObject.SPACE){
+-            this.onClick(e);
+-        }
+-    },
++//    onKeyUp : function(e){
++//        if(e.getKey() == Ext.EventObject.SPACE){
++//            this.onClick(e);
++//        }
++//    },
+ 
+     // private
+     onClick : function(e){
+-        if (!this.disabled && !this.readOnly) {
+-            this.toggleValue();
+-        }
+-        e.stopEvent();
++    	if (e.getTarget().htmlFor != this.el.dom.id) {
++			if (e.getTarget() !== this.el.dom) {
++				this.el.focus();
++			}
++			if (!this.disabled && !this.readOnly) {
++				this.toggleValue();
++			}
++    	}
++        //e.stopEvent();
+     },
+ 
+     // private
+     onEnable : function(){
+         Ext.form.Checkbox.superclass.onEnable.call(this);
+-        this.initCheckEvents();
++//        this.initCheckEvents();
+     },
+ 
+     // private
+     onDisable : function(){
+         Ext.form.Checkbox.superclass.onDisable.call(this);
+-        this.innerWrap.removeAllListeners();
++//        this.innerWrap.removeAllListeners();
+     },
+ 
+     toggleValue : function(){
+@@ -29690,10 +29704,11 @@
+ 
+     // private
+     getResizeEl : function(){
+-        if(!this.resizeEl){
+-            this.resizeEl = Ext.isSafari ? this.wrap : (this.wrap.up('.x-form-element', 5) || this.wrap);
+-        }
+-        return this.resizeEl;
++//        if(!this.resizeEl){
++//            this.resizeEl = Ext.isSafari ? this.wrap : (this.wrap.up('.x-form-element', 5) || this.wrap);
++//        }
++//        return this.resizeEl;
++    	return this.wrap;
+     },
+ 
+     // private
+@@ -29730,7 +29745,8 @@
+         if(this.rendered){
+             this.el.dom.checked = this.checked;
+             this.el.dom.defaultChecked = this.checked;
+-            this.wrap[this.checked? 'addClass' : 'removeClass'](this.checkedCls);
++//            this.wrap[this.checked? 'addClass' : 'removeClass'](this.checkedCls);
++            this.imageEl[this.checked ? 'addClass' : 'removeClass'](this.checkedCls);
+         }
+ 
+         if(checked != this.checked){
+@@ -29944,6 +29960,7 @@
+     inputType: 'radio',
+     // private
+     baseCls: 'x-form-radio',
++    checkedCls: 'x-form-radio-checked',
+     
+     
+     getGroupValue : function(){
