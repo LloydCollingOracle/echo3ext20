@@ -43,6 +43,15 @@ public class Toolbar
     public void addSeparator() {
         add(new ToolbarSeparator());
     }
+    
+    
+    /**
+     * Adds a separator.
+     * @param the index to add it to
+     */
+    public void addSeparator(int n) {
+        add(new ToolbarSeparator(), n);
+    }
 
     /**
      * Adds and returns a toolbar text item with the specified text.

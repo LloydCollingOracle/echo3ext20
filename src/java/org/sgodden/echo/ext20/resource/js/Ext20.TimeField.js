@@ -59,6 +59,15 @@ EchoExt20.TimeFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             options['disabled'] = true;
         }
         
+        var minValue = this.component.get("minValue");
+        var maxValue = this.component.get("maxValue");
+        var increment = this.component.get("increment");
+        
+        options['minValue'] = minValue;
+        options['maxValue'] = maxValue;
+        options['increment'] = increment;
+        
+        
         options['autoCreate']={tag: "input", type: "text", size: "5", autocomplete: "off"};
         var extComponent = new Ext.form.TimeField(options);
 

@@ -39,7 +39,7 @@ public class TimeField
 	public static final String PROPERTY_INVALID_TEXT = "invalidText";
 	public static final String PROPERTY_VALID = "isValid";
     
-    private Calendar calendar;
+    private Calendar calendar;    
 
     /**
      * Creates a new empty time field.

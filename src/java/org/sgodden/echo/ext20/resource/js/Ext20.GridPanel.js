@@ -309,21 +309,26 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     },
     
     _applyHeaderCheckedIfNeeded: function() {
-        var header = Ext.fly(this.extComponent.getView().innerHd).child(".x-grid3-hd-checker");
-        if (!header) {
-            header = Ext.fly(this.extComponent.getView().innerHd).child(".x-grid3-hd-checker-on");
-        }
-        // header should only be null if a grid that has been removed 
-        // was previously scheduled for layout and it ran a deferred render
-        if (header == null) {
-            return;
-        }
-        if (this.extComponent.getSelectionModel().getCount() == this.extComponent.getStore().getCount()) {
-            header.addClass("x-grid3-hd-checker-on");
-        } else {
-            header.removeClass("x-grid3-hd-checker-on");
-        }
-        header.addClass("x-grid3-hd-checker");
+        // there are containers such as tabs which may cause their contents be rendered after this check,
+        // so we should check whether they are rendered or not
+        if (this.extComponent.rendered) {
+            var header = Ext.fly(this.extComponent.getView().innerHd).child(".x-grid3-hd-checker");
+            if (!header) {
+                header = Ext.fly(this.extComponent.getView().innerHd).child(".x-grid3-hd-checker-on");
+            }
+            // header should only be null if a grid that has been removed 
+            // was previously scheduled for layout and it ran a deferred render
+            if (header == null) {
+                return;
+            }
+            if (this.extComponent.getSelectionModel().getCount() == this.extComponent.getStore().getCount()) {
+                header.addClass("x-grid3-hd-checker-on");
+            } else {
+                header.removeClass("x-grid3-hd-checker-on");
+            }
+            header.addClass("x-grid3-hd-checker"); 
+        }    
+        
     },
     
     /**
@@ -569,12 +574,13 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     /**
      * Applies the selections where first <= selection < last in this._selectedRows 
      * to the specified selection model, replacing any existing selections.
+     * Added the subtraction of the first value to make a linear selection model suitable for paging
      */
     _applySelectionToModel: function(selModel, first, last) {
         var selectedRowIndices = [];
         for (var row in this._selectedRows) {
             if (row >= first && row < last) {
-                selectedRowIndices[selectedRowIndices.length] = row;
+            	selectedRowIndices[selectedRowIndices.length] = row - first ;
             }
         }
         selModel.selectRows(selectedRowIndices, false);
@@ -727,8 +733,8 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         this._handleSelectionEvents = false;
         
         // clear select first
-        this.extComponent.getSelectionModel().grid = this.extComponent;
-        this.extComponent.getSelectionModel().clearSelections();
+        //this.extComponent.getSelectionModel().grid = this.extComponent;
+        //this.extComponent.getSelectionModel().clearSelections();        
         
         // reconfigure the column model if it has been updated
         var updatedColumnModel = update.getUpdatedProperty("columnModel");

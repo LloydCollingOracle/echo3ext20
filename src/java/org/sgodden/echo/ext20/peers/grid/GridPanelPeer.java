@@ -31,6 +31,8 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
     public GridPanelPeer() {
         super();
         
+        addOutputProperty(PROPERTY_SELECTION);
+        
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(
                 GridPanel.INPUT_ACTION,
                 GridPanel.ACTION_LISTENERS_CHANGED_PROPERTY) {

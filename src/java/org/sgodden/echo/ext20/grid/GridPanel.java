@@ -37,6 +37,7 @@ import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.Toolbar;
+import org.sgodden.echo.ext20.util.ListSelectionUtil;
 import org.sgodden.query.models.SortableTableModel;
 
 /**
@@ -477,15 +478,17 @@ public class GridPanel extends Panel implements TableModelListener,
 
             if (getModel() instanceof SelectionMaintainerModel) {
                 ((SelectionMaintainerModel)getModel()).applyPersistentSelection(this, maintainedSelection);
+                firePropertyChange(PROPERTY_SELECTION_CHANGED, null, getSelectionModel());
             }
             suppressChangeNotifications = false;
+            
             firePropertyChange(PROPERTY_MODEL_CHANGED, null, getModel()); // a
 
             // used for retrieving the size of the groups in the model
 //            if (group != null && getModel() instanceof GroupingTableModel) {
 //                ((GroupingTableModel)getModel()).doGrouping(true);
 //            }
-            getSelectionModel().clearSelection();
+            //getSelectionModel().clearSelection();
         } else {
             throw new IllegalStateException(
                     "Request to group/sort table made, "
@@ -565,7 +568,7 @@ public class GridPanel extends Panel implements TableModelListener,
     public void setPageOffset(int pageOffset) {
         set(PROPERTY_PAGE_OFFSET, pageOffset);
         tableChanged(null);
-    }
+    }   
 
     /**
      * Sets the size of the page that should be displayed when not displaying
@@ -641,7 +644,7 @@ public class GridPanel extends Panel implements TableModelListener,
         }
         newValue.addChangeListener(listSelectionListener);
         selectionModel = newValue;
-        firePropertyChange(PROPERTY_SELECTION_MODEL_CHANGED, oldValue, newValue);
+        firePropertyChange(PROPERTY_SELECTION_MODEL_CHANGED, oldValue, newValue);       
     }
 
     /**
@@ -736,7 +739,7 @@ public class GridPanel extends Panel implements TableModelListener,
      */
     public void tableChanged(TableModelEvent e) {
         if (!suppressChangeNotifications) {
-            getSelectionModel().clearSelection();
+            //getSelectionModel().clearSelection();
             firePropertyChange(PROPERTY_SELECTION_CHANGED, null, selectionModel);
             firePropertyChange(PROPERTY_MODEL_CHANGED, null, getModel()); // a
             // bodge

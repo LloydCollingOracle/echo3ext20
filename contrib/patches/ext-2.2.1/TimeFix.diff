@@ -1,0 +1,28 @@
+--- ext-2.2.1/ext-all-debug.js	2010-09-07 15:31:14.000000000 +0100
++++ ext-2.2.1/ext-all-debug.js	2010-09-07 15:32:06.000000000 +0100
+@@ -31576,6 +31576,25 @@
+     // or maxValue.  Using the current date causes DST issues on DST boundary dates, so this is an 
+     // arbitrary "safe" date that can be any date aside from DST boundary dates.
+     initDate: '1/1/2008',
++    
++    // in the absence of a time value, a default value of 12 noon will be used
++    // (note: 12 noon was chosen because it steers well clear of all DST timezone changes)
++    initTime: '12', // 24 hour format
++
++    initTimeFormat: 'H',
++
++    // PUBLIC -- to be documented
++    safeParse : function(value, format) {
++        if (/[gGhH]/.test(format.replace(/(\\.)/g, ''))) {
++            // if parse format contains hour information, no DST adjustment is necessary
++            return Date.parseDate(value, format);
++        } else {
++            // set time to 12 noon, then clear the time
++            var parsedDate = Date.parseDate(value + ' ' + this.initTime, format + ' ' + this.initTimeFormat);
++            
++            if (parsedDate) return parsedDate.clearTime();
++        }
++    },
+ 
+     // private
+     initComponent : function(){

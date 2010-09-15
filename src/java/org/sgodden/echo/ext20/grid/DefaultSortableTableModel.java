@@ -22,6 +22,14 @@ public class DefaultSortableTableModel extends DefaultTableModel implements
 
     private static final transient Log LOG = LogFactory
             .getLog(DefaultSortableTableModel.class);
+    
+    public DefaultSortableTableModel() {
+    	super();
+    }
+    
+    public DefaultSortableTableModel(int columns, int rows) {
+    	super(columns, rows);
+    }
 
     /**
      * Constructs a new sortable table model using the passed data. Note that
