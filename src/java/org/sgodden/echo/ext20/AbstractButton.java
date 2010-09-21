@@ -175,7 +175,11 @@ public abstract class AbstractButton extends ExtComponent {
         this.actionCommand = actionCommand;
     }
 
-    /**
+    public String getActionCommand() {
+		return actionCommand;
+	}
+
+	/**
      * Sets the icon displayed in the button.
      * 
      * @param newValue
