@@ -196,7 +196,7 @@
 	<target name="jar" depends="manipulateJavascripts">
 		<jar destfile="${build.dir}/${jar.name}">
 			<fileset dir="${classes.dir}" />
-			<fileset dir="src/java" includes="**/*.xml, **/*.groovy, META-INF/**/*, **/Ext20.ApplicationWaitIndicator.js, **/Ext20.Tree.*, **/Ext20.Span.js" />
+			<fileset dir="src/java" includes="**/*.xml, **/*.groovy, META-INF/**/*, **/Ext20.ApplicationWaitIndicator.js, **/Ext20.Autocomplete.js, **/Ext20.Tree.*, **/Ext20.Span.js" />
 			<zipfileset prefix="ext/css" dir="src/webapp/resources/ext/css" includes="*.css" />
 			<zipfileset prefix="local" dir="src/webapp/resources/local" includes="*.css" />
 			<zipfileset prefix="META-INF/maven/org.sgodden/echo3ext20" dir="maven" />
