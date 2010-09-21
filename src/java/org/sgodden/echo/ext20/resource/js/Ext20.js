@@ -1115,3 +1115,24 @@ EchoExt20.PropertyTranslator.ColumnModel = {
 
 Echo.Serial.addPropertyTranslator("Ext20ColumnModel", EchoExt20.PropertyTranslator.ColumnModel);
 Echo.Serial.addPropertyTranslator("E2CM", EchoExt20.PropertyTranslator.ColumnModel);
+
+
+EchoExt20.PropertyTranslator.RemoteListModel = Core.extend(Echo.Serial.PropertyTranslator, {
+
+    $static: {
+    
+        /** @see Echo.Serial.PropertyTranslator#toProperty */
+        toProperty: function(client, pElement) {
+            var url= pElement.firstChild.data;
+            var url2 = client._serverUrl + "?" + (client._uiid == null ? "" : "uiid=" + client._uiid + "&") + 
+            	"sid=Echo3Ext20.RemoteListModel&rlm="
+            var urlTokens = url.split("!");
+    	    return url2 + urlTokens[2];
+        }
+    },
+    
+    $load: function() {
+        Echo.Serial.addPropertyTranslator("Echo2RemoteList", this);
+        Echo.Serial.addPropertyTranslator("E2RML", this);
+    }
+});

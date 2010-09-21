@@ -154,6 +154,7 @@ public class ApplicationContentPane extends ContentPane {
 
         col.add(makeTestButton("ToolTips", ToolTipTest.class));
         col.add(makeTestButton("CustomComboBox", CustomComboBoxTest.class));
+        col.add(makeTestButton("AutocompleteCombo", AutocompleteComboBoxTest.class));
         col.add(makeTestButton("Time field", TimeFieldTest.class));
         col.add(makeTestButton("Grid and form", UserPanel.class));
         col.add(makeTestButton("HTML Panel", HtmlPanelTest.class));

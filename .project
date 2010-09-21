@@ -10,6 +10,9 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		    <buildCommand>
+		      <name>org.eclipse.jdt.core.javabuilder</name>
+		    </buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.codehaus.groovy.eclipse.groovyNature</nature>
