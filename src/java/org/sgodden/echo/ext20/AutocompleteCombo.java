@@ -31,6 +31,7 @@ public class AutocompleteCombo extends ExtComponent {
     public static final String PROPERTY_QUERY_DELAY = "queryDelay";
     public static final String PROPERTY_LIST_TITLE = "listTitle";
     public static final String PROPERTY_TRIGGER_CLASS = "triggerClass";
+    public static final String PROPERTY_AUTOCREATE = "autoCreate";
     
     public AutocompleteCombo() {
         super();
@@ -46,6 +47,15 @@ public class AutocompleteCombo extends ExtComponent {
         if (getRemoteModel() == null) {
             throw new IllegalStateException("Model must be specified on an AutocompleteCombo");
         }
+    }
+    
+    /**
+     * Method that should be used by subclasses to set the autoCreate option, e.g.
+     * <pre>tag: 'textarea', style:'width:300;height:60;', autocomplete: 'off'</pre>
+     * @param javascript
+     */
+    protected void setAutoCreate(String javascript) {
+        set(PROPERTY_AUTOCREATE, javascript);
     }
     
     public RemoteAutocompleteModel getRemoteModel() {

@@ -9,6 +9,7 @@ import nextapp.echo.webcontainer.ContentType;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.UserInstance;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.sgodden.echo.ext20.models.RemoteAutocompleteModel;
 
 import com.sdicons.json.mapper.JSONMapper;
@@ -90,6 +91,7 @@ implements Service {
         for (int i = 0; i < entries.length; i++) {
             entries[i] = new JSONEntry();
             entries[i].id = data[i];
+            entries[i].popup = StringEscapeUtils.escapeHtml(data[i]);
             entries[i].value = data[i];
         }
         model.data = entries;
@@ -184,6 +186,7 @@ implements Service {
     
     public static class JSONEntry {
         String id;
+        String popup;
         String value;
         public String getId() {
             return id;
@@ -196,6 +199,12 @@ implements Service {
         }
         public void setValue(String value) {
             this.value = value;
+        }
+        public String getPopup() {
+            return popup;
+        }
+        public void setPopup(String popup) {
+            this.popup = popup;
         }
     }
 }

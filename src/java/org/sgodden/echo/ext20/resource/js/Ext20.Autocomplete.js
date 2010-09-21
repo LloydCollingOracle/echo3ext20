@@ -44,6 +44,9 @@ EchoExt20.AutocompleteComboSync = Core.extend(EchoExt20.FormFieldSync, {
          * component.
          */
         newExtComponentInstance: function(options) {
+    		if (this.component.get("autoCreate")) {
+    			eval('options.autoCreate = {' + this.component.get("autoCreate") + '};');
+    		}
             return new Ext.form.ComboBox(options);
         },
         
@@ -119,8 +122,9 @@ EchoExt20.AutocompleteComboSync = Core.extend(EchoExt20.FormFieldSync, {
     	var autoProxy = new Ext.data.HttpProxy({url: serverStore});
 
     	var autoRecord = Ext.data.Record.create([
-    	    {name: 'id',         	type: 'string'},
-    	    {name: 'value',	type: 'string'}
+    	    {name: 'id',    type: 'string'},
+    	    {name: 'popup', type: 'string'},
+    	    {name: 'value', type: 'string'}
     	]); 
 
     	var autoReader = new Ext.data.JsonReader({
@@ -137,6 +141,7 @@ EchoExt20.AutocompleteComboSync = Core.extend(EchoExt20.FormFieldSync, {
     	options.store = autoStore;
     	
     	options.displayField='value';
+        options['tpl'] = '<tpl for="."><div class="x-combo-list-item">{popup}</div></tpl>';
     	options.typeAhead=true;
         
         options.selectOnFocus = true;

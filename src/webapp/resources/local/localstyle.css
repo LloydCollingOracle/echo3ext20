@@ -106,3 +106,7 @@ button.templated {
 .x-grid3-row-alt{
     background-color:#f0f0f0 !important;
 }
+
+.wrapping-combo-list .x-combo-list-item {
+	white-space: pre-wrap !important;
+}
