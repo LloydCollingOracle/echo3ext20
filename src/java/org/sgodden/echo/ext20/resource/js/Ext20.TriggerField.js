@@ -64,7 +64,8 @@ EchoExt20.TriggerFieldSync = Core.extend(EchoExt20.TextFieldSync, {
      * to call doAction().
      */
     _handleOnTriggerClick: function() {
-        this.echoPeer.component.doAction();			
+        this.echoPeer.component.doBeforeAction();
+        this.echoPeer.component.doAction();
     },
 
     newExtComponentInstance: function(options) {

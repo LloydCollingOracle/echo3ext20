@@ -30,6 +30,10 @@ EchoExt20.TextField = Core.extend(EchoExt20.ExtComponent, {
     
     doAction: function() {
         this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+    },
+    
+    doBeforeAction: function() {
+        this.fireEvent({type: "beforeAction", source: this, actionCommand: this.get("actionCommand")});
     }
 });
 
@@ -170,6 +174,12 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     },
     
     _checkMatchesInitialValue: function(value) {
+    	if (this.extComponent == null) {
+    		// means validate has been called on a component that is/has been removed from
+    		// the component hierarchy, so we'll just say no
+    		return true;
+    	}
+    	
         if(this._getExtComponentValue() == this._invalidValue){
 			return this.extComponent.invalidText;
 		}
@@ -258,8 +268,10 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         if (typeof oldValue == 'undefined')
             oldValue = '';
         
-        if (oldValue != this.extComponent.getValue())
+        if (oldValue != this.extComponent.getValue()) {
+            this.component.doBeforeAction();
             this.component.doAction();
+        }
     },
 
     /**

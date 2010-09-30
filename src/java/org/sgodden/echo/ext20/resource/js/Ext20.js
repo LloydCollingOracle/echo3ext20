@@ -148,7 +148,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     		/*
     		 * Must defer to ensure focus is called when the component is ready for it.
     		 */
-    		this.extComponent.focus.defer(1, this.extComponent);
+    		this.doRenderFocus.defer(1, this);
         },
     
         /**
@@ -181,6 +181,21 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             else {
                 // not a root, tell the parent
                 this.component.parent.peer._notifyLayoutChanges();
+            }
+        },
+        
+        doRenderFocus: function() {
+        	if (!this.extComponent) {
+        		// handle delayed task being called for a component that has been destroyed
+        		return;
+        	}
+            try {
+                this.extComponent.focus();
+                if (this.extComponent.selectText) {
+                    this.extComponent.selectText();
+                }
+            } catch (ex) {
+                this.extComponent.el.focus();
             }
         }
     },
@@ -281,17 +296,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
     fxRemoveContainer: null,
     
     _toolTip: null,
-    
-    doRenderFocus: function() {
-        try {
-            this.extComponent.focus();
-            if (this.extComponent.selectText) {
-                this.extComponent.selectText();
-            }
-        } catch (ex) {
-            this.extComponent.el.focus();
-        }
-    },
 
     /**
      * Called upon initial creation of the component.
@@ -398,6 +402,12 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 this.extComponent.on("render", function(){
                     this.alignTo(this.component.get("alignTo"));
                 }, this);
+            }
+            
+            if (this.extComponent.on) {
+	            this.extComponent.on('focus', function() {
+	            	this.component.application.setFocusedComponent(this.component);
+	            }, this);
             }
             
             this._addBeforeRenderListener();
@@ -538,6 +548,12 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 this._parentElement.parentNode.style.overflow = "visible";
             }
             this._addBeforeRenderListener();
+            
+            if (this.extComponent.on) {
+	            this.extComponent.on('focus', function() {
+	            	this.component.application.setFocusedComponent(this.component);
+	            }, this);
+            }
         }
     },
     

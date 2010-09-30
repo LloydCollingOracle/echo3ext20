@@ -31,6 +31,10 @@ EchoExt20.Button = Core.extend(EchoExt20.ExtComponent, {
     $virtual: {
         doAction: function() {
             this.fireEvent({type: "action", source: this, actionCommand: this.get("actionCommand")});
+        },
+
+        doBeforeAction: function() {
+            this.fireEvent({type: "beforeAction", source: this, actionCommand: this.get("actionCommand")});
         }
     }
     
@@ -85,6 +89,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             if (this.component.get("focusable")) {
                 this.component.application.setFocusedComponent(this.component);
             }
+            this.component.doBeforeAction();
             this.component.doAction();
         }
     },

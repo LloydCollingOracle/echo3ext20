@@ -42,7 +42,7 @@ public class ComboBoxPeer
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(ComboBox.INPUT_ACTION, ComboBox.PROPERTY_ACTION_LISTENERS_CHANGED) {
             @Override
             public boolean hasListeners(Context context, Component component) {
-                return true;
+                return ((ComboBox)component).hasActionListeners();
             }
         });
     }

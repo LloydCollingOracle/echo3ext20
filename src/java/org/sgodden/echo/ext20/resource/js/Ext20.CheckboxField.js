@@ -43,6 +43,10 @@ EchoExt20.CheckboxFieldSync = Core.extend(EchoExt20.ExtComponentSync, {
         Echo.Render.registerPeer("Ext20CheckboxField", this);
     },
     
+    doRenderFocus: function() {
+        this.extComponent.el.focus();
+    },
+    
     /**
      * Called by the base class to create the ext component.
      */

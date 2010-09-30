@@ -16,10 +16,12 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.peers;
 
+import nextapp.echo.app.Component;
+import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
+import nextapp.echo.webcontainer.UserInstance;
 
 import org.sgodden.echo.ext20.ExtComponent;
-import org.sgodden.echo.ext20.TextField;
 
 /**
  * Abstract sync peer for all ext components.
