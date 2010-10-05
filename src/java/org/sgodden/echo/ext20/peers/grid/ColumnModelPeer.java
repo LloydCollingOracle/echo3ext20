@@ -132,6 +132,15 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                     attributes.put("width", new JSONInteger(new BigInteger("" + cc.getWidth())));
                 }
             }
+            if(cc.getGroupableValues() != null) {            	
+            	String[] values = cc.getGroupableValues().split(",");
+            	attributes.put("groupableValues", JSONMapper.toJSON(values));
+            }
+            if(cc.getSelectedGroupableValues() != null) {
+            	String[] values = cc.getSelectedGroupableValues().split(",");
+            	attributes.put("selectedGroupableValues", JSONMapper.toJSON(values));
+            }            
+            
             attributes.put("sortable", new JSONBoolean(cc.getSortable()));
             attributes.put("menuDisabled", new JSONBoolean(cc.isMenuDisabled()));
             if (cc.getDataIndex() != null)
@@ -206,6 +215,9 @@ public class ColumnModelPeer implements SerialPropertyPeer {
             String sortDirection = getStringValue(jsonCol
                     .get("sortDirection"));
             int width = getIntegerValue(jsonCol.get("width"));
+            
+            JSONArray groupableValues = (JSONArray) jsonCol.get("groupableValues");
+            JSONArray selectedGroupableValues = (JSONArray) jsonCol.get("selectedGroupableValues");             
 
             // set the data on the column
             DefaultColumnConfiguration thisCol = new DefaultColumnConfiguration();
@@ -218,11 +230,29 @@ public class ColumnModelPeer implements SerialPropertyPeer {
             thisCol.setSortDirection(sortDirection);
             thisCol.setWidth(width);
             thisCol.setGrouping(grouping);
-            thisCol.setMenuDisabled(menuDisabled);
+            thisCol.setMenuDisabled(menuDisabled);            
+            if(groupableValues != null) {
+            	thisCol.setGroupableValues(extractCSV(groupableValues));
+            }
             
+            if(selectedGroupableValues != null) {
+            	thisCol.setSelectedGroupableValues(extractCSV(selectedGroupableValues));
+            }           
             
             return thisCol;
         }
+
+		private String extractCSV(JSONArray groupableValues) {
+			StringBuilder groupableValueBuilder = new StringBuilder();
+			for (int i = 0; i < groupableValues.size(); i++) {
+			   JSONValue groupableValue = groupableValues.get(i);
+			   groupableValueBuilder.append(getStringValue(groupableValue));
+			   if(i < groupableValues.size() -1) {
+				   groupableValueBuilder.append(",");
+			   }
+		    }
+			return groupableValueBuilder.toString();
+		}
 
         public Class getHelpedClass() {
             return ColumnConfiguration.class;
@@ -312,5 +342,6 @@ public class ColumnModelPeer implements SerialPropertyPeer {
         
         BigInteger bi = ((JSONInteger) integer).getValue();
         return (bi == null) ? -1 : bi.intValue();
-    }
+    }    
+    
 }

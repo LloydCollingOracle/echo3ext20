@@ -102,7 +102,9 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String PROPERTY_ALLOW_COLUMN_MOVE = "allowColumnMove";
     public static final String PROPERTY_FORCE_FIT = "forceFit";
     public static final String PROPERTY_AUTO_EXPAND_COLUMN = "autoExpandColumn";
-    public static final String PROPERTY_AUTO_FILL = "autoFill";
+    public static final String PROPERTY_AUTO_FILL = "autoFill";    
+	public static final String COLUMN_FILTER_ACTION = "columnfilterchanged";
+    
 
     private int pageSize;
     private ListSelectionModel selectionModel;
@@ -405,6 +407,8 @@ public class GridPanel extends Panel implements TableModelListener,
             }
         } else if (SORT_ACTION.equals(inputName)) {
             doSort();
+        } else if(COLUMN_FILTER_ACTION.equals(inputName)) {
+        	fireColumnFilteredEvent((Integer)inputValue);
         } else if (COLUMN_ADDED.equals(inputName)) {
             fireColumnAddedEvent();
         } else if (COLUMN_REMOVED.equals(inputName)) {
@@ -413,10 +417,10 @@ public class GridPanel extends Panel implements TableModelListener,
             doSort();
         } else if (PROPERTY_COLUMN_MODEL.equals(inputName)) {
             setColumnModel((ColumnModel)inputValue);
-        }
-    }
-
-    protected void doSort() {
+        } 
+    }    
+    
+	protected void doSort() {
         if (getModel() instanceof SortableTableModel) {
             ColumnModel colModel = getColumnModel();
             String[] columnIndices = new String[colModel.getColumnCount()];
@@ -767,7 +771,7 @@ public class GridPanel extends Panel implements TableModelListener,
         getEventListenerList().addListener(ColumnListener.class, l);
         // Notification of action listener changes is provided due to
         // existence of hasActionListeners() method.
-        firePropertyChange(COLUMN_LISTENERS, null, l);
+        firePropertyChange(COLUMN_LISTENERS, null, getEventListenerList().getListeners(ColumnListener.class));
     }
 
     /**
@@ -804,6 +808,18 @@ public class GridPanel extends Panel implements TableModelListener,
                 ColumnListener.class)) {
             ((ColumnListener) listener).addColumn();
         }
+    }
+    
+    private void fireColumnFilteredEvent(Integer columnIndex) {
+    	FilterColumnEvent fce = null;
+    	if(fce == null) {
+    		fce = new FilterColumnEvent(this, columnIndex.intValue());
+    	}
+    	
+    	for (EventListener listener : getEventListenerList().getListeners(
+                ColumnListener.class)) {    		
+            ((ColumnListener) listener).filterColumn(fce);
+    	}
     }
 
     /**
@@ -928,5 +944,5 @@ public class GridPanel extends Panel implements TableModelListener,
 
     public void setAutoFill(boolean autoFill) {
         set(PROPERTY_AUTO_FILL, Boolean.valueOf(autoFill));
-    }
+    }	
 }

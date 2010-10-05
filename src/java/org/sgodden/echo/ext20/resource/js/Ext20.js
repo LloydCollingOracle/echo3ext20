@@ -1114,6 +1114,8 @@ EchoExt20.PropertyTranslator.ColumnModel = {
                 config.sortable = propEl.sortable;
                 config.width = propEl.width;
                 config.grouping = propEl.grouping;
+                config.groupableValues = propEl.groupableValues;
+                config.selectedGroupableValues = propEl.selectedGroupableValues;
                 if (propEl.menuDisabled) {
                 	config.menuDisabled = true;
                 }

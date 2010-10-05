@@ -19,12 +19,12 @@ package org.sgodden.echo.ext20.grid;
 import java.io.Serializable;
 import java.util.EventListener;
 
-import org.sgodden.echo.ext20.componentgrid.ComponentGridCellRenderer;
-
 import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ChangeEvent;
 import nextapp.echo.app.event.ChangeListener;
 import nextapp.echo.app.event.EventListenerList;
+
+import org.sgodden.echo.ext20.componentgrid.ComponentGridCellRenderer;
 
 /**
  * Configuration of a column for a grid.
@@ -50,6 +50,8 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
     private Component editorComponent;
     private boolean menuDisabled = false;
     private ComponentGridCellRenderer gridCellRenderer;
+    private String groupableValues;
+    private String selectedGroupableValues;
     private Class<?> columnClass;
 
 	/**
@@ -331,5 +333,21 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
     public void setGridCellRenderer(ComponentGridCellRenderer gridCellRenderer) {
         this.gridCellRenderer = gridCellRenderer;
     }
+	
+	public String getGroupableValues() {
+		return this.groupableValues;
+	}
+	
+	public String getSelectedGroupableValues() {
+		return this.selectedGroupableValues;
+	}
+
+	public void setGroupableValues(String groupableValues) {
+		this.groupableValues = groupableValues;
+	}
+
+	public void setSelectedGroupableValues(String selectedGroupableValues) {
+		this.selectedGroupableValues = selectedGroupableValues;
+	}
 
 }

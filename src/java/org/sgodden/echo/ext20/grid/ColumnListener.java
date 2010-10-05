@@ -20,4 +20,7 @@ public interface ColumnListener extends EventListener {
      * Notification that the grid wishes to add a column
      */
     public void addColumn();
+    
+    public void filterColumn(FilterColumnEvent e);
+    
 }

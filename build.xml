@@ -1,440 +1,438 @@
 <?xml version="1.0"?>
 <project name="Echo_3_Ext_20" default="war" basedir=".">
 
-	<property file="build.properties" />
+  <property file="build.properties" />
 
-	<property name="classes.dir" value="bin" />
-	<property name="build.dir" value="build" />
-	<property name="jar.name" value="echo3ext20.jar" />
-	<property name="sources.jar.name" value="echo3ext20-sources.jar" />
-	<property name="war.name" value="echo3ext20.war" />
+  <property name="classes.dir" value="bin" />
+  <property name="build.dir" value="build" />
+  <property name="jar.name" value="echo3ext20.jar" />
+  <property name="sources.jar.name" value="echo3ext20-sources.jar" />
+  <property name="war.name" value="echo3ext20.war" />
 
-	<property name="ext.version" value="2.2.1" />
+  <property name="ext.version" value="2.2.1" />
 
-	<path id="compile.class.path">
-		<fileset dir="src/webapp/WEB-INF/lib" />
-		<fileset dir="lib" />
-		<pathelement path="${servlet.api.jar}" />
-	</path>
+  <path id="compile.class.path">
+    <fileset dir="src/webapp/WEB-INF/lib" />
+    <fileset dir="lib" />
+    <pathelement path="${servlet.api.jar}" />
+  </path>
 
-	<target name="clean" unless="isDev">
-		<delete dir="${classes.dir}" />
-		<delete dir="${build.dir}" />
-		<delete dir="doc" />
-		<delete dir="contrib/ext-${ext.version}" />
-		<delete dir="bin-groovy" />
-		<available file="contrib/ext-${ext.version}/ext-all-debug.js" property="ext-exists" />
-	</target>
+  <target name="clean" unless="isDev">
+    <delete dir="${classes.dir}" />
+    <delete dir="${build.dir}" />
+    <delete dir="doc" />
+    <delete dir="contrib/ext-${ext.version}" />
+    <delete dir="bin-groovy" />
+    <available file="contrib/ext-${ext.version}/ext-all-debug.js" property="ext-exists" />
+  </target>
 
-	<target name="compile">
-		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="compile.class.path" />
-		<mkdir dir="${classes.dir}" />
-		<mkdir dir="${build.dir}" />
-		<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
-			<javac debug="true" target="1.5" />
-		</groovyc>
-		<groovyc srcdir="src/test" destdir="${classes.dir}" classpathref="compile.class.path">
-			<javac debug="true" target="1.5" />
-		</groovyc>
-	</target>
+  <target name="compile">
+    <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="compile.class.path" />
+    <mkdir dir="${classes.dir}" />
+    <mkdir dir="${build.dir}" />
+    <groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
+      <javac debug="true" target="1.5" />
+    </groovyc>
+    <groovyc srcdir="src/test" destdir="${classes.dir}" classpathref="compile.class.path">
+      <javac debug="true" target="1.5" />
+    </groovyc>
+  </target>
 
-	<target name="compile-groovy">
-		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="compile.class.path" />
-		<groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
-			<javac debug="true" target="1.5" />
-		</groovyc>
-	</target>
+  <target name="compile-groovy">
+    <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="compile.class.path" />
+    <groovyc srcdir="src/java" destdir="${classes.dir}" classpathref="compile.class.path">
+      <javac debug="true" target="1.5" />
+    </groovyc>
+  </target>
 
-	<target name="doc">
-		<javadoc access="protected" destdir="docs/api" author="true" use="true" windowtitle="Echo3Ext20 Public API documentation" classpathref="compile.class.path" stylesheetfile="${basedir}/resources/css/stylesheet.css">
+  <target name="doc">
+    <javadoc access="protected" destdir="docs/api" author="true" use="true" windowtitle="Echo3Ext20 Public API documentation" classpathref="compile.class.path" stylesheetfile="${basedir}/resources/css/stylesheet.css">
 
-			<packageset dir="src/java" includes="org/sgodden/echo/ext20,org/sgodden/echo/ext20/data,org/sgodden/echo/ext20/grid,org/sgodden/echo/ext20/layout,org/sgodden/echo/ext20/models" defaultexcludes="yes">
-			</packageset>
-			<link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
-			<link offline="true" href="http://echo.nextapp.com/content/echo3/doc/3.0/api/public/" packageListLoc="${basedir}/echo3-package-list" />
-		</javadoc>
-	</target>
+      <packageset dir="src/java" includes="org/sgodden/echo/ext20,org/sgodden/echo/ext20/data,org/sgodden/echo/ext20/grid,org/sgodden/echo/ext20/layout,org/sgodden/echo/ext20/models" defaultexcludes="yes">
+      </packageset>
+      <link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
+      <link offline="true" href="http://echo.nextapp.com/content/echo3/doc/3.0/api/public/" packageListLoc="${basedir}/echo3-package-list" />
+    </javadoc>
+  </target>
 
-	<target name="manipulateJavascripts" depends="compile, compile-groovy, unpack-ext">
-		<taskdef classname="org.sgodden.echo.ext20.ant.StripAndZipJSTask" name="stripAndZipJS">
-			<classpath>
-				<pathelement path="${classes.dir}" />
-				<fileset dir="src/webapp/WEB-INF/lib" />
-				<fileset dir="lib" />
-				<pathelement path="${servlet.api.jar}" />
-			</classpath>
-		</taskdef>
-		<stripAndZipJS destFile="${classes.dir}/js/ext-all.js">
-			<fileset dir="contrib/ext-${ext.version}/adapter/ext">
-				<include name="ext-base.js" />
-			</fileset>
-			<fileset dir="contrib/ext-${ext.version}">
-				<include name="ext-all-debug.js" />
-			</fileset>
-		</stripAndZipJS>
+  <target name="manipulateJavascripts" depends="compile, compile-groovy, unpack-ext">
+    <taskdef classname="org.sgodden.echo.ext20.ant.StripAndZipJSTask" name="stripAndZipJS">
+      <classpath>
+        <pathelement path="${classes.dir}" />
+        <fileset dir="src/webapp/WEB-INF/lib" />
+        <fileset dir="lib" />
+        <pathelement path="${servlet.api.jar}" />
+      </classpath>
+    </taskdef>
+    <stripAndZipJS destFile="${classes.dir}/js/ext-all.js">
+      <fileset dir="contrib/ext-${ext.version}/adapter/ext">
+        <include name="ext-base.js" />
+      </fileset>
+      <fileset dir="contrib/ext-${ext.version}">
+        <include name="ext-all-debug.js" />
+      </fileset>
+    </stripAndZipJS>
 
-		<stripAndZipJS destFile="${classes.dir}/js/ext20ext-all.js">
-			<fileset dir="src/java/ext">
-				<include name="Plugins.js" />
-			</fileset>
-			<fileset dir="src/java/ext">
-				<include name="portal/Portal.js" />
-			</fileset>
-			<fileset dir="src/java/ext">
-				<include name="portal/PortalColumn.js" />
-			</fileset>
-			<fileset dir="src/java/ext">
-				<include name="portal/Portlet.js" />
-			</fileset>
-			<fileset dir="src/java/ext">
-				<include name="multiselect/Multiselect.js" />
-			</fileset>
-			<fileset dir="src/java/ext">
-				<include name="multiselect/DDView.js" />
-			</fileset>
-            <fileset dir="src/java/ext">
-                <include name="FitColumnLayout.js" />
-            </fileset>
-		</stripAndZipJS>
+    <stripAndZipJS destFile="${classes.dir}/js/ext20ext-all.js">
+      <fileset dir="src/java/ext">
+        <include name="Plugins.js" />
+      </fileset>
+      <fileset dir="src/java/ext">
+        <include name="portal/Portal.js" />
+      </fileset>
+      <fileset dir="src/java/ext">
+        <include name="portal/PortalColumn.js" />
+      </fileset>
+      <fileset dir="src/java/ext">
+        <include name="portal/Portlet.js" />
+      </fileset>
+      <fileset dir="src/java/ext">
+        <include name="multiselect/Multiselect.js" />
+      </fileset>
+      <fileset dir="src/java/ext">
+        <include name="multiselect/DDView.js" />
+      </fileset>
+      <fileset dir="src/java/ext">
+        <include name="FitColumnLayout.js" />
+      </fileset>
+    </stripAndZipJS>
 
-		<stripAndZipJS destFile="${classes.dir}/js/echo3ext20-all.js">
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.FormField.js" />
-                <include name="Ext20.Span.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.Container.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.Panel.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-			    <include name="Ext20.Label.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.Button.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.TextField.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.NumberField.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.TextArea.js" />
-				<include name="Ext20.RichTextArea.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.ComboBox.js" />
-				<include name="Ext20.CheckboxField.js" />
-				<include name="Ext20.DateField.js" />
-				<include name="Ext20.FieldSet.js" />
-				<include name="Ext20.GridPanel.js" />
-				<include name="Ext20.HtmlEditor.js" />
-				<include name="Ext20.Menu.js" />
-				<include name="Ext20.MenuItem.js" />
-				<include name="Ext20.MultiSelect.js" />
-				<include name="Ext20.PasswordField.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.Portal.js" />
-                <include name="Ext20.ComponentGridPanel.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.PortalColumn.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.Portlet.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.RadioButton.js" />
-				<include name="Ext20.SplitButton.js" />
-				<include name="Ext20.PrintButton.js" />
-				<include name="Ext20.TabbedPane.js" />
-				<include name="Ext20.TimeField.js" />
-				<include name="Ext20.TriggerField.js" />
-				<include name="Ext20.Toolbar.js" />
-				<include name="Ext20.ToolbarButton.js" />
-				<include name="Ext20.ToolbarFill.js" />
-				<include name="Ext20.ToolbarSeparator.js" />
-				<include name="Ext20.ToolbarSpacer.js" />
-				<include name="Ext20.ToolbarTextItem.js" />
-				<include name="Ext20.WaitIndicator.js" />
-				<include name="Ext20.ScrollIntoView.js" />
-				<include name="Ext20.Command.AddWindowUnloadHandler.js" />
-                <include name="Ext20.Command.BrowserCloseWithUnloadHandler.js" />
-				<include name="Ext20.Command.DoPanelLayout.js" />
-                <include name="Ext20.Command.DoPrintLayout.js" />
-				<include name="Ext20.Command.FocusBrowserWindow.js" />
-			</fileset>
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.ApplicationWaitIndicator.js" />
-			</fileset>
-			<!-- <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.Tree.Application.js" />
-				<include name="Ext20.Tree.Serial.js" />
-				<include name="Ext20.Tree.Sync.js" />
-			</fileset> -->
-			<fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
-				<include name="Ext20.Window.js" />
-				<include name="Ext20.HtmlPanel.js" />
-				<include name="Ext20.MultiSelectComboBox.js" />
-				<include name="Ext20.CustomComboBox.js" />
-				<include name="Select.js" />
-			</fileset>
-			<fileset dir="src/java">
-				<include name="json2.js" />
-			</fileset>
-		</stripAndZipJS>
+    <stripAndZipJS destFile="${classes.dir}/js/echo3ext20-all.js">
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.FormField.js" />
+        <include name="Ext20.Span.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.Container.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.Panel.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.Label.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.Button.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.TextField.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.NumberField.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.TextArea.js" />
+        <include name="Ext20.RichTextArea.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.ComboBox.js" />
+        <include name="Ext20.CheckboxField.js" />
+        <include name="Ext20.DateField.js" />
+        <include name="Ext20.FieldSet.js" />
+        <include name="Ext20.GridPanel.js" />
+        <include name="Ext20.HtmlEditor.js" />
+        <include name="Ext20.Menu.js" />
+        <include name="Ext20.MenuItem.js" />
+        <include name="Ext20.MultiSelect.js" />
+        <include name="Ext20.PasswordField.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.Portal.js" />
+        <include name="Ext20.ComponentGridPanel.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.PortalColumn.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.Portlet.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.RadioButton.js" />
+        <include name="Ext20.SplitButton.js" />
+        <include name="Ext20.PrintButton.js" />
+        <include name="Ext20.TabbedPane.js" />
+        <include name="Ext20.TimeField.js" />
+        <include name="Ext20.TriggerField.js" />
+        <include name="Ext20.Toolbar.js" />
+        <include name="Ext20.ToolbarButton.js" />
+        <include name="Ext20.ToolbarFill.js" />
+        <include name="Ext20.ToolbarSeparator.js" />
+        <include name="Ext20.ToolbarSpacer.js" />
+        <include name="Ext20.ToolbarTextItem.js" />
+        <include name="Ext20.WaitIndicator.js" />
+        <include name="Ext20.ScrollIntoView.js" />
+        <include name="Ext20.Command.AddWindowUnloadHandler.js" />
+        <include name="Ext20.Command.BrowserCloseWithUnloadHandler.js" />
+        <include name="Ext20.Command.DoPanelLayout.js" />
+        <include name="Ext20.Command.DoPrintLayout.js" />
+        <include name="Ext20.Command.FocusBrowserWindow.js" />
+      </fileset>
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.ApplicationWaitIndicator.js" />
+      </fileset>
+      <!-- <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.Tree.Application.js" />
+        <include name="Ext20.Tree.Serial.js" />
+        <include name="Ext20.Tree.Sync.js" />
+      </fileset> -->
+      <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
+        <include name="Ext20.Window.js" />
+        <include name="Ext20.HtmlPanel.js" />
+        <include name="Ext20.MultiSelectComboBox.js" />
+        <include name="Ext20.CustomComboBox.js" />
+        <include name="Select.js" />
+      </fileset>
+      <fileset dir="src/java">
+        <include name="json2.js" />
+      </fileset>
+    </stripAndZipJS>
 
-	</target>
+  </target>
 
-	<!-- TODO - minification of the ext-all-debug.js into ext-all.js, and option to use it -->
-	<target name="jar" depends="manipulateJavascripts">
-		<jar destfile="${build.dir}/${jar.name}">
-			<fileset dir="${classes.dir}" />
-			<fileset dir="src/java" includes="**/*.xml, **/*.groovy, META-INF/**/*, **/Ext20.ApplicationWaitIndicator.js, **/Ext20.Autocomplete*, **/Ext20.Tree.*, **/Ext20.Span.js" />
-			<zipfileset prefix="ext/css" dir="src/webapp/resources/ext/css" includes="*.css" />
-			<zipfileset prefix="local" dir="src/webapp/resources/local" includes="*.css" />
-			<zipfileset prefix="META-INF/maven/org.sgodden/echo3ext20" dir="maven" />
-		</jar>
-		<jar destfile="${build.dir}/${sources.jar.name}">
-			<fileset dir="src/java" includes="**/*.java" />
-		</jar>
-	</target>
+  <!-- TODO - minification of the ext-all-debug.js into ext-all.js, and option to use it -->
+  <target name="jar" depends="manipulateJavascripts">
+    <jar destfile="${build.dir}/${jar.name}">
+      <fileset dir="${classes.dir}" />
+      <fileset dir="src/java" includes="**/*.xml, **/*.groovy, META-INF/**/*, **/Ext20.ApplicationWaitIndicator.js, **/Ext20.Autocomplete*, **/Ext20.Tree.*, **/Ext20.Span.js" />
+      <zipfileset prefix="ext/css" dir="src/webapp/resources/ext/css" includes="*.css" />
+      <zipfileset prefix="local" dir="src/webapp/resources/local" includes="*.css" />
+      <zipfileset prefix="META-INF/maven/org.sgodden/echo3ext20" dir="maven" />
+    </jar>
+    <jar destfile="${build.dir}/${sources.jar.name}">
+      <fileset dir="src/java" includes="**/*.java" />
+    </jar>
+  </target>
 
-	<target name="unpack-ext" unless="isDev">
-		<mkdir dir="contrib/ext-${ext.version}" />
-		<unzip src="contrib/ext-${ext.version}.zip" dest="contrib/ext-${ext.version}" />
+  <target name="unpack-ext" unless="isDev">
+    <mkdir dir="contrib/ext-${ext.version}" />
+    <unzip src="contrib/ext-${ext.version}.zip" dest="contrib/ext-${ext.version}" />
 
-		<!-- apply our patches to the ExtJS files -->
-		<patch patchfile="contrib/patches/ext-2.2.1/GroupingStore.clearGrouping.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/BorderLayout.onLayout.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/TableLayout.onLayout.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/Ext.form.Field.mandatory.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/TableLayout.getNextCell.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/rightAlignTriggerFieldFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/TableLayoutColumnWidths.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/Ext.form.TextField.selectText.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/titlePosition.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/ColumnLayout100PCWidth.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/TabPaneFrameFooter.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/TabPaneFrameFooterBug.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/ExtBase.getXY2.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/TableLayout.RemoveCells.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/BorderLayoutUndefinedPos.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabCls.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabClsFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabClsFix2.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/AddClassDebug.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabClsFix3.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabClsFix4.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/BorderLayoutSplitLayout.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/TableLayout.onLayout2.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/RemoveClassDebug.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/StrictDates.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/TimeFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/GridView.afterRender.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<patch patchfile="contrib/patches/ext-2.2.1/RemoveElementListeners.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/CheckAndRadioFixes.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-        <patch patchfile="contrib/patches/ext-2.2.1/CreateGroupMenu.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-		<!-- <patch patchfile="contrib/patches/ext-2.2.1/TableLayout.insertion.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
-        <!-- <patch patchfile="contrib/patches/ext-2.2.1/LayoutPerformance.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
-        <!-- <patch patchfile="contrib/patches/ext-2.2.1/ColumnLayoutDashBoardFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
-		<!-- <patch patchfile="contrib/patches/ext-2.2.1/buttonFocus.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
-	</target>
+    <!-- apply our patches to the ExtJS files -->
+    <patch patchfile="contrib/patches/ext-2.2.1/GroupingStore.clearGrouping.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/BorderLayout.onLayout.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TableLayout.onLayout.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/Ext.form.Field.mandatory.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TableLayout.getNextCell.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/rightAlignTriggerFieldFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TableLayoutColumnWidths.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/Ext.form.TextField.selectText.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/titlePosition.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/ColumnLayout100PCWidth.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TabPaneFrameFooter.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TabPaneFrameFooterBug.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/ExtBase.getXY2.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TableLayout.RemoveCells.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/BorderLayoutUndefinedPos.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabCls.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabClsFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabClsFix2.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/AddClassDebug.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabClsFix3.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TabPaneLastTabClsFix4.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/BorderLayoutSplitLayout.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TableLayout.onLayout2.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/RemoveClassDebug.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/StrictDates.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 
-	<target name="war" depends="jar">
-		<mkdir dir="${build.dir}/webapps" />
-		<war destfile="${build.dir}/webapps/${war.name}" basedir="src/webapp" webxml="src/webapp/WEB-INF/web.xml">
-			<lib file="build/*jar" />
-			<lib dir="lib">
-				<exclude name="servlet-api.jar" />
-			</lib>
-			<zipfileset prefix="resources/ext" dir="contrib/ext-${ext.version}/resources" includes="**/*" />
-		</war>
-	</target>
+    <patch patchfile="contrib/patches/ext-2.2.1/TimeFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/GridView.afterRender.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/RemoveElementListeners.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/CheckAndRadioFixes.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/CreateGroupMenu.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <!-- <patch patchfile="contrib/patches/ext-2.2.1/TableLayout.insertion.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
+    <!-- <patch patchfile="contrib/patches/ext-2.2.1/LayoutPerformance.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
+    <!-- <patch patchfile="contrib/patches/ext-2.2.1/ColumnLayoutDashBoardFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
+    <!-- <patch patchfile="contrib/patches/ext-2.2.1/buttonFocus.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
+  </target>
 
-	<target name="deploy" depends="war">
-		<copy todir="${deploy.dir}" file="${build.dir}/${war.name}" />
-	</target>
+  <target name="war" depends="jar">
+    <mkdir dir="${build.dir}/webapps" />
+    <war destfile="${build.dir}/webapps/${war.name}" basedir="src/webapp" webxml="src/webapp/WEB-INF/web.xml">
+      <lib file="build/*jar" />
+      <lib dir="lib">
+        <exclude name="servlet-api.jar" />
+      </lib>
+      <zipfileset prefix="resources/ext" dir="contrib/ext-${ext.version}/resources" includes="**/*" />
+    </war>
+  </target>
 
-	<target name="deploy-tomcat" depends="war">
-		<unzip src="${build.dir}/${war.name}" dest="${deploy.dir}/echo3ext20">
-		</unzip>
-	</target>
+  <target name="deploy" depends="war">
+    <copy todir="${deploy.dir}" file="${build.dir}/${war.name}" />
+  </target>
 
-	<target name="run-server" depends="war">
-		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
-			<jvmarg value="-Xmx256m" />
-			<jvmarg value="-Xdebug" />
-			<jvmarg value="-Decho.syncdump=true" />
-			<jvmarg
-                        value="-Dgroovy.script.url=file:///${basedir}/src/java/" />
-			<classpath>
-				<pathelement location="${classes.dir}" />
-				<pathelement location="src/java" />
-				<pathelement location="src/webapp/WEB-INF/classes" />
-				<pathelement location="${servlet.api.jar}" />
-				<pathelement location="src/webapp/resources" />
-				<fileset dir="lib" />
-			</classpath>
-		</java>
-	</target>
+  <target name="deploy-tomcat" depends="war">
+    <unzip src="${build.dir}/${war.name}" dest="${deploy.dir}/echo3ext20">
+    </unzip>
+  </target>
 
-	<target name="run-server-javarebel" depends="war">
-		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
-			<jvmarg value="-noverify" />
-                        <jvmarg value="-javaagent:${javarebel.jar}"/>
-			<jvmarg value="-Xmx256m" />
-			<jvmarg value="-Xdebug" />
-			<jvmarg value="-Decho.syncdump=true" />
-			<jvmarg
-                        value="-Dgroovy.script.url=file:///${basedir}/src/java/" />
-			<classpath>
-				<pathelement location="${classes.dir}" />
-				<pathelement location="src/java" />
-				<pathelement location="src/webapp/WEB-INF/classes" />
-				<pathelement location="${servlet.api.jar}" />
-				<pathelement location="src/webapp/resources" />
-				<fileset dir="lib" />
-			</classpath>
-		</java>
-	</target>
+  <target name="run-server" depends="war">
+    <java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
+      <jvmarg value="-Xmx256m" />
+      <jvmarg value="-Xdebug" />
+      <jvmarg value="-Decho.syncdump=true" />
+      <jvmarg value="-Dgroovy.script.url=file:///${basedir}/src/java/" />
+      <classpath>
+        <pathelement location="${classes.dir}" />
+        <pathelement location="src/java" />
+        <pathelement location="src/webapp/WEB-INF/classes" />
+        <pathelement location="${servlet.api.jar}" />
+        <pathelement location="src/webapp/resources" />
+        <fileset dir="lib" />
+      </classpath>
+    </java>
+  </target>
 
-	<target name="run-server-debug" depends="war">
-		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
-			<jvmarg value="-Xmx256m" />
-			<jvmarg value="-Xdebug" />
-			<jvmarg value="-Decho.syncdump=true" />
-			<jvmarg
-                        value="-Dgroovy.script.url=file:///${basedir}/src/java/" />
-			<jvmarg value="-Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=n" />
-			<classpath>
-				<pathelement location="${classes.dir}" />
-				<pathelement location="src/java" />
-				<pathelement location="src/webapp/WEB-INF/classes" />
-				<pathelement location="${servlet.api.jar}" />
-				<fileset dir="lib" />
-			</classpath>
-		</java>
-	</target>
+  <target name="run-server-javarebel" depends="war">
+    <java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
+      <jvmarg value="-noverify" />
+      <jvmarg value="-javaagent:${javarebel.jar}" />
+      <jvmarg value="-Xmx256m" />
+      <jvmarg value="-Xdebug" />
+      <jvmarg value="-Decho.syncdump=true" />
+      <jvmarg value="-Dgroovy.script.url=file:///${basedir}/src/java/" />
+      <classpath>
+        <pathelement location="${classes.dir}" />
+        <pathelement location="src/java" />
+        <pathelement location="src/webapp/WEB-INF/classes" />
+        <pathelement location="${servlet.api.jar}" />
+        <pathelement location="src/webapp/resources" />
+        <fileset dir="lib" />
+      </classpath>
+    </java>
+  </target>
 
-	<target name="run-groovy">
-		<java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.GroovyTest">
-			<jvmarg value="-Xmx256m" />
-			<classpath>
-				<pathelement location="${classes.dir}" />
-				<pathelement path="src/java" />
-				<fileset dir="src/webapp/WEB-INF/lib" />
-				<pathelement location="${servlet.api.jar}" />
-				<fileset dir="lib" />
-			</classpath>
-		</java>
-	</target>
+  <target name="run-server-debug" depends="war">
+    <java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.JettyServer">
+      <jvmarg value="-Xmx256m" />
+      <jvmarg value="-Xdebug" />
+      <jvmarg value="-Decho.syncdump=true" />
+      <jvmarg value="-Dgroovy.script.url=file:///${basedir}/src/java/" />
+      <jvmarg value="-Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=n" />
+      <classpath>
+        <pathelement location="${classes.dir}" />
+        <pathelement location="src/java" />
+        <pathelement location="src/webapp/WEB-INF/classes" />
+        <pathelement location="${servlet.api.jar}" />
+        <fileset dir="lib" />
+      </classpath>
+    </java>
+  </target>
 
-	<target name="mvn-install" depends="os-detect, jar" description="Builds and installs into the local maven repository">
-		<antcall target="mvn-install-unix" />
-		<antcall target="mvn-install-windows" />
-	</target>
+  <target name="run-groovy">
+    <java dir="${basedir}" fork="true" classname="org.sgodden.echo.ext20.testapp.GroovyTest">
+      <jvmarg value="-Xmx256m" />
+      <classpath>
+        <pathelement location="${classes.dir}" />
+        <pathelement path="src/java" />
+        <fileset dir="src/webapp/WEB-INF/lib" />
+        <pathelement location="${servlet.api.jar}" />
+        <fileset dir="lib" />
+      </classpath>
+    </java>
+  </target>
+
+  <target name="mvn-install" depends="os-detect, jar" description="Builds and installs into the local maven repository">
+    <antcall target="mvn-install-unix" />
+    <antcall target="mvn-install-windows" />
+  </target>
 
 
-	<target name="mvn-install-unix" if="is-unix" description="Installs the jar into the local maven repository">
-		<exec executable="mvn">
-			<arg value="install:install-file" />
-			<arg value="-DpomFile=maven/pom.xml" />
-			<arg value="-DgroupId=org.sgodden" />
-			<arg value="-DartifactId=echo3ext20" />
-			<arg value="-Dversion=1.0-SNAPSHOT" />
-			<arg value="-Dpackaging=jar" />
-			<arg value="-Dfile=build${file.separator}echo3ext20.jar" />
-		</exec>
-	</target>
+  <target name="mvn-install-unix" if="is-unix" description="Installs the jar into the local maven repository">
+    <exec executable="mvn">
+      <arg value="install:install-file" />
+      <arg value="-DpomFile=maven/pom.xml" />
+      <arg value="-DgroupId=org.sgodden" />
+      <arg value="-DartifactId=echo3ext20" />
+      <arg value="-Dversion=1.0-SNAPSHOT" />
+      <arg value="-Dpackaging=jar" />
+      <arg value="-Dfile=build${file.separator}echo3ext20.jar" />
+    </exec>
+  </target>
 
-	<target name="mvn-install-windows" if="is-windows" description="Installs the jar into the local maven repository (windows environment)">
-		<exec executable="cmd">
-			<arg value="/c" />
-			<arg value="mvn install:install-file -DgroupId=org.sgodden -DartifactId=echo3ext20 -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=build${file.separator}echo3ext20.jar" />
-		</exec>
-	</target>
+  <target name="mvn-install-windows" if="is-windows" description="Installs the jar into the local maven repository (windows environment)">
+    <exec executable="cmd">
+      <arg value="/c" />
+      <arg value="mvn install:install-file -DgroupId=org.sgodden -DartifactId=echo3ext20 -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=build${file.separator}echo3ext20.jar" />
+    </exec>
+  </target>
 
-	<target name="mvn-install-echo3" depends="os-detect" description="Builds and installs into the local maven repository">
-		<antcall target="mvn-install-echo3-unix" />
-		<antcall target="mvn-install-echo3-windows" />
-	</target>
-
-
-	<target name="mvn-install-echo3-unix" if="is-unix" description="Installs the echo3 jars into the local maven repository">
-		<exec executable="mvn">
-			<arg value="install:install-file" />
-			<arg value="-DgroupId=com.nextapp" />
-			<arg value="-DartifactId=echo3-app" />
-			<arg value="-Dversion=1.0-SNAPSHOT" />
-			<arg value="-Dpackaging=jar" />
-			<arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_App.jar" />
-		</exec>
-		<exec executable="mvn">
-			<arg value="install:install-file" />
-			<arg value="-DgroupId=com.nextapp" />
-			<arg value="-DartifactId=echo3-webcontainer" />
-			<arg value="-Dversion=1.0-SNAPSHOT" />
-			<arg value="-Dpackaging=jar" />
-			<arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_WebContainer.jar" />
-		</exec>
-	</target>
-
-	<target name="mvn-install-echo3-windows" if="is-windows" description="Installs the echo3 jars into the local maven repository (windows environment)">
-		<exec executable="cmd">
-			<arg value="/c" />
-			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_App.jar" />
-			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_WebContainer.jar" />
-		</exec>
-	</target>
-
-	<target name="mvn-install-echo3extras" depends="os-detect" description="Builds and installs into the local maven repository">
-		<antcall target="mvn-install-echo3extras-unix" />
-		<antcall target="mvn-install-echo3extras-windows" />
-	</target>
+  <target name="mvn-install-echo3" depends="os-detect" description="Builds and installs into the local maven repository">
+    <antcall target="mvn-install-echo3-unix" />
+    <antcall target="mvn-install-echo3-windows" />
+  </target>
 
 
-	<target name="mvn-install-echo3extras-unix" if="is-unix" description="Installs the echo3 jars into the local maven repository">
-		<exec executable="mvn">
-			<arg value="install:install-file" />
-			<arg value="-DgroupId=com.nextapp" />
-			<arg value="-DartifactId=echo3extras-app" />
-			<arg value="-Dversion=1.0-SNAPSHOT" />
-			<arg value="-Dpackaging=jar" />
-			<arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_Extras_App.jar" />
-		</exec>
-		<exec executable="mvn">
-			<arg value="install:install-file" />
-			<arg value="-DgroupId=com.nextapp" />
-			<arg value="-DartifactId=echo3-webcontainer" />
-			<arg value="-Dversion=1.0-SNAPSHOT" />
-			<arg value="-Dpackaging=jar" />
-			<arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_Extras_WebContainer.jar" />
-		</exec>
-	</target>
+  <target name="mvn-install-echo3-unix" if="is-unix" description="Installs the echo3 jars into the local maven repository">
+    <exec executable="mvn">
+      <arg value="install:install-file" />
+      <arg value="-DgroupId=com.nextapp" />
+      <arg value="-DartifactId=echo3-app" />
+      <arg value="-Dversion=1.0-SNAPSHOT" />
+      <arg value="-Dpackaging=jar" />
+      <arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_App.jar" />
+    </exec>
+    <exec executable="mvn">
+      <arg value="install:install-file" />
+      <arg value="-DgroupId=com.nextapp" />
+      <arg value="-DartifactId=echo3-webcontainer" />
+      <arg value="-Dversion=1.0-SNAPSHOT" />
+      <arg value="-Dpackaging=jar" />
+      <arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_WebContainer.jar" />
+    </exec>
+  </target>
 
-	<target name="mvn-install-echo3extras-windows" if="is-windows" description="Installs the echo3 jars into the local maven repository (windows environment)">
-		<exec executable="cmd">
-			<arg value="/c" />
-			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3extras-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_Extras_App.jar" />
-			<arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3extras-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_Extras_WebContainer.jar" />
-		</exec>
-	</target>
+  <target name="mvn-install-echo3-windows" if="is-windows" description="Installs the echo3 jars into the local maven repository (windows environment)">
+    <exec executable="cmd">
+      <arg value="/c" />
+      <arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_App.jar" />
+      <arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_WebContainer.jar" />
+    </exec>
+  </target>
 
-	<target name="os-detect">
-		<condition property="is-unix" value="true">
-			<os family="unix" />
-		</condition>
-		<condition property="is-windows" value="true">
-			<os family="windows" />
-		</condition>
-	</target>
+  <target name="mvn-install-echo3extras" depends="os-detect" description="Builds and installs into the local maven repository">
+    <antcall target="mvn-install-echo3extras-unix" />
+    <antcall target="mvn-install-echo3extras-windows" />
+  </target>
+
+
+  <target name="mvn-install-echo3extras-unix" if="is-unix" description="Installs the echo3 jars into the local maven repository">
+    <exec executable="mvn">
+      <arg value="install:install-file" />
+      <arg value="-DgroupId=com.nextapp" />
+      <arg value="-DartifactId=echo3extras-app" />
+      <arg value="-Dversion=1.0-SNAPSHOT" />
+      <arg value="-Dpackaging=jar" />
+      <arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_Extras_App.jar" />
+    </exec>
+    <exec executable="mvn">
+      <arg value="install:install-file" />
+      <arg value="-DgroupId=com.nextapp" />
+      <arg value="-DartifactId=echo3-webcontainer" />
+      <arg value="-Dversion=1.0-SNAPSHOT" />
+      <arg value="-Dpackaging=jar" />
+      <arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_Extras_WebContainer.jar" />
+    </exec>
+  </target>
+
+  <target name="mvn-install-echo3extras-windows" if="is-windows" description="Installs the echo3 jars into the local maven repository (windows environment)">
+    <exec executable="cmd">
+      <arg value="/c" />
+      <arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3extras-app -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_Extras_App.jar" />
+      <arg value="mvn install:install-file -DgroupId=com.nextapp -DartifactId=echo3extras-webcontainer -Dversion=1.0-SNAPSHOT -Dpackaging=jar -Dfile=src\webapp\WEB-INF\lib\Echo3_Extras_WebContainer.jar" />
+    </exec>
+  </target>
+
+  <target name="os-detect">
+    <condition property="is-unix" value="true">
+      <os family="unix" />
+    </condition>
+    <condition property="is-windows" value="true">
+      <os family="windows" />
+    </condition>
+  </target>
 
 
 </project>

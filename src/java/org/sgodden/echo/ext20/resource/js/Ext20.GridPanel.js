@@ -49,6 +49,10 @@ EchoExt20.GridPanel = Core.extend(EchoExt20.ExtComponent, {
 
     doGroup: function() {
         this.fireEvent({type: "group", source: this});
+    },   
+    
+    doColumnFilterChange: function(colIndex) {
+    	this.fireEvent({type: "columnfilterchanged", source: this, data: colIndex});
     }
     
 });
@@ -298,12 +302,13 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         ret.on("columnmove",this._handleColumnMove,this);
         ret.on("columnresize",this._handleColumnResize,this);
         ret.on("columnremove", this._handleColumnRemove, this);
-        ret.on("columnadd", this._handleColumnAdd, this);
+        ret.on("columnadd", this._handleColumnAdd, this);      
+        ret.on("columnfilterchanged", this._handleColumnFilterChange, this);  
 
         if (this.component.get("editcellcontents") == true) {
             ret.on("afteredit", this._handleModelChanged, this);
         }
-        options["cm"].on("hiddenchange", this._handleColumnHide, this);
+        options["cm"].on("hiddenchange", this._handleColumnHide, this);        
         
         return ret;
     },
@@ -470,6 +475,20 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     	}
     	this.component.doColumnRemove(dataIndex - 1);
     },
+    
+    _handleColumnFilterChange : function(columnIndex) {
+    	this.component.set("columnModel", this.extComponent.getColumnModel());
+    	// columnIndex is the original index of the column in the model;
+    	// we need to convert it to the current index.
+    	var cm = this.extComponent.colModel;
+    	var dataIndex = -1;
+    	for (var i = 0; i < cm.columns.length; i++) {
+    		if (cm.columns[i].id == columnIndex) {
+    			dataIndex = i;
+    		}
+    	}
+    	this.component.doColumnFilterChange(dataIndex);        
+    }, 
     
     _handleColumnAdd : function() {
     	this.component.doColumnAdd();
@@ -738,6 +757,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         
         // reconfigure the column model if it has been updated
         var updatedColumnModel = update.getUpdatedProperty("columnModel");
+        
         if (updatedColumnModel != null) {
         	this._configureColumnModel(this.component.get("columnModel"), this._sm, null, update.getUpdatedProperty("showCheckbox") != null);
         }
@@ -748,7 +768,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
              * The grid can only reconfigure itself if it is rendered.
              */
             if (this.extComponent.rendered) {
-                this.extComponent.getColumnModel().removeListener("hiddenchange", this._handleColumnHide, this);
+                this.extComponent.getColumnModel().removeListener("hiddenchange", this._handleColumnHide, this);                 
                 var colModel = this.extComponent.getColumnModel();
 
                 if (updatedColumnModel != null) {
@@ -768,7 +788,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                   this._makeStore(),
                   colModel
                 );
-                this.extComponent.getColumnModel().addListener("hiddenchange", this._handleColumnHide, this);
+                this.extComponent.getColumnModel().addListener("hiddenchange", this._handleColumnHide, this);                                             
                 this.extComponent.getView().scrollToTop();
                 this.updateCompleted(update);
             }
