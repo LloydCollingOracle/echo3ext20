@@ -38,6 +38,7 @@ public class ComboBoxPeer
     public ComboBoxPeer() {
         super();
         addOutputProperty(ComboBox.MODEL_CHANGED);
+        addOutputProperty(ComboBox.PROPERTY_SELECTION_CHANGED);
         setOutputPropertyReferenced(ComboBox.MODEL_CHANGED, true);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(ComboBox.INPUT_ACTION, ComboBox.PROPERTY_ACTION_LISTENERS_CHANGED) {
             @Override
@@ -72,6 +73,7 @@ public class ComboBoxPeer
         return super.getInputPropertyClass(propertyName);
     }
 
+    
     /*
      * (non-Javadoc)
      * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getOutputProperty(nextapp.echo.app.util.Context, nextapp.echo.app.Component, java.lang.String, int)
