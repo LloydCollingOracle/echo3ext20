@@ -169,6 +169,7 @@
         <include name="Ext20.Command.DoPanelLayout.js" />
         <include name="Ext20.Command.DoPrintLayout.js" />
         <include name="Ext20.Command.FocusBrowserWindow.js" />
+        <include name="Ext20.Command.DoHighlightComponent.js" />
       </fileset>
       <fileset dir="src/java/org/sgodden/echo/ext20/resource/js">
         <include name="Ext20.ApplicationWaitIndicator.js" />
