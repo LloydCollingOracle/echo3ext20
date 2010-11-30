@@ -47,6 +47,8 @@ EchoExt20.AutocompleteComboTriggerSync = Core.extend(EchoExt20.AutocompleteCombo
     $load: function() {
         Echo.Render.registerPeer("Ext20AutocompleteComboTrigger", this);
     },
+    
+    _comboAndTriggerDisabled: false,
 
     $virtual: {
         /**
@@ -60,14 +62,49 @@ EchoExt20.AutocompleteComboTriggerSync = Core.extend(EchoExt20.AutocompleteCombo
     		options.hideTrigger1=true;
     		options.triggerClass = "x-form-search-trigger";
             var ret = new Ext.ux.TwinCombo(options);
+            ret.onTrigger1Click = this._handleTrigger1Click.createDelegate(this);
             ret.onTrigger2Click = this._handleTrigger2Click.createDelegate(this);
+            ret.on('beforequery', this._handleBeforeQuery, this);
             return ret;
         }
     },
     
+    _handleTrigger1Click: function() {
+    	if (this._comboAndTriggerDisabled === true) {
+    	    return;
+    	}
+    	Ext.form.ComboBox.prototype.onTriggerClick.call(this.extComponent);
+    },
+    
     _handleTrigger2Click: function() {
+    	if (this._comboAndTriggerDisabled === true) {
+    	    return;
+    	}
     	this.component.doBeforeTriggerAction();
     	this.component.doTriggerAction();
+    },
+    
+    _handleBeforeQuery: function(queryEvent) {
+    	if (this._comboAndTriggerDisabled === true) {
+		    queryEvent.cancel = true;
+		    return false;
+		}
+    },
+
+    disableComboAndTrigger: function() {
+    	this._comboAndTriggerDisabled = true;
+    	if (this.extComponent == null) {
+    		return;
+    	}
+    	this.extComponent.getTrigger(1).hide();
+    },
+    
+    enableComboAndTrigger: function() {
+    	this._comboAndTriggerDisabled = false;
+    	if (this.extComponent == null) {
+    		return;
+    	}
+    	this.extComponent.getTrigger(1).show();
     }
 });
 
