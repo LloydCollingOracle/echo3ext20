@@ -190,6 +190,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         		return;
         	}
             try {
+            	Core.Debug.consoleWrite("Focusing component with id " + this.extComponent.id);
                 this.extComponent.focus();
                 if (this.extComponent.selectText) {
                     this.extComponent.selectText();
@@ -404,12 +405,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 }, this);
             }
             
-            if (this.extComponent.on) {
-	            this.extComponent.on('focus', function() {
-	            	this.component.application.setFocusedComponent(this.component);
-	            }, this);
-            }
-            
             this._addBeforeRenderListener();
             
             this._parentElement = null;
@@ -548,12 +543,6 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 this._parentElement.parentNode.style.overflow = "visible";
             }
             this._addBeforeRenderListener();
-            
-            if (this.extComponent.on) {
-	            this.extComponent.on('focus', function() {
-	            	this.component.application.setFocusedComponent(this.component);
-	            }, this);
-            }
         }
     },
     
