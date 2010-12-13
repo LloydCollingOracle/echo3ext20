@@ -43,8 +43,4 @@ public interface AbstractListComponent {
      */
     public void setCellRenderer(ListCellRenderer newValue);
 
-    public void setSelectionModel(ListSelectionModel selectionModel);
-    
-    public ListSelectionModel getSelectionModel();
-
 }

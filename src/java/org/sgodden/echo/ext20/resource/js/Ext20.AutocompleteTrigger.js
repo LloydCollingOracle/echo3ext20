@@ -49,6 +49,8 @@ EchoExt20.AutocompleteComboTriggerSync = Core.extend(EchoExt20.AutocompleteCombo
     },
     
     _comboAndTriggerDisabled: false,
+    
+    _clickListeners: [],
 
     $virtual: {
         /**
@@ -68,6 +70,17 @@ EchoExt20.AutocompleteComboTriggerSync = Core.extend(EchoExt20.AutocompleteCombo
             return ret;
         }
     },
+
+    addClickListener: function(clickListener) {
+        this._clickListeners.push(clickListener);
+    },
+
+    removeClickListener: function(clickListener) {
+        var idx = this._clickListeners.indexOf(clickListener);
+        if (idx != -1) {
+            this._clickListeners = this._clickListeners.splice(idx, 1);
+        }
+    },
     
     _handleTrigger1Click: function() {
     	if (this._comboAndTriggerDisabled === true) {
@@ -80,6 +93,9 @@ EchoExt20.AutocompleteComboTriggerSync = Core.extend(EchoExt20.AutocompleteCombo
     	if (this._comboAndTriggerDisabled === true) {
     	    return;
     	}
+        for (var i = 0; i < this._clickListeners.length; i++) {
+            this._clickListeners[i](this);
+        }
     	this.component.doBeforeTriggerAction();
     	this.component.doTriggerAction();
     },
