@@ -4,16 +4,16 @@ import org.sgodden.echo.ext20.models.RemoteAutocompleteModel;
 
 /**
  * <p>A ComboBox that allows for auto-completion by a remote-loading model.</p>
- * 
+ *
  * <p>This should be used when you want a combo or auto-completion field that has
  * a large number of entries.</p>
- * 
+ *
  * @author Lloyd Colling
  */
 public class AutocompleteCombo extends ExtComponent {
 
     private static final long serialVersionUID = 1L;
-    
+
     public static final String PROPERTY_REMOTE_MODEL = "remoteModel";
     public static final String PROPERTY_VALUE = "value";
     public static final String PROPERTY_WIDTH = "width";
@@ -32,7 +32,7 @@ public class AutocompleteCombo extends ExtComponent {
     public static final String PROPERTY_LIST_TITLE = "listTitle";
     public static final String PROPERTY_TRIGGER_CLASS = "triggerClass";
     public static final String PROPERTY_AUTOCREATE = "autoCreate";
-    
+
     public AutocompleteCombo() {
         super();
         setMinChars(2);
@@ -40,7 +40,7 @@ public class AutocompleteCombo extends ExtComponent {
         setAllowBlank(true);
         setForceSelection(true);
     }
-    
+
     @Override
     public void validate() {
         super.validate();
@@ -48,7 +48,7 @@ public class AutocompleteCombo extends ExtComponent {
             throw new IllegalStateException("Model must be specified on an AutocompleteCombo");
         }
     }
-    
+
     /**
      * Method that should be used by subclasses to set the autoCreate option, e.g.
      * <pre>tag: 'textarea', style:'width:300;height:60;', autocomplete: 'off'</pre>
@@ -57,7 +57,7 @@ public class AutocompleteCombo extends ExtComponent {
     protected void setAutoCreate(String javascript) {
         set(PROPERTY_AUTOCREATE, javascript);
     }
-    
+
     public RemoteAutocompleteModel getRemoteModel() {
         return (RemoteAutocompleteModel)get(PROPERTY_REMOTE_MODEL);
     }
@@ -76,7 +76,7 @@ public class AutocompleteCombo extends ExtComponent {
     public void setWidth(Integer width) {
         set(PROPERTY_WIDTH, width);
     }
-    
+
     public Integer getMinChars() {
         return (Integer)get(PROPERTY_MIN_CHARS);
     }

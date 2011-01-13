@@ -12,7 +12,7 @@ import org.sgodden.echo.ext20.AutocompleteCombo;
 
 /**
  * Peer for the AutocompleteCombo component
- * 
+ *
  * @author Lloyd Colling
  */
 public class AutocompleteComboPeer extends ExtComponentPeer {
@@ -22,6 +22,11 @@ public class AutocompleteComboPeer extends ExtComponentPeer {
 
   static {
       WebContainerServlet.getServiceRegistry().add(AUTOCOMPLETE_FIELD_SERVICE);
+  }
+
+  public AutocompleteComboPeer() {
+      super();
+      addOutputProperty(AutocompleteCombo.PROPERTY_VALUE);
   }
 
   public Class getComponentClass() {
@@ -42,12 +47,15 @@ public class AutocompleteComboPeer extends ExtComponentPeer {
           return super.getInputPropertyClass(propertyName);
       }
   }
-  
+
   @Override
     public Object getOutputProperty(Context context, Component component,
             String propertyName, int propertyIndex) {
         if (AutocompleteCombo.PROPERTY_REMOTE_MODEL.equals(propertyName)) {
             return ((AutocompleteCombo)component).getRemoteModel();
+        }
+        if (AutocompleteCombo.PROPERTY_VALUE.equals(propertyName)) {
+            return ((AutocompleteCombo)component).getValue();
         }
         return super.getOutputProperty(context, component, propertyName, propertyIndex);
     }
@@ -57,12 +65,12 @@ public class AutocompleteComboPeer extends ExtComponentPeer {
    */
   public void storeInputProperty(Context context, Component component, String propertyName, int propertyIndex, Object newValue) {
       if (propertyName.equals(AutocompleteCombo.PROPERTY_VALUE)) {
-          getClientUpdateManager(context).setComponentProperty(component, AutocompleteCombo.PROPERTY_VALUE, newValue);
+          ((AutocompleteCombo)component).setValue((String)newValue);
       } else {
           super.storeInputProperty(context, component, propertyName, propertyIndex, newValue);
       }
   }
-  
+
   private ClientUpdateManager getClientUpdateManager(Context context){
       return (ClientUpdateManager) context.get(ClientUpdateManager.class);
   }
