@@ -1,0 +1,23 @@
+--- ext-2.2.1-orig/ext-all-debug.js	2011-01-28 08:42:35.434054669 +0000
++++ ext-2.2.1/ext-all-debug.js	2011-01-28 08:56:33.517049502 +0000
+@@ -16301,13 +16301,18 @@
+     // private
+     onLayout : function(ct, target){
+     Core.Debug.consoleWrite("    Doing table layout");
+-        var cs = ct.items.items, len = cs.length, c, i;
++        var cs = ct.items.items, len = cs.length, c, i, tblCls;
+ 
+         if(!this.table){
+             target.addClass('x-table-layout-ct');
++            
++            tblCls = 'x-table-layout';
++            if (ct.baseCls) {
++                tblCls = 'x-table-layout ' + ct.baseCls + "-table-layout";
++            }
+ 
+             this.table = target.createChild(
+-                {tag:'table', cls:'x-table-layout', cellspacing: 0, cn: {tag: 'tbody'}}, null, true);
++                {tag:'table', cls:tblCls, cellspacing: 0, cn: {tag: 'tbody'}}, null, true);
+ 
+             if (this.tableStyle) {
+                 Ext.DomHelper.applyStyles(this.table, this.tableStyle);

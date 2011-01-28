@@ -243,6 +243,7 @@
     <patch patchfile="contrib/patches/ext-2.2.1/RemoveElementListeners.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
     <patch patchfile="contrib/patches/ext-2.2.1/CheckAndRadioFixes.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
     <patch patchfile="contrib/patches/ext-2.2.1/CreateGroupMenu.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/TableLayout.TableClass.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
     <!-- <patch patchfile="contrib/patches/ext-2.2.1/TableLayout.insertion.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
     <!-- <patch patchfile="contrib/patches/ext-2.2.1/LayoutPerformance.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
     <!-- <patch patchfile="contrib/patches/ext-2.2.1/ColumnLayoutDashBoardFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" /> -->
