@@ -2,7 +2,7 @@
  * Component implementation for Ext.form.Label.
  */
 EchoExt20.Label = Core.extend(EchoExt20.ExtComponent, {
-    
+
     /**
      * Registers this component on initial load.
      */
@@ -10,7 +10,7 @@ EchoExt20.Label = Core.extend(EchoExt20.ExtComponent, {
         Echo.ComponentFactory.registerType("Ext20Label", this);
         Echo.ComponentFactory.registerType("E2L", this);
     },
-    
+
     componentType: "Ext20Label"
 });
 
@@ -44,7 +44,7 @@ EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
             this.extComponent.setText(this.component.get("text"), false);
         }
         if (update.getUpdatedProperty("html") != null) {
-            this.extComponent.setText(this.component.get("html"), false);
+            this.extComponent.getEl().dom.innerHTML = this.component.get("html");
         }
     },
 
@@ -52,7 +52,7 @@ EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
-    	options["stateful"] = false;
+        options["stateful"] = false;
         // process basic properties
         var labelText = this.component.get("text");
         if (labelText != null) {
@@ -62,10 +62,10 @@ EchoExt20.LabelSync = Core.extend(EchoExt20.ExtComponentSync, {
         if (htmlText != null) {
             options['html'] = htmlText;
         }
-        
+
         var extComponent = this.newExtComponentInstance(options);
-        
+
         return extComponent;
     }
-    
+
 });
