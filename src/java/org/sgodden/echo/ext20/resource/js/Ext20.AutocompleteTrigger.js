@@ -50,7 +50,7 @@ EchoExt20.AutocompleteComboTriggerSync = Core.extend(EchoExt20.AutocompleteCombo
     
     _comboAndTriggerDisabled: false,
     
-    _clickListeners: [],
+    _clickListeners: null,
 
     $virtual: {
         /**
@@ -58,6 +58,7 @@ EchoExt20.AutocompleteComboTriggerSync = Core.extend(EchoExt20.AutocompleteCombo
          * component.
          */
         newExtComponentInstance: function(options) {
+            this._clickListeners = [];
     		if (this.component.get("autoCreate")) {
     			eval('options.autoCreate = {' + this.component.get("autoCreate") + '};');
     		}
