@@ -161,7 +161,8 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         	}
         }
         
-        options.selectOnFocus = true; 
+        options.selectOnFocus = false;
+        options.selectText = false;
         
     	var extComponent = this.newExtComponentInstance(options);
 
