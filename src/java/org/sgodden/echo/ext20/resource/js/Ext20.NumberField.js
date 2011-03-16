@@ -43,22 +43,25 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
      */
     createExtComponent: function(update, options) {
     	options["stateful"] = false;
-	    if (this.component.get("decimalPrecision")){
+        if (this.component.get("decimalPrecision")){
             options['decimalPrecision'] = this.component.get("decimalPrecision");
         }
-	    if (this.component.get("minValue")){
+        if (this.component.get("decimalSeparator")){
+            options['decimalSeparator'] = this.component.get("decimalSeparator");
+        }
+        if (this.component.get("minValue")){
             options['minValue'] = this.component.get("minValue");
         }
-	    if (this.component.get("minText")){
+        if (this.component.get("minText")){
             options['minText'] = this.component.get("minText");
         }
-	    if (this.component.get("maxValue")){
+        if (this.component.get("maxValue")){
             options['maxValue'] = this.component.get("maxValue");
         }
-	    if (this.component.get("maxText")){
+        if (this.component.get("maxText")){
             options['maxText'] = this.component.get("maxText");
         }
-        
+ 
     	var extComponent = EchoExt20.TextFieldSync.prototype.createExtComponent.call(this,update,options);
 
     	return extComponent;
