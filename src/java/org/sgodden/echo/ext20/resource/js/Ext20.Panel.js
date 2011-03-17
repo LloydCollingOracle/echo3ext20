@@ -992,10 +992,17 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
         if(maxLength < 3)
             return title;
 
+        // converts byte stream to character stream (somehow) otherwise
+        // substr will treat it as bytes and give us random html elements
+        // if the characters are not in the ascii character set
+        var div = document.createElement("div");
+        div.innerHTML = title;
+        title = div.innerHTML;
+
         var fullLength = title.length;
         var trimmedLength = (maxLength - 2);
 
-        if( (fullLength - 2) > trimmedLength) {
+        if((fullLength - 2) > trimmedLength) {
             return title.substr(0, trimmedLength) + "..";
         }
         else {
