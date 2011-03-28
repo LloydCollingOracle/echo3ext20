@@ -16,6 +16,10 @@ public interface AbstractListComponent {
 
     public static final ListCellRenderer DEFAULT_LIST_CELL_RENDERER = new DefaultListCellRenderer();
 
+    public boolean getUseDisplayValueAsModelValue();
+    
+    void setUseDisplayValueAsModelValue(boolean useDisplayValueAsModelValue);
+    
     /**
      * Returns the model.
      * @return the model.

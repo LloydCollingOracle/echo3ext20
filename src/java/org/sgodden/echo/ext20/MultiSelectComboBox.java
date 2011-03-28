@@ -30,11 +30,13 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
 	private ListModel model;
 	private ListSelectionModel selectionModel;
 	private ListCellRenderer cellRenderer = DEFAULT_LIST_CELL_RENDERER;
+	private boolean useDisplayValueAsModelValue;
 	
 	public MultiSelectComboBox(DefaultListModel model) {
 		super();
 		setSelectionModel(new DefaultListSelectionModel());
 		setModel(model);
+		setUseDisplayValueAsModelValue(false);
 	}
     /**
      * Sets the row selection model. The selection model may not be null.
@@ -293,4 +295,12 @@ public class MultiSelectComboBox extends ExtComponent implements AbstractListCom
         firePropertyChange(PROPERTY_ACTION_LISTENERS_CHANGED, l, null);
     }
 
+    public boolean getUseDisplayValueAsModelValue() {
+        return useDisplayValueAsModelValue;
+    }
+
+    public void setUseDisplayValueAsModelValue(
+            boolean useDisplayValueAsModelValue) {
+        this.useDisplayValueAsModelValue = useDisplayValueAsModelValue;
+    }
 }

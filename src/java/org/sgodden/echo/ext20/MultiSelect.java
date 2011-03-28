@@ -43,6 +43,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
     private int[] selectedIndices;
     private ListCellRenderer cellRenderer = DEFAULT_LIST_CELL_RENDERER;
     private ListModel model;
+    private boolean useDisplayValueAsModelValue;
     
     /**
      * Local handler for list data events.
@@ -78,6 +79,7 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
     public MultiSelect() {
         super();
         setSelectionModel(new DefaultListSelectionModel());
+        setUseDisplayValueAsModelValue(false);
     }
 
     /**
@@ -465,5 +467,14 @@ public class MultiSelect extends ExtComponent implements AbstractListComponent {
     
     public void setWidth(Integer width) {
         set(PROPERTY_WIDTH, width);
+    }
+    
+    public boolean getUseDisplayValueAsModelValue() {
+        return useDisplayValueAsModelValue;
+    }
+
+    public void setUseDisplayValueAsModelValue(
+            boolean useDisplayValueAsModelValue) {
+        this.useDisplayValueAsModelValue = useDisplayValueAsModelValue;
     }
 }

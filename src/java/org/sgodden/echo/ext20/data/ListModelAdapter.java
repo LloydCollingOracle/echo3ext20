@@ -70,7 +70,12 @@ public class ListModelAdapter
         for (int i = 0; i < rows; i++) {
             Object[] row = data[i];
             row[0] = cellRenderer.getListCellRendererComponent((Component)component, model.get(i), i);
-            row[1] = i;
+            if(component.getUseDisplayValueAsModelValue()){
+            	row[1] = row[0];
+            }
+            else{
+                row[1] = i;
+            }
             if (isImageCellRenderer) {
                 row[2] = ((ListImageCellRenderer)cellRenderer).getImageLocation((Component)component, model.get(i), i);
             } else if (isPopupListCellRenderer) {
