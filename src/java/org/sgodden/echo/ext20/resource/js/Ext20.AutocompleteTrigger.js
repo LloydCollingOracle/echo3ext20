@@ -125,7 +125,17 @@ EchoExt20.AutocompleteComboTriggerSync = Core.extend(EchoExt20.AutocompleteCombo
     }
 });
 
-Ext.ux.TwinCombo = Ext.extend(Ext.form.ComboBox, {});
+Ext.ux.TwinCombo = Ext.extend(Ext.form.ComboBox, {
+	onEnable: function() {
+		Ext.ux.TwinCombo.superclass.onEnable.apply(this, arguments);
+		this.getTrigger(1).show();
+	},
+
+	onDisable: function() {
+		Ext.ux.TwinCombo.superclass.onDisable.apply(this, arguments);
+		this.getTrigger(1).hide();
+	}
+});
 Ext.ux.TwinCombo.prototype.initComponent = Ext.form.TwinTriggerField.prototype.initComponent;
 Ext.ux.TwinCombo.prototype.getTrigger = Ext.form.TwinTriggerField.prototype.getTrigger;
 Ext.ux.TwinCombo.prototype.initTrigger = Ext.form.TwinTriggerField.prototype.initTrigger;
