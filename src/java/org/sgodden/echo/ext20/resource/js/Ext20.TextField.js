@@ -80,6 +80,16 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     _invalidMsg: null,
     
     /**
+     * DelayedTask which will control auto submission when notifyValueImmediate is true
+     */
+    _delayedSubmit: null,
+    
+    /**
+     * Time in milliseconds that we wish to delay _delayedSubmit by
+     */
+    _delayedSubmissionMillis: 1000,
+    
+    /**
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
@@ -210,18 +220,8 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
         	this.extComponent.validate.defer(100, this.extComponent);
-        }
+        }       
         
-        /**
-        * Sends the field value back to the server on key up
-        * with a given delay. Requires focus to be false
-        * or the user would overwrite the value after each
-        * delay.
-        */
-        if (this.component.get("notifyValueImmediate")){
-//            this.extComponent.focus = false;
-            this.extComponent.on("valid", this._handleValidEvent, this);
-        }
     },
     
      /**
@@ -257,7 +257,29 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
      * Update the component's value from the value in the ext text field.
      */
     _handleValueChangeEvent: function() {
-        this.component.set("value", this.extComponent.getValue());
+        if (this.component.get("notifyValueImmediate")){            
+            if(this._delayedSubmit === null) {
+                this._delayedSubmit = new Ext.util.DelayedTask(function() {               	                
+                	
+                    if(this.component) {
+                        this.component.set("value", this.extComponent.getValue());
+                        if(this.client._transactionInProgress === false) {
+                        	this.component.doBeforeAction();
+                            this.component.doAction();	
+                        }
+                        
+                    }                     
+                    //null out the value so the process starts again
+                    this._delayedSubmit = null;
+                }, this);              
+                this._delayedSubmit.delay(this._delayedSubmissionMillis);
+            } else {
+                this._delayedSubmit.delay(this._delayedSubmissionMillis);                                
+            }      	           
+        } else {
+        	this.component.set("value", this.extComponent.getValue());
+        }
+        
     },
     
     /**
