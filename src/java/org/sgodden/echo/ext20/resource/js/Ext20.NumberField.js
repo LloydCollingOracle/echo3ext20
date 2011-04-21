@@ -37,7 +37,29 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
     $load: function() {
         Echo.Render.registerPeer("Ext20NumberField", this);
     },
-    
+
+    /**
+     * The last valid value
+     */
+    _lastValid: null,
+
+    /**
+     * Handle event required for immediate value
+     * notification. 
+     */
+     _handleNumberValidEvent: function() {
+         var newVal = this.extComponent.getValue();
+         this._lastValid = newVal;
+     },
+
+     /**
+      * check for required transformations on blur.
+      */
+     _handleNumberBlurEvent: function() {
+         this.component.set("value", this._lastValid);
+         this.extComponent.setValue(this._lastValid);
+     },
+
     /**
      * Called by the base class to create the ext component.
      */
@@ -61,9 +83,17 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
         if (this.component.get("maxText")){
             options['maxText'] = this.component.get("maxText");
         }
- 
-    	var extComponent = EchoExt20.TextFieldSync.prototype.createExtComponent.call(this,update,options);
 
+        var extComponent = EchoExt20.TextFieldSync.prototype.createExtComponent.call(this,update,options);
+
+        extComponent.on(
+                "blur",
+                this._handleNumberBlurEvent,
+                this);
+        extComponent.on(
+                    "valid",
+                    this._handleNumberValidEvent,
+                    this);
     	return extComponent;
     },
 
