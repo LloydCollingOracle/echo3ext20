@@ -11,6 +11,7 @@ public class NumberField extends TextField {
 	
     public static final String PROPERTY_DECIMAL_PRECISION = "decimalPrecision";
     public static final String PROPERTY_DECIMAL_SEPARATOR = "decimalSeparator";
+    public static final String PROPERTY_STRIP_TRAILING_ZEROES = "stripTrailingZeroes";
     public static final String PROPERTY_MIN_VALUE = "minValue";
     public static final String PROPERTY_MIN_TEXT = "minText";
     public static final String PROPERTY_MAX_VALUE = "maxValue";
@@ -79,5 +80,14 @@ public class NumberField extends TextField {
      */
     public void setMaxText(String maxText) {
         set(PROPERTY_MAX_TEXT, maxText);
+    }
+    
+    /**
+     * Sets whether we want to strip trailing zeroes from our output value or not, this is 
+     * not applied to the actual internal value just applied as we return it.  
+     *  @param stripTrailingZeroes
+     */
+    public void setStripTrailingZeroes(boolean stripTrailingZeroes) {
+    	set(PROPERTY_STRIP_TRAILING_ZEROES, stripTrailingZeroes);
     }
 }

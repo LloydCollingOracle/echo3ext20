@@ -45,6 +45,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
 
     public static final String PROPERTY_AUTOWIDTH = "autoWidth";
     public static final String PROPERTY_RESIZABLE = "resizable";
+    public static final String PROPERTY_TEXT_SIZE = "textSize";
 
     private ListSelectionModel selectionModel;
     private ListCellRenderer cellRenderer = DEFAULT_LIST_CELL_RENDERER;
@@ -358,6 +359,16 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         set(PROPERTY_INVALID_TEXT, invalidText);
     }
 
+    /**
+     * Sets the input text size property of the component.
+     *
+     * @param textSize
+     *            the input text size.
+     */
+    public void setTextSize(String textSize) {
+        set(PROPERTY_TEXT_SIZE, textSize);
+    }
+    
     /**
      * Selects the specified index in the selection model.
      *

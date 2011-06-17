@@ -22,7 +22,7 @@ EchoExt20.NumberField = Core.extend(EchoExt20.TextField, {
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20NumberField", this);
         Echo.ComponentFactory.registerType("E2NF", this);
-    },
+    },    
 
     focusable: true,
     
@@ -42,7 +42,7 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
      * The last valid value
      */
     _lastValid: null,
-
+    
     /**
      * Handle event required for immediate value
      * notification. 
@@ -82,7 +82,8 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
         }
         if (this.component.get("maxText")){
             options['maxText'] = this.component.get("maxText");
-        }
+        }       
+        
 
         var extComponent = EchoExt20.TextFieldSync.prototype.createExtComponent.call(this,update,options);
 
@@ -96,6 +97,35 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
                     this);
     	return extComponent;
     },
+    
+    _trimZeroes : function(value) {
+    	var decimalSeparator, separatorPosition, pos;
+    	if(value && value !== null) {
+    		decimalSeparator = this.component.get("decimalSeparator");
+    		if(decimalSeparator) {
+    			separatorPosition = value.toString().indexOf(decimalSeparator);
+    		} else {
+    			separatorPosition = value.toString().indexOf('.');
+    		}
+    	    
+            if(separatorPosition !== -1 ) {
+                pos = value.toString().length - 1;
+                // iterate through removing zeroes and removing decimal point only if we
+                // have removed all trailing zeroes up to it.
+                while(pos >= separatorPosition) {
+                    if(value.toString().charAt(pos) === '0' || value.toString().charAt(pos) === '.' && value.toString().length === separatorPosition + 1) {
+                        value = value.toString().slice(0, pos) + value.toString().slice(pos + 1, value.toString().length);
+                    } else {
+                        // we have found a non zero numeric character we need
+                        // to break out of the loop
+                        break;
+                    }
+                    pos--;
+                }
+            }
+        }
+        return value;
+    },
 
     $virtual: {
         /**
@@ -104,6 +134,18 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
          */
         newExtComponentInstance: function(options) {
             return new Ext.form.NumberField(options);
-        }
+        },
+        /**
+         * Overridable method to add more 
+         * functionality to the standard get function
+         */
+    	_getComponentValue: function() {
+    		var value = this.component.get("value");
+    		
+    		if(this.component.get("stripTrailingZeroes") === true) {
+    		   return this._trimZeroes(value);      	
+    		}
+            return value; 
+        },
     }
 });

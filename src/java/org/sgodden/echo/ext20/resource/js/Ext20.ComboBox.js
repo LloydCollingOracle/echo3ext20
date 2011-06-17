@@ -223,7 +223,11 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         options["triggerAction"] = "all";
         options["autoWidth"] = this.component.get("autoWidth");
         options["resizable"] = this.component.get("resizable");
-
+        
+        if (this.component.get("textSize") != null) {
+        	options["autoCreate"] = {tag: "input", type: "text", size: this.component.get("textSize"), autocomplete: "off"};
+        }
+        
         if (this.component.get("editable") != null) {
             options["editable"] = this.component.get("editable");
         }
