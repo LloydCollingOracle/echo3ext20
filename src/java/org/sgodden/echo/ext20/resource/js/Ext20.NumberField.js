@@ -146,6 +146,6 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
     		   return this._trimZeroes(value);      	
     		}
             return value; 
-        },
+        }
     }
 });
