@@ -49,6 +49,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
 
     private ListSelectionModel selectionModel;
     private ListCellRenderer cellRenderer = DEFAULT_LIST_CELL_RENDERER;
+	private ListCellRenderer selectionRenderer;
     private ListModel model;
     private boolean useDisplayValueAsModelValue;
 
@@ -405,11 +406,24 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
                 }
             }
             if(selectionModel.getMinSelectedIndex() != -1){
-                Object value = getCellRenderer().getListCellRendererComponent(this, selectedItem, modelIndex);
+                Object value = getSelectionRenderer().getListCellRendererComponent(this, selectedItem, modelIndex);
                 setRawValue(String.valueOf(value));
             }
         }
         firePropertyChange(PROPERTY_SELECTION_CHANGED, oldValue, selectedItem);
+    }
+    
+    /**
+     * Gets the cell renderer to use for the selected item. Defaults to the same
+     * renderer as {@link #getCellRenderer()}
+     * @return a cell renderer for the selected item
+     */
+    public ListCellRenderer getSelectionRenderer() {
+    	return selectionRenderer == null ? cellRenderer : selectionRenderer;
+    }
+    
+    public void setSelectionRenderer(ListCellRenderer renderer) {
+    	this.selectionRenderer = renderer;
     }
 
     /**
