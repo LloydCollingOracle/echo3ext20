@@ -103,8 +103,13 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String PROPERTY_FORCE_FIT = "forceFit";
     public static final String PROPERTY_AUTO_EXPAND_COLUMN = "autoExpandColumn";
     public static final String PROPERTY_AUTO_FILL = "autoFill";    
-	public static final String COLUMN_FILTER_ACTION = "columnfilterchanged";
-    
+    public static final String COLUMN_FILTER_ACTION = "columnfilterchanged";
+
+    public static final String PROPERTY_SORT_ASC_TEXT = "sortAscText";
+    public static final String PROPERTY_SORT_DESC_TEXT = "sortDescText";
+    public static final String PROPERTY_COLUMNS_TEXT = "columnsText";
+    public static final String PROPERTY_REMOVE_COLUMN_TEXT = "removeColumnText";
+    public static final String PROPERTY_ADD_COLUMN_TEXT = "addColumnText";
 
     private int pageSize;
     private ListSelectionModel selectionModel;
@@ -155,6 +160,13 @@ public class GridPanel extends Panel implements TableModelListener,
         setAllowColumnMove(false);
         setForceFit(false);
         setAutoFill(false);
+
+        // set the default text
+        set(PROPERTY_SORT_ASC_TEXT, "Sort Ascending");
+        set(PROPERTY_SORT_DESC_TEXT, "Sort Descending");
+        set(PROPERTY_COLUMNS_TEXT, "Columns");
+        set(PROPERTY_REMOVE_COLUMN_TEXT, "Remove Column");
+        set(PROPERTY_ADD_COLUMN_TEXT, "Add Column");
     }
 
     /**

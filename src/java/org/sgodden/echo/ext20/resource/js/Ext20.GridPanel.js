@@ -187,7 +187,11 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
                 	if (!options["plugins"]) {
                         options["plugins"] = [];
                         if (this._showColAddRemove) {
-                            options["plugins"][0] = new EchoExt20.GridColAddRemove();
+
+                            var addRemoveText = new Array();
+                            addRemoveText['addColumnText'] = this.component.get("addColumnText");
+                            addRemoveText['removeColumnText'] = this.component.get("removeColumnText");
+                            options["plugins"][0] = new EchoExt20.GridColAddRemove(addRemoveText);
                         }
                 	}
                 	if (this._showColAddRemove) {
@@ -205,7 +209,11 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
             
         }
     },
-    
+
+    getMyText: function() {
+        return "hello World";
+    },   
+ 
     createExtComponent: function(update, options) {
         this._handleSortEvents = false;
         this._handleSelectionEvents = false;
@@ -217,17 +225,28 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         
         options["plugins"] = [];
         if (this._showColAddRemove) {
-            options["plugins"][0] = new EchoExt20.GridColAddRemove();
+
+            var addRemoveText = new Array();
+            addRemoveText['addColumnText'] = this.component.get("addColumnText");
+            addRemoveText['removeColumnText'] = this.component.get("removeColumnText");
+            options["plugins"][0] = new EchoExt20.GridColAddRemove(addRemoveText);
         }
 
         this._model = this.component.get("model");
         options["store"] = this._makeStore();
-                
+
         var view = null;
         if (this.component.get('allowGrouping')) {
             view = new Ext.grid.GroupingView({
                 autoFill:this.component.get("autoFill"),
                 forceFit:this.component.get("forceFit"),
+
+                sortAscText:this.component.get("sortAscText"),
+                sortDescText:this.component.get("sortDescText"),
+                columnsText:this.component.get("columnsText"),
+                removeColumnText:this.component.get("removeColumnText"),
+                addColumnText:this.component.get("addColumnText"),
+
                 enableGroupingMenu:true,
                 enableNoGroups:true,
                 groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
@@ -235,6 +254,13 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
         } else {
             view = new Ext.grid.GridView({
                 autoFill:this.component.get("autoFill"),
+
+                sortAscText:this.component.get("sortAscText"),
+                sortDescText:this.component.get("sortDescText"),
+                columnsText:this.component.get("columnsText"),
+                removeColumnText:this.component.get("removeColumnText"),
+                addColumnText:this.component.get("addColumnText"),
+
                 forceFit:this.component.get("forceFit")
             });
         }
@@ -897,20 +923,24 @@ EchoExt20.ColumnModel = function(attributes)  {
 Ext.extend(EchoExt20.ColumnModel, Ext.grid.ColumnModel, {
 });
 
+var addRemoveText = new Array();
+
 // plugin for the grid that adds menu items 'add column' and 'remove column'
 // to the header context menu
 EchoExt20.GridColAddRemove = function(config) {
     Ext.apply(this, config);
+    addRemoveText = config;
 };
 
 Ext.extend(EchoExt20.GridColAddRemove, Ext.util.Observable, {
     init : function(gridPanel) {
         var view = gridPanel.getView();
+
         Ext.apply(view, {
             renderUI: view.renderUI.createSequence(function() {
                 this.hmenu.add('-');
-                this.hmenu.add({id:'....removecol', text:'Remove Column'});
-                this.hmenu.add({id:'....addcol', text:'Add Column'});
+                this.hmenu.add({id:'....removecol', text:addRemoveText["removeColumnText"]});
+                this.hmenu.add({id:'....addcol', text:addRemoveText["addColumnText"]}); 
             }),
 
             handleHdMenuClick : view.handleHdMenuClick.createInterceptor(function(item) {

@@ -1,0 +1,14 @@
+--- ext-all-debug.js	2011-06-28 10:32:53.150508076 +0100
++++ ext-all-debug.js	2011-06-28 16:12:18.348383536 +0100
+@@ -32478,9 +32478,9 @@
+     sortClasses : ["sort-asc", "sort-desc"],
+ 
+     sortAscText : "Sort Ascending",
+-
+     sortDescText : "Sort Descending",
+-
++    addColumnText : "Add Column",
++    removeColumnText : "Remove Column",
+     columnsText : "Columns",
+ 
+     filterText : "Filters",
