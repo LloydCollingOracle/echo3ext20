@@ -133,15 +133,21 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     _storeScrollPosition: function() {
         this._scrollPosition = this.extComponent.body.getScroll().top;
     },
-    
+
+    /**
+     * Handle a double-click unless the expandOnSelect option is set (see _handleSelectionChange)
+     */    
     _handleDblClick: function(node, e) {
-        if (this.component.get("showCheckBoxes")) {
-            if (node && node.ui && node.ui.checkbox) {
-                node.ui.checkbox.checked = true;
-            }
+        if (this.component.get("expandOnSelect") != true) {
+
+                if (this.component.get("showCheckBoxes")) {
+                    if (node && node.ui && node.ui.checkbox) {
+                        node.ui.checkbox.checked = true;
+                    }
+                }
+                this._storeScrollPosition();
+                this.component.doAction();
         }
-        this._storeScrollPosition();
-        this.component.doAction();
     },
     
     _doOnExtRender: function() {
@@ -374,10 +380,16 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
     },
     
     _expansionHandler: function(extNode) {
-        if (!this.client || !this.client.verifyInput(this.component)) {
-            return;
+        if (this.component.get("expandOnSelect") == true) {
+            if (!this.client) {
+                return;
+            }
+        } else {
+            if (!this.client || !this.client.verifyInput(this.component)) {
+                return;
+            }
         }
-    	
+ 	
     	var echoNode = extNode.getEchoNode();
 
         if (echoNode.isLeaf()) {
@@ -486,6 +498,13 @@ EchoExt20.TreeSync = Core.extend(EchoExt20.ExtComponentSync, {
                 }
             }
         }
+
+        /* expand the selected node if the expandOnSelect option is set */
+        if (this.component.get("expandOnSelect") == true) {
+                this._handleDblClick(extNode);
+                this._expansionHandler(extNode);
+        }
+
         return true;
     },
     

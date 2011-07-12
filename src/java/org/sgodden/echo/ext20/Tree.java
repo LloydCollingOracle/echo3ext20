@@ -29,6 +29,11 @@ public class Tree extends nextapp.echo.extras.app.Tree implements TreeExpansionL
      * the context menu.
      */
     public static final String PROPERTY_SELECT_ON_CONTEXT = "selectOnContext";
+
+    /**
+     * Expand a selected node automatically.
+     */
+    public static final String PROPERTY_EXPAND_ON_SELECT = "expandOnSelect";
     
     private Menu contextMenu;
     
