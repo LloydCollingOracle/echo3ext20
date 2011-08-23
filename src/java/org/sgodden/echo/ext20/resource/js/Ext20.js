@@ -44,6 +44,7 @@ EchoExt20.Echo3SyncWrapper = function(update, wrappedComponent) {
 
     this.wrappedComponent = wrappedComponent;
     this.wrappedRootElement = document.createElement("div");
+    this.wrappedComponentUpdate = null;
 
     var options = {};
     options.style = {};
@@ -59,12 +60,16 @@ EchoExt20.Echo3SyncWrapper = function(update, wrappedComponent) {
      * We need to call render add immediately, but defer
      * adding it until this wrapper is rendered.
      */
-    Echo.Render.renderComponentAdd(update, this.wrappedComponent, this.wrappedRootElement);
-   
-    /*
-     * Intercept the wrapped component's peer's renderDispose to ensure that this wrapper is disposed.
-     */
-    this.wrappedComponent.peer.renderDispose = this.wrappedComponent.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
+    if (this.wrappedComponent.deferredRender !== true) {
+        Echo.Render.renderComponentAdd(update, this.wrappedComponent, this.wrappedRootElement);
+        
+        /*
+         * Intercept the wrapped component's peer's renderDispose to ensure that this wrapper is disposed.
+         */
+        this.wrappedComponent.peer.renderDispose = this.wrappedComponent.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
+    } else {
+    	this.wrappedComponentUpdate = update;
+    }
 }
 
 Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
@@ -78,16 +83,25 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
         this.el = new Ext.Element(this.wrappedRootElement);
 
         if (position != null) {
-        	if(position.nodeType != 3){
-        		position.appendChild(this.wrappedRootElement);
-        	}
-        	else{
-        		position.parentNode.appendChild(this.wrappedRootElement);
-        	}
+            if(position.nodeType != 3){
+                position.appendChild(this.wrappedRootElement);
+            }
+            else{
+                position.parentNode.appendChild(this.wrappedRootElement);
+            }
             
         }
         else {
             ct.appendChild(this.el);
+        }
+        if (this.wrappedComponent.deferredRender === true) {
+            Echo.Render.renderComponentAdd(this.wrappedComponentUpdate, this.wrappedComponent, this.wrappedRootElement);
+            this.wrappedComponentUpdate = null;
+            
+            /*
+             * Intercept the wrapped component's peer's renderDispose to ensure that this wrapper is disposed.
+             */
+            this.wrappedComponent.peer.renderDispose = this.wrappedComponent.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
         }
     },
 
@@ -95,8 +109,8 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
      * Removes the component from the ext container.
      */
     onRenderDispose: function(update) {
-    	if (typeof this.ownerCt != 'undefined')
-    		this.ownerCt.remove(this);
+        if (typeof this.ownerCt != 'undefined')
+            this.ownerCt.remove(this);
     },
     
     /**
@@ -122,7 +136,7 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
  * Base class for all ext20 components.
  */
 EchoExt20.ExtComponent = Core.extend(Echo.Component, {
-	
+    
     /**
      * Fires a before render event.
      */
@@ -145,10 +159,10 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
 
     $virtual: {
         renderFocus: function() {
-    		/*
-    		 * Must defer to ensure focus is called when the component is ready for it.
-    		 */
-    		this.doRenderFocus.defer(1, this);
+            /*
+             * Must defer to ensure focus is called when the component is ready for it.
+             */
+            this.doRenderFocus.defer(1, this);
         },
     
         /**
@@ -156,7 +170,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
          * to cause the component to lay itself out
          */
         doChildrenModifiedLayout: function() {
-        	this._notifyLayoutChanges();
+            this._notifyLayoutChanges();
         },
         
         /**
@@ -185,12 +199,12 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
         },
         
         doRenderFocus: function() {
-        	if (!this.extComponent) {
-        		// handle delayed task being called for a component that has been destroyed
-        		return;
-        	}
+            if (!this.extComponent) {
+                // handle delayed task being called for a component that has been destroyed
+                return;
+            }
             try {
-            	Core.Debug.consoleWrite("Focusing component with id " + this.extComponent.id);
+                Core.Debug.consoleWrite("Focusing component with id " + this.extComponent.id);
                 this.extComponent.focus();
                 if (this.extComponent.selectText) {
                     this.extComponent.selectText();
@@ -216,7 +230,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
      * DOM element we have been asked to render ourself into.
      */
     _parentElement: null,
-	
+    
     /**
      * Whether this component is a root container in the page.
      * <p>
@@ -377,7 +391,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 options.ctCls = this.component.get("containerCssClass");
             }
             if (this.component.get("cssString")) {
-            	options.style = this.component.get("cssString");
+                options.style = this.component.get("cssString");
             }
            
             /*
@@ -524,19 +538,19 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 options
             );
 
-        	/*
-        	 * If this is not a panel, then we need to surround it
-        	 * with a panel, to ensure that child dimensions are set
-        	 * correctly.
-        	 */
-        	if (!(this instanceof EchoExt20.PanelSync || this instanceof EchoExt20.ContainerSync)) {
-        		var container = new Ext.Panel({
-        		    //layout: 'fit',
-        		    border: false,
+            /*
+             * If this is not a panel, then we need to surround it
+             * with a panel, to ensure that child dimensions are set
+             * correctly.
+             */
+            if (!(this instanceof EchoExt20.PanelSync || this instanceof EchoExt20.ContainerSync)) {
+                var container = new Ext.Panel({
+                    //layout: 'fit',
+                    border: false,
                     renderTo: this._parentElement,
                     items: [this.extComponent]
-        		});
-        	}
+                });
+            }
             if (Core.Web.Env.BROWSER_INTERNET_EXPLORER
                     && this._isRootRootContainer) {
                 this._parentElement.style.overflow = "visible";
@@ -604,7 +618,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
             Echo.Render.removeRenderDisplayCompleteListener(this.renderDisplayCompleteRef);
         }
         if (this.extComponent != null) {
-        	Ext.ComponentMgr.unregister(this.extComponent);
+            Ext.ComponentMgr.unregister(this.extComponent);
         }
     },
     
@@ -621,29 +635,29 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                     this._toolTip = toolTip;
                     toolTip.enable();
                 }else{
-                	if(this._toolTip!=null){
-                		this._toolTip.disable();
-                		this._toolTip = null;
-                	}
+                    if(this._toolTip!=null){
+                        this._toolTip.disable();
+                        this._toolTip = null;
+                    }
                 }
             }
         }
         // request layout if removedChildren or added a non-window child
         var needsLayout = update.hasRemovedChildren();
         if (!needsLayout) {
-	        var addedChildren = update.getAddedChildren();
-	        if (addedChildren != null) {
-		        for (var i = 0; i < addedChildren.length && !needsLayout; i++) {
-		        	if (addedChildren[i].componentType != "Ext20Window") {
-		        		needsLayout = true;
-		        	}
-		        }
-	        }
+            var addedChildren = update.getAddedChildren();
+            if (addedChildren != null) {
+                for (var i = 0; i < addedChildren.length && !needsLayout; i++) {
+                    if (addedChildren[i].componentType != "Ext20Window") {
+                        needsLayout = true;
+                    }
+                }
+            }
         }
         if (needsLayout) {
                 this.doChildrenModifiedLayout();
         }
-		
+        
         if (update.hasUpdatedProperties()) {
             var alignToUpdate = update.getUpdatedProperty("alignTo");
             if (alignToUpdate != null) {
@@ -1078,9 +1092,9 @@ EchoExt20.PropertyTranslator.ColumnModel = {
         }
         
         return new EchoExt20.ColumnModel({
-        	defaultSortable: obj.defaultSortable,
-        	defaultWidth: obj.defaultWidth,
-        	columns: obj.columns
+            defaultSortable: obj.defaultSortable,
+            defaultWidth: obj.defaultWidth,
+            columns: obj.columns
         });
     },
     toXml: function(client, propertyElement, propertyValue) {
@@ -1106,10 +1120,10 @@ EchoExt20.PropertyTranslator.ColumnModel = {
                 config.groupableValues = propEl.groupableValues;
                 config.selectedGroupableValues = propEl.selectedGroupableValues;
                 if (propEl.menuDisabled) {
-                	config.menuDisabled = true;
+                    config.menuDisabled = true;
                 }
                 else {
-                	config.menuDisabled = false;
+                    config.menuDisabled = false;
                 }
                 colObject.columns.push(config);
             }
@@ -1132,9 +1146,9 @@ EchoExt20.PropertyTranslator.RemoteListModel = Core.extend(Echo.Serial.PropertyT
         toProperty: function(client, pElement) {
             var url= pElement.firstChild.data;
             var url2 = client._serverUrl + "?" + (client._uiid == null ? "" : "uiid=" + client._uiid + "&") + 
-            	"sid=Echo3Ext20.RemoteListModel&rlm="
+                "sid=Echo3Ext20.RemoteListModel&rlm="
             var urlTokens = url.split("!");
-    	    return url2 + urlTokens[2];
+            return url2 + urlTokens[2];
         }
     },
     
