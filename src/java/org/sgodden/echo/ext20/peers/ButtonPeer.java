@@ -16,6 +16,9 @@
 # ================================================================= */
 package org.sgodden.echo.ext20.peers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nextapp.echo.app.Component;
 import nextapp.echo.app.util.Context;
 
@@ -40,6 +43,7 @@ public class ButtonPeer extends AbstractButtonPeer {
      */
     public ButtonPeer() {
         super();
+        addOutputProperty(Button.PROPERTY_FIELDS_TO_LISTEN_TO);
     }
 
     public String getClientComponentType(boolean shortType) {
@@ -64,4 +68,26 @@ public class ButtonPeer extends AbstractButtonPeer {
         // serverMessage.addLibrary(BUTTON_SERVICE.getId());
     }
 
+    @Override
+    public Object getOutputProperty(Context context, Component component,
+    		String propertyName, int propertyIndex) {
+
+    	if (Button.PROPERTY_FIELDS_TO_LISTEN_TO.equals(propertyName)){
+    		StringBuilder fieldsToListenToIds = new StringBuilder(); 
+    		List<Component> compToListenTo = ((Button)component).getFieldsToListenToList();
+    		String delimiter = "";
+    		for(Component c: compToListenTo){
+    			fieldsToListenToIds.append(delimiter);
+    			fieldsToListenToIds.append("C.");
+    			fieldsToListenToIds.append(c.getContainingWindow().getId());
+    			fieldsToListenToIds.append(".");
+    			fieldsToListenToIds.append(c.getRenderId());
+    			delimiter = ",";
+    		}
+    		return fieldsToListenToIds.toString();
+    	}
+    	else {
+    		return super.getOutputProperty(context, component, propertyName, propertyIndex);
+    	}
+    }
 }
