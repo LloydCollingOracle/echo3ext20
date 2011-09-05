@@ -159,6 +159,10 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
 
     $virtual: {
         renderFocus: function() {
+            if (this.client.application._focusedComponent !== null && 
+                    this.component.renderId === this.client.application._focusedComponent.renderId) {
+                return;
+            }
             /*
              * Must defer to ensure focus is called when the component is ready for it.
              */
