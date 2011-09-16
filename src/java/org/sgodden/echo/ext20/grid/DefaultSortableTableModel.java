@@ -175,14 +175,25 @@ public class DefaultSortableTableModel extends DefaultTableModel implements
         public int compare(Object[] oa1, Object[] oa2) {
             Comparable c1 = (Comparable) oa1[colIndex];
             Comparable c2 = (Comparable) oa2[colIndex];
+
+            if (c1 == null && c2 == null) {
+                return 0;
+            }
+            else if (c1 == null) {
+                return ascending ? -1 : 1;
+            }
+            else if (c2 == null) {
+                return ascending ? 1 : -1;
+            }
+            
             if (ascending) {
-                return c1.compareTo(c2);
+            	 return c1.compareTo(c2);
             } else {
-                return c2.compareTo(c1);
+            	return c2.compareTo(c1);
             }
         }
-
     }
+
 
     /**
      * Not implemented - See
