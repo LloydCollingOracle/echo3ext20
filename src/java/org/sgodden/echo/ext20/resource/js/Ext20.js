@@ -159,7 +159,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
 
     $virtual: {
         renderFocus: function() {
-            if (this.client.application._focusedComponent !== null && 
+            if (this.client && this.client.application._focusedComponent !== null && 
                     this.component.renderId === this.client.application._focusedComponent.renderId) {
                 return;
             }

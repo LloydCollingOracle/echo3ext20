@@ -171,7 +171,7 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
 		// Change CSS on the button when certain field values change.
 		var fieldsToListenTo = this.component.get('fieldsToListenTo');
 		var fieldChangedCSS = this.component.get('fieldChangedCSSClass');
-		if(typeof fieldsToListenTo !== 'undefined' && fieldsToListenTo !== null && fieldsToListenTo !== ""){
+		if(this.client && typeof fieldsToListenTo !== 'undefined' && fieldsToListenTo !== null && fieldsToListenTo !== ""){
 			this.client.addServerUpdateCompleteListener(this._addChangeCSSClassHandler.createDelegate(this, [fieldsToListenTo, fieldChangedCSS]));
 		}
 		return extComponent;
