@@ -233,6 +233,11 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 				|| textField.getValue().startsWith(ZERO)) {
 			textField.setValue(String.valueOf(defaultValue));
 		}
+		try {
+			Integer.parseInt(textField.getValue());
+		} catch (NumberFormatException nfe) {
+			textField.setValue(String.valueOf(defaultValue));
+		}
 	}
 
 	public void setPageSize(int pageSize) {
