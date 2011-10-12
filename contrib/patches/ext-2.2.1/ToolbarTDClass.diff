@@ -1,0 +1,22 @@
+--- ext-2.2.1-orig/ext-all-debug.js	2011-10-11 16:18:07.708313001 +0100
++++ ext-2.2.1/ext-all-debug.js	2011-10-12 08:40:13.028129004 +0100
+@@ -21446,6 +21446,19 @@
+     // private
+     nextBlock : function(){
+         var td = document.createElement("td");
++        if (this.cls) {
++            td.className = this.cls + "-td";
++        } else if (this.getEl().dom.className !== null && this.getEl().dom.className !== undefined && this.getEl().dom.className !== '') {
++            var clss = this.getEl().dom.className.split(" ");
++            var tdclss = '';
++            for (var i = 0; i < clss.length; i++) {
++                if (tdclss !== '') {
++                    tdclss = tdclss + " ";
++                }
++                tdclss = tdclss + clss[i] + "-td";
++            }
++            td.className = tdclss;
++        }
+         this.tr.appendChild(td);
+         return td;
+     },
