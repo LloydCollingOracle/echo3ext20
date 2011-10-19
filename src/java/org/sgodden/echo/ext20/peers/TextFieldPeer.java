@@ -39,6 +39,7 @@ public class TextFieldPeer
 
     public TextFieldPeer() {
         super();
+        addOutputProperty(TextField.PROPERTY_VALUE_CHANGED);
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(TextField.INPUT_ACTION,  TextField.ACTION_LISTENERS_CHANGED_PROPERTY) {
             @Override
             public boolean hasListeners(Context context, Component component) {
