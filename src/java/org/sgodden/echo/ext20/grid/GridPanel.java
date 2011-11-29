@@ -33,6 +33,7 @@ import nextapp.echo.app.list.ListSelectionModel;
 import nextapp.echo.app.table.EditableTableModel;
 import nextapp.echo.app.table.TableModel;
 
+import org.apache.tools.ant.util.CollectionUtils;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.Panel;
 import org.sgodden.echo.ext20.SelectionMode;
@@ -956,5 +957,25 @@ public class GridPanel extends Panel implements TableModelListener,
 
     public void setAutoFill(boolean autoFill) {
         set(PROPERTY_AUTO_FILL, Boolean.valueOf(autoFill));
-    }	
+    }
+    
+    @Override
+    public void validate() {
+        super.validate();
+        if (getColumnModel() != null && getModel() != null) {
+            List<String> colModelNames = new ArrayList<String>();
+            for (ColumnConfiguration cc : getColumnModel()) {
+                colModelNames.add(cc.getDataIndex());
+            }
+            
+            List<String> tableModelNames = new ArrayList<String>();
+            for (int i = 0; i < getModel().getColumnCount(); i++) {
+                tableModelNames.add(getModel().getColumnName(i));
+            }
+            
+            if (!colModelNames.containsAll(tableModelNames) || !tableModelNames.containsAll(colModelNames)) {
+                throw new IllegalStateException("The list of identifiers in the column model data indexes [" + colModelNames + "] does not match the column names in the table model [" + tableModelNames + "]");
+            }
+        }
+    }
 }
