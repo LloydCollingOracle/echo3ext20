@@ -962,7 +962,7 @@ public class GridPanel extends Panel implements TableModelListener,
     @Override
     public void validate() {
         super.validate();
-        if (getColumnModel() != null && getModel() != null) {
+        if (getColumnModel() != null && getModel() != null && getModel().getRowCount() > 0) {
             List<String> colModelNames = new ArrayList<String>();
             for (ColumnConfiguration cc : getColumnModel()) {
                 colModelNames.add(cc.getDataIndex());
