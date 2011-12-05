@@ -33,6 +33,8 @@ import nextapp.echo.app.list.ListSelectionModel;
 import nextapp.echo.app.table.EditableTableModel;
 import nextapp.echo.app.table.TableModel;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.util.CollectionUtils;
 import org.sgodden.echo.ext20.Menu;
 import org.sgodden.echo.ext20.Panel;
@@ -111,6 +113,9 @@ public class GridPanel extends Panel implements TableModelListener,
     public static final String PROPERTY_COLUMNS_TEXT = "columnsText";
     public static final String PROPERTY_REMOVE_COLUMN_TEXT = "removeColumnText";
     public static final String PROPERTY_ADD_COLUMN_TEXT = "addColumnText";
+
+    private static final transient Log LOG = LogFactory
+            .getLog(GridPanel.class);
 
     private int pageSize;
     private ListSelectionModel selectionModel;
@@ -973,8 +978,11 @@ public class GridPanel extends Panel implements TableModelListener,
                 tableModelNames.add(getModel().getColumnName(i));
             }
             
-            if (!colModelNames.containsAll(tableModelNames) || !tableModelNames.containsAll(colModelNames)) {
-                throw new IllegalStateException("The list of identifiers in the column model data indexes [" + colModelNames + "] does not match the column names in the table model [" + tableModelNames + "]");
+            if (!tableModelNames.containsAll(colModelNames)) {
+                throw new IllegalStateException("The table model does not contain all of the identifiers of the column model; the column model data indexes are [" + colModelNames + "], the the table model column names are [" + tableModelNames + "]");
+            }
+            if (!colModelNames.containsAll(tableModelNames)) {
+                LOG.warn("The table model contain all of the identifiers of the column model and some extras (more data being sent over network than required!); the column model data indexes are [" + colModelNames + "], the the table model column names are [" + tableModelNames + "]");
             }
         }
     }
