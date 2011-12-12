@@ -19,6 +19,7 @@ import org.sgodden.echo.ext20.buttons.LastPageButton;
 import org.sgodden.echo.ext20.buttons.NextPageButton;
 import org.sgodden.echo.ext20.buttons.PreviousPageButton;
 
+
 /**
  * A toolbar which contains paging controls for a grid.
  * <p>
@@ -62,10 +63,30 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 
 	public static final String PROPERTY_MODEL_CHANGED = "model";
 
+	// when createComponents is called, make this the first page if > 1
+	private int startOnPage = -1;
+	
 	public PagingToolbar() {
 		setId("pagingToolbar");
 	}
 
+	/**
+	 * @param startOnThisPageInstead rather than start on page 1.  Must be called before initialisation.
+	 */
+	public void setStartOnPage(int startOnThisPageInstead) {
+	    	if (startOnThisPageInstead > 1) {
+	    	    	startOnPage = startOnThisPageInstead;
+	    	}
+	}
+	
+	/**
+	 * @return the current page number being displayed
+	 */
+	public int getCurrentPageNumber() {
+	    	return Integer.parseInt(currentPageTextField.getValue()); 
+	}
+	
+	
 	/**
 	 * Must be called to initialise the toolbar before it is displayed.
 	 * 
@@ -85,14 +106,13 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 		this.model = model;
 
 		createComponents();
-		setTableModel(model);
-
+		
+		setTableModel(model, true);
 	}
 
 	private void createComponents() {
 
 		// Add the paging controls
-
 		firstButton = new FirstPageButton();
 		add(firstButton);
 
@@ -163,13 +183,6 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 		totalItems.setId("static");
 		add(totalItems);
 
-		/*
-		 * Since we start on the first page, the previous button will be
-		 * disabled to start with.
-		 */
-		firstButton.setEnabled(false);
-		previousButton.setEnabled(false);
-
 		firstButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setPageOffset(0);
@@ -204,6 +217,14 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 				enableButtons();
 			}
 		});
+		
+		/*
+		 * Since we start on the first page, the previous button will be
+		 * disabled to start with.
+		 */
+		firstButton.setEnabled(false);
+		previousButton.setEnabled(false);
+		
 	}
 
 	private void setPage() {
@@ -217,7 +238,6 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 		}
 		setPageOffset(requestedPageOffset);
 		enableButtons();
-
 	}
 
 	private void applyPageSize() {
@@ -283,7 +303,7 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 	public void setTableModel(TableModel model) {
 		setTableModel(model, true);
 	}
-
+	
 	/**
 	 * Sets the attributes of the paging toolbar according to the model.
 	 * 
@@ -319,15 +339,22 @@ public class PagingToolbar extends Toolbar implements TableModelListener {
 		lastButton.setEnabled(true);
 
 		totalItems.setText(String.valueOf(model.getRowCount()));
-
-		currentPageTextField.setValue("1");
-
+	    
 		int totalPages = (model.getRowCount() / pageSize);
 		if (model.getRowCount() % pageSize > 0) {
 			totalPages++;
 		}
 
 		totalPagesTextItem.setText(String.valueOf(totalPages));
+		
+		// start on a specific page if possible
+		if ((startOnPage > 1) && (startOnPage <= totalPages)) {
+		    	currentPageTextField.setValue(Integer.toString(startOnPage));
+    		    	setPage();
+		} else {
+    		    	currentPageTextField.setValue("1");
+		}
+
 		enableButtons();
 	}
 
