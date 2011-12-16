@@ -1,0 +1,10 @@
+--- ext-2.2.1-orig/ext-all-debug.js	2011-12-16 09:56:48.555635792 +0000
++++ ext-2.2.1/ext-all-debug.js	2011-12-16 12:23:39.916425463 +0000
+@@ -28390,6 +28390,7 @@
+         var h = Math.min(this.growMax, Math.max(ts.offsetHeight, this.growMin)+this.growPad);
+         if(h != this.lastHeight){
+             this.lastHeight = h;
++            this.height = h;
+             this.el.setHeight(h);
+             this.fireEvent("autosize", this, h);
+         }
