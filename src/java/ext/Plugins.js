@@ -19,13 +19,25 @@ Ext.ux.MandatoryField = {
                             case "textarea":
 								// ensure asterisk appears at the top right of a TextArea
                             	var el = field.el.parent();
-                                Ext.DomHelper.append(el, {
-                                    tag: "label",
-                                    cls: " ux-mandatory",
-									style: "position:absolute;margin-left: -8px;",
-                                    htmlFor: field.id,
-                                    html: "*"
-                                });
+                            	if (Ext.isIE) {
+
+                                    Ext.DomHelper.append(el, {
+                                        tag: "label",
+                                        cls: " ux-mandatory",
+    									style: "position:absolute;margin-left: 0;",
+                                        htmlFor: field.id,
+                                        html: "*"
+                                    });
+                            	} else {
+
+                                    Ext.DomHelper.append(el, {
+                                        tag: "label",
+                                        cls: " ux-mandatory",
+    									style: "position:absolute;margin-left: -8px;",
+                                        htmlFor: field.id,
+                                        html: "*"
+                                    });
+                            	}
                                 field.el.addClass("text-area-mandatory");
                                 break;
                             default:
