@@ -1,0 +1,32 @@
+--- ext-2.2.1/ext-all-debug.js	2012-01-20 08:11:47.052708799 +0000
++++ ext-2.2.1-orig/ext-all-debug.js	2012-01-20 08:16:47.032740900 +0000
+@@ -28095,10 +28095,14 @@
+     // private
+     onResize : function(w, h){
+         Ext.form.TriggerField.superclass.onResize.call(this, w, h);
++        var adjustWidth = this.trigger.getWidth();
++        if (this.allowBlank === false) {
++            adjustWidth += 7;
++        }
+         if(typeof w == 'number'){
+-            this.el.setWidth(this.adjustWidth('input', w - this.trigger.getWidth()));
++            this.el.setWidth(this.adjustWidth('input', w - adjustWidth));
+         }
+-        this.wrap.setWidth(this.el.getWidth()+this.trigger.getWidth());
++        this.wrap.setWidth(this.el.getWidth()+adjustWidth);
+     },
+ 
+     // private
+@@ -28135,7 +28139,11 @@
+         }
+         this.initTrigger();
+         if(!this.width){
+-            this.wrap.setWidth(this.el.getWidth()+this.trigger.getWidth());
++            var adjustWidth = this.trigger.getWidth();
++            if (this.allowBlank === false) {
++                adjustWidth += 7;
++            }
++            this.wrap.setWidth(this.el.getWidth()+adjustWidth);
+         }
+     },
+ 

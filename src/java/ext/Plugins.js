@@ -22,10 +22,11 @@ Ext.ux.MandatoryField = {
                                 Ext.DomHelper.append(el, {
                                     tag: "label",
                                     cls: " ux-mandatory",
-									style: "position:absolute;",
+									style: "position:absolute;margin-left: -8px;",
                                     htmlFor: field.id,
                                     html: "*"
                                 });
+                                field.el.addClass("text-area-mandatory");
                                 break;
                             default:
                                 Ext.DomHelper.append(field.el.parent(), {
