@@ -134,7 +134,19 @@ Ext.ux.TwinCombo = Ext.extend(Ext.form.ComboBox, {
 	onDisable: function() {
 		Ext.ux.TwinCombo.superclass.onDisable.apply(this, arguments);
 		this.getTrigger(1).hide();
-	}
+	},
+
+    onDestroy : function(){
+        if(this.trigger){
+            this.trigger.removeAllListeners();
+            this.trigger.remove();
+        }
+        if (this.pageTb) {
+            this.pageTb.purgeListeners();
+            this.pageTb.destroy();
+        }
+		Ext.ux.TwinCombo.superclass.onDestroy.apply(this, arguments);
+    }
 });
 Ext.ux.TwinCombo.prototype.initComponent = Ext.form.TwinTriggerField.prototype.initComponent;
 Ext.ux.TwinCombo.prototype.getTrigger = Ext.form.TwinTriggerField.prototype.getTrigger;
