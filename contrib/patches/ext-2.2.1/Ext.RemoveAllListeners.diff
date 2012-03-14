@@ -1,0 +1,17 @@
+--- ext-2.2.1-orig/ext-all-debug.js	2012-03-14 09:11:09.343695603 +0000
++++ ext-2.2.1/ext-all-debug.js	2012-03-14 10:15:19.798485871 +0000
+@@ -1599,12 +1599,13 @@
+                 if(es.hasOwnProperty(ename)){
+                     ls = es[ename];
+                     for(var i = 0, len = ls.length; i < len; i++){
+-                        E.un(el, ename, ls[i].wrap);
+                         ls[i] = null;
+                     }
+                 }
+                 es[ename] = null;
+             }
++            // added by Lloyd Colling to improve component destroy performance
++            E.removeAllListeners(el);
+             delete elHash[id];
+         }
+     }
