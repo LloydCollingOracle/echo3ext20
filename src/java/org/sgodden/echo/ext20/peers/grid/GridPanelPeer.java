@@ -207,10 +207,8 @@ public class GridPanelPeer extends AbstractComponentSynchronizePeer {
 				serverColumn.setAttributePath(clientColumn.getAttributePath());
 				serverColumn.setHeader(clientColumn.getHeader());
 				serverColumn.setDataIndex(clientColumn.getDataIndex());
-				serverColumn.setDisplaySequence(ignoreFirstCol ? clientColumn.getDisplaySequence() - 1 : clientColumn.getDisplaySequence());
 				serverColumn.setHidden(clientColumn.getHidden());
 				serverColumn.setSortDirection(clientColumn.getSortDirection());
-				serverColumn.setSortSequence(ignoreFirstCol ? clientColumn.getDisplaySequence() - 1 : clientColumn.getDisplaySequence());
 				serverColumn.setWidth(clientColumn.getWidth());
 				serverColumn.setGrouping(clientColumn.getGrouping());
 				serverColumn.setGroupableValues(clientColumn
