@@ -408,6 +408,7 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                     if(this.component.get("showToolTip")){
                         if(typeof this.extComponent.on == 'function'){
                             this.extComponent.on("render", this._addToolTip, this);
+                            this.extComponent.on("beforeDestroy", this._removeToolTip, this);
                         }
                     }
                 }
@@ -570,7 +571,18 @@ EchoExt20.ExtComponentSync = Core.extend(Echo.Render.ComponentSync, {
                 dismissDelay: 0,
                 html: this.component.get("toolTip")
             });
+            this._toolTip = toolTip;
             toolTip.enable();
+        }
+    },
+    
+    _removeToolTip: function(component) {
+        if (this.component.get("toolTip")) {
+            if (this._toolTip) {
+                this._toolTip.disable();
+                Ext.ComponentMgr.unregister(this._toolTip);
+                Ext.destroy(this._toolTip);
+            }
         }
     },
     
