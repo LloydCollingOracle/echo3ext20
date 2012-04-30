@@ -1157,3 +1157,39 @@ EchoExt20.PropertyTranslator.RemoteListModel = Core.extend(Echo.Serial.PropertyT
         Echo.Serial.addPropertyTranslator("E2RML", this);
     }
 });
+
+Ext.override(Ext.grid.GridPanel, {
+     onDestroy : function(){
+        if(this.rendered){
+            var c = this.body;
+            c.removeAllListeners();
+            c.update("");
+        }
+        Ext.destroy(this.colModel, this.view, this.loadMask);
+        Ext.grid.GridPanel.superclass.onDestroy.call(this);
+    }
+});
+
+Ext.override(Ext.grid.ColumnModel, {
+    destroy : function(){
+        var c = this.config;
+        for(var i = 0, c = this.config, len = c.length; i < len; i++){
+            Ext.destroy(c[i].editor);
+        }
+        this.purgeListeners();
+    }
+});
+
+Ext.override(Ext.grid.EditorGridPanel, {
+     onDestroy: Ext.emptyFn
+});
+
+Ext.override(Ext.grid.PropertyColumnModel, {
+    destroy : function(){
+        Ext.grid.PropertyColumnModel.superclass.destroy.call(this);
+        for(var ed in this.editors){
+            Ext.destroy(ed);
+        }
+    }
+});
+
