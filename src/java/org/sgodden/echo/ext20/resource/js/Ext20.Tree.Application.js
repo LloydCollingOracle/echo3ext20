@@ -49,6 +49,7 @@ Ext.tree.ColumnTree = Ext.extend(Ext.tree.TreePanel, {
     borderWidth: Ext.isBorderBox ? 0 : 2, // the combined left/right border for each cell
     cls:'x-column-tree',
     showCheckBoxes : false,
+    wrappers : new Array(),
     
     onRender : function(){
         Ext.tree.ColumnTree.superclass.onRender.apply(this, arguments);
@@ -84,6 +85,7 @@ Ext.tree.ColumnTree = Ext.extend(Ext.tree.TreePanel, {
 	                 // we don't renderAdd here - ext does it lazily
 	                 var wrapper = new EchoExt20.Echo3SyncWrapper(c.update, c.columnComponent);
 	                 headerDiv.dom.firstChild.appendChild(wrapper.wrappedRootElement);
+	                 this.wrappers[i] = wrapper;
 	             } else {
 	            	 Echo.Render.renderComponentAdd(c.update, c.columnComponent, headerDiv.dom.firstChild);
 	             }
@@ -104,6 +106,13 @@ Ext.tree.ColumnTree = Ext.extend(Ext.tree.TreePanel, {
         this.innerCt.setWidth(totalWidth);
     },
 
+    beforeDestroy : function() {
+        for(var i = 0; i < this.wrappers.length; i++){
+                Ext.ComponentMgr.unregister(this.wrappers[i]);
+           Ext.destroy(this.wrappers[i]);
+       }
+    },
+   
 	getColumns : function() {
     	return this.columns;
     },
