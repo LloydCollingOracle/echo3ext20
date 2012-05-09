@@ -1170,17 +1170,14 @@ EchoExt20.PropertyTranslator.RemoteListModel = Core.extend(Echo.Serial.PropertyT
     }
 });
 
-//Ext.override(Ext.grid.GridPanel, {
-//     onDestroy : function(){
-//        if(this.rendered){
-//            var c = this.body;
-//            c.removeAllListeners();
-//            c.update("");
-//        }
-//        Ext.destroy(this.colModel, this.view, this.loadMask);
-//        Ext.grid.GridPanel.superclass.onDestroy.call(this);
-//    }
-//});
+Ext.override(Ext.grid.GridPanel, {
+    onDestroy : function(){
+   	    if(this.rendered) {
+           Ext.destroy(this.colModel, this.view, this.loadMask);
+   	    }
+        Ext.grid.GridPanel.superclass.onDestroy.call(this);
+    }
+});
 
 Ext.override(Ext.grid.ColumnModel, {
     destroy : function(){
