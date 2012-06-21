@@ -58,6 +58,7 @@ public class TextField extends ExtComponent implements Field {
     public static final String PROPERTY_GROW = "grow";
     public static final String PROPERTY_GROW_MIN = "growMin";
     public static final String PROPERTY_GROW_MAX = "growMax";
+    public static final String PROPERTY_SELECT_ON_FOCUS = "selectOnFocus";
 
     private String actionCommand;
 
@@ -465,5 +466,21 @@ public class TextField extends ExtComponent implements Field {
 
     public void setGrowMax(Integer growMax) {
         set(PROPERTY_GROW_MAX, growMax);
+    }
+
+    /**
+     * Whether this field will select the current text when focused
+     * @return
+     */
+    public boolean getSelectOnFocus() {
+        return Boolean.TRUE.equals(get(PROPERTY_SELECT_ON_FOCUS));
+    }
+
+    public boolean isSelectOnFocus() {
+        return Boolean.TRUE.equals(get(PROPERTY_SELECT_ON_FOCUS));
+    }
+
+    public void setSelectOnFocus(boolean grow) {
+        set(PROPERTY_SELECT_ON_FOCUS, Boolean.valueOf(grow));
     }
 }

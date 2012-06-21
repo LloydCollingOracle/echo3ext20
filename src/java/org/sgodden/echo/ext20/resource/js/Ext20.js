@@ -1172,9 +1172,9 @@ EchoExt20.PropertyTranslator.RemoteListModel = Core.extend(Echo.Serial.PropertyT
 
 Ext.override(Ext.grid.GridPanel, {
     onDestroy : function(){
-   	    if(this.rendered) {
+        if(this.rendered) {
            Ext.destroy(this.colModel, this.view, this.loadMask);
-   	    }
+        }
         Ext.grid.GridPanel.superclass.onDestroy.call(this);
     }
 });

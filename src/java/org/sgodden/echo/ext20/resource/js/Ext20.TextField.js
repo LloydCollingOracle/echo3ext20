@@ -18,7 +18,7 @@
  * Component implementation for Ext.form.TextField.
  */
 EchoExt20.TextField = Core.extend(EchoExt20.ExtComponent, {
-	
+    
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20TextField", this);
         Echo.ComponentFactory.registerType("E2TF", this);
@@ -93,7 +93,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
-    	options["stateful"] = false;
+        options["stateful"] = false;
         options['enableKeyEvents'] = true;
         this._initialValue = this._getComponentValue();
         
@@ -113,12 +113,12 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         if (this.component.get("emptyText") != null) {
             options['emptyText'] = this.component.get("emptyText");
         }
-    	if ( !(this.component.isEnabled()) ) {
+        if ( !(this.component.isEnabled()) ) {
             options['disabled'] = true;
-    	}
-    	if (this.component.get("maskRe")) {
+        }
+        if (this.component.get("maskRe")) {
             options.maskRe = new RegExp(this.component.get("maskRe"));
-        }  	
+        }      
         if (this.component.get("regExp")) {
             options.regex = new RegExp(this.component.get("regExp"));
         }
@@ -153,8 +153,8 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             if(this.component.get("invalidText") != null) {
                 if(this._getComponentValue() != null) {
                     this._invalidValue = this._getComponentValue();
-            		options["invalidText"] = this.component.get("invalidText")
-            	}
+                    options["invalidText"] = this.component.get("invalidText")
+                }
             }
         }
         options["validator"] = this._checkMatchesInitialValue.createDelegate(this);
@@ -166,37 +166,40 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
          * the more consistent property of editable.
          */
         if (this.component.get("editable") != null){
-        	if(!this.component.get("editable")){	
-        		options['readOnly'] = "true";
-        	}
+            if(!this.component.get("editable")){    
+                options['readOnly'] = "true";
+            }
         }
         
         options.selectOnFocus = false;
+        if (this.component.get("selectOnFocus")){
+            options.selectOnFocus = this.component.get("selectOnFocus");
+        }
         options.selectText = false;
         
-    	var extComponent = this.newExtComponentInstance(options);
+        var extComponent = this.newExtComponentInstance(options);
 
         extComponent.on(
             "render",
             this._doOnRender,
             this);
 
-    	return extComponent;
+        return extComponent;
     },
     
     _checkMatchesInitialValue: function(value) {
-    	if (this.extComponent == null) {
-    		// means validate has been called on a component that is/has been removed from
-    		// the component hierarchy, so we'll just say no
-    		return true;
-    	}
-    	
+        if (this.extComponent == null) {
+            // means validate has been called on a component that is/has been removed from
+            // the component hierarchy, so we'll just say no
+            return true;
+        }
+        
         if(this._getExtComponentValue() == this._invalidValue){
-			return this.extComponent.invalidText;
-		}
-		else{
-			return true;
-		}
+            return this.extComponent.invalidText;
+        }
+        else{
+            return true;
+        }
     },
 
     _doOnRender: function() {
@@ -219,7 +222,7 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         }
         
         if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
-        	this.extComponent.validate.defer(100, this.extComponent);
+            this.extComponent.validate.defer(100, this.extComponent);
         }       
         
     },
@@ -259,13 +262,13 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
     _handleValueChangeEvent: function() {
         if (this.component.get("notifyValueImmediate")){            
             if(this._delayedSubmit === null) {
-                this._delayedSubmit = new Ext.util.DelayedTask(function() {               	                
-                	
+                this._delayedSubmit = new Ext.util.DelayedTask(function() {                                   
+                    
                     if(this.component) {
                         this.component.set("value", this.extComponent.getValue());
                         if(this.client._transactionInProgress === false) {
-                        	this.component.doBeforeAction();
-                            this.component.doAction();	
+                            this.component.doBeforeAction();
+                            this.component.doAction();    
                         }
                         
                     }                     
@@ -275,9 +278,9 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
                 this._delayedSubmit.delay(this._delayedSubmissionMillis);
             } else {
                 this._delayedSubmit.delay(this._delayedSubmissionMillis);                                
-            }      	           
+            }                     
         } else {
-        	this.component.set("value", this.extComponent.getValue());
+            this.component.set("value", this.extComponent.getValue());
         }
         
     },
@@ -304,10 +307,10 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
         EchoExt20.ExtComponentSync.prototype.renderUpdate.call(this, update);
         
         if ( !(this.component.isEnabled()) ) {
-        	this.extComponent.setDisabled(true);
-    	} else {
-        	this.extComponent.setDisabled(false);
-    	}
+            this.extComponent.setDisabled(true);
+        } else {
+            this.extComponent.setDisabled(false);
+        }
         this.extComponent.setValue(this.component.get("value"));
         this._initialValue = this.component.get("value");
         if (update.getUpdatedProperty("isValid") != null) { // only change it when the server update it.
@@ -319,8 +322,8 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
                     this._invalidValue = this.component.get("value");
                     if (this.component.get("invalidText") != null) { 
                         this.extComponent.invalidText = this.component.get("invalidText");
-                    	this.extComponent.markInvalid(this.component.get("invalidText"));
-                	}
+                        this.extComponent.markInvalid(this.component.get("invalidText"));
+                    }
                 }
             }
         }

@@ -347,8 +347,20 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
             this._handleCollapseEvent,
             this
         );
+        ret.on(
+                "beforeselect",
+                this._handleBeforeSelectEvent,
+                this
+            );
         ret.on("focus", this._handleFocus, this);
         return ret;
+    },
+    
+    _handleBeforeSelectEvent: function (combo, record, index) {
+        if (this.client._transactionInProgress === true) {
+            return false;
+        }
+        return true;
     },
 
     _getComponentValue: function() {

@@ -18,7 +18,7 @@
  * Component implementation for Ext.form.NumberField.
  */
 EchoExt20.NumberField = Core.extend(EchoExt20.TextField, {
-	
+    
     $load: function() {
         Echo.ComponentFactory.registerType("Ext20NumberField", this);
         Echo.ComponentFactory.registerType("E2NF", this);
@@ -56,6 +56,10 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
       * check for required transformations on blur.
       */
      _handleNumberBlurEvent: function() {
+         var newVal = this.extComponent.getValue();
+         if (newVal === null || newVal === "") {
+             this._lastValid = "";
+         }
          this.component.set("value", this._lastValid);
          this.extComponent.setValue(this._lastValid);
      },
@@ -64,7 +68,7 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
      * Called by the base class to create the ext component.
      */
     createExtComponent: function(update, options) {
-    	options["stateful"] = false;
+        options["stateful"] = false;
         if (this.component.get("decimalPrecision")){
             options['decimalPrecision'] = this.component.get("decimalPrecision");
         }
@@ -95,19 +99,19 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
                     "valid",
                     this._handleNumberValidEvent,
                     this);
-    	return extComponent;
+        return extComponent;
     },
     
     _trimZeroes : function(value) {
-    	var decimalSeparator, separatorPosition, pos;
-    	if(value && value !== null) {
-    		decimalSeparator = this.component.get("decimalSeparator");
-    		if(decimalSeparator) {
-    			separatorPosition = value.toString().indexOf(decimalSeparator);
-    		} else {
-    			separatorPosition = value.toString().indexOf('.');
-    		}
-    	    
+        var decimalSeparator, separatorPosition, pos;
+        if(value && value !== null) {
+            decimalSeparator = this.component.get("decimalSeparator");
+            if(decimalSeparator) {
+                separatorPosition = value.toString().indexOf(decimalSeparator);
+            } else {
+                separatorPosition = value.toString().indexOf('.');
+            }
+            
             if(separatorPosition !== -1 ) {
                 pos = value.toString().length - 1;
                 // iterate through removing zeroes and removing decimal point only if we
@@ -139,12 +143,12 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
          * Overridable method to add more 
          * functionality to the standard get function
          */
-    	_getComponentValue: function() {
-    		var value = this.component.get("value");
-    		
-    		if(this.component.get("stripTrailingZeroes") === true) {
-    		   return this._trimZeroes(value);      	
-    		}
+        _getComponentValue: function() {
+            var value = this.component.get("value");
+            
+            if(this.component.get("stripTrailingZeroes") === true) {
+               return this._trimZeroes(value);          
+            }
             return value; 
         }
     }
