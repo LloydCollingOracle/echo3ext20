@@ -88,8 +88,16 @@ implements Service {
      */
     public void renderModel(Connection conn, RemoteAutocompleteModel listModel, String startsWith, Integer maxResults, Integer startIndex) 
     throws IOException {
-        String[] data = listModel.getHits(startsWith, maxResults, startIndex);
-        Integer totalResults = listModel.getHitCount(startsWith);
+        String[] data;
+		Integer totalResults;
+		try {
+			data = listModel.getHits(startsWith, maxResults, startIndex);
+			totalResults = listModel.getHitCount(startsWith);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			data = new String[0];
+			totalResults = Integer.valueOf(0);
+		}
         
         JSONModel model = new JSONModel();
         JSONEntry[] entries = new JSONEntry[data.length];
@@ -158,15 +166,21 @@ implements Service {
                 Hashtable<String, String[]> table = HttpUtils.parseQueryString(text);
                 if (query == null) {
                     String[] vals = table.get(PARAMETER_STARTS_WITH);
-                    query = vals[0];
+                    if (vals != null && vals.length > 0) {
+                        query = vals[0];
+                    }
                 }
                 if (limit == null) {
                     String[] vals = table.get(PARAMETER_LIMIT);
-                    limit = vals[0];
+                    if (vals != null && vals.length > 0) {
+                        limit = vals[0];
+                    }
                 }
                 if (start == null) {
                     String[] vals = table.get(PARAMETER_START);
-                    start = vals[0];
+                    if (vals != null && vals.length > 0) {
+                        start = vals[0];
+                    }
                 }
             }
         }
