@@ -1,8 +1,10 @@
 package org.sgodden.echo.ext20;
 
-import java.util.ArrayList;
 import java.util.EventListener;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
@@ -37,13 +39,14 @@ import org.sgodden.echo.ext20.layout.ColumnLayoutData;
 public class FieldGroupContainer extends Panel {
 
     FieldGroupFactory factory = null;
-    List<Panel> containedGroups = new ArrayList<Panel>();
+    Map < Integer, Panel > containedGroups = new LinkedHashMap < Integer, Panel >();
     EventListenerList listenerList = new EventListenerList();
     int initialFieldGroups = 1;
     AddButton addButton;
     boolean initted = false;
     String removeButtonText = null;
-    
+    private int groupIndex = 0;
+
     public FieldGroupContainer() {
         super(new ColumnLayout());
     }
@@ -54,6 +57,10 @@ public class FieldGroupContainer extends Panel {
     
     public int getContainedGroupCount() {
         return containedGroups.size();
+    }
+
+    private int getNextGroupIndex() {
+    	return groupIndex++;
     }
 
     @Override
@@ -75,13 +82,13 @@ public class FieldGroupContainer extends Panel {
         groupedPanel.add(contentPanel);
 
         add(groupedPanel);
-        containedGroups.add(groupedPanel);
+        containedGroups.put(getNextGroupIndex(), groupedPanel);
 
         if (addButton == null)
             addButton = new AddButton();
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                int index = containedGroups.size();
+                int index = getNextGroupIndex();
                 if (fireWillAdd(index)) {
                     doAddFieldGroup(index);
                 }
@@ -90,26 +97,26 @@ public class FieldGroupContainer extends Panel {
         addButton(addButton);
         
         for (int i = 1; i < initialFieldGroups; i++)
-            doAddFieldGroup(i);
+            doAddFieldGroup(getNextGroupIndex());
     }
 
     protected void doAddFieldGroup(final int index) {
         // if we're going from one group to more then add remove button to first
         // group
-        if (index == 1) {
-            Panel firstGroup = containedGroups.get(0);
+        if (containedGroups.size() == 1) {
+            final Entry< Integer, Panel > firstGroupEntry = containedGroups.entrySet().iterator().next();
             RemoveButton removeButton = new RemoveButton();
             if (removeButtonText != null)
                 removeButton.setText(removeButtonText);
             removeButton.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent arg0) {
-                    if (fireWillRemove(0)) {
-                        doRemoveGroup(0);
+                    if (fireWillRemove(firstGroupEntry.getKey())) {
+                        doRemoveGroup(firstGroupEntry.getKey());
                     }
                 }
             });
-            firstGroup.addButton(removeButton);
+            firstGroupEntry.getValue().addButton(removeButton);
         }
 
         Panel groupedPanel = new Panel();
@@ -134,14 +141,20 @@ public class FieldGroupContainer extends Panel {
         groupedPanel.addButton(removeButton);
 
         add(groupedPanel);
-        containedGroups.add(groupedPanel);
+        containedGroups.put(index, groupedPanel);
     }
 
     protected void doRemoveGroup(int index) {
         // if we're going down to one group, remove the remove button from the
         // remaining group
         if (containedGroups.size() == 2) {
-            Container lastGroup = containedGroups.get(index == 0 ? 1 : 0);
+        	LinkedList< Panel > lastTwoGroups = new LinkedList< Panel >(containedGroups.values());
+        	Container lastGroup;
+        	if (containedGroups.get(index).equals(lastTwoGroups.getFirst())) {
+        		lastGroup = lastTwoGroups.getLast();
+        	} else {
+        		lastGroup = lastTwoGroups.getFirst();
+        	}
             for (Component c : lastGroup.getComponents()) {
                 if (c instanceof RemoveButton)
                     lastGroup.remove(c);
