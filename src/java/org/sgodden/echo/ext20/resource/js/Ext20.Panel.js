@@ -347,7 +347,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                         var b = buttons[i];
                         var td = document.createElement('td');
                         td.className = 'x-panel-btn-td';
-                        b.render(tr.appendChild(td));
+                        tr.appendChild(td);
+                        b.render(td);
                     }
                 } else {
                     var existingButtonTd = footer.child("td.x-panel-btn-td");
@@ -356,7 +357,8 @@ EchoExt20.PanelSync = Core.extend(EchoExt20.ExtComponentSync, {
                         var b = buttons[i];
                         var td = document.createElement('td');
                         td.className = 'x-panel-btn-td';
-                        b.render(tableRow.appendChild(td));
+                        tableRow.appendChild(td);
+                        b.render(td);
                     }
                 }
             }
