@@ -1,0 +1,41 @@
+--- ext-all-debug.js	2012-07-23 10:19:43.555131927 +0100
++++ ext-all-debug.js	2012-07-31 09:50:07.703919523 +0100
+@@ -21476,6 +21476,38 @@
+                 Ext.destroy.apply(Ext, this.items.items);
+             }
+             Ext.Element.uncache(this.tr);
++            var tds = [];
++            var re = new RegExp('(^| )x-toolbar-td x-small-editor-td view-toolbar-td( |$)');
++            var els = document.getElementsByTagName("td");
++            for(var i=0,j=els.length; i<j; i++){
++                if(re.test(els[i].className)){
++                    tds.push(els[i]);
++                }
++            }
++
++            for(var i=0;i< tds.length; i++){
++                if (!tds[i].hasChildNodes()){
++                    if (tds[i].parentNode){
++                        tds[i].parentNode.removeChild(tds[i]);
++                    } else {
++                        tds[i].removeNode(false);
++                    }
++                }
++            }
++
++            var divs = document.getElementsByTagName("div");
++
++            for(var i=0;i< divs.length; i++){
++                if (divs[i].style.cssText == "position: absolute; left: -1000px; top: -1000px; visibility: hidden; font-size: 12px; font-style: normal; font-weight: normal; font-family: tahoma, arial, helvetica, sans-serif; line-height: 18px; text-transform: none; letter-spacing: normal; width: auto; " || divs[i].style.cssText == "POSITION: absolute; LINE-HEIGHT: 18px; TEXT-TRANSFORM: none; FONT-STYLE: normal; WIDTH: auto; FONT-FAMILY: tahoma,arial,helvetica,sans-serif; LETTER-SPACING: normal; VISIBILITY: hidden; FONT-SIZE: 12px; TOP: -1000px; FONT-WEIGHT: 400; LEFT: -1000px" ){
++                    if (!divs[i].hasChildNodes()){
++                        if (divs[i].parentNode){
++                            divs[i].parentNode.removeChild(divs[i]);
++                        } else {
++                            divs[i].removeNode(false);
++                        }
++                    }
++                }
++            }
+         }
+     },
+ 
