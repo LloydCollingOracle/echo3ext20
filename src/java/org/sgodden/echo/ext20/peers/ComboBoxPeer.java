@@ -43,7 +43,12 @@ public class ComboBoxPeer
         addEvent(new AbstractComponentSynchronizePeer.EventPeer(ComboBox.INPUT_ACTION, ComboBox.PROPERTY_ACTION_LISTENERS_CHANGED) {
             @Override
             public boolean hasListeners(Context context, Component component) {
-                return ((ComboBox)component).hasActionListeners();
+            	if (((ComboBox) component).getNotifyImmediately()) {
+                    return true;
+                }
+                else {
+                    return ((ComboBox) component).hasActionListeners();
+                }
             }
         });
     }

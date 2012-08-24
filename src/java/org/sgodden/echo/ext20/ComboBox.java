@@ -46,6 +46,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
     public static final String PROPERTY_AUTOWIDTH = "autoWidth";
     public static final String PROPERTY_RESIZABLE = "resizable";
     public static final String PROPERTY_TEXT_SIZE = "textSize";
+    public static final String PROPERTY_NOTIFY_VALUE_IMMEDIATE = "notifyValueImmediate";
 
     private ListSelectionModel selectionModel;
     private ListCellRenderer cellRenderer = DEFAULT_LIST_CELL_RENDERER;
@@ -94,6 +95,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         set(PROPERTY_LIST_WIDTH, "auto");
         set(PROPERTY_WIDTH, "auto");
         setUseDisplayValueAsModelValue(false);
+        setNotifyImmediately(true);
     }
 
     /**
@@ -376,7 +378,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
      * @param selectedIndex
      *            the index to select.
      */
-    private void processSelectionInput(int selectedIndex) {
+    protected void processSelectionInput(int selectedIndex) {
         selectionModel.clearSelection();
         if (selectedIndex >= 0)
             selectionModel.setSelectedIndex(selectedIndex, true);
@@ -505,5 +507,20 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
             boolean useDisplayValueAsModelValue) {
         this.useDisplayValueAsModelValue = useDisplayValueAsModelValue;
     }
+    
+    /**
+     * Set custom property to be set if we want a server message immediately
+     * after a value has been changed on a this combo box field.
+     * @param notify
+     */
+    public void setNotifyImmediately(final boolean notify) {
+        set(PROPERTY_NOTIFY_VALUE_IMMEDIATE, notify);
+    }
 
+    /**
+     * Gets notify immediately property
+     */
+    public boolean getNotifyImmediately() {
+        return (Boolean) get(PROPERTY_NOTIFY_VALUE_IMMEDIATE);
+    }
 }

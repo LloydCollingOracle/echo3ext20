@@ -400,7 +400,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
     _handleRawValueChangeEvent: function() {
       var localValue = this.extComponent.getRawValue();
       var remoteValue = this.component.get("rawValue");
-      if (typeof remoteValue == 'undefined') {
+      if (typeof remoteValue == 'undefined' || remoteValue === null) {
         remoteValue = '';
       }
         if (localValue == remoteValue)
