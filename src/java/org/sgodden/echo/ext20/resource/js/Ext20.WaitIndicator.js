@@ -17,7 +17,10 @@ EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
     $load: function() {
         Echo.Boot.addInitMethod(this.boot);
     },
+    
     loadMask: null,
+    dialogMask: null,
+    
     activate: function() {
         var waitEl = EchoExt20.WaitIndicator.appWaitIndicator;
         if (waitEl != null) {
@@ -42,14 +45,27 @@ EchoExt20.WaitIndicator = Core.extend(Echo.Client.WaitIndicator, {
         if(this.loadMask == null) {
             this.loadMask = new Ext.LoadMask(document.getElementById("approot"), {msg:"Loading..."});
         }
-        this.loadMask.enable();
-        this.loadMask.show();
+        if (Ext.WindowMgr.getActive() != null) {
+            if (this.dialogMask != null) {
+                this.dialogMask.disable();
+                this.dialogMask.hide();
+            }
+            this.dialogMask = new Ext.LoadMask(Ext.WindowMgr.getActive().getEl(), {msg:"Loading..."});
+            this.dialogMask.enable();
+            this.dialogMask.show();
+        } else {
+            this.loadMask.enable();
+            this.loadMask.show();
+        }
     },
     _removeLoadMask: function() {
-        if(this.loadMask == null) {
-            return;
+        if(this.loadMask != null) {
+            this.loadMask.disable();
+            this.loadMask.hide();
         }
-        this.loadMask.disable();
-        this.loadMask.hide();
+        if (this.dialogMask != null) {
+            this.dialogMask.disable();
+            this.dialogMask.hide();
+        }
     }
 });
