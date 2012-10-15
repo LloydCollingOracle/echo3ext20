@@ -53,6 +53,7 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
     private String groupableValues;
     private String selectedGroupableValues;
     private Class<?> columnClass;
+    private boolean groupConcat = false;
 
 	/**
      * Default constructor.
@@ -348,6 +349,14 @@ public class DefaultColumnConfiguration implements Serializable, ColumnConfigura
 
 	public void setSelectedGroupableValues(String selectedGroupableValues) {
 		this.selectedGroupableValues = selectedGroupableValues;
+	}
+
+	public boolean isGroupConcat() {
+		return groupConcat;
+	}
+
+	public void setGroupConcat(boolean groupConcat) {
+		this.groupConcat = groupConcat;
 	}
 
 }

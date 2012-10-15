@@ -231,6 +231,11 @@ public interface ColumnConfiguration {
 	 */
 	public abstract void setSelectedGroupableValues(String selectedGroupableValues);
 	
-	
+	/**
+	 * Whether the value in this column should be the result of applying a GROUP_CONCAT function on the underlying rows
+	 * @return
+	 */
+	boolean isGroupConcat();
 
+	void setGroupConcat(boolean isGroupConcat);
 }
