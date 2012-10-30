@@ -44,7 +44,12 @@ Ext.override(Ext.form.ComboBox, {
                   pageSize: this.pageSize,
                   renderTo:this.footer
               });
-              this.assetHeight += this.footer.getHeight();
+              if(this.footer.getHeight() == 0 && this.pageSize > 0){
+                  this.assetHeight += 21;
+              }
+              else {
+                  this.assetHeight += this.footer.getHeight();
+              }
           }
 
           if(!this.tpl){
