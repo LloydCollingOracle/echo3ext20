@@ -413,7 +413,7 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         this.component.set("rawValue", this.extComponent.getRawValue());
         this.component.set("selection", -1);
         for (var i = 0; i < this._store.getCount(); i++) {
-            if (this._store.getAt(i).get("display") == this.extComponent.getRawValue()) {
+            if (this._store.getAt(i).get("display").replace(/\n/g, " ") == this.extComponent.getRawValue()) {
                 this.component.set("selection", this._store.getAt(i).get("value"));
             }
         }
