@@ -722,9 +722,25 @@ public class GridPanel extends Panel implements TableModelListener,
         tableModel.removeTableModelListener(this); // just in case they set the
         // same table model
         tableModel.addTableModelListener(this);
-        if (tableChanging) {
-            setSortField(getColumnModel().getColumn(0).getDataIndex());
-            setSortAscending("ASC".equals(getColumnModel().getColumn(0).getSortDirection()));
+
+        if (tableChanging) { 
+            Iterator<ColumnConfiguration> iter = getColumnModel().iterator();
+            
+            setSortField("NONE");
+            
+            while (iter.hasNext()) {
+                ColumnConfiguration col = iter.next();
+                if(!"NONE".equals(col.getSortDirection())) {
+                    setSortField(col.getDataIndex());
+                    setSortAscending("ASC".equals(col.getSortDirection()));
+                }
+            }
+            
+            if("NONE".equals(getSortField())) {
+                setSortField(getColumnModel().getColumn(0).getDataIndex());
+                setSortAscending("ASC".equals(getColumnModel().getColumn(0).getSortDirection()));
+            }
+            doSort();
         }
 
         tableChanged(null); // always
