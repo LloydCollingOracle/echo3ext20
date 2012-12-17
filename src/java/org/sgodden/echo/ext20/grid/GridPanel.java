@@ -740,7 +740,9 @@ public class GridPanel extends Panel implements TableModelListener,
                 setSortField(getColumnModel().getColumn(0).getDataIndex());
                 setSortAscending("ASC".equals(getColumnModel().getColumn(0).getSortDirection()));
             }
-            doSort();
+            if(isModelSortable()) {
+                doSort();
+            }
         }
 
         tableChanged(null); // always
