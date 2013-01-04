@@ -42,6 +42,7 @@ import org.sgodden.echo.ext20.SelectionMode;
 import org.sgodden.echo.ext20.Toolbar;
 import org.sgodden.echo.ext20.util.ListSelectionUtil;
 import org.sgodden.query.models.SortableTableModel;
+import java.util.Iterator;
 
 /**
  * An ext GridPanel.
@@ -724,27 +725,34 @@ public class GridPanel extends Panel implements TableModelListener,
         tableModel.addTableModelListener(this);
 
         if (tableChanging) { 
-            Iterator<ColumnConfiguration> iter = getColumnModel().iterator();
-            
+        	Iterator<ColumnConfiguration> iter = getColumnModel().iterator();
             setSortField("NONE");
-            
+            // Find the first column which has either ASC or DESC sortDirection
+            // and set it to be the sort field
+            boolean sortColFound = false;
             while (iter.hasNext()) {
                 ColumnConfiguration col = iter.next();
-                if(!"NONE".equals(col.getSortDirection())) {
+                if(col.getSortDirection()!=null && !"NONE".equals(col.getSortDirection())) {
                     setSortField(col.getDataIndex());
                     setSortAscending("ASC".equals(col.getSortDirection()));
+                    sortColFound=true;
+                }
+                else if (col.getSortDirection()==null || sortColFound==true) {
+                	// Once sort column found set all other columns to be NONE sorted
+                	col.setSortDirection("NONE");
                 }
             }
-            
+            // No column was found with ascending or descending sort direction,
+            // so default to sort on the first column
             if("NONE".equals(getSortField())) {
                 setSortField(getColumnModel().getColumn(0).getDataIndex());
-                setSortAscending("ASC".equals(getColumnModel().getColumn(0).getSortDirection()));
+                getColumnModel().getColumn(0).setSortDirection("ASC");
+                setSortAscending(true);
             }
             if(isModelSortable()) {
                 doSort();
             }
         }
-
         tableChanged(null); // always
         // force
         // change
