@@ -32,6 +32,7 @@ public class AutocompleteCombo extends ExtComponent {
     public static final String PROPERTY_LIST_TITLE = "listTitle";
     public static final String PROPERTY_TRIGGER_CLASS = "triggerClass";
     public static final String PROPERTY_AUTOCREATE = "autoCreate";
+    public static final String PROPERTY_TYPE_AHEAD = "typeAhead";
 
     public AutocompleteCombo() {
         super();
@@ -39,6 +40,7 @@ public class AutocompleteCombo extends ExtComponent {
         setHideTrigger(true);
         setAllowBlank(true);
         setForceSelection(true);
+        setTypeAhead(false);
     }
 
     @Override
@@ -186,5 +188,17 @@ public class AutocompleteCombo extends ExtComponent {
 
     public void setTriggerClass(String triggerClass) {
         set(PROPERTY_TRIGGER_CLASS, triggerClass);
+    }
+    
+    /**
+     * Sets whether type ahead should be enabled.
+     * N.B. typeAhead defaults to false when creating a 
+     * new instance of AutoCompleteCombo
+     *
+     * @param typeAhead
+     *            whether type ahead should be enabled.
+     */
+    public void setTypeAhead(boolean typeAhead) {
+        set(PROPERTY_TYPE_AHEAD, typeAhead);
     }
 }

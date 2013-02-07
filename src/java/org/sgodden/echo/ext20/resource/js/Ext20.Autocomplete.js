@@ -116,6 +116,9 @@ EchoExt20.AutocompleteComboSync = Core.extend(EchoExt20.FormFieldSync, {
         if (this.component.get("triggerClass")) {
             options.triggerClass = this.component.get("triggerClass");
         }
+        if (this.component.get("typeAhead")) {
+            options.typeAhead = this.component.get("typeAhead");
+        }
 
         var serverStore = this.component.get('remoteModel');
 
@@ -142,7 +145,6 @@ EchoExt20.AutocompleteComboSync = Core.extend(EchoExt20.FormFieldSync, {
 
         options.displayField='value';
         options['tpl'] = '<tpl for="."><div class="x-combo-list-item">{popup}</div></tpl>';
-        options.typeAhead=true;
 
         options.selectOnFocus = true;
 
