@@ -20,7 +20,7 @@
 	<classpathentry kind="lib" path="lib/commons-lang-2.3.jar"/>
 	<classpathentry kind="lib" path="lib/jsontools-core-1.7.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
-	<classpathentry kind="lib" path="lib/sgo-query-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/sgo-query-1.2-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="src/webapp/WEB-INF/lib/echopoint-3.0.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
