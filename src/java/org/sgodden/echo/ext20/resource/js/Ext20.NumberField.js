@@ -90,6 +90,10 @@ EchoExt20.NumberFieldSync = Core.extend(EchoExt20.TextFieldSync, {
         
 
         var extComponent = EchoExt20.TextFieldSync.prototype.createExtComponent.call(this,update,options);
+        var val = parseFloat(extComponent.getValue());
+        if(!isNaN(val) && typeof val == 'number'){
+            this._lastValid = val;
+        }
 
         extComponent.on(
                 "blur",
