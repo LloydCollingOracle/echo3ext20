@@ -160,6 +160,19 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             options['pressed'] = true;
         }
 
+        var fieldChangedCSS = this.component.get('fieldChangedCSSClass');
+        var fieldsChanged = this.component.get('fieldsChanged');
+        if(fieldsChanged === true){
+            // apply css to button
+            options['fieldsChanged'] = true;
+        }else{
+            // Change CSS on the button when certain field values change.
+            var fieldsToListenTo = this.component.get('fieldsToListenTo');
+            if(this.client && typeof fieldsToListenTo !== 'undefined' && fieldsToListenTo !== null && fieldsToListenTo !== ""){
+                this.client.addServerUpdateCompleteListener(this._addChangeCSSClassHandler.createDelegate(this, [fieldsToListenTo, fieldChangedCSS]));
+            }
+        }
+        
         var extComponent = this.newExtComponentInstance(options);
 
         extComponent.on('click', this._handleClickEvent, this);
@@ -169,18 +182,6 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
         extComponent.on('menutriggerout', this._handleMenuTriggerOut, this);
         extComponent.on('toggle', this._handleToggle, this);
 
-        var fieldChangedCSS = this.component.get('fieldChangedCSSClass');
-        var fieldsChanged = this.component.get('fieldsChanged');
-        if(fieldsChanged === true){
-            // apply css to button
-            this._changeCSSClass(fieldChangedCSS);
-        }else{
-            // Change CSS on the button when certain field values change.
-            var fieldsToListenTo = this.component.get('fieldsToListenTo');
-            if(this.client && typeof fieldsToListenTo !== 'undefined' && fieldsToListenTo !== null && fieldsToListenTo !== ""){
-                this.client.addServerUpdateCompleteListener(this._addChangeCSSClassHandler.createDelegate(this, [fieldsToListenTo, fieldChangedCSS]));
-            }
-        }
         return extComponent;
     },
 
@@ -283,6 +284,11 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
                         scope : this,
                         stopEvent : true
                     });
+                }
+            }
+            if(this.extComponent.initialConfig && this.extComponent.initialConfig.fieldsChanged !== undefined){
+                if(this.extComponent.initialConfig.fieldsChanged === true){
+                    this._changeCSSClass(this.component.get('fieldChangedCSSClass'));
                 }
             }
         }
