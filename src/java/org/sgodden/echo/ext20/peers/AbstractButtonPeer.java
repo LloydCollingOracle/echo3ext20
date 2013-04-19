@@ -22,6 +22,7 @@ import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 
 import org.sgodden.echo.ext20.AbstractButton;
+import org.sgodden.echo.ext20.Button;
 import org.sgodden.echo.ext20.CheckboxField;
 
 /**
@@ -51,6 +52,9 @@ public abstract class AbstractButtonPeer extends ExtComponentPeer {
         if (AbstractButton.PROPERTY_PRESSED.equals(propertyName)) {
             return Boolean.class;
         }
+        if (Button.PROPERTY_FIELDS_CHANGED.equals(propertyName)) {
+            return Boolean.class;
+        }
         return null;
     }
     
@@ -62,6 +66,10 @@ public abstract class AbstractButtonPeer extends ExtComponentPeer {
         if (propertyName.equals(AbstractButton.PROPERTY_PRESSED)) {
             ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
             clientUpdateManager.setComponentProperty(component, AbstractButton.PROPERTY_PRESSED, newValue);
+        }
+        if (propertyName.equals(Button.PROPERTY_FIELDS_CHANGED)) {
+            ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
+            clientUpdateManager.setComponentProperty(component, Button.PROPERTY_FIELDS_CHANGED, newValue);
         }
     }
 

@@ -44,6 +44,7 @@ public class ButtonPeer extends AbstractButtonPeer {
     public ButtonPeer() {
         super();
         addOutputProperty(Button.PROPERTY_FIELDS_TO_LISTEN_TO);
+        addOutputProperty(Button.PROPERTY_FIELDS_CHANGED);
     }
 
     public String getClientComponentType(boolean shortType) {

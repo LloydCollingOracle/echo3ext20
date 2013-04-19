@@ -60,6 +60,8 @@ public class Button extends AbstractButton {
     
     public static final String PROPERTY_FIELD_CHANGED_CSS = "fieldChangedCSSClass";
     
+    public static final String PROPERTY_FIELDS_CHANGED = "fieldsChanged";
+    
     private ArrayList<Component> fieldsToListenToList = new ArrayList<Component>();
     
     private Menu menu;
@@ -189,4 +191,31 @@ public class Button extends AbstractButton {
 	public String getFieldChangedCSSClass() {
 		return (String) get(PROPERTY_FIELD_CHANGED_CSS);
 	}
+	
+	/**
+     * See {@link #PROPERTY_FIELDS_CHANGED}.
+     * 
+     * @param fieldsChanged
+     *            whether values have changed which require the button to render using the {@link #PROPERTY_FIELDS_CHANGED_CSS} class.
+     */
+    public void setFieldsChanged(boolean fieldsChanged) {
+        set(PROPERTY_FIELDS_CHANGED, fieldsChanged);
+    }
+
+    /**
+     * See {@link #PROPERTY_FIELDS_CHANGED}.
+     * 
+     * @return whether values have changed.
+     */
+    public boolean isFieldsChanged() {
+        return (Boolean) get(PROPERTY_FIELDS_CHANGED);
+    }
+    
+    @Override
+    public void processInput(String inputName, Object inputValue) {
+        super.processInput(inputName, inputValue);
+        if (PROPERTY_FIELDS_CHANGED.equals(inputName)) {
+            setFieldsChanged(Boolean.TRUE.equals(inputValue));
+        }
+    }
 }
