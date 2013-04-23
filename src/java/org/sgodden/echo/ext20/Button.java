@@ -166,33 +166,34 @@ public class Button extends AbstractButton {
      * Gets list of fields that require action listeners adding to them 
      * @return
      */
-	public List <Component> getFieldsToListenToList() {
-		return fieldsToListenToList;
-	}
+    public List <Component> getFieldsToListenToList() {
+        return fieldsToListenToList;
+    }
 
-	/**
-	 * Sets list of fields that should be added to the button's property change listener
-	 * @param fieldsToListenToList
-	 */
-	public void setFieldsToListenToList(ArrayList <Component> fieldsToListenToList) {
-		this.fieldsToListenToList = fieldsToListenToList;
-	}
+    /**
+     * Sets list of fields that should be added to the button's property change listener
+     * @param fieldsToListenToList
+     */
+    public void setFieldsToListenToList(ArrayList <Component> fieldsToListenToList) {
+        this.fieldsToListenToList = fieldsToListenToList;
+        firePropertyChange(PROPERTY_FIELDS_TO_LISTEN_TO, null, fieldsToListenToList);
+    }
 
-	/**
-	 * @param fieldChangedCSSClass the fieldChangedCSS to set
-	 */
-	public void setFieldChangedCSSClass(String fieldChangedCSSClass) {
-		set(PROPERTY_FIELD_CHANGED_CSS, fieldChangedCSSClass);
-	}
+    /**
+     * @param fieldChangedCSSClass the fieldChangedCSS to set
+     */
+    public void setFieldChangedCSSClass(String fieldChangedCSSClass) {
+        set(PROPERTY_FIELD_CHANGED_CSS, fieldChangedCSSClass);
+        }
 
-	/**
-	 * @return the highlightCSSClass
-	 */
-	public String getFieldChangedCSSClass() {
-		return (String) get(PROPERTY_FIELD_CHANGED_CSS);
-	}
-	
-	/**
+    /**
+     * @return the highlightCSSClass
+     */
+    public String getFieldChangedCSSClass() {
+        return (String) get(PROPERTY_FIELD_CHANGED_CSS);
+        }
+
+    /**
      * See {@link #PROPERTY_FIELDS_CHANGED}.
      * 
      * @param fieldsChanged
