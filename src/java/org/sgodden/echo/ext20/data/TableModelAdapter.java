@@ -26,6 +26,7 @@ import nextapp.echo.app.table.TableModel;
 import org.sgodden.echo.ext20.componentgrid.ComponentGridPanel;
 import org.sgodden.echo.ext20.grid.GridCellRenderer;
 import org.sgodden.echo.ext20.grid.GridPanel;
+import org.sgodden.echo.ext20.grid.PrecachingGridCellRenderer;
 
 /**
  * Adapts a swing {@link TableModel} to an ext {@link SimpleStore}.
@@ -73,6 +74,11 @@ public class TableModelAdapter
         data = new String[rows][cols];
         renderedData = new Integer[rows][cols];
         List<String> renderFunctions = new LinkedList<String>();
+        
+        // pre-cache data for this call
+        if (renderer instanceof PrecachingGridCellRenderer) {
+        	((PrecachingGridCellRenderer)renderer).cacheBeforeRender(grid, tableModel, offset, pageSize);
+        }
 
         for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
             Object[] row = data[rowIndex];
