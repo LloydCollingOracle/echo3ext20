@@ -400,6 +400,7 @@ public class ComboBox extends ExtComponent implements AbstractListComponent, Fie
         } else {
             int size = getModel().size();
             int modelIndex = -1;
+            selectionModel.clearSelection();
             for (int i = 0; i < size; i++) {
                 if ((getModel().get(i) == null && selectedItem == null) || (getModel().get(i) != null && getModel().get(i).equals(selectedItem))) {
                     selectionModel.setSelectedIndex(i, true);
