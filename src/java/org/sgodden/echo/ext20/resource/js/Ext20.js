@@ -68,6 +68,8 @@ EchoExt20.Echo3SyncWrapper = function(update, wrappedComponent) {
          */
         this.wrappedComponent.peer.renderDispose = this.wrappedComponent.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
     } else {
+        Echo.Render._loadPeer(this.wrappedComponent.parent.peer.client, this.wrappedComponent);
+        Echo.Render._setPeerDisposedState(this.wrappedComponent, false);
     	this.wrappedComponentUpdate = update;
     }
 }
