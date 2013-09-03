@@ -217,7 +217,7 @@ EchoExt20.GridPanelSync = Core.extend(EchoExt20.PanelSync, {
     createExtComponent: function(update, options) {
         this._handleSortEvents = false;
         this._handleSelectionEvents = false;
-        this._showColAddRemove = this.component._listenerList == null || this.component._listenerList.getListenerCount("columnAdd") > 0;
+        this._showColAddRemove = this.component._listenerList != null && this.component._listenerList.getListenerCount("columnAdd") > 0;
         
         this._selectedRows = {};
         
