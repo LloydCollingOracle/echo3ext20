@@ -471,13 +471,15 @@ EchoExt20.ComboBoxSync = Core.extend(EchoExt20.TextFieldSync, {
         this._lastServerSelection = this.component.get("selection");
         this._doSetSelection(false);
 
-        if(this.component.get("rawValue")) {
-            this.extComponent.setRawValue(this.component.get("rawValue"));
-        }
-
-        this.extComponent.clearInvalid();
-        if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
-            this.extComponent.markInvalid(this.component.get("invalidText"));
+        if (this.extComponent && this.extComponent.rendered === true) {
+	        if(this.component.get("rawValue")) {
+	            this.extComponent.setRawValue(this.component.get("rawValue"));
+	        }
+	
+	        this.extComponent.clearInvalid();
+	        if (this.component.get("isValid") != null && !(this.component.get("isValid"))){
+	            this.extComponent.markInvalid(this.component.get("invalidText"));
+	        }
         }
         this._suspendEvents = false;
     },
