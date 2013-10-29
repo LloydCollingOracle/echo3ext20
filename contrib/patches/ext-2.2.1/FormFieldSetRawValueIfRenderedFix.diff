@@ -1,0 +1,15 @@
+--- ext-all-debug.js	2013-10-29 10:18:53.000000000 +0000
++++ ext-all-debug.js	2013-10-29 10:30:54.928346322 +0000
+@@ -27638,7 +27638,11 @@
+ 
+ 
+     setRawValue : function(v){
+-        return this.el.dom.value = (v === null || v === undefined ? '' : v);
++    	if(this.rendered){
++            return this.el.dom.value = (v === null || v === undefined ? '' : v);
++    	}else{
++    		return false;
++    	}
+     },
+ 
+ 

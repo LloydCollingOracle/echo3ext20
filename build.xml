@@ -258,6 +258,7 @@
     <patch patchfile="contrib/patches/ext-2.2.1/ExtBase.RemoveAllListeners.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
     <patch patchfile="contrib/patches/ext-2.2.1/ToolbarTDLeak.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
     <patch patchfile="contrib/patches/ext-2.2.1/NumberFieldFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+  	<patch patchfile="contrib/patches/ext-2.2.1/FormFieldSetRawValueIfRenderedFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 
   </target>
 
