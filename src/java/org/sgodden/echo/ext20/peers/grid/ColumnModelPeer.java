@@ -57,6 +57,9 @@ public class ColumnModelPeer implements SerialPropertyPeer {
         editorClassToType.put(ComboBox.class, "Ext.form.ComboBox");
         editorClassToType.put(MultiSelectComboBox.class, "Ext.ux.Andrie.Select");
         editorClassToType.put(DateField.class, "Ext.form.DateField");
+
+        JSONMapper.getRepository().addHelper(new ColumnConfigurationMapperHelper());
+        JSONMapper.getRepository().addHelper(new ColumnModelMapperHelper());
     }
 
     public Object toProperty(Context context, Class objectClass,
@@ -70,8 +73,6 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                     sb.append(node.getNodeValue());
                 }
             }
-            JSONMapper.getRepository().addHelper(new ColumnConfigurationMapperHelper());
-            JSONMapper.getRepository().addHelper(new ColumnModelMapperHelper());
             JSONValue jsonColModel = new JSONParser(new StringReader(sb
                     .toString())).nextValue();
             ColumnModel model = (ColumnModel)JSONMapper.toJava(jsonColModel, ColumnModel.class);
@@ -99,8 +100,6 @@ public class ColumnModelPeer implements SerialPropertyPeer {
                         "t",
                         (serialContext.getFlags() & SerialContext.FLAG_RENDER_SHORT_NAMES) == 0 ? "Echo2ColumnModel"
                                 : "E2CM");
-        JSONMapper.getRepository().addHelper(new ColumnConfigurationMapperHelper());
-        JSONMapper.getRepository().addHelper(new ColumnModelMapperHelper());
         try {
             String colModelText = JSONMapper.toJSON(columnModel).render(false);
             propertyElement.setTextContent(colModelText);
