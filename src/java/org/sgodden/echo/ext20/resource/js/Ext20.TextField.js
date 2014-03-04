@@ -267,8 +267,13 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
                     if(this.component) {
                         this.component.set("value", this.extComponent.getValue());
                         if(this.client._transactionInProgress === false) {
-                            this.component.doBeforeAction();
-                            this.component.doAction();    
+                            if (typeof this.component.doBeforeAction == 'function') {
+                                // The doAction() method has also been placed in this "if" statement 
+                                // as calling doAction when doBeforeAction does not exist causes 
+                                // the display to jitter.
+                                this.component.doBeforeAction();
+                                this.component.doAction();    
+                            }
                         }
                         
                     }                     
@@ -295,8 +300,12 @@ EchoExt20.TextFieldSync = Core.extend(EchoExt20.FormFieldSync, {
             oldValue = '';
         
         if (oldValue != this.extComponent.getValue()) {
-            this.component.doBeforeAction();
-            this.component.doAction();
+            if (typeof this.component.doBeforeAction == 'function') {
+                this.component.doBeforeAction();
+                // The doAction() method has also been placed in this "if" statement as calling 
+                // doAction when doBeforeAction does not exist causes the display to jitter.
+                this.component.doAction();
+            }
         }
     },
 

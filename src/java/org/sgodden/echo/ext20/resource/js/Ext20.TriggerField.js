@@ -64,8 +64,13 @@ EchoExt20.TriggerFieldSync = Core.extend(EchoExt20.TextFieldSync, {
      * to call doAction().
      */
     _handleOnTriggerClick: function() {
-        this.echoPeer.component.doBeforeAction();
-        this.echoPeer.component.doAction();
+        if(typeof this.echoPeer.component.doBeforeAction == 'function') {
+            // The doAction() method has also been placed in this "if" statement 
+            // as calling doAction when doBeforeAction does not exist causes 
+            // the display to jitter.
+       	    this.echoPeer.component.doBeforeAction();
+            this.echoPeer.component.doAction();
+	}
     },
 
     newExtComponentInstance: function(options) {

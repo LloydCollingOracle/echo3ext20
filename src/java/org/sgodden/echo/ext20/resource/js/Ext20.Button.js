@@ -102,8 +102,13 @@ EchoExt20.ButtonSync = Core.extend(EchoExt20.ExtComponentSync, {
             if (this.component.get("focusable")) {
                 this.component.application.setFocusedComponent(this.component);
             }
-            this.component.doBeforeAction();
-            this.component.doAction();
+            if (typeof this.component.doBeforeAction == 'function') {
+                // The doAction() method has also been placed in this "if" statement 
+                // as calling doAction when doBeforeAction does not exist causes 
+                // the display to jitter.
+                this.component.doBeforeAction();
+                this.component.doAction();
+            }
         }
     },
 
