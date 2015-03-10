@@ -1,0 +1,11 @@
+--- ext-all-debug.js.orig	2015-03-10 10:39:12.568630240 +0000
++++ ext-all-debug.js	2015-03-10 10:39:26.216629632 +0000
+@@ -13940,7 +13940,7 @@
+             }
+         }
+         this.el.setStyle("z-index", this.zIndex || parseInt(target.getStyle("z-index"), 10)-1);
+-        if(Ext.isIE){
++        if(Ext.isIE7 || Ext.isIE8){
+             this.el.dom.style.filter="progid:DXImageTransform.Microsoft.alpha(opacity=50) progid:DXImageTransform.Microsoft.Blur(pixelradius="+(this.offset)+")";
+         }
+         this.realign(

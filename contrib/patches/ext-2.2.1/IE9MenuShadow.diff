@@ -1,0 +1,11 @@
+--- ext-all-debug.js.orig	2015-03-09 13:26:52.871544622 +0000
++++ ext-all-debug.js	2015-03-09 13:27:55.807541816 +0000
+@@ -14009,7 +14009,7 @@
+         pull : function(){
+             var sh = p.shift();
+             if(!sh){
+-                sh = Ext.get(Ext.DomHelper.insertHtml("beforeBegin", document.body.firstChild, markup));
++                sh = Ext.get(Ext.DomHelper.insertHtml("beforeBegin", Ext.getBody().first().dom, markup));
+                 sh.autoBoxAdjust = false;
+             }
+             return sh;

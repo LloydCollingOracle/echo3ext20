@@ -1,0 +1,11 @@
+--- ext-all-debug.js.orig	2015-03-10 13:46:23.168129532 +0000
++++ ext-all-debug.js	2015-03-10 13:47:46.904125799 +0000
+@@ -1871,7 +1871,7 @@
+         if(!bd){ return false; }
+         var cls = [' ',
+                 Ext.isIE ? "ext-ie " + (Ext.isIE6 ? 'ext-ie6' : (Ext.isIE7 ? 'ext-ie7' : (Ext.isIE8 ? 'ext-ie8' : (Ext.isIE9 ? 'ext-ie9' : 'ext-ie10'))))
+-                : Ext.isGecko ? "ext-gecko " + (Ext.isGecko2 ? 'ext-gecko2' : 'ext-gecko3')
++                : Ext.isGecko ? "ext-gecko " + (Ext.isGecko2 ? 'ext-gecko2' : 'ext-gecko3') + (Ext.isIE11 ? ' ext-ie11' : '')
+                 : Ext.isOpera ? "ext-opera"
+                 : Ext.isSafari ? "ext-safari"
+                 : Ext.isChrome ? "ext-chrome" : ""];

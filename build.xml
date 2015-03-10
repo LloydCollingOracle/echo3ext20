@@ -258,7 +258,16 @@
     <patch patchfile="contrib/patches/ext-2.2.1/ExtBase.RemoveAllListeners.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
     <patch patchfile="contrib/patches/ext-2.2.1/ToolbarTDLeak.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
     <patch patchfile="contrib/patches/ext-2.2.1/NumberFieldFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
-  	<patch patchfile="contrib/patches/ext-2.2.1/FormFieldSetRawValueIfRenderedFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/FormFieldSetRawValueIfRenderedFix.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/IEMenuWidths.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/IdentifyNewIEs.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/IEBodyStyles.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/IdentifyNewIEs2.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/IE10TriggerFields.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/IE9MenuShadow.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/IEMenuShadow.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/IdentifyIE11.diff" originalfile="contrib/ext-2.2.1/adapter/ext/ext-base.js" />
+    <patch patchfile="contrib/patches/ext-2.2.1/IE11BodyStyle.diff" originalfile="contrib/ext-2.2.1/ext-all-debug.js" />
 
   </target>
 
@@ -360,7 +369,7 @@
       <arg value="-DpomFile=maven/pom.xml" />
       <arg value="-DgroupId=org.sgodden" />
       <arg value="-DartifactId=echo3ext20" />
-      <arg value="-Dversion=1.2-SNAPSHOT" />
+      <arg value="-Dversion=1.3-SNAPSHOT" />
       <arg value="-Dpackaging=jar" />
       <arg value="-Dfile=build${file.separator}echo3ext20.jar" />
     </exec>

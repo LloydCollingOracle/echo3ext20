@@ -1,0 +1,11 @@
+--- ext-all-debug.js.orig	2015-03-06 10:06:47.124811688 +0000
++++ ext-all-debug.js	2015-03-06 10:07:02.180811017 +0000
+@@ -26295,7 +26295,7 @@
+         if(w){
+             el.setWidth(w);
+         }else if(Ext.isIE){
+-            el.setWidth(this.minWidth);
++            if (Ext.isIE7) {el.setWidth(this.minWidth);}
+             var t = el.dom.offsetWidth; // force recalc
+             el.setWidth(ul.getWidth()+el.getFrameWidth("lr"));
+         }

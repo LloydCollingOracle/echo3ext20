@@ -1,0 +1,11 @@
+--- ext-all-debug.js.orig	2015-03-09 10:03:17.288089245 +0000
++++ ext-all-debug.js	2015-03-09 10:03:23.412088972 +0000
+@@ -28187,7 +28187,7 @@
+     afterRender : function(){
+         Ext.form.TriggerField.superclass.afterRender.call(this);
+         var y;
+-        if(Ext.isIE && !this.hideTrigger && this.el.getY() != (y = this.trigger.getY())){
++        if(Ext.isIE7 && !this.hideTrigger && this.el.getY() != (y = this.trigger.getY())){
+             this.el.position();
+             this.el.setY(y);
+         }
