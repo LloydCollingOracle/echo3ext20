@@ -369,7 +369,7 @@
       <arg value="-DpomFile=maven/pom.xml" />
       <arg value="-DgroupId=org.sgodden" />
       <arg value="-DartifactId=echo3ext20" />
-      <arg value="-Dversion=1.3-SNAPSHOT" />
+      <arg value="-Dversion=1.4-SNAPSHOT" />
       <arg value="-Dpackaging=jar" />
       <arg value="-Dfile=build${file.separator}echo3ext20.jar" />
     </exec>
@@ -378,7 +378,7 @@
   <target name="mvn-install-windows" if="is-windows" description="Installs the jar into the local maven repository (windows environment)">
     <exec executable="cmd">
       <arg value="/c" />
-      <arg value="mvn install:install-file -DgroupId=org.sgodden -DartifactId=echo3ext20 -Dversion=1.2-SNAPSHOT -Dpackaging=jar -Dfile=build${file.separator}echo3ext20.jar" />
+      <arg value="mvn install:install-file -DgroupId=org.sgodden -DartifactId=echo3ext20 -Dversion=1.4-SNAPSHOT -Dpackaging=jar -Dfile=build${file.separator}echo3ext20.jar" />
     </exec>
   </target>
 
@@ -393,7 +393,7 @@
       <arg value="install:install-file" />
       <arg value="-DgroupId=com.nextapp" />
       <arg value="-DartifactId=echo3-app" />
-      <arg value="-Dversion=1.2-SNAPSHOT" />
+      <arg value="-Dversion=1.3" />
       <arg value="-Dpackaging=jar" />
       <arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_App.jar" />
     </exec>
@@ -401,7 +401,7 @@
       <arg value="install:install-file" />
       <arg value="-DgroupId=com.nextapp" />
       <arg value="-DartifactId=echo3-webcontainer" />
-      <arg value="-Dversion=1.2-SNAPSHOT" />
+      <arg value="-Dversion=1.3" />
       <arg value="-Dpackaging=jar" />
       <arg value="-Dfile=src/webapp/WEB-INF/lib/Echo3_WebContainer.jar" />
     </exec>

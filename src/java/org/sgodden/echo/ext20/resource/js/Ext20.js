@@ -45,6 +45,7 @@ EchoExt20.Echo3SyncWrapper = function(update, wrappedComponent) {
     this.wrappedComponent = wrappedComponent;
     this.wrappedRootElement = document.createElement("div");
     this.wrappedComponentUpdate = null;
+    this.runningRenderUpdate = false;
 
     var options = {};
     options.style = {};
@@ -105,14 +106,30 @@ Ext.extend(EchoExt20.Echo3SyncWrapper, Ext.Component, {
              */
             this.wrappedComponent.peer.renderDispose = this.wrappedComponent.peer.renderDispose.createInterceptor(this.onRenderDispose, this);
         }
+        
+        this.wrappedComponent.peer.renderUpdate = this.wrappedComponent.peer.renderUpdate.createInterceptor(this.beforeRenderUpdate, this);
+        this.wrappedComponent.peer.renderUpdate = this.wrappedComponent.peer.renderUpdate.createSequence(this.afterRenderUpdate, this);
     },
 
     /**
      * Removes the component from the ext container.
      */
     onRenderDispose: function(update) {
-        if (typeof this.ownerCt != 'undefined')
+    	if (this.runningRenderUpdate === true) {
+    		return;
+    	}
+        if (typeof this.ownerCt != 'undefined') {
             this.ownerCt.remove(this);
+        }
+    },
+    
+    beforeRenderUpdate: function(update) {
+        this.runningRenderUpdate = true;
+        return true;
+    },
+    
+    afterRenderUpdate: function(update) {
+        this.runningRenderUpdate = false;
     },
     
     /**
