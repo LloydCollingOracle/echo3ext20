@@ -97,8 +97,6 @@ EchoExt20.AutocompleteComboTriggerSync = Core.extend(EchoExt20.AutocompleteCombo
         for (var i = 0; i < this._clickListeners.length; i++) {
             this._clickListeners[i](this);
         }
-    	this.component.doBeforeTriggerAction();
-    	this.component.doTriggerAction();
     },
     
     _handleBeforeQuery: function(queryEvent) {
